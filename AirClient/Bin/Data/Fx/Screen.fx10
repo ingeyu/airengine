@@ -1,0 +1,139 @@
+
+struct	VS_INPUT{
+	float4 Position	:	POSITION;
+};
+
+struct	VS_OUTPUT{
+	float4 Position	:	SV_POSITION;
+	float2 UV				:	TEXCOORD0;
+};
+
+VS_OUTPUT	MainVS(VS_INPUT Input){
+	VS_OUTPUT	Output;
+	Output.Position	=	float4(Input.Position.xy,0.0f,1.0f);
+	float2 uv   	= sign( Input.Position);
+	Output.UV 	= (float2(uv.x, -uv.y) + 1.0f)/2.0f;
+	return	Output;
+};
+
+Texture2D InputTexture
+<
+    string ResourceName = "Default_color.dds";
+    string UIName =  "Âþ·´ÉäÎÆÀí";
+    string ResourceType = "2D";
+>;
+SamplerState diffState
+{
+    Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = Wrap;
+    AddressV = Wrap;
+};
+
+float4	MainPS(VS_OUTPUT	Input): SV_Target{
+	return	InputTexture.Sample( diffState, Input.UV );
+};
+
+float 	fTotalTime		=	0;
+float4	vPositionSize	=	float4(0,0,1,1);
+float4	vPercent			=	float4(0,0,0,0);
+
+VS_OUTPUT	MainVS_Loading(VS_INPUT Input){
+	VS_OUTPUT	Output;
+	Output.Position	=	float4(Input.Position.xy*vPositionSize.zw+vPositionSize.xy,0.0f,1.0f);
+	float2 uv   	= sign( Input.Position);
+	Output.UV 	= (float2(uv.x, -uv.y) + 1.0f)/2.0f;
+	return	Output;
+};
+
+float4	MainPS_Loading(VS_OUTPUT	Input): SV_Target{
+	float	f	=	sin(-fTotalTime+Input.UV.x*40)/8+1.0f;
+	float4	vColor	=	InputTexture.Sample( diffState, Input.UV )*f;
+	if(Input.UV.x	>	vPercent.x){
+		return	float4(vColor.xxx,vColor.w/2);
+	}else{
+		return	vColor;
+	}
+};
+
+
+
+
+RasterizerState RasNoCull
+{
+    CullMode = None;
+};
+
+BlendState AlphaBlendState
+{
+    AlphaToCoverageEnable = FALSE;
+    BlendEnable[0] = TRUE;
+    SrcBlend = SRC_ALPHA;
+    DestBlend = INV_SRC_ALPHA;
+};
+
+BlendState SrcAlphaBlendingAdd
+{
+		AlphaToCoverageEnable = FALSE;
+    BlendEnable[0] = TRUE;
+    SrcBlend = SRC_ALPHA;
+    DestBlend = INV_SRC_ALPHA;
+    //BlendOp = ADD;
+    //SrcBlendAlpha = ZERO;
+    //DestBlendAlpha = ZERO;
+    //BlendOpAlpha = ADD;
+    RenderTargetWriteMask[0] = 0x0F;
+};
+
+
+DepthStencilState DisableDepthWrite
+{
+    DepthEnable = FALSE;
+    DepthWriteMask = ZERO;
+};
+
+
+
+//--------------------------------------------------------------//
+// Technique Section for Textured
+//--------------------------------------------------------------//
+technique10 VeryHighTechnique
+{
+   pass P0
+   {
+        SetVertexShader( CompileShader( vs_4_0, MainVS() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, MainPS() ) );
+        
+        SetDepthStencilState( DisableDepthWrite, 0 );
+   }
+
+}
+
+
+
+technique10 Alpha
+{
+	pass p0
+	{
+        SetVertexShader( CompileShader( vs_4_0, MainVS() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, MainPS() ) );
+        
+        SetBlendState( SrcAlphaBlendingAdd, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );
+        //SetDepthStencilState( DisableDepthWrite, 0 );
+	}
+}
+technique10 Loading
+{
+	pass
+	{
+        SetVertexShader( CompileShader( vs_4_0, MainVS_Loading() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, MainPS_Loading() ) );
+        
+        SetBlendState( SrcAlphaBlendingAdd, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );
+        //SetDepthStencilState( DisableDepthWrite, 0 );
+        
+	}
+}
+

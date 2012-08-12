@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ObjFileGen", "ObjFileGen\ObjFileGen.vcxproj", "{AF44D2EB-0FDD-45C7-9EC5-C89E61F14867}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AF44D2EB-0FDD-45C7-9EC5-C89E61F14867}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AF44D2EB-0FDD-45C7-9EC5-C89E61F14867}.Debug|Win32.Build.0 = Debug|Win32
+		{AF44D2EB-0FDD-45C7-9EC5-C89E61F14867}.Release|Win32.ActiveCfg = Release|Win32
+		{AF44D2EB-0FDD-45C7-9EC5-C89E61F14867}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

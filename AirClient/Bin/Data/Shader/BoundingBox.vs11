@@ -1,0 +1,36 @@
+cbuffer cbPerCamera : register( b0 )
+{
+    matrix  ViewProjection  : packoffset( c0 );
+   
+}
+cbuffer	cbPerObject	:	register(b1)
+{
+	 float4	vMin;
+	 float4	vMax;
+}
+
+struct VS_INPUT
+{
+    float4 Position     : POSITION; // vertex position 
+};
+
+struct VS_OUTPUT
+{
+    float4 Position     : SV_POSITION; // vertex position
+};
+
+VS_OUTPUT main( VS_INPUT input )
+{
+    VS_OUTPUT Output;
+
+	
+	float3	halfSize	=	(vMax	-	vMin).xyz*0.5f;
+	float3	center		=	(vMax	+	vMin).xyz*0.5f;
+    float3	p	=	input.Position.xyz*halfSize+center;
+    // Transform the position from object space to homogeneous projection space
+    Output.Position =	mul( ViewProjection ,float4(p,1));
+
+
+    
+    return Output;    
+}

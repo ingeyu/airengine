@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Develop|Win32">
+      <Configuration>Develop</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>AirCommon</ProjectName>
+    <ProjectGuid>{937333A9-FF4A-4ABD-9935-CF9EFCEC2A8E}</ProjectGuid>
+    <RootNamespace>Common</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\Build\$(TargetName)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\Build\$(TargetName)\$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'">$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'">true</LinkIncremental>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\Dependencies\lzo;..\..\Dependencies\tinyxml;C:\Program Files\Microsoft SDKs\Windows\v6.0A\Include;..\..\AirCommon\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;COMMON_IMPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4251;4244;4305;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>winmm.lib;Strmiids.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\Bin\$(Configuration)\$(ProjectName).dll</OutputFile>
+      <AdditionalLibraryDirectories>C:\Program Files\Microsoft SDKs\Windows\v6.0A\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
+      <ImportLibrary>..\Lib\$(Configuration)\$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\Dependencies\lzo;..\Dependencies\tinyxml;C:\Program Files\Microsoft SDKs\Windows\v6.0A\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;COMMON_IMPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>winmm.lib;Strmiids.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\Bin\$(Configuration)\$(ProjectName).dll</OutputFile>
+      <AdditionalLibraryDirectories>C:\Program Files\Microsoft SDKs\Windows\v6.0A\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>..\Lib\$(Configuration)\$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy ..\Bin\$(Configuration)\$(ProjectName).dll ..\Client\bin\$(Configuration)\$(ProjectName).dll</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\Dependencies\lzo;..\..\Dependencies\tinyxml;C:\Program Files\Microsoft SDKs\Windows\v6.0A\Include;..\..\AirCommon\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;COMMON_IMPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4251;4244;4305;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>winmm.lib;Strmiids.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\Bin\$(Configuration)\$(ProjectName).dll</OutputFile>
+      <AdditionalLibraryDirectories>C:\Program Files\Microsoft SDKs\Windows\v6.0A\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
+      <ImportLibrary>..\Lib\$(Configuration)\$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\AirCommon\Src\Airarg_parser.cc" />
+    <ClCompile Include="..\..\AirCommon\Src\AirBasicExcel.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirBoundingBox.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommon.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonCollision.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonConverter.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonFactory.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonFile.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonIniFile.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonLog.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonMath.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonMemory.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonNet.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonNetClient.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonNetConnect.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonNetListenThread.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonNetReceiveThread.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonNetSendThread.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonNetServer.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonNode.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonPackage.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonParse.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonPlane.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonPlugin.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonProduct.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonProfile.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonReference.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonRequest.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonRequestProduct.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonStringHandle.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonSystemManager.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonThread.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonWindow.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonXml.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCompress.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirDataBase.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirFileMonitor.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirInterfaceNode.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirOctree.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirRandom.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirRay.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirSlkReader.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirVideoPlugin.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirYExcel.cpp" />
+    <ClCompile Include="..\..\AirCommon\Inc\AirCommonStreamIO.cpp" />
+    <ClCompile Include="..\..\AirCommon\Inc\AirCommonString.cpp" />
+    <ClCompile Include="..\..\Dependencies\LZO\minilzo.c" />
+    <ClCompile Include="..\..\Dependencies\tinyxml\tinystr.cpp" />
+    <ClCompile Include="..\..\Dependencies\tinyxml\tinyxml.cpp" />
+    <ClCompile Include="..\..\Dependencies\tinyxml\tinyxmlerror.cpp" />
+    <ClCompile Include="..\..\Dependencies\tinyxml\tinyxmlparser.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\AirCommon\Inc\Airarg_parser.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirBasicExcel.hpp" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirBasicExcelVC6.hpp" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirBoundingBox.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommon.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonCollision.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonCommandParse.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonConverter.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonData.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonFactory.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonFile.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonFlag.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonFunction.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonHash.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonHashTable.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonHeader.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonIniFile.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonInt2.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonInt3.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonInt4.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonListener.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonLock.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonLog.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonMath.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonMatrix.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonMemory.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonNet.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonNetClient.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonNetConnect.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonNetFile.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonNetListenThread.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonNetReceiveThread.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonNetSendThread.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonNetServer.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonNode.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonPackage.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonParse.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonPlane.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonPlugin.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonProduct.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonProfile.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonProperty.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonQuaternion.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonReference.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonRefPtr.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonRequest.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonRequestProduct.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonStreamIO.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonString.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonStringHandle.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonSystemManager.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonThread.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonVector2.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonVector3.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonWindow.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonXml.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirCompress.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirDataBase.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirFileMonitor.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirInterfaceNode.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirInterfaceObject.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirOctree.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirRandom.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirRay.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirSingleton.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirSlkReader.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirSphere.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirUnion.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirVideoPlugin.h" />
+    <ClInclude Include="..\..\Dependencies\LZO\lzoconf.h" />
+    <ClInclude Include="..\..\Dependencies\LZO\lzodefs.h" />
+    <ClInclude Include="..\..\Dependencies\LZO\minilzo.h" />
+    <ClInclude Include="..\..\Dependencies\tinyxml\tinystr.h" />
+    <ClInclude Include="..\..\Dependencies\tinyxml\tinyxml.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\xnamath.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\AirCommon\Inc\xnamathconvert.inl" />
+    <None Include="..\..\AirCommon\Inc\xnamathmatrix.inl" />
+    <None Include="..\..\AirCommon\Inc\xnamathmisc.inl" />
+    <None Include="..\..\AirCommon\Inc\xnamathvector.inl" />
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

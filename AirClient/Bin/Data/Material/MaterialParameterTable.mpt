@@ -1,0 +1,52 @@
+MaterialParameterTable	StaticObject
+{
+	Ambient			Float3	0.5 0.5 0.5
+	{
+		MRT		0	0
+	}
+	Diffuse			Float3	1	1	1
+	{
+		MRT		1	0
+	}
+	Specular		Float3	0.1	0.1	0.1
+	{
+		MRT		2	0
+	}
+	SelfIllumColor	Float3	0	0	0
+	{
+		MRT		3	0
+	}
+	AlphaTestRef	Float	0.5
+	{
+		MRT		0	3
+	}
+	Opacity			Float	1
+	{
+		MRT		1	3
+	}
+	Glossiness		Float	0.1
+	{
+		MRT		2	3
+	}
+	Fresnel			Float	0
+	{
+		MRT		3	3
+	}
+	DiffuseTex		String	"1x1white.dds"
+	{
+		MRT		0	0
+	}
+	BumpTex			String	"1x1white.dds"
+	{
+		MRT		1	0
+	}
+	SpecularTex		String	"1x1white.dds"
+	{
+		MRT		2	0
+	}
+	SelfIlluminationTex	String	"1x1white.dds"
+	{
+		MRT		3	0
+	}
+
+}

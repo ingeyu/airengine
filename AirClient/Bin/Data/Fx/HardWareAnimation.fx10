@@ -1,0 +1,171 @@
+#define MAXBONES 60
+
+
+	// Support up to 24 bones of float3x4
+	// vs_1_1 only supports 96 params so more than this is not feasible
+float4x4 World;
+float4x4 ViewProj;
+float4x3 BoneMatrixArray[MAXBONES];
+
+float3 fvLightPosition
+<
+   string UIName = "fvLightPosition";
+   string UIWidget = "Numeric";
+   bool UIVisible =  true;
+   float UIMin = -100.00;
+   float UIMax = 100.00;
+> = float3( 300.00, 300.00, 300.00 );
+float3 fvEyePosition
+<
+   string UIName = "fvEyePosition";
+   string UIWidget = "Numeric";
+   bool UIVisible =  false;
+   float UIMin = -100.00;
+   float UIMax = 100.00;
+> = float3( 30.00, -30.00, 30.00 );
+
+struct VS_INPUT 
+{
+   float4 Position : POSITION0;
+   float4 Normal   : NORMAL0;
+   float2 Texcoord : TEXCOORD0;
+   float4 blendWgt		: WEIGHTS;
+	 float4 blendIdx		: BONES;
+};
+
+struct VS_OUTPUT 
+{
+   float4 Position : SV_POSITION;
+   float2 Texcoord : TEXCOORD0;
+   float4 Normal   : TEXCOORD1;
+   float3 ViewDirection :   TEXCOORD2;
+   float3 LightDirection :  TEXCOORD3;
+   float4 WorldNormal   : TEXCOORD4;
+   
+};
+
+VS_OUTPUT MainVS( VS_INPUT Input )
+{
+   VS_OUTPUT Output;
+	 float4	InitPosition	=	Input.Position;
+   float4 InitNormal		=	Input.Normal;
+   
+   	float4 blendPos = float4(0,0,0,0);
+		float4 idx		=	Input.blendIdx;
+		float4 weight	=	Input.blendWgt;
+
+		blendPos += float4(mul(InitPosition,BoneMatrixArray[idx[0]]).xyz,1) * weight[0];
+		blendPos += float4(mul(InitPosition,BoneMatrixArray[idx[1]]).xyz,1) * weight[1];
+		blendPos += float4(mul(InitPosition,BoneMatrixArray[idx[2]]).xyz,1) * weight[2];
+		blendPos += float4(mul(InitPosition,BoneMatrixArray[idx[3]]).xyz,1) * weight[3];
+		
+		float3 norm = float3(0,0,0);
+		norm += mul(InitNormal.xyz,(float3x3)BoneMatrixArray[idx[0]]) * weight[0];
+		norm += mul(InitNormal.xyz,(float3x3)BoneMatrixArray[idx[1]]) * weight[1];
+		norm += mul(InitNormal.xyz,(float3x3)BoneMatrixArray[idx[2]]) * weight[2];
+		norm += mul(InitNormal.xyz,(float3x3)BoneMatrixArray[idx[3]]) * weight[3];
+		norm = normalize(norm);
+   
+   
+   float4 WorldPos = mul( blendPos.xzyw,World);
+   Output.Position = mul( WorldPos,ViewProj);
+   float4 WNor		 = mul(float4(norm.xzy,0),World);
+   Output.Normal   = mul( WNor, ViewProj);
+   Output.WorldNormal = WNor;
+   
+   
+   Output.ViewDirection    = fvEyePosition - WorldPos;
+   Output.LightDirection   = fvLightPosition - WorldPos;
+
+   Output.Texcoord = Input.Texcoord;
+
+   return( Output );
+   
+}
+
+float4 fvAmbient
+<
+   string UIName = "fvAmbient";
+   string UIWidget = "Color";
+   bool UIVisible =  true;
+> = float4( 0.3, 0.3, 0.3, 1.00 );
+float4 fvSpecular
+<
+   string UIName = "fvSpecular";
+   string UIWidget = "Color";
+   bool UIVisible =  true;
+> = float4( 1, 1, 1, 1.00 );
+float4 fvDiffuse
+<
+   string UIName = "fvDiffuse";
+   string UIWidget = "Color";
+   bool UIVisible =  true;
+> = float4( 0.89, 0.89, 0.89, 1.00 );
+float fSpecularPower
+<
+   string UIName = "fSpecularPower";
+   string UIWidget = "Numeric";
+   bool UIVisible =  true;
+   float UIMin = 1.00;
+   float UIMax = 100.00;
+> = float( 16.00 );
+
+Texture2D DiffuseTexture
+<
+    string ResourceName = "Default_color.dds";
+    string UIName =  "Âþ·´ÉäÎÆÀí";
+    string ResourceType = "2D";
+>;
+SamplerState diffState
+{
+    Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = Wrap;
+    AddressV = Wrap;
+};
+
+float4 MainPS( VS_OUTPUT Input ) : SV_Target
+{
+ //  return tex2D( DiffMap, Input.Texcoord );
+
+   float3 fvLightDirection = normalize( Input.LightDirection );
+   float3 fvNormal         = normalize( Input.WorldNormal );
+   float  fNDotL           = dot( fvNormal, fvLightDirection ); 
+   
+   float3 fvReflection     = normalize( ( ( 2.0f * fvNormal ) * ( fNDotL ) ) - fvLightDirection ); 
+   float3 fvViewDirection  = normalize( Input.ViewDirection );
+   float  fRDotV           = max( 0.0f, dot( fvReflection, fvViewDirection ) );
+   
+   float4 fvBaseColor      = DiffuseTexture.Sample( diffState, Input.Texcoord );
+   
+   float4 fvTotalAmbient   = fvAmbient * fvBaseColor; 
+   float4 fvTotalDiffuse   = fvDiffuse * fNDotL * fvBaseColor; 
+   float4 fvTotalSpecular  = fvSpecular * pow( fRDotV, fSpecularPower );
+   
+   return ( saturate( fvTotalAmbient + fvTotalDiffuse + fvTotalSpecular ) );
+   
+};
+
+float4 MainPS_Debug( VS_OUTPUT Input ) : SV_Target
+{
+		return	float4(1,0,0,1);
+};
+RasterizerState CullNone
+{
+	CullMode = NONE;
+};
+
+//--------------------------------------------------------------//
+// Technique Section for Textured
+//--------------------------------------------------------------//
+technique10 VeryHighTechnique
+{
+   pass p0
+   {
+        SetVertexShader( CompileShader( vs_4_0, MainVS() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, MainPS() ) );
+        
+        SetRasterizerState(CullNone);
+   }
+}
+

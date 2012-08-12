@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Package", "Package_vs2008.vcproj", "{E815C46C-36C4-499F-BBC2-E772C6B17971}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnRAR", "UnRARDll.vcproj", "{B17D3327-309E-4A27-A535-CC68EBCD0973}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		release_nocrypt|Win32 = release_nocrypt|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E815C46C-36C4-499F-BBC2-E772C6B17971}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E815C46C-36C4-499F-BBC2-E772C6B17971}.Debug|Win32.Build.0 = Debug|Win32
+		{E815C46C-36C4-499F-BBC2-E772C6B17971}.release_nocrypt|Win32.ActiveCfg = release_nocrypt|Win32
+		{E815C46C-36C4-499F-BBC2-E772C6B17971}.release_nocrypt|Win32.Build.0 = release_nocrypt|Win32
+		{E815C46C-36C4-499F-BBC2-E772C6B17971}.Release|Win32.ActiveCfg = Release|Win32
+		{E815C46C-36C4-499F-BBC2-E772C6B17971}.Release|Win32.Build.0 = Release|Win32
+		{B17D3327-309E-4A27-A535-CC68EBCD0973}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B17D3327-309E-4A27-A535-CC68EBCD0973}.Debug|Win32.Build.0 = Debug|Win32
+		{B17D3327-309E-4A27-A535-CC68EBCD0973}.release_nocrypt|Win32.ActiveCfg = release_nocrypt|Win32
+		{B17D3327-309E-4A27-A535-CC68EBCD0973}.release_nocrypt|Win32.Build.0 = release_nocrypt|Win32
+		{B17D3327-309E-4A27-A535-CC68EBCD0973}.Release|Win32.ActiveCfg = Release|Win32
+		{B17D3327-309E-4A27-A535-CC68EBCD0973}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,23 @@
+[Render]
+Name=Login\Island.X
+Material=Login\Island.Material
+[Physx]
+Type=Static
+Position=0,0,0
+Rotation=0,0,0,1
+Scale=0.1,0.1,0.1
+Density=2
+#这个属性用来定义使用其他模型来作为碰撞检测	
+#当ShapeType=Convex或者TriangleMesh时有效
+#CollisionMesh=Model\Custom.X
+#使用包围盒作为碰撞模型 也可以自定义下面的碰撞形状类型
+#可以使用Plane，Box，Sphere，Capsule，Convex，TriangleMesh，BoundBox，BoundSphere
+ShapeType=TriangleMesh
+#[TriangleMesh]
+#Size=1,1,1
+#LocalPosition=0,0,0
+#LocalQuat=0,0,0,1
+
+
+
+

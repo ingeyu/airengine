@@ -1,0 +1,599 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Inc">
+      <UniqueIdentifier>{11ff00cc-151b-4c07-a712-63d203e98df7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Src">
+      <UniqueIdentifier>{619e5f4e-4bc8-4f13-943c-a4a442c4d3ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Material">
+      <UniqueIdentifier>{0ddc0a73-9214-4fea-be07-42004e095f7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render">
+      <UniqueIdentifier>{39100783-7bc8-413b-bf4f-11f2b04efafd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{73183b8c-a364-480d-bac1-504c6f1688a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{c39c13db-105a-442b-ac2c-70d408d895ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{420dfd8e-3726-48c9-8d79-be94d41c5460}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\AirEngine\Src\AirEngine.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngine3ds.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineCharacterAnimationModel.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineCharacterManager.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineCharacterResource.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineCharacterTextureAnimationModel.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineDataStream.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineEntity.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineEntityCloth.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineFont.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineInstanceEntity.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineMesh.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineMeshParse3DS.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineMeshParseOgre.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineMeshParseOgreImpl.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineParticleEntity.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEnginePostComposer.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineScreenEntity.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineShaderShareParam.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineSubEntity.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineTerrainCommon.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineTerrainPage.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineTerrainTitle.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineTerrainWorld.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineTextInstance.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirGlobalSetting.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceAlphaObjectManager.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceAutoReleaseManager.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceBaseParticle.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceParticle.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceShootParticle.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIElement.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIEvent.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIFlashLayout.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIFlashSystem.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIImage.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIKeyProcess.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUILookfeel.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIRenderer.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUISystem.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIWindowControl.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIWindowLayout.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIWindowState.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineMaterial.cpp">
+      <Filter>Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineMaterialParse.cpp">
+      <Filter>Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineMaterialTemplate.cpp">
+      <Filter>Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineParse.cpp">
+      <Filter>Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Inc\AirEnginePass.cpp">
+      <Filter>Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineShaderProgram.cpp">
+      <Filter>Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirRenderPhase.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirRenderWindow.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineCamera.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineFrustum.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineMovableObject.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineRenderable.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineScene.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineSceneNode.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineSystem.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineViewport.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineStreamReader.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceResourceStream.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceResourceSystem.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEnginePipeline.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirRenderbuffer.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirRenderVertexDeclare.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirRenderTexture.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirStaticMesh.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirRenderDevice.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirRenderSystem.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Inc\AirRenderState.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirRenderTarget.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirMeshEntity.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineMaterialSet.cpp">
+      <Filter>Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineMaterialParameterTable.cpp">
+      <Filter>Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirQuadRenderable.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirSceneLoader.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirManualMeshEntity.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineLight.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\AirEngine\Inc\AirEngine.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineHeader.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngine3ds.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineCharacterAnimationModel.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineCharacterManager.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineCharacterResource.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineCharacterTextureAnimationModel.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineDataStream.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineEntity.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineEntityCloth.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineFont.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineInstanceEntity.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineMesh.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineMeshParseOgre.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineMeshParseOgreImpl.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineParticleEntity.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEnginePostComposer.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineScreenEntity.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineShaderShareParam.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineShareShaderCameraParam.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineShareShaderLightParam.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineShareShaderObjectParam.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineSubEntity.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineTerrainCommon.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineTerrainGrass.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineTerrainPage.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineTerrainSky.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineTerrainTitle.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineTerrainWater.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineTerrainWorld.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineTextInstance.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirGlobalSetting.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceAlphaObjectManager.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceAutoReleaseManager.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceBaseParticle.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceGameSystem.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceInputSystem.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceNetSystem.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceParticle.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceParticleSystem.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfacePhysicsCloth.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfacePhysicsCollision.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfacePhysicsController.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfacePhysicsScene.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfacePhysicsShape.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfacePhysicsSystem.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceScriptFile.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceScriptFuncition.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceScriptRegisterManager.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceScriptSystem.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceScriptVariable.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceShootParticle.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUICommon.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIElement.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIEvent.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIFlashLayout.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIFlashSystem.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIImage.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIKeyProcess.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUILookfeel.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIRenderer.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIStaticText.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUISystem.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIText.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIWindowControl.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIWindowLayout.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIWindowState.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUserData.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineMaterial.h">
+      <Filter>Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineMaterialCommon.h">
+      <Filter>Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineMaterialParse.h">
+      <Filter>Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineMaterialTemplate.h">
+      <Filter>Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineParse.h">
+      <Filter>Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEnginePass.h">
+      <Filter>Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineShaderProgram.h">
+      <Filter>Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirRenderPhase.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirRenderWindow.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineCamera.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineFrustum.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineMovableObject.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineRenderable.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineScene.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineSceneNode.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineSystem.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineViewport.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineStreamReader.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceResourceStream.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceResourceSystem.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceAudioScene.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceAudioSound.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceAudioSystem.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEnginePipeline.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirRenderbuffer.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirRenderVertexDeclare.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirRenderShader.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirRenderTexture.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirStaticMesh.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirRenderDevice.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirRenderSystem.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirRenderState.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirRenderTarget.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirRenderCommon.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirMeshEntity.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineMaterialSet.h">
+      <Filter>Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineMaterialParameterTable.h">
+      <Filter>Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirQuadRenderable.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirSceneLoader.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirManualMeshEntity.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineLight.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

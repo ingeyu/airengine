@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{5ffecef8-d8e3-44c6-a307-51e2cb09ee65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameInterface">
+      <UniqueIdentifier>{3074d53f-388e-482a-bd7d-a2fc9f2c7db2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\AirGame\Src\AirGame.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirGame\Src\AirGameControl.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirGame\Src\AirGameFPSControl.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirGame\Src\AirGameGlobal.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirGame\Src\AirGameSection.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirGame\Src\AirGameSystem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirGame\Src\AirGameThirdControl.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\AirGame\Inc\AirGame.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirGame\Inc\AirGameActorModel.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirGame\Inc\AirGameActorProperty.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirGame\Inc\AirGameControl.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirGame\Inc\AirGameFPSControl.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirGame\Inc\AirGameGlobal.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirGame\Inc\AirGameHeader.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirGame\Inc\AirGameMap.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirGame\Inc\AirGameSection.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirGame\Inc\AirGameSystem.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirGame\Inc\AirGameThirdControl.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirGame\Inc\AirInterfaceGameDataInfo.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirGame\Inc\AirInterfaceGameDataSystem.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+</Project>

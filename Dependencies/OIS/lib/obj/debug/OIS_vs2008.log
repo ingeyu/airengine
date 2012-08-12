@@ -1,0 +1,61 @@
+﻿Build started 2012/4/20 23:28:47.
+     1>Project "E:\Air\trunk\Dependencies\OIS\Win32\OIS_vs2008.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "..\lib\obj\debug\OIS.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         E:\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\includes /I..\src /I..\..\..\Dependencies\Dx\Include /Zi /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _LIB /D _STLP_DEBUG /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:fast /Zc:wchar_t /Zc:forScope /GR /Fo"..\lib\obj\debug\\" /Fd"..\lib\obj\debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\src\OISEffect.cpp ..\src\OISException.cpp ..\src\OISForceFeedback.cpp ..\src\OISInputManager.cpp ..\src\OISJoyStick.cpp ..\src\OISKeyboard.cpp ..\src\OISObject.cpp ..\src\win32\Win32ForceFeedback.cpp ..\src\win32\Win32InputManager.cpp ..\src\win32\Win32JoyStick.cpp ..\src\win32\Win32KeyBoard.cpp ..\src\win32\Win32Mouse.cpp ..\src\win32\extras\WiiMote\hiddevice.cpp ..\src\win32\extras\WiiMote\OISWiiMote.cpp ..\src\win32\extras\WiiMote\OISWiiMoteFactoryCreator.cpp ..\src\win32\extras\WiiMote\OISWiiMoteForceFeedback.cpp ..\src\win32\extras\WiiMote\OISWiiMoteRingBuffer.cpp ..\src\win32\extras\WiiMote\wiimote.cpp ..\src\extras\LIRC\OISLIRC.cpp ..\src\extras\LIRC\OISLIRCFactoryCreator.cpp
+         OISLIRCFactoryCreator.cpp
+         OISLIRC.cpp
+         wiimote.cpp
+         OISWiiMoteRingBuffer.cpp
+         OISWiiMoteForceFeedback.cpp
+         OISWiiMoteFactoryCreator.cpp
+         OISWiiMote.cpp
+         hiddevice.cpp
+         Win32Mouse.cpp
+         Win32KeyBoard.cpp
+     1>..\src\win32\Win32KeyBoard.cpp : warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
+         Win32JoyStick.cpp
+     1>..\src\win32\Win32JoyStick.cpp : warning C4819: The file contains a character that cannot be represented in the current code page (936). Save the file in Unicode format to prevent data loss
+         Win32InputManager.cpp
+         Win32ForceFeedback.cpp
+         OISObject.cpp
+         OISKeyboard.cpp
+         OISJoyStick.cpp
+         OISInputManager.cpp
+         OISForceFeedback.cpp
+         OISException.cpp
+         OISEffect.cpp
+         Generating Code...
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(1151,5): warning MSB8012: TargetPath(E:\Air\trunk\Dependencies\OIS\Win32\..\lib\OIS.lib) does not match the Library's OutputFile property value (E:\Air\trunk\Dependencies\OIS\lib\OIS_static_d.lib). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\Microsoft.CppBuild.targets(1153,5): warning MSB8012: TargetName(OIS) does not match the Library's OutputFile property value (OIS_static_d). This may cause your project to build incorrectly. To correct this, please make sure that $(OutDir), $(TargetName) and $(TargetExt) property values match the value specified in %(Lib.OutputFile).
+       Lib:
+         E:\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"..\lib\OIS_static_d.lib" dxguid.lib dinput8.lib /LIBPATH:..\src\win32\extras\WiiMote /LIBPATH:..\..\..\Dependencies\Dx\Lib /NOLOGO ..\lib\obj\debug\OISEffect.obj
+         ..\lib\obj\debug\OISException.obj
+         ..\lib\obj\debug\OISForceFeedback.obj
+         ..\lib\obj\debug\OISInputManager.obj
+         ..\lib\obj\debug\OISJoyStick.obj
+         ..\lib\obj\debug\OISKeyboard.obj
+         ..\lib\obj\debug\OISObject.obj
+         ..\lib\obj\debug\Win32ForceFeedback.obj
+         ..\lib\obj\debug\Win32InputManager.obj
+         ..\lib\obj\debug\Win32JoyStick.obj
+         ..\lib\obj\debug\Win32KeyBoard.obj
+         ..\lib\obj\debug\Win32Mouse.obj
+         ..\lib\obj\debug\hiddevice.obj
+         ..\lib\obj\debug\OISWiiMote.obj
+         ..\lib\obj\debug\OISWiiMoteFactoryCreator.obj
+         ..\lib\obj\debug\OISWiiMoteForceFeedback.obj
+         ..\lib\obj\debug\OISWiiMoteRingBuffer.obj
+         ..\lib\obj\debug\wiimote.obj
+         ..\lib\obj\debug\OISLIRC.obj
+         ..\lib\obj\debug\OISLIRCFactoryCreator.obj
+         OIS_vs2008.vcxproj -> E:\Air\trunk\Dependencies\OIS\Win32\..\lib\OIS.lib
+       FinalizeBuildStatus:
+         Deleting file "..\lib\obj\debug\OIS.unsuccessfulbuild".
+         Touching "..\lib\obj\debug\OIS.lastbuildstate".
+     1>Done Building Project "E:\Air\trunk\Dependencies\OIS\Win32\OIS_vs2008.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:05.34

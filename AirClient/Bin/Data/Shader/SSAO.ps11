@@ -1,0 +1,171 @@
+
+Texture2D TexDepth		:	register(t0);
+Texture2D Tex2x2		:	register(t1);
+Texture2D TexDiff		:	register(t2);
+SamplerState	ss_wrappoint	:	register(s0);
+SamplerState	ss_clampline2	:	register(s1);
+
+
+#define SAMPLER_NUM 8
+cbuffer cbPerCamera		: register( b1 )
+{
+    matrix  ViewProjection;
+	float4	vCameraDir;
+	float4	vCameraPosition;
+	float4	vCameraUp;
+	float4	vVP_NearFar;
+   
+}
+
+cbuffer	cbPerMaterial	:	register(b3)
+{
+	float4x4 matViewProjectionInverse;
+	//float4 OccSize;
+}
+
+#define	invViewport		vVP_NearFar.xy
+#define	vViewPosition	vCameraPosition
+
+
+#if (SAMPLER_NUM == 16)
+float4 offset[16]={
+float4(0.000000,1.000000,1.000000,0.000000),
+float4(0.765367,1.847759,1.847759,0.765367),
+float4(2.121320,2.121320,2.121320,2.121320),
+float4(3.695518,1.530734,1.530734,3.695518),
+float4(5.000000,-0.000000,-0.000000,5.000000),
+float4(5.543277,-2.296101,-2.296101,5.543277),
+float4(4.949747,-4.949747,-4.949747,4.949747),
+float4(3.061466,-7.391037,-7.391037,3.061466),
+float4(-0.000001,-9.000000,-9.000000,-0.000001),
+float4(-3.826834,-9.238795,-9.238795,-3.826834),
+float4(-7.778176,-7.778173,-7.778173,-7.778176),
+float4(-11.086556,-4.592198,-4.592198,-11.086556),
+float4(-13.000000,0.000000,0.000000,-13.000000),
+float4(-12.934312,5.357570,5.357570,-12.934312),
+float4(-10.606598,10.606605,10.606605,-10.606598),
+float4(-6.122935,14.782073,14.782073,-6.122935),
+};
+
+#elif (SAMPLER_NUM == 8)
+const static float4 offset[8]={
+float4(0,1,1,0),
+float4(2,2,2,-2),
+float4(3,0,0,-3),
+float4(4,-4,-4,-4),
+float4(0,-5,-5,0),
+float4(-6,-6,-6,6),
+float4(-7,0,0,7),
+float4(-8,8,8,8),
+
+
+
+};
+#elif (SAMPLER_NUM == 32)
+float4 offset[32]={
+float4(0.000000,1.000000,1.000000,0.000000),
+float4(0.390181,1.961571,1.961571,0.390181),
+float4(1.148050,2.771639,2.771639,1.148050),
+float4(2.222281,3.325878,3.325878,2.222281),
+float4(3.535534,3.535534,3.535534,3.535534),
+float4(4.988818,3.333421,3.333421,4.988818),
+float4(6.467157,2.678784,2.678784,6.467157),
+float4(7.846282,1.560722,1.560722,7.846282),
+float4(9.000000,-0.000000,-0.000000,9.000000),
+float4(9.807853,-1.950903,-1.950903,9.807853),
+float4(10.162675,-4.209519,-4.209519,10.162675),
+float4(9.977634,-6.666844,-6.666844,9.977634),
+float4(9.192388,-9.192388,-9.192388,9.192388),
+float4(7.777983,-11.640575,-11.640575,7.777983),
+float4(5.740249,-13.858194,-13.858194,5.740249),
+float4(3.121445,-15.692565,-15.692565,3.121445),
+float4(-0.000001,-17.000000,-17.000000,-0.000001),
+float4(-3.511629,-17.654135,-17.654135,-3.511629),
+float4(-7.270985,-17.553711,-17.553711,-7.270985),
+float4(-11.111406,-16.629391,-16.629391,-11.111406),
+float4(-14.849245,-14.849240,-14.849240,-14.849245),
+float4(-18.292335,-12.222540,-12.222540,-18.292335),
+float4(-21.249233,-8.801712,-8.801712,-21.249233),
+float4(-23.538846,-4.682169,-4.682169,-23.538846),
+float4(-25.000000,0.000000,0.000000,-25.000000),
+float4(-25.500417,5.072351,5.072351,-25.500417),
+float4(-24.944745,10.332457,10.332457,-24.944745),
+float4(-23.281145,15.555972,15.555972,-23.281145),
+float4(-20.506089,20.506103,20.506103,-20.506089),
+float4(-16.667109,24.944088,24.944088,-16.667109),
+float4(-11.863186,28.640266,28.640266,-11.863186),
+float4(-6.242887,31.385130,31.385130,-6.242887),
+};
+#endif
+
+
+float2 GetOffset(float4 off,float4 option){
+   return lerp(off.zw,off.xy,option.x)*option.y;
+};
+
+struct VS_OUTPUT
+{
+    float4 Position     : SV_POSITION; // vertex position
+	float2 UV			: TEXCOORD0;
+};
+
+float2 UV_XY(float2 uv){
+	return	uv*float2(2,-2)+float2(-1,1);
+};
+
+float4 main( VS_OUTPUT Input ) : SV_TARGET
+{
+   float2 halfPixel   =   0.5f*invViewport;
+   float2   uv=   Input.UV;//+halfPixel;
+   float2	offsetuv	=	uv+halfPixel;
+   float2   xy=   UV_XY(uv);//float2(uv.x*2-1,uv.y*-2+1);//*temp.xy+temp.zw;
+
+   float4   opt   =  Tex2x2.Sample(ss_wrappoint,uv/invViewport/2);
+   opt.y = opt.y*2-1;
+  
+   float4   oldPos;
+   oldPos.xy      =   xy;
+   oldPos.z       =   TexDepth.Sample(ss_wrappoint,uv).x;
+   oldPos.w      =   1;
+   oldPos         =   mul(matViewProjectionInverse,oldPos);
+   
+   oldPos/=oldPos.w;
+   //float3   oldNor=   tex2D(Texture0,uv).xyz;
+   //oldNor=oldNor*2-1;
+   //normalize(oldNor);
+   //oldNor         =   normalize(mul(oldNor,(float3x3)matViewProjectionInverse));
+   
+   float3 viewDir   =   -normalize(vViewPosition.xyz-oldPos.xyz);
+   
+   
+   float occ=0;
+   float2 fPixel   =   4*invViewport;//*5;//OccSize.y;
+   
+   float2 UV;
+   float4 XY;
+
+   //[loop]
+   //int i = 0;
+   for(int i=0;i<SAMPLER_NUM;i++){
+      UV     =   GetOffset(offset[i]  ,opt)*fPixel+offsetuv;
+
+
+      XY.xy     =   UV_XY(UV);//*temp.xy+   temp.zw;
+      XY.z      =   TexDepth.Sample(ss_clampline2,UV).x;
+      XY.w      =   1;
+      XY       =   mul(matViewProjectionInverse,XY);
+
+      
+      XY   /=   XY.w;
+
+      XY.xyz   -=   oldPos.xyz;
+
+      float d	=   dot(normalize(XY.xyz),viewDir.xyz);
+
+      occ += d;//saturate(d*0.5f+0.5f);
+   }
+
+   float fAO   =   (occ/SAMPLER_NUM)*0.5+0.5;
+   return fAO*TexDiff.Sample(ss_wrappoint,uv);///SAMPLER_NUM;//(GetOffset(offset[5]  ,opt).xyxy/8)*0.5+0.5;///4;
+}
+

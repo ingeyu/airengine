@@ -1,0 +1,12 @@
+[Material]
+FX=Fx\DefferedDefault.fx
+VeryHigh=DiffSpecTexture
+[VeryHigh]
+WorldViewProjection=WorldViewProjMatrix
+World=WorldMatrix
+fvDiffuse=1,1,1,0.5:Vector
+fvSpecular=1,1,1,1:Vector
+DiffTex=Model\Sword_Diff.dds:Texture
+SpecTex=Model\Sword_Spec.png:Texture
+
+

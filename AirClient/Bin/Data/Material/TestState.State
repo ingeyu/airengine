@@ -1,0 +1,85 @@
+RasterizerState CullNone
+{
+	CullMode = None;
+};
+
+BlendState NoneBlendState
+{
+    AlphaToCoverageEnable = FALSE;
+};
+
+DepthStencilState EableDepthWrite
+{
+    DepthEnable = TRUE;
+    DepthWriteMask = All;
+};
+DepthStencilState DisableDepthWrite
+{
+    DepthEnable = TRUE;
+    DepthWriteMask = Zero;
+};
+
+DepthStencilState DisableDepthCompareWrite
+{
+    DepthEnable = False;
+    DepthWriteMask = Zero;
+};
+
+BlendState AdditiveBlending
+{
+    AlphaToCoverageEnable = FALSE;
+    BlendEnable = TRUE;
+    SrcBlend = Src_Alpha;
+    DestBlend = Inv_Src_Alpha;
+    BlendOp = Add;
+    SrcBlendAlpha = One;
+    DestBlendAlpha = One;
+    BlendOpAlpha = Add;
+    
+};
+
+SamplerState	SS_WarpLine3
+{
+	Filter	=	Trilinear;
+	Address	=	Wrap;
+};
+SamplerState	SS_WarpLine2
+{
+	Filter	=	Bilinear;
+	Address	=	Wrap;
+};
+SamplerState	SS_WarpPoint
+{
+	Filter	=	Point;
+	Address	=	Wrap;
+};
+SamplerState	SS_ClampLine3
+{
+	Filter	=	Trilinear;
+	Address	=	Clamp;
+};
+SamplerState	SS_ClampLine2
+{
+	Filter	=	Bilinear;
+	Address	=	Clamp;
+};
+SamplerState	SS_ClampPoint
+{
+	Filter	=	Point;
+	Address	=	Clamp;
+};
+SamplerState	SS_BorderLine3
+{
+	Filter	=	Trilinear;
+	Address	=	Border;
+};
+SamplerState	SS_BorderLine2
+{
+	Filter	=	Bilinear;
+	Address	=	Border;
+};
+SamplerState	SS_BorderPoint
+{
+	Filter	=	Point;
+	Address	=	Border;
+};

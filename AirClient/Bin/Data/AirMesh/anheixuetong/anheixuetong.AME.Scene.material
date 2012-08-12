@@ -1,0 +1,334 @@
+[Material #28]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=6.dds
+[09 - Default]
+diffuse=0.588235 0.588235 0.588235
+ambient=0.588235 0.588235 0.588235
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=d_d.dds
+SpecularTex=d_s.dds
+BumpTex=d_n.dds
+[Material #28]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=6.dds
+[Material #26]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=f_d.dds
+SpecularTex=f_s.dds
+BumpTex=f_n.dds
+[Material #26]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=f_d.dds
+SpecularTex=f_s.dds
+BumpTex=f_n.dds
+[Material #29]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=1.dds
+[09 - Default]
+diffuse=0.588235 0.588235 0.588235
+ambient=0.588235 0.588235 0.588235
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=d_d.dds
+SpecularTex=d_s.dds
+BumpTex=d_n.dds
+[09 - Default]
+diffuse=0.588235 0.588235 0.588235
+ambient=0.588235 0.588235 0.588235
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=d_d.dds
+SpecularTex=d_s.dds
+BumpTex=d_n.dds
+[09 - Default]
+diffuse=0.588235 0.588235 0.588235
+ambient=0.588235 0.588235 0.588235
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=d_d.dds
+SpecularTex=d_s.dds
+BumpTex=d_n.dds
+[09 - Default]
+diffuse=0.588235 0.588235 0.588235
+ambient=0.588235 0.588235 0.588235
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=d_d.dds
+SpecularTex=d_s.dds
+BumpTex=d_n.dds
+[Material #26]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=f_d.dds
+SpecularTex=f_s.dds
+BumpTex=f_n.dds
+[Material #26]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=f_d.dds
+SpecularTex=f_s.dds
+BumpTex=f_n.dds
+[Material #26]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=f_d.dds
+SpecularTex=f_s.dds
+BumpTex=f_n.dds
+[07 - Default]
+diffuse=0.588235 0.588235 0.588235
+ambient=0.588235 0.588235 0.588235
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=a_d.dds
+SpecularTex=a_s.dds
+BumpTex=a_n.dds
+[07 - Default]
+diffuse=0.588235 0.588235 0.588235
+ambient=0.588235 0.588235 0.588235
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=a_d.dds
+SpecularTex=a_s.dds
+BumpTex=a_n.dds
+[07 - Default]
+diffuse=0.588235 0.588235 0.588235
+ambient=0.588235 0.588235 0.588235
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=a_d.dds
+SpecularTex=a_s.dds
+BumpTex=a_n.dds
+[07 - Default]
+diffuse=0.588235 0.588235 0.588235
+ambient=0.588235 0.588235 0.588235
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=a_d.dds
+SpecularTex=a_s.dds
+BumpTex=a_n.dds
+[Material #28]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=6.dds
+[Material #28]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=6.dds
+[Material #26]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=f_d.dds
+SpecularTex=f_s.dds
+BumpTex=f_n.dds
+[Material #28]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=6.dds
+[07 - Default]
+diffuse=0.588235 0.588235 0.588235
+ambient=0.588235 0.588235 0.588235
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=a_d.dds
+SpecularTex=a_s.dds
+BumpTex=a_n.dds
+[Material #28]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=6.dds
+[07 - Default]
+diffuse=0.588235 0.588235 0.588235
+ambient=0.588235 0.588235 0.588235
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=a_d.dds
+SpecularTex=a_s.dds
+BumpTex=a_n.dds
+[07 - Default]
+diffuse=0.588235 0.588235 0.588235
+ambient=0.588235 0.588235 0.588235
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=a_d.dds
+SpecularTex=a_s.dds
+BumpTex=a_n.dds
+[Material #27]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=5.dds
+[Material #25]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=e_d.dds
+SpecularTex=e_s.dds
+BumpTex=e_n.dds
+[Material #28]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=6.dds
+[09 - Default]
+diffuse=0.588235 0.588235 0.588235
+ambient=0.588235 0.588235 0.588235
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=d_d.dds
+SpecularTex=d_s.dds
+BumpTex=d_n.dds
+[08 - Default]
+diffuse=0.588235 0.588235 0.588235
+ambient=0.588235 0.588235 0.588235
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=c_d.dds
+SpecularTex=c_s.dds
+BumpTex=c_n.dds
+[07 - Default]
+diffuse=0.588235 0.588235 0.588235
+ambient=0.588235 0.588235 0.588235
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=a_d.dds
+SpecularTex=a_s.dds
+BumpTex=a_n.dds
+[07 - Default]
+diffuse=0.588235 0.588235 0.588235
+ambient=0.588235 0.588235 0.588235
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=a_d.dds
+SpecularTex=a_s.dds
+BumpTex=a_n.dds

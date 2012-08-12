@@ -1,0 +1,12 @@
+[Material]
+FX=Fx\NoTexture.fx
+VeryHigh=DiffTechnique
+[VeryHigh]
+WorldViewProjection=WorldViewProjMatrix
+World=WorldMatrix
+fvAmbient=1,1,1,1:Vector
+fvDiffuse=0,0,0,1:Vector
+fvSpecular=1,1,1,1:Vector
+fvEyePosition=CameraPosition
+fvLightPosition=LightPosition0
+DiffTex=Model\Terrain_Diff.png:Texture

@@ -1,0 +1,254 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Src">
+      <UniqueIdentifier>{24e588f5-bc7c-4b70-8397-ff26f0eaf648}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Inc">
+      <UniqueIdentifier>{0dd54ceb-5b10-4fc1-be23-ad87a63c7629}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\AirCharacter\animation.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\animation_action.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\animation_cycle.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\bone.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\buffersource.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\cal3d_wrapper.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\coreanimation.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\corebone.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\corematerial.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\coremesh.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\coremodel.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\coremorphanimation.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\coreskeleton.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\coresubmesh.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\coresubmorphtarget.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\error.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\global.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\hardwaremodel.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\loader.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\matrix.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\mesh.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\mixer.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\model.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\morphtargetmixer.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\physique.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\platform.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\quaternion.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\renderer.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\saver.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\skeleton.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\springsystem.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\streamsource.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\submesh.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\tinyxml.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\tinyxmlerror.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\tinyxmlparser.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirCharacter\vector.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\AirCharacter\animation.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\animation_action.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\animation_cycle.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\animcallback.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\bone.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\buffersource.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\cal3d.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\cal3d_wrapper.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\coreanimation.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\corebone.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\corematerial.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\coremesh.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\coremodel.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\coremorphanimation.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\coreskeleton.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\coresubmesh.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\coresubmorphtarget.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\datasource.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\error.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\global.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\hardwaremodel.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\loader.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\matrix.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\mesh.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\mixer.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\model.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\morphtargetmixer.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\physique.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\platform.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\quaternion.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\refcounted.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\refptr.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\renderer.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\resource.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\saver.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\skeleton.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\springsystem.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\streamsource.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\submesh.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\tinyxml.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\transform.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirCharacter\vector.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

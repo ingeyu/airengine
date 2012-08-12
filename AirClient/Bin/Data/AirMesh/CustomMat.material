@@ -1,0 +1,9 @@
+[CustomMat]
+diffuse=0.752941 0.741176 0.592157
+ambient=0.752941 0.741176 0.592157
+specular=0.900000 0.900000 0.900000
+glossiness=0.470000
+opacity=1.000000
+specularLevel=0.870000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=C:\Users\Infernal\Documents\3dsMax\sceneassets\images\BARK5.jpg

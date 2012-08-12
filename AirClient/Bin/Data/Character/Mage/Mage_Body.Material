@@ -1,0 +1,14 @@
+[Material]
+FX=Fx\Deferred_HWA_VTF.fx
+VeryHigh=ANT
+[VeryHigh]
+viewProjectionMatrix=ViewProjMatrix
+World=WorldMatrix
+Bone=BoneTexture
+Diff=Character\Mage\Mage_Diff.dds:Texture
+Norm=Character\Mage\Mage_Nor.dds:Texture
+vDiffuse=1,1,1,0.1:Vector
+vSpecular=1,1,1,16:Vector
+
+
+

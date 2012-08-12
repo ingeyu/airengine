@@ -1,0 +1,14 @@
+[Material]
+FX=Fx\HWA_VTF.fx
+VeryHigh=AlphaTechnique
+[VeryHigh]
+ViewProj=ViewProjMatrix
+World=WorldMatrix
+#fvEyePosition=1,1,1,1:CameraPosition
+#fvLightPosition=1,1,1,1:LightPosition0
+#fvDiffuse=LightDiffuse0
+#fvAmbient=0.5,0.5,0.5,1:Vector
+#fvSpecular=1,1,1,1:Vector
+Bone=BoneTexture
+Diff=Character\Character_man\gun.dds:Texture
+

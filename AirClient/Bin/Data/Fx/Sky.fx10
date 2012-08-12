@@ -1,0 +1,121 @@
+float4   vViewPosition;
+float4   fvAmibent;
+float4x4 matViewProjection;
+
+
+struct VS_INPUT 
+{
+   float3 Pos:     POSITION;
+};
+
+struct VS_OUTPUT 
+{
+   float4 Pos:       SV_POSITION;
+   float3 TexCoord : TEXCOORD0;
+};
+
+VS_OUTPUT MainVS( VS_INPUT In )
+{
+   VS_OUTPUT Out;
+   
+   float3 pos = In.Pos;
+   pos *= 200.0f;
+   pos += vViewPosition.xyz;
+   
+   Out.Pos = mul(float4(pos,1.0),matViewProjection);
+   Out.TexCoord = normalize(In.Pos);
+
+   return Out;
+}
+struct	VS_OUTPUT_DEFFERED{
+   float4 Pos:       SV_POSITION;
+   float3 TexCoord : TEXCOORD0;
+   float4	WorldPos	:TEXCOORD1;
+};
+
+VS_OUTPUT_DEFFERED MainVS_Deffered( VS_INPUT In )
+{
+   VS_OUTPUT_DEFFERED Out;
+   
+   float3 pos = In.Pos;
+   pos *= 200.0f;
+   pos += vViewPosition.xyz;
+   
+   Out.Pos = mul(float4(pos,1.0),matViewProjection);
+   Out.TexCoord = normalize(In.Pos);
+   Out.WorldPos	=	float4(Out.Pos.z/Out.Pos.w,0,0,0);
+
+   return Out;
+};
+
+TextureCube diffTex
+<
+   string ResourceName = "..\\..\\..\\..\\..\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Textures\\Snow.dds";
+>;
+SamplerState diffState
+{
+    Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = Wrap;
+    AddressV = Wrap;
+};
+
+struct PS_OUTPUT 
+{
+   float4 Color : SV_Target;
+};
+
+PS_OUTPUT MainPS( VS_OUTPUT In )
+{
+   PS_OUTPUT Out;
+   
+   Out.Color = diffTex.Sample(diffState,In.TexCoord)*fvAmibent;
+   
+   return Out;
+}
+struct	PS_OUTPUT_DEFFERED{
+	float4	WorldPos:			SV_Target0;
+	float4	WorldNormal:	SV_Target1;
+	float4	Diffuse:			SV_Target2;
+
+};
+
+PS_OUTPUT_DEFFERED MainPS_Deffered( VS_OUTPUT_DEFFERED In )
+{
+   PS_OUTPUT_DEFFERED Out;
+   float4	color	=	diffTex.Sample(diffState,In.TexCoord)*fvAmibent;
+   Out.WorldPos	=	In.WorldPos;
+   Out.WorldNormal	=	float4(normalize(In.TexCoord),0);
+   Out.Diffuse	=	float4(color.xyz,1);
+
+   
+   return Out;
+}
+
+RasterizerState RasNoCull
+{
+    CullMode = None;
+};
+
+technique10 VeryHighTechnique
+{
+   pass Environment
+   {
+        SetVertexShader( CompileShader( vs_4_0, MainVS_Deffered() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, MainPS_Deffered() ) );
+        
+        SetRasterizerState(RasNoCull);
+   }
+}
+
+technique10 HighTechnique
+{
+   pass Environment
+   {
+        SetVertexShader( CompileShader( vs_4_0, MainVS() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, MainPS() ) );
+        
+        SetRasterizerState(RasNoCull);
+   }
+}

@@ -1,0 +1,346 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Develop|Win32">
+      <Configuration>Develop</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>AirEngine</ProjectName>
+    <ProjectGuid>{A7DE6B01-9F4D-4B62-89A6-45879F48D214}</ProjectGuid>
+    <RootNamespace>Render</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\Build\$(TargetName)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\Build\$(TargetName)\$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'">$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'">true</LinkIncremental>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\AirCommon\Inc;..\AirEngine\Inc;..\..\Dependencies\OIS\includes;..\..\Dependencies\freetype\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;ENGINE_IMPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4251;4305;4244;4275;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>AirCommon.lib;AirCharacter.lib;freetype240_D.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\Bin\$(Configuration)\$(ProjectName).dll</OutputFile>
+      <AdditionalLibraryDirectories>..\..\Dependencies\freetype\objs\win32\vc2008;..\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
+      <ImportLibrary>..\Lib\$(Configuration)\$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\Common;..\..\Dependencies\ois\includes;..\..\Dependencies\freetype-2.4.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;ENGINE_IMPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>Common.lib;Character.lib;freetype240MT.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\Bin\$(Configuration)\$(ProjectName).dll</OutputFile>
+      <AdditionalLibraryDirectories>..\Lib\$(Configuration);..\..\Lib\$(Configuration);..\..\Dependencies\freetype-2.4.0\objs\win32\vc2005;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>..\Lib\$(Configuration)\$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\AirCommon\Inc;..\AirEngine\Inc;..\..\Dependencies\OIS\includes;..\..\Dependencies\freetype\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;ENGINE_IMPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4251;4305;4244;4275;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>AirCommon.lib;AirCharacter.lib;freetype240_D.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\Bin\$(Configuration)\$(ProjectName).dll</OutputFile>
+      <AdditionalLibraryDirectories>F:\Air\trunk\Dependencies\freetype\objs\win32\vc2008;..\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
+      <ImportLibrary>..\Lib\$(Configuration)\$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\AirEngine\Src\AirEngine.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngine3ds.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineCharacterAnimationModel.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineCharacterManager.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineCharacterResource.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineCharacterTextureAnimationModel.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineDataStream.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineEntity.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineEntityCloth.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineFont.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineInstanceEntity.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineLight.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineMaterialParameterTable.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineMaterialSet.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineMesh.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineMeshParse3DS.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineMeshParseOgre.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineMeshParseOgreImpl.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineParticleEntity.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEnginePipeline.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEnginePostComposer.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineScreenEntity.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineShaderShareParam.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineSubEntity.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineTerrainCommon.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineTerrainPage.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineTerrainTitle.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineTerrainWorld.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineTextInstance.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirGlobalSetting.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceAlphaObjectManager.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceAutoReleaseManager.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceBaseParticle.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceParticle.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceShootParticle.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIElement.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIEvent.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIFlashLayout.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIFlashSystem.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIImage.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIKeyProcess.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUILookfeel.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIRenderer.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUISystem.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIWindowControl.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIWindowLayout.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIWindowState.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineMaterial.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineMaterialParse.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineMaterialTemplate.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineParse.cpp" />
+    <ClCompile Include="..\AirEngine\Inc\AirEnginePass.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineShaderProgram.cpp" />
+    <ClCompile Include="..\AirEngine\Inc\AirRenderState.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirManualMeshEntity.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirMeshEntity.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirQuadRenderable.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirRenderSystem.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirRenderTarget.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirRenderbuffer.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirRenderDevice.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirRenderPhase.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirRenderTexture.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirRenderVertexDeclare.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirRenderWindow.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineCamera.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineFrustum.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineMovableObject.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineRenderable.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineScene.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineSceneNode.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineSystem.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineViewport.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineStreamReader.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceResourceStream.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceResourceSystem.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirSceneLoader.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirStaticMesh.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\AirEngine\Inc\AirEngine.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineHeader.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngine3ds.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineCharacterAnimationModel.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineCharacterManager.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineCharacterResource.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineCharacterTextureAnimationModel.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineDataStream.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineEntity.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineEntityCloth.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineFont.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineInstanceEntity.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineLight.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineMaterialParameterTable.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineMaterialSet.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineMesh.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineMeshParseOgre.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineMeshParseOgreImpl.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineParticleEntity.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEnginePipeline.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEnginePostComposer.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineScreenEntity.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineShaderShareParam.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineShareShaderCameraParam.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineShareShaderLightParam.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineShareShaderObjectParam.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineSubEntity.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineTerrainCommon.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineTerrainGrass.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineTerrainPage.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineTerrainSky.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineTerrainTitle.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineTerrainWater.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineTerrainWorld.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineTextInstance.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirGlobalSetting.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceAlphaObjectManager.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceAutoReleaseManager.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceBaseParticle.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceGameSystem.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceInputSystem.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceNetSystem.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceParticle.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceParticleSystem.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfacePhysicsCloth.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfacePhysicsCollision.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfacePhysicsController.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfacePhysicsScene.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfacePhysicsShape.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfacePhysicsSystem.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceScriptFile.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceScriptFuncition.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceScriptRegisterManager.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceScriptSystem.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceScriptVariable.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceShootParticle.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUICommon.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIElement.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIEvent.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIFlashLayout.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIFlashSystem.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIImage.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIKeyProcess.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUILookfeel.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIRenderer.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIStaticText.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUISystem.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIText.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIWindowControl.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIWindowLayout.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIWindowState.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUserData.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineMaterial.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineMaterialCommon.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineMaterialParse.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineMaterialTemplate.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineParse.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEnginePass.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineShaderProgram.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirManualMeshEntity.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirMeshEntity.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirQuadRenderable.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirRenderCommon.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirRenderState.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirRenderSystem.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirRenderTarget.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirRenderDevice.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirSceneLoader.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirStaticMesh.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirRenderbuffer.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirRenderPhase.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirRenderShader.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirRenderTexture.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirRenderVertexDeclare.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirRenderWindow.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineCamera.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineFrustum.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineMovableObject.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineRenderable.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineScene.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineSceneNode.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineSystem.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineViewport.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineStreamReader.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceResourceStream.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceResourceSystem.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceAudioScene.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceAudioSound.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceAudioSystem.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

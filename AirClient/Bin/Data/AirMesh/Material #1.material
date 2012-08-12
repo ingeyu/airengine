@@ -1,0 +1,9 @@
+[Material #1]
+diffuse=0.254902 0.027451 0.027451
+ambient=0.254902 0.027451 0.027451
+specular=0.792157 0.792157 0.792157
+glossiness=0.250000
+opacity=1.000000
+specularLevel=0.050000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=TERRAIN3.TGA

@@ -1,0 +1,216 @@
+//延迟着色下的 骨骼动画 效果文件
+	
+float4	vDiffuse	=	float4(1,1,1,1);
+float4	vSpecular	=	float4(1,1,1,64);
+
+float4x4 viewProjectionMatrix;
+float4x4 World;
+	
+
+Texture2D Bone;
+
+matrix GetBoneMatrix(int idx){
+	float4 v[4];
+	v[0]	=	Bone.Load(float3((idx*4)			,0,0));
+	v[1]	=	Bone.Load(float3((idx*4 + 1)	,0,0));
+	v[2]	=	Bone.Load(float3((idx*4 + 2)	,0,0));
+	v[3]	=	Bone.Load(float3((idx*4 + 3)	,0,0));
+	
+	return float4x4(v[0],v[1],v[2],v[3]);
+};
+struct VS_INPUT{
+	float4 Position		: POSITION;
+	float4 Normal			: NORMAL;
+	float2 Texcoord		: TEXCOORD0;
+	float4 blendWgt		: WEIGHTS;
+	float4 blendIdx		: BONES;
+	float3 Tan 				: TANGENT;
+};
+
+struct	VS_OUTPUT{
+	float4 oPosition 	: SV_POSITION;
+	float3 oNormal		:	NORMAL;
+	float3 oTan				:	TANGENT;
+	float2 oUV				: TEXCOORD0;
+	float4 oWPosition	:	TEXCOORD1;
+};
+
+/*
+  Four-weight-per-vertex hardware skinning, 2 lights
+  The trouble with vertex programs is they're not general purpose, but
+  fixed function hardware skinning is very poorly supported
+*/
+VS_OUTPUT MainVS(VS_INPUT	Input)
+{
+		VS_OUTPUT	Output;
+
+	float4 	idx						=	Input.blendIdx;
+	float4	weight				=	Input.blendWgt;
+	float4	pos						=	Input.Position;
+	float4	InitNormal		=	Input.Normal;
+	float3	InitTangent		=	Input.Tan;
+	
+	matrix	boneMatrix[4];
+	boneMatrix[0]	=	GetBoneMatrix(idx[0]);
+	boneMatrix[1]	=	GetBoneMatrix(idx[1]);
+	boneMatrix[2]	=	GetBoneMatrix(idx[2]);
+	boneMatrix[3]	=	GetBoneMatrix(idx[3]);
+	
+		//position
+		float4 blendPos = float4(0,0,0,0);
+		blendPos += float4(mul(Input.Position,boneMatrix[0]).xyz,1.0f)* weight[0];
+ 		blendPos += float4(mul(Input.Position,boneMatrix[1]).xyz,1.0f)* weight[1];
+ 		blendPos += float4(mul(Input.Position,boneMatrix[2]).xyz,1.0f)* weight[2];
+ 		blendPos += float4(mul(Input.Position,boneMatrix[3]).xyz,1.0f)* weight[3];
+
+		//normal
+		float3 norm = float3(0,0,0);
+		norm += mul(InitNormal.xyz,(float3x3)boneMatrix[0]) * weight[0];
+		norm += mul(InitNormal.xyz,(float3x3)boneMatrix[1]) * weight[1];
+		norm += mul(InitNormal.xyz,(float3x3)boneMatrix[2]) * weight[2];
+		norm += mul(InitNormal.xyz,(float3x3)boneMatrix[3]) * weight[3];
+		//norm = normalize(norm);
+		
+		//tangent
+		float3	tangent	=	float3(0,0,0);
+		tangent += mul(InitTangent.xyz,(float3x3)boneMatrix[0]) * weight[0];
+		tangent += mul(InitTangent.xyz,(float3x3)boneMatrix[1]) * weight[1];
+		tangent += mul(InitTangent.xyz,(float3x3)boneMatrix[2]) * weight[2];
+		tangent += mul(InitTangent.xyz,(float3x3)boneMatrix[3]) * weight[3];
+		
+	float4 tPos				=	mul(blendPos.xzyw,World);
+	Output.oPosition 	= mul(tPos,viewProjectionMatrix);
+	Output.oUV 				= Input.Texcoord;
+	Output.oNormal		=	normalize(mul(norm.xzy,(float3x3)World));
+	Output.oTan				=	normalize(mul(tangent.xzy,(float3x3)World));
+	Output.oWPosition	=	Output.oPosition;
+	return	Output;
+	
+};
+
+Texture2D Diff
+<
+    string ResourceName = "Default_color.dds";
+    string UIName =  "漫反射纹理";
+    string ResourceType = "2D";
+>;
+
+SamplerState diffState
+{
+    Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = BORDER;
+    AddressV = BORDER;
+};
+
+Texture2D Norm;
+
+struct	PS_OUTPUT{
+	float4	Depth		:	SV_Target0;
+	float4	Normal	:	SV_Target1;
+	float4	Diffuse	:	SV_Target2;
+};
+
+PS_OUTPUT MainPS(	VS_OUTPUT	Input)
+{
+	PS_OUTPUT	Out;
+	
+	float4	DiffColor	=	Diff.Sample( diffState,Input.oUV);;
+	
+	
+	Out.Depth		=	float4(Input.oWPosition.z/Input.oWPosition.w,0,0,DiffColor.w);
+	Out.Normal	=	float4(Input.oNormal/2+0.5f,vSpecular.x);
+	Out.Diffuse	=	vDiffuse*float4(DiffColor.xyz,1);
+	
+	return	Out;
+};
+
+
+PS_OUTPUT MainPS_Normal(	VS_OUTPUT	Input	)
+{
+	
+	float4	NorColor	=	Norm.Sample( diffState,Input.oUV);
+	NorColor					=	NorColor*2	-	1;
+	
+	float3 	BiNorm 		= normalize( cross( Input.oNormal, Input.oTan ) );
+  float3x3 BTNMatrix = float3x3( BiNorm, Input.oTan, Input.oNormal );
+  float3	FinalNorm = normalize( mul( NorColor, BTNMatrix ) ); //world space bump
+	
+	PS_OUTPUT	Out;
+	
+	float4	DiffColor	=	Diff.Sample( diffState,Input.oUV);
+	
+	
+	Out.Depth		=	float4(Input.oWPosition.z/Input.oWPosition.w,0,0,DiffColor.w);
+	Out.Normal	=	float4(FinalNorm/2+0.5f,vSpecular.x*DiffColor.w);
+	Out.Diffuse	=	vDiffuse*float4(DiffColor.xyz,1);
+	
+	
+	return	Out;
+	
+};
+
+RasterizerState CullNone
+{
+	CullMode = NONE;
+	MultisampleEnable = TRUE;
+};
+RasterizerState CullBack
+{
+	CullMode = BACK;
+	MultisampleEnable = TRUE;
+};
+
+BlendState QuadAlphaBlendState
+{
+    AlphaToCoverageEnable = TRUE;
+    BlendEnable[0]				=	FALSE;
+    RenderTargetWriteMask[0] = 0x0f;
+};
+DepthStencilState EnableDepthTestWrite
+{
+    DepthEnable = TRUE;
+    DepthWriteMask = ALL;
+};
+
+
+technique10 AT
+{
+	pass p0
+	{
+        SetVertexShader( CompileShader( vs_4_0, MainVS() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, MainPS() ) );
+        
+        SetRasterizerState(CullNone);
+        SetBlendState( QuadAlphaBlendState, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );
+        SetDepthStencilState(EnableDepthTestWrite,0);
+	}
+}
+
+technique10 ANT
+{
+	pass p0
+	{
+        SetVertexShader( CompileShader( vs_4_0, MainVS() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, MainPS_Normal() ) );
+        
+        SetRasterizerState(CullNone);
+        SetBlendState( QuadAlphaBlendState, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );
+        SetDepthStencilState(EnableDepthTestWrite,0);
+	}
+}
+
+technique10 ANTB
+{
+	pass p0
+	{
+        SetVertexShader( CompileShader( vs_4_0, MainVS() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, MainPS_Normal() ) );
+        
+        SetRasterizerState(CullBack);
+        SetBlendState( QuadAlphaBlendState, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );
+        SetDepthStencilState(EnableDepthTestWrite,0);
+	}
+}

@@ -1,0 +1,52 @@
+
+cbuffer cbPerMaterial		: register( b3 )
+{
+    matrix  mViewProjectionInv;
+	matrix	mShadowViewProj;
+   float4	vShadowSize;
+};
+
+struct VS_OUTPUT
+{
+    float4 Position     : SV_POSITION; // vertex position
+	float2 UV			: TEXCOORD0;
+};
+
+struct	PS_OUTPUT{
+	float4	Color				:	SV_Target0;
+};
+
+Texture2D	ShadowDepthTex		:	register(t0);
+Texture2D	MRTDepthTex			:	register(t1);
+
+SamplerState	SS_WrapLine2	:	register(s0);
+
+
+
+float2 UV_XY(float2 uv){
+	return	uv*float2(2,-2)+float2(-1,1);
+};
+
+float2 XY_UV(float2 xy){
+	return	xy*float2(0.5,-0.5)+0.5;
+};
+
+PS_OUTPUT main( VS_OUTPUT Input ){
+
+	float4	vProjPos	=	float4(UV_XY(Input.UV),0,1);
+	vProjPos.z			=	MRTDepthTex.Sample(SS_WrapLine2,Input.UV).x;
+
+	float4	vWorldPos	=	mul(mViewProjectionInv,vProjPos);
+	float4	vShadowPos	=	mul(mShadowViewProj,vWorldPos);
+	vShadowPos/=vShadowPos.w;
+	
+
+	float2	shadowUV	=	XY_UV(vShadowPos.xy);
+
+	float	oldZ		=	ShadowDepthTex.Sample(SS_WrapLine2,shadowUV).x;
+
+	PS_OUTPUT	Out;
+	Out.Color						= vShadowPos.z > 0 &&	vShadowPos.z < oldZ + 0.0001f;
+	return	Out;
+   
+}

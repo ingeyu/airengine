@@ -1,0 +1,29 @@
+#include "Common.hlsl9"
+
+struct VS_OUTPUT 
+{
+   float4 Position 	: POSITION0;
+   float2 Texcoord 	: TEXCOORD0;
+   float4 WorldNormal   : TEXCOORD1;
+   float4 Depth		: TEXCOORD2;
+   
+};
+
+struct	PS_OUTPUT{
+	float4	Depth		:	COLOR0;
+	float4	WorldNormal	:	COLOR1;
+	float4	Diffuse		:	COLOR2;
+	float4	Specular	:	COLOR3;
+};
+
+PS_OUTPUT main( VS_OUTPUT Input ){
+
+  PS_OUTPUT	Out;
+
+  Out.Depth		= Input.Depth.z/Input.Depth.w;
+  Out.WorldNormal       = float4(normalize( Input.WorldNormal.xyz )*0.5f+0.5f,1);
+  Out.Diffuse		= vObjDiffuse;
+  Out.Specular		= vObjSpec_Power;	
+  return	Out;
+}
+

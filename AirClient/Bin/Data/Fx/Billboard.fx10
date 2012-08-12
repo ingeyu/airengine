@@ -1,0 +1,210 @@
+struct	VS_INPUT{
+	float4	Position	:	POSITION;
+};
+
+struct	VS_OUTPUT{
+	float4	Position	:	SV_POSITION;
+	float2	UV				:	TEXCOORD0;
+};
+
+float4	UpDirection;
+float4	RightDirection;
+
+float4x4	WorldViewProj;
+
+VS_OUTPUT	MainVS(VS_INPUT	Input){
+	VS_OUTPUT	Output;
+	
+	float3	vPos		=	Input.Position.x*RightDirection.xyz	+	Input.Position.y*UpDirection.xyz;
+	
+	Output.UV				=	Input.Position.xy*float2(0.5f,-0.5f)	+	float2(0.5f,0.5f);
+	
+	Output.Position	=	mul(float4(vPos,1),WorldViewProj);
+	
+	return	Output;
+};
+
+float4	PositionArray[100];
+
+VS_OUTPUT	MainVS_Set(VS_INPUT	Input){
+	VS_OUTPUT	Output;
+	
+	float3	vPos		=	Input.Position.x*RightDirection.xyz	+	Input.Position.y*UpDirection.xyz;
+	int			iIdx		=	Input.Position.z*100;
+	float4	wPos		=	PositionArray[iIdx];
+	
+	Output.UV				=	Input.Position.xy*float2(0.5f,-0.5f)	+	float2(0.5f,0.5f);
+	
+	Output.Position	=	mul(float4(vPos+wPos.xyz,1),WorldViewProj);
+	
+	return	Output;
+};
+float4x4	TransformArray[5];
+
+float4	Trans(float3	v){
+	float	f		=	v.x*4;
+	float3	vOldPos	=	v.zyz;
+	float4	vPos	=	float4(0,0,0,0);
+	if(f<1){
+		vPos	+=	mul(float4(vOldPos,1),TransformArray[1])*f;
+		vPos	+=	mul(float4(vOldPos,1),TransformArray[0])*(1	-	f);
+	}else	if(f	<	2	){
+		vPos	+=	mul(float4(vOldPos,1),TransformArray[2])*(f	-	1);
+		vPos	+=	mul(float4(vOldPos,1),TransformArray[1])*(2	-	f);
+	}else	if(f	<	3){
+		vPos	+=	mul(float4(vOldPos,1),TransformArray[3])*(f	-	2);
+		vPos	+=	mul(float4(vOldPos,1),TransformArray[2])*(3	-	f);
+	}else{
+		vPos	+=	mul(float4(vOldPos,1),TransformArray[4])*(f	-	3);
+		vPos	+=	mul(float4(vOldPos,1),TransformArray[3])*(4	-	f);
+	}
+	return	vPos;
+};
+VS_OUTPUT	MainVS_Strip(VS_INPUT	Input){
+	VS_OUTPUT	Output;
+	
+	float3	vPos		=	Trans(Input.Position.xyz).xyz;
+	
+	Output.UV				=	Input.Position.xy*float2(1,-1)+float2(0,1);
+	
+	Output.Position	=	mul(float4(vPos,1),WorldViewProj);
+	
+	return	Output;
+};
+	
+
+Texture2D	DiffTex;
+SamplerState diffState
+{
+    Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = WRAP;
+    AddressV = WRAP;
+};
+
+float4	MainPS(VS_OUTPUT	Input)	:	SV_Target{
+
+	float4	vColor	=	DiffTex.Sample( diffState,Input.UV);
+	
+	return	vColor;
+}
+
+RasterizerState CullNone
+{
+	CullMode = NONE;
+	MultisampleEnable = TRUE;
+};
+
+BlendState NoneBlendState
+{
+    AlphaToCoverageEnable = FALSE;
+};
+
+DepthStencilState EableDepthWrite
+{
+    DepthEnable = TRUE;
+    DepthWriteMask = ALL;
+};
+DepthStencilState DisableDepthWrite
+{
+    DepthEnable = TRUE;
+    DepthWriteMask = ZERO;
+};
+
+BlendState AdditiveBlending
+{
+    AlphaToCoverageEnable = FALSE;
+    BlendEnable[0] = TRUE;
+    SrcBlend = SRC_ALPHA;
+    DestBlend = INV_SRC_ALPHA;
+    BlendOp = ADD;
+    SrcBlendAlpha = ONE;
+    DestBlendAlpha = ONE;
+    BlendOpAlpha = ADD;
+    RenderTargetWriteMask[0] = 0x0F;
+};
+
+
+technique10 Base
+{
+   pass Pass_0
+   {
+        SetVertexShader( CompileShader( vs_4_0, MainVS() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, MainPS() ) );
+        
+        SetRasterizerState(CullNone);
+        SetBlendState( NoneBlendState, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );
+        SetDepthStencilState( EableDepthWrite, 0 );
+   }
+}
+
+technique10 Base_Blend
+{
+   pass Pass_0
+   {
+        SetVertexShader( CompileShader( vs_4_0, MainVS() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, MainPS() ) );
+        
+        SetRasterizerState(CullNone);
+        SetBlendState( AdditiveBlending, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );
+        SetDepthStencilState( DisableDepthWrite, 0 );
+   }
+}
+
+technique10 BaseSet
+{
+   pass Pass_0
+   {
+        SetVertexShader( CompileShader( vs_4_0, MainVS_Set() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, MainPS() ) );
+        
+        SetRasterizerState(CullNone);
+        SetBlendState( NoneBlendState, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );
+        SetDepthStencilState( EableDepthWrite, 0 );
+   }
+}
+
+technique10 BaseSet_Blend
+{
+   pass Pass_0
+   {
+        SetVertexShader( CompileShader( vs_4_0, MainVS_Set() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, MainPS() ) );
+        
+        SetRasterizerState(CullNone);
+        SetBlendState( AdditiveBlending, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );
+        SetDepthStencilState( DisableDepthWrite, 0 );
+   }
+}
+
+technique10 BaseStrip
+{
+   pass Pass_0
+   {
+        SetVertexShader( CompileShader( vs_4_0, MainVS_Strip() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, MainPS() ) );
+        
+        SetRasterizerState(CullNone);
+        SetBlendState( NoneBlendState, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );
+        SetDepthStencilState( EableDepthWrite, 0 );
+   }
+}
+
+technique10 BaseStrip_Blend
+{
+   pass Pass_0
+   {
+        SetVertexShader( CompileShader( vs_4_0, MainVS_Strip() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, MainPS() ) );
+        
+        SetRasterizerState(CullNone);
+        SetBlendState( AdditiveBlending, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );
+        SetDepthStencilState( DisableDepthWrite, 0 );
+   }
+}
+

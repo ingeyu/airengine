@@ -1,0 +1,23 @@
+struct VS_OUTPUT
+{
+    float4 Position     : SV_POSITION; // vertex position
+	float2 UV			: TEXCOORD0;
+};
+
+struct	PS_OUTPUT{
+	float4	Color				:	SV_Target0;
+};
+
+Texture2D	DiffuseTex		:	register(t0);
+
+
+SamplerState	SS_WrapLine2	:	register(s0);
+
+
+PS_OUTPUT main( VS_OUTPUT Input ){
+
+	PS_OUTPUT	Out;
+	Out.Color						=	DiffuseTex.Sample(SS_WrapLine2,Input.UV);
+	return	Out;
+   
+}

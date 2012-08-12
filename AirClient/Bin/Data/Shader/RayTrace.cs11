@@ -1,0 +1,185 @@
+cbuffer	Light	:	register(b0)
+{
+	float3	vLightPosition;
+	float3	unUsed;
+}	
+
+bool	RayCastBoundingBox(float3 vStart,float3 vDir,float3 vMin,float3 vMax,in float fMaxDistance,inout float fOutDistance)
+
+{
+	float3	fmin		=	vMin	-	vStart;
+	float3	fmax		=	vMax	-	vStart;
+	float3	invMinDir	=	fmin	/	vDir;
+	float3	invMaxDir	=	fmax	/	vDir;
+
+	fOutDistance		=	10000.0f;
+
+	float3	fNear		=	min(invMinDir,invMaxDir);
+	float3	fFar		=	max(invMinDir,invMaxDir);
+	float	maxNear		=	max(max(fNear.x,fNear.y),fNear.z);
+	float	minFar		=	min(min(fFar.x,fFar.y),fFar.z);
+	if(	maxNear	>	minFar	||
+		maxNear	>	fMaxDistance	||
+		minFar	<	0.0f)
+	{
+		return	false;
+	}
+	if(maxNear	<	0.0f)
+		maxNear	=	0.0f;
+	fOutDistance	=	maxNear;	
+	return	true;
+};
+
+
+bool	RayCastTriangle(float3	vStart,float3 vDir,float3 v0,float3 v1,float3 v2,inout float fMaxDistance)
+{
+	float3	edge1	=	v1	-	v0;
+	float3	edge2	=	v2	-	v0;
+
+	float3	pvec	=	cross(vDir,edge2);
+
+	float det = dot( edge1, pvec );
+
+	float u, v, t;
+
+	float3 tvec;
+
+	if(det	>	0){
+		tvec	=	vStart	-	v0;
+	}else{
+		tvec	=	v0	-	vStart;
+		det		=	-det;
+	}
+
+	u	=	dot(tvec,pvec);
+	if(u<0.0f||u>det)
+		return	false;
+	float3	qvec	=	cross(tvec,edge1);
+	v	=	dot(vDir,qvec);
+	if(v<0.0f||u+v>det)
+		return	false;
+	t	=	dot(edge2,qvec)/det;
+	if(t<0.0f||t>fMaxDistance)
+		return	false;
+	fMaxDistance	=	t;
+	//nor	=	cross(edge1,edge2);
+	return	true;
+};
+
+struct BinaryNode{
+	uint	uiParent;
+	uint	uiLeft;
+	uint	uiRight;
+	uint	uiStart;
+	uint	uiSize;
+	float3	vMin;
+	float3	vMax;
+};
+
+struct Vertex{
+	float3	pos;
+	float3	nor;
+	float2	uv;
+	float3	tan;
+};
+
+StructuredBuffer<BinaryNode>	BTree	:	register(t0);
+StructuredBuffer<Vertex>		VB		:	register(t1);
+StructuredBuffer<uint3>			IB		:	register(t2);
+StructuredBuffer<float3>		Dir		:	register(t3);
+RWStructuredBuffer<float3>		Out		:	register(u0);
+
+
+
+[numthreads(256, 1, 1)]
+void	main(uint3 DTid : SV_DispatchThreadID)
+{
+	float3	vStart	=	vLightPosition;
+	float3	vDir	=	Dir[DTid.x];
+
+	uint	Stack[32]	=	{
+		0,0,0,0,0,	0,0,0,0,0,
+		0,0,0,0,0,	0,0,0,0,0,
+		0,0,0,0,0,	0,0,0,0,0,
+		0,0
+	};
+
+	float	fMaxDistance	=	10000.0f;
+	uint	uiDepth			=	0;
+	uint	uiCurrentNode	=	0;
+
+	bool	bLoop	=	true;
+	while(bLoop){
+		const BinaryNode	node		=	BTree[uiCurrentNode];
+		uint				uiLeft		=	node.uiLeft;
+		uint				uiRight		=	node.uiRight;
+		uint				uiParent	=	node.uiParent;
+		uint				uiStack		=	Stack[uiDepth];
+		switch(uiStack){
+			case	0:{
+				if(node.uiSize	>0){
+					uint	uiStart	=	node.uiStart;
+					uint	uiSize	=	uiStart	+	node.uiSize;
+					for(uint	i=uiStart;i<uiSize;i++){
+						uint3	idx	=	IB[i];
+						RayCastTriangle(vStart,vDir,VB[idx.x].pos,VB[idx.y].pos,VB[idx.z].pos,fMaxDistance);
+					}
+				}
+
+				float	fLeft	=	10000.0f;
+				float	fRight	=	10000.0f;
+				bool	bLeft	=	false;
+				if(uiLeft!=0){
+					bLeft	=	RayCastBoundingBox(vStart,vDir,BTree[uiLeft].vMin,BTree[uiLeft].vMax,fMaxDistance,fLeft);
+				}
+				bool	bRight	=	false;
+				if(uiRight!=0){
+					bRight	=	RayCastBoundingBox(vStart,vDir,BTree[uiRight].vMin,BTree[uiRight].vMax,fMaxDistance,fRight);
+				}
+				if(bLeft	&&	(fLeft	<	fRight	||	!bRight)){
+					if(bRight){
+						Stack[uiDepth]	=	2;
+					}else{
+						Stack[uiDepth]	=	3;
+					}
+					uiCurrentNode		=	uiLeft;
+					uiDepth				++;
+					Stack[uiDepth]		=	0;
+				}else	if(bRight){
+					if(bLeft){
+						Stack[uiDepth]	=	1;
+					}else{
+						Stack[uiDepth]	=	3;
+					}
+					uiCurrentNode		=	uiRight;
+					uiDepth				++;
+					Stack[uiDepth]		=	0;
+				}else{
+					Stack[uiDepth]		=	3;
+				}
+			break;}
+			case	1:{
+				Stack[uiDepth]	=	3;
+				uiCurrentNode	=	uiLeft;
+				uiDepth			++;
+				Stack[uiDepth]		=	0;
+			break;}
+			case	2:{
+				Stack[uiDepth]	=	3;
+				uiCurrentNode	=	uiRight;
+				uiDepth			++;
+				Stack[uiDepth]		=	0;
+			break;}
+			case	3:{
+				if(uiCurrentNode	==	0){
+					bLoop	=	false;
+					break;
+				}
+				uiCurrentNode	=	uiParent;
+				uiDepth--;
+			break;}
+		}
+	}
+
+	Out[DTid.x]	=	vStart	+	vDir*fMaxDistance;
+}

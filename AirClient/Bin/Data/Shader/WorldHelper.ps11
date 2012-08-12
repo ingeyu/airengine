@@ -1,0 +1,28 @@
+//	Shader	Param	Infomation
+//
+//	0		Diffuse
+//	1		Specular
+//
+cbuffer	Param	:	register(b3)
+{
+	float4	selfIllumColor_fresnel;
+};
+
+struct VS_OUTPUT
+{
+    float4 Position     : SV_POSITION; // vertex position
+};
+
+struct	PS_OUTPUT{
+	float4	Color			:	SV_Target0;
+};
+
+PS_OUTPUT main( VS_OUTPUT Input ){
+
+	PS_OUTPUT	Out;
+
+	Out.Color			=	selfIllumColor_fresnel;
+
+	return	Out;
+   
+}

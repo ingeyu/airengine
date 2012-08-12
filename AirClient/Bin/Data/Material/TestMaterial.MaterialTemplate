@@ -1,0 +1,156 @@
+
+MaterialTemplate	T1
+{
+	Phase	Helper
+	Pass	P0
+	{
+		RasterizerState		CullNone
+		VertexShader			"..\Data\Shader\Obj"
+		{
+		}
+		PixelShader			"..\Data\Shader\DiffusePS"
+		{
+			Texture		0	0		SS_WarpLine2
+		}
+	}
+
+};
+
+
+
+MaterialTemplate	Texture
+{
+	Phase	Helper
+	Pass
+	{
+		VertexShader		"..\Data\Shader\Obj"
+		{
+		}
+		PixelShader			"..\Data\Shader\Texture"
+		{
+			Texture		0	0		SS_WarpLine2
+		}
+	}
+
+};
+
+
+MaterialTemplate	Object
+{
+	Phase	MRT
+	Pass
+	{
+		VertexShader		"..\Data\Shader\Obj_MRT_NoSkin"
+		{
+		}
+		PixelShader			"..\Data\Shader\Obj_MRT_NoSpec_NoBump_NoSelfillum"
+		{
+			Texture		0	0		SS_WarpLine2
+			Texture		1	1		SS_WarpLine2
+			Texture		2	2		SS_WarpLine2
+			Texture		3	3		SS_WarpLine2
+		}
+	}
+
+};
+
+MaterialTemplate	MT_Object_ShadowDepth
+{
+	Phase	Shadow
+	Pass
+	{
+		VertexShader		"..\Data\Shader\Obj_MRT_NoSkin"
+		{
+		}
+		PixelShader			"..\Data\Shader\Obj_ShadowDepth"
+		{
+		}
+	}
+
+};
+MaterialTemplate	MT_Object_ShadowDepth_AlphaTest
+{
+	Phase	Shadow
+	Pass
+	{
+		VertexShader		"..\Data\Shader\Obj_MRT_NoSkin"
+		{
+		}
+		PixelShader			"..\Data\Shader\Obj_ShadowDepth_AlphaTest"
+		{
+			Texture		0	0		SS_WarpLine2
+		}
+	}
+
+};
+
+MaterialTemplate	QuadCopy
+{
+	Phase	Helper
+	Pass
+	{
+		DepthStencilState DisableDepthCompareWrite
+		VertexShader		"..\Data\Shader\Quad"
+		{
+		}
+		PixelShader			"..\Data\Shader\QuadCopy"
+		{
+			Texture		0	0		SS_WarpLine2
+		}
+	}
+
+};
+
+MaterialTemplate	MT_SSAO
+{
+	Phase	Manual
+	Pass
+	{
+		DepthStencilState DisableDepthCompareWrite
+		VertexShader		"..\Data\Shader\Quad"
+		{
+		}
+		PixelShader			"..\Data\Shader\SSAO"
+		{
+			Texture		0	0		SS_WarpPoint
+			Texture		1	1		SS_ClampLine2
+			Texture		2	2		SS_ClampLine2
+		}
+	}
+
+};
+
+MaterialTemplate	MT_ShadowMask
+{
+	Phase	Manual
+	Pass
+	{
+		DepthStencilState DisableDepthCompareWrite
+		VertexShader		"..\Data\Shader\Quad"
+		{
+		}
+		PixelShader			"..\Data\Shader\ShadowMaskAO"
+		{
+			Texture		0	0		SS_ClampLine2
+			Texture		1	1		SS_ClampLine2
+			Texture		2	2		SS_WarpPoint
+		}
+	}
+
+};
+
+
+MaterialTemplate	MT_WorldHelper
+{
+	Phase	Helper
+	Pass
+	{
+		VertexShader		"..\Data\Shader\WorldHelper"
+		{
+		}
+		PixelShader			"..\Data\Shader\WorldHelper"
+		{
+		}
+	}
+
+};

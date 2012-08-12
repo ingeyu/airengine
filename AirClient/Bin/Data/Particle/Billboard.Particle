@@ -1,0 +1,11 @@
+[Material]
+FX=Fx\Billboard.fx
+VeryHigh=Base_Blend
+AlphaBlend=True
+[VeryHigh]
+WorldViewProj=WorldViewProjMatrix
+UpDirection=CameraUpDirection
+RightDirection=CameraRightDirection
+DiffTex=Particle\flare.dds:Texture
+[Particle]
+Type=Billboard

@@ -1,0 +1,29 @@
+
+
+Texture2D		DiffuseTex		:	register(t0);
+SamplerState	SS_WrapLine2	:	register(s0);
+
+struct VS_OUTPUT
+{
+    float4 Position     : SV_POSITION; // vertex position
+	float3 Normal       : TEXCOORD0;
+    float2 TextureUV    : TEXCOORD1;   // vertex texture coords 
+	float3 Tangent		: TEXCOORD2;
+	float4 WPos			: TEXCOORD3;
+	float4 ProjPos		: TEXCOORD4;
+};
+
+struct	PS_OUTPUT{
+	float4	Depth			:	SV_Target0;
+};
+
+PS_OUTPUT main( VS_OUTPUT Input ){
+
+	PS_OUTPUT	Out;
+	float4 diff			=	DiffuseTex.Sample(SS_WrapLine2,Input.TextureUV);
+	clip(diff.w - 0.5);
+
+	Out.Depth			=	float4(Input.ProjPos.z/Input.ProjPos.w,0,0,0);
+	return	Out;
+   
+}

@@ -1,0 +1,69 @@
+// EffectorHandlers.idl : EffectorHandlers的 IDL 源
+//
+
+// 此文件将由 MIDL 工具处理以
+// 产生类型库(EffectorHandlers.tlb)和封送处理代码。
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(3765BC50-337B-423B-BA2B-2A668F4CAFE3),
+	pointer_default(unique)
+]
+interface IPreview : IUnknown
+{
+};
+
+[
+	object,
+	uuid(4F3D6A47-FF5B-4D3F-A71F-3627501D5EED),
+	pointer_default(unique)
+]
+interface IThumbnail : IUnknown
+{
+};
+
+[
+	object,
+	uuid(0A3CDAA9-DFBD-4B7C-9F17-7DC7F78695B9),
+	pointer_default(unique)
+]
+interface ISearch : IUnknown
+{
+};
+
+[
+	uuid(98883DA0-9A34-4F2A-B589-235463CE679C),
+	version(1.0),
+]
+library EffectorHandlersLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(9F3B589C-7D49-4802-8ACF-243325ACA4E9)
+	]
+	coclass Preview
+	{
+		[default] interface IPreviewHandler;
+	};
+	[
+		uuid(F36D5D67-40D0-4317-A761-B65C9A8D6A4E)
+	]
+	coclass Thumbnail
+	{
+		[default] interface IThumbnailProvider;
+	};
+	[
+		uuid(8D34136D-3717-48CC-BB34-AD765931B64F)
+	]
+	coclass Search
+	{
+		[default] interface IFilter;
+	};
+};
+
+import "shobjidl.idl";
+import "thumbcache.idl";
+import "filter.idl";

@@ -1,0 +1,52 @@
+//	Shader	Param	Infomation
+//
+//	0		Diffuse
+//	1		Specular
+//
+cbuffer	Param	:	register(b3)
+{
+	float4	diffuse_opacity;
+	float4	ambient_alphatest;
+	float4	specular_glossiness;
+	float4	selfIllumColor_fresnel;
+};
+Texture2D	DiffuseTex		:	register(t0);
+Texture2D	SpecularTex		:	register(t1);
+Texture2D	BumpTex			:	register(t2);
+Texture2D	SelfIllumTex	:	register(t3);
+
+SamplerState	SS_WrapLine2	:	register(s0);
+struct VS_OUTPUT
+{
+    float4 Position     : SV_POSITION; // vertex position
+	float3 Normal       : TEXCOORD0;
+    float2 TextureUV    : TEXCOORD1;   // vertex texture coords 
+	float3 Tangent		: TEXCOORD2;
+	float4 WPos			: TEXCOORD3;
+	float4 ProjPos		: TEXCOORD4;
+};
+
+struct	PS_OUTPUT{
+	float4	Depth			:	SV_Target0;
+	float4	Normal			:	SV_Target1;
+	float4	Diffuse			:	SV_Target2;
+	float4	Specular		:	SV_Target3;
+	float4	SelfIllum		:	SV_Target4;
+};
+
+PS_OUTPUT main( VS_OUTPUT Input ){
+
+	PS_OUTPUT	Out;
+	float4 diff			=	DiffuseTex.Sample(SS_WrapLine2,Input.TextureUV);
+
+	float alpha	=		diffuse_opacity.w*diff.w;
+	clip(diff.w - ambient_alphatest.w);
+
+	Out.Depth			=	float4(Input.ProjPos.z/Input.ProjPos.w,0,0,alpha);
+	Out.Normal		    =	float4(normalize( Input.Normal.xyz )*0.5f+0.5f,specular_glossiness.w);
+	Out.Diffuse			=	float4(diffuse_opacity.xyz*diff.xyz,ambient_alphatest.x);
+	Out.Specular		=	float4(specular_glossiness.xyz,selfIllumColor_fresnel.w);
+	Out.SelfIllum		=	selfIllumColor_fresnel;	
+	return	Out;
+   
+}

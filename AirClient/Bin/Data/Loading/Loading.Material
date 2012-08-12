@@ -1,0 +1,6 @@
+[Material]
+FX=Fx\Screen.fx
+VeryHigh=VeryHighTechnique
+AlphaBlend=True
+[VeryHigh]
+InputTexture=Loading\Loading.jpg:Texture

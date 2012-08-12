@@ -1,0 +1,117 @@
+cbuffer cbPerCamera : register( b1 )
+{
+    matrix  ViewProjection;
+	float4	vCameraDir;
+	float4	vCameraPosition;
+	float4	vCameraUp;
+	float4	vVP_NearFar;
+   
+};
+
+cbuffer cbPerMaterial		: register( b3 )
+{
+    matrix  mViewProjectionInv;
+	matrix	mShadowViewProj;
+	matrix  mShadowViewProjInv;
+   float4	vRTSize;
+};
+
+struct VS_OUTPUT
+{
+    float4 Position     : SV_POSITION; // vertex position
+	float2 UV			: TEXCOORD0;
+};
+
+struct	PS_OUTPUT{
+	float4	Color				:	SV_Target0;
+};
+
+Texture2D	ShadowDepthTex		:	register(t0);
+Texture2D	MRTDepthTex			:	register(t1);
+Texture2D	Tex2x2				:	register(t2);
+
+SamplerState	SS_WrapLine2	:	register(s0);
+SamplerState	SS_WrapPoint2	:	register(s2);
+
+
+float2 UV_XY(float2 uv){
+	return	uv*float2(2,-2)+float2(-1,1);
+};
+#define SHADOW_SAMPLE_NUMBER 8
+
+float2 XY_UV(float2 xy){
+	return	xy*float2(0.5,-0.5)+0.5;
+};
+
+
+
+const static	float2 offset[SHADOW_SAMPLE_NUMBER]={
+
+float2(0,2),
+float2(-6,6),
+
+float2(3,3),
+float2(-7,0),
+
+float2(4,-0),
+float2(-8,-8),
+
+float2(5,-5),
+float2(-9,-9)
+
+   };
+
+
+
+
+PS_OUTPUT main( VS_OUTPUT Input ){
+
+	float2 invShadowViewport	=	vRTSize.zw;
+	float2 invMrtViewport		=	vRTSize.xy;
+
+   float2 halfPixel   =   0.5f*invShadowViewport;
+   float2   uv=   Input.UV;//+halfPixel;
+   float2	offsetuv	=	uv+halfPixel;
+   float2   xy=   UV_XY(uv);
+
+   float4   rot   =  Tex2x2.Sample(SS_WrapPoint2,uv/invMrtViewport/2);
+   rot.y = rot.y*2-1;
+
+	float4	vProjPos	=	float4(xy,0,1);
+	vProjPos.z			=	MRTDepthTex.Sample(SS_WrapLine2,Input.UV).x;
+
+	float4	vWorldPos	=	mul(mViewProjectionInv,vProjPos);
+	vWorldPos/=vWorldPos.w;
+
+	float3	L	=	vCameraDir.xyz;//normalize(float3(-1,-1,-1));	
+
+
+	float4	vShadowPos	=	mul(mShadowViewProj,vWorldPos);
+	vShadowPos/=vShadowPos.w;
+	
+	float2  oldShaodwUV	=	XY_UV(vShadowPos.xy);
+	float2	shadowUV	=	oldShaodwUV+halfPixel;
+	float	oldZ		=	ShadowDepthTex.Sample(SS_WrapLine2,oldShaodwUV).x;
+
+	float fRet   =   0;
+	for(int i=0;i<SHADOW_SAMPLE_NUMBER;i++){
+   
+      float2 off   =   lerp(offset[i].xy,float2(1,-1)*offset[i].yx,rot.x)*rot.y;
+      float2 tempuv   =   shadowUV+off*invShadowViewport*0.25f;
+      float2 xyoff   =   UV_XY(tempuv);
+      float    Oldshadowz   =  ShadowDepthTex.Sample(SS_WrapLine2,tempuv).x;
+      float4 tempshadow   =   mul(mShadowViewProjInv,float4(xyoff,Oldshadowz,1));
+      tempshadow/=tempshadow.w;
+      float3 tDir   =   normalize(tempshadow.xyz-vWorldPos.xyz);
+      //float   fShadow      = ( oldZ.z > 0)&&(oldZ.z <(Oldshadowz+0.0001));
+      fRet+=saturate(dot(tDir,L)*0.5+0.5);
+   }
+
+
+	
+
+	PS_OUTPUT	Out;
+	Out.Color						= pow(fRet/SHADOW_SAMPLE_NUMBER,1);//vShadowPos.z > 0 &&	vShadowPos.z < oldZ + 0.0001f;
+	return	Out;
+   
+}

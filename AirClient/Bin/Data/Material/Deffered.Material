@@ -1,0 +1,14 @@
+[Material]
+FX=Fx\Deffered.fx
+VeryHigh=VeryHighTechnique
+[VeryHigh]
+PositionTex=DefferedTarget0:Texture
+NormalTex=DefferedTarget1:Texture
+DiffuseTex=DefferedTarget2:Texture
+LightPosArray=LightPositionArray
+LightDiffArray=LightDiffuseArray
+EyePosition=CameraPosition
+iNumLight=1
+Ambient=Amibent
+ViewProjInv=ViewProjInvMatrix
+

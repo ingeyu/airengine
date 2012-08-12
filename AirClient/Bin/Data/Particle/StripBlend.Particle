@@ -1,0 +1,10 @@
+[Material]
+FX=Fx\Billboard.fx
+VeryHigh=BaseStrip_Blend
+AlphaBlend=True
+[VeryHigh]
+WorldViewProj=ViewProjMatrix
+TransformArray=5:MatrixArray
+DiffTex=Particle\strip.dds:Texture
+[Particle]
+Type=Strip

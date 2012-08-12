@@ -1,0 +1,34 @@
+#include "Common.hlsl9"
+
+struct VS_INPUT 
+{
+   float4 Position : POSITION0;
+   float4 Normal   : NORMAL0;
+   float2 Texcoord : TEXCOORD0;
+   
+};
+
+struct VS_OUTPUT 
+{
+   float4 Position 			: POSITION0;
+   float2 Texcoord 			: TEXCOORD0;
+   float3 WorldNormal   : TEXCOORD1;
+   float4	Depth					:	TEXCOORD2;
+   
+};
+
+
+VS_OUTPUT main( VS_INPUT Input )
+{
+   VS_OUTPUT Output;
+   
+   float4 WorldPos	= mul( Input.Position,mWorld);
+   
+   Output.Position	= mul( WorldPos,mViewProj);
+   Output.Depth		= Output.Position;
+   Output.WorldNormal 	= mul(Input.Normal.xyz,(float3x3)mWorld);
+   Output.Texcoord 	= Input.Texcoord;
+
+   return( Output );
+   
+};

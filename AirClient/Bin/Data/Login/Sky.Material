@@ -1,0 +1,8 @@
+[Material]
+FX=Fx\Sky.fx
+VeryHigh=VeryHighTechnique
+[VeryHigh]
+matViewProjection=WorldViewProjMatrix
+fvAmibent=Amibent
+vViewPosition=CameraPosition
+diffTex=Login\Sky_01_1024.dds:TextureCUBE

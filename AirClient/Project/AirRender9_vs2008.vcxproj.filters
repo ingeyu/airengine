@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Inc">
+      <UniqueIdentifier>{dd5e3643-73f8-4117-9339-5605a8e2e809}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src">
+      <UniqueIdentifier>{115ae75e-7094-4fc9-9a0b-9c92baabfa72}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\AirEnginePlugin\AirRender9\Inc\AirRender9.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirRender9\Inc\AirRenderDevice9.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirRender9\Inc\AirRenderFactory9.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirRender9\Inc\AirRenderGlobal9.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirRender9\Inc\AirRenderHeader9.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirRender9\Inc\AirRenderIndexBuff9.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirRender9\Inc\AirRenderLine9.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirRender9\Inc\AirRenderShader9.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirRender9\Inc\AirRenderStateManager9.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirRender9\Inc\AirRenderSystem9.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirRender9\Inc\AirRenderTarget9.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirRender9\Inc\AirRenderText9.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirRender9\Inc\AirRenderTexture9.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirRender9\Inc\AirRenderVertexBuff9.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirRender9\Inc\AirRenderVertexDeclarationManager9.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirRender9\Inc\AirRenderWindow9.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\AirEnginePlugin\AirRender9\Src\AirRender9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirRender9\Src\AirRenderDevice9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirRender9\Src\AirRenderFactory9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirRender9\Src\AirRenderGlobal9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirRender9\Src\AirRenderIndexBuff9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirRender9\Src\AirRenderLine9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirRender9\Src\AirRenderShader9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirRender9\Src\AirRenderStateManager9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirRender9\Src\AirRenderSystem9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirRender9\Src\AirRenderTarget9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirRender9\Src\AirRenderText9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirRender9\Src\AirRenderTexture9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirRender9\Src\AirRenderVertexBuff9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirRender9\Src\AirRenderVertexDeclarationManager9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirRender9\Src\AirRenderWindow9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

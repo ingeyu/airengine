@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Inc">
+      <UniqueIdentifier>{af6e0f48-6ff6-42d3-bd8b-6c5dc418db94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src">
+      <UniqueIdentifier>{276043ea-d6b4-4e81-8e28-c15de980153e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudio.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudioBuffer.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudioGlobal.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudioHeader.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudioOggBuffer.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudioScene.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudioSound.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudioSystem.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\AirEnginePlugin\AirAudio\Src\AirAudio.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirAudio\Src\AirAudioBuffer.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirAudio\Src\AirAudioGlobal.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirAudio\Src\AirAudioOggBuffer.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirAudio\Src\AirAudioScene.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirAudio\Src\AirAudioSound.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirAudio\Src\AirAudioSystem.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

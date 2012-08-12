@@ -1,0 +1,14 @@
+[Material]
+FX=Fx\DefferedDefault.fx
+VeryHigh=DiffSpecNorm
+[VeryHigh]
+WorldViewProjection=WorldViewProjMatrix
+World=WorldMatrix
+fvSpecular=1,1,1,16:Vector
+fvDiffuse=1,1,1,0:Vector
+DiffTex=Login\Island_S_01.jpg:Texture
+SpecTex=Login\Island_SL_02.jpg:Texture
+NormTex=Login\Island_N_01.jpg:Texture
+
+
+

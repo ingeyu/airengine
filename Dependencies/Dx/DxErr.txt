@@ -1,0 +1,129 @@
+D3DERR
+
+ 
+
+    用于返回Direct3D相关的错误信息。
+
+    下面这个列表是可以通过 Direct3D 方法返回的值的列表。返回的各值的说明请参阅列表解释中的描述。
+
+ 
+
+ 
+
+ 1 typedef enum D3DERR 2 { 3     D3DOK_NOAUTOGEN, 4     D3DERR_CONFLICTINGRENDERSTATE, 5     D3DERR_CONFLICTINGTEXTUREFILTER, 6     D3DERR_CONFLICTINGTEXTUREPALETTE, 7     D3DERR_DEVICEHUNG, 8     D3DERR_DEVICELOST, 9     D3DERR_DEVICENOTRESET,10     D3DERR_DEVICEREMOVED,11     D3DERR_DRIVERINTERNALERROR,12     D3DERR_DRIVERINVALIDCALL,13     D3DERR_INVALIDCALL,14     D3DERR_INVALIDDEVICE,15     D3DERR_MOREDATA,16     D3DERR_NOTAVAILABLE,17     D3DERR_NOTFOUND,18     D3D_OK,19     D3DERR_OUTOFVIDEOMEMORY,20     D3DERR_TOOMANYOPERATIONS,21     D3DERR_UNSUPPORTEDALPHAARG,22     D3DERR_UNSUPPORTEDALPHAOPERATION,23     D3DERR_UNSUPPORTEDCOLORARG,24     D3DERR_UNSUPPORTEDCOLOROPERATION,25     D3DERR_UNSUPPORTEDFACTORVALUE,26     D3DERR_UNSUPPORTEDTEXTUREFILTER,27     D3DERR_WASSTILLDRAWING,28     D3DERR_WRONGTEXTUREFORMAT,29     E_FAIL,30     E_INVALIDARG,31     E_INVALIDCALL,32     E_NOINTERFACE,33     E_NOTIMPL,34     E_OUTOFMEMORY,35     S_OK,36 } D3DERR, *LPD3DERR;
+ 
+
+枚举的常量：
+
+ 
+
+D3DOK_NOAUTOGEN 
+ 这是一个成功的代码。但是，这种格式不支持纹理的自动生成。这意味着资源创建将会成功，但纹理色阶将不会自动生成。 
+
+D3DERR_CONFLICTINGRENDERSTATE 
+ 与当前设置的渲染状态不能同时使用。
+  
+D3DERR_CONFLICTINGTEXTUREFILTER 
+ 与当前纹理筛选器不能同时使用。 
+ 
+D3DERR_CONFLICTINGTEXTUREPALETTE 
+ 与当前纹理不能同时使用。 
+ 
+D3DERR_DEVICEHUNG 
+ 设备返回此代码是由于操作系统重置了硬件适配器。大多数应用程序应当销毁该设备，并退出。应用程序必须继续应销毁所有视频内存对象 （表面，纹理，状态块等)，并调用 Reset() 将该设备的重置为默认状态。如果应用程序随后继续以同样的方式渲染，设备将返回此状态。 
+ 
+D3DERR_DEVICELOST 
+ 设备已经丢失，但不能在这个时候被重置。因此，渲染是不合理的。一个Direct 3D设备对象而不是这个返回的代码引起的硬件适配器被操作系统重置。删除所有视频内存对象 （表面、 纹理、 状态块），并调用 Reset() 以返回到设备默认状态。如果应用程序继续渲染而不重置，渲染调用将失败。 
+ 
+D3DERR_DEVICENOTRESET 
+ 设备已丢失，但在这个时候可以重置。 
+ 
+D3DERR_DEVICEREMOVED 
+ 硬件适配器已被删除。应用程序必须销毁该设备、 进行枚举的显卡和创建另一个 D3D 设备。如果应用程序无需调用 Reset 继续渲染，渲染调用将失败。 
+ 
+D3DERR_DRIVERINTERNALERROR 
+ 内部驱动程序错误。当收到此错误时应用程序应销毁，并重新创建该设备。调试此错误的提示请参阅驱动程序内部错误 (Direct3D 9)。
+  
+D3DERR_DRIVERINVALIDCALL 
+ 未使用。 
+ 
+D3DERR_INVALIDCALL 
+ 方法调用无效。例如一个方法的参数的无效指针。 
+
+D3DERR_INVALIDDEVICE 
+ 请求的设备类型不是有效的。 
+ 
+D3DERR_MOREDATA 
+ 可支持比指定的缓冲区大小更多的有效数据。 
+ 
+D3DERR_NOTAVAILABLE 
+ 此设备不支持查询的技术。 
+ 
+D3DERR_NOTFOUND 
+ 找不到的请求的项目。 
+ 
+D3D_OK 
+ 没有错误产生。 
+ 
+D3DERR_OUTOFVIDEOMEMORY 
+ Direct3D的没有足够的显存来执行操作。该设备使用一个场景中的更多资源不能同时容纳视频内存。IDirect3DDevice9::Present、 IDirect3DDevice9Ex::PresentEx 或 IDirect3DDevice9Ex::CheckDeviceState 可以返回此错误。恢复类似于 D3DERR_DEVICEHUNG，虽然该应用程序可能需要降低其每个帧内存使用情况，并且为了避免再发生该错误。 
+
+D3DERR_TOOMANYOPERATIONS 
+ 这个应用程序请求设备支持更多的纹理过滤操作。 
+ 
+D3DERR_UNSUPPORTEDALPHAARG 
+ 该设备不支持alpha通道中指定的纹理混合的参数。
+ 
+D3DERR_UNSUPPORTEDALPHAOPERATION 
+ 该设备不支持alpha 通道中指定的纹理混合的操作 。 
+ 
+D3DERR_UNSUPPORTEDCOLORARG 
+ 该设备不支持指定的纹理混合的颜色值的参数。
+  
+D3DERR_UNSUPPORTEDCOLOROPERATION 
+ 该设备不支持指定的纹理混合操作的颜色值。 
+ 
+D3DERR_UNSUPPORTEDFACTORVALUE 
+ 该设备不支持指定的纹理因子的值。未使用； 提供仅以支持较旧的驱动程序。 
+ 
+D3DERR_UNSUPPORTEDTEXTUREFILTER 
+ 该设备不支持指定的纹理过滤器。 
+ 
+D3DERR_WASSTILLDRAWING
+  这表明之前的位传递操作所传递的信息或表面是不完整的。
+ 
+D3DERR_WRONGTEXTUREFORMAT 
+ 纹理表面的像素格式不正确。 
+ 
+E_FAIL 
+ Direct3D子系统内发生未确定的错误。 
+ 
+E_INVALIDARG 
+ 一个无效的参数传递给该函数的返回值。 
+ 
+E_INVALIDCALL 
+ 方法调用是无效的。例如，一个方法的参数，可能有一个无效值。 
+ 
+E_NOINTERFACE 
+ 没有可用的对象接口。
+ 
+E_NOTIMPL 
+ 未执行。 
+ 
+E_OUTOFMEMORY 
+ Direct3D 无法分配足够的内存来完成调用。
+  
+S_OK 
+ 没有错误产生。 
+ 
+备注：
+ 
+错误代码是由负值表示，并且不能进行组合使用。
+其它的返回代码包含在 S_PRESENT 中。
+这段功能代码 _FACD3D 用于生成错误代码 ,如同下面的宏代码。
+
+ 
+
+ 
+
+1 // Direct3D Errors2  # define D3DERR_UNSUPPORTEDFACTORVALUE MAKE_D3DHRESULT(2079)3 # define D3DERR_WASSTILLDRAWING MAKE_D3DHRESULT(540)4 5 # define _FACD3D 0x876 / / Direct3D 设备代码6 # define MAKE_D3DHRESULT (code MAKE_HRESULT (1，_FACD3D，code7 # define MAKE_D3DSTATUS (code MAKE_HRESULT (0，_FACD3D，code)

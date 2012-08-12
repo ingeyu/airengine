@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Inc">
+      <UniqueIdentifier>{1607c4b0-9c98-404e-8447-f76a94aae662}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src">
+      <UniqueIdentifier>{254e35ec-7aaa-4b4b-9623-0be31d749396}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Zip">
+      <UniqueIdentifier>{c97123fb-eb32-4f34-bea5-914a77f93e66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ZZip">
+      <UniqueIdentifier>{4e59cfd7-de7e-429b-ade4-487d516d3128}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\AirEnginePlugin\AirResource\Inc\AirResource.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirResource\Inc\Airresource1.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirResource\Inc\AirResourceFileStream.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirResource\Inc\AirResourceFolderPackage.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirResource\Inc\AirResourceHeader.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirResource\Inc\AirResourcePackageManager.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirResource\Inc\AirResourceRarPackage.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirResource\Inc\AirResourceSystem.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirResource\Inc\AirResourceZipPackage.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\Zip\crc32.h">
+      <Filter>Zip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\Zip\deflate.h">
+      <Filter>Zip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\Zip\inffast.h">
+      <Filter>Zip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\Zip\inffixed.h">
+      <Filter>Zip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\Zip\inflate.h">
+      <Filter>Zip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\Zip\inftrees.h">
+      <Filter>Zip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\Zip\trees.h">
+      <Filter>Zip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\Zip\zconf.h">
+      <Filter>Zip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\Zip\zlib.h">
+      <Filter>Zip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\Zip\zutil.h">
+      <Filter>Zip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\ZZip\__debug.h">
+      <Filter>ZZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\ZZip\__dirent.h">
+      <Filter>ZZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\ZZip\__fnmatch.h">
+      <Filter>ZZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\ZZip\__hints.h">
+      <Filter>ZZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\ZZip\__mmap.h">
+      <Filter>ZZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\ZZip\_config.h">
+      <Filter>ZZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\ZZip\_msvc.h">
+      <Filter>ZZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\ZZip\autoconf.h">
+      <Filter>ZZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\ZZip\conf.h">
+      <Filter>ZZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\ZZip\fetch.h">
+      <Filter>ZZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\ZZip\file.h">
+      <Filter>ZZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\ZZip\format.h">
+      <Filter>ZZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\ZZip\fseeko.h">
+      <Filter>ZZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\ZZip\info.h">
+      <Filter>ZZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\ZZip\lib.h">
+      <Filter>ZZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\ZZip\memdisk.h">
+      <Filter>ZZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\ZZip\mmapped.h">
+      <Filter>ZZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\ZZip\plugin.h">
+      <Filter>ZZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\ZZip\stdint.h">
+      <Filter>ZZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\ZZip\types.h">
+      <Filter>ZZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\ZZip\write.h">
+      <Filter>ZZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\ZZip\zzip.h">
+      <Filter>ZZip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\ZZip\zzip32.h">
+      <Filter>ZZip</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\AirEnginePlugin\AirResource\Src\AirResource.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirResource\Src\AirResourceFileStream.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirResource\Src\AirResourceFolderPackage.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirResource\Src\AirResourcePackageManager.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirResource\Src\AirResourceRarPackage.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirResource\Src\AirResourceSystem.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirResource\Src\AirResourceZipPackage.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\Zip\adler32.c">
+      <Filter>Zip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\Zip\compress.c">
+      <Filter>Zip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\Zip\crc32.c">
+      <Filter>Zip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\Zip\deflate.c">
+      <Filter>Zip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\Zip\infback.c">
+      <Filter>Zip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\Zip\inffast.c">
+      <Filter>Zip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\Zip\inflate.c">
+      <Filter>Zip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\Zip\inftrees.c">
+      <Filter>Zip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\Zip\trees.c">
+      <Filter>Zip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\Zip\uncompr.c">
+      <Filter>Zip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\Zip\zutil.c">
+      <Filter>Zip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\ZZip\dir.c">
+      <Filter>ZZip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\ZZip\err.c">
+      <Filter>ZZip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\ZZip\fetch.c">
+      <Filter>ZZip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\ZZip\file.c">
+      <Filter>ZZip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\ZZip\fseeko.c">
+      <Filter>ZZip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\ZZip\info.c">
+      <Filter>ZZip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\ZZip\memdisk.c">
+      <Filter>ZZip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\ZZip\mmapped.c">
+      <Filter>ZZip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\ZZip\plugin.c">
+      <Filter>ZZip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\ZZip\stat.c">
+      <Filter>ZZip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\ZZip\write.c">
+      <Filter>ZZip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\ZZip\zip.c">
+      <Filter>ZZip</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

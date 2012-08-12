@@ -1,0 +1,562 @@
+
+//--------------------------------------------------------------//
+// Textured
+//--------------------------------------------------------------//
+//--------------------------------------------------------------//
+// Pass 0
+//--------------------------------------------------------------//
+string Textured_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Sphere.3ds";
+
+
+#define SHADOW_SIZE	1024
+
+float4x4 WorldViewProjection : ViewProjection;
+float4x4 World;
+float4x4 ShadowMatrix;
+
+float3 fvLightPosition
+<
+   string UIName = "fvLightPosition";
+   string UIWidget = "Numeric";
+   bool UIVisible =  true;
+   float UIMin = -100.00;
+   float UIMax = 100.00;
+> = float3( 30.00, -30.00, 30.00 );
+float3 fvEyePosition
+<
+   string UIName = "fvEyePosition";
+   string UIWidget = "Numeric";
+   bool UIVisible =  false;
+   float UIMin = -100.00;
+   float UIMax = 100.00;
+> = float3( 30.00, -30.00, 30.00 );
+
+struct VS_INPUT 
+{
+   float4 Position : POSITION0;
+   float4 Normal   : NORMAL0;
+   float2 Texcoord : TEXCOORD0;
+   
+};
+
+struct VS_OUTPUT 
+{
+   float4 Position : POSITION0;
+   float2 Texcoord : TEXCOORD0;
+   float4 Normal   : TEXCOORD1;
+   float3 ViewDirection :   TEXCOORD2;
+   float3 LightDirection :  TEXCOORD3;
+   float4 WorldNormal   : TEXCOORD4;
+   
+};
+
+struct CSS_OUTPUT 
+{
+   float4 Position       : POSITION0;
+   float3 LightDirection : TEXCOORD0;
+   
+};
+
+struct RSS_OUTPUT 
+{
+   float4 Position : POSITION0;
+   float2 Texcoord : TEXCOORD0;
+   float4 Normal   : TEXCOORD1;
+   float3 ViewDirection :   TEXCOORD2;
+   float3 LightDirection :  TEXCOORD3;
+   float4 WorldNormal   : TEXCOORD4;
+   float4 WorldPosition : TEXCOORD5;
+   
+};
+
+/* data from application vertex buffer */
+struct PCSS_INPUT {
+   float3 Position     : POSITION;
+   float4 UV           : TEXCOORD0;
+   float4 Normal       : NORMAL;
+};
+
+// Connector from vertex to pixel shader
+struct PCSS_OUTPUT {
+   float4 HPosition    : POSITION;
+   float2 UV           : TEXCOORD0;
+   float3 LightVec     : TEXCOORD1;
+   float3 WNormal      : TEXCOORD2;
+   float3 WView        : TEXCOORD3;
+   float4 LP           : TEXCOORD4;    // current position in light-projection space
+};
+
+
+VS_OUTPUT MainVS( VS_INPUT Input )
+{
+   VS_OUTPUT Output;
+
+   Output.Position = mul( Input.Position,WorldViewProjection);
+   //Output.Position = mul( WorldViewProjection,Input.Position );
+   Output.Normal   = mul( Input.Normal, WorldViewProjection);
+   float4 WorldPos = mul(Input.Position,World);
+   Output.WorldNormal = mul(float4(Input.Normal.xyz,0),World);
+
+   Output.ViewDirection    = fvEyePosition - WorldPos;
+   Output.LightDirection   = fvLightPosition - WorldPos;
+
+   Output.Texcoord = Input.Texcoord;
+
+   return( Output );
+   
+}
+RSS_OUTPUT ReceiveShadowVS( VS_INPUT Input )
+{
+   RSS_OUTPUT Output;
+
+   Output.Position = mul( Input.Position,WorldViewProjection);
+   //Output.Position = mul( WorldViewProjection,Input.Position );
+   Output.Normal   = mul( Input.Normal, WorldViewProjection);
+   float4 WorldPos = mul(Input.Position,World);
+   Output.WorldNormal = mul(float4(Input.Normal.xyz,0),World);
+
+   Output.ViewDirection    = fvEyePosition - WorldPos;
+   Output.LightDirection   = fvLightPosition - WorldPos;
+   Output.WorldPosition    = mul(WorldPos,ShadowMatrix);
+
+   Output.Texcoord = Input.Texcoord;
+
+   return( Output );
+   
+}
+
+PCSS_OUTPUT PCSS_VS(PCSS_INPUT IN,
+										uniform float ShadBias) {
+   PCSS_OUTPUT OUT = (PCSS_OUTPUT)0;
+   OUT.WNormal = mul(float4(IN.Normal.xyz,0),World).xyz; // world coords
+   float4 Po = float4(IN.Position.xyz,(float)1.0);     // "P" in object coordinates
+   float4 Pw = mul(Po,World);                        // "P" in world coordinates
+   float4 Pl = mul(Pw,ShadowMatrix);  // "P" in light coords
+   Pl.z -= ShadBias;	// factor in bias here to save pixel shader work
+   OUT.LP = Pl;                                                       
+// ...for pixel-shader shadow calcs
+   OUT.WView = normalize(fvEyePosition.xyz - Pw.xyz);     // world coords
+   OUT.HPosition = mul(Po,WorldViewProjection);    // screen clipspace coords
+   OUT.UV = IN.UV.xy;                                                 
+// pass-thru
+   OUT.LightVec = fvLightPosition - Pw.xyz;               // world coords
+   return OUT;
+}
+
+CSS_OUTPUT CastShadowVS( float4 Position : POSITION0 )
+{
+   CSS_OUTPUT Output;
+
+   Output.Position = mul( Position,WorldViewProjection);
+
+   float4 WorldPos = mul(Position,World);
+
+   Output.LightDirection   = float3(Output.Position.zw,0);//fvLightPosition - WorldPos;
+
+   return( Output );
+   
+}
+
+float4 fvAmbient
+<
+   string UIName = "fvAmbient";
+   string UIWidget = "Color";
+   bool UIVisible =  true;
+> = float4( 0.10, 0.10, 0.10, 1.00 );
+float4 fvSpecular
+<
+   string UIName = "fvSpecular";
+   string UIWidget = "Color";
+   bool UIVisible =  true;
+> = float4( 1.00, 1.00, 1.00, 1.00 );
+float4 fvDiffuse
+<
+   string UIName = "fvDiffuse";
+   string UIWidget = "Color";
+   bool UIVisible =  true;
+> = float4( 0.89, 0.89, 0.89, 1.00 );
+float fSpecularPower
+<
+   string UIName = "fSpecularPower";
+   string UIWidget = "Numeric";
+   bool UIVisible =  true;
+   float UIMin = 1.00;
+   float UIMax = 100.00;
+> = float( 16.00 );
+
+// Parameters for the algorithm
+
+float gLightSize <
+   string UIWidget = "slider";
+   float UIMin = 0.010;
+   float UIMax = 0.100;
+   float UIStep = 0.001;
+   string UIName = "Light Size";
+> = 0.02f;
+
+float gShadBias <
+   string UIWidget = "slider";
+   float UIMin = 0.0;
+   float UIMax = 10.3;
+   float UIStep = 0.0001;
+   string UIName = "Shadow Bias";
+> = 2;
+
+float gSceneScale <
+   string UIWidget = "slider";
+   float UIMin = 0.1;
+   float UIMax = 100.0;
+   float UIStep = 0.1;
+   string UIName = "Near Plane Factor";
+> = 10.0f;
+
+
+texture DiffuseTexture
+<
+   string ResourceName = "..\\..\\..\\..\\..\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Textures\\Fieldstone.tga";
+>;
+sampler2D DiffMap = sampler_state
+{
+   Texture = (DiffuseTexture);
+   ADDRESSU = WRAP;
+   ADDRESSV = WRAP;
+   MinFilter = Linear;
+   MagFilter = Linear;
+   MipFilter = Linear;
+};
+
+texture ShadowTexture
+<
+   string ResourceName = "..\\..\\..\\..\\..\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Textures\\Fieldstone.tga";
+>;
+sampler2D ShadowMap = sampler_state
+{
+   Texture = (ShadowTexture);
+   ADDRESSU = Border;
+   ADDRESSV = Border;
+};
+
+
+
+float4 MainPS( VS_OUTPUT Input ) : COLOR0
+{
+   //return tex2D( DiffMap, Input.Texcoord );
+
+   float3 fvLightDirection = normalize( Input.LightDirection );
+   float3 fvNormal         = normalize( Input.WorldNormal );
+   float  fNDotL           = saturate(dot( fvNormal, fvLightDirection )); 
+   
+   float3 fvReflection     = normalize( ( ( 2.0f * fvNormal ) * ( fNDotL ) ) - fvLightDirection ); 
+   float3 fvViewDirection  = normalize( Input.ViewDirection );
+   float  fRDotV           = max( 0.0f, dot( fvReflection, fvViewDirection ) );
+   
+   float4 fvBaseColor      = tex2D( DiffMap, Input.Texcoord );
+   
+   float4 fvTotalAmbient   = fvAmbient * fvBaseColor; 
+   float4 fvTotalDiffuse   = fvDiffuse * fNDotL * fvBaseColor; 
+   float4 fvTotalSpecular  = fvSpecular * pow( fRDotV, fSpecularPower );
+   
+   return ( saturate( fvTotalAmbient + fvTotalDiffuse + fvTotalSpecular ) );
+   
+}
+
+float4 ReceiveShadowPS( RSS_OUTPUT Input ) : COLOR0
+{
+   //return tex2D( DiffMap, Input.Texcoord );
+
+   float3 fvLightDirection = normalize( Input.LightDirection );
+   float3 fvNormal         = normalize( Input.WorldNormal );
+   float  fNDotL           = saturate(dot( fvNormal, fvLightDirection )); 
+   
+   float3 fvReflection     = normalize( ( ( 2.0f * fvNormal ) * ( fNDotL ) ) - fvLightDirection ); 
+   float3 fvViewDirection  = normalize( Input.ViewDirection );
+   float  fRDotV           = max( 0.0f, dot( fvReflection, fvViewDirection ) );
+   
+   float4 fvBaseColor      = tex2D( DiffMap, Input.Texcoord );
+   
+   float4 fvTotalAmbient   = fvAmbient * fvBaseColor; 
+   float4 fvTotalDiffuse   = fvDiffuse * fNDotL * fvBaseColor; 
+   float4 fvTotalSpecular  = fvSpecular * pow( fRDotV, fSpecularPower );
+   
+   
+   float4 ShadowUV	       = Input.WorldPosition;//mul(Input.WorldPosition,ShadowMatrix);
+   float2 ShadowTexC 			 = 0.5 * ShadowUV.xy / ShadowUV.w + float2( 0.5, 0.5 );
+   ShadowTexC.y = 1.0f - ShadowTexC.y;
+   float  depth            = tex2D(ShadowMap,ShadowTexC).x;
+		float fShadow = 0.5f;
+   if((depth + 0.00001f)> ShadowUV.z/ShadowUV.w)
+		fShadow	=	1.0f;
+
+	return fShadow*( saturate( fvTotalAmbient + fvTotalDiffuse + fvTotalSpecular ) );
+  
+}
+
+
+// -------------------------------------
+// STEP 1: Search for potential blockers
+// -------------------------------------
+float findBlocker(float2 uv,
+		float4 LP,
+		uniform sampler2D ShadowMap,
+		uniform float bias,
+		float searchWidth,
+		float numSamples)
+{
+        // divide filter width by number of samples to use
+        float stepSize = 2 * searchWidth / numSamples;
+
+        // compute starting point uv coordinates for search
+        uv = uv - float2(searchWidth, searchWidth);
+
+        // reset sum to zero
+        float blockerSum = 0;
+        float receiver = LP.z;
+        float blockerCount = 0;
+        float foundBlocker = 0;
+
+        // iterate through search region and add up depth values
+        for (int i=0; i<numSamples; i++) {
+               for (int j=0; j<numSamples; j++) {
+                       float shadMapDepth = tex2D(ShadowMap, uv +
+                                                 float2(i*stepSize,j*stepSize)).x;
+                       // found a blocker
+                       if (shadMapDepth < receiver) {
+                               blockerSum += shadMapDepth;
+                               blockerCount++;
+                               foundBlocker = 1;
+                       }
+               }
+        }
+
+		float result;
+		
+		if (foundBlocker == 0) {
+			// set it to a unique number so we can check
+			// later to see if there was no blocker
+			result = 999;
+		}
+		else {
+		    // return average depth of the blockers
+			result = blockerSum / blockerCount;
+		}
+		
+		return result;
+}
+
+// ------------------------------------------------
+// STEP 2: Estimate penumbra based on
+// blocker estimate, receiver depth, and light size
+// ------------------------------------------------
+float estimatePenumbra(float4 LP,
+			float Blocker,
+			uniform float LightSize)
+{
+       // receiver depth
+       float receiver = LP.z;
+       // estimate penumbra using parallel planes approximation
+       float penumbra = (receiver - Blocker) * LightSize / Blocker;
+       return penumbra;
+}
+
+// ----------------------------------------------------
+// Step 3: Percentage-closer filter implementation with
+// variable filter width and number of samples.
+// This assumes a square filter with the same number of
+// horizontal and vertical samples.
+// ----------------------------------------------------
+
+float PCF_Filter(float2 uv, float4 LP, uniform sampler2D ShadowMap, 
+                uniform float bias, float filterWidth, float numSamples)
+{
+       // compute step size for iterating through the kernel
+       float stepSize = 2 * filterWidth / numSamples;
+
+       // compute uv coordinates for upper-left corner of the kernel
+       uv = uv - float2(filterWidth,filterWidth);
+
+       float sum = 0;  // sum of successful depth tests
+
+       // now iterate through the kernel and filter
+       for (int i=0; i<numSamples; i++) {
+               for (int j=0; j<numSamples; j++) {
+                       // get depth at current texel of the shadow map
+                       float shadMapDepth = 0;
+                       
+                       shadMapDepth = tex2D(ShadowMap, uv +
+                                            float2(i*stepSize,j*stepSize)).x;
+
+                       // test if the depth in the shadow map is closer than
+                       // the eye-view point
+                       float shad = LP.z < shadMapDepth;
+
+                       // accumulate result
+                       sum += shad;
+               }
+       }
+       
+       // return average of the samples
+       return sum / (numSamples*numSamples);
+
+}
+
+float4 PCSS_PS(PCSS_OUTPUT IN,
+       uniform float LightSize,
+       uniform float SceneScale,
+       uniform float ShadBias,
+       uniform float Kd,
+       uniform float3 SurfColor,
+       uniform sampler2D ShadSampler,
+       uniform sampler2D FloorSampler) : COLOR
+{
+   // Generic lighting code 
+   float3 Nn = normalize(IN.WNormal);
+   float3 Vn = normalize(IN.WView);
+   float3 Ln = normalize(IN.LightVec);
+   
+
+   float  fNDotL           = saturate(dot( Ln, Nn )); 
+   
+   float3 fvReflection     = normalize( ( ( 2.0f * Nn ) * ( fNDotL ) ) - Ln ); 
+   float3 fvViewDirection  = normalize( Vn );
+   float  fRDotV           = max( 0.0f, dot( fvReflection, fvViewDirection ) );
+   
+   float3 floorColor = tex2D(FloorSampler, IN.UV).rgb;
+   
+   float3 fvTotalAmbient   = fvAmbient * floorColor; 
+   float3 fvTotalDiffuse   = fvDiffuse * fNDotL * floorColor; 
+   float3 fvTotalSpecular  = fvSpecular * pow( fRDotV, fSpecularPower );
+   
+   
+   // float3 result = diffContrib;
+   
+   // The soft shadow algorithm follows:
+
+   // Compute uv coordinates for the point being shaded
+   // Saves some future recomputation.
+   float2 uv = float2(.5,-.5)*(IN.LP.xy)/IN.LP.w + float2(.5,.5);
+
+   // ---------------------------------------------------------
+   // Step 1: Find blocker estimate
+   float searchSamples = 6;   // how many samples to use for blocker search
+   float zReceiver = IN.LP.z;
+   float searchWidth = SceneScale * (zReceiver - 1.0) / zReceiver;
+   float blocker = findBlocker(uv, IN.LP, ShadSampler, ShadBias,
+                              SceneScale * LightSize / IN.LP.z, searchSamples);
+   
+   //return (blocker*0.3);  // uncomment to visualize blockers
+   
+   // ---------------------------------------------------------
+   // Step 2: Estimate penumbra using parallel planes approximation
+   float penumbra;  
+   penumbra = estimatePenumbra(IN.LP, blocker, LightSize);
+
+   //return penumbra*32;  // uncomment to visualize penumbrae
+
+   // ---------------------------------------------------------
+   // Step 3: Compute percentage-closer filter
+   // based on penumbra estimate
+   float samples = 8;	// reduce this for higher performance
+
+   // Now do a penumbra-based percentage-closer filter
+   float shadowed; 
+
+   shadowed = PCF_Filter(uv, IN.LP, ShadSampler, ShadBias, penumbra, samples);
+   
+   // If no blocker was found, just return 1.0
+   // since the point isn't occluded
+   
+   if (blocker > 998) 
+   		shadowed = 1.0;
+
+   // Visualize lighting and shadows
+   
+   
+   //return floorColor;
+   //return shadowed;
+
+   
+   return float4(fvTotalAmbient+(fvTotalDiffuse+fvTotalSpecular)*shadowed,1);
+}
+
+float4 ShowNormalPS( VS_OUTPUT Input ) : COLOR0
+{
+	float3 normal = Input.WorldNormal;
+	normalize(normal);
+	return float4(normal,1);
+}
+
+float4 CastShadowPS( CSS_OUTPUT Input ) : COLOR0
+{
+	float3 dir	=	Input.LightDirection;
+	return	float4(dir.xxx,1);//dir.x/dir.y;//float4(dir.xxx,1);///dir.y/100;//length(dir);
+}
+
+//--------------------------------------------------------------//
+// Technique Section for Textured
+//--------------------------------------------------------------//
+technique VeryHighTechnique
+{
+   pass Pass_0
+   {
+	CULLMODE = NONE;
+      VertexShader = compile vs_2_0 MainVS();
+      PixelShader = compile ps_2_0 MainPS();
+   }
+
+}
+technique VeryHighReceiveShadow
+{
+   pass Pass_0
+   {
+	CULLMODE = NONE;
+      VertexShader = compile vs_2_0 ReceiveShadowVS();
+      PixelShader = compile ps_2_0 ReceiveShadowPS();
+   }
+
+}
+technique CastShadowTechnique
+{
+   pass Pass_0
+   {
+		ZEnable = true;
+		ZWriteEnable = true;
+		ZFunc = LessEqual;
+		AlphaBlendEnable = false;
+		CullMode = None;
+      VertexShader = compile vs_2_0 CastShadowVS();
+      PixelShader = compile ps_2_0 CastShadowPS();
+   }
+
+}
+
+technique PCSS
+{
+	pass
+	{
+		ZEnable = true;
+		ZWriteEnable = true;
+		ZFunc = LessEqual;
+		AlphaBlendEnable = false;
+		//CullMode = None;
+		   VertexShader = compile vs_3_0 PCSS_VS(gShadBias);
+		   PixelShader = compile ps_3_0 PCSS_PS(
+					       gLightSize,
+					       gSceneScale,
+					       gShadBias,
+					       1.0f,
+					       fvDiffuse,
+					       ShadowMap,
+					       DiffMap
+					       );
+	}
+}
+technique ShowNormal
+{
+   pass Pass_0
+   {
+	//CULLMODE = NONE;
+      VertexShader = compile vs_2_0 MainVS();
+      PixelShader = compile ps_2_0 ShowNormalPS();
+   }
+
+}

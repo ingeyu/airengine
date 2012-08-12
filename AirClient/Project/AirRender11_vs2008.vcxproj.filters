@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Inc">
+      <UniqueIdentifier>{dd5e3643-73f8-4117-9339-5605a8e2e809}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src">
+      <UniqueIdentifier>{115ae75e-7094-4fc9-9a0b-9c92baabfa72}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\AirEnginePlugin\AirRender11\Inc\AirRender11.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirRender11\Inc\AirRenderGlobal11.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirRender11\Inc\AirRenderHeader11.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirRender11\Inc\AirRenderDevice11.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirRender11\Inc\AirRenderWindow11.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirRender11\Inc\AirRenderShader11.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirRender11\Inc\AirRenderTexture11.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirRender11\Inc\AirRenderBuffer11.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirRender11\Inc\AirRenderVertexDeclare11.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirRender11\Inc\AirRenderState11.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEnginePlugin\AirRender11\Inc\AirRenderTarget11.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\AirEnginePlugin\AirRender11\Src\AirRender11.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirRender11\Src\AirRenderBuffer11.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirRender11\Src\AirRenderDevice11.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirRender11\Src\AirRenderGlobal11.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirRender11\Src\AirRenderShader11.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirRender11\Src\AirRenderState11.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirRender11\Src\AirRenderTarget11.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirRender11\Src\AirRenderTexture11.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirRender11\Src\AirRenderVertexDeclare11.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEnginePlugin\AirRender11\Src\AirRenderWindow11.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

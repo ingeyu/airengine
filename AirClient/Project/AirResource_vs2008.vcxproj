@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Develop|Win32">
+      <Configuration>Develop</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>AirResource</ProjectName>
+    <ProjectGuid>{85E5B072-BE62-4B4F-BB80-9CA405A9ABC7}</ProjectGuid>
+    <RootNamespace>Resource</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\Build\$(TargetName)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\Build\$(TargetName)\$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'">$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'">true</LinkIncremental>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\AirEnginePlugin\AirResource\Inc;..\..\AirCommon\Inc;..\AirEngine\Inc;..\..\Dependencies\Package;..\..\Dependencies;..\..\Dependencies\Zip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;RESOURCE_IMPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>Package.lib;AirCommon.lib;AirEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\Bin\$(Configuration)\$(ProjectName).dll</OutputFile>
+      <AdditionalLibraryDirectories>..\..\Dependencies\Package\$(Configuration);..\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <ImportLibrary>..\Lib\$(Configuration)\$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\..\Common;..\Engine;..\..\Dependencies\Package;..\..\Dependencies;..\..\Dependencies\Zip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;RESOURCE_IMPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>Package.lib;Engine.lib;Common.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\Bin\$(Configuration)\$(ProjectName).dll</OutputFile>
+      <AdditionalLibraryDirectories>..\..\Dependencies\Package\$(Configuration);..\..\Lib\$(Configuration);..\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <ImportLibrary>..\Lib\$(Configuration)\$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\AirEnginePlugin\AirResource\Inc;..\..\AirCommon\Inc;..\AirEngine\Inc;..\..\Dependencies\Package;..\..\Dependencies;..\..\Dependencies\Zip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;RESOURCE_IMPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>Package.lib;AirCommon.lib;AirEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\Bin\$(Configuration)\$(ProjectName).dll</OutputFile>
+      <AdditionalLibraryDirectories>..\..\Dependencies\Package\$(Configuration);..\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <ImportLibrary>..\Lib\$(Configuration)\$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\AirEnginePlugin\AirResource\Inc\AirResource.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirResource\Inc\Airresource1.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirResource\Inc\AirResourceFileStream.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirResource\Inc\AirResourceFolderPackage.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirResource\Inc\AirResourceHeader.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirResource\Inc\AirResourcePackageManager.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirResource\Inc\AirResourceRarPackage.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirResource\Inc\AirResourceSystem.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirResource\Inc\AirResourceZipPackage.h" />
+    <ClInclude Include="..\..\Dependencies\Zip\crc32.h" />
+    <ClInclude Include="..\..\Dependencies\Zip\deflate.h" />
+    <ClInclude Include="..\..\Dependencies\Zip\inffast.h" />
+    <ClInclude Include="..\..\Dependencies\Zip\inffixed.h" />
+    <ClInclude Include="..\..\Dependencies\Zip\inflate.h" />
+    <ClInclude Include="..\..\Dependencies\Zip\inftrees.h" />
+    <ClInclude Include="..\..\Dependencies\Zip\trees.h" />
+    <ClInclude Include="..\..\Dependencies\Zip\zconf.h" />
+    <ClInclude Include="..\..\Dependencies\Zip\zlib.h" />
+    <ClInclude Include="..\..\Dependencies\Zip\zutil.h" />
+    <ClInclude Include="..\..\Dependencies\ZZip\__debug.h" />
+    <ClInclude Include="..\..\Dependencies\ZZip\__dirent.h" />
+    <ClInclude Include="..\..\Dependencies\ZZip\__fnmatch.h" />
+    <ClInclude Include="..\..\Dependencies\ZZip\__hints.h" />
+    <ClInclude Include="..\..\Dependencies\ZZip\__mmap.h" />
+    <ClInclude Include="..\..\Dependencies\ZZip\_config.h" />
+    <ClInclude Include="..\..\Dependencies\ZZip\_msvc.h" />
+    <ClInclude Include="..\..\Dependencies\ZZip\autoconf.h" />
+    <ClInclude Include="..\..\Dependencies\ZZip\conf.h" />
+    <ClInclude Include="..\..\Dependencies\ZZip\fetch.h" />
+    <ClInclude Include="..\..\Dependencies\ZZip\file.h" />
+    <ClInclude Include="..\..\Dependencies\ZZip\format.h" />
+    <ClInclude Include="..\..\Dependencies\ZZip\fseeko.h" />
+    <ClInclude Include="..\..\Dependencies\ZZip\info.h" />
+    <ClInclude Include="..\..\Dependencies\ZZip\lib.h" />
+    <ClInclude Include="..\..\Dependencies\ZZip\memdisk.h" />
+    <ClInclude Include="..\..\Dependencies\ZZip\mmapped.h" />
+    <ClInclude Include="..\..\Dependencies\ZZip\plugin.h" />
+    <ClInclude Include="..\..\Dependencies\ZZip\stdint.h" />
+    <ClInclude Include="..\..\Dependencies\ZZip\types.h" />
+    <ClInclude Include="..\..\Dependencies\ZZip\write.h" />
+    <ClInclude Include="..\..\Dependencies\ZZip\zzip.h" />
+    <ClInclude Include="..\..\Dependencies\ZZip\zzip32.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\AirEnginePlugin\AirResource\Src\AirResource.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirResource\Src\AirResourceFileStream.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirResource\Src\AirResourceFolderPackage.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirResource\Src\AirResourcePackageManager.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirResource\Src\AirResourceRarPackage.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirResource\Src\AirResourceSystem.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirResource\Src\AirResourceZipPackage.cpp" />
+    <ClCompile Include="..\..\Dependencies\Zip\adler32.c" />
+    <ClCompile Include="..\..\Dependencies\Zip\compress.c" />
+    <ClCompile Include="..\..\Dependencies\Zip\crc32.c" />
+    <ClCompile Include="..\..\Dependencies\Zip\deflate.c" />
+    <ClCompile Include="..\..\Dependencies\Zip\infback.c" />
+    <ClCompile Include="..\..\Dependencies\Zip\inffast.c" />
+    <ClCompile Include="..\..\Dependencies\Zip\inflate.c" />
+    <ClCompile Include="..\..\Dependencies\Zip\inftrees.c" />
+    <ClCompile Include="..\..\Dependencies\Zip\trees.c" />
+    <ClCompile Include="..\..\Dependencies\Zip\uncompr.c" />
+    <ClCompile Include="..\..\Dependencies\Zip\zutil.c" />
+    <ClCompile Include="..\..\Dependencies\ZZip\dir.c" />
+    <ClCompile Include="..\..\Dependencies\ZZip\err.c" />
+    <ClCompile Include="..\..\Dependencies\ZZip\fetch.c" />
+    <ClCompile Include="..\..\Dependencies\ZZip\file.c" />
+    <ClCompile Include="..\..\Dependencies\ZZip\fseeko.c" />
+    <ClCompile Include="..\..\Dependencies\ZZip\info.c" />
+    <ClCompile Include="..\..\Dependencies\ZZip\memdisk.c" />
+    <ClCompile Include="..\..\Dependencies\ZZip\mmapped.c" />
+    <ClCompile Include="..\..\Dependencies\ZZip\plugin.c" />
+    <ClCompile Include="..\..\Dependencies\ZZip\stat.c" />
+    <ClCompile Include="..\..\Dependencies\ZZip\write.c" />
+    <ClCompile Include="..\..\Dependencies\ZZip\zip.c" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

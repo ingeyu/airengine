@@ -1,0 +1,39 @@
+//	Shader	Param	Infomation
+//
+//	0		Diffuse
+//	1		Specular
+//
+float4	Param[2]	:	register(c0);
+
+
+
+struct VS_OUTPUT 
+{
+   float4 Position 			: POSITION0;
+   float2 Texcoord 			: TEXCOORD0;
+   float4 WorldNormal   : TEXCOORD1;
+   float4	Depth					:	TEXCOORD2;
+   
+};
+
+
+sampler	DiffMap: register(s0);
+
+struct	PS_OUTPUT{
+	float4	Depth				:	COLOR0;
+	float4	WorldNormal	:	COLOR1;
+	float4	Diffuse			:	COLOR2;
+};
+
+PS_OUTPUT MainPS( VS_OUTPUT Input ){
+
+	PS_OUTPUT	Out;
+	
+	float4	fvColor					=	tex2D(DiffMap,Input.Texcoord);
+	
+	Out.Depth								=	float4(Input.Depth.z/Input.Depth.w,0,0,1);
+  Out.WorldNormal         = float4(normalize( Input.WorldNormal.xyz )*0.5f+0.5f,Param[0].x);
+  Out.Diffuse							=	Param[1]*float4(fvColor.xyz,1);
+  return	Out;
+}
+

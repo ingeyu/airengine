@@ -1,0 +1,9 @@
+[Material]
+FX=Fx\Billboard.fx
+VeryHigh=BaseStrip
+[VeryHigh]
+WorldViewProj=ViewProjMatrix
+TransformArray=5:MatrixArray
+DiffTex=Particle\flare.png:Texture
+[Particle]
+Type=Strip

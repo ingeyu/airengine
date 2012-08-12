@@ -1,0 +1,26 @@
+#define	Float4	float4
+#define	Float44	float4x4
+
+Float4	vTime				:	register(c0);	///<	x=totaltime t=sin(x) z=cos(x) w= frac(time/(3600*24))
+Float4	vAmbient			:	register(c1);
+Float4	vFog				:	register(c2);
+Float4	vSunDir				:	register(c3);
+Float4	vSunDiffuse			:	register(c4);
+Float4	vSunSpec			:	register(c5);
+
+Float44	mViewProj			:	register(c6);
+Float4	vCameraPosition			:	register(c10);
+Float4	vCameraDir			:	register(c11);
+Float4	vCameraUp			:	register(c12);
+Float4	vCameraRight			:	register(c13);
+Float4	vVP_NearFar			:	register(c14);
+
+Float44	mWorld				:	register(c15);
+
+Float4	vObjEmissive			:	register(c19);		///<	xyz	=	Emissivs
+Float4	vObjAmbient			:	register(c20);		///<	xyz	=	Ambient		w	=	sss
+Float4	vObjDiffuse			:	register(c21);		///<	xyz	=	Diffuse		w	=	alphaValue	
+Float4	vObjSpec_Power			:	register(c22);		///<	xyz =	Specular	w	=	power
+Float4	vObjFresnel			:	register(c23);		///<	xyz	=	·ÆÄù¶ûÏµÊý
+
+Float4	vBone[225];

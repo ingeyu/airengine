@@ -1,0 +1,257 @@
+#define MAXBONES 80
+
+	// Support up to 24 bones of float3x4
+	// vs_1_1 only supports 96 params so more than this is not feasible
+	float4x4 viewProjectionMatrix;
+	float4x4 World;
+	
+		//light
+	float4	LightPos	=	float4(400,400,-400,1);
+	float4	LightDiff	=	float4(1,1,1,1);
+	float4	EyePos		=	float4(100,200,250,1);
+	float4	Ambient		=	float4(0.5,0.5,0.5,1);
+	
+	float4	vDiffuse	=	float4(1,1,1,1);
+	float4	vSpecular	=	float4(1,1,1,64);
+	
+	//float4x3 worldMatrix3x4Array[MAXBONES]:register (c0);
+Texture2D Bone;
+
+matrix GetBoneMatrix(int idx){
+	float4 v[4];
+	v[0]	=	Bone.Load(float3((idx*4)			,0,0));
+	v[1]	=	Bone.Load(float3((idx*4 + 1)	,0,0));
+	v[2]	=	Bone.Load(float3((idx*4 + 2)	,0,0));
+	v[3]	=	Bone.Load(float3((idx*4 + 3)	,0,0));
+	
+	return float4x4(v[0],v[1],v[2],v[3]);
+};
+
+struct VS_INPUT{
+	float4 Position		: POSITION;
+	float4 Normal			: NORMAL;
+	float2 Texcoord		: TEXCOORD0;
+	float4 blendWgt		: WEIGHTS;
+	float4 blendIdx		: BONES;
+	float3 Tan 				: TANGENT;
+};
+
+struct	VS_OUTPUT{
+	float4 oPosition 	: SV_POSITION;
+	float3 oNormal		:	NORMAL;
+	float3 oTan				:	TANGENT;
+	float2 oUV				: TEXCOORD0;
+	float4 oWPosition	:	TEXCOORD1;
+};
+
+/*
+  Four-weight-per-vertex hardware skinning, 2 lights
+  The trouble with vertex programs is they're not general purpose, but
+  fixed function hardware skinning is very poorly supported
+*/
+VS_OUTPUT MainVS(VS_INPUT	Input)
+{
+		VS_OUTPUT	Output;
+
+	float4 	idx						=	Input.blendIdx;
+	float4	weight				=	Input.blendWgt;
+	float4	pos						=	Input.Position;
+	float4	InitNormal		=	Input.Normal;
+	float3	InitTangent		=	Input.Tan;
+	
+	matrix	boneMatrix[4];
+	boneMatrix[0]	=	GetBoneMatrix(idx[0]);
+	boneMatrix[1]	=	GetBoneMatrix(idx[1]);
+	boneMatrix[2]	=	GetBoneMatrix(idx[2]);
+	boneMatrix[3]	=	GetBoneMatrix(idx[3]);
+	
+		//position
+		float4 blendPos = float4(0,0,0,0);
+		blendPos += float4(mul(Input.Position,boneMatrix[0]).xyz,1.0f)* weight[0];
+ 		blendPos += float4(mul(Input.Position,boneMatrix[1]).xyz,1.0f)* weight[1];
+ 		blendPos += float4(mul(Input.Position,boneMatrix[2]).xyz,1.0f)* weight[2];
+ 		blendPos += float4(mul(Input.Position,boneMatrix[3]).xyz,1.0f)* weight[3];
+
+		//normal
+		float3 norm = float3(0,0,0);
+		norm += mul(InitNormal.xyz,(float3x3)boneMatrix[0]) * weight[0];
+		norm += mul(InitNormal.xyz,(float3x3)boneMatrix[1]) * weight[1];
+		norm += mul(InitNormal.xyz,(float3x3)boneMatrix[2]) * weight[2];
+		norm += mul(InitNormal.xyz,(float3x3)boneMatrix[3]) * weight[3];
+		//norm = normalize(norm);
+		
+		//tangent
+		float3	tangent	=	float3(0,0,0);
+		tangent += mul(InitTangent.xyz,(float3x3)boneMatrix[0]) * weight[0];
+		tangent += mul(InitTangent.xyz,(float3x3)boneMatrix[1]) * weight[1];
+		tangent += mul(InitTangent.xyz,(float3x3)boneMatrix[2]) * weight[2];
+		tangent += mul(InitTangent.xyz,(float3x3)boneMatrix[3]) * weight[3];
+		
+	float4 tPos				=	mul(blendPos.xzyw,World);
+	Output.oPosition 	= mul(tPos,viewProjectionMatrix);
+	Output.oUV 				= Input.Texcoord;
+	Output.oNormal		=	normalize(mul(norm.xzy,(float3x3)World));
+	Output.oTan				=	normalize(mul(tangent.xzy,(float3x3)World));
+	Output.oWPosition	=	tPos;
+	return	Output;
+	
+};
+
+
+Texture2D Diff
+<
+    string ResourceName = "Default_color.dds";
+    string UIName =  "Âþ·´ÉäÎÆÀí";
+    string ResourceType = "2D";
+>;
+
+SamplerState diffState
+{
+    Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = BORDER;
+    AddressV = BORDER;
+};
+
+Texture2D Norm;
+
+
+float4 MainPS(VS_OUTPUT Input):SV_Target
+{
+	float4	InputSpec				=	float4(vSpecular.xyz,1);
+	float		InputSpecPower	=	vSpecular.w;
+	
+	float4	DiffColor					=	Diff.Sample( diffState,Input.oUV);
+
+	float3	LightDir	=	normalize(LightPos.xyz	-	Input.oWPosition.xyz);
+	float3	EyeDir		=	normalize(EyePos.xyz		-	Input.oWPosition.xyz);
+	
+	//diffuse lighting
+	float4 	Diffuse = saturate( dot( LightDir, Input.oNormal ) )*LightDiff;
+
+  // Calculate specular power
+  float3 	halfAngle = normalize( EyeDir + LightDir );
+  float4 	spec 			= pow( saturate(dot( halfAngle, Input.oNormal )), InputSpecPower );
+  float4	Specular	=	spec*LightDiff*DiffColor.w;
+  
+  
+  // Return combined lighting
+  return (Ambient	+	Diffuse*vDiffuse + Specular*InputSpec)*DiffColor;
+
+};
+
+float4 MainPS_Normal(	VS_OUTPUT Input):SV_Target
+{
+	float4	InputSpec				=	float4(vSpecular.xyz,1);
+	float		InputSpecPower	=	vSpecular.w;
+	
+	float4	DiffColor					=	Diff.Sample( diffState,Input.oUV);
+	
+	float3	LightDir	=	normalize(LightPos.xyz	-	Input.oWPosition.xyz);
+	float3	EyeDir		=	normalize(EyePos.xyz		-	Input.oWPosition.xyz);
+	
+	float4	NorColor	=	Norm.Sample( diffState,Input.oUV);
+	NorColor					=	NorColor*2	-	1;
+	
+	float3 	BiNorm 		= normalize( cross( Input.oNormal, Input.oTan ) );
+  float3x3 BTNMatrix = float3x3( BiNorm, Input.oTan, Input.oNormal );
+  float3	FinalNorm = normalize( mul( NorColor.xyz, BTNMatrix ) ); //world space bump
+	
+	//diffuse lighting
+	float4 	Diffuse = saturate( dot( LightDir, FinalNorm ) )*LightDiff;
+
+  // Calculate specular power
+  float3 	halfAngle = normalize( EyeDir + LightDir );
+  float4 	spec 			= pow( saturate(dot( halfAngle, FinalNorm )), InputSpecPower );
+  float4	Specular	=	spec*LightDiff;
+  
+  
+  // Return combined lighting
+  return (Ambient	+	Diffuse*vDiffuse + Specular*InputSpec)*DiffColor;
+};
+
+RasterizerState CullNone
+{
+	CullMode = NONE;
+	MultisampleEnable = TRUE;
+};
+RasterizerState CullBack
+{
+	CullMode = BACK;
+	MultisampleEnable = TRUE;
+};
+
+BlendState QuadAlphaBlendState
+{
+    AlphaToCoverageEnable = TRUE;
+    BlendEnable[0]				=	FALSE;
+    RenderTargetWriteMask[0] = 0x0f;
+};
+
+BlendState AdditiveBlending
+{
+    AlphaToCoverageEnable = FALSE;
+    BlendEnable[0] = TRUE;
+    SrcBlend = SRC_ALPHA;
+    DestBlend = INV_SRC_ALPHA;
+    BlendOp = ADD;
+    SrcBlendAlpha = ZERO;
+    DestBlendAlpha = ZERO;
+    BlendOpAlpha = ADD;
+    RenderTargetWriteMask[0] = 0x0F;
+};
+DepthStencilState DisableDepthTestWrite
+{
+    DepthEnable = TRUE;
+    DepthWriteMask = ZERO;
+    
+};
+
+DepthStencilState EnableDepthTestWrite
+{
+    DepthEnable = TRUE;
+    DepthWriteMask = ALL;
+};
+
+technique10 AlphaTechnique
+{
+	pass p0
+	{
+        SetVertexShader( CompileShader( vs_4_0, MainVS() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, MainPS() ) );
+        
+        SetRasterizerState(CullNone);
+        SetBlendState( QuadAlphaBlendState, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );
+        SetDepthStencilState(EnableDepthTestWrite,0);
+	}
+}
+
+technique10 AlphaNormalTechnique
+{
+	pass p0
+	{
+        SetVertexShader( CompileShader( vs_4_0, MainVS() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, MainPS_Normal() ) );
+        
+        SetRasterizerState(CullNone);
+        SetBlendState( QuadAlphaBlendState, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );
+        SetDepthStencilState(EnableDepthTestWrite,0);
+	}
+}
+
+technique10 AlphaNormalTechnique_CB
+{
+	pass p0
+	{
+        SetVertexShader( CompileShader( vs_4_0, MainVS() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, MainPS_Normal() ) );
+        
+        SetRasterizerState(CullBack);
+        SetBlendState( QuadAlphaBlendState, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );
+        SetDepthStencilState(EnableDepthTestWrite,0);
+	}
+}
+
+

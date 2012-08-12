@@ -1,0 +1,146 @@
+//延迟作色的FX文件
+
+struct	VS_INPUT{
+	float4 Position	:	POSITION;
+};
+
+struct	VS_OUTPUT{
+	float4 Position	:	SV_POSITION;
+	float2 UV				:	TEXCOORD0;
+};
+
+VS_OUTPUT	MainVS(VS_INPUT Input){
+	VS_OUTPUT	Output;
+	Output.Position	=	float4(Input.Position.xy,0.0f,1.0f);
+	float2 uv   	= sign( Input.Position);
+	Output.UV 	= (float2(uv.x, -uv.y) + 1.0f)/2.0f;
+	return	Output;
+};
+
+
+Texture2D	PositionTex;	//位置
+Texture2D	NormalTex;		//法线XYZ		高光强度W
+Texture2D	DiffuseTex;		//漫反射XYZ	自发光W	
+
+
+SamplerState diffState
+{
+    Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = WRAP;
+    AddressV = WRAP;
+};
+
+//灯光位置	
+float4	LightPosArray[50];
+//灯光漫反射
+float4	LightDiffArray[50];
+//眼睛位置
+float4	EyePosition;
+//灯光数量
+int			iNumLight	=	2;	
+//环境光
+float4	Ambient		=	float4(0.2,0.2,0.2,1);
+//视野投影逆矩阵
+float4x4	ViewProjInv;
+
+
+//计算所有灯光颜色
+float4	ComputeLight(	float3	Pos,
+											float3	nor,
+											float3	Diff,
+											float		Self,
+											float		Spec,
+											float		fSpecularPower){
+
+	float3	fDiff	=	float3(0,0,0);
+	float3	fSpec	=	float3(0,0,0);
+	
+	for(int i=0;i<iNumLight;i++){
+		float3	LightDir;
+		float4	LightPos	=	LightPosArray[i];
+		float4	LightDiff	=	LightDiffArray[i];
+		float		fAttenuation	=	1;
+		
+		if(LightPos.w	<=	0){
+			LightDir			=	normalize(LightPos.xyz);
+		}else{
+			float	fDis		=	distance(LightPos.xyz	,	Pos);
+			fAttenuation	=	max(1	-	fDis/LightPos.w,0);
+			LightDir			=	normalize(LightPos.xyz	-	Pos);
+		}
+		
+		float3	EyeDir	=	normalize(EyePosition.xyz	-	Pos);
+		float		fNDotL	=	max(dot(nor,LightDir),0);
+		
+		float3	fvReflection		= 	normalize( ( ( 2.0f * nor ) * ( fNDotL ) ) - LightDir ); 
+		
+		fDiff						+=	fNDotL*LightDiff.xyz*fAttenuation;
+		fSpec           +=	pow( max( 0.0f, dot( fvReflection, EyeDir ) ),fSpecularPower )*LightDiff.xyz*LightDiff.w;
+   
+	}
+	
+	float4	Color	=	float4(Ambient.xyz*Diff	+	Diff*(fDiff+Self)	+	fSpec*Spec,1);
+	return	Color;
+}
+
+float4	MainPS(VS_OUTPUT	Input):SV_Target{
+
+	float4	Position	=	PositionTex.Sample( diffState,	Input.UV );
+	float4	Normal		=	NormalTex.Sample( 	diffState,	Input.UV );
+	float4	Diffuse		=	DiffuseTex.Sample( 	diffState,	Input.UV );
+
+	
+	float		Spec			=	Normal.w;
+	float		Self			=	Diffuse.w;
+	float		SpecPower	=	32;
+	
+	//return	float4(Position.xyz,1);
+	float2	xy	=	Input.UV*float2(2,-2)+float2(-1,1);
+	
+	float4	pos	=	float4(xy,Position.x,1);
+	float4	WPos	=	mul(pos,ViewProjInv);
+	WPos.xyz	=	WPos.xyz/WPos.www;
+	
+	float3 normal  	= Normal.xyz*2-1;
+	
+	
+	float4	Color			=	float4(0,0,0,0);
+
+		//计算漫反射 高光
+		float4 Light		= ComputeLight(WPos.xyz,normal.xyz,Diffuse.xyz,Self,Spec,SpecPower);
+		//计算环境光和反射
+		Color = float4(Diffuse.xyz,1)	+	Light;
+
+	return	float4(Light.xyz,1);
+	return	float4(Color.xyz,1);
+};
+
+RasterizerState CullNone
+{
+	CullMode = NONE;
+	MultisampleEnable = TRUE;
+};
+
+BlendState NoneBlendState
+{
+    AlphaToCoverageEnable = FALSE;
+};
+
+DepthStencilState EableDepthWrite
+{
+    DepthEnable = FALSE;
+    DepthWriteMask = ZERO;
+};
+technique10 VeryHighTechnique
+{
+   pass Pass_0
+   {
+        SetVertexShader( CompileShader( vs_4_0, MainVS() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, MainPS() ) );
+        
+        SetRasterizerState(CullNone);
+        SetBlendState( NoneBlendState, float4( 0.0f, 0.0f, 0.0f, 0.0f ), 0xFFFFFFFF );
+        SetDepthStencilState( EableDepthWrite, 0 );
+   }
+}

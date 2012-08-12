@@ -1,0 +1,435 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Src">
+      <UniqueIdentifier>{33a2151a-64c9-4723-838d-933eb924d1ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Inc">
+      <UniqueIdentifier>{935c6f0a-551a-4b87-9202-f821ac8aa8e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dependencies">
+      <UniqueIdentifier>{0bdcffb5-0614-42e9-8d31-901bed2a475d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dependencies\lzo">
+      <UniqueIdentifier>{9eff73a8-29b3-4f0f-b8ba-7765a1c37d9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dependencies\TinyXml">
+      <UniqueIdentifier>{89be549b-88ca-44da-aa46-cf9b94e7a377}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="XNA">
+      <UniqueIdentifier>{c3b5098a-ec41-4675-b732-20e0f2466079}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{3981189a-78fd-4399-89e1-4290e9581699}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\AirCommon\Src\Airarg_parser.cc">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirBasicExcel.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommon.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonCollision.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonConverter.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonFactory.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonFile.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonIniFile.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonLog.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonMath.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonMemory.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonNet.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonNetClient.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonNetConnect.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonNetListenThread.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonNetReceiveThread.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonNetSendThread.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonNetServer.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonNode.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonPackage.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonParse.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonPlugin.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonProduct.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonReference.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonRequest.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonRequestProduct.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonStringHandle.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonSystemManager.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonThread.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonWindow.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonXml.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCompress.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirDataBase.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirInterfaceNode.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirRandom.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirSlkReader.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirVideoPlugin.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirYExcel.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Inc\AirCommonStreamIO.cpp">
+      <Filter>Inc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Inc\AirCommonString.cpp">
+      <Filter>Inc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\LZO\minilzo.c">
+      <Filter>Dependencies\lzo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\tinyxml\tinystr.cpp">
+      <Filter>Dependencies\TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\tinyxml\tinyxml.cpp">
+      <Filter>Dependencies\TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\tinyxml\tinyxmlerror.cpp">
+      <Filter>Dependencies\TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Dependencies\tinyxml\tinyxmlparser.cpp">
+      <Filter>Dependencies\TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonProfile.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirOctree.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirFileMonitor.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonPlane.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirRay.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirBoundingBox.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\AirCommon\Inc\Airarg_parser.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirBasicExcel.hpp">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirBasicExcelVC6.hpp">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommon.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonCollision.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonCommandParse.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonConverter.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonData.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonFactory.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonFile.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonFunction.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonHash.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonHashTable.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonHeader.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonIniFile.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonListener.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonLock.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonLog.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonMath.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonMemory.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonNet.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonNetClient.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonNetConnect.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonNetFile.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonNetListenThread.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonNetReceiveThread.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonNetSendThread.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonNetServer.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonNode.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonPackage.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonParse.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonPlane.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonPlugin.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonProduct.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonReference.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonRefPtr.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonRequest.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonRequestProduct.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonStreamIO.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonString.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonStringHandle.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonSystemManager.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonThread.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonWindow.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonXml.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCompress.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirDataBase.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirInterfaceNode.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirInterfaceObject.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirRandom.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirSingleton.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirSlkReader.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirUnion.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirVideoPlugin.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\LZO\lzoconf.h">
+      <Filter>Dependencies\lzo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\LZO\lzodefs.h">
+      <Filter>Dependencies\lzo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\LZO\minilzo.h">
+      <Filter>Dependencies\lzo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\tinyxml\tinystr.h">
+      <Filter>Dependencies\TinyXml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Dependencies\tinyxml\tinyxml.h">
+      <Filter>Dependencies\TinyXml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\xnamath.h">
+      <Filter>XNA</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonProfile.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonProperty.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonFlag.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirOctree.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirFileMonitor.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirBoundingBox.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonInt2.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonInt3.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonInt4.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonMatrix.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonVector2.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonVector3.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirRay.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCommonQuaternion.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirSphere.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\AirCommon\Inc\xnamathconvert.inl">
+      <Filter>XNA</Filter>
+    </None>
+    <None Include="..\..\AirCommon\Inc\xnamathmatrix.inl">
+      <Filter>XNA</Filter>
+    </None>
+    <None Include="..\..\AirCommon\Inc\xnamathmisc.inl">
+      <Filter>XNA</Filter>
+    </None>
+    <None Include="..\..\AirCommon\Inc\xnamathvector.inl">
+      <Filter>XNA</Filter>
+    </None>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+</Project>

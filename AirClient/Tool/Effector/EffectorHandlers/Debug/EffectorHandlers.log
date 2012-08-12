@@ -1,0 +1,33 @@
+﻿Build started 2012/5/1 17:16:36.
+     1>Project "E:\Air\trunk\AirClient\Tool\Effector\EffectorHandlers\EffectorHandlers.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Touching "Debug\EffectorHandlers.unsuccessfulbuild".
+       Midl:
+         All outputs are up-to-date.
+       ClCompile:
+         All outputs are up-to-date.
+         E:\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D _USRDLL /D _WINDLL /D _UNICODE /D UNICODE /D _ATL_DLL /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\EffectorHandlers.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\Effector\EffectorDoc.cpp ..\Effector\EffectorView.cpp
+         EffectorView.cpp
+     1>e:\air\trunk\airclient\tool\effector\effector\enginemanager.h(4): fatal error C1083: Cannot open include file: 'AirSingleton.h': No such file or directory
+         EffectorDoc.cpp
+     1>e:\air\trunk\airclient\tool\effector\effector\enginecommon.h(32): error C2039: 'wstring' : is not a member of 'std'
+     1>e:\air\trunk\airclient\tool\effector\effector\enginecommon.h(32): error C2146: syntax error : missing ';' before identifier 'GetName'
+     1>e:\air\trunk\airclient\tool\effector\effector\enginecommon.h(32): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>e:\air\trunk\airclient\tool\effector\effector\enginecommon.h(32): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>e:\air\trunk\airclient\tool\effector\effector\enginecommon.h(32): warning C4183: 'GetName': missing return type; assumed to be a member function returning 'int'
+     1>e:\air\trunk\airclient\tool\effector\effector\engineeffect.h(20): error C2039: 'vector' : is not a member of 'std'
+     1>e:\air\trunk\airclient\tool\effector\effector\engineeffect.h(20): error C2143: syntax error : missing ';' before '<'
+     1>e:\air\trunk\airclient\tool\effector\effector\engineeffect.h(20): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>e:\air\trunk\airclient\tool\effector\effector\effectorfile.h(21): error C2146: syntax error : missing ';' before identifier 'm_vecEffect'
+     1>e:\air\trunk\airclient\tool\effector\effector\effectorfile.h(21): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>e:\air\trunk\airclient\tool\effector\effector\effectorfile.h(21): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>e:\air\trunk\airclient\tool\effector\effector\fileview.h(27): error C2504: 'CDockablePane' : base class undefined
+     1>e:\air\trunk\airclient\tool\effector\effector\classview.h(27): error C2504: 'CDockablePane' : base class undefined
+     1>e:\air\trunk\airclient\tool\effector\effector\outputwnd.h(37): error C2504: 'CDockablePane' : base class undefined
+     1>e:\air\trunk\airclient\tool\effector\effector\stdafx.h(51): fatal error C1083: Cannot open include file: 'AirEngineHeader.h': No such file or directory
+         Generating Code...
+     1>Done Building Project "E:\Air\trunk\AirClient\Tool\Effector\EffectorHandlers\EffectorHandlers.vcxproj" (build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.34

@@ -1,0 +1,24 @@
+struct VS_OUTPUT
+{
+    float4 Position     : SV_POSITION; // vertex position
+	float3 Normal       : TEXCOORD0;
+    float2 TextureUV    : TEXCOORD1;   // vertex texture coords 
+	float4 Tangent		: TEXCOORD2;
+	float4 WPos			: TEXCOORD3;
+	float4 ProjPos		: TEXCOORD4;
+};
+struct PS_OUTPUT{
+	float4	Depth		:	SV_TARGET0;
+	float4	Normal		:	SV_TARGET1;
+	float4	Diffuse		:	SV_TARGET2;
+	float4	Specular	:	SV_TARGET3;
+};
+PS_OUTPUT main( VS_OUTPUT input)
+{ 
+    PS_OUTPUT	o;
+	o.Depth		=	input.ProjPos.z/input.ProjPos.w;
+	o.Normal	=	float4(input.Normal*0.5+0.5,1);
+	o.Diffuse	=	0.5f;
+	o.Specular	=	float4(input.TextureUV,0.1,0);
+    return o;
+}

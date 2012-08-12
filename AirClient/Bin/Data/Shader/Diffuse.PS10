@@ -1,0 +1,43 @@
+//	Shader	Param	Infomation
+//
+//	0		Diffuse
+//	1		Specular
+//
+cbuffer	Param
+{
+	float4		Diffuse;
+	float4		Specular;
+};
+
+struct VS_OUTPUT 
+{
+   float4 Position 		: SV_POSITION;
+   float2 Texcoord 		: TEXCOORD0;
+   float4 WorldNormal : TEXCOORD1;
+   float4	Depth				:	TEXCOORD2;
+};
+
+Texture2D			DiffTex		:	register	(t0);
+SamplerState 	diffState	:	register	(s0);
+
+struct	PS_OUTPUT{
+	float4	Depth				:	SV_Target0;
+	float4	WorldNormal	:	SV_Target1;
+	float4	Diffuse			:	SV_Target2;
+};
+
+PS_OUTPUT mainps( VS_OUTPUT Input ){
+
+	PS_OUTPUT	Out;
+	
+	float4	fvColor			=	DiffTex.Sample( diffState,Input.Texcoord);
+
+	Out.Depth						=	float4(Input.Depth.z/Input.Depth.w,0,0,1);
+  Out.WorldNormal     = float4(normalize( Input.WorldNormal.xyz )*0.5f+0.5f,Specular.x);
+  Out.Diffuse					=	Diffuse*float4(fvColor.xyz,1);
+  return	Out;
+   
+}
+
+
+
