@@ -1,0 +1,6 @@
+glossiness 光泽度
+roughness  粗糙度
+
+
+Cate等人具体研究了纸张的光泽与均方根粗糙度之间的关系，并且指出：用外观轮廓法和光学法所测平均粗糙度的平方σ2与TAPPI光泽之间存在着良好的相关性（相关系数为0．91），
+pow(roughness,2) = 0.91*glossiness;
