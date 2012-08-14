@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Src">
+      <UniqueIdentifier>{4ccef0c9-ffcc-41b4-b4de-57a2c272df2f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MTD3DX9.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MTBaseTexture9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MTCubeTexture9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MTDevice9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MTDoubleBuffer.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MTIndexBuffer9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MTPixelShader9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MTQuery9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MTRenderThread.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MTResource9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MTStateBlock9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MTSurface9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MTSwapChain9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MTTexture9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MTThread.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MTVertexBuffer9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MTVertexDeclaration9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MTVertexShader9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MTVolume9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MTVolumeTexture9.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="MTD3D9.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MTD3D9.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MTD3DX9.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MTBaseTexture9.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="MTCubeTexture9.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="MTDevice9.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="MTDoubleBuffer.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="MTHeader.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="MTIndexBuffer9.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="MTPixelShader9.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="MTQuery9.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="MTRenderThread.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="MTResource9.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="MTStateBlock9.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="MTSurface9.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="MTSwapChain9.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="MTTexture9.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="MTThread.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="MTVertexBuffer9.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="MTVertexDeclaration9.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="MTVertexShader9.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="MTVolume9.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="MTVolumeTexture9.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+</Project>
