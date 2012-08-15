@@ -109,8 +109,19 @@ class MT_IDirect3D9ExOverlayExtension ;
 class MT_IDirect3DResource9;
 class MT_IDirect3DStateBlock9;
 
-typedef	MT_IDirect3DDevice9*	MT_LPDIRECT3DDEVICE9;
-typedef	MT_IDirect3DSurface9*	MT_LPDIRECT3DSURFACE9;
+//D3DX
+class MT_ID3DXEffect;
+
+
+//typedef
+typedef	MT_IDirect3DDevice9*		MT_LPDIRECT3DDEVICE9;
+typedef	MT_IDirect3DSurface9*		MT_LPDIRECT3DSURFACE9;
+typedef	MT_IDirect3DTexture9*		MT_LPDIRECT3DTEXTURE9;
+typedef	MT_IDirect3DCubeTexture9*	MT_LPDIRECT3DCUBETEXTURE9;
+typedef	MT_IDirect3DVolumeTexture9*	MT_LPDIRECT3DVOLUMETEXTURE9;
+
+typedef	MT_ID3DXEffect*				MT_LPD3DXEFFECT;
+
 
 typedef	std::vector<MT_IDirect3DVolume9*>	VolumeVector;
 

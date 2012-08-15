@@ -18,7 +18,7 @@
 #include "MTDevice9.h"
 
 MT_IDirect3D9*		MT_Direct3DCreate9(UINT	SDKVersion);
-MT_IDirect3D9Ex*	MT_Direct3DCreate9Ex(UINT	SDKVersion);
+HRESULT				Direct3DCreate9Ex(UINT	SDKVersion,MT_IDirect3D9Ex**	ppD3D9);
 
 
 #endif

@@ -268,6 +268,7 @@ HRESULT MT_IDirect3DDevice9::CreateTexture(THIS_ UINT Width,UINT Height,UINT Lev
 	if(SUCCEEDED(hr)){
 		*ppTexture	=	new	MT_IDirect3DTexture9(this,pIDirect3DTexture9);
 		(*ppTexture)->AddRef();
+		pIDirect3DTexture9->Release();
 	}
 	return hr;
 };
@@ -277,6 +278,7 @@ HRESULT MT_IDirect3DDevice9::CreateVolumeTexture(THIS_ UINT Width,UINT Height,UI
 	if(SUCCEEDED(hr)){
 		*ppVolumeTexture	=	new	MT_IDirect3DVolumeTexture9(this,pIDirect3DVolumeTexture9);
 		(*ppVolumeTexture)->AddRef();
+		pIDirect3DVolumeTexture9->Release();
 	}
 	return hr;
 };
@@ -286,6 +288,7 @@ HRESULT MT_IDirect3DDevice9::CreateCubeTexture(THIS_ UINT EdgeLength,UINT Levels
 	if(SUCCEEDED(hr)){
 		*ppCubeTexture	=	new	MT_IDirect3DCubeTexture9(this,pIDirect3DCubeTexture9);
 		(*ppCubeTexture)->AddRef();
+		pIDirect3DCubeTexture9->Release();
 	}
 	return hr;
 };
@@ -295,6 +298,7 @@ HRESULT MT_IDirect3DDevice9::CreateVertexBuffer(THIS_ UINT Length,DWORD Usage,DW
 	if(SUCCEEDED(hr)){
 		*ppVertexBuffer	=	new	MT_IDirect3DVertexBuffer9(this,pIDirect3DVertexBuffer9);
 		(*ppVertexBuffer)->AddRef();
+		pIDirect3DVertexBuffer9->Release();
 	}
 	return hr;
 };
@@ -304,6 +308,7 @@ HRESULT MT_IDirect3DDevice9::CreateIndexBuffer(THIS_ UINT Length,DWORD Usage,D3D
 	if(SUCCEEDED(hr)){
 		*ppIndexBuffer	=	new	MT_IDirect3DIndexBuffer9(this,pIDirect3DIndexBuffer9);
 		(*ppIndexBuffer)->AddRef();
+		pIDirect3DIndexBuffer9->Release();
 	}
 	return hr;
 };
@@ -313,6 +318,7 @@ HRESULT MT_IDirect3DDevice9::CreateRenderTarget(THIS_ UINT Width,UINT Height,D3D
 	if(SUCCEEDED(hr)){
 		*ppSurface	=	new	MT_IDirect3DSurface9(this,pIDirect3DSurface9);
 		(*ppSurface)->AddRef();
+		pIDirect3DSurface9->Release();
 	}
 	return hr;
 };
@@ -322,6 +328,7 @@ HRESULT MT_IDirect3DDevice9::CreateDepthStencilSurface(THIS_ UINT Width,UINT Hei
 	if(SUCCEEDED(hr)){
 		*ppSurface	=	new	MT_IDirect3DSurface9(this,pIDirect3DSurface9);
 		(*ppSurface)->AddRef();
+		pIDirect3DSurface9->Release();
 	}
 	return hr;
 };
@@ -378,6 +385,7 @@ HRESULT MT_IDirect3DDevice9::CreateOffscreenPlainSurface(THIS_ UINT Width,UINT H
 	if(SUCCEEDED(hr)){
 		*ppSurface	=	new	MT_IDirect3DSurface9(this,pIDirect3DSurface9);
 		(*ppSurface)->AddRef();
+		pIDirect3DSurface9->Release();
 	}
 	return hr;
 };
@@ -484,7 +492,16 @@ HRESULT MT_IDirect3DDevice9::SetRenderState(THIS_ D3DRENDERSTATETYPE State,DWORD
 	return S_OK;
 };
 HRESULT MT_IDirect3DDevice9::GetRenderState(THIS_ D3DRENDERSTATETYPE State,DWORD* pValue){return S_OK;};
-HRESULT MT_IDirect3DDevice9::CreateStateBlock(THIS_ D3DSTATEBLOCKTYPE Type,MT_IDirect3DStateBlock9** ppSB){return S_OK;};
+HRESULT MT_IDirect3DDevice9::CreateStateBlock(THIS_ D3DSTATEBLOCKTYPE Type,MT_IDirect3DStateBlock9** ppSB){
+	IDirect3DStateBlock9*	pStateBlock=NULL;
+	HRESULT	hr	=	m_pIDirect3DDevice9->CreateStateBlock(Type,&pStateBlock);
+	if(SUCCEEDED(hr)){
+		*ppSB	=	new MT_IDirect3DStateBlock9(this,pStateBlock);
+		(*ppSB)->AddRef();
+		pStateBlock->Release();
+	}
+	return S_OK;
+};
 HRESULT MT_IDirect3DDevice9::BeginStateBlock(THIS){
 	m_DBuffer.Request(enCF_BeginStateBlock);
 	return S_OK;
@@ -595,6 +612,7 @@ HRESULT MT_IDirect3DDevice9::CreateVertexDeclaration(THIS_ CONST D3DVERTEXELEMEN
 	if(SUCCEEDED(hr)){
 		*ppDecl	=	new	MT_IDirect3DVertexDeclaration9(this,pIDirect3DVertexDeclaration9);
 		(*ppDecl)->AddRef();
+		pIDirect3DVertexDeclaration9->Release();
 	}
 	return hr;
 };
@@ -619,6 +637,7 @@ HRESULT MT_IDirect3DDevice9::CreateVertexShader(THIS_ CONST DWORD* pFunction,MT_
 	if(SUCCEEDED(hr)){
 		*ppShader	=	new	MT_IDirect3DVertexShader9(this,pIDirect3DVertexShader9);
 		(*ppShader)->AddRef();
+		pIDirect3DVertexShader9->Release();
 	}
 	return hr;
 };
@@ -696,6 +715,7 @@ HRESULT MT_IDirect3DDevice9::CreatePixelShader(THIS_ CONST DWORD* pFunction,MT_I
 	if(SUCCEEDED(hr)){
 		*ppShader	=	new	MT_IDirect3DPixelShader9(this,pIDirect3DPixelShader9);
 		(*ppShader)->AddRef();
+		pIDirect3DPixelShader9->Release();
 	}
 	return hr;
 };
@@ -747,6 +767,7 @@ HRESULT MT_IDirect3DDevice9::CreateQuery(THIS_ D3DQUERYTYPE Type,MT_IDirect3DQue
 	if(SUCCEEDED(hr)){
 		*ppQuery	=	new	MT_IDirect3DQuery9(this,pIDirect3DQuery9);
 		(*ppQuery)->AddRef();
+		pIDirect3DQuery9->Release();
 	}
 	return hr;
 };
