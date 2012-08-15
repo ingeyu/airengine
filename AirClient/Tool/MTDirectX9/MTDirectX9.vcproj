@@ -149,6 +149,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\MTD3D9.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\MTD3DX9.cpp"
 				>
 			</File>
@@ -174,7 +178,7 @@
 			>
 		</Filter>
 		<Filter
-			Name="Src"
+			Name="D3D9"
 			>
 			<File
 				RelativePath=".\MTBaseTexture9.cpp"
@@ -206,6 +210,14 @@
 			</File>
 			<File
 				RelativePath=".\MTDoubleBuffer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MTEffect.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MTEffect.h"
 				>
 			</File>
 			<File
