@@ -351,3 +351,65 @@ HRESULT WINAPI
 										ColorKey);
 
 }
+
+HRESULT WINAPI
+    D3DXSaveSurfaceToFileA(
+        LPCSTR                    pDestFile,
+        D3DXIMAGE_FILEFORMAT      DestFormat,
+        MT_LPDIRECT3DSURFACE9     pSrcSurface,
+        CONST PALETTEENTRY*       pSrcPalette,
+		CONST RECT*               pSrcRect)
+{
+	return	D3DXSaveSurfaceToFileA(
+									pDestFile,
+									DestFormat,
+									pSrcSurface->m_pIDirect3DSurface9,
+									pSrcPalette,
+									pSrcRect);
+
+}
+
+HRESULT WINAPI
+    D3DXSaveSurfaceToFileW(
+        LPCWSTR                   pDestFile,
+        D3DXIMAGE_FILEFORMAT      DestFormat,
+        MT_LPDIRECT3DSURFACE9        pSrcSurface,
+        CONST PALETTEENTRY*       pSrcPalette,
+        CONST RECT*               pSrcRect)
+{
+	return	D3DXSaveSurfaceToFileW(
+									pDestFile,
+									DestFormat,
+									pSrcSurface->m_pIDirect3DSurface9,
+									pSrcPalette,
+									pSrcRect);
+}
+
+HRESULT WINAPI
+    D3DXSaveTextureToFileA(
+        LPCSTR						pDestFile,
+        D3DXIMAGE_FILEFORMAT		DestFormat,
+        MT_LPDIRECT3DBASETEXTURE9    pSrcTexture,
+        CONST PALETTEENTRY*			pSrcPalette)
+{
+	return	D3DXSaveTextureToFileA(
+									pDestFile,
+									DestFormat,
+									pSrcTexture->m_pIDirect3DBaseTexture9,
+									pSrcPalette);
+
+}
+
+HRESULT WINAPI
+    D3DXSaveTextureToFileW(
+        LPCWSTR                   pDestFile,
+        D3DXIMAGE_FILEFORMAT      DestFormat,
+        MT_LPDIRECT3DBASETEXTURE9    pSrcTexture,
+        CONST PALETTEENTRY*       pSrcPalette)
+{
+	return	D3DXSaveTextureToFileW(
+									pDestFile,
+									DestFormat,
+									pSrcTexture->m_pIDirect3DBaseTexture9,
+									pSrcPalette);
+}

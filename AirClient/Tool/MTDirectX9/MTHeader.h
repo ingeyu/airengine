@@ -116,6 +116,7 @@ class MT_ID3DXEffect;
 //typedef
 typedef	MT_IDirect3DDevice9*		MT_LPDIRECT3DDEVICE9;
 typedef	MT_IDirect3DSurface9*		MT_LPDIRECT3DSURFACE9;
+typedef	MT_IDirect3DBaseTexture9*	MT_LPDIRECT3DBASETEXTURE9;
 typedef	MT_IDirect3DTexture9*		MT_LPDIRECT3DTEXTURE9;
 typedef	MT_IDirect3DCubeTexture9*	MT_LPDIRECT3DCUBETEXTURE9;
 typedef	MT_IDirect3DVolumeTexture9*	MT_LPDIRECT3DVOLUMETEXTURE9;
@@ -208,6 +209,32 @@ enCF_StateBlock_Capture,
 enCF_PIX_D3DPERF_BeginEvent,
 enCF_PIX_D3DPERF_EndEvent,
 enCF_PIX_D3DPERF_SetMarker,
+
+enCF_Effect_SetValue,//(THIS_ D3DXHANDLE hParameter, LPCVOID pData, UINT Bytes);
+enCF_Effect_SetBool,//(THIS_ D3DXHANDLE hParameter, BOOL b);
+enCF_Effect_SetBoolArray,//(THIS_ D3DXHANDLE hParameter, CONST BOOL* pb, UINT Count);
+enCF_Effect_SetInt,//(THIS_ D3DXHANDLE hParameter, INT n);
+enCF_Effect_SetIntArray,//(THIS_ D3DXHANDLE hParameter, CONST INT* pn, UINT Count);
+enCF_Effect_SetFloat,//(THIS_ D3DXHANDLE hParameter, FLOAT f);
+enCF_Effect_SetFloatArray,//(THIS_ D3DXHANDLE hParameter, CONST FLOAT* pf, UINT Count);
+enCF_Effect_SetVector,//(THIS_ D3DXHANDLE hParameter, CONST D3DXVECTOR4* pVector);
+enCF_Effect_SetVectorArray,//(THIS_ D3DXHANDLE hParameter, CONST D3DXVECTOR4* pVector, UINT Count);
+enCF_Effect_SetMatrix,//(THIS_ D3DXHANDLE hParameter, CONST D3DXMATRIX* pMatrix);
+enCF_Effect_SetMatrixArray,//(THIS_ D3DXHANDLE hParameter, CONST D3DXMATRIX* pMatrix, UINT Count);
+enCF_Effect_SetMatrixPointerArray,//(THIS_ D3DXHANDLE hParameter, CONST D3DXMATRIX** ppMatrix, UINT Count);
+enCF_Effect_SetMatrixTranspose,//(THIS_ D3DXHANDLE hParameter, CONST D3DXMATRIX* pMatrix);
+enCF_Effect_SetMatrixTransposeArray,//(THIS_ D3DXHANDLE hParameter, CONST D3DXMATRIX* pMatrix, UINT Count);
+enCF_Effect_SetMatrixTransposePointerArray,//(THIS_ D3DXHANDLE hParameter, CONST D3DXMATRIX** ppMatrix, UINT Count);
+enCF_Effect_SetString,//(THIS_ D3DXHANDLE hParameter, LPCSTR pString);
+enCF_Effect_SetTexture,//(THIS_ D3DXHANDLE hParameter, LPDIRECT3DBASETEXTURE9 pTexture);
+enCF_Effect_SetTechnique,//(THIS_ D3DXHANDLE hTechnique);
+enCF_Effect_Begin,//(THIS_ UINT *pPasses, DWORD Flags) ;
+enCF_Effect_BeginPass,//(THIS_ UINT Pass) ;
+enCF_Effect_CommitChanges,//(THIS) ;
+enCF_Effect_EndPass,//(THIS) ;
+enCF_Effect_End,//(THIS) ;
+enCF_Effect_SetStateManager,//(THIS_ LPD3DXEFFECTSTATEMANAGER pManager);
+enCF_Effect_SetRawValue,//(THIS_ D3DXHANDLE hParameter, LPCVOID pData, UINT ByteOffset, UINT Bytes);
 };
 
 struct CmdSetCursorProperties{
@@ -524,5 +551,128 @@ struct CmdPIX_D3DPERF_SetMarker{
 	D3DCOLOR col;
 	//LPCWSTR wszName
 	DWORD		dwNameSize;	///<	Save Size
+};
+
+struct CmdEffect_SetValue{
+	ID3DXEffect* pID3DXEffect; 
+	D3DXHANDLE hParameter; 
+	//LPCVOID pData; 
+	UINT Bytes;
+};
+struct CmdEffect_SetBool{
+	ID3DXEffect* pID3DXEffect; 
+	D3DXHANDLE hParameter; 
+	BOOL b;
+};
+struct CmdEffect_SetBoolArray{
+	ID3DXEffect* pID3DXEffect; 
+	D3DXHANDLE hParameter; 
+	//CONST BOOL* pb; 
+	UINT Count;
+};
+struct CmdEffect_SetInt{
+	ID3DXEffect* pID3DXEffect; 
+	D3DXHANDLE hParameter; 
+	INT n;
+};
+struct CmdEffect_SetIntArray{
+	ID3DXEffect* pID3DXEffect;
+	D3DXHANDLE hParameter; 
+	//CONST INT* pn; 
+	UINT Count;
+};
+struct CmdEffect_SetFloat{
+	ID3DXEffect* pID3DXEffect; 
+	D3DXHANDLE hParameter; 
+	FLOAT f;
+};
+struct CmdEffect_SetFloatArray{
+	ID3DXEffect* pID3DXEffect; 
+	D3DXHANDLE hParameter; 
+	//CONST FLOAT* pf; 
+	UINT Count;
+};
+struct CmdEffect_SetVector{
+	ID3DXEffect* pID3DXEffect; 
+	D3DXHANDLE hParameter; 
+	D3DXVECTOR4 pVector;
+};
+struct CmdEffect_SetVectorArray{
+	ID3DXEffect* pID3DXEffect; 
+	D3DXHANDLE hParameter; 
+	//CONST D3DXVECTOR4* pVector; 
+	UINT Count;
+};
+struct CmdEffect_SetMatrix{
+	ID3DXEffect* pID3DXEffect; 
+	D3DXHANDLE hParameter; 
+	D3DXMATRIX pMatrix;
+};
+struct CmdEffect_SetMatrixArray{
+	ID3DXEffect* pID3DXEffect; 
+	D3DXHANDLE hParameter; 
+	//CONST D3DXMATRIX* pMatrix; 
+	UINT Count;
+};
+struct CmdEffect_SetMatrixPointerArray{
+	ID3DXEffect* pID3DXEffect; 
+	D3DXHANDLE hParameter; 
+	CONST D3DXMATRIX** ppMatrix; 
+	UINT Count;
+};
+struct CmdEffect_SetMatrixTranspose{
+	ID3DXEffect* pID3DXEffect; 
+	D3DXHANDLE hParameter; 
+	D3DXMATRIX pMatrix;
+};
+struct CmdEffect_SetMatrixTransposeArray{
+	ID3DXEffect* pID3DXEffect; 
+	D3DXHANDLE hParameter; 
+	//CONST D3DXMATRIX* pMatrix; 
+	UINT Count;
+};
+struct CmdEffect_SetMatrixTransposePointerArray{
+	ID3DXEffect* pID3DXEffect; 
+	D3DXHANDLE hParameter; 
+	CONST D3DXMATRIX** ppMatrix; 
+	UINT Count;
+};
+struct CmdEffect_SetString{
+	ID3DXEffect* pID3DXEffect; 
+	D3DXHANDLE hParameter; 
+	//LPCSTR pString;
+	UINT	uiBufferSize;
+};
+struct CmdEffect_SetTexture{
+	ID3DXEffect* pID3DXEffect; 
+	D3DXHANDLE hParameter; 
+	LPDIRECT3DBASETEXTURE9 pTexture;
+};
+struct CmdEffect_SetTechnique{
+	ID3DXEffect* pID3DXEffect; 
+	D3DXHANDLE hTechnique;
+};
+struct CmdEffect_Begin{
+	ID3DXEffect* pID3DXEffect; 
+	//UINT *pPasses; 
+	DWORD Flags;
+};
+struct CmdEffect_BeginPass{
+	ID3DXEffect* pID3DXEffect; 
+	UINT Pass;
+};
+typedef	ID3DXEffect*	CmdEffect_CommitChanges;
+typedef ID3DXEffect*	CmdEffect_EndPass;
+typedef ID3DXEffect*	CmdEffect_End;
+struct CmdEffect_SetStateManager{
+	ID3DXEffect* pID3DXEffect; 
+	LPD3DXEFFECTSTATEMANAGER pManager;
+};
+struct CmdEffect_SetRawValue{
+	ID3DXEffect* pID3DXEffect; 
+	D3DXHANDLE hParameter; 
+	//LPCVOID pData; 
+	UINT ByteOffset; 
+	UINT Bytes;
 };
 #endif

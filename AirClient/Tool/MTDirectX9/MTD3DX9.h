@@ -247,9 +247,35 @@ HRESULT WINAPI
 //HRESULT WINAPI	D3DXLoadVolumeFromMemory ();
 //HRESULT WINAPI	D3DXLoadVolumeFromResource ();
 //HRESULT WINAPI	D3DXLoadVolumeFromVolume ();
-//HRESULT WINAPI	D3DXSaveSurfaceToFile ();
+HRESULT WINAPI
+    D3DXSaveSurfaceToFileA(
+        LPCSTR                    pDestFile,
+        D3DXIMAGE_FILEFORMAT      DestFormat,
+        MT_LPDIRECT3DSURFACE9        pSrcSurface,
+        CONST PALETTEENTRY*       pSrcPalette,
+        CONST RECT*               pSrcRect);
+
+HRESULT WINAPI
+    D3DXSaveSurfaceToFileW(
+        LPCWSTR                   pDestFile,
+        D3DXIMAGE_FILEFORMAT      DestFormat,
+        MT_LPDIRECT3DSURFACE9        pSrcSurface,
+        CONST PALETTEENTRY*       pSrcPalette,
+        CONST RECT*               pSrcRect);
 //HRESULT WINAPI	D3DXSaveSurfaceToFileInMemory ();
-//HRESULT WINAPI	D3DXSaveTextureToFile ();
+HRESULT WINAPI
+    D3DXSaveTextureToFileA(
+        LPCSTR                    pDestFile,
+        D3DXIMAGE_FILEFORMAT      DestFormat,
+        MT_LPDIRECT3DBASETEXTURE9    pSrcTexture,
+        CONST PALETTEENTRY*       pSrcPalette);
+
+HRESULT WINAPI
+    D3DXSaveTextureToFileW(
+        LPCWSTR                   pDestFile,
+        D3DXIMAGE_FILEFORMAT      DestFormat,
+        MT_LPDIRECT3DBASETEXTURE9    pSrcTexture,
+        CONST PALETTEENTRY*       pSrcPalette);
 //HRESULT WINAPI	D3DXSaveTextureToFileInMemory ();
 //HRESULT WINAPI	D3DXSaveVolumeToFile ();
 //HRESULT WINAPI	D3DXSaveVolumeToFileInMemory ();

@@ -278,14 +278,38 @@ public:
 	HRESULT	VolumeTexture_AddDirtyBox(IDirect3DVolumeTexture9*	pVolumeTex,THIS_ CONST D3DBOX* pDirtyBox);
 	HRESULT	StateBlock_Apply(IDirect3DStateBlock9* pStateBlock);
 	HRESULT	StateBlock_Capture(IDirect3DStateBlock9* pStateBlock);
+	
 
 	int		PIX_D3DPERF_BeginEvent(D3DCOLOR col,LPCWSTR wszName);
 	int		PIX_D3DPERF_EndEvent();
 	void	PIX_D3DPERF_SetMarker(D3DCOLOR col,LPCWSTR wszName);
- 
+public: 
+	HRESULT	Effect_SetValue(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, LPCVOID pData, UINT Bytes);
+	HRESULT	Effect_SetBool(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, BOOL b);
+	HRESULT	Effect_SetBoolArray(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, CONST BOOL* pb, UINT Count);
+	HRESULT	Effect_SetInt(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, INT n);
+	HRESULT	Effect_SetIntArray(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, CONST INT* pn, UINT Count);
+	HRESULT	Effect_SetFloat(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, FLOAT f);
+	HRESULT	Effect_SetFloatArray(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, CONST FLOAT* pf, UINT Count);
+	HRESULT	Effect_SetVector(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, CONST D3DXVECTOR4* pVector);
+	HRESULT	Effect_SetVectorArray(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, CONST D3DXVECTOR4* pVector, UINT Count);
+	HRESULT	Effect_SetMatrix(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, CONST D3DXMATRIX* pMatrix);
+	HRESULT	Effect_SetMatrixArray(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, CONST D3DXMATRIX* pMatrix, UINT Count);
+	HRESULT	Effect_SetMatrixPointerArray(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, CONST D3DXMATRIX** ppMatrix, UINT Count);
+	HRESULT	Effect_SetMatrixTranspose(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, CONST D3DXMATRIX* pMatrix);
+	HRESULT	Effect_SetMatrixTransposeArray(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, CONST D3DXMATRIX* pMatrix, UINT Count);
+	HRESULT	Effect_SetMatrixTransposePointerArray(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, CONST D3DXMATRIX** ppMatrix, UINT Count);
+	HRESULT	Effect_SetString(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, LPCSTR pString);
+	HRESULT	Effect_SetTexture(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, LPDIRECT3DBASETEXTURE9 pTexture);
 
-
-
+	HRESULT	Effect_SetTechnique(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hTechnique);
+	HRESULT	Effect_Begin(ID3DXEffect* pID3DXEffect,THIS_ UINT *pPasses, DWORD Flags) ;
+    HRESULT	Effect_BeginPass(ID3DXEffect* pID3DXEffect,THIS_ UINT Pass) ;
+    HRESULT	Effect_CommitChanges(ID3DXEffect* pID3DXEffect) ;
+    HRESULT	Effect_EndPass(ID3DXEffect* pID3DXEffect) ;
+    HRESULT	Effect_End(ID3DXEffect* pID3DXEffect) ;
+	HRESULT	Effect_SetStateManager(ID3DXEffect* pID3DXEffect,THIS_ LPD3DXEFFECTSTATEMANAGER pManager);
+	HRESULT	Effect_SetRawValue(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, LPCVOID pData, UINT ByteOffset, UINT Bytes);
 public:
 	MT_IDirect3DDevice9(MT_IDirect3D9*	pD3D9,IDirect3DDevice9* pIDirect3DDevice9);
 	virtual	~MT_IDirect3DDevice9();

@@ -1057,3 +1057,201 @@ void	MT_IDirect3DDevice9::PIX_D3DPERF_SetMarker(D3DCOLOR col,LPCWSTR wszName){
 
 	memcpy(pBuffer,wszName,uiBufferSize);
 }
+
+HRESULT	MT_IDirect3DDevice9::Effect_SetValue(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, LPCVOID pData, UINT Bytes){
+	void*	pBuffer		=	NULL;
+	CmdEffect_SetValue*	param	=	m_DBuffer.Request<CmdEffect_SetValue>(enCF_Effect_SetValue,Bytes,(void**)pBuffer);
+	param->pID3DXEffect	=	pID3DXEffect;
+	param->Bytes		=	Bytes;
+	memcpy(pBuffer,pData,Bytes);
+	return	S_OK;
+}
+HRESULT	MT_IDirect3DDevice9::Effect_SetBool(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, BOOL b){
+	CmdEffect_SetBool*	param	=	m_DBuffer.Request<CmdEffect_SetBool>(enCF_Effect_SetBool);
+	param->pID3DXEffect	=	pID3DXEffect;
+	param->hParameter	=	hParameter;
+	param->b			=	b;
+	return	S_OK;
+};
+HRESULT	MT_IDirect3DDevice9::Effect_SetBoolArray(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, CONST BOOL* pb, UINT Count){
+	U32	uiBufferSize	=	sizeof(BOOL)*Count;
+	void*	pBuffer		=	NULL;
+	CmdEffect_SetBoolArray*	param	=	m_DBuffer.Request<CmdEffect_SetBoolArray>(enCF_Effect_SetBoolArray,uiBufferSize,(void**)pBuffer);
+	param->pID3DXEffect	=	pID3DXEffect;
+	param->hParameter	=	hParameter;
+	param->Count		=	Count;
+	memcpy(pBuffer,pb,uiBufferSize);
+	return	S_OK;
+};
+HRESULT	MT_IDirect3DDevice9::Effect_SetInt(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, INT n){
+	CmdEffect_SetInt*	param	=	m_DBuffer.Request<CmdEffect_SetInt>(enCF_Effect_SetInt);
+	param->pID3DXEffect	=	pID3DXEffect;
+	param->hParameter	=	hParameter;
+	param->n			=	n;
+	return	S_OK;
+};
+HRESULT	MT_IDirect3DDevice9::Effect_SetIntArray(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, CONST INT* pn, UINT Count)
+{
+	U32	uiBufferSize	=	sizeof(INT)*Count;
+	void*	pBuffer		=	NULL;
+	CmdEffect_SetIntArray*	param	=	m_DBuffer.Request<CmdEffect_SetIntArray>(enCF_Effect_SetIntArray,uiBufferSize,(void**)pBuffer);
+	param->pID3DXEffect	=	pID3DXEffect;
+	param->hParameter	=	hParameter;
+	param->Count		=	Count;
+	memcpy(pBuffer,pn,uiBufferSize);
+	return	S_OK;
+};
+HRESULT	MT_IDirect3DDevice9::Effect_SetFloat(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, FLOAT f){
+	CmdEffect_SetFloat*	param	=	m_DBuffer.Request<CmdEffect_SetFloat>(enCF_Effect_SetFloat);
+	param->pID3DXEffect	=	pID3DXEffect;
+	param->hParameter	=	hParameter;
+	param->f			=	f;
+	return	S_OK;
+};
+HRESULT	MT_IDirect3DDevice9::Effect_SetFloatArray(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, CONST FLOAT* pf, UINT Count){
+	U32	uiBufferSize	=	sizeof(INT)*Count;
+	void*	pBuffer		=	NULL;
+	CmdEffect_SetFloatArray*	param	=	m_DBuffer.Request<CmdEffect_SetFloatArray>(enCF_Effect_SetFloatArray,uiBufferSize,(void**)pBuffer);
+	param->pID3DXEffect	=	pID3DXEffect;
+	param->hParameter	=	hParameter;
+	param->Count		=	Count;
+	memcpy(pBuffer,pf,uiBufferSize);
+	return	S_OK;
+};
+HRESULT	MT_IDirect3DDevice9::Effect_SetVector(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, CONST D3DXVECTOR4* pVector){
+	CmdEffect_SetVector*	param	=	m_DBuffer.Request<CmdEffect_SetVector>(enCF_Effect_SetVector);
+	param->pID3DXEffect	=	pID3DXEffect;
+	param->hParameter	=	hParameter;
+	param->pVector		=	*pVector;
+	return	S_OK;
+};
+HRESULT	MT_IDirect3DDevice9::Effect_SetVectorArray(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, CONST D3DXVECTOR4* pVector, UINT Count){
+	U32	uiBufferSize	=	sizeof(D3DXVECTOR4)*Count;
+	void*	pBuffer		=	NULL;
+	CmdEffect_SetVectorArray*	param	=	m_DBuffer.Request<CmdEffect_SetVectorArray>(enCF_Effect_SetVectorArray,uiBufferSize,(void**)pBuffer);
+	param->pID3DXEffect	=	pID3DXEffect;
+	param->hParameter	=	hParameter;
+	param->Count		=	Count;
+	memcpy(pBuffer,pVector,uiBufferSize);
+	return	S_OK;
+};
+HRESULT	MT_IDirect3DDevice9::Effect_SetMatrix(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, CONST D3DXMATRIX* pMatrix){
+	CmdEffect_SetMatrix*	param	=	m_DBuffer.Request<CmdEffect_SetMatrix>(enCF_Effect_SetMatrix);
+	param->pID3DXEffect	=	pID3DXEffect;
+	param->hParameter	=	hParameter;
+	param->pMatrix		=	*pMatrix;
+	return	S_OK;
+};
+HRESULT	MT_IDirect3DDevice9::Effect_SetMatrixArray(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, CONST D3DXMATRIX* pMatrix, UINT Count){
+	U32	uiBufferSize	=	sizeof(D3DXMATRIX)*Count;
+	void*	pBuffer		=	NULL;
+	CmdEffect_SetMatrixArray*	param	=	m_DBuffer.Request<CmdEffect_SetMatrixArray>(enCF_Effect_SetMatrixArray,uiBufferSize,(void**)pBuffer);
+	param->pID3DXEffect	=	pID3DXEffect;
+	param->hParameter	=	hParameter;
+	param->Count		=	Count;
+	memcpy(pBuffer,pMatrix,uiBufferSize);
+	return	S_OK;
+};
+HRESULT	MT_IDirect3DDevice9::Effect_SetMatrixPointerArray(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, CONST D3DXMATRIX** ppMatrix, UINT Count){
+	//U32	uiBufferSize	=	sizeof(D3DXMATRIX)*Count;
+	//void*	pBuffer		=	NULL;
+	//CmdEffect_SetMatrixArray*	param	=	m_DBuffer.Request<CmdEffect_SetMatrixArray>(enCF_Effect_SetMatrixArray,uiBufferSize,(void**)pBuffer);
+	//param->pID3DXEffect	=	pID3DXEffect;
+	//param->hParameter	=	hParameter;
+	//param->Count		=	Count;
+	//memcpy(pBuffer,pMatrix,uiBufferSize);
+	return	S_OK;
+};
+HRESULT	MT_IDirect3DDevice9::Effect_SetMatrixTranspose(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, CONST D3DXMATRIX* pMatrix){
+	CmdEffect_SetMatrixTranspose*	param	=	m_DBuffer.Request<CmdEffect_SetMatrixTranspose>(enCF_Effect_SetMatrixTranspose);
+	param->pID3DXEffect	=	pID3DXEffect;
+	param->hParameter	=	hParameter;
+	param->pMatrix		=	*pMatrix;
+	return	S_OK;
+};
+HRESULT	MT_IDirect3DDevice9::Effect_SetMatrixTransposeArray(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, CONST D3DXMATRIX* pMatrix, UINT Count){
+	U32	uiBufferSize	=	sizeof(D3DXMATRIX)*Count;
+	void*	pBuffer		=	NULL;
+	CmdEffect_SetMatrixTransposeArray*	param	=	m_DBuffer.Request<CmdEffect_SetMatrixTransposeArray>(enCF_Effect_SetMatrixTransposeArray,uiBufferSize,(void**)pBuffer);
+	param->pID3DXEffect	=	pID3DXEffect;
+	param->hParameter	=	hParameter;
+	param->Count		=	Count;
+	memcpy(pBuffer,pMatrix,uiBufferSize);
+	return	S_OK;
+};
+HRESULT	MT_IDirect3DDevice9::Effect_SetMatrixTransposePointerArray(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, CONST D3DXMATRIX** ppMatrix, UINT Count){
+	return	S_OK;
+};
+HRESULT	MT_IDirect3DDevice9::Effect_SetString(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, LPCSTR pString){
+	U32	uiBufferSize	=	strlen(pString)+1;
+	void*	pBuffer		=	NULL;
+	CmdEffect_SetString*	param	=	m_DBuffer.Request<CmdEffect_SetString>(enCF_Effect_SetString,uiBufferSize,(void**)pBuffer);
+	param->pID3DXEffect	=	pID3DXEffect;
+	param->hParameter	=	hParameter;
+	param->uiBufferSize	=	uiBufferSize;
+	memcpy(pBuffer,pString,uiBufferSize);
+	return	S_OK;
+}
+HRESULT	MT_IDirect3DDevice9::Effect_SetTexture(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, LPDIRECT3DBASETEXTURE9 pTexture){
+	CmdEffect_SetTexture*	param	=	m_DBuffer.Request<CmdEffect_SetTexture>(enCF_Effect_SetTexture);
+	param->pID3DXEffect	=	pID3DXEffect;
+	param->hParameter	=	hParameter;
+	param->pTexture		=	pTexture;
+	return	S_OK;
+};
+
+HRESULT	MT_IDirect3DDevice9::Effect_SetTechnique(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hTechnique){
+	CmdEffect_SetTechnique*	param	=	m_DBuffer.Request<CmdEffect_SetTechnique>(enCF_Effect_SetTechnique);
+	param->pID3DXEffect	=	pID3DXEffect;
+	param->hTechnique	=	hTechnique;
+
+	return	S_OK;
+};
+HRESULT	MT_IDirect3DDevice9::Effect_Begin(ID3DXEffect* pID3DXEffect,THIS_ UINT *pPasses, DWORD Flags){
+	CmdEffect_Begin*	param	=	m_DBuffer.Request<CmdEffect_Begin>(enCF_Effect_Begin);
+	param->pID3DXEffect			=	pID3DXEffect;
+	param->Flags				=	Flags;
+	//Not Allow Mutli Pass!So Return 1;
+	*pPasses	=	1;
+
+	return	S_OK;
+};
+HRESULT	MT_IDirect3DDevice9::Effect_BeginPass(ID3DXEffect* pID3DXEffect,THIS_ UINT Pass){
+	CmdEffect_BeginPass*	param	=	m_DBuffer.Request<CmdEffect_BeginPass>(enCF_Effect_BeginPass);
+	param->pID3DXEffect			=	pID3DXEffect;
+	param->Pass				=	Pass;
+
+	return	S_OK;
+};
+HRESULT	MT_IDirect3DDevice9::Effect_CommitChanges(ID3DXEffect* pID3DXEffect){
+	CmdEffect_CommitChanges*	param	=	m_DBuffer.Request<CmdEffect_CommitChanges>(enCF_Effect_CommitChanges);
+	(*param)	=	pID3DXEffect;
+	return	S_OK;
+};
+HRESULT	MT_IDirect3DDevice9::Effect_EndPass(ID3DXEffect* pID3DXEffect){
+	CmdEffect_EndPass*	param	=	m_DBuffer.Request<CmdEffect_EndPass>(enCF_Effect_EndPass);
+	(*param)	=	pID3DXEffect;
+	return	S_OK;
+};
+HRESULT	MT_IDirect3DDevice9::Effect_End(ID3DXEffect* pID3DXEffect){
+	CmdEffect_End*	param	=	m_DBuffer.Request<CmdEffect_End>(enCF_Effect_End);
+	(*param)	=	pID3DXEffect;
+	return	S_OK;
+};
+HRESULT	MT_IDirect3DDevice9::Effect_SetStateManager(ID3DXEffect* pID3DXEffect,THIS_ LPD3DXEFFECTSTATEMANAGER pManager){
+	CmdEffect_SetStateManager*	param	=	m_DBuffer.Request<CmdEffect_SetStateManager>(enCF_Effect_SetStateManager);
+	param->pID3DXEffect				=	pID3DXEffect;
+	param->pManager					=	pManager;
+	return	S_OK;
+};
+HRESULT	MT_IDirect3DDevice9::Effect_SetRawValue(ID3DXEffect* pID3DXEffect,THIS_ D3DXHANDLE hParameter, LPCVOID pData, UINT ByteOffset, UINT Bytes){
+
+	void*	pBuffer		=	NULL;
+	CmdEffect_SetRawValue*	param	=	m_DBuffer.Request<CmdEffect_SetRawValue>(enCF_Effect_SetRawValue,Bytes,(void**)pBuffer);
+	param->pID3DXEffect	=	pID3DXEffect;
+	param->hParameter	=	hParameter;
+	param->ByteOffset	=	ByteOffset;
+	param->Bytes		=	Bytes;
+	memcpy(pBuffer,pData,Bytes);
+	return	S_OK;
+};

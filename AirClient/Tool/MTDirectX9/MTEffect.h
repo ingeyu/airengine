@@ -107,7 +107,7 @@ class	MT_ID3DXEffect	:	public		MT_IUnknown//, ID3DXBaseEffect)
 
 	//Set Range of an Array to pass to device
 	//Usefull for sending only a subrange of an array down to the device
-	STDMETHOD(SetArrayRange)(THIS_ D3DXHANDLE hParameter, UINT uStart, UINT uEnd) PURE; 
+	//STDMETHOD(SetArrayRange)(THIS_ D3DXHANDLE hParameter, UINT uStart, UINT uEnd) PURE; 
 	// ID3DXBaseEffect
     
     
@@ -118,8 +118,12 @@ class	MT_ID3DXEffect	:	public		MT_IUnknown//, ID3DXBaseEffect)
 
     // Selecting and setting a technique
     STDMETHOD(SetTechnique)(THIS_ D3DXHANDLE hTechnique);
-    STDMETHOD_(D3DXHANDLE, GetCurrentTechnique)(THIS);
-    STDMETHOD(ValidateTechnique)(THIS_ D3DXHANDLE hTechnique) PURE;
+	STDMETHOD_(D3DXHANDLE, GetCurrentTechnique)(THIS){
+		return	m_pID3DXEffect->GetCurrentTechnique();
+	};
+	STDMETHOD(ValidateTechnique)(THIS_ D3DXHANDLE hTechnique){
+		return	m_pID3DXEffect->ValidateTechnique(hTechnique);
+	};
 	STDMETHOD(FindNextValidTechnique)(THIS_ D3DXHANDLE hTechnique, D3DXHANDLE *pTechnique){
 		return	m_pID3DXEffect->FindNextValidTechnique(hTechnique,pTechnique);
 	};
@@ -134,11 +138,11 @@ class	MT_ID3DXEffect	:	public		MT_IUnknown//, ID3DXBaseEffect)
     //                 any DrawPrimitive call to d3d
     // EndPass         ends a pass
     // End             ends active technique
-    STDMETHOD(Begin)(THIS_ UINT *pPasses, DWORD Flags) PURE;
-    STDMETHOD(BeginPass)(THIS_ UINT Pass) PURE;
-    STDMETHOD(CommitChanges)(THIS) PURE;
-    STDMETHOD(EndPass)(THIS) PURE;
-    STDMETHOD(End)(THIS) PURE;
+    STDMETHOD(Begin)(THIS_ UINT *pPasses, DWORD Flags) ;
+    STDMETHOD(BeginPass)(THIS_ UINT Pass) ;
+    STDMETHOD(CommitChanges)(THIS) ;
+    STDMETHOD(EndPass)(THIS) ;
+    STDMETHOD(End)(THIS) ;
 
     // Managing D3D Device
 	STDMETHOD(GetDevice)(THIS_ MT_LPDIRECT3DDEVICE9* ppDevice);
@@ -150,7 +154,7 @@ class	MT_ID3DXEffect	:	public		MT_IUnknown//, ID3DXBaseEffect)
 	}
 
     // Logging device calls
-    STDMETHOD(SetStateManager)(THIS_ LPD3DXEFFECTSTATEMANAGER pManager);
+	STDMETHOD(SetStateManager)(THIS_ LPD3DXEFFECTSTATEMANAGER pManager);
 	STDMETHOD(GetStateManager)(THIS_ LPD3DXEFFECTSTATEMANAGER *ppManager){
 		return	m_pID3DXEffect->GetStateManager(ppManager);
 	};
@@ -165,7 +169,7 @@ class	MT_ID3DXEffect	:	public		MT_IUnknown//, ID3DXBaseEffect)
 	STDMETHOD(CloneEffect)(THIS_ MT_LPDIRECT3DDEVICE9 pDevice, MT_LPD3DXEFFECT* ppEffect);
     
     // Fast path for setting variables directly in ID3DXEffect
-    STDMETHOD(SetRawValue)(THIS_ D3DXHANDLE hParameter, LPCVOID pData, UINT ByteOffset, UINT Bytes) PURE;
+    STDMETHOD(SetRawValue)(THIS_ D3DXHANDLE hParameter, LPCVOID pData, UINT ByteOffset, UINT Bytes);
 public:
 	MT_ID3DXEffect(MT_IDirect3DDevice9*	pMT_IDirect3DDevice9,ID3DXEffect*			pID3DXEffect);
 	virtual	~MT_ID3DXEffect();
