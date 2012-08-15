@@ -19,22 +19,21 @@ public:
 	MT_IUnknown(){
 		uiRef	=	0;
 	};
-	virtual	~MT_IUnknown()=0;
+	virtual	~MT_IUnknown(){};
     virtual HRESULT STDMETHODCALLTYPE QueryInterface( 
         /* [in] */ REFIID riid,
         /* [iid_is][out] */ __RPC__deref_out void __RPC_FAR *__RPC_FAR *ppvObject) = 0;
 
 	virtual ULONG STDMETHODCALLTYPE AddRef( void){
-		InterlockedIncrement(&uiRef);
-		return	uiRef;
+		return	InterlockedIncrement(&uiRef);
 	};
 
 	virtual ULONG STDMETHODCALLTYPE Release( void){
-		InterlockedDecrement(&uiRef);
-		if(uiRef==0){
+		LONG	ret	=	InterlockedDecrement(&uiRef);
+		if(ret<=0){
 			delete this;
 		}
-		return	uiRef;
+		return	ret;
 	};
 
     template<class Q>
@@ -114,12 +113,31 @@ class MT_ID3DXEffect;
 
 
 //typedef
-typedef	MT_IDirect3DDevice9*		MT_LPDIRECT3DDEVICE9;
-typedef	MT_IDirect3DSurface9*		MT_LPDIRECT3DSURFACE9;
-typedef	MT_IDirect3DBaseTexture9*	MT_LPDIRECT3DBASETEXTURE9;
-typedef	MT_IDirect3DTexture9*		MT_LPDIRECT3DTEXTURE9;
-typedef	MT_IDirect3DCubeTexture9*	MT_LPDIRECT3DCUBETEXTURE9;
-typedef	MT_IDirect3DVolumeTexture9*	MT_LPDIRECT3DVOLUMETEXTURE9;
+typedef MT_IDirect3D9*							MT_LPDIRECT3D9;
+typedef MT_IDirect3D9Ex *						MT_LPDIRECT3D9EX ;
+typedef MT_IDirect3DDevice9*					MT_LPDIRECT3DDEVICE9;
+typedef MT_IDirect3DDevice9Ex *					MT_LPDIRECT3DDEVICE9EX ;
+typedef MT_IDirect3DSwapChain9*					MT_LPDIRECT3DSWAPCHAIN9;
+typedef MT_IDirect3DSwapChain9Ex *				MT_LPDIRECT3DSWAPCHAIN9EX ;
+typedef MT_IDirect3DSurface9*					MT_LPDIRECT3DSURFACE9;
+typedef MT_IDirect3DVertexBuffer9*				MT_LPDIRECT3DVERTEXBUFFER9;
+typedef MT_IDirect3DIndexBuffer9*				MT_LPDIRECT3DINDEXBUFFER9;
+typedef MT_IDirect3DPixelShader9*				MT_LPDIRECT3DPIXELSHADER9;
+typedef MT_IDirect3DQuery9*						MT_LPDIRECT3DQUERY9;
+typedef MT_IDirect3DVertexDeclaration9 *		MT_LPDIRECT3DVERTEXDECLARATION9 ;
+typedef MT_IDirect3DVertexShader9 *				MT_LPDIRECT3DVERTEXSHADER9 ;
+typedef MT_IDirect3DVolume9 *					MT_LPDIRECT3DVOLUME9 ;
+typedef MT_IDirect3DVolumeTexture9 *			MT_LPDIRECT3DVOLUMETEXTURE9 ;
+typedef MT_IDirect3DCubeTexture9 *				MT_LPDIRECT3DCUBETEXTURE9 ;
+typedef MT_IDirect3DDevice9Video *				MT_LPDIRECT3DDEVICE9VIDEO ;
+typedef MT_IDirect3DCryptoSession9 *			MT_LPDIRECT3DCRYPTOSESSION9 ;
+typedef MT_IDirect3DBaseTexture9 *				MT_LPDIRECT3DBASETEXTURE9 ;
+typedef MT_IDirect3DTexture9 *					MT_LPDIRECT3DTEXTURE9 ;
+typedef MT_IDirect3DAuthenticatedChannel9 *		MT_LPDIRECT3DAUTHENTICATEDCHANNEL9 ;
+typedef MT_IDirect3D9ExOverlayExtension *		MT_LPDIRECT3D9EXOVERLAYEXTENSION ;
+typedef MT_IDirect3DResource9*					MT_LPDIRECT3DRESOURCE9;
+typedef MT_IDirect3DStateBlock9*				MT_LPDIRECT3DSTATEBLOCK9;
+
 
 typedef	MT_ID3DXEffect*				MT_LPD3DXEFFECT;
 
@@ -256,6 +274,7 @@ struct CmdPresent{
 	RECT				dst;
 	RGNDATA				dirty;
 };
+typedef	BOOL	CmdSetDialogBoxMode;
 struct CmdSetGammaRamp{
 	UINT iSwapChain;
 	DWORD Flags;

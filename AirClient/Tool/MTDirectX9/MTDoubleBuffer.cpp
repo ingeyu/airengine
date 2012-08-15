@@ -23,7 +23,7 @@ void*	MT_DoubleBuffer::Request(U32 dwSize){
 	if(uiOffset	+	dwSize	>	m_BufferSize[m_uiWriteIndex]){
 		ReAlloc(uiOffset	+	dwSize);
 	}
-	void*	p		=	&m_Buffer[m_uiWriteIndex];
+	void*	p		=	&m_Buffer[m_uiWriteIndex][uiOffset];
 	uiOffset		+=	dwSize;
 	return	p;
 };

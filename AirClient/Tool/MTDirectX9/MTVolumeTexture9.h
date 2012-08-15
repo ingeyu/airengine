@@ -8,7 +8,9 @@ class MT_IDirect3DVolumeTexture9	:	public	MT_IDirect3DBaseTexture9
 {
 public:
     /*** IUnknown methods ***/
-    STDMETHOD(QueryInterface)(THIS_ REFIID riid, void** ppvObj);
+    STDMETHOD(QueryInterface)(THIS_ REFIID riid, void** ppvObj){
+		return	m_pIDirect3DVolumeTexture9->QueryInterface(riid,ppvObj);	
+	};
 
     /*** IDirect3DBaseTexture9 methods ***/
     //STDMETHOD(GetDevice)(THIS_ IDirect3DDevice9** ppDevice) PURE;

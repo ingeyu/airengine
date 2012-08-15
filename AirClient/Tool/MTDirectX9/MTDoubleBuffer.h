@@ -26,14 +26,14 @@ public:
 		return	(T*)(pStart+sizeof(enumCommandFunc));
 	};
 	template<typename T>
-	T*	Request(enumCommandFunc	func,U32 uiBufferSize,void**	pOutBuffer){
+	T*	Request(enumCommandFunc	func,U32 uiBufferSize,void*&	pOutBuffer){
 		U8*	pStart					=	(U8*)Request(sizeof(T)+sizeof(enumCommandFunc) + uiBufferSize);
 		enumCommandFunc*	pFunc	=	(enumCommandFunc*)pStart;
 		*pFunc	=	func;
 		pStart+=sizeof(enumCommandFunc);
 		T*	pRet	=	(T*)pStart;
 		pStart+=sizeof(T);
-		*pOutBuffer	=	pStart;
+		pOutBuffer	=	pStart;
 		return	pRet;
 	};
 protected:

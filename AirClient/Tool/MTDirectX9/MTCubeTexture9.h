@@ -23,7 +23,9 @@ typedef	std::vector<CubeSurface>	CubeSurfaceVector;
 class MT_IDirect3DCubeTexture9	:	public	MT_IDirect3DBaseTexture9
 {
     /*** IUnknown methods ***/
-    STDMETHOD(QueryInterface)(THIS_ REFIID riid, void** ppvObj);
+	STDMETHOD(QueryInterface)(THIS_ REFIID riid, void** ppvObj){
+		return	m_pIDirect3DCubeTexture9->QueryInterface(riid,ppvObj);	
+	};
     //STDMETHOD_(ULONG,AddRef)(THIS) PURE;
     //STDMETHOD_(ULONG,Release)(THIS) PURE;
 

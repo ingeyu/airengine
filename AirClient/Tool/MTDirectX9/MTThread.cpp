@@ -46,7 +46,6 @@
 				Resume();
 			m_bPause	= true;
 			m_bExit		= true;
-			m_hHandle	= NULL;
 			m_iThreadID = 0;
 			m_bSuspend	= false;
 			return true;
@@ -79,7 +78,7 @@
 			return true;
 		}
 		unsigned int __stdcall MT_Thread::Run(void* pThread){
-			OutputDebugStringA("--线程启动--\n");
+			//OutputDebugStringA("--线程启动--\n");
 			MT_Thread* p = (MT_Thread*)pThread;
 			while(!p->m_bExit){
 				while(!p->m_bPause){
@@ -90,14 +89,13 @@
 				Sleep(p->m_pSleepTime);
 				
 			}
-			OutputDebugStringA("--线程退出--\n");
+			//OutputDebugStringA("--线程退出--\n");
 			return true;
 		}
 	
 		bool MT_Thread::StopThreadWaitForExit(){
-			HANDLE h	=	m_hHandle;
 			StopThread();
-			DWORD dRet	=	WaitForSingleObject(h,INFINITE);
+			DWORD dRet	=	WaitForSingleObject(m_hHandle,INFINITE);
 			switch(dRet){
 				case	WAIT_OBJECT_0:{
 					::OutputDebugStringA("Wait	Thread Succesed Exit\n");

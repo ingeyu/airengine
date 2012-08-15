@@ -6,10 +6,11 @@ MT_IDirect3D9* MT_Direct3DCreate9( UINT SDKVersion )
 	if(pD3D9==NULL)
 		return	NULL;
 	MT_IDirect3D9*	pMTD3D9		=	new	MT_IDirect3D9(pD3D9);
+	pMTD3D9->AddRef();
 	pD3D9->Release();
 	return	pMTD3D9;
 }
-
+/*
 HRESULT Direct3DCreate9Ex( UINT SDKVersion ,MT_IDirect3D9Ex**	ppD3D9)
 {
  	IDirect3D9Ex*	pD3D9	=	NULL;
@@ -21,3 +22,4 @@ HRESULT Direct3DCreate9Ex( UINT SDKVersion ,MT_IDirect3D9Ex**	ppD3D9)
 
 	return	hr;
 }
+*/

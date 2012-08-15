@@ -3,6 +3,11 @@
 
 MT_RenderThread::MT_RenderThread(IDirect3DDevice9*	pDevice){
 	m_pDevice	=	pDevice;
+	m_State		=	enRTS_Waiting;
+
+	//Reset Main Thread Event
+	m_evtMainWaitRender.Reset();
+	//Start
 	StartThread();
 };
 MT_RenderThread::~MT_RenderThread(){
@@ -64,6 +69,23 @@ void	MT_RenderThread::RenderFrame(){
 				if(pData!=NULL)
 					pData				=	&param->dirty;
 				hr	=	m_pDevice->Present(pSourceRect,pDestRect,param->hDestWindowOverride,pData);
+
+				switch(hr){
+					case D3D_OK:{
+								
+					}break;
+					case D3DERR_DEVICELOST:{
+										   
+					}break;
+					case D3DERR_DRIVERINTERNALERROR:{
+													
+					}break;
+					case D3DERR_DEVICEREMOVED:{
+											  
+					}break;
+				}
+				//Render	Complated!
+				return;
 							  }break;
 			case enCF_SetDialogBoxMode:{
 				READ_COMMAND_STRUCT(BOOL);
@@ -311,22 +333,6 @@ void	MT_RenderThread::RenderFrame(){
 					pDirtyRegion	=	&param->dirty;
 				}
 				hr	=	param->pSwapChain->Present(pSourceRect,pDestRect,param->hDestWindowOverride,pDirtyRegion,param->dwFlags);
-				switch(hr){
-					case D3D_OK:{
-								
-					}break;
-					case D3DERR_DEVICELOST:{
-										   
-					}break;
-					case D3DERR_DRIVERINTERNALERROR:{
-													
-					}break;
-					case D3DERR_DEVICEREMOVED:{
-											  
-					}break;
-				}
-				//Render	Complated!
-				return;
 										}break;
 			case enCF_Surface_LockRect:{
 				READ_COMMAND_STRUCT(CmdSurface_LockRect);
@@ -602,12 +608,22 @@ void	MT_RenderThread::RenderFrame(){
 bool	MT_RenderThread::RepetitionRun(){
 	//如果 主线程调用StopThread  则需要不再执行内部逻辑 也不进入等待
 	if(!m_bExit){
+		m_State	=	enRTS_Waiting;
 		//等待主线程
 		m_evtRenderWaitMain.Wait();
+
+		if(m_bExit)
+			return	true;
+
+		m_State	=	enRTS_Rendering;
 		//渲染
 		RenderFrame();
+
+		m_State	=	enRTS_RenderComplated;
 		//发送渲染完毕信号
 		m_evtMainWaitRender.Reset();
+
+		m_State	=	enRTS_EventResetComplated;
 	}
 	return	true;
 };
@@ -615,4 +631,15 @@ bool	MT_RenderThread::RepetitionRun(){
 void	MT_RenderThread::WaitRenderComplated(){
 	//等待渲染完毕
 	m_evtMainWaitRender.Wait();
+}
+
+bool MT_RenderThread::StopThread(){
+	//直到渲染线程状态为 等待
+	while(m_State!=enRTS_Waiting);
+
+	__super::StopThread();
+
+	m_evtRenderWaitMain.Reset();
+
+	return	true;
 }
