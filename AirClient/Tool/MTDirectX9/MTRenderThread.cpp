@@ -1,5 +1,6 @@
 #include "MTRenderThread.h"
 
+#include "MTStateBlock9.h"
 
 MT_RenderThread::MT_RenderThread(IDirect3DDevice9*	pDevice){
 	m_pDevice	=	pDevice;
@@ -189,7 +190,8 @@ void	MT_RenderThread::RenderFrame(){
 									  }break;
 			case enCF_EndStateBlock:{
 				READ_COMMAND_STRUCT(CmdEndStateBlock);
-				hr	=	m_pDevice->EndStateBlock(*param);
+				IDirect3DStateBlock9*& pStateBlock	=	(*param)->m_pIDirect3DStateBlock9;
+				hr	=	m_pDevice->EndStateBlock(&pStateBlock);
 									}break;
 			case enCF_SetClipStatus:{
 				READ_COMMAND_STRUCT(CmdSetClipStatus);

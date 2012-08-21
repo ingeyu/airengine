@@ -16,6 +16,8 @@ public:
 	STDMETHOD(GetDevice)(THIS_ MT_IDirect3DDevice9** ppDevice);
     STDMETHOD(Capture)(THIS);
     STDMETHOD(Apply)(THIS);
+
+	void	SetIDirect3DStateBlock9(IDirect3DStateBlock9* pStateBlock);
 public:
 	MT_IDirect3DStateBlock9(MT_IDirect3DDevice9* pMT_IDirect3DDevice9,IDirect3DStateBlock9* pIDirect3DStateBlock9);
 	virtual	~MT_IDirect3DStateBlock9();

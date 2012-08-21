@@ -13,6 +13,31 @@ typedef	unsigned char	U8;
 typedef	unsigned int	U32;
 
 
+class ST_IDirect3D9;
+class ST_IDirect3D9Ex ;
+class ST_IDirect3DDevice9;
+class ST_IDirect3DDevice9Ex ;
+class ST_IDirect3DSwapChain9;
+class ST_IDirect3DSwapChain9Ex ;
+class ST_IDirect3DSurface9;
+class ST_IDirect3DVertexBuffer9;
+class ST_IDirect3DIndexBuffer9;
+class ST_IDirect3DPixelShader9;
+class ST_IDirect3DQuery9;
+class ST_IDirect3DVertexDeclaration9 ;
+class ST_IDirect3DVertexShader9 ;
+class ST_IDirect3DVolume9 ;
+class ST_IDirect3DVolumeTexture9 ;
+class ST_IDirect3DCubeTexture9 ;
+class ST_IDirect3DDevice9Video ;
+class ST_IDirect3DCryptoSession9 ;
+class ST_IDirect3DBaseTexture9 ;
+class ST_IDirect3DTexture9 ;
+class ST_IDirect3DAuthenticatedChannel9 ;
+class ST_IDirect3D9ExOverlayExtension ;
+class ST_IDirect3DResource9;
+class ST_IDirect3DStateBlock9;
+
 class MT_IUnknown
 {
 public:
@@ -348,8 +373,8 @@ struct CmdSetRenderState{
 	D3DRENDERSTATETYPE State;
 	DWORD Value;
 };
-typedef	IDirect3DStateBlock9**	CmdEndStateBlock;
-typedef	D3DCLIPSTATUS9			CmdSetClipStatus;
+typedef	MT_IDirect3DStateBlock9*	CmdEndStateBlock;
+typedef	D3DCLIPSTATUS9				CmdSetClipStatus;
 struct CmdSetTexture{
 	DWORD Stage;
 	IDirect3DBaseTexture9* pTexture;

@@ -511,8 +511,9 @@ HRESULT MT_IDirect3DDevice9::BeginStateBlock(THIS){
 	return S_OK;
 };
 HRESULT MT_IDirect3DDevice9::EndStateBlock(THIS_ MT_IDirect3DStateBlock9** ppSB){
+	*ppSB	=	new MT_IDirect3DStateBlock9(this,NULL);
 	CmdEndStateBlock*	param	=	m_DBuffer.Request<CmdEndStateBlock>(enCF_EndStateBlock);
-	*param	=	&(*ppSB)->m_pIDirect3DStateBlock9;
+	*param	=	*ppSB;//&(*ppSB)->m_pIDirect3DStateBlock9;
 	return S_OK;
 };
 HRESULT MT_IDirect3DDevice9::SetClipStatus(THIS_ CONST D3DCLIPSTATUS9* pClipStatus){
