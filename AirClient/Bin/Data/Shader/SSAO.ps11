@@ -168,6 +168,7 @@ float4 main( VS_OUTPUT Input ) : SV_TARGET
    }
 
    float fAO   =   (occ/SAMPLER_NUM)*0.5+0.5;
-   return fAO;//*TexDiff.Sample(ss_wrappoint,uv);///SAMPLER_NUM;//(GetOffset(offset[5]  ,opt).xyxy/8)*0.5+0.5;///4;
+   float4 c	=	fAO;//*TexDiff.Sample(ss_wrappoint,uv);
+   return c;///SAMPLER_NUM;//(GetOffset(offset[5]  ,opt).xyxy/8)*0.5+0.5;///4;
 }
 

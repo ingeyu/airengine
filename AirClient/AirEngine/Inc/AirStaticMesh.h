@@ -41,8 +41,7 @@ namespace	Air{
 			void*		pVB;
 			void*		pIB;
 
-			U8*			m_pData;
-			U32			m_uiSize;
+			Data		m_MeshData;
 			AString		m_strMaterialName;
 
 			BoundingBox	m_BoundingBox;

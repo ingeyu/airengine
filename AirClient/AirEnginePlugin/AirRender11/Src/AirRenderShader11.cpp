@@ -1,11 +1,40 @@
 #include "AirRenderShader11.h"
 #include "AirRenderDevice11.h"
 #include "D3Dcompiler.h"
+#include "AirGlobalSetting.h"
+#include "AirInterfaceResourceSystem.h"
 
 namespace Air{
 	
 	namespace	Client{
 		extern	Render::Device11*	pDevice;
+		class FileInclude	:	public	ID3DInclude{
+		public:
+			STDMETHOD(Open)(THIS_ D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID *ppData, UINT *pBytes) {
+				switch(IncludeType){
+				case	D3D_INCLUDE_LOCAL:
+				case	D3D_INCLUDE_SYSTEM:{
+					Data data;
+					U32	uiSize	=	GetGlobalSetting().m_pResourceSystem->Find(pFileName,data);
+					if(!data.IsNull()){
+						*ppData	=	data.buff;
+						*pBytes	=	data.size;
+						data.buff=NULL;
+					}
+					return	D3D_OK;
+										  }break;
+
+				}
+				return	D3DERR_NOTFOUND;
+			};
+			STDMETHOD(Close)(THIS_ LPCVOID pData) {
+				if(pData!=NULL){
+					delete[] pData;
+					pData=NULL;
+				}
+				return	S_OK;
+			};
+		};
 		namespace	Render{
 			
 	
@@ -77,11 +106,22 @@ namespace Air{
 				};
 				AString	strProfile	=	strType	+	strShaderType[m_ShaderVersion];
 
-				U8*	pData	=	NULL;
-				U32	uiSize	=	0;
-				if(Common::File::Load(m_strProductName,pData,uiSize)){
+				Data data;
+				GetGlobalSetting().m_pResourceSystem->Find(m_strProductName,data);
+
+				if(!data.IsNull()){
 					ID3DBlob*	pError	=	NULL;
-					D3DCompile(pData,uiSize,m_strProductName.c_str(),NULL,NULL,"main",strProfile.c_str(),0,0,&m_pBinaryCode,&pError);
+					FileInclude	fileInc;
+					HRESULT	hr	=	D3DCompile(data.buff,data.size,m_strProductName.c_str(),NULL,&fileInc,"main",strProfile.c_str(),0,0,&m_pBinaryCode,&pError);
+					if(FAILED(hr)){
+						char strOutputString[512];
+						if(pError!=NULL)
+							sprintf(strOutputString,"File[%s]Compile Failed!%s!\n",m_strProductName.c_str(),(char*)pError->GetBufferPointer());
+						else
+							sprintf(strOutputString,"File[%s]Compile Failed!No Error Infomation!\n",m_strProductName.c_str());
+						OutputDebugStringA(strOutputString);
+						return false;
+					}
 					DxDevice*	pDxDevice	=	(DxDevice*)pDevice->GetDevice();
 					switch(m_ShaderType){
 						case enVS:{
@@ -115,8 +155,6 @@ namespace Air{
 							m_pDxShader		=	pShader;
 							break;}
 					}
-
-					delete[] pData;
 				}
 
 				return	true;

@@ -5,10 +5,10 @@ MaterialTemplate	T1
 	Pass	P0
 	{
 		RasterizerState		CullNone
-		VertexShader			"..\Data\Shader\Obj"
+		VertexShader			"Shader/Obj"
 		{
 		}
-		PixelShader			"..\Data\Shader\DiffusePS"
+		PixelShader			"Shader/DiffusePS"
 		{
 			Texture		0	0		SS_WarpLine2
 		}
@@ -23,10 +23,10 @@ MaterialTemplate	Texture
 	Phase	Helper
 	Pass
 	{
-		VertexShader		"..\Data\Shader\Obj"
+		VertexShader		"Shader/Obj"
 		{
 		}
-		PixelShader			"..\Data\Shader\Texture"
+		PixelShader			"Shader/Texture"
 		{
 			Texture		0	0		SS_WarpLine2
 		}
@@ -40,10 +40,10 @@ MaterialTemplate	Object
 	Phase	MRT
 	Pass
 	{
-		VertexShader		"..\Data\Shader\Obj_MRT_NoSkin"
+		VertexShader		"Shader/Obj_MRT_NoSkin"
 		{
 		}
-		PixelShader			"..\Data\Shader\Obj_MRT_NoSpec_NoBump_NoSelfillum"
+		PixelShader			"Shader/Obj_MRT_NoSpec_NoBump_NoSelfillum"
 		{
 			Texture		0	0		SS_WarpLine2
 			Texture		1	1		SS_WarpLine2
@@ -59,10 +59,10 @@ MaterialTemplate	MT_Object_ShadowDepth
 	Phase	Shadow
 	Pass
 	{
-		VertexShader		"..\Data\Shader\Obj_MRT_NoSkin"
+		VertexShader		"Shader/Obj_MRT_NoSkin"
 		{
 		}
-		PixelShader			"..\Data\Shader\Obj_ShadowDepth"
+		PixelShader			"Shader/Obj_ShadowDepth"
 		{
 		}
 	}
@@ -73,10 +73,10 @@ MaterialTemplate	MT_Object_ShadowDepth_AlphaTest
 	Phase	Shadow
 	Pass
 	{
-		VertexShader		"..\Data\Shader\Obj_MRT_NoSkin"
+		VertexShader		"Shader/Obj_MRT_NoSkin"
 		{
 		}
-		PixelShader			"..\Data\Shader\Obj_ShadowDepth_AlphaTest"
+		PixelShader			"Shader/Obj_ShadowDepth_AlphaTest"
 		{
 			Texture		0	0		SS_WarpLine2
 		}
@@ -90,10 +90,10 @@ MaterialTemplate	QuadCopy
 	Pass
 	{
 		DepthStencilState DisableDepthCompareWrite
-		VertexShader		"..\Data\Shader\Quad"
+		VertexShader		"Shader/Quad"
 		{
 		}
-		PixelShader			"..\Data\Shader\QuadCopy"
+		PixelShader			"Shader/QuadCopy"
 		{
 			Texture		0	0		SS_WarpLine2
 		}
@@ -107,10 +107,10 @@ MaterialTemplate	MT_SSAO
 	Pass
 	{
 		DepthStencilState DisableDepthCompareWrite
-		VertexShader		"..\Data\Shader\Quad"
+		VertexShader		"Shader/Quad"
 		{
 		}
-		PixelShader			"..\Data\Shader\SSAO"
+		PixelShader			"Shader/SSAO"
 		{
 			Texture		0	0		SS_WarpPoint
 			Texture		1	1		SS_ClampLine2
@@ -127,10 +127,10 @@ MaterialTemplate	MT_ShadowMask
 	Pass
 	{
 		DepthStencilState DisableDepthCompareWrite
-		VertexShader		"..\Data\Shader\Quad"
+		VertexShader		"Shader/Quad"
 		{
 		}
-		PixelShader			"..\Data\Shader\ShadowMaskAO"
+		PixelShader			"Shader/ShadowMaskAO"
 		{
 			Texture		0	0		SS_ClampLine2
 			Texture		1	1		SS_ClampLine2
@@ -146,10 +146,10 @@ MaterialTemplate	MT_WorldHelper
 	Phase	Helper
 	Pass
 	{
-		VertexShader		"..\Data\Shader\WorldHelper"
+		VertexShader		"Shader/WorldHelper"
 		{
 		}
-		PixelShader			"..\Data\Shader\WorldHelper"
+		PixelShader			"Shader/WorldHelper"
 		{
 		}
 	}

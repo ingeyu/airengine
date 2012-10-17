@@ -359,7 +359,7 @@ namespace	Air{
 				Float3	right	=	updir.Cross(dir);
 				Float3  vRealUp	=	dir.Cross(right);
 
-				Float3	Offset	=	-right*arg.state.X.rel*0.05f	+	vRealUp*arg.state.Y.rel*0.05f;
+				Float3	Offset	=	-right*arg.state.X.rel*0.1f	+	vRealUp*arg.state.Y.rel*0.1f;
 				TargetPos		+=	Offset;
 				m_pScene->GetMainCamera()->SetPosition(vRelativePos+TargetPos);
 			}

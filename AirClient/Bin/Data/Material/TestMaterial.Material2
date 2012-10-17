@@ -4,7 +4,7 @@ Material	Test	:	Texture
 	Vector	0 0 0 0
 	Vector	1 1 1 0
 	Vector	0 0 0 0
-	Texture	..\Data\Model\Box_Diff.jpg
+	Texture	Model/Box_Diff.jpg
 }
 
 Material	Test2	:	Texture
@@ -13,7 +13,7 @@ Material	Test2	:	Texture
 	Vector	0.1 0.1 0.1 0
 	Vector	1 1 1 0
 	Vector	0 0 0 0
-	Texture	..\Data\Model\Box_Spec.jpg
+	Texture	Model/Box_Spec.jpg
 }
 
 Material	Test3	:	Object
@@ -22,7 +22,7 @@ Material	Test3	:	Object
 	Vector	0.5 0.5 0.5 0.5
 	Vector	0.1 0.1 0.1 0.1
 	Vector	0 0 0 0
-	Texture	..\Data\Model\Terrain_Diff.png
+	Texture	Model/Terrain_Diff.png
 }
 
 Material	NoMaterial	:	Object
@@ -31,7 +31,7 @@ Material	NoMaterial	:	Object
 	Vector	0.5 0.5 0.5 0.5
 	Vector	0.1 0.1 0.1 0.1
 	Vector	0 0 0 0
-	Texture	..\Data\Model\Terrain_Diff.png
+	Texture	Model/Terrain_Diff.png
 }
 
 Material	QuadCopy	:	QuadCopy
@@ -43,7 +43,7 @@ Material	SSAO	:	MT_SSAO
 {
 	Matrix
 	Texture	MRT0
-	Texture	..\Data\Texture\2x2_rot.png
+	Texture	Texture/2x2_rot.png
 	Texture	MRT2
 	Texture	MRT1
 }
@@ -61,5 +61,5 @@ Material	ShadowMask	:	MT_ShadowMask
 	Vector	1 1 1 1
 	Texture ShadowDepth
 	Texture MRT0
-	Texture ..\Data\Texture\2x2_rot.png
+	Texture Texture/2x2_rot.png
 }

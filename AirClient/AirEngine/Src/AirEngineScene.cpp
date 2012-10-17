@@ -69,7 +69,8 @@ namespace Air{
 // 			m_pRootNode.attachObject(pMesh);
 
 			m_Loader.SetNode(&m_pRootNode);
-			m_Loader.Load("..\\Data\\AirMesh\\jianxia3\\jianxia3.ame.Scene");
+			//"..\\Data\\AirMesh\\jianxia3\\jianxia3.ame.Scene"
+			m_Loader.Load("AirMesh/jianxia3/jianxia3.ame.Scene");
 			return	true;
 		}
 	

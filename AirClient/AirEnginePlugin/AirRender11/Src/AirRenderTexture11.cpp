@@ -27,18 +27,15 @@ namespace Air{
 				DxDevice*	pDxDevice	=	(DxDevice*)pDevice->GetDevice();
 
 				if(m_Info.format	==	enTFMT_UNKNOWN){
-// 					U32	uiSize	=	GetGlobalSetting().m_pResourceSystem->Find(m_strProductName);
-// 					if(uiSize==0)
-// 						return	false;
-// 					m_pStream	=	GetGlobalSetting().m_pResourceSystem->CreateProduct<Resource::IStream*>(m_strProductName,"Stream");
-					U8*	pData	=	NULL;
-					U32	uiSize	=	0;
-					if(Common::File::Load(m_strProductName,pData,uiSize)){
+					Data data;
+					GetGlobalSetting().m_pResourceSystem->Find(m_strProductName,data);
+
+					if(!data.IsNull()){
 						D3DX11_IMAGE_INFO	imgInfo;
-						D3DX11GetImageInfoFromMemory(pData,uiSize,NULL,&imgInfo,NULL);
+						D3DX11GetImageInfoFromMemory(data.buff,data.size,NULL,&imgInfo,NULL);
 						D3DX11_IMAGE_LOAD_INFO	loadInfo;
 						MemoryZero(loadInfo);
-						D3DX11CreateShaderResourceViewFromMemory(pDxDevice,pData,uiSize,0,NULL,&m_pSRV,NULL);
+						D3DX11CreateShaderResourceViewFromMemory(pDxDevice,data.buff,data.size,0,NULL,&m_pSRV,NULL);
 						m_Info.width	=	imgInfo.Width;
 						m_Info.height	=	imgInfo.Height;
 						m_Info.depth	=	imgInfo.Depth;
@@ -64,10 +61,6 @@ namespace Air{
 							};
 							m_Info.type	=	typeArray[imgInfo.ResourceDimension];
 						}
-
-						
-						//desc.ViewDimension	==	
-						SAF_DA(pData);
 					}else{
 						return	false;
 					}

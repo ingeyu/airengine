@@ -1,6 +1,8 @@
 #include "AirStaticMesh.h"
 #include "AirRenderSystem.h"
 #include "AirEngineMaterial.h"
+#include "AirGlobalSetting.h"
+#include "AirInterfaceResourceSystem.h"
 
 namespace	Air{
 	namespace	Client{
@@ -8,8 +10,6 @@ namespace	Air{
 
 		StaticMesh::StaticMesh( CAString& strName ):IProduct(strName)
 		{
-			m_pData		=	NULL;
-			m_uiSize	=	0;
 
 			m_uiNumVertex	=	NULL;
 			m_uiNumFace		=	NULL;
@@ -19,8 +19,13 @@ namespace	Air{
 
 		Air::U1 StaticMesh::Create()
 		{
-			if(Common::File::Load(m_strProductName,m_pData,m_uiSize)){
-				int	version	=	*(int*)m_pData;
+			Resource::ISystem*	pResSys	=	GetGlobalSetting().m_pResourceSystem;
+			pResSys->Find(m_strProductName,m_MeshData);
+
+			U8*	pData	=	m_MeshData.buff;
+			U32	uiSize	=	m_MeshData.size;
+			if(pData!=NULL&&uiSize!=0){
+				int	version	=	*(int*)pData;
 				if(version	==	'0EMA'){
 					LoadAME0();
 
@@ -54,7 +59,7 @@ namespace	Air{
 
 		Air::U1 StaticMesh::LoadAME0()
 		{
-			U8*	p	=	m_pData;
+			U8*	p	=	m_MeshData.buff;
 			p+=sizeof(U32);
 			m_BoundingBox				=	*(BoundingBox*)p;		p+=sizeof(BoundingBox);
 			U32	uiMaterialNameLength	=	0;
@@ -76,9 +81,7 @@ namespace	Air{
 			SAFE_RELEASE_REF(m_DrawBuff.m_pIndexBuff);
 			SAFE_RELEASE_REF(m_DrawBuff.m_pVertexDeclare);
 
-			SAF_DA(m_pData);
-			m_pData		=	NULL;
-			m_uiSize	=	0;
+			m_MeshData.ReSize(0);
 
 			m_uiNumVertex	=	NULL;
 			m_uiNumFace		=	NULL;

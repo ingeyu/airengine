@@ -49,7 +49,7 @@ namespace Air{
 				PackageManager::GetSingleton()->SetSystem(this);
 			
 	
-				//AddPackage(AString(GetGlobalSetting().m_EngineParam.strMedia));
+				AddPackage(GetGlobalSetting().m_EngineParam.strMedia);
 				//AddPackage(AString(GetGlobalSetting().m_EngineParam.strCustomMedia));
 	
 				return	true;

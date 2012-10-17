@@ -2,7 +2,7 @@
 #include "AirEngineMaterialParse.h"
 #include "AirMeshEntity.h"
 #include "AirEngineSystem.h"
-
+#include "AirGlobalSetting.h"
 
 namespace	Air{
 	namespace	Client{
@@ -17,14 +17,17 @@ namespace	Air{
 		{
 			Unload();
 
-			U8*	pData=NULL;
-			U32	uiSize=0;
-			Common::File::Load(strSceneName+".material",pData,uiSize);
-			MaterialParse::GetSingleton()->CompileMaterialSet(pData,uiSize);
-			SAFE_DELETE_ARRAY(pData);
+			//U8*	pData=NULL;
+			//U32	uiSize=0;
+			//Common::File::Load(strSceneName+".material",pData,uiSize);
+			Data data;
+			Resource::ISystem*	pResSys	=	GetGlobalSetting().m_pResourceSystem;
+			pResSys->Find(strSceneName+".material",data);
+			MaterialParse::GetSingleton()->CompileMaterialSet(data.buff,data.size);//uiSize);
+			pResSys->Find(strSceneName,data);
 
 			IniFile	file;
-			file.LoadFile(strSceneName);
+			file.LoadFileFromMemory(&data);
 
 			StringVector&	pVec	=	*file.GetStringList("Mesh","Scene");
 
