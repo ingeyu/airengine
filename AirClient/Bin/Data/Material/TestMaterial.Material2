@@ -45,6 +45,7 @@ Material	SSAO	:	MT_SSAO
 	Texture	MRT0
 	Texture	..\Data\Texture\2x2_rot.png
 	Texture	MRT2
+	Texture	MRT1
 }
 
 Material	WorldHelper	:	MT_WorldHelper
