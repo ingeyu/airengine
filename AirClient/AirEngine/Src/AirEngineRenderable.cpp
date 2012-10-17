@@ -65,6 +65,8 @@ namespace	Air{
 			}
 			
 			SetMaterial(p);
+			if(p!=NULL)
+				p->ReleaseRef();
 		}
 
 		void Renderable::SetMaterialNull( enumPhaseIndex index ){

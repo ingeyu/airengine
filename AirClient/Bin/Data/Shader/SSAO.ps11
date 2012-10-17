@@ -2,6 +2,7 @@
 Texture2D TexDepth		:	register(t0);
 Texture2D Tex2x2		:	register(t1);
 Texture2D TexDiff		:	register(t2);
+Texture2D TexNor		:	register(t3);
 SamplerState	ss_wrappoint	:	register(s0);
 SamplerState	ss_clampline2	:	register(s1);
 
@@ -130,14 +131,15 @@ float4 main( VS_OUTPUT Input ) : SV_TARGET
    oldPos         =   mul(matViewProjectionInverse,oldPos);
    
    oldPos/=oldPos.w;
-   //float3   oldNor=   tex2D(Texture0,uv).xyz;
-   //oldNor=oldNor*2-1;
+
    //normalize(oldNor);
    //oldNor         =   normalize(mul(oldNor,(float3x3)matViewProjectionInverse));
    
    float3 viewDir   =   -normalize(vViewPosition.xyz-oldPos.xyz);
-   
-   
+   float3   oldNor=   TexNor.Sample(ss_wrappoint,uv).xyz;
+   oldNor=oldNor*2-1;
+   oldPos.xyz+=oldNor.xyz;
+
    float occ=0;
    float2 fPixel   =   4*invViewport;//*5;//OccSize.y;
    
@@ -166,6 +168,6 @@ float4 main( VS_OUTPUT Input ) : SV_TARGET
    }
 
    float fAO   =   (occ/SAMPLER_NUM)*0.5+0.5;
-   return fAO*TexDiff.Sample(ss_wrappoint,uv);///SAMPLER_NUM;//(GetOffset(offset[5]  ,opt).xyxy/8)*0.5+0.5;///4;
+   return fAO;//*TexDiff.Sample(ss_wrappoint,uv);///SAMPLER_NUM;//(GetOffset(offset[5]  ,opt).xyxy/8)*0.5+0.5;///4;
 }
 
