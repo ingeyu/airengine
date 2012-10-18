@@ -30,24 +30,15 @@
     <Filter Include="Audio">
       <UniqueIdentifier>{420dfd8e-3726-48c9-8d79-be94d41c5460}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Character">
+      <UniqueIdentifier>{7d9e39df-b977-4782-8e0e-8d486d89b293}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\AirEngine\Src\AirEngine.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\AirEngine\Src\AirEngine3ds.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirEngineCharacterAnimationModel.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirEngineCharacterManager.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirEngineCharacterResource.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirEngineCharacterTextureAnimationModel.cpp">
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="..\AirEngine\Src\AirEngineDataStream.cpp">
@@ -266,6 +257,18 @@
     <ClCompile Include="..\AirEngine\Src\AirEngineLight.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineCharacterTextureAnimationModel.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineCharacterAnimationModel.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineCharacterManager.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineCharacterResource.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\AirEngine\Inc\AirEngine.h">
@@ -275,18 +278,6 @@
       <Filter>源文件</Filter>
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirEngine3ds.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirEngineCharacterAnimationModel.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirEngineCharacterManager.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirEngineCharacterResource.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirEngineCharacterTextureAnimationModel.h">
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirEngineDataStream.h">
@@ -594,6 +585,18 @@
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirEngineLight.h">
       <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineCharacterTextureAnimationModel.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineCharacterAnimationModel.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineCharacterManager.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineCharacterResource.h">
+      <Filter>Character</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
