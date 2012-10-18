@@ -95,7 +95,7 @@ namespace Air{
 				typedef	InfoMap::iterator				InfoMapItr;
 				typedef	InfoMap::value_type				InfoMapPair;
 			public:
-				Resource(AString	strName,AString	strSkeleton);
+				Resource(CAString&	strName,CAString&	strSkeleton);
 				virtual ~Resource();
 	
 				/**	\brief	载入模型资源
@@ -108,7 +108,7 @@ namespace Air{
 				*	@note
 				*
 				**/
-				SInt	LoadMesh(AString	strName,MeshHDBuffer*	pOutMeshBuff	=	NULL);
+				SInt	LoadMesh(CAString&	strName,MeshHDBuffer*	pOutMeshBuff	=	NULL);
 				/**	\brief	卸载模型资源
 				*   
 				*	@remarks 	卸载模型资源
@@ -118,7 +118,7 @@ namespace Air{
 				*	@note
 				*
 				**/
-				U1		UnLoadMesh(AString	strName);
+				U1		UnLoadMesh(CAString&	strName);
 				/**	\brief	载入动画资源
 				*   
 				*	@remarks 	载入动画资源
@@ -128,7 +128,7 @@ namespace Air{
 				*	@note
 				*
 				**/
-				SInt	LoadAnimation(AString	strName);
+				SInt	LoadAnimation(CAString&	strName);
 				/**	\brief	卸载动画资源
 				*   
 				*	@remarks 	卸载动画资源
@@ -138,9 +138,9 @@ namespace Air{
 				*	@note
 				*
 				**/
-				U1		UnLoadAnimation(AString	strName);
+				U1		UnLoadAnimation(CAString&	strName);
 	
-				SInt	GetAnimationID(AString	strName);
+				SInt	GetAnimationID(CAString&	strName);
 	
 				/**	\brief	创建
 				*   
@@ -161,7 +161,7 @@ namespace Air{
 				**/
 				virtual	U1	Destroy();
 			protected:
-				U1			ParseConfig(AString	strConfig);
+				U1			ParseConfig(CAString&	strConfig);
 	
 				/**	\brief	创建硬件缓冲
 				*   

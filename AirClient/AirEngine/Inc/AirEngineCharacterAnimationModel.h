@@ -132,8 +132,8 @@ namespace Air{
 					*
 					**/
 					U1			Create(	UInt			uiMeshID,
-										AString			strMeshName,
-										AString			strMaterialName,
+										CAString&		strMeshName,
+										CAString&		strMaterialName,
 										UInt**			pSubMesh	=	NULL);
 					/**	\brief	创建装备
 					*   
@@ -148,8 +148,8 @@ namespace Air{
 					*
 					**/
 					U1			Create(	UInt			uiMeshID,
-										AString			strMeshName,
-										AString			strMaterialName,
+										CAString&		strMeshName,
+										CAString&		strMaterialName,
 										MeshHDBuffer*	pHDBuff		=	NULL);
 					/**	\brief	摧毁装备
 					*   
@@ -160,27 +160,6 @@ namespace Air{
 					*
 					**/
 					void		Destroy();
-	
-					/**	\brief	渲染装备
-					*   
-					*	@remarks 	渲染装备
-					*	@see		Equipment
-					*	@return   	void
-					*	@param		Float44 * pWorldMatrix
-					*	@note
-					*
-					**/
-					void		Render(DrawBuff	pBuff);
-					/**	\brief	更新
-					*   
-					*	@remarks 	更新
-					*	@see		Equipment
-					*	@return   	void
-					*	@note
-					*
-					**/
-					virtual void	Updata();
-	
 					/**	\brief	获取装备名字
 					*   
 					*	@remarks 	获取装备名字
@@ -189,7 +168,7 @@ namespace Air{
 					*	@note
 					*
 					**/
-					inline	AString		GetEquipmentName(){return m_strName;};
+					inline	CAString&		GetEquipmentName()const{return m_strName;};
 	
 					U1			IsNull();
 					SInt		GetMeshID(){return m_uiMeshID;};
@@ -199,9 +178,6 @@ namespace Air{
 	
 					CoreAnimation*			m_pCoreAnimation;				///<	动画类指针
 					AString					m_strName;						///<	装备名字
-				public:
-					DrawBuff				m_pHareWareRenderBuff;			///<	硬件缓冲
-	
 				};
 				typedef	std::map<UInt,Equipment*>		EquipmentMap;		///<	装备列表
 				typedef	EquipmentMap::iterator			EquipmentMapItr;	///<	装备列表迭代器
@@ -265,7 +241,7 @@ namespace Air{
 					*	@note
 					*
 					**/
-					virtual U1				AddEquipment(AString	strName,AString strMaterial,AString strTypeName);
+					virtual U1				AddEquipment(CAString&	strName,CAString& strMaterial,CAString& strTypeName);
 					/**	\brief	添加装备
 					*   
 					*	@remarks 	添加装备
@@ -277,7 +253,7 @@ namespace Air{
 					*	@note
 					*
 					**/
-					virtual U1				AddEquipment(AString	strName,AString strMaterial,Equipment::enType type);
+					virtual U1				AddEquipment(CAString&	strName,CAString& strMaterial,Equipment::enType type);
 					/**	\brief	移除一件装备
 					*   
 					*	@remarks 	移除一件装备
@@ -287,7 +263,7 @@ namespace Air{
 					*	@note
 					*
 					**/
-					virtual U1				RemoveEquipment(AString	strTypeName);
+					virtual U1				RemoveEquipment(CAString&	strTypeName);
 					/**	\brief	移除一个部位的装备
 					*   
 					*	@remarks 	移除一个部位的装备
@@ -309,7 +285,7 @@ namespace Air{
 					*	@note
 					*
 					**/
-					virtual U1				PlayAction(AString	strActionName,Real	fBlendTime	=	0.3f);
+					virtual U1				PlayAction(CAString&	strActionName,Real	fBlendTime	=	0.3f);
 					//virtual U1				PlayAction(AString	strActionName,Real	fBlendTime	=	0.3f);
 					/**	\brief	设置动画状态
 					*   
@@ -321,7 +297,7 @@ namespace Air{
 					*	@note
 					*
 					**/
-					virtual U1				SetActionState(AString	strCycleActionName,Real	fBlendTime	=	0.3f);
+					virtual U1				SetActionState(CAString&	strCycleActionName,Real	fBlendTime	=	0.3f);
 					/**	\brief	同时混合2个循环动画
 					*   
 					*	@remarks 	同时混合2个循环动画
@@ -334,7 +310,7 @@ namespace Air{
 					*	@note
 					*
 					**/
-					virtual	U1				SetActionState(AString	strState0,AString	strState1,Real	fWeight0	=	0.5f,Real	fBlendTime	=	0.3f);
+					virtual	U1				SetActionState(CAString&	strState0,CAString&	strState1,Real	fWeight0	=	0.5f,Real	fBlendTime	=	0.3f);
 					/**	\brief	获取动画状态
 					*   
 					*	@remarks 	获取动画状态
@@ -508,7 +484,7 @@ namespace Air{
 					BoneNodeMap				m_mapBoneNode;
 					//ObjectIndexMap			m_mapObjectIndex;
 	
-					//CriticalSection			m_CS;
+					CriticalSection			m_CS;
 	
 	
 				};

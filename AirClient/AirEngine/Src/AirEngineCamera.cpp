@@ -85,7 +85,7 @@ namespace Air{
 
 		}
 		void Camera::RenderCubeMap( DWORD dwFace,SInt uiWidth,SInt uiHeight ){
-			m_CS.Enter();
+	
 			//获取本身的摄像机方向和顶方向
 			Float3	vDir		=	m_vDirection;
 			Float3	vUp			=	m_vUp;
@@ -122,7 +122,6 @@ namespace Air{
 				break;
 			}
 	
-			m_CS.Leave();
 			m_fAngle	=	PI/2.0f;
 			
 			//重建矩阵

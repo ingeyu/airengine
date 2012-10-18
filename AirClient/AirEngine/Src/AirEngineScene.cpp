@@ -70,7 +70,7 @@ namespace Air{
 
 			m_Loader.SetNode(&m_pRootNode);
 			//"..\\Data\\AirMesh\\jianxia3\\jianxia3.ame.Scene"
-			m_Loader.Load("AirMesh/jianxia3/jianxia3.ame.Scene");
+			m_Loader.Load("AirMesh/agrm/agrm.ame.Scene");
 			return	true;
 		}
 	

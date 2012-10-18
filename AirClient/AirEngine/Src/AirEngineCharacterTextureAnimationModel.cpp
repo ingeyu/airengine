@@ -27,14 +27,8 @@ namespace Air{
 				}
 	
 				U1 TextureModel::Destroy(){
-					if(m_pBoneTexture!=NULL){
-						Render::System::GetSingleton()->DestroyProduct(m_pBoneTexture);
-						m_pBoneTexture	=	NULL;
-					}
-					if(m_pTempBoneTexture!=NULL){
-						Render::System::GetSingleton()->DestroyProduct(m_pTempBoneTexture);
-						m_pTempBoneTexture	=	NULL;
-					}
+					SAFE_RELEASE_REF(m_pBoneTexture);
+					SAFE_RELEASE_REF(m_pTempBoneTexture);
 					return	__super::Destroy();
 				}
 	
@@ -50,10 +44,11 @@ namespace Air{
 						for(UInt i=0;i<uiBoneCount;i++){
 							const	CalQuaternion&	q	=	lstBone[i]->getRotationBoneSpace();
 							const	CalVector&		v	=	lstBone[i]->getTranslationBoneSpace();
-	// 						Float44	m(Float4(q.w,q.x,q.y,q.z));
-	// 						Float3*	pP	=	(Float3*)&v;
-	// 						g_TempBoneMatrix[i]	=	m.transpose();
-	// 						g_TempBoneMatrix[i].setTrans(*pP);
+	 						Float44	m(Float4(q.w,q.x,q.y,q.z));
+	 						Float3*	pP	=	(Float3*)&v;
+							static Float3 vScale(1,1,1);
+	 						g_TempBoneMatrix[i]	=	Float44(*pP,vScale,Float4(q));//(m.transpose();
+	 						//g_TempBoneMatrix[i].(*pP);
 // 							Float44	m(Float4(q.w,q.x,q.y,q.z));
 // 								
 // 							m[3][0]	=	v.x;
@@ -81,11 +76,11 @@ namespace Air{
 					GetGlobalSetting().m_ShaderParam.m_pBoneTexture	=	m_pBoneTexture;
 					//调用装备的渲染函数来渲染
 					EquipmentMapItr	itr	=	m_mapEquipment.begin();
-					for(;itr!=m_mapEquipment.end();itr++){
+					for(;itr!=m_mapEquipment.end();itr++){ 
 						Equipment*	pEquip	=	itr->second;
 						if(pEquip==NULL)
 							continue;
-						pEquip->Render(pEquip->m_pHareWareRenderBuff);
+						//pEquip->Render(pEquip->m_pHareWareRenderBuff);
 					}
 				}
 	

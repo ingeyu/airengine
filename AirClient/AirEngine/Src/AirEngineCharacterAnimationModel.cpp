@@ -42,7 +42,7 @@ namespace Air{
 						Destroy();
 					}
 	
-					U1 Equipment::Create(UInt uiMeshID,AString strMeshName,AString strMaterialName,UInt** pSubMesh){
+					U1 Equipment::Create(UInt uiMeshID,CAString& strMeshName,CAString& strMaterialName,UInt** pSubMesh){
 						Destroy();
 	
 						if(m_pCoreAnimation==NULL	||	uiMeshID == -1)
@@ -81,7 +81,7 @@ namespace Air{
 	
 					}
 	
-					U1 Equipment::Create( UInt uiMeshID, AString strMeshName, AString strMaterialName, MeshHDBuffer* pHDBuff /*= NULL*/ ){
+					U1 Equipment::Create( UInt uiMeshID, CAString& strMeshName, CAString& strMaterialName, MeshHDBuffer* pHDBuff /*= NULL*/ ){
 						Destroy();
 	
 						if(m_pCoreAnimation==NULL	||	uiMeshID == -1)
@@ -109,26 +109,28 @@ namespace Air{
 							return false;
 	
 						//创建材质
-// 						m_pMaterial	=	Render::System::GetSingleton()->CreateProduct<Render::IMaterial*>(strMaterialName,AString("Material"));
+						SetMaterialName(strMaterialName);
 // 						if(m_pMaterial	==NULL)
 // 							m_pMaterial	=	Render::System::GetSingleton()->CreateProduct<Render::IMaterial*>(AString("Material\\NoTexture.Material"),AString("Material"));
 						//更新渲染缓冲
-// 						if(pHDBuff!=NULL){
-// 							m_pHareWareRenderBuff.m_pVertexDeclare	=	pHDBuff->pVertexDeclare;
-// 							m_pHareWareRenderBuff.m_pVertexBuff		=	pHDBuff->pVertexBuff;
-// 							m_pHareWareRenderBuff.m_pIndexBuff		=	pHDBuff->pIndexBuff;
-// 	
-// 							m_pHareWareRenderBuff.m_DrawOption.m_DrawType		=	Render::Draw::TYPE_TRIANGLELIST;
-// 							m_pHareWareRenderBuff.m_DrawOption.m_DrawFuncType	=	Render::Draw::FUNC_TYPE_DIP;
-// 	
-// 							m_pHareWareRenderBuff.m_DrawOption.m_uiVertexCount	=	pHDBuff->pVertexBuff->m_Info.size;
-// 							m_pHareWareRenderBuff.m_DrawOption.m_uiFaceCount	=	pHDBuff->pIndexBuff->m_Info.size/3;
-// 	
-// 	
-// 						}
+						if(pHDBuff!=NULL){
+							m_DrawBuff.m_pVertexDeclare	=	pHDBuff->pVertexDeclare;
+							m_DrawBuff.m_pVertexBuff	=	pHDBuff->pVertexBuff;
+							m_DrawBuff.m_pIndexBuff		=	pHDBuff->pIndexBuff;
+
+							m_DrawBuff.m_DrawOption.m_DrawType		=	Render::Draw::enPT_TRIANGLELIST;
+							m_DrawBuff.m_DrawOption.m_DrawFuncType	=	Render::Draw::FUNC_TYPE_DIP;
+
+							m_DrawBuff.m_DrawOption.m_uiVertexCount	=	pHDBuff->pVertexBuff->GetElementCount();
+							m_DrawBuff.m_DrawOption.m_uiFaceCount	=	pHDBuff->pIndexBuff->GetElementCount()/3;
+
+
+						}
+
 						return	true;
 					}
 					void Equipment::Destroy(){
+						
 						//清空渲染缓冲的数据
 // 						if(m_DrawBuff.m_pIndexBuff!=NULL){
 // 							Render::System::GetSingleton()->DestroyProduct(m_DrawBuff.m_pIndexBuff);
@@ -153,19 +155,6 @@ namespace Air{
 // 						m_strName.clear();
 	
 						//m_HardWareBuff.Clear();
-	
-					}
-	
-					void Equipment::Render( DrawBuff	pBuff){
-// 						if(m_pMaterial==NULL	||	m_uiEquipmentType	==	enMax)
-// 							return;
-	
-	
-						//m_pMaterial->Render(pBuff);
-	
-					}
-	
-					void Equipment::Updata(){
 	
 					}
 	
@@ -214,7 +203,7 @@ namespace Air{
 				U1 Model::Create(){
 					if(m_Info.strResourcePath.empty() || m_Info.strSkeleton.empty())
 						return false;
-					m_pResource	=	EngineSystem::GetSingleton()->CreateProduct<Resource*>(m_Info.strResourcePath,AString("CharacterResource"),&m_Info.strSkeleton);
+					m_pResource	=	EngineSystem::GetSingleton()->CreateProduct<Resource*>(m_Info.strResourcePath,"CharacterResource",&m_Info.strSkeleton);
 					if(m_pResource==NULL)
 						return false;
 					if(m_pResource->IsNull())
@@ -227,31 +216,31 @@ namespace Air{
 	
 	
 // 					pAnimation->getSkeleton()->getBoneBoundingBox(&m_Bound.m_vMin.x,&m_Bound.m_vMax.x);
-// 					m_Bound.m_vMin	=	Float3(-1000,-2000,-1000);
-// 					m_Bound.m_vMax	=	Float3(1000,2000,1000);
-// 					m_pObject	=	pAnimation;
-// 					if(!m_Info.bHardWare){
-// 						//创建公用顶点缓冲
-// 						VertexBuff::Info info(32,10000);
-// 						info.SetToDynamic();
-// 	
-// 						m_DrawBuff.m_pVertexBuff	=	Render::System::GetSingleton()->Create<VertexBuff*>(m_strProductName,"VertexBuff",&info);
-// 						if(m_DrawBuff.m_pVertexBuff==NULL)
-// 							return false;
-// 	
-// 						IndexBuff::Info	pIndexInfo(10000*6);
-// 						//设置为动态索引
-// 						pIndexInfo.SetToDynamic();
-// 						//创建索引
-// 						m_DrawBuff.m_pIndexBuff	=	Render::System::GetSingleton()->Create<IndexBuff*>(m_strProductName,"IndexBuff",&pIndexInfo);
-// 						if(m_DrawBuff.m_pIndexBuff==NULL){
-// 							return	false;
-// 						}
-// 	
-// 						//创建公用顶点声明
-// 						VertexDeclare::Info	declareInfo;
-// 						m_DrawBuff.m_pVertexDeclare	=	Render::System::GetSingleton()->Create<VertexDeclare*>(m_strProductName,"VertexDeclare",&declareInfo);
-// 					}
+
+					SetBoundBox(Float3(-1,-2,-1),Float3(1,2,1));
+ 					//m_pObject	=	pAnimation;
+ 					//if(!m_Info.bHardWare){
+ 					//	//创建公用顶点缓冲
+ 					//	Client::Render::Buffer::Info info(32,10000);
+ 					//	info.SetToDynamic();
+ 	
+ 					//	m_DrawBuff.m_pVertexBuff	=	Render::System::GetSingleton()->Create<VertexBuff*>(m_strProductName,"VertexBuff",&info);
+ 					//	if(m_DrawBuff.m_pVertexBuff==NULL)
+ 					//		return false;
+ 	
+ 					//	IndexBuff::Info	pIndexInfo(10000*6);
+ 					//	//设置为动态索引
+ 					//	pIndexInfo.SetToDynamic();
+ 					//	//创建索引
+ 					//	m_DrawBuff.m_pIndexBuff	=	Render::System::GetSingleton()->Create<IndexBuff*>(m_strProductName,"IndexBuff",&pIndexInfo);
+ 					//	if(m_DrawBuff.m_pIndexBuff==NULL){
+ 					//		return	false;
+ 					//	}
+ 	
+ 					//	//创建公用顶点声明
+ 					//	VertexDeclare::Info	declareInfo;
+ 					//	m_DrawBuff.m_pVertexDeclare	=	Render::System::GetSingleton()->Create<VertexDeclare*>(m_strProductName,"VertexDeclare",&declareInfo);
+ 					//}
 	
 					
 					return true;
@@ -282,8 +271,7 @@ namespace Air{
 					SAF_D(pAnimation);
 					m_pObject	=	NULL;
 					//再销毁资源
-					EngineSystem::GetSingleton()->DestroyProduct(m_pResource);
-					m_pResource	=	NULL;
+					SAFE_RELEASE_REF(m_pResource);
 	
 // 					//清除顶点缓冲
 // 					if(m_DrawBuff.m_pVertexBuff!=NULL){
@@ -315,13 +303,13 @@ namespace Air{
 					pAnimation->setLodLevel(m_fLodLevel);
 				}
 	
-				U1 Model::AddEquipment( AString strName,AString strMaterial,AString strTypeName ){
+				U1 Model::AddEquipment( CAString& strName,CAString& strMaterial,CAString& strTypeName ){
 					//获取装备类型
 					Equipment::enType	type	=	GetTypeIDByName(strTypeName);
 					return AddEquipment(strName,strMaterial,type);
 				}
 	
-				U1 Model::AddEquipment( AString strName,AString strMaterial,Equipment::enType type ){
+				U1 Model::AddEquipment( CAString& strName,CAString& strMaterial,Equipment::enType type ){
 					if(IsNull() || strName.empty() || type >=Equipment::enMax || type < 0 )
 						return false;
 					if(m_pResource==NULL)
@@ -395,7 +383,7 @@ namespace Air{
 	
 					return true;
 				}
-				U1 Model::RemoveEquipment( AString strTypeName ){
+				U1 Model::RemoveEquipment( CAString& strTypeName ){
 					Equipment::enType	type	=	GetTypeIDByName(strTypeName);
 					return RemoveEquipment(type);
 				}
@@ -422,7 +410,7 @@ namespace Air{
 					return true;
 				}
 	
-				U1 Model::PlayAction( AString strActionName ,Real	fBlendTime){
+				U1 Model::PlayAction( CAString& strActionName ,Real	fBlendTime){
 					if(strActionName.empty())
 						return false;
 					SInt	uiActionID	=	m_pResource->GetAnimationID(strActionName);
@@ -432,7 +420,7 @@ namespace Air{
 					return	pAnim->getMixer()->executeAction(uiActionID, fBlendTime, fBlendTime);
 				}
 	
-				U1 Model::SetActionState( AString strCycleActionName ,Real	fBlendTime){
+				U1 Model::SetActionState( CAString& strCycleActionName ,Real	fBlendTime){
 					if(strCycleActionName.empty())
 						return false;
 					SInt	uiActionID	=	m_pResource->GetAnimationID(strCycleActionName);
@@ -463,7 +451,7 @@ namespace Air{
 					return true;
 				}
 	
-				U1 Model::SetActionState( AString strState0,AString strState1,Real fWeight0 /*= 0.5f*/,Real fBlendTime /*= 0.3f*/ ){
+				U1 Model::SetActionState( CAString& strState0,CAString& strState1,Real fWeight0 /*= 0.5f*/,Real fBlendTime /*= 0.3f*/ ){
 					if(strState0.empty()	||	strState1.empty())
 						return false;
 					SInt	uiActionID0	=	m_pResource->GetAnimationID(strState0);
@@ -665,7 +653,7 @@ namespace Air{
 						Equipment*	pEquip	=	itr->second;
 						if(pEquip==NULL)
 							continue;
-						pEquip->Render(pEquip->m_pHareWareRenderBuff);
+						//pEquip->Render(pEquip->m_pHareWareRenderBuff);
 					}
 				}
 	
