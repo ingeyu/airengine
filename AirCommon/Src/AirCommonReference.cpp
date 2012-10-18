@@ -21,24 +21,25 @@ namespace Air{
 	// 		}
 		}
 	
-		U1 IReference::AddRef(){
+		U32 IReference::AddRef(){
 			if(m_uiNumRef<=0){
 				//这里要考虑多线程的加载
 				if(!Create())
 					return false;
 			}
 			m_uiNumRef++;
-			return true;
+			return m_uiNumRef;
 		}
 	
-		U1 IReference::ReleaseRef(){
+		U32 IReference::ReleaseRef(){
 			if(m_uiNumRef<=0)
 				return true;
 			m_uiNumRef--;
 			//这里要考虑多线程的卸载
-			if(m_uiNumRef<=0)
-				return	Destroy();
-			return true;
+			if(m_uiNumRef<=0){
+				Destroy();
+			}
+			return m_uiNumRef;
 		}
 	}
 };

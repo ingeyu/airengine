@@ -11,7 +11,7 @@ namespace Air{
 			m_pFactory	=	NULL;
 		}
 	
-		AString IProduct::GetProductTypeName()const{
+		const	AString& IProduct::GetProductTypeName()const{
 			return m_pFactory->GetType();
 		}
 	
@@ -23,33 +23,25 @@ namespace Air{
 			m_pFactoryMgr = pFactoryMgr;
 		}
 	
-		U1 IProduct::ReleaseRef(){
-			m_CS.Enter();
-			m_uiNumRef--;
+		U32 IProduct::ReleaseRef(){
+			U32	uiRef	=	InterlockedDecrement(&m_uiNumRef);
 			//这里要考虑多线程的卸载
-			if(m_uiNumRef<=0){
-				
+			if(uiRef==0){
 				if(m_pFactory!=NULL)
 					m_pFactory->Erase(m_strProductName);
 				Destroy();
-				m_CS.Leave();
 				delete	this;
-				return	true;
 			}
-			m_CS.Leave();
-			return true;
+			return uiRef;
 		}
 	
-		U1 IProduct::AddRef(){
-			U1	ret	=	true;
-			m_CS.Enter();
-			if(m_uiNumRef<=0){
+		U32 IProduct::AddRef(){
+			U32	uiRef	=	InterlockedIncrement(&m_uiNumRef);
+			if(uiRef==1){
 				//这里要考虑多线程的加载
-				ret	=	Create();
+				Create();
 			}
-			m_uiNumRef++;
-			m_CS.Leave();
-			return ret;
+			return m_uiNumRef;
 		}
 
 		Air::U32 IProduct::GetSize(){

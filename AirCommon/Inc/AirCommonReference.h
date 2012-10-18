@@ -37,7 +37,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			virtual U1		AddRef();
+			virtual U32		AddRef();
 			/**	\brief	减少引用
 			*   
 			*	@remarks 	减少引用
@@ -46,7 +46,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			virtual	U1		ReleaseRef();
+			virtual	U32		ReleaseRef();
 	
 			/**	\brief	创建
 			*   

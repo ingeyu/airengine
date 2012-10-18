@@ -74,7 +74,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			virtual AString GetProductTypeName()const;
+			virtual const	AString& GetProductTypeName()const;
 			/**	\brief	返回产品名
 			*   
 			*	@remarks 	返回产品名
@@ -124,21 +124,21 @@ namespace Air{
 			*   
 			*	@remarks 	添加引用计数
 			*	@see		IProduct
-			*	@return   	U1
+			*	@return   	U32
 			*	@note
 			*
 			**/
-			virtual	U1		AddRef();
+			virtual	U32		AddRef();
 	
 			/**	\brief	减少引用
 			*   
 			*	@remarks 	减少引用
 			*	@see		IReference
-			*	@return   	U1
+			*	@return   	U32
 			*	@note
 			*
 			**/
-			virtual	U1		ReleaseRef();
+			virtual	U32		ReleaseRef();
 			virtual	U32		GetSize();
 			void			SetUserData(void*	pUserData);
 			void*			GetUserData();
@@ -151,7 +151,6 @@ namespace Air{
 			AString				m_strProductName;				///<	产品名
 			AString				m_strUserString;
 			void*				m_pUserData;
-			CriticalSection		m_CS;
 		};
 
 	};

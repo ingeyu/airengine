@@ -68,6 +68,8 @@ namespace	Air{
 			*
 			**/
 			virtual	void		ExcuteFunction(const IRequest&	request);
+		protected:
+			CriticalSection		m_CS;
 		};
 	
 	};//end of	namespace	Client
