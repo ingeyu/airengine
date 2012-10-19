@@ -72,11 +72,18 @@ namespace Air{
 				void				FindActiveCamera(CameraSet&	setCamera);
 
 				void				OnWindowChange(Window* pWindow);
+
+				void				DrawObject(Renderable*	pObject,bool	bUseSkin	=	false);
+				void				SetWorldMatrix(const	Float44&	matWorld);
+				void				SetBoneMatrix(Float44*	pBone,U32	uiBoneCount);
 			protected:
 				U1						m_bDeviceLost;
 				DeviceVector			m_vecDevice;
 				Device*					m_pDevice;
 				Window*					m_pMainWindow;
+
+				Buffer*					m_pWorldMatrixBuffer;
+				Buffer*					m_pBoneMatrixBuffer;
 			public:
 // 				CBFrame					m_CBFrame;
 // 				CBCamera				m_CBCamera;

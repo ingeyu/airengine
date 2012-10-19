@@ -234,6 +234,7 @@ namespace Air{
 				virtual	void*	GetUAV(){return	NULL;};
 
 				virtual	void	CopyBufferTo(Buffer*	pDest)=NULL;
+				virtual	U1		Write(U32	uiOffset,U32	uiSize,void*	pSourceData)=NULL;
 			protected:
 				Info			m_Info;				///<	创建信息
 				U1				m_bDirty;			///<	是否已经改变

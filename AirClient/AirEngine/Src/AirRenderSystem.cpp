@@ -32,6 +32,9 @@ namespace Air{
 				m_pDevice				=	NULL;
 				m_pMainWindow			=	NULL;
 
+				m_pWorldMatrixBuffer	=	NULL;
+				m_pBoneMatrixBuffer		=	NULL;
+
 			}
 	
 			System::~System(){
@@ -97,11 +100,32 @@ namespace Air{
 					m_pMainWindow	=	CreateProduct<Window*>("MainWindow","Window",&info);
 					m_pMainWindow->SetClearFlag(1,1,1);
 				}
+
+				if(m_pWorldMatrixBuffer	==	NULL){
+
+					Buffer::Info	info;
+					info.SetConstantBuffer(sizeof(Float44));
+					info.cbType		=	enCBT_Object;
+					info.usage		=	enUSAGE_DYNAMIC;
+					m_pWorldMatrixBuffer	=	CreateProduct<Buffer*>("WorldMatrix","Buffer",&info);
+					m_pDevice->SetCB(enVS,2,m_pWorldMatrixBuffer);
+				};
+				if(m_pBoneMatrixBuffer		==	NULL){
+
+					Buffer::Info	info;
+					info.SetConstantBuffer(256*sizeof(Float44));
+					info.cbType		=	enCBT_Bone;
+					info.usage		=	enUSAGE_DYNAMIC;
+					m_pBoneMatrixBuffer	=	CreateProduct<Buffer*>("BoneMatrix","Buffer",&info);
+					m_pDevice->SetCB(enVS,4,m_pBoneMatrixBuffer);
+				};
 				return	true;
 			}
 
 			Air::U1 System::Release()
 			{
+				SAFE_RELEASE_REF(m_pBoneMatrixBuffer);
+				SAFE_RELEASE_REF(m_pWorldMatrixBuffer);
 				SAFE_RELEASE_REF(m_pMainWindow);
 				if(m_pDevice!=NULL){
 					m_pDevice->Destroy();
@@ -169,6 +193,36 @@ namespace Air{
 
 				}
 
+			}
+
+			void System::SetWorldMatrix( const Float44& matWorld )
+			{
+				if(m_pWorldMatrixBuffer!=NULL){
+					m_pWorldMatrixBuffer->Write(0,sizeof(Float44),(void*)&matWorld);
+				}
+			}
+
+			void System::SetBoneMatrix( Float44* pBone,U32 uiBoneCount )
+			{
+				if(	pBone				!=NULL	&&
+					uiBoneCount			!=0		&&
+					m_pBoneMatrixBuffer	!=NULL)
+				{
+					m_pWorldMatrixBuffer->Write(0,uiBoneCount*sizeof(Float44),(void*)&pBone);
+				}
+			}
+
+			void System::DrawObject( Renderable* pObject ,bool	bUseSkin)
+			{
+				if(pObject->NeedWorldMatrix()){
+					SetWorldMatrix(*pObject->GetWorldMatrix());
+				}
+				U32	uiBoneCount	=	pObject->GetBoneCount();
+				if(bUseSkin	&&	uiBoneCount!=0){
+					SetBoneMatrix(pObject->GetBoneMatrix(),uiBoneCount);
+				}
+				//äÖÈ¾
+				m_pDevice->DrawObject(pObject);
 			}
 
 		}

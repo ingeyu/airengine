@@ -163,7 +163,7 @@ namespace Air{
 				
 				SAFE_RELEASE(pAdapter);
 
-				Render::System::GetSingleton()->AddFactory(new ExtraOptionParamFactory<State11,PassStateInfo>("State"));
+				Render::System::GetSingleton()->AddFactory(new ExtraOptionParamFactory<State11,PassStateInfo*>("State"));
 				Render::System::GetSingleton()->AddFactory(new ParamFactory<Buffer11>("Buffer"));
 				Render::System::GetSingleton()->AddFactory(new NoParamFactory<Shader11>("Shader"));
 				Render::System::GetSingleton()->AddFactory(new ParamFactory<VertexDeclare11>("Declare"));

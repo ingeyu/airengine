@@ -95,7 +95,7 @@ namespace Air{
 				typedef	InfoMap::iterator				InfoMapItr;
 				typedef	InfoMap::value_type				InfoMapPair;
 			public:
-				Resource(CAString&	strName,CAString&	strSkeleton);
+				Resource(CAString&	strName,AString*	strSkeleton);
 				virtual ~Resource();
 	
 				/**	\brief	载入模型资源
@@ -160,6 +160,7 @@ namespace Air{
 				*
 				**/
 				virtual	U1	Destroy();
+
 			protected:
 				U1			ParseConfig(CAString&	strConfig);
 	
@@ -191,27 +192,7 @@ namespace Air{
 				InfoMap		m_mapAnimationInfo;			///<	动画列表
 				AString		m_strSkeleton;				///<	骨骼
 			};
-			/**	\brief	资源工厂
-			*
-			*	资源工厂
-			*
-			***/
-			class	ResourceFactory	:
-				public	IFactory{
-			public:	
-				ResourceFactory();
-				/**	\brief	创建
-				*   
-				*	@remarks 	创建
-				*	@see		BuffFactory
-				*	@return   	IProduct*
-				*	@param		AString strName
-				*	@param		IFactoryParamList * lstParam
-				*	@note
-				*
-				**/
-				virtual	IProduct*	NewProduct(CAString& strName,IFactoryParamList* lstParam =	NULL);
-			};
+
 		}
 	
 	};

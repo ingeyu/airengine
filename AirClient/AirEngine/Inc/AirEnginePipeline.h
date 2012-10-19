@@ -31,20 +31,21 @@ namespace	Air{
 		class	ENGINE_EXPORT	Pipeline	:	
 			public	IProduct,
 			public	OIS::MouseListener,
+			public	OIS::KeyListener,
 			public	Common::MutilListenerManager<FrameListener>{
 		public:
 
 			Pipeline(CAString&	strName);
 			virtual	~Pipeline();
 
-			virtual	U1	Create();
-			virtual	U1	Destroy();
+			virtual	U1		Create();
+			virtual	U1		Destroy();
 
+			virtual	void	Update();
+			virtual	U1		RenderOneFrame();
 
-			virtual	U1	RenderOneFrame();
-
-			virtual	U1	SetCurrentScene(Scene*	pCurrentScene);
-			Scene*		GetCurrentScene();
+			virtual	U1		SetCurrentScene(Scene*	pCurrentScene);
+			Scene*			GetCurrentScene();
 
 			inline	RenderWindow*		GetMainWindow(){
 				return	m_pMainWindow;
@@ -56,6 +57,9 @@ namespace	Air{
 			virtual bool mouseMoved( const OIS::MouseEvent &arg );
 			virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 			virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+
+			virtual bool keyPressed( const OIS::KeyEvent &arg );
+			virtual bool keyReleased( const OIS::KeyEvent &arg );
 		protected:
 			RenderWindow*	m_pMainWindow;
 			RenderTarget*	m_pMRT;
@@ -70,6 +74,9 @@ namespace	Air{
 			Material*		m_pQuadCopy;
 			Material*		m_pSSAO;
 			Material*		m_pShadowMask;
+
+			Float3			vMoveDirection;
+			float			fVolocity;
 		};
 	}
 }

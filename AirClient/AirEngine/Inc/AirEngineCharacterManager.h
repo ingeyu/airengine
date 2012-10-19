@@ -15,17 +15,17 @@ namespace Air{
 			public:
 				Manager();
 				~Manager();
-				U1	LoadSLK(AString	strName);
+				U1	LoadSLK(CAString&	strName);
 	
 				void	SetSceneNode(SceneNode*	pNode);
-				Animation::Model*	Create(AString	strName,AString	strType);
+				Animation::Model*	Create(CAString&	strName,CAString&	strType);
 				void	Destroy();
 	
 				void	Updata(Real	fTimeDelta);
 				void	Render();
 	
-				void	Action(AString	strName,Real fBlend	=	0.3f);
-				void	State(AString	strName);
+				void	Action(CAString&	strName,Real fBlend	=	0.3f);
+				void	State(CAString&	strName);
 				AString	NextAction();
 				AString	NextState();
 	
@@ -34,17 +34,17 @@ namespace Air{
 				void	SetAnimationSpeed(Real	fSpeed	=	1.0f);
 				void	SetAnimationSpeedOffset(Real	fSpeedOffset	=	-0.01f);
 	
-				void	SetMaterial(AString	strType,AString	strMaterial);
+				void	SetMaterial(CAString&	strType,CAString&	strMaterial);
 	
-				void	Remove(AString	strType);
+				void	Remove(CAString&	strType);
 				void	Add();
 	
 				Animation::Model*	GetModel(){
 					return	m_pModel;
 				};
 			protected:
-				void	LoadAnimation(AString	strAnimationName);
-				void	LoadEquipment(AString	strEquipmentName);
+				void	LoadAnimation(CAString&	strAnimationName);
+				void	LoadEquipment(CAString&	strEquipmentName);
 			private:
 				Animation::Model*	m_pModel;
 				struct	CharacterInfo{

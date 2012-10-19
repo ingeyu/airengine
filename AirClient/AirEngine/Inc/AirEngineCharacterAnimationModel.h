@@ -63,6 +63,7 @@ namespace Air{
 					ACT_STATE_DIE,
 					ACT_STATE_MAX
 				};
+				class Model;
 				/**	\brief	装备
 				*
 				*	装备
@@ -117,7 +118,7 @@ namespace Air{
 	
 					
 				public:
-					Equipment(CoreAnimation*	pCoreAnimation,enType type);
+					Equipment(CoreAnimation*	pCoreAnimation,enType type,Model*	pParent);
 					virtual ~Equipment();
 	
 					/**	\brief	创建装备
@@ -172,12 +173,17 @@ namespace Air{
 	
 					U1			IsNull();
 					SInt		GetMeshID(){return m_uiMeshID;};
+
+					virtual	U32			GetBoneCount();
+					virtual	Float44*	GetBoneMatrix();
+					virtual	Float44*	GetWorldMatrix();
 				protected:
 					enType					m_uiEquipmentType;				///<	类型ID
 					SInt					m_uiMeshID;						///<	模型ID
 	
 					CoreAnimation*			m_pCoreAnimation;				///<	动画类指针
 					AString					m_strName;						///<	装备名字
+					Model*					m_pModel;
 				};
 				typedef	std::map<UInt,Equipment*>		EquipmentMap;		///<	装备列表
 				typedef	EquipmentMap::iterator			EquipmentMapItr;	///<	装备列表迭代器
@@ -452,8 +458,11 @@ namespace Air{
 					*
 					**/
 					void					UpdataAttachObject();
+
+
+					virtual	void			ProcessRenderObject(U32	uiPhaseFlag);
 				protected:
-					//AString					m_strResourceName;		///<	资源名字信息
+					CoreAnimation*			m_pAnimation;
 					Resource*				m_pResource;			///<	资源
 					Real					m_fLodLevel;			///<	LOD细节层次
 					AString					m_strCurrentCycleAction;///<	当前动画状态

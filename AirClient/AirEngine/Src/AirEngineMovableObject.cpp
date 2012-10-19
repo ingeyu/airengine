@@ -57,8 +57,8 @@ namespace Air{
 	
 		}
 	
-		Float44 MovableObject::GetResultMatrix(){
-			return	m_ResultMatrix;
+		Float44* MovableObject::GetWorldMatrix(){
+			return	&m_WorldMatrix;
 		}
 
 		const BoundingBox& MovableObject::GetOrginBoundingBox()const{

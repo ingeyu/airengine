@@ -5,6 +5,7 @@
 #include "AirEngineSceneNode.h"
 #include "AirGlobalSetting.h"
 #include "AirInterfaceResourceSystem.h"
+#include "AirEngineMaterialParse.h"
 namespace Air{
 	
 	namespace	Client{
@@ -23,15 +24,16 @@ namespace Air{
 	
 			}
 	
-			U1 Manager::LoadSLK( AString strName ){
-				AString	strCharacterConfigName	=	AString("Character\\")	+	strName;
+			U1 Manager::LoadSLK( CAString& strName ){
+				AString	strCharacterConfigName	=	AString("Character/")	+	strName;
 	
 				CSlkReader r;
 				
-				Data*	pData	=	NULL;//GetGlobalSetting().m_pResourceSystem->Find(strCharacterConfigName);
-				if(pData==NULL)
+				Data	pData;
+				GetGlobalSetting().m_pResourceSystem->Find(strCharacterConfigName,pData);
+				if(pData.IsNull())
 					return	false;
-				if( !r.ReadFromString( (char*)pData->GetBuff(),pData->GetSize()) ){
+				if( !r.ReadFromString( (char*)pData.GetBuff(),pData.GetSize()) ){
 					//assert(false);
 					return FALSE;
 				}
@@ -77,6 +79,13 @@ namespace Air{
 					if( !field || field->iFieldType != CSlkReader::field_string )
 						continue;
 					info.strPath	=	field->data.szValue;
+					if(!info.strPath.empty()){
+						Data data;
+						GetGlobalSetting().m_pResourceSystem->Find(info.strPath+"Equipment.material",data);
+						if(!data.IsNull()){
+							MaterialParse::GetSingleton()->CompileMaterialSet(data.buff,data.size);
+						}
+					}
 	
 					m_mapCharacterInfo.insert(CharacterInfoMapPair(info.strName,info));
 				}
@@ -84,7 +93,7 @@ namespace Air{
 			}
 	
 	
-			Animation::Model* Manager::Create( AString strName,AString strType ){
+			Animation::Model* Manager::Create( CAString& strName,CAString& strType ){
 				CharacterInfoMapItr	i	=	m_mapCharacterInfo.find(strType.c_str());
 				if(i!=m_mapCharacterInfo.end()){
 					//if(iID == uiIndex){
@@ -94,7 +103,7 @@ namespace Air{
 					modelInfo.strResourcePath	=	info.strPath;
 					modelInfo.strSkeleton		=	info.strSkeletonName;
 	
-					m_pModel	=	EngineSystem::GetSingleton()->CreateProduct<Animation::Model*>(strName,AString("CharacterTextureModel"),&modelInfo);
+					m_pModel	=	EngineSystem::GetSingleton()->CreateProduct<Animation::Model*>(strName,AString("Model"),&modelInfo);
 					if(m_pNode!=NULL)
 						m_pNode->attachObject(m_pModel);
 					LoadAnimation(info.strPath	+	"Animation.slk");
@@ -102,12 +111,13 @@ namespace Air{
 				}
 				return	m_pModel;
 			}
-			void Manager::LoadAnimation( AString strAnimationName ){
+			void Manager::LoadAnimation( CAString& strAnimationName ){
 				CSlkReader r;
-				Data*	pData	=	NULL;//GetGlobalSetting().m_pResourceSystem->Find(strAnimationName);
-				if(pData==NULL)
+				Data	pData;
+				GetGlobalSetting().m_pResourceSystem->Find(strAnimationName,pData);
+				if(pData.IsNull())
 					return;
-				if( !r.ReadFromString( (char*)pData->GetBuff(),pData->GetSize() ) ){
+				if( !r.ReadFromString( (char*)pData.GetBuff(),pData.GetSize() ) ){
 					assert(false);
 					return;
 				}
@@ -146,12 +156,13 @@ namespace Air{
 				}	
 			}
 	
-			void Manager::LoadEquipment( AString strEquipmentName ){
+			void Manager::LoadEquipment( CAString& strEquipmentName ){
 				CSlkReader r;
-				Data*	pData	=	NULL;//GetGlobalSetting().m_pResourceSystem->Find(strEquipmentName);
-				if(pData==NULL)
+				Data	pData;
+				GetGlobalSetting().m_pResourceSystem->Find(strEquipmentName,pData);
+				if(pData.IsNull())
 					return;
-				if( !r.ReadFromString( (char*)pData->GetBuff(),pData->GetSize() ) ){
+				if( !r.ReadFromString( (char*)pData.GetBuff(),pData.GetSize() ) ){
 					assert(false);
 					return;
 				}
@@ -224,13 +235,13 @@ namespace Air{
 					return	m_pModel->SetAnimationSpeedOffset(fSpeedOffset);
 			}
 	
-			void Manager::Action( AString strName,Real fBlend ){
+			void Manager::Action( CAString& strName,Real fBlend ){
 				if(m_pModel!=NULL)
 					m_pModel->PlayAction(strName , fBlend);
 	
 			}
 	
-			void Manager::State( AString strName ){
+			void Manager::State( CAString& strName ){
 				if(strName.empty()	||	strName	==	m_strState)
 					return;
 				if(m_pModel!=NULL)
@@ -263,16 +274,16 @@ namespace Air{
 				return "";
 			}
 	
-			void Manager::SetMaterial( AString strType,AString strMaterial ){
+			void Manager::SetMaterial( CAString& strType,CAString& strMaterial ){
 	
 			}
 	
-			void Manager::Remove( AString strType ){
+			void Manager::Remove( CAString& strType ){
 				m_pModel->RemoveEquipment(Animation::Equipment::enHair);
 			}
 	
 			void Manager::Add(){
-				m_pModel->AddEquipment("fw_hair.cmf","..\\Data\\Material\\fw_hair.Material","Hair");
+				m_pModel->AddEquipment("fw_hair.cmf","Material\\fw_hair.Material","Hair");
 			}
 	
 			void Manager::SetSceneNode( SceneNode* pNode ){

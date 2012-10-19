@@ -42,8 +42,8 @@ namespace	Air{
 			return	0;
 		}
 
-		Air::U1 Renderable::GetBoneMatrix( Float44* pMatrixArray ){
-			return	true;
+		Float44* Renderable::GetBoneMatrix( ){
+			return	NULL;
 		}	
 		
 
@@ -79,48 +79,6 @@ namespace	Air{
 		Material* Renderable::GetMaterial( enumPhaseIndex index /*= Render::enPI_MRT*/ ){
 			return	m_pMaterial[index];
 		}
-
-		void Renderable::FillBoneConstantBuffer( U1 bUseSkin /*= false*/ ){
-
-			if(bUseSkin	&&	HasSkeleton()	&&	GetBoneCount()!=0){
-				Buffer*	pBoneCB	=	GetBoneConstantBuffer();
-
-// 				Float4*	pBoneBuffer	=	pBoneCB->Lock();
-// 				GetBoneMatrix((Float44*)pBoneBuffer);
-// 				pBoneCB->UnLock();
-				//Render::System::GetSingleton()->SetConstantBuffer(Render::enCBT_Bone,pBoneCB);
-			}
-		}
-
-		Buffer* Renderable::GetObjectConstantBuffer(){
-			if(!m_bNeedWorldMatrix)
-				return	NULL;
-			if(m_pObjectCB==NULL){
-				Buffer::Info	info;
-				info.SetConstantBuffer(sizeof(Matrix),enCBT_Object);
-				
-				m_pObjectCB	=	Render::System::GetSingleton()->CreateProduct<Buffer*>(Common::Number::Increase(""),"Buffer",&info);
-				m_pObjectCB->GetBuffer();
-			}
-
-			if(m_pObjectCB!=NULL){
-				m_pObjectCB->UpdateData(GetWorldMatrix());
-			}
-			return	m_pObjectCB;
-		}
-
-		Buffer* Renderable::GetBoneConstantBuffer(){
-			if(!HasSkeleton()	||	GetBoneCount()	==	0)
-				return	NULL;
-// 			if(m_pBoneCB==NULL){
-// 				Buffer::Info	info;
-// 				info.SetConstantBuffer(GetBoneCount()*sizeof(Matrix));
-// 				
-// 				m_pBoneCB	=	Render::System::GetSingleton()->CreateProduct<Buffer*>(m_strName+"Bone","Buffer",&info);
-// 			}
-			return	m_pBoneCB;
-		}
-
 		Air::U1 Renderable::NeedWorldMatrix(){
 			return	m_bNeedWorldMatrix;
 		}
@@ -136,17 +94,6 @@ namespace	Air{
 
 		void Renderable::BeforeRender( Material* pMaterial ){
 
-		}
-
-		void Renderable::SetObjectConstantBuffer( Buffer* pBuffer ){
-			if(!m_bNeedWorldMatrix)
-				return;
-			if(pBuffer==NULL)
-			{
-				return;
-			}
-			m_pObjectCB	=	pBuffer;
-			
 		}
 
 		void Renderable::AddToRenderQueue( U32 uiPhaseFlag ){

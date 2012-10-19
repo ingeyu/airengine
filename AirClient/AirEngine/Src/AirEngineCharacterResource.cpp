@@ -12,8 +12,8 @@ namespace Air{
 		namespace	Character{
 	
 	
-			Resource::Resource( CAString& strName,CAString&	strSkeleton ):IProduct(strName){
-				m_strSkeleton	=	strSkeleton;
+			Resource::Resource( CAString& strName,AString*	strSkeleton ):IProduct(strName){
+				m_strSkeleton	=	*strSkeleton;
 			}
 	
 			Resource::~Resource(){
@@ -48,7 +48,7 @@ namespace Air{
 				}
 				Data	pData;
 				GetGlobalSetting().m_pResourceSystem->Find(m_strProductName + strName,pData);
-				if(!pData.IsNull())
+				if(pData.IsNull())
 					return	-1;
 				//如果不在列表中 则新建载入
 				//SInt	uiID	=	pCoreMesh->loadCoreMesh(m_strProductName + strName,strName);
@@ -323,6 +323,9 @@ namespace Air{
 						SInt	iBoneCount	=	ver.vectorInfluence.size();
 						for(SInt	k=0;k<iBoneCount;k++){
  							vertexData[iV].BoneWeight[k]	=	ver.vectorInfluence[k].weight;
+
+							//如果只传递自己需要的矩阵 
+							//骨骼索引变成0~n
  							vertexData[iV].BoneIndex[k]		=	ver.vectorInfluence[k].boneId;
 							
 	// 						sprintf_s(str,128,"<%d>%f,%f",k,vertexData[iV].BoneWeight[k],vertexData[iV].BoneIndex[k]);
@@ -346,12 +349,16 @@ namespace Air{
 					AString	strName	=	m_strProductName	+	pInMesh->getName();
 					Render::Vertex::IDeclare::Info	dInfo;
 					dInfo.SetPNTT_Animation();
- 					pOutBuff->pVertexDeclare	=	Render::System::GetSingleton()->CreateProduct<Render::Vertex::IDeclare*>("PNTTANIM","VertexDeclare",&dInfo);
+ 					pOutBuff->pVertexDeclare	=	Render::System::GetSingleton()->CreateProduct<Render::Vertex::IDeclare*>("PNTTANIM","Declare",&dInfo);
 					Render::Buffer::Info		vInfo;
 					vInfo.SetVertexBuffer(iVertexCount,76);
-					pOutBuff->pVertexBuff		=	Render::System::GetSingleton()->CreateProduct<Render::Buffer*>(strName,"Buffer",&vInfo);
-					vInfo.SetIndexBuffer16(iFaceCount*3);
-					pOutBuff->pIndexBuff		=	Render::System::GetSingleton()->CreateProduct<Render::Buffer*>(strName,"Buffer",&vInfo);
+					vInfo.InitData			=	&vertexData[0];
+					pOutBuff->pVertexBuff		=	Render::System::GetSingleton()->CreateProduct<Render::Buffer*>(strName+"VB","Buffer",&vInfo);
+
+					vInfo.SetIndexBuffer32(iFaceCount*3);
+					vInfo.InitData			=	&indexData[0];
+					pOutBuff->pIndexBuff		=	Render::System::GetSingleton()->CreateProduct<Render::Buffer*>(strName+"IB","Buffer",&vInfo);
+
 				}
 				return	true;
 			}
@@ -363,19 +370,6 @@ namespace Air{
 				SAFE_RELEASE_REF(pInBuff->pVertexBuff);
 				SAFE_RELEASE_REF(pInBuff->pIndexBuff);
 				return	true;
-			}
-			ResourceFactory::ResourceFactory(){
-				m_strTypeName	=	"CharacterResource";
-			}
-	
-			IProduct* ResourceFactory::NewProduct( CAString& strName,IFactoryParamList* lstParam /*= NULL*/ ){
-				if( lstParam==NULL)
-					return NULL;
-				AString*	pStrSkeleton	=	(AString*)lstParam;
-				Resource*	pBuff	=	new	Resource(strName,*pStrSkeleton);
-	
-				//Insert(pBuff);
-				return pBuff;
 			}
 		}
 	}

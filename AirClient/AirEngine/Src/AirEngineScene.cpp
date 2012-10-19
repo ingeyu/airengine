@@ -19,11 +19,15 @@
 #include "AirEngineEntityCloth.h"
 #include "AirStaticMesh.h"
 
+#include "AirEngineCharacterManager.h"
+
 
 
 namespace Air{
 	
 	namespace	Client{
+
+		Character::Manager	g_mgr;
 	
 	
 		Scene::Scene( CAString& strName ){
@@ -70,7 +74,12 @@ namespace Air{
 
 			m_Loader.SetNode(&m_pRootNode);
 			//"..\\Data\\AirMesh\\jianxia3\\jianxia3.ame.Scene"
-			m_Loader.Load("AirMesh/agrm/agrm.ame.Scene");
+			//m_Loader.Load("AirMesh/agrm/agrm.ame.Scene");
+
+			g_mgr.LoadSLK("Character.slk");
+			g_mgr.SetSceneNode(&m_pRootNode);
+			Character::Animation::Model*	pModel	=	g_mgr.Create("1","·¨Ê¦");
+			//pModel->AddEquipment()
 			return	true;
 		}
 	

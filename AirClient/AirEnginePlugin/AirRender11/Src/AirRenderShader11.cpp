@@ -155,6 +155,9 @@ namespace Air{
 							m_pDxShader		=	pShader;
 							break;}
 					}
+				}else{
+					EngineLogError(m_strProductName.c_str(),"Create Failed!");
+					return	false;
 				}
 
 				return	true;

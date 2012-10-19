@@ -4,7 +4,8 @@
 #include "..\..\AirCharacter\cal3d.h"
 #include "AirEngineSceneNode.h"
 #include "AirRenderSystem.h"
-
+#include "AirEngineMaterial.h"
+#include "AirEngineMaterialParse.h"
 namespace Air{
 	
 	namespace	Client{
@@ -31,11 +32,11 @@ namespace Air{
 	
 	
 	
-					Equipment::Equipment( CoreAnimation*	pCoreAnimation,enType type){
+					Equipment::Equipment( CoreAnimation*	pCoreAnimation,enType type,Model* pParent){
 						m_uiEquipmentType	=	type;
 						m_uiMeshID			=	-1;
 						m_pCoreAnimation		=	pCoreAnimation;
-						//m_pMaterial			=	NULL;
+						m_pModel			=	pParent;
 					}
 	
 					Equipment::~Equipment(){
@@ -108,8 +109,34 @@ namespace Air{
 						if(pCalSubMesh==NULL)
 							return false;
 	
-						//创建材质
-						SetMaterialName(strMaterialName);
+
+
+						MaterialSetInfo*	pSetInfo	=	MaterialParse::GetSingleton()->GetMaterialSetInfo(strMaterialName);
+						if(pSetInfo==NULL){
+							SetMaterialName("NoMaterial");
+						}else{
+							Material::Info	minfo;
+							minfo.strTemplate	=	"MT_ObjectSkin";
+							minfo.bUseSkin		=	true;
+							minfo.vecFloatParam.resize(4);
+							minfo.vecTextureName.resize(1);
+
+							minfo.vecFloatParam[0]	=	Float4(1,1,1,1);
+							minfo.vecFloatParam[1]	=	Float4(0.5,0.5,0.5,0);
+							minfo.vecFloatParam[2]	=	Float4(0.1,0.1,0.1,0.1);
+							minfo.vecFloatParam[3]	=	Float4(0,0,0,0);
+							minfo.vecTextureName[0]	=	pSetInfo->mapTexture[enMSPT_TexDiffuse];
+							//创建材质
+							Material*	p	=	EngineSystem::GetSingleton()->CreateProduct<Material*>(strMaterialName+"MRT","Material",&minfo);
+							SetMaterial(p);
+							p->ReleaseRef();
+
+							Material::Info	mdepthinfo;
+							mdepthinfo.strTemplate		=	"MT_ObjectSkin_ShadowDepth";
+							p	=	EngineSystem::GetSingleton()->CreateProduct<Material*>(strMaterialName+"ShadowDepth","Material",&mdepthinfo);
+							SetMaterial(p);
+							p->ReleaseRef();
+						}
 // 						if(m_pMaterial	==NULL)
 // 							m_pMaterial	=	Render::System::GetSingleton()->CreateProduct<Render::IMaterial*>(AString("Material\\NoTexture.Material"),AString("Material"));
 						//更新渲染缓冲
@@ -164,6 +191,37 @@ namespace Air{
 						else
 							return false;
 					}
+
+					Air::U32 Equipment::GetBoneCount()
+					{
+						return m_pCoreAnimation->getSkeleton()->getVectorBone().size();
+					}
+
+					Float44* Equipment::GetBoneMatrix()
+					{
+						CalSkeleton*	pSkel	=	m_pCoreAnimation->getSkeleton();
+						std::vector<CalBone*>&	lstBone	=	pSkel->getVectorBone();
+						UInt	uiBoneCount	=	lstBone.size();
+						ShaderShareParam&	dParam	=	GetGlobalSetting().m_ShaderParam;
+
+
+						Float44*	pMatrixArray	=	&dParam.m_BoneMatrixArray[0];
+						for(UInt i=0;i<uiBoneCount;i++){
+							CalBone*	pBone	=	lstBone[i];
+							const	CalQuaternion&	q	=	pBone->getRotationBoneSpace();
+							const	CalVector&		v	=	pBone->getTranslationBoneSpace();
+							pMatrixArray[i]	=	Float44(*(Float4*)&q);
+							pMatrixArray[i].SetPosition(*(Float3*)&v);
+							//Render::System::GetSingleton()->MakeBoneMatrix(&pMatrixArray[i],(Float4*)&q,(Float3*)&v);
+						}
+						return	pMatrixArray;
+					}
+
+					Float44* Equipment::GetWorldMatrix()
+					{
+						return	m_pModel->GetWorldMatrix();
+					}
+
 					AString GetTypeNameByID( Equipment::enType type ){
 	
 						if(type >= 15 || type < 0){
@@ -191,9 +249,14 @@ namespace Air{
 					m_strCurrentCycleAction	=	"Idle.CAF";
 					m_fLodLevel				=	1.0f;
 					m_fAnimationSpeed		=	1.0f;
-	// 
-	// 				m_pAttachObjNode		=	new	SceneNode();
-	// 				m_pAttachObjNode->SetName(strName+"附加物体根节点");
+					AddFlag(enMOF_DEFAULT			);
+					AddFlag(enMOF_REFLECT			);
+					AddFlag(enMOF_CASTSHADOW		);
+					AddFlag(enMOF_VISIABLE			);
+					AddFlag(enMOF_DYNAMIC			);
+					AddFlag(enMOF_UPDATE			);
+					AddFlag(enMOF_NEED_FRUSTUM_CULL	);
+
 				}
 	
 				Model::~Model(){
@@ -203,13 +266,13 @@ namespace Air{
 				U1 Model::Create(){
 					if(m_Info.strResourcePath.empty() || m_Info.strSkeleton.empty())
 						return false;
-					m_pResource	=	EngineSystem::GetSingleton()->CreateProduct<Resource*>(m_Info.strResourcePath,"CharacterResource",&m_Info.strSkeleton);
+					m_pResource	=	EngineSystem::GetSingleton()->CreateProduct<Resource*>(m_Info.strResourcePath,"Character",&m_Info.strSkeleton);
 					if(m_pResource==NULL)
 						return false;
 					if(m_pResource->IsNull())
 						return false;
 					CoreMesh*	pCoreMesh		=	m_pResource->GetObjectT<CoreMesh*>();
-					CoreAnimation*	pAnimation	=	new	CoreAnimation(pCoreMesh);
+					m_pAnimation				=	new	CoreAnimation(pCoreMesh);
 	
 					//m_pHardWareModel			=	new	CalHardwareModel(pCoreMesh);
 	
@@ -267,27 +330,9 @@ namespace Air{
 					m_mapEquipmentMesh.clear();
 	
 					//先摧毁动画
-					CoreAnimation*	pAnimation	=	(CoreAnimation*)m_pObject;
-					SAF_D(pAnimation);
-					m_pObject	=	NULL;
+					SAF_D(m_pAnimation);
 					//再销毁资源
 					SAFE_RELEASE_REF(m_pResource);
-	
-// 					//清除顶点缓冲
-// 					if(m_DrawBuff.m_pVertexBuff!=NULL){
-// 						Render::System::GetSingleton()->DestroyProduct(m_DrawBuff.m_pVertexBuff);
-// 						m_DrawBuff.m_pVertexBuff	=	NULL;
-// 					}
-// 					//清除索引缓冲
-// 					if(m_DrawBuff.m_pIndexBuff!=NULL){
-// 						Render::System::GetSingleton()->DestroyProduct(m_DrawBuff.m_pIndexBuff);
-// 						m_DrawBuff.m_pIndexBuff	=	NULL;
-// 					}
-// 					//清除顶点声明
-// 					if(m_DrawBuff.m_pVertexDeclare!=NULL){
-// 						Render::System::GetSingleton()->DestroyProduct(m_DrawBuff.m_pVertexDeclare);
-// 						m_DrawBuff.m_pVertexDeclare	=	NULL;
-// 					}
 					return true;
 				}
 	
@@ -310,7 +355,7 @@ namespace Air{
 				}
 	
 				U1 Model::AddEquipment( CAString& strName,CAString& strMaterial,Equipment::enType type ){
-					if(IsNull() || strName.empty() || type >=Equipment::enMax || type < 0 )
+					if(strName.empty() || type >=Equipment::enMax || type < 0 )
 						return false;
 					if(m_pResource==NULL)
 						return false;
@@ -324,7 +369,7 @@ namespace Air{
 						Equipment*	equip	=	i->second;
 						//如果这个类型的装备不为空
 						if(equip==NULL){
-							equip	=	new	Equipment((CoreAnimation*)m_pObject,type);
+							equip	=	new	Equipment(m_pAnimation,type,this);
 						}else{
 							if(!equip->IsNull()){
 								CalModel*	pModel	=	GetObjectT<CalModel*>();
@@ -363,7 +408,7 @@ namespace Air{
 						return false;
 					}
 					//新建一个装备
-					pEquip	=	new	Equipment((CoreAnimation*)m_pObject,type);
+					pEquip	=	new	Equipment(m_pAnimation,type,this);
 					//判定是否为硬件渲染
 					if(m_Info.bHardWare){
 						if(!pEquip->Create(uiMeshID,strName,strMaterial,&meshBuff))
@@ -792,7 +837,16 @@ namespace Air{
 						return	pNode;
 					}
 				}
-	
+
+				void Model::ProcessRenderObject( U32 uiPhaseFlag )
+				{
+					EquipmentMap::iterator	i	=	m_mapEquipment.begin();
+					for(;i!=m_mapEquipment.end();i++){
+						i->second->AddToRenderQueue(uiPhaseFlag);
+					}
+				}
+
+
 	// 			void Model::SetParent( Common::INode* pParentNode ){
 	// 				if(m_pParentNode!=NULL){
 	// 					m_pParentNode->RemoveChild(m_pAttachObjNode);

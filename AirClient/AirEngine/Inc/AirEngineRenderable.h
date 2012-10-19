@@ -57,12 +57,11 @@ namespace	Air{
 			*   
 			*	@remarks 	获取骨骼矩阵
 			*	@see		Renderable
-			*	@return   	Air::U1
-			*	@param		Float44 * pMatrixArray
+			*	@return   	Matrix*
 			*	@note
 			*
 			**/
-			virtual	U1		GetBoneMatrix(Float44*	pMatrixArray);
+			virtual	Float44*	GetBoneMatrix();
 			/**	\brief	判断是否有骨骼
 			*   
 			*	@remarks 	判断是否有骨骼
@@ -117,47 +116,6 @@ namespace	Air{
 			*
 			**/
 			virtual	void	BeforeRender(Material*	pMaterial);
-
-			/**	\brief	填充骨骼矩阵
-			*   
-			*	@remarks 	填充骨骼矩阵
-			*	@see		Renderable
-			*	@return   	void
-			*	@param		U1 bUseSkin
-			*	@note
-			*
-			**/
-			void			FillBoneConstantBuffer(U1	bUseSkin	=	false);
-
-			/**	\brief	获取物品世界矩阵
-			*   
-			*	@remarks 	获取物品世界矩阵
-			*	@see		Renderable
-			*	@return   	ConstantBuffer*
-			*	@note
-			*
-			**/
-			Buffer*			GetObjectConstantBuffer();
-			/**	\brief	设置世界矩阵
-			*   
-			*	@remarks 	由MovableObject调用	内部会添加引用计数
-			*	@see		Renderable
-			*	@return   	void
-			*	@param		ConstantBuffer * pBuffer
-			*	@note
-			*
-			**/
-			void			SetObjectConstantBuffer(Buffer*	pBuffer);
-			/**	\brief	获取骨骼矩阵
-			*   
-			*	@remarks 	获取骨骼矩阵
-			*	@see		Renderable
-			*	@return   	Buffer*
-			*	@note
-			*
-			**/
-			Buffer*			GetBoneConstantBuffer();
-
 			/**	\brief	判断自身是否需要世界矩阵
 			*   
 			*	@remarks 	由SceneNode->MovableObject->Renderable传递而来	自身并不创建

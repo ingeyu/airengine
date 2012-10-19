@@ -37,7 +37,7 @@ namespace	Air{
 
 
 			Material::Info	minfo;
-			minfo.strTemplate	=	"Object";
+			minfo.strTemplate	=	"MT_Object";
 			minfo.bUseSkin		=	false;
 			minfo.vecFloatParam.resize(4);
 			minfo.vecTextureName.resize(1);

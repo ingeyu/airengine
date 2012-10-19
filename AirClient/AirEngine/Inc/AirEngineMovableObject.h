@@ -117,7 +117,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			Float44				GetResultMatrix();
+			Float44*					GetWorldMatrix();
 
 			/**	\brief	获取原始包围盒
 			*   

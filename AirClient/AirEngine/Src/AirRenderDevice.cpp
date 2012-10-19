@@ -56,19 +56,8 @@ namespace	Air{
 
 			}
 
-			void Device::DrawObject( Renderable* pObj,U1 bSkin /*= false*/ )
+			void Device::DrawObject( Renderable* pObj )
 			{
-				Buffer*	pBuffer	=	NULL;
-				if(pObj->NeedWorldMatrix()){
-					pBuffer	=	pObj->GetObjectConstantBuffer();
-					//世界矩阵 只向VS传输
-					SetCB(enVS,2,pBuffer);
-				}
-				if(pObj->HasSkeleton()	&&	bSkin){
-					pBuffer	=	pObj->GetBoneConstantBuffer();
-					//骨骼矩阵只向VS传输
-					SetCB(enVS,pBuffer);
-				}
 
 				const DrawBuff&	buff	=	pObj->GetDrawBuff();
 				SetVD(buff.m_pVertexDeclare);

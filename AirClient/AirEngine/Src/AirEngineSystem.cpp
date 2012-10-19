@@ -105,6 +105,7 @@ namespace Air{
 			}
 
 			if(m_pPipeline!=NULL){
+				m_pPipeline->Update();
 				m_pPipeline->RenderOneFrame();
 			}
 		}
@@ -133,14 +134,14 @@ namespace Air{
 			//AddFactory(new	Common::PluginFactory());
 			AddFactory(new	NoParamFactory<Pipeline>("Pipeline"));
 			AddFactory(new	FontFactory());
-			AddFactory(new	ExtraOptionParamFactory<MaterialTemplate,MaterialTemplateInfo>("MaterialTemplate"));
+			AddFactory(new	ExtraOptionParamFactory<MaterialTemplate,MaterialTemplateInfo*>("MaterialTemplate"));
 			AddFactory(new	OptionParamFactory<Material>("Material"));
 			AddFactory(new	SubEntityFactory());
 			//AddFactory(new	CameraFactory());
 			//AddFactory(new	LightFactory());
-			AddFactory(new	Character::ResourceFactory());
-			AddFactory(new	Character::Animation::ModelFactory());
-			AddFactory(new	Character::Animation::TextureModelFactory());
+			AddFactory(new	ExtraOptionParamFactory<Character::Resource,AString*>("Character"));
+			AddFactory(new	ParamFactory<Character::Animation::Model>("Model"));
+			//AddFactory(new	Character::Animation::TextureModelFactory());
 			AddFactory(new	Terrain::IPageFactory());
 			AddFactory(new	MeshFactory());
 			AddFactory(new	ScreenEntityFactory());

@@ -175,7 +175,7 @@ namespace Air{
 		*	@note
 		*
 		**/
-		inline	void	EngineLogError(AChar*	strName,AChar*	strInfo){
+		inline	void	EngineLogError(const AChar*	strName,const AChar*	strInfo){
 			AChar	str[MAX_NAME];
 			sprintf_s(str,MAX_NAME,"(%s)(%s)",strName,strInfo);
 			Common::Logger("Engine","Error",str);

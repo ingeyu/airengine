@@ -31,6 +31,8 @@ namespace	Air{
 			m_pRT_ShadowMask	=	NULL;
 			m_pShadowMask	=	NULL;
 			m_pMainLight	=	NULL;
+
+			fVolocity		=	10.0f;
 		}
 
 		Pipeline::~Pipeline()
@@ -40,7 +42,10 @@ namespace	Air{
 
 		Air::U1 Pipeline::Create()
 		{
-			GetGlobalSetting().m_pInputSystem->Add(this);
+			OIS::KeyListener*	pKey	=	this;
+			OIS::MouseListener*	pMouse	=	this;
+			GetGlobalSetting().m_pInputSystem->Add(pKey);
+			GetGlobalSetting().m_pInputSystem->Add(pMouse);
 
 			m_pScene	=	new	Scene("DefauleScene");
 			if(m_pScene!=NULL){
@@ -61,7 +66,7 @@ namespace	Air{
 			info.strMeshName	=	"..\\Data\\AirMesh\\nav_test.ame";
 			info.strMaterial	=	"Test3";
 
-			MeshEntity*	pEnt[100];
+			//MeshEntity*	pEnt[100];
 			//for(int i=-5;i<5;i++){
 				//for(int j=-5;j<5;j++){
 					long iIndex	=	0;//(i+5)*10+j+5;
@@ -270,8 +275,8 @@ namespace	Air{
 				matInvVP.Inverse();
 
 				m_pSSAO->GetConstantBuffer()->UpdateData(&matInvVP);
-				m_pSSAO->RenderOneObject(m_pQuad);
-				//m_pQuadCopy->RenderOneObject(m_pQuad);
+				//m_pSSAO->RenderOneObject(m_pQuad);
+				m_pQuadCopy->RenderOneObject(m_pQuad);
 				
 			}
 			m_pMainWindow->SetClearFlag(false,false,false);
@@ -318,13 +323,13 @@ namespace	Air{
 
 		bool Pipeline::mouseMoved( const OIS::MouseEvent &arg )
 		{
-			static	Float3	TargetPos(0,0,0);
+			
 			S8*	pMouseArray	=	GetGlobalSetting().m_pInputSystem->m_MouseArray;
 			
 			if(pMouseArray[OIS::MB_Right]){
 				Float3	dir		=	m_pScene->GetMainCamera()->GetDir();
 				Float3	pos		=	m_pScene->GetMainCamera()->GetPosition();
-				Float3 vRelativePos	=	pos	-	TargetPos;
+				Float3 vRelativePos;//	=	pos	-	TargetPos;
 
 				Float3	updir	=	m_pScene->GetMainCamera()->GetUpDir();
 				Float3	right	=	updir.Cross(dir);
@@ -336,33 +341,37 @@ namespace	Air{
 
 				
 
-				vRelativePos	=	quat2*vRelativePos;
+				vRelativePos	=	quat2*dir;
 
 
 				vRelativePos	=	quat*vRelativePos;
 
-				if(abs(vRelativePos.NormalizeCopy().Dot(updir))	<0.99f){
+				if(abs(vRelativePos.Dot(updir))	<0.99f){
 
-					dir	=	-vRelativePos.NormalizeCopy();
-					m_pScene->GetMainCamera()->SetDir(dir);
+					//dir	=	-vRelativePos.NormalizeCopy();
+					m_pScene->GetMainCamera()->SetDir(vRelativePos);
 
-					TargetPos	+=	dir*(arg.state.Z.rel*0.05f);
-					pos =	vRelativePos + TargetPos;//
-					m_pScene->GetMainCamera()->SetPosition(pos);
+					//TargetPos	+=	dir*(arg.state.Z.rel*0.05f);
+					//pos =	vRelativePos + TargetPos;//
+					//m_pScene->GetMainCamera()->SetPosition(pos);
 				}
 			}else	if(pMouseArray[OIS::MB_Middle]){
 				Float3	dir		=	m_pScene->GetMainCamera()->GetDir();
 				Float3	pos		=	m_pScene->GetMainCamera()->GetPosition();
-				Float3 vRelativePos	=	pos	-	TargetPos;
+				//Float3 vRelativePos	=	pos	-	TargetPos;
 
 				Float3	updir	=	m_pScene->GetMainCamera()->GetUpDir();
 				Float3	right	=	updir.Cross(dir);
 				Float3  vRealUp	=	dir.Cross(right);
 
 				Float3	Offset	=	-right*arg.state.X.rel*0.1f	+	vRealUp*arg.state.Y.rel*0.1f;
-				TargetPos		+=	Offset;
-				m_pScene->GetMainCamera()->SetPosition(vRelativePos+TargetPos);
+				//TargetPos		+=	Offset;
+				m_pScene->GetMainCamera()->SetPosition(pos+Offset);
 			}
+			Float3	dir		=	m_pScene->GetMainCamera()->GetDir();
+			Float3	pos		=	m_pScene->GetMainCamera()->GetPosition();
+			m_pScene->GetMainCamera()->SetPosition(pos+dir*arg.state.Z.rel*0.1f);
+			
 			return true;
 		}
 
@@ -398,6 +407,63 @@ namespace	Air{
 		{
 
 			return true;
+		}
+
+		bool Pipeline::keyPressed( const OIS::KeyEvent &arg )
+		{
+			switch(arg.key){
+				case OIS::KC_LEFT:{
+					fVolocity	+=	1.0f;
+							   }break;
+				case OIS::KC_RIGHT:{
+					fVolocity	-=	1.0f;
+					if(fVolocity<1.0f)
+						fVolocity	=	1.0f;
+							   }break;
+				case OIS::KC_UP:{
+
+							   }break;
+				case OIS::KC_DOWN:{
+
+							   }break;
+			}
+			return true;
+		}
+
+		bool Pipeline::keyReleased( const OIS::KeyEvent &arg )
+		{
+
+			return true;
+		}
+
+		void Pipeline::Update()
+		{
+			if(GetGlobalSetting().m_pInputSystem->m_KeyArray[OIS::KC_A]){
+				vMoveDirection.x=	-fVolocity;
+			}else if(GetGlobalSetting().m_pInputSystem->m_KeyArray[OIS::KC_D]){
+				vMoveDirection.x=	fVolocity;
+			}else{
+				vMoveDirection.x=	0.0f;
+			}
+
+			if(GetGlobalSetting().m_pInputSystem->m_KeyArray[OIS::KC_S]){
+				vMoveDirection.z=	-fVolocity;
+			}else if(GetGlobalSetting().m_pInputSystem->m_KeyArray[OIS::KC_W]){
+				vMoveDirection.z=	fVolocity;
+			}else{
+				vMoveDirection.z=	0.0f;
+			}
+
+			Camera*	pCam	=	m_pScene->GetMainCamera();
+			Float3	vUp	=	pCam->GetUpDir();
+			Float3	vDir	=	pCam->GetDir();
+			Float3	vRight	=	vUp.Cross(vDir);
+			vUp				=	vDir.Cross(vRight);
+			Float3	x	=	vRight*vMoveDirection.x*m_FrameState.fTimeDelta;
+			Float3	y	=	vUp*vMoveDirection.y*m_FrameState.fTimeDelta;
+			Float3	z	=	vDir*vMoveDirection.z*m_FrameState.fTimeDelta;
+
+			pCam->SetPosition(pCam->GetPosition()+x+y+z);
 		}
 
 

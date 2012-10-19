@@ -65,7 +65,7 @@ namespace Air{
 	// 			m_pShadowTextureCube[i]			=	NULL;
 			}
 	
-			m_uiNumBone		=	60;
+			m_uiNumBone		=	256;
 			m_BoneMatrixArray.resize(m_uiNumBone);
 	
 			m_pBoneTexture	=	NULL;

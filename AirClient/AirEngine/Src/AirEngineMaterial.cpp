@@ -134,7 +134,9 @@ namespace Air{
 				UpdataAutoParam();
 			
 				//SetConstantBuffer
-				pSys->GetDevice()->SetCB(3,m_pConstantBuffer);
+				pSys->GetDevice()->SetCB(enVS,3,m_pConstantBuffer);
+				pSys->GetDevice()->SetCB(enGS,3,m_pConstantBuffer);
+				pSys->GetDevice()->SetCB(enPS,3,m_pConstantBuffer);
 			}
 
 			Renderable*	pObj	=	NULL;
@@ -146,8 +148,8 @@ namespace Air{
 				
 				//»Øµ÷
 				pObj->BeforeRender(this);
-				//äÖÈ¾
-				pSys->GetDevice()->DrawObject(pObj,m_Info.bUseSkin);
+
+				pSys->DrawObject(pObj);
 			}
 		}
 

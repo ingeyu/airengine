@@ -24,6 +24,7 @@ namespace Air{
 			public:
 				Buffer11(CAString&	strName,Info*	pInfo);
 				
+				virtual	U1	Create();
 				/**	\brief	´Ý»Ù
 				*   
 				*	@remarks 	´Ý»Ù
@@ -40,6 +41,7 @@ namespace Air{
 				virtual	void*	GetUAV();
 
 				virtual	void	CopyBufferTo(Buffer*	pDest);
+				virtual	U1		Write(U32	uiOffset,U32	uiSize,void*	pSourceData);
 
 				DxVertexBuff*	m_pBuffer;
 				DxSRV*			m_pBufferSRV;

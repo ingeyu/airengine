@@ -29,62 +29,6 @@ namespace Air{
 
 			void* Buffer11::GetBuffer()
 			{
-				if(m_pBuffer==NULL){
-					DxDevice*	pDxDevice	=	(DxDevice*)pDevice->GetDevice();
-					D3D11_BUFFER_DESC	desc;
-					MemoryZero(desc);
-					switch(m_Info.type){
-					case enBT_VB:{
-						desc.BindFlags	|=	D3D11_BIND_VERTEX_BUFFER;
-						break;}
-					case enBT_IB:{
-						desc.BindFlags	|=	D3D11_BIND_INDEX_BUFFER;
-						break;}
-					case enBT_CB:{
-						desc.BindFlags	|=	D3D11_BIND_CONSTANT_BUFFER;
-						break;}
-					case enBT_SB:{
-						desc.MiscFlags	|=	D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
-						desc.StructureByteStride	=	m_Info.uiElementSize;
-						break;}
-					}
-					desc.ByteWidth	=	m_Info.uiElementCount*m_Info.uiElementSize;
-					if(m_Info.usage	==	enUSAGE_DYNAMIC)
-						desc.Usage		=	D3D11_USAGE_DYNAMIC;
-
-// 					if(m_Info.InitData!=NULL){
-// 						D3D11_SUBRESOURCE_DATA	data;
-// 						data.pSysMem			=	m_Info.InitData;
-// 						data.SysMemPitch		=	0;
-// 						data.SysMemSlicePitch	=	0;
-// 						pDxDevice->CreateBuffer(&desc,&data,&m_pBuffer);
-// 						//SAF_DA(m_Info.InitData);
-// 					}
-// 					else
-					{
-						pDxDevice->CreateBuffer(&desc,NULL,&m_pBuffer);
-					}
-
-					if(m_Info.Flag	&	enVF_SRV){
-						D3D11_SHADER_RESOURCE_VIEW_DESC	srvDesc;
-						MemoryZero(srvDesc);
-						srvDesc.Buffer.NumElements	=	m_Info.uiElementCount;
-						srvDesc.ViewDimension		=	D3D11_SRV_DIMENSION_BUFFER;
-						srvDesc.Format				=	DXGI_FORMAT_UNKNOWN;
-
-						pDxDevice->CreateShaderResourceView( m_pBuffer, &srvDesc, &m_pBufferSRV );
-					}
-
-					if(m_Info.Flag	&	enVF_UAV){
-						D3D11_UNORDERED_ACCESS_VIEW_DESC	uavDesc;
-						MemoryZero(uavDesc);
-						uavDesc.Buffer.NumElements	=	m_Info.uiElementCount;
-						uavDesc.ViewDimension		=	D3D11_UAV_DIMENSION_BUFFER;
-						uavDesc.Format				=	DXGI_FORMAT_UNKNOWN;
-
-						pDxDevice->CreateUnorderedAccessView( m_pBuffer, &uavDesc, &m_pBufferUAV );
-					}
-				}
 				if(m_Info.pCB!=NULL){
 					if(m_Info.pCB->IsLoad(this)){
 						//m_Info.pCB->OnFill()
@@ -129,6 +73,84 @@ namespace Air{
 					return;
 				pContext->CopyResource(pDestResource,pSrcResource);
 			}
+
+			Air::U1 Buffer11::Write( U32 uiOffset,U32 uiSize,void* pSourceData )
+			{
+				DxContext*	pContext	=	(DxContext*)(pDevice->GetContext());
+				ID3D11Resource*	pResource	=	(ID3D11Resource*)GetBuffer();
+				D3D11_MAPPED_SUBRESOURCE res;
+				
+				HRESULT	hr	=	pContext->Map(pResource,0,D3D11_MAP_WRITE_DISCARD,0,&res);
+				if(SUCCEEDED(hr)){
+					U8*	pDst	=	(U8*)res.pData;
+					memcpy(&pDst[uiOffset],pSourceData,uiSize);
+					pContext->Unmap(pResource,0);
+				}
+				return	true;
+			}
+
+			Air::U1 Buffer11::Create()
+			{
+				if(m_pBuffer==NULL){
+					DxDevice*	pDxDevice	=	(DxDevice*)pDevice->GetDevice();
+					D3D11_BUFFER_DESC	desc;
+					MemoryZero(desc);
+					switch(m_Info.type){
+					case enBT_VB:{
+						desc.BindFlags	|=	D3D11_BIND_VERTEX_BUFFER;
+						break;}
+					case enBT_IB:{
+						desc.BindFlags	|=	D3D11_BIND_INDEX_BUFFER;
+						break;}
+					case enBT_CB:{
+						desc.BindFlags	|=	D3D11_BIND_CONSTANT_BUFFER;
+						break;}
+					case enBT_SB:{
+						desc.MiscFlags	|=	D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+						desc.StructureByteStride	=	m_Info.uiElementSize;
+						break;}
+					}
+					desc.ByteWidth	=	m_Info.uiElementCount*m_Info.uiElementSize;
+					if(m_Info.usage	==	enUSAGE_DYNAMIC){
+						desc.Usage			=	D3D11_USAGE_DYNAMIC;
+						desc.CPUAccessFlags	=	D3D11_CPU_ACCESS_WRITE;
+					}
+
+					if(m_Info.InitData!=NULL){
+					 	D3D11_SUBRESOURCE_DATA	data;
+					 	data.pSysMem			=	m_Info.InitData;
+					 	data.SysMemPitch		=	0;
+					 	data.SysMemSlicePitch	=	0;
+					 	pDxDevice->CreateBuffer(&desc,&data,&m_pBuffer);
+					}
+					else
+					{
+						pDxDevice->CreateBuffer(&desc,NULL,&m_pBuffer);
+					}
+
+					if(m_Info.Flag	&	enVF_SRV){
+						D3D11_SHADER_RESOURCE_VIEW_DESC	srvDesc;
+						MemoryZero(srvDesc);
+						srvDesc.Buffer.NumElements	=	m_Info.uiElementCount;
+						srvDesc.ViewDimension		=	D3D11_SRV_DIMENSION_BUFFER;
+						srvDesc.Format				=	DXGI_FORMAT_UNKNOWN;
+
+						pDxDevice->CreateShaderResourceView( m_pBuffer, &srvDesc, &m_pBufferSRV );
+					}
+
+					if(m_Info.Flag	&	enVF_UAV){
+						D3D11_UNORDERED_ACCESS_VIEW_DESC	uavDesc;
+						MemoryZero(uavDesc);
+						uavDesc.Buffer.NumElements	=	m_Info.uiElementCount;
+						uavDesc.ViewDimension		=	D3D11_UAV_DIMENSION_BUFFER;
+						uavDesc.Format				=	DXGI_FORMAT_UNKNOWN;
+
+						pDxDevice->CreateUnorderedAccessView( m_pBuffer, &uavDesc, &m_pBufferUAV );
+					}
+				}
+				return	true;
+			}
+
 		}
 	}
 };
