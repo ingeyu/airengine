@@ -29,17 +29,17 @@ namespace Air{
 
 			void* Buffer11::GetBuffer()
 			{
-				if(m_Info.pCB!=NULL){
-					if(m_Info.pCB->IsLoad(this)){
-						//m_Info.pCB->OnFill()
-					}
-				}
-				if(IsDirty()	&&	m_pBuffer!=NULL	&&	m_Info.InitData!=NULL){
-					DxContext*	pContext	=	(DxContext*)pDevice->GetContext();
-					pContext->UpdateSubresource(m_pBuffer,0,0,m_Info.InitData,0,0);
-					//SAF_DA(m_Info.InitData);
-					m_bDirty	=	false;
-				}
+				//if(m_Info.pCB!=NULL){
+				//	if(m_Info.pCB->IsLoad(this)){
+				//		//m_Info.pCB->OnFill()
+				//	}
+				//}
+				//if(IsDirty()	&&	m_pBuffer!=NULL	&&	m_Info.InitData!=NULL){
+				//	DxContext*	pContext	=	(DxContext*)pDevice->GetContext();
+				//	pContext->UpdateSubresource(m_pBuffer,0,0,m_Info.InitData,0,0);
+				//	//SAF_DA(m_Info.InitData);
+				//	m_bDirty	=	false;
+				//}
 
 				return	m_pBuffer;
 			}

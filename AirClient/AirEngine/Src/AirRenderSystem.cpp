@@ -208,7 +208,7 @@ namespace Air{
 					uiBoneCount			!=0		&&
 					m_pBoneMatrixBuffer	!=NULL)
 				{
-					m_pWorldMatrixBuffer->Write(0,uiBoneCount*sizeof(Float44),(void*)&pBone);
+					m_pBoneMatrixBuffer->Write(0,uiBoneCount*sizeof(Float44),(void*)pBone);
 				}
 			}
 
