@@ -37,6 +37,8 @@ namespace Air{
 						m_uiMeshID			=	-1;
 						m_pCoreAnimation		=	pCoreAnimation;
 						m_pModel			=	pParent;
+
+						SetNeedWorldMatrix(true);
 					}
 	
 					Equipment::~Equipment(){
@@ -132,6 +134,7 @@ namespace Air{
 							p->ReleaseRef();
 
 							Material::Info	mdepthinfo;
+							mdepthinfo.bUseSkin			=	true;
 							mdepthinfo.strTemplate		=	"MT_ObjectSkin_ShadowDepth";
 							p	=	EngineSystem::GetSingleton()->CreateProduct<Material*>(strMaterialName+"ShadowDepth","Material",&mdepthinfo);
 							SetMaterial(p);
@@ -273,37 +276,9 @@ namespace Air{
 						return false;
 					CoreMesh*	pCoreMesh		=	m_pResource->GetObjectT<CoreMesh*>();
 					m_pAnimation				=	new	CoreAnimation(pCoreMesh);
-	
-					//m_pHardWareModel			=	new	CalHardwareModel(pCoreMesh);
-	
-	
-	
-// 					pAnimation->getSkeleton()->getBoneBoundingBox(&m_Bound.m_vMin.x,&m_Bound.m_vMax.x);
 
 					SetBoundBox(Float3(-1,-2,-1),Float3(1,2,1));
- 					//m_pObject	=	pAnimation;
- 					//if(!m_Info.bHardWare){
- 					//	//创建公用顶点缓冲
- 					//	Client::Render::Buffer::Info info(32,10000);
- 					//	info.SetToDynamic();
- 	
- 					//	m_DrawBuff.m_pVertexBuff	=	Render::System::GetSingleton()->Create<VertexBuff*>(m_strProductName,"VertexBuff",&info);
- 					//	if(m_DrawBuff.m_pVertexBuff==NULL)
- 					//		return false;
- 	
- 					//	IndexBuff::Info	pIndexInfo(10000*6);
- 					//	//设置为动态索引
- 					//	pIndexInfo.SetToDynamic();
- 					//	//创建索引
- 					//	m_DrawBuff.m_pIndexBuff	=	Render::System::GetSingleton()->Create<IndexBuff*>(m_strProductName,"IndexBuff",&pIndexInfo);
- 					//	if(m_DrawBuff.m_pIndexBuff==NULL){
- 					//		return	false;
- 					//	}
- 	
- 					//	//创建公用顶点声明
- 					//	VertexDeclare::Info	declareInfo;
- 					//	m_DrawBuff.m_pVertexDeclare	=	Render::System::GetSingleton()->Create<VertexDeclare*>(m_strProductName,"VertexDeclare",&declareInfo);
- 					//}
+
 	
 					
 					return true;
@@ -556,24 +531,7 @@ namespace Air{
 				}
 	
 				void Model::Render(){
-					if(m_pObject==NULL)
-						return;
-	// 				SceneNode*	pParentNode	=	GetParentSceneNode();
-	// 
-	// 				ShaderShareParam& sParam	=	GetGlobalSetting().m_ShaderParam;
-	// 
-	// 				if(pParentNode==NULL){
-	// 					//return;
-	// 					//测试使用
-	// 					sParam.UpdataWorldMatrix(&Matrix4::getScale(1,1,1));//0.04f,0.04f,0.04f));
-	// 				}else
-	// 					sParam.UpdataWorldMatrix(&pParentNode->GetResultMatrix().transpose());
-	
-	// 				Float3	v	=	GetParentSceneNode()->GetResultMatrix().getTrans();
-	// 				AString	str	=	Converter::toString(v)	+	"\n";
-	// 				OutputDebugStringA(str.c_str());
-	
-					
+
 					//判定是采用软件渲染  还是硬件渲染
 					if(m_Info.bHardWare){
 						RenderHardWare();

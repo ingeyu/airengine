@@ -149,7 +149,7 @@ namespace Air{
 				//»Øµ÷
 				pObj->BeforeRender(this);
 
-				pSys->DrawObject(pObj);
+				pSys->DrawObject(pObj,m_Info.bUseSkin);
 			}
 		}
 
