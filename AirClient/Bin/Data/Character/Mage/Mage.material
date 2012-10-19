@@ -1,0 +1,45 @@
+[Mage_Bag]
+diffuse=1.000000 1.000000 1.000000
+ambient=1.000000 1.000000 1.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.000000
+opacity=100.000000
+specularLevel=64.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=Character\Mage\Mage_Bag.dds
+[Mage_Body]
+diffuse=1.000000 1.000000 1.000000
+ambient=1.000000 1.000000 1.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.000000
+opacity=100.000000
+specularLevel=64.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=Character\Mage\Mage_Diff.dds
+[Mage_Dress]
+diffuse=1.000000 1.000000 1.000000
+ambient=1.000000 1.000000 1.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.000000
+opacity=100.000000
+specularLevel=64.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=Character\Mage\Mage_Hair.dds
+[Mage_Eye]
+diffuse=1.000000 1.000000 1.000000
+ambient=1.000000 1.000000 1.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.000000
+opacity=100.000000
+specularLevel=64.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=Character\Mage\Mage_Eye.dds
+[Mage_Hair]
+diffuse=1.000000 1.000000 1.000000
+ambient=1.000000 1.000000 1.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.000000
+opacity=100.000000
+specularLevel=64.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=Character\Mage\Mage_Hair.dds
