@@ -225,8 +225,8 @@ namespace	Air{
 		}
 		if(invMin.z	>	0){
 			Float3	v	=	vDir*invMin.z;
-			if(	v.x	>=	subMin.x	&&	v.x	>=	subMin.x	&&
-				v.x	<=	subMax.x	&&	v.x	<=	subMax.x)
+			if(	v.x	>=	subMin.x	&&	v.y	>=	subMin.y	&&
+				v.x	<=	subMax.x	&&	v.y	<=	subMax.y)
 			{
 				return	true;
 			}
@@ -249,8 +249,8 @@ namespace	Air{
 		}
 		if(invMax.z	>	0){
 			Float3	v	=	vDir*invMax.z;
-			if(	v.x	>=	subMin.x	&&	v.x	>=	subMin.x	&&
-				v.x	<=	subMax.x	&&	v.x	<=	subMax.x)
+			if(	v.x	>=	subMin.x	&&	v.y	>=	subMin.y	&&
+				v.x	<=	subMax.x	&&	v.y	<=	subMax.y)
 			{
 				return	true;
 			}
