@@ -16,7 +16,7 @@ Material	Test2	:	Texture
 	Texture	Model/Box_Spec.jpg
 }
 
-Material	Test3	:	Object
+Material	Test3	:	MT_Object
 {
 	Vector	1 1 1 1
 	Vector	0.5 0.5 0.5 0.5
@@ -25,7 +25,7 @@ Material	Test3	:	Object
 	Texture	Model/Terrain_Diff.png
 }
 
-Material	NoMaterial	:	Object
+Material	NoMaterial	:	MT_Object
 {
 	Vector	1 1 1 1
 	Vector	0.5 0.5 0.5 0.5

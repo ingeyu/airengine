@@ -138,7 +138,7 @@ float4 main( VS_OUTPUT Input ) : SV_TARGET
    float3 viewDir   =   -normalize(vViewPosition.xyz-oldPos.xyz);
    float3   oldNor=   TexNor.Sample(ss_wrappoint,uv).xyz;
    oldNor=oldNor*2-1;
-   oldPos.xyz+=oldNor.xyz;
+   //oldPos.xyz+=oldNor.xyz;
 
    float occ=0;
    float2 fPixel   =   4*invViewport;//*5;//OccSize.y;
@@ -168,7 +168,7 @@ float4 main( VS_OUTPUT Input ) : SV_TARGET
    }
 
    float fAO   =   (occ/SAMPLER_NUM)*0.5+0.5;
-   float4 c	=	fAO;//*TexDiff.Sample(ss_wrappoint,uv);
+   float4 c	=	fAO*TexDiff.Sample(ss_wrappoint,uv);
    return c;///SAMPLER_NUM;//(GetOffset(offset[5]  ,opt).xyxy/8)*0.5+0.5;///4;
 }
 
