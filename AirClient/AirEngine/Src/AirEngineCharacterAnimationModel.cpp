@@ -214,6 +214,7 @@ namespace Air{
 							const	CalQuaternion&	q	=	pBone->getRotationBoneSpace();
 							const	CalVector&		v	=	pBone->getTranslationBoneSpace();
 							pMatrixArray[i]	=	Float44(*(Float4*)&q);
+							pMatrixArray[i].Transpose();
 							pMatrixArray[i].SetPosition(*(Float3*)&v);
 							//Render::System::GetSingleton()->MakeBoneMatrix(&pMatrixArray[i],(Float4*)&q,(Float3*)&v);
 						}
@@ -277,7 +278,7 @@ namespace Air{
 					CoreMesh*	pCoreMesh		=	m_pResource->GetObjectT<CoreMesh*>();
 					m_pAnimation				=	new	CoreAnimation(pCoreMesh);
 
-					SetBoundBox(Float3(-1,-2,-1),Float3(1,2,1));
+					SetBoundBox(Float3(-1000,-2000,-1000),Float3(1000,2000,1000));
 
 	
 					
@@ -455,7 +456,7 @@ namespace Air{
 						m_mapCycleAnimation.insert(ActionMapPair(strCycleActionName.c_str(),act));
 					}
 					//获取动画操作类
-					CoreAnimation*	pAnimation	=	(CoreAnimation*)m_pObject;
+					CoreAnimation*	pAnimation	=	m_pAnimation;
 	
 					//遍历列表
 					i	=	m_mapCycleAnimation.begin();
@@ -518,10 +519,10 @@ namespace Air{
 				}
 	
 				void Model::Updata(){
-					CoreAnimation*	pAnimation	=	(CoreAnimation*)m_pObject;
+					CoreAnimation*	pAnimation	=	m_pAnimation;
 					if(pAnimation){
 						m_CS.Enter();
-						pAnimation->update(GetGlobalSetting().m_ShaderParam.m_fEngineTimeDelta*m_fAnimationSpeed);
+						pAnimation->update(1.0f/60.0f*m_fAnimationSpeed);
 						m_CS.Leave();
 						//pAnimation->getSkeleton()->calculateBoundingBoxes();
 	
@@ -741,7 +742,7 @@ namespace Air{
 				}
 	
 				void Model::UpdataAttachObject(){
-					CalModel*		pAnim	=	(CalModel*)m_pObject;
+					CalModel*		pAnim	=	m_pAnimation;
 					CalCoreModel*	pModel	=	pAnim->getCoreModel();
 					std::vector<CalBone*>&	lstBone	=	pAnim->getSkeleton()->getVectorBone();;
 					//更新骨骼节点

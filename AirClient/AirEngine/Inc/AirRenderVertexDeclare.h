@@ -228,11 +228,11 @@ namespace Air{
 							DeclareElement decl[] = 
 							{
 								{ enDU_POSITION,		0,  enTFMT_R32G32B32_FLOAT,		0,0,	enDT_PER_VERTEX_DATA,0 },
-								{ enDU_BLENDWEIGHT,		0,  enTFMT_R32G32B32A32_FLOAT,	0,12,	enDT_PER_VERTEX_DATA,0 },
-								{ enDU_BLENDINDICES,	0,  enTFMT_R32G32B32A32_FLOAT,	0,28,	enDT_PER_VERTEX_DATA,0 },
-								{ enDU_NORMAL,			0,  enTFMT_R32G32B32_FLOAT,		0,44,	enDT_PER_VERTEX_DATA,0 },
-								{ enDU_TEXCOORD,		0,  enTFMT_R32G32_FLOAT,		0,56,	enDT_PER_VERTEX_DATA,0 },
-								{ enDU_TANGENT,			0,  enTFMT_R32G32B32_FLOAT,		0,64,	enDT_PER_VERTEX_DATA,0 },
+								{ enDU_BLENDWEIGHT,		0,  enTFMT_R8G8B8A8_UNORM,		0,12,	enDT_PER_VERTEX_DATA,0 },
+								{ enDU_BLENDINDICES,	0,  enTFMT_R8G8B8A8_UINT,		0,16,	enDT_PER_VERTEX_DATA,0 },
+								{ enDU_NORMAL,			0,  enTFMT_R32G32B32_FLOAT,		0,20,	enDT_PER_VERTEX_DATA,0 },
+								{ enDU_TEXCOORD,		0,  enTFMT_R32G32_FLOAT,		0,32,	enDT_PER_VERTEX_DATA,0 },
+								{ enDU_TANGENT,			0,  enTFMT_R32G32B32_FLOAT,		0,40,	enDT_PER_VERTEX_DATA,0 },
 							};
 							UInt	uiElementSize	=	sizeof(decl)/sizeof(DeclareElement);
 							CopyElement(decl,uiElementSize);

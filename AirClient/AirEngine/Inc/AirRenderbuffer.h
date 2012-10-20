@@ -50,11 +50,11 @@ namespace Air{
 
 			struct	PNTT_ANIM{
 				Float3	Position;
+				U8		BoneWeight[4];
+				U8		BoneIndex[4];
 				Float3	Normal;
 				Float2	UV;
 				Float3	Tangent;
-				Float4	BoneWeight;
-				Float4	BoneIndex;
 			};
 
 			struct	PNTT{

@@ -314,24 +314,23 @@ namespace Air{
 		
 						//位置
 						vertexData[iV].Position		=	Float3(ver.position.x,ver.position.y,ver.position.z);
-						//骨骼绑定信息
-						vertexData[iV].BoneWeight	=	Float4(0,0,0,0);
-						vertexData[iV].BoneIndex	=	Float4(0,0,0,0);
-	// 					AChar	str[128];
-	// 					sprintf_s(str,"Vertex[%d] ",j);
-	// 					OutputDebugStringA(str);
-						SInt	iBoneCount	=	ver.vectorInfluence.size();
-						for(SInt	k=0;k<iBoneCount;k++){
- 							vertexData[iV].BoneWeight[k]	=	ver.vectorInfluence[k].weight;
 
-							//如果只传递自己需要的矩阵 
-							//骨骼索引变成0~n
- 							vertexData[iV].BoneIndex[k]		=	ver.vectorInfluence[k].boneId;
-							
-	// 						sprintf_s(str,128,"<%d>%f,%f",k,vertexData[iV].BoneWeight[k],vertexData[iV].BoneIndex[k]);
-	// 						OutputDebugStringA(str);
+
+						SInt	iBoneCount	=	ver.vectorInfluence.size();
+						for(SInt	k=0;k<4;k++){
+							if(k<iBoneCount){
+ 								vertexData[iV].BoneWeight[k]	=	ver.vectorInfluence[k].weight*255.0f;
+								//如果只传递自己需要的矩阵 
+								//骨骼索引变成0~n
+ 								vertexData[iV].BoneIndex[k]		=	ver.vectorInfluence[k].boneId;
+							}else{
+								vertexData[iV].BoneWeight[k]	=	0;
+								vertexData[iV].BoneIndex[k]		=	0;
+
+							}
+
 						}
-	//					OutputDebugStringA("\n");
+
 						//法线
 						vertexData[iV].Normal		=	Float3(ver.normal.x,ver.normal.y,ver.normal.z);
 						//UV
@@ -351,7 +350,7 @@ namespace Air{
 					dInfo.SetPNTT_Animation();
  					pOutBuff->pVertexDeclare	=	Render::System::GetSingleton()->CreateProduct<Render::Vertex::IDeclare*>("PNTTANIM","Declare",&dInfo);
 					Render::Buffer::Info		vInfo;
-					vInfo.SetVertexBuffer(iVertexCount,76);
+					vInfo.SetVertexBuffer(iVertexCount,52);
 					vInfo.InitData			=	&vertexData[0];
 					pOutBuff->pVertexBuff		=	Render::System::GetSingleton()->CreateProduct<Render::Buffer*>(strName+"VB","Buffer",&vInfo);
 

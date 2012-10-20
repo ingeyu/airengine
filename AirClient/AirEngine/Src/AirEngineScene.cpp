@@ -79,7 +79,7 @@ namespace Air{
 			g_mgr.LoadSLK("Character.slk");
 			g_mgr.SetSceneNode(&m_pRootNode);
 			Character::Animation::Model*	pModel	=	g_mgr.Create("1","·¨Ê¦");
-			//pModel->AddEquipment()
+			pModel->SetActionState("Run.CAF");
 			return	true;
 		}
 	
@@ -89,6 +89,7 @@ namespace Air{
 			//if()
 
 			//m_Loader.Unload();
+			g_mgr.Destroy();
 
 			if(m_pMainCamera!=NULL){
 				m_pMainCamera->ReleaseRef();
