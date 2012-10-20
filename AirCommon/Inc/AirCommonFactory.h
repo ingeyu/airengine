@@ -450,7 +450,7 @@ namespace Air{
 			m_strTypeName	=	strName;
 		};
 		virtual	Common::IProduct*	NewProduct(CAString& strName,Common::IFactoryParamList* lstParam /* = NULL */){
-			return	new	T_Product(strName,(T_ProductInfo*)lstParam);
+			return	new	T_Product(strName,(T_ProductInfo)lstParam);
 		}
 	};
 };

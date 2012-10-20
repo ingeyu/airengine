@@ -285,8 +285,8 @@ namespace	Air{
 		}
 		if(invMin.z	>	0	&&	invMin.z	<	fMaxDistance){
 			Float3	v	=	vDir*invMin.z;
-			if(	v.x	>=	subMin.x	&&	v.x	>=	subMin.x	&&
-				v.x	<=	subMax.x	&&	v.x	<=	subMax.x)
+			if(	v.x	>=	subMin.x	&&	v.y	>=	subMin.y	&&
+				v.x	<=	subMax.x	&&	v.y	<=	subMax.y)
 			{
 				return	true;
 			}
@@ -309,8 +309,8 @@ namespace	Air{
 		}
 		if(invMax.z	>	0	&&	invMax.z	<	fMaxDistance){
 			Float3	v	=	vDir*invMax.z;
-			if(	v.x	>=	subMin.x	&&	v.x	>=	subMin.x	&&
-				v.x	<=	subMax.x	&&	v.x	<=	subMax.x)
+			if(	v.x	>=	subMin.x	&&	v.y	>=	subMin.y	&&
+				v.x	<=	subMax.x	&&	v.y	<=	subMax.y)
 			{
 				return	true;
 			}
@@ -350,8 +350,8 @@ namespace	Air{
 		}
 		if(invMin.z	>	0	&&	invMin.z	<	fNear){
 			Float3	v	=	vDir*invMin.z;
-			if(	v.x	>=	subMin.x	&&	v.x	>=	subMin.x	&&
-				v.x	<=	subMax.x	&&	v.x	<=	subMax.x)
+			if(	v.x	>=	subMin.x	&&	v.y	>=	subMin.y	&&
+				v.x	<=	subMax.x	&&	v.y	<=	subMax.y)
 			{
 				fNear	=	invMin.z;
 				bResult	=	true;
@@ -378,8 +378,8 @@ namespace	Air{
 		}
 		if(invMax.z	>	0	&&	invMax.z	<	fNear){
 			Float3	v	=	vDir*invMax.z;
-			if(	v.x	>=	subMin.x	&&	v.x	>=	subMin.x	&&
-				v.x	<=	subMax.x	&&	v.x	<=	subMax.x)
+			if(	v.x	>=	subMin.x	&&	v.y	>=	subMin.y	&&
+				v.x	<=	subMax.x	&&	v.y	<=	subMax.y)
 			{
 				fNear	=	invMax.z;
 				bResult	=	true;
@@ -419,8 +419,8 @@ namespace	Air{
 		}
 		if(invMin.z	>	0	&&	invMin.z	>	fFar){
 			Float3	v	=	vDir*invMin.z;
-			if(	v.x	>=	subMin.x	&&	v.x	>=	subMin.x	&&
-				v.x	<=	subMax.x	&&	v.x	<=	subMax.x)
+			if(	v.x	>=	subMin.x	&&	v.y	>=	subMin.y	&&
+				v.x	<=	subMax.x	&&	v.y	<=	subMax.y)
 			{
 				fFar	=	invMin.z;
 				bResult	=	true;
@@ -447,8 +447,8 @@ namespace	Air{
 		}
 		if(invMax.z	>	0	&&	invMax.z	>	fFar){
 			Float3	v	=	vDir*invMax.z;
-			if(	v.x	>=	subMin.x	&&	v.x	>=	subMin.x	&&
-				v.x	<=	subMax.x	&&	v.x	<=	subMax.x)
+			if(	v.x	>=	subMin.x	&&	v.y	>=	subMin.y	&&
+				v.x	<=	subMax.x	&&	v.y	<=	subMax.y)
 			{
 				fFar	=	invMax.z;
 				bResult	=	true;

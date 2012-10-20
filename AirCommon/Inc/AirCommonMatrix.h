@@ -118,6 +118,11 @@ namespace	Air{
 			inline	Vector3	GetPosition()const{
 				return	Vector3(m30,m31,m32);
 			};
+			inline	void	SetPosition(const Vector3& vPos){
+				m30	=	vPos.x;
+				m31	=	vPos.y;
+				m32	=	vPos.z;
+			};
 			inline	Matrix&	ViewAL(	Vector3&	eyePosition,
 									Vector3&	lookPosition,
 									Vector3&	upDirection){
