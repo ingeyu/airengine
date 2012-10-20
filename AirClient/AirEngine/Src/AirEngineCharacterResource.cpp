@@ -108,6 +108,8 @@ namespace Air{
 						MeshHDBuffer*	pMeshBuff	=	(MeshHDBuffer*)info.pUserData;
 						//´Ý»ÙÓ²¼þ»º³å
 						DestroyHardwareBuff(pMeshBuff);
+
+						delete pMeshBuff;
 				}
 				m_mapMeshInfo.erase(i);
 				return true;

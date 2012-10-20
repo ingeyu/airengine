@@ -287,8 +287,6 @@ namespace Air{
 				}
 	
 				U1 Model::Destroy(){
-					if(IsNull())
-						return false;
 					//UnLoadHardWareModel();
 					//摧毁装备列表
 					EquipmentMapItr	iEquip	=	m_mapEquipment.begin();
