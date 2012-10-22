@@ -40,7 +40,7 @@ namespace Air{
 				//创建顶点缓冲区
 				VertexBuffer::Info		vbuffinfo;
 				vbuffinfo.SetVertexBuffer(MAX_WINDOW*6,12);
-				m_DrawBuff.m_pVertexBuff	=	setting.m_pRenderSystem->CreateProduct<VertexBuffer*>(("UI"),("VertexBuffer"),&vbuffinfo);
+				m_DrawBuff.m_pVertexBuffer[0]	=	setting.m_pRenderSystem->CreateProduct<VertexBuffer*>(("UI"),("VertexBuffer"),&vbuffinfo);
 				//VertexBuff::PT*	pVertex	=	NULL;
 // 				m_DrawBuff.m_pVertexBuff->Lock(LockOpt(0,0,(void**)&pVertex));
 // 				for(UInt	i	=0;i<MAX_WINDOW;i++){
@@ -82,10 +82,7 @@ namespace Air{
 					m_DrawBuff.m_pVertexDeclare	=	NULL;
 				}
 	
-				if(m_DrawBuff.m_pVertexBuff!=NULL){
-					setting.m_pRenderSystem->DestroyProduct(m_DrawBuff.m_pVertexBuff);
-					m_DrawBuff.m_pVertexBuff=NULL;
-				}
+				SAFE_RELEASE_REF(m_DrawBuff.m_pVertexBuffer[0]);
 	
 				if(m_pScreenEnt!=NULL){
 					//setting.m_pEngine->DestroyProduct(m_pScreenEnt);

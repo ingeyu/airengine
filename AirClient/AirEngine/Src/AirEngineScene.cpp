@@ -74,11 +74,12 @@ namespace Air{
 
 			m_Loader.SetNode(&m_pRootNode);
 			//"..\\Data\\AirMesh\\jianxia3\\jianxia3.ame.Scene"
-			//m_Loader.Load("AirMesh/agrm/agrm.ame.Scene");
-			m_pRootNode.SetScale(Float3(0.1,0.1,0.1));
+			m_Loader.Load("AirMesh/agrm/agrm.ame.Scene");
+
+			//m_pRootNode.SetScale(Float3(0.1,0.1,0.1));
 			g_mgr.LoadSLK("Character.slk");
 			g_mgr.SetSceneNode(&m_pRootNode);
-			AString	strSkele	=	"Mage.CSF";
+			//AString	strSkele	=	"Mage.CSF";
 			//Character::Resource*	pRes	=	EngineSystem::GetSingleton()->CreateProduct<Character::Resource*>("Character/Mage/","Character",&strSkele);
 			Character::Animation::Model*	pModel	=	g_mgr.Create("1","·¨Ê¦");
 			pModel->SetActionState("Walk.CAF");

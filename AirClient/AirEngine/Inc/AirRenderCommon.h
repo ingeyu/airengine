@@ -682,13 +682,12 @@ namespace Air{
 				***/
 				struct Buff{
 					Buff(){
-						m_pVertexBuff		=	NULL;
+						for(int i=0;i<4;i++){
+							m_pVertexBuffer[i]		=	NULL;
+						}
 						m_pVertexDeclare	=	NULL;
 						m_pIndexBuff		=	NULL;
-					};
-					inline	U1	IsNull(){
-						return(	m_pVertexBuff	==	NULL	||
-								m_pVertexDeclare==	NULL);
+
 					};
 	
 					/**	\brief	ÉèÖÃäÖÈ¾Ñ¡Ïî
@@ -701,7 +700,7 @@ namespace Air{
 					*
 					**/
 					inline	void	SetOption(Option option){m_DrawOption	=	option;};
-					Buffer*				m_pVertexBuff;			///<	¶¥µã»º³å
+					Buffer*				m_pVertexBuffer[4];		///<	¶¥µã»º³å
 					Vertex::IDeclare*	m_pVertexDeclare;		///<	¶¥µãÉùÃ÷
 					Buffer*				m_pIndexBuff;			///<	Ë÷Òý»º³å
 					Option				m_DrawOption;			///<	äÖÈ¾Ñ¡Ïî

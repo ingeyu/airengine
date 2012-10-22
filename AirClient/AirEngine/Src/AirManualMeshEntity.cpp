@@ -28,9 +28,9 @@ namespace	Air{
 			if(m_Info.uiVertexCount>0){
 				Render::Buffer::Info	vbinfo;
 				vbinfo.SetVertexBuffer(m_Info.uiVertexCount,m_Info.uiVertexSize);
-				m_DrawBuff.m_pVertexBuff	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer*>(m_strProductName+"_VB","Buffer",&vbinfo);
+				m_DrawBuff.m_pVertexBuffer[0]	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer*>(m_strProductName+"_VB","Buffer",&vbinfo);
 				m_DrawBuff.m_DrawOption.m_uiVertexCount	=	m_Info.uiVertexCount;
-				m_DrawBuff.m_pVertexBuff->GetBuffer();
+
 			}
 
 			if(m_Info.uiFaceCount>0){
@@ -39,7 +39,7 @@ namespace	Air{
 				m_DrawBuff.m_pIndexBuff	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer*>(m_strProductName+"_IB","Buffer",&ibinfo);
 				m_DrawBuff.m_DrawOption.m_uiFaceCount	=	m_Info.uiFaceCount;
 				m_DrawBuff.m_DrawOption.m_DrawFuncType	=	Render::Draw::FUNC_TYPE_DIP;
-				m_DrawBuff.m_pIndexBuff->GetBuffer();
+
 			}else{
 				m_DrawBuff.m_DrawOption.m_DrawFuncType	=	Render::Draw::FUNC_TYPE_DP;
 			}
@@ -59,7 +59,7 @@ namespace	Air{
 
 		Air::U1 ManualMeshEntity::Destroy()
 		{
-			SAFE_RELEASE_REF(m_DrawBuff.m_pVertexBuff);
+			SAFE_RELEASE_REF(m_DrawBuff.m_pVertexBuffer[0]);
 			SAFE_RELEASE_REF(m_DrawBuff.m_pIndexBuff);
 			SAFE_RELEASE_REF(m_DrawBuff.m_pVertexDeclare);
 			return	true;
@@ -81,8 +81,8 @@ namespace	Air{
 
 		void ManualMeshEntity::UpdateVB( const void* pVB,U32 uiVertexCount )
 		{
-			if(m_DrawBuff.m_pVertexBuff!=NULL	&&	m_Info.uiVertexCount	>=	uiVertexCount){
-				m_DrawBuff.m_pVertexBuff->UpdateData((void*)pVB);
+			if(m_DrawBuff.m_pVertexBuffer[0]!=NULL	&&	m_Info.uiVertexCount	>=	uiVertexCount){
+				m_DrawBuff.m_pVertexBuffer[0]->UpdateData((void*)pVB);
 				m_DrawBuff.m_DrawOption.m_uiVertexCount	=	uiVertexCount;
 
 				U32	uiPositionOffset	=	0;

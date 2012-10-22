@@ -144,9 +144,9 @@ namespace Air{
 // 							m_pMaterial	=	Render::System::GetSingleton()->CreateProduct<Render::IMaterial*>(AString("Material\\NoTexture.Material"),AString("Material"));
 						//¸üÐÂäÖÈ¾»º³å
 						if(pHDBuff!=NULL){
-							m_DrawBuff.m_pVertexDeclare	=	pHDBuff->pVertexDeclare;
-							m_DrawBuff.m_pVertexBuff	=	pHDBuff->pVertexBuff;
-							m_DrawBuff.m_pIndexBuff		=	pHDBuff->pIndexBuff;
+							m_DrawBuff.m_pVertexDeclare		=	pHDBuff->pVertexDeclare;
+							m_DrawBuff.m_pVertexBuffer[0]	=	pHDBuff->pVertexBuff;
+							m_DrawBuff.m_pIndexBuff			=	pHDBuff->pIndexBuff;
 
 							m_DrawBuff.m_DrawOption.m_DrawType		=	Render::Draw::enPT_TRIANGLELIST;
 							m_DrawBuff.m_DrawOption.m_DrawFuncType	=	Render::Draw::FUNC_TYPE_DIP;

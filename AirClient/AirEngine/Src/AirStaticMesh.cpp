@@ -35,7 +35,7 @@ namespace	Air{
 				Buffer::Info	vbInfo;
 				vbInfo.SetVertexBuffer(m_uiNumVertex,44);
 				vbInfo.InitData			=	pVB;
-				m_DrawBuff.m_pVertexBuff	=	pSys->CreateProduct<Buffer*>(m_strProductName+"VB","Buffer",&vbInfo);
+				m_DrawBuff.m_pVertexBuffer[0]	=	pSys->CreateProduct<Buffer*>(m_strProductName+"VB","Buffer",&vbInfo);
 
 				Buffer::Info	ibInfo;
 				ibInfo.SetIndexBuffer32(m_uiNumFace*3);
@@ -77,7 +77,7 @@ namespace	Air{
 
 		Air::U1 StaticMesh::Destroy()
 		{
-			SAFE_RELEASE_REF(m_DrawBuff.m_pVertexBuff);
+			SAFE_RELEASE_REF(m_DrawBuff.m_pVertexBuffer[0]);
 			SAFE_RELEASE_REF(m_DrawBuff.m_pIndexBuff);
 			SAFE_RELEASE_REF(m_DrawBuff.m_pVertexDeclare);
 

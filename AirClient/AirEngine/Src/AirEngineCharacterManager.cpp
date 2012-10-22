@@ -290,7 +290,8 @@ namespace Air{
 				if(pNode==NULL)
 					return;
 				m_pNode	=	pNode->CreateChildSceneNode();
-				//m_pNode->SetScale(Float3(0.01f,0.01f,0.01f));
+				m_pNode->SetQuat(Float4(Float3(1,0,0),-3.1415926f*0.5f));
+				m_pNode->SetScale(Float3(0.1f,0.1f,0.1f));
 				//m_pNode->SetPosition(Float3(0,-1,-1.5));
 			}
 		}

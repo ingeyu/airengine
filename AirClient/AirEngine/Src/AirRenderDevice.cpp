@@ -61,7 +61,14 @@ namespace	Air{
 
 				const DrawBuff&	buff	=	pObj->GetDrawBuff();
 				SetVD(buff.m_pVertexDeclare);
-				SetVB(0,buff.m_pVertexBuff);
+				Buffer*	pVB=	NULL;
+				for(int i=0;i<4;i++){
+					pVB	=	buff.m_pVertexBuffer[i];
+					if(pVB==NULL)
+						break;
+					else
+						SetVB(i,pVB);
+				}
 				//如果IB为空 则不设置
 				if(buff.m_pIndexBuff!=NULL)
 					SetIB(buff.m_pIndexBuff);

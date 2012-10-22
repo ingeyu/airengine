@@ -236,7 +236,18 @@ namespace Air{
 							};
 							UInt	uiElementSize	=	sizeof(decl)/sizeof(DeclareElement);
 							CopyElement(decl,uiElementSize);
-						}
+						};
+
+						void	SetTerrain(){
+							DeclareElement decl[] = 
+							{
+								{ enDU_POSITION,		0,  enTFMT_R8G8_UINT,			0,0,	enDT_PER_VERTEX_DATA,0 },
+								{ enDU_NORMAL,			0,  enTFMT_R32G32B32_FLOAT,		0,2,	enDT_PER_VERTEX_DATA,0 },
+								{ enDU_TEXCOORD,		1,  enTFMT_R16_UINT,			0,0,	enDT_PER_VERTEX_DATA,0 },
+							};
+							UInt	uiElementSize	=	sizeof(decl)/sizeof(DeclareElement);
+							CopyElement(decl,uiElementSize);
+						};
 	
 	
 

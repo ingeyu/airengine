@@ -20,7 +20,7 @@ namespace	Air{
 			Buffer::Info	vbInfo;
 			vbInfo.SetVertexBuffer(6,8);
 			vbInfo.InitData			=	quad;
-			m_DrawBuff.m_pVertexBuff	=	pSys->CreateProduct<Buffer*>("QuadVB","Buffer",&vbInfo);
+			m_DrawBuff.m_pVertexBuffer[0]	=	pSys->CreateProduct<Buffer*>("QuadVB","Buffer",&vbInfo);
 
 			Render::Vertex::IDeclare::Info	vdInfo;
 			vdInfo.SetDeclP2();
@@ -35,7 +35,7 @@ namespace	Air{
 
 		QuadRenderable::~QuadRenderable()
 		{
-			SAFE_RELEASE_REF(m_DrawBuff.m_pVertexBuff);
+			SAFE_RELEASE_REF(m_DrawBuff.m_pVertexBuffer[0]);
 			SAFE_RELEASE_REF(m_DrawBuff.m_pVertexDeclare);
 		}
 
