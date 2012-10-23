@@ -189,6 +189,9 @@
     <ClCompile Include="..\..\AirCommon\Src\AirBoundingBox.cpp">
       <Filter>Math</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirTimer.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\AirCommon\Inc\Airarg_parser.h">
@@ -415,6 +418,9 @@
     </ClInclude>
     <ClInclude Include="..\..\AirCommon\Inc\AirSphere.h">
       <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirTimer.h">
+      <Filter>Inc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

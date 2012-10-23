@@ -188,7 +188,7 @@ namespace	Air{
 			return	true;
 		}
 
-		Air::U1 Pipeline::RenderOneFrame()
+		Air::U1 Pipeline::RenderOneFrame(const FrameTime& frameTime)
 		{
 
 			//pTest->SetPosition(Float3(sin(m_FrameState.fTotalTime)*10,0,cos(m_FrameState.fTotalTime)*10));
@@ -200,14 +200,14 @@ namespace	Air{
 
 			ListenerList::iterator	itr	=	m_lstListener.begin();
 			for(;itr!=m_lstListener.end();itr++){
-				(*itr)->OnBeforeRenderFrame(m_FrameState);
+				(*itr)->OnBeforeRenderFrame(frameTime);
 			}
 
 			Float3 dir(1,-1,1);
 			m_pMainLight->SetPosition(m_pScene->GetMainCamera()->GetPosition() - dir*100);
 
 			if(m_pScene!=NULL){
-				m_pScene->UpdateSceneTree();
+				m_pScene->UpdateSceneTree(frameTime);
 			}
 
 			RenderSystem*	pSys	=	Render::System::GetSingleton();
@@ -284,10 +284,9 @@ namespace	Air{
 			//调用监听器
 			itr	=	m_lstListener.begin();
 			for(;itr!=m_lstListener.end();itr++){
-				(*itr)->OnAfterRenderFrame(m_FrameState);
+				(*itr)->OnAfterRenderFrame(frameTime);
 			}
 
-			m_FrameState.FrameEnd();
 #if 0
 			AString	strBatch	=	Common::Converter::ToString(pDevice->GetDrawBatch())+"[批次]\n";
 			OutputDebugStringA(strBatch.c_str());
@@ -436,7 +435,7 @@ namespace	Air{
 			return true;
 		}
 
-		void Pipeline::Update()
+		void Pipeline::Update(const FrameTime& frameTime)
 		{
 			if(GetGlobalSetting().m_pInputSystem->m_KeyArray[OIS::KC_A]){
 				vMoveDirection.x=	-fVolocity;
@@ -459,31 +458,11 @@ namespace	Air{
 			Float3	vDir	=	pCam->GetDir();
 			Float3	vRight	=	vUp.Cross(vDir);
 			vUp				=	vDir.Cross(vRight);
-			Float3	x	=	vRight*vMoveDirection.x*m_FrameState.fTimeDelta;
-			Float3	y	=	vUp*vMoveDirection.y*m_FrameState.fTimeDelta;
-			Float3	z	=	vDir*vMoveDirection.z*m_FrameState.fTimeDelta;
+			Float3	x	=	vRight*vMoveDirection.x*frameTime.fTimeDelta;
+			Float3	y	=	vUp*vMoveDirection.y*frameTime.fTimeDelta;
+			Float3	z	=	vDir*vMoveDirection.z*frameTime.fTimeDelta;
 
 			pCam->SetPosition(pCam->GetPosition()+x+y+z);
 		}
-
-
-		FrameState::FrameState()
-		{
-			uiFrameNumber	=	0;
-			fTimeDelta		=	0.0f;
-			fTotalTime		=	0;
-			fLastTime		=	timeGetTime()*0.001f;
-		}
-
-		void FrameState::FrameEnd()
-		{
-			uiFrameNumber++;
-			double	tempTime	=	timeGetTime()*0.001f;
-
-			fTimeDelta	=	tempTime	-	fLastTime;
-			fTotalTime	+=	fTimeDelta;
-			fLastTime	=	tempTime;
-		}
-
 	}
 }

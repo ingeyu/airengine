@@ -520,7 +520,7 @@ namespace Air{
 					CoreAnimation*	pAnimation	=	m_pAnimation;
 					if(pAnimation){
 						m_CS.Enter();
-						pAnimation->update(1.0f/60.0f*m_fAnimationSpeed);
+						pAnimation->update(GetTimer().GetTimeDelta()*m_fAnimationSpeed);
 						m_CS.Leave();
 						//pAnimation->getSkeleton()->calculateBoundingBoxes();
 	

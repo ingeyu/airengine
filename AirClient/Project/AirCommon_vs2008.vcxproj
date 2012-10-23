@@ -203,6 +203,7 @@
     <ClCompile Include="..\..\AirCommon\Src\AirRandom.cpp" />
     <ClCompile Include="..\..\AirCommon\Src\AirRay.cpp" />
     <ClCompile Include="..\..\AirCommon\Src\AirSlkReader.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirTimer.cpp" />
     <ClCompile Include="..\..\AirCommon\Src\AirVideoPlugin.cpp" />
     <ClCompile Include="..\..\AirCommon\Src\AirYExcel.cpp" />
     <ClCompile Include="..\..\AirCommon\Inc\AirCommonStreamIO.cpp" />
@@ -281,6 +282,7 @@
     <ClInclude Include="..\..\AirCommon\Inc\AirSingleton.h" />
     <ClInclude Include="..\..\AirCommon\Inc\AirSlkReader.h" />
     <ClInclude Include="..\..\AirCommon\Inc\AirSphere.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirTimer.h" />
     <ClInclude Include="..\..\AirCommon\Inc\AirUnion.h" />
     <ClInclude Include="..\..\AirCommon\Inc\AirVideoPlugin.h" />
     <ClInclude Include="..\..\Dependencies\LZO\lzoconf.h" />

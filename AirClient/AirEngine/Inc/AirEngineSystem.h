@@ -85,7 +85,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			virtual	void	ExecuteOneFrame();
+			virtual	void	ExecuteOneFrame(const FrameTime& frameTime);
 
 			/**	\brief	´´½¨³¡¾°
 			*   

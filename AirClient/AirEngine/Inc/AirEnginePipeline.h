@@ -11,21 +11,11 @@ namespace	Air{
 		class Material;
 		class Light;
 
-		struct ENGINE_EXPORT	FrameState 
-		{
-			FrameState();
-
-			void	FrameEnd();
-			U32		uiFrameNumber;
-			float	fTimeDelta;
-			double	fTotalTime;
-			double	fLastTime;
-		};
 
 		class	FrameListener{
 		public:
-			virtual	U1	OnBeforeRenderFrame(const	FrameState&	frame){return	true;};
-			virtual	U1	OnAfterRenderFrame(const	FrameState&	frame){return	true;};
+			virtual	U1	OnBeforeRenderFrame(const	FrameTime&	frame){return	true;};
+			virtual	U1	OnAfterRenderFrame(const	FrameTime&	frame){return	true;};
 		};
 
 		class	ENGINE_EXPORT	Pipeline	:	
@@ -41,8 +31,8 @@ namespace	Air{
 			virtual	U1		Create();
 			virtual	U1		Destroy();
 
-			virtual	void	Update();
-			virtual	U1		RenderOneFrame();
+			virtual	void	Update(const FrameTime& frameTime);
+			virtual	U1		RenderOneFrame(const FrameTime& frameTime);
 
 			virtual	U1		SetCurrentScene(Scene*	pCurrentScene);
 			Scene*			GetCurrentScene();
@@ -50,9 +40,6 @@ namespace	Air{
 			inline	RenderWindow*		GetMainWindow(){
 				return	m_pMainWindow;
 			};
-			inline	const	FrameState&	GetFrameState()const{
-				return	m_FrameState;
-			}
 
 			virtual bool mouseMoved( const OIS::MouseEvent &arg );
 			virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
@@ -69,7 +56,6 @@ namespace	Air{
 
 
 			Scene*			m_pScene;
-			FrameState		m_FrameState;
 			QuadRenderable*	m_pQuad;
 			Material*		m_pQuadCopy;
 			Material*		m_pSSAO;

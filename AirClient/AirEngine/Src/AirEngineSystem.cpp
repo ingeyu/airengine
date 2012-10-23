@@ -86,7 +86,7 @@ namespace Air{
 			
 		}
 	
-		void EngineSystem::ExecuteOneFrame(){
+		void EngineSystem::ExecuteOneFrame(const FrameTime& frameTime){
 			//PROFILE_FUNCTION
 			//Render::System::GetSingleton()->OnFrameMove(fTime,fElapsedTime,pUserContext);
 			//检测是否需要释放缓冲区中的物体
@@ -105,8 +105,8 @@ namespace Air{
 			}
 
 			if(m_pPipeline!=NULL){
-				m_pPipeline->Update();
-				m_pPipeline->RenderOneFrame();
+				m_pPipeline->Update(frameTime);
+				m_pPipeline->RenderOneFrame(frameTime);
 			}
 		}
 	
@@ -211,8 +211,8 @@ namespace Air{
 				}else{
 
 					Sleep(10);
-
-					ExecuteOneFrame();
+					GetTimer().AddFrame();
+					ExecuteOneFrame(GetTimer().m_FrameTime);
 				}
 
 				if(msg.message	==	WM_QUIT){

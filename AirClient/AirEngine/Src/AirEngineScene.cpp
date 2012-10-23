@@ -74,7 +74,7 @@ namespace Air{
 
 			m_Loader.SetNode(&m_pRootNode);
 			//"..\\Data\\AirMesh\\jianxia3\\jianxia3.ame.Scene"
-			m_Loader.Load("AirMesh/agrm/agrm.ame.Scene");
+			//m_Loader.Load("AirMesh/agrm/agrm.ame.Scene");
 
 			//m_pRootNode.SetScale(Float3(0.1,0.1,0.1));
 			g_mgr.LoadSLK("Character.slk");
@@ -206,7 +206,7 @@ namespace Air{
 			m_TerrainNode.FindMovableObject(pCamera);
 		}
 
-		void Scene::UpdateSceneTree(){
+		void Scene::UpdateSceneTree(const FrameTime& frameTime){
 			static	Matrix	matWorld(	1,0,0,0,
 										0,1,0,0,
 										0,0,1,0,
