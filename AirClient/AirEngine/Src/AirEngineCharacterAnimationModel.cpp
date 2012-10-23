@@ -522,7 +522,8 @@ namespace Air{
 						m_CS.Enter();
 						pAnimation->update(GetTimer().GetTimeDelta()*m_fAnimationSpeed);
 						m_CS.Leave();
-						//pAnimation->getSkeleton()->calculateBoundingBoxes();
+						pAnimation->getSkeleton()->calculateBoundingBoxes();
+						pAnimation->getSkeleton()->getBoneBoundingBox(&m_BoundingBox.vMin.x,&m_BoundingBox.vMax.x);
 	
 						UpdataAttachObject();
 					}

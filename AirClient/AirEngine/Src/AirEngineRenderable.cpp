@@ -101,7 +101,7 @@ namespace	Air{
 			for(U32	i=0;i<32;i++){
 				pMaterial	=	m_pMaterial[i];
 				if(pMaterial!=NULL){
-					if(pMaterial->GetPhaseIndex()&uiPhaseFlag){
+					if(1<<pMaterial->GetPhaseIndex()&uiPhaseFlag){
 						pMaterial->AddRenderObject(this);
 					}
 				}

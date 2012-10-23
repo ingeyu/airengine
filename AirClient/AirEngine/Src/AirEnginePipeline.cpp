@@ -275,8 +275,8 @@ namespace	Air{
 				matInvVP.Inverse();
 
 				m_pSSAO->GetConstantBuffer()->UpdateData(&matInvVP);
-				m_pSSAO->RenderOneObject(m_pQuad);
-				//m_pQuadCopy->RenderOneObject(m_pQuad);
+				//m_pSSAO->RenderOneObject(m_pQuad);
+				m_pQuadCopy->RenderOneObject(m_pQuad);
 				
 			}
 			m_pMainWindow->SetClearFlag(false,false,false);
