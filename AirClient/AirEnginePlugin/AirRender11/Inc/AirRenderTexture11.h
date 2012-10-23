@@ -38,7 +38,9 @@ namespace Air{
 				**/
 				virtual	U1	Destroy( );
 
-	
+				virtual	bool			Write(void* pData,U32	uiPitch,RECT* pRect=NULL);
+
+
 				virtual	void*			GetBuffer();
 				virtual	void*			GetRTV();
 				virtual	void*			GetUAV();

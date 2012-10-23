@@ -2,6 +2,8 @@
 #include "AirRenderGlobal11.h"
 #include "AirRenderDevice11.h"
 
+static const GUID ___IID_ID3D11Texture2D={0x6f15aaf2,0xd208,0x4e89,0x9a,0xb4,0x48,0x95,0x35,0xd3,0x4f,0x9c};
+static const GUID ___IID_ID3D11Texture3D={0x037e866e,0xf56d,0x4357,0xa8,0xaf,0x9d,0xab,0xbe,0x6e,0x25,0x0e};
 
 namespace Air{
 	
@@ -49,17 +51,29 @@ namespace Air{
 						m_Info.format	=	(enumTextureFormat)srvDesc.Format;
 						m_Info.mipmap	=	srvDesc.Texture2D.MipLevels;
 
+						ID3D11Resource*	pResource	=	NULL;
+						//这里会增加引用计数
+						m_pSRV->GetResource(&pResource);
+						if(pResource!=NULL){
+
+							//这里会再次增加引用计数
+							HRESULT	hr	=	D3D_OK;
+							hr	=	pResource->QueryInterface(___IID_ID3D11Texture2D,(void**)&m_pTexture2D);
+							if(FAILED(hr)){
+								hr	=	pResource->QueryInterface(___IID_ID3D11Texture3D,(void**)&m_pTexture3D);
+								if(SUCCEEDED(hr)){
+									m_Info.type	=	enTT_Texture3D;
+								}
+							}else{
+								m_Info.type	=	enTT_Texture2D;
+
+							}
+
+							pResource->Release();
+						}
+
 						if(imgInfo.MiscFlags&D3D11_RESOURCE_MISC_TEXTURECUBE){
 							m_Info.type	=	enTT_TextureCUBE;
-						}else{
-							static	enumTextureType	typeArray[]={
-								enTT_Unknown,
-								enTT_Unknown,
-								enTT_Texture1D,
-								enTT_Texture2D,
-								enTT_Texture3D,
-							};
-							m_Info.type	=	typeArray[imgInfo.ResourceDimension];
 						}
 					}else{
 						return	false;
@@ -202,6 +216,25 @@ namespace Air{
 
 				DxContext*	pContext	=	(DxContext*)(pDevice->GetContext());
 				pContext->GenerateMips(m_pSRV);
+			}
+
+			bool Texture11::Write( void* pData,U32	uiPitch,RECT* pRect )
+			{
+				if(m_pTexture2D==NULL)
+					return	false;
+				
+				DxContext*	pContext	=	(DxContext*)(pDevice->GetContext());
+				
+				HRESULT	hr	=	D3D_OK;
+
+				if(pRect==NULL){
+					pContext->UpdateSubresource(m_pTexture2D,0,NULL,pData,uiPitch,0);
+				}else{
+					D3D11_BOX	box={pRect->left,pRect->top,0,pRect->right,pRect->bottom,1};
+					pContext->UpdateSubresource(m_pTexture2D,0,&box,pData,uiPitch,0);
+
+				}
+				return	true;
 			}
 
 		}

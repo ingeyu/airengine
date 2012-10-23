@@ -74,7 +74,7 @@ namespace Air{
 
 			m_Loader.SetNode(&m_pRootNode);
 			//"..\\Data\\AirMesh\\jianxia3\\jianxia3.ame.Scene"
-			//m_Loader.Load("AirMesh/agrm/agrm.ame.Scene");
+			m_Loader.Load("AirMesh/Strom/Strom.ame.Scene");
 
 			//m_pRootNode.SetScale(Float3(0.1,0.1,0.1));
 			g_mgr.LoadSLK("Character.slk");
@@ -83,6 +83,13 @@ namespace Air{
 			//Character::Resource*	pRes	=	EngineSystem::GetSingleton()->CreateProduct<Character::Resource*>("Character/Mage/","Character",&strSkele);
 			Character::Animation::Model*	pModel	=	g_mgr.Create("1","·¨Ê¦");
 			pModel->SetActionState("Walk.CAF");
+
+			//Texture*	pTex	=	Render::System::GetSingleton()->CreateProduct<Texture*>("AirMesh/agrm/ORCHANGINGTARP.dds","Texture");
+			//std::vector<DWORD>	vecData;
+			//vecData.resize(256*256);
+			//RECT r={0,0,256,256};
+			//pTex->Write(&vecData[0],1024,&r);
+			//pTex->ReleaseRef();
 			return	true;
 		}
 	

@@ -30,11 +30,11 @@ namespace	Air{
 						type	=	enTT_Texture2D;
 						format	=	enTFMT_UNKNOWN;
 						usage	=	enUSAGE_RENDERTARGET;
-						width	=	32;
-						height	=	32;
-						depth	=	32;
+						width	=	1;
+						height	=	1;
+						depth	=	1;
 						fScreenScale	=	-1;
-						
+						viewFlag	=	0;
 						mipmap		=	1;
 						bAutoMipMap	=	false;
 					};
@@ -95,6 +95,8 @@ namespace	Air{
 			public:
 				Texture(CAString&	strName,Info*	pInfo);
 				virtual	~Texture();
+
+				virtual	bool			Write(void* pData,U32	uiPitch,RECT* pRect=NULL){return false;};
 
 				virtual	void*			GetBuffer(){return	NULL;};
 				virtual	void*			GetRTV(){return	NULL;};
