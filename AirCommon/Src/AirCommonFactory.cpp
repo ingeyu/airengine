@@ -211,7 +211,7 @@ namespace Air{
 					pProduct->SetFactoryManager(this);
 					//考虑多线程加载
 					//添加引用计数
-					if(!pProduct->AddRef()){
+					if(pProduct->AddRef()==0){
 						pFactory->Destroy(pProduct);
 						m_CS.Leave();
 						return NULL;

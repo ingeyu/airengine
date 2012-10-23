@@ -39,9 +39,11 @@ namespace Air{
 			U32	uiRef	=	InterlockedIncrement(&m_uiNumRef);
 			if(uiRef==1){
 				//这里要考虑多线程的加载
-				Create();
+				if(!Create()){
+					return	0;
+				};
 			}
-			return m_uiNumRef;
+			return uiRef;
 		}
 
 		Air::U32 IProduct::GetSize(){
