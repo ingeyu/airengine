@@ -44,7 +44,7 @@ float2 XY_UV(float2 xy){
 };
 
 
-
+#if SHADOW_SAMPLE_NUMBER == 8
 const static	float2 offset[SHADOW_SAMPLE_NUMBER]={
 
 float2(0,2),
@@ -60,9 +60,43 @@ float2(5,-5),
 float2(-9,-9)
 
    };
+   #elif	SHADOW_SAMPLE_NUMBER	== 32
+float2 offset[32]={
+float2(0.000000,1.000000),
+float2(0.390181,1.961571),
+float2(1.148050,2.771639),
+float2(2.222281,3.325878),
+float2(3.535534,3.535534),
+float2(4.988818,3.333421),
+float2(6.467157,2.678784),
+float2(7.846282,1.560722),
+float2(9.000000,-0.000000),
+float2(9.807853,-1.950903),
+float2(10.162675,-4.209519),
+float2(9.977634,-6.666844),
+float2(9.192388,-9.192388),
+float2(7.777983,-11.640575),
+float2(5.740249,-13.858194),
+float2(3.121445,-15.692565),
+float2(-0.000001,-17.000000),
+float2(-3.511629,-17.654135),
+float2(-7.270985,-17.553711),
+float2(-11.111406,-16.629391),
+float2(-14.849245,-14.849240),
+float2(-18.292335,-12.222540),
+float2(-21.249233,-8.801712),
+float2(-23.538846,-4.682169),
+float2(-25.000000,0.000000),
+float2(-25.500417,5.072351),
+float2(-24.944745,10.332457),
+float2(-23.281145,15.555972),
+float2(-20.506089,20.506103),
+float2(-16.667109,24.944088),
+float2(-11.863186,28.640266),
+float2(-6.242887,31.385130),
+};
 
-
-
+#endif
 
 PS_OUTPUT main( VS_OUTPUT Input ){
 
@@ -97,7 +131,7 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 	for(int i=0;i<SHADOW_SAMPLE_NUMBER;i++){
    
       float2 off   =   lerp(offset[i].xy,float2(1,-1)*offset[i].yx,rot.x)*rot.y;
-      float2 tempuv   =   shadowUV+off*invShadowViewport*0.25f;
+      float2 tempuv   =   shadowUV+off*invShadowViewport;
       float2 xyoff   =   UV_XY(tempuv);
       float    Oldshadowz   =  ShadowDepthTex.Sample(SS_WrapLine2,tempuv).x;
       float4 tempshadow   =   mul(mShadowViewProjInv,float4(xyoff,Oldshadowz,1));

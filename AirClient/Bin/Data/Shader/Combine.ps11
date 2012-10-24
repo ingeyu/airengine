@@ -1,0 +1,39 @@
+cbuffer cbPerCamera : register( b1 )
+{
+    matrix  ViewProjection;
+	float4	vCameraDir;
+	float4	vCameraPosition;
+	float4	vCameraUp;
+	float4	vVP_NearFar;
+   
+};
+
+struct VS_OUTPUT
+{
+    float4 Position     : SV_POSITION; // vertex position
+	float2 UV			: TEXCOORD0;
+};
+
+struct	PS_OUTPUT{
+	float4	Color				:	SV_Target0;
+};
+
+Texture2D		DiffuseTex		:	register(t0);
+Texture2D		AOTex			:	register(t1);
+Texture2D		ShadowTex		:	register(t2);
+SamplerState	SS_WrapLine2	:	register(s0);
+
+
+PS_OUTPUT main( VS_OUTPUT Input ){
+
+	float2	halfPixel	=	vVP_NearFar.xy*0.5f;
+	float2	uv			=	Input.UV+halfPixel;
+
+	PS_OUTPUT	Out;
+	float4	diff		=	DiffuseTex.Sample(SS_WrapLine2,Input.UV);
+	float4	ao			=	AOTex.Sample(SS_WrapLine2,uv);
+	float4	shadow		=	ShadowTex.Sample(SS_WrapLine2,uv);
+	Out.Color			=	(ao+shadow)*0.5*diff;
+	return	Out;
+   
+}
