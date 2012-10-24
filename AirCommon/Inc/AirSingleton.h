@@ -64,5 +64,54 @@ public:
 template <class T>
 T* Singleton<T>::m_pInstance				= NULL;
 
+template<typename T>
+class RefSingleton{
+private:
+	static T			*m_pInstance;
+	static unsigned int	m_uiRefCount;
+public:
+	RefSingleton(){
+		m_pInstance	= static_cast<T*>(this);
+	};
+	virtual	~RefSingleton(){
+		m_pInstance	=	NULL;
+	}
+	static T*	AddRef(unsigned int*	pRefCount	=	NULL){
+		
+		if(m_pInstance==NULL){
+			try{
+				m_pInstance		= new T();
+				InterlockedExchange(&m_uiRefCount,0);
+			}
+			catch(...){
+				//assert("GetSingleton Error!");
+			}
+		}
+		unsigned int	uiRef	=	InterlockedIncrement(&m_uiRefCount);
+		if(pRefCount!=NULL){
+			*pRefCount=uiRef;
+		}
+		return m_pInstance;
+	};
+
+	static unsigned int ReleaseRef(){
+		if(m_pInstance==NULL){
+			return 0;
+		}
+		unsigned int	uiRef	=	InterlockedDecrement(&m_uiRefCount);
+		if(m_pInstance!=NULL	&&	uiRef==0){
+			delete m_pInstance;
+			m_pInstance=NULL;
+		}
+		return uiRef;
+	};
+	static	unsigned int	GetRefCount(){
+		return m_uiRefCount;
+	};
+};
+template <class T>
+T* RefSingleton<T>::m_pInstance				= NULL;
+template <class T>
+unsigned int RefSingleton<T>::m_uiRefCount			= 0;
 
 #endif // SINGLETON_HEAD_FILE

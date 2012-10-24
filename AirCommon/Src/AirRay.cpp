@@ -1,5 +1,5 @@
 #include "AirRay.h"
-
+#include "AirCommonCollision.h"
 namespace	Air{
 
 
@@ -44,127 +44,20 @@ namespace	Air{
 		return	center_to_ray	<	obj.m_fRadius;
 	}
 
-	bool Ray::Intersect( const BoundingBox& obj ) const
+	bool Ray::Intersect( const BoundingBox& obj,float*	pNear ) const
 	{
-		if(obj.IsInclude(m_vStart))
+		if(obj.IsInclude(m_vStart)){
+			if(pNear!=NULL){
+				*pNear	=	0.0f;
+			}
 			return	true;
-		const Float3& min		= obj.vMin;
-		const Float3& max		= obj.vMax;
-
-		Real lowt = 0.0f;
-		Real t;
-		bool hit = false;
-		Float3 hitpoint;
-		// Check each face in turn, only check closest 3
-		// Min x
-		if (m_vStart.x <= min.x && m_vDirection.x > 0)
-		{
-			t = (min.x - m_vStart.x) / m_vDirection.x;
-			if (t >= 0)
-			{
-				// Substitute t back into ray and check bounds and dist
-				hitpoint = m_vStart + m_vDirection * t;
-				if (hitpoint.y >= min.y && hitpoint.y <= max.y &&
-					hitpoint.z >= min.z && hitpoint.z <= max.z &&
-					(!hit || t < lowt))
-				{
-					hit = true;
-					lowt = t;
-				}
-			}
 		}
-		// Max x
-		if (m_vStart.x >= max.x && m_vDirection.x < 0)
-		{
-			t = (max.x - m_vStart.x) / m_vDirection.x;
-			if (t >= 0)
-			{
-				// Substitute t back into ray and check bounds and dist
-				hitpoint = m_vStart + m_vDirection * t;
-				if (hitpoint.y >= min.y && hitpoint.y <= max.y &&
-					hitpoint.z >= min.z && hitpoint.z <= max.z &&
-					(!hit || t < lowt))
-				{
-					hit = true;
-					lowt = t;
-				}
-			}
-		}
-		// Min y
-		if (m_vStart.y <= min.y && m_vDirection.y > 0)
-		{
-			t = (min.y - m_vStart.y) / m_vDirection.y;
-			if (t >= 0)
-			{
-				// Substitute t back into ray and check bounds and dist
-				hitpoint = m_vStart + m_vDirection * t;
-				if (hitpoint.x >= min.x && hitpoint.x <= max.x &&
-					hitpoint.z >= min.z && hitpoint.z <= max.z &&
-					(!hit || t < lowt))
-				{
-					hit = true;
-					lowt = t;
-				}
-			}
-		}
-		// Max y
-		if (m_vStart.y >= max.y && m_vDirection.y < 0)
-		{
-			t = (max.y - m_vStart.y) / m_vDirection.y;
-			if (t >= 0)
-			{
-				// Substitute t back into ray and check bounds and dist
-				hitpoint = m_vStart + m_vDirection * t;
-				if (hitpoint.x >= min.x && hitpoint.x <= max.x &&
-					hitpoint.z >= min.z && hitpoint.z <= max.z &&
-					(!hit || t < lowt))
-				{
-					hit = true;
-					lowt = t;
-				}
-			}
-		}
-		// Min z
-		if (m_vStart.z <= min.z && m_vDirection.z > 0)
-		{
-			t = (min.z - m_vStart.z) / m_vDirection.z;
-			if (t >= 0)
-			{
-				// Substitute t back into ray and check bounds and dist
-				hitpoint = m_vStart + m_vDirection * t;
-				if (hitpoint.x >= min.x && hitpoint.x <= max.x &&
-					hitpoint.y >= min.y && hitpoint.y <= max.y &&
-					(!hit || t < lowt))
-				{
-					hit = true;
-					lowt = t;
-				}
-			}
-		}
-		// Max z
-		if (m_vStart.z >= max.z && m_vDirection.z < 0)
-		{
-			t = (max.z - m_vStart.z) / m_vDirection.z;
-			if (t >= 0)
-			{
-				// Substitute t back into ray and check bounds and dist
-				hitpoint = m_vStart + m_vDirection * t;
-				if (hitpoint.x >= min.x && hitpoint.x <= max.x &&
-					hitpoint.y >= min.y && hitpoint.y <= max.y &&
-					(!hit || t < lowt))
-				{
-					hit = true;
-					lowt = t;
-				}
-			}
-		}
-
-		return	hit;
+		return	obj.RayCastNear(m_vStart,m_vDirection,pNear);
 	}
 
-	bool Ray::Intersect( const Float3& v0,const Float3& v1,const Float3& v2 ) const
+	bool Ray::Intersect( const Float3& v0,const Float3& v1,const Float3& v2,float* pDistance ) const
 	{
-		return	false;
+		return	Common::IntersectRayTriangle(m_vStart.ToXM(),m_vDirection.ToXM(),v0.ToXM(),v1.ToXM(),v2.ToXM(),pDistance);
 	}
 
 	bool Ray::Intersect( const Common::Plane& obj ) const
