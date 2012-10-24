@@ -150,6 +150,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\AirEngine\Src\AirBoxRenderable.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirEngine.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirEngine3ds.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirEngineCharacterAnimationModel.cpp" />
@@ -230,6 +231,7 @@
     <ClCompile Include="..\AirEngine\Src\AirStaticMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\AirEngine\Inc\AirBoxRenderable.h" />
     <ClInclude Include="..\AirEngine\Inc\AirEngine.h" />
     <ClInclude Include="..\AirEngine\Inc\AirEngineHeader.h" />
     <ClInclude Include="..\AirEngine\Inc\AirEngine3ds.h" />

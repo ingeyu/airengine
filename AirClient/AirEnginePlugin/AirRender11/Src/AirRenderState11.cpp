@@ -19,6 +19,7 @@ namespace	Air{
 				switch(m_Info.type){
 				case enRST_RS:{
 					D3D11_RASTERIZER_DESC*	desc	=	(D3D11_RASTERIZER_DESC*)&m_Info.rs;
+
 					CREATE_STATE(RasterizerState);
 					break;}
 				case enRST_DS:{

@@ -99,6 +99,11 @@ namespace Air{
 			}
 		}
 
+		Air::U1 MovableObject::RayCast( const Ray& ray,float* pOutDistance /*= NULL*/ )
+		{
+			return	ray.Intersect(m_WorldBound,pOutDistance);
+		}
+
 // 		Buffer* MovableObject::GetObjectConstantBuffer(){
 // 			
 // 			return	m_pObjectCB;

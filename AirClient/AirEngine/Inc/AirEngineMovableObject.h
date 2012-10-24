@@ -166,7 +166,7 @@ namespace Air{
 
 			virtual	void	ProcessRenderObject(U32	uiPhaseFlag);
 
-			//Buffer*	GetObjectConstantBuffer();
+			virtual	U1		RayCast(const	Ray&	ray,float*	pOutDistance	=	NULL);
 		protected:
 			BoundingBox			m_WorldBound;		///<	世界包围盒
 			Float44				m_WorldMatrix;		///<	世界矩阵

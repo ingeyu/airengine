@@ -33,6 +33,8 @@ namespace	Air{
 			const BoundingBox&	GetBoundingBox()const;
 
 			const Render::Draw::Buff&	GetDrawBuffer()const;
+
+			U1	RayCast(const Ray& ray ,float*	pOutDistance	=	NULL);
 		protected:
 			U1			LoadAME0();
 

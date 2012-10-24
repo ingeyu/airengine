@@ -1,5 +1,7 @@
 #include "AirMeshEntity.h"
 #include "AirEngineMaterial.h"
+#include "AirBoxRenderable.h"
+#include "AirEngineSystem.h"
 
 namespace	Air{
 	namespace	Client{
@@ -10,6 +12,9 @@ namespace	Air{
 			if(pInfo!=NULL){
 				m_Info	=	*pInfo;
 			}
+
+			m_pBoxRenderable		=	NULL;
+			m_pBoundingBoxMaterial	=	NULL;
 
 			m_pMesh	=	NULL;
 
@@ -39,11 +44,17 @@ namespace	Air{
 			m_BoundingBox	=	m_pMesh->GetBoundingBox();
 			m_DrawBuff		=	m_pMesh->GetDrawBuffer();
 
+			m_pBoxRenderable	=	new	BoxRenderable();
+			((BoxRenderable*)m_pBoxRenderable)->m_WorldMatrix	=	Float44(m_BoundingBox.GetCenter(),m_BoundingBox.GetHalfSize(),Float4(0,0,0,1));
+
+			m_pBoundingBoxMaterial	=	EngineSystem::GetSingleton()->CreateProduct<Material*>("WorldHelperWireFrame","Material");
 			return true;
 		}
 
 		Air::U1 MeshEntity::Destroy()
 		{
+			SAFE_RELEASE_REF(m_pBoundingBoxMaterial);
+			SAFE_DELETE(m_pBoxRenderable);
 			SAFE_RELEASE_REF(m_pMesh);
 			return	true;
 		}
@@ -55,10 +66,45 @@ namespace	Air{
 					m_pMaterial[i]->AddRenderObject(this);
 				}
 			}
+			if((1<<m_pBoundingBoxMaterial->GetPhaseIndex()) & uiPhaseFlag){
+				((BoxRenderable*)m_pBoxRenderable)->m_WorldMatrix	=	Float44(m_WorldBound.GetCenter(),m_WorldBound.GetHalfSize(),Float4(0,0,0,1));
+				m_pBoundingBoxMaterial->AddRenderObject(m_pBoxRenderable);
+			}
+
 		}
 		Matrix* MeshEntity::GetWorldMatrix()
 		{
 			return	&m_WorldMatrix;
 		}
+
+		Air::U1 MeshEntity::RayCast( const Ray& ray ,float*	pOutDistance)
+		{
+			if(!ray.Intersect(GetWorldBoundingBox())){
+				return	false;
+			}
+
+			Matrix	matWorld	=	*GetWorldMatrix();
+			Matrix	matWorldInv	=	matWorld;
+			matWorldInv.Inverse();
+			Float3	vStart	=	ray.m_vStart;
+			Float3	vLookAt	=	vStart	+	ray.m_vDirection;
+			vStart			=	matWorldInv*vStart;
+			vLookAt			=	matWorldInv*vLookAt;
+			Float3	vDir	=	(vLookAt	-	vStart);
+			vDir.Normalize();
+
+			Ray	objSpaceRay(vStart,vDir);
+
+			float	fDistance	=	999999.0f;
+
+			U1	bHit	=	m_pMesh->RayCast(objSpaceRay,&fDistance);
+			if(bHit	&&	pOutDistance!=NULL){
+				Float3	vObjSpaceHitPostion		=	vStart	+	vDir*fDistance;
+				Float3	vWorldSpaceHiPosition	=	matWorld*vObjSpaceHitPostion;
+				*pOutDistance	=	(vWorldSpaceHiPosition	-	ray.m_vStart).Length();
+			}
+			return	bHit;
+		}
+
 	}
 }

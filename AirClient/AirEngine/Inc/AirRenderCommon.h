@@ -421,6 +421,7 @@ namespace Air{
 				enFM_SOILD
 			};
 			enum	enumCullMode{
+				enCM_UNKNOWN,
 				enCM_NONE,
 				enCM_CW,
 				enCM_CCW

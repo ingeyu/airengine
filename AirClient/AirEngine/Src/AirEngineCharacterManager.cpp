@@ -294,6 +294,12 @@ namespace Air{
 				m_pNode->SetScale(Float3(0.1f,0.1f,0.1f));
 				//m_pNode->SetPosition(Float3(0,-1,-1.5));
 			}
+
+			SceneNode* Manager::GetSceneNode()
+			{
+				return	m_pNode;
+			}
+
 		}
 	}
 };

@@ -269,6 +269,9 @@
     <ClCompile Include="..\AirEngine\Src\AirEngineCharacterResource.cpp">
       <Filter>Character</Filter>
     </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirBoxRenderable.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\AirEngine\Inc\AirEngine.h">
@@ -597,6 +600,9 @@
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirEngineCharacterResource.h">
       <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirBoxRenderable.h">
+      <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

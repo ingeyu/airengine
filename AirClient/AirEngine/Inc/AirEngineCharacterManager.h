@@ -18,6 +18,7 @@ namespace Air{
 				U1	LoadSLK(CAString&	strName);
 	
 				void	SetSceneNode(SceneNode*	pNode);
+				SceneNode*	GetSceneNode();
 				Animation::Model*	Create(CAString&	strName,CAString&	strType);
 				void	Destroy();
 	

@@ -10,10 +10,12 @@
 #include "AirQuadRenderable.h"
 #include "AirEngineMaterial.h"
 #include "AirEngineLight.h"
-
+#include "AirEngineCharacterManager.h"
 
 namespace	Air{
 	namespace	Client{
+
+		extern Character::Manager	g_mgr;
 
 		SceneNode*	pTest	=	NULL;
 		MeshEntity*	pTestEnt	=	NULL;
@@ -412,13 +414,19 @@ namespace	Air{
 				size.y	=	r.bottom	-	r.top;
 
 				Ray	ray	=	m_pScene->GetMainCamera()->BuildRay(p.x/(float)size.x,p.y/(float)size.y);
-				//Ray	ray	=	GetGlobalSetting().GetCursorPostionRay(p);
-				if(ray.Intersect(pTestEnt->GetWorldBoundingBox())){
 
-					OutputDebugStringA("OK\n");
-				}else{
-					OutputDebugStringA("ERROR\n");
+				float	fDis	=	9999999.0f;
+				if(GetCurrentScene()->GetRootNode()->RayCast(ray,&fDis)){
+					Float3	vPos	=	ray.m_vStart+ray.m_vDirection*fDis;
+					g_mgr.GetSceneNode()->SetPosition(vPos);
 				}
+				//Ray	ray	=	GetGlobalSetting().GetCursorPostionRay(p);
+				//if(ray.Intersect(pTestEnt->GetWorldBoundingBox())){
+
+				//	OutputDebugStringA("OK\n");
+				//}else{
+				//	OutputDebugStringA("ERROR\n");
+				//}
 			}
 
 			return true;

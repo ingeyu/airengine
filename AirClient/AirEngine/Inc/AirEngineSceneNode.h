@@ -223,6 +223,8 @@ namespace Air{
 			*
 			**/
 			virtual	void	FindMovableObject(Camera*	pCamera);
+
+			virtual	U1		RayCast(const Ray& ray,float*	pOutDistance	=	NULL);
 		protected:
 			/**	\brief	创建子节点
 			*   

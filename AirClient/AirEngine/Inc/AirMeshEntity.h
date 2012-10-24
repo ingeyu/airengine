@@ -24,9 +24,13 @@ namespace	Air{
 			StaticMesh*			GetMesh()const{
 				return m_pMesh;
 			};
+
+			U1	RayCast(const	Ray&	ray,float*	pOutDistance	=	NULL);
 		protected:
 			StaticMesh*	m_pMesh;
 			Info		m_Info;
+			Renderable*	m_pBoxRenderable;
+			Material*	m_pBoundingBoxMaterial;
 		};
 	}
 }

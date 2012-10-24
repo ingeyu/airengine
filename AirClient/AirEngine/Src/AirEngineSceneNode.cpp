@@ -207,5 +207,37 @@ namespace Air{
 		void SceneNode::SetType( enumSceneNodeType t ){
 			m_Type	=	t;
 		}
+
+		Air::U1 SceneNode::RayCast( const Ray& ray,float* pOutDistance /*= NULL*/ )
+		{
+			U1	bHit	=	false;
+			float	fMaxDistance	=	99999.0f;
+
+				MovableObject*	pObj	=	NULL;
+				MovableObjectListItr	i	=	m_lstMovableObject.begin();
+				for(;i!=m_lstMovableObject.end();++i){
+					pObj	=	*i;
+					if(pObj->HasFlag(enMOF_VISIABLE)){
+						if((*i)->RayCast(ray,&fMaxDistance)){
+							bHit	=	true;
+						};
+					}
+				}
+
+				Common::NodeListItr	itr	=	m_lstChild.begin();
+				for(;itr!=m_lstChild.end();itr++){
+					if((static_cast<SceneNode*>(*itr))->RayCast(ray,&fMaxDistance)){
+
+						bHit	=	true;
+					};
+				}
+				if(pOutDistance!=NULL){
+					if(fMaxDistance	<	*pOutDistance){
+						*pOutDistance	=	fMaxDistance;
+					}
+				}
+			return	bHit;
+		}
+
 	}	
 };

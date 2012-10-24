@@ -100,5 +100,36 @@ namespace	Air{
 			return	m_DrawBuff;
 		}
 
+		Air::U1 StaticMesh::RayCast( const Ray& ray ,float* pOutDistance /*= NULL*/ )
+		{
+			U32*			pIndex			=	(U32*)GetIB();
+			U32				uiFaceCount		=	GetFaceCount();
+			Render::PNTT*	pVB				=	(Render::PNTT*)GetVB();
+			U32				uiVertexCount	=	GetVertexCount();
+
+			float	fDistance	=	999999.0f;
+			U1		bHit		=	false;
+
+			for(U32	i=0;i<uiFaceCount;i++){
+
+				Float3&	v0	=	pVB	[pIndex[i*3]	].Position;
+				Float3&	v1	=	pVB	[pIndex[i*3+1]	].Position;
+				Float3&	v2	=	pVB	[pIndex[i*3+2]	].Position;
+				float	fDis	=	-1.0f;
+				if(ray.Intersect(v0,v1,v2,&fDis)){
+					if(fDis	<	fDistance){
+						fDistance	=	fDis;
+					}
+					bHit	=	true;
+				}
+			}
+			
+			if(pOutDistance!=NULL){
+				*pOutDistance	=	fDistance;
+			}
+
+			return	bHit;
+		}
+
 	}
 }
