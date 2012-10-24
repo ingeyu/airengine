@@ -189,6 +189,22 @@ MaterialTemplate	MT_WorldHelper
 
 };
 
+MaterialTemplate	MT_WorldHelperWireFrame
+{
+	Phase	Helper
+	Pass
+	{
+		RasterizerState	CullNoneWireframe
+		VertexShader		"Shader/WorldHelper"
+		{
+		}
+		PixelShader			"Shader/WorldHelper"
+		{
+		}
+	}
+
+};
+
 
 MaterialTemplate	MT_Combine
 {

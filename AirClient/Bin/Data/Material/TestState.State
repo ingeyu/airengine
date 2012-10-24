@@ -3,6 +3,12 @@ RasterizerState CullNone
 	CullMode = None;
 };
 
+RasterizerState CullNoneWireframe
+{
+	FillMode = Wireframe;
+	CullMode = None;
+};
+
 BlendState NoneBlendState
 {
     AlphaToCoverageEnable = FALSE;
