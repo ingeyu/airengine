@@ -52,6 +52,7 @@ namespace	Air{
 			RenderTarget*	m_pMRT;
 			RenderTarget*	m_pShadowDepth;
 			RenderTarget*	m_pRT_ShadowMask;
+			RenderTarget*	m_pRT_AO;
 			Light*			m_pMainLight;
 
 
@@ -60,6 +61,7 @@ namespace	Air{
 			Material*		m_pQuadCopy;
 			Material*		m_pSSAO;
 			Material*		m_pShadowMask;
+			Material*		m_pCombine;
 
 			Float3			vMoveDirection;
 			float			fVolocity;

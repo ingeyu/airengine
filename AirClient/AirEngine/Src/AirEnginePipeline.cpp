@@ -26,11 +26,13 @@ namespace	Air{
 			m_pQuad			=	NULL;
 			m_pQuadCopy		=	NULL;
 			m_pSSAO			=	NULL;
+			m_pRT_AO		=	NULL;
 
 			m_pShadowDepth	=	NULL;
 			m_pRT_ShadowMask	=	NULL;
 			m_pShadowMask	=	NULL;
 			m_pMainLight	=	NULL;
+			m_pCombine		=	NULL;
 
 			fVolocity		=	10.0f;
 		}
@@ -131,13 +133,16 @@ namespace	Air{
 			rtinfo.SetSingleTargetScreen(enTFMT_R8G8B8A8_UNORM);
 			m_pRT_ShadowMask	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("ShadowMask","Target",&rtinfo);
 			m_pRT_ShadowMask->SetClearFlag(false,true,false);
-
+			m_pRT_AO			=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("AO","Target",&rtinfo);
+			m_pRT_AO->SetClearFlag(false,true,false);
 
 			rtinfo.SetSingleTarget(1024,1024,enTFMT_R32_FLOAT,true);
 			m_pShadowDepth	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("ShadowDepth","Target",&rtinfo);
 			m_pShadowDepth->SetClearFlag(true,true,true);
 			m_pShadowDepth->AddPhaseFlag(enPI_Shadow);
 			m_pShadowDepth->SetBKColor(Float4(1,1,1,1));
+
+
 
 
 			Light::Info	infoLight;
@@ -157,6 +162,7 @@ namespace	Air{
 			m_pQuadCopy		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("QuadCopy","Material");
 			m_pSSAO			=	EngineSystem::GetSingleton()->CreateProduct<Material*>("SSAO","Material");
 			m_pShadowMask	=	EngineSystem::GetSingleton()->CreateProduct<Material*>("ShadowMask","Material");
+			m_pCombine		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("Combine","Material");
 			return	true;
 		}
 
@@ -168,6 +174,8 @@ namespace	Air{
 			SAFE_RELEASE_REF(m_pQuadCopy);
 			SAFE_RELEASE_REF(m_pSSAO);
 			SAFE_RELEASE_REF(m_pShadowMask);
+			SAFE_RELEASE_REF(m_pRT_AO);
+			SAFE_RELEASE_REF(m_pCombine);
 
 			if(m_pScene!=NULL){
 				m_pScene->Release();
@@ -264,6 +272,19 @@ namespace	Air{
 
 				m_pRT_ShadowMask->AfterUpdate();
 			}
+			//SSAO
+			if(m_pRT_AO->BeforeUpdate()){
+				m_pScene->GetMainCamera()->Render2D(m_pMainWindow->GetWidth(),m_pMainWindow->GetHeight());
+
+				m_pSSAO->GetConstantBuffer()->GetBuffer();
+				Float44	matInvVP	=	m_pScene->GetMainCamera()->GetViewProjMatrix();
+				matInvVP.Inverse();
+
+				m_pSSAO->GetConstantBuffer()->UpdateData(&matInvVP);
+				m_pSSAO->RenderOneObject(m_pQuad);
+
+				m_pRT_AO->AfterUpdate();
+			}
 
 			//SSAO
 			m_pMainWindow->SetClearFlag(true,true,true);
@@ -276,7 +297,8 @@ namespace	Air{
 
 				m_pSSAO->GetConstantBuffer()->UpdateData(&matInvVP);
 				//m_pSSAO->RenderOneObject(m_pQuad);
-				m_pQuadCopy->RenderOneObject(m_pQuad);
+				//m_pQuadCopy->RenderOneObject(m_pQuad);
+				m_pCombine->RenderOneObject(m_pQuad);
 				
 			}
 			m_pMainWindow->SetClearFlag(false,false,false);
