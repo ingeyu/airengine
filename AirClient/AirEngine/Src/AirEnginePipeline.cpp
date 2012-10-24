@@ -404,7 +404,7 @@ namespace	Air{
 				POINT	p;
 				p.x	=	arg.state.X.abs;
 				p.y	=	arg.state.Y.abs;
-				ScreenToClient(GetGlobalSetting().m_EngineParam.hWnd,&p);
+
 
 				RECT	r;
 				GetClientRect(GetGlobalSetting().m_EngineParam.hWnd,&r);

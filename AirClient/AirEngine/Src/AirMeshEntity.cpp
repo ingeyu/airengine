@@ -43,11 +43,12 @@ namespace	Air{
 
 			m_BoundingBox	=	m_pMesh->GetBoundingBox();
 			m_DrawBuff		=	m_pMesh->GetDrawBuffer();
-
+#if 0
 			m_pBoxRenderable	=	new	BoxRenderable();
 			((BoxRenderable*)m_pBoxRenderable)->m_WorldMatrix	=	Float44(m_BoundingBox.GetCenter(),m_BoundingBox.GetHalfSize(),Float4(0,0,0,1));
 
 			m_pBoundingBoxMaterial	=	EngineSystem::GetSingleton()->CreateProduct<Material*>("WorldHelperWireFrame","Material");
+#endif
 			return true;
 		}
 
@@ -66,10 +67,12 @@ namespace	Air{
 					m_pMaterial[i]->AddRenderObject(this);
 				}
 			}
+#if 0
 			if((1<<m_pBoundingBoxMaterial->GetPhaseIndex()) & uiPhaseFlag){
 				((BoxRenderable*)m_pBoxRenderable)->m_WorldMatrix	=	Float44(m_WorldBound.GetCenter(),m_WorldBound.GetHalfSize(),Float4(0,0,0,1));
 				m_pBoundingBoxMaterial->AddRenderObject(m_pBoxRenderable);
 			}
+#endif
 
 		}
 		Matrix* MeshEntity::GetWorldMatrix()
@@ -79,9 +82,11 @@ namespace	Air{
 
 		Air::U1 MeshEntity::RayCast( const Ray& ray ,float*	pOutDistance)
 		{
-			if(!ray.Intersect(GetWorldBoundingBox())){
+#if 1
+			if(!GetWorldBoundingBox().RayCast(ray.GetOrigin(),ray.GetDirection())){//.Intersect(GetWorldBoundingBox())){
 				return	false;
 			}
+#endif
 
 			Matrix	matWorld	=	*GetWorldMatrix();
 			Matrix	matWorldInv	=	matWorld;

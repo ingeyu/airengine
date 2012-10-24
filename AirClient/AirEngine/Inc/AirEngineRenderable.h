@@ -134,7 +134,7 @@ namespace	Air{
 			*	@note
 			*
 			**/
-			void			SetNeedWorldMatrix(U1	bNeed	=	false);
+			void			SetNeedWorldMatrix(U1	bNeed);
 
 			const DrawBuff&		GetDrawBuff(){
 				return	m_DrawBuff;

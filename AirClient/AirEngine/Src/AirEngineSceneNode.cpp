@@ -211,14 +211,19 @@ namespace Air{
 		Air::U1 SceneNode::RayCast( const Ray& ray,float* pOutDistance /*= NULL*/ )
 		{
 			U1	bHit	=	false;
-			float	fMaxDistance	=	99999.0f;
+			float	fLastDistance	=	999999.0f;
+			
 
 				MovableObject*	pObj	=	NULL;
 				MovableObjectListItr	i	=	m_lstMovableObject.begin();
 				for(;i!=m_lstMovableObject.end();++i){
 					pObj	=	*i;
 					if(pObj->HasFlag(enMOF_VISIABLE)){
+						float	fMaxDistance	=	9999999.0f;
 						if((*i)->RayCast(ray,&fMaxDistance)){
+							if(fMaxDistance<fLastDistance){
+								fLastDistance	=	fMaxDistance;
+							}
 							bHit	=	true;
 						};
 					}
@@ -226,14 +231,17 @@ namespace Air{
 
 				Common::NodeListItr	itr	=	m_lstChild.begin();
 				for(;itr!=m_lstChild.end();itr++){
+					float	fMaxDistance	=	9999999.0f;
 					if((static_cast<SceneNode*>(*itr))->RayCast(ray,&fMaxDistance)){
-
+						if(fMaxDistance<fLastDistance){
+							fLastDistance	=	fMaxDistance;
+						}
 						bHit	=	true;
 					};
 				}
 				if(pOutDistance!=NULL){
-					if(fMaxDistance	<	*pOutDistance){
-						*pOutDistance	=	fMaxDistance;
+					if(fLastDistance	<	*pOutDistance){
+						*pOutDistance	=	fLastDistance;
 					}
 				}
 			return	bHit;
