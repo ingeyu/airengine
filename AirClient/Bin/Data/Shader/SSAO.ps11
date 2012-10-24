@@ -153,7 +153,7 @@ float4 main( VS_OUTPUT Input ) : SV_TARGET
 
 
       XY.xy     =   UV_XY(UV);//*temp.xy+   temp.zw;
-      XY.z      =   TexDepth.Sample(ss_clampline2,UV).x;
+      XY.z      =   TexDepth.SampleLevel(ss_clampline2,UV,0).x;
       XY.w      =   1;
       XY       =   mul(matViewProjectionInverse,XY);
 

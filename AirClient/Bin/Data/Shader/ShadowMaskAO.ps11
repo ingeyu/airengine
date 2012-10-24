@@ -30,7 +30,8 @@ Texture2D	ShadowDepthTex		:	register(t0);
 Texture2D	MRTDepthTex			:	register(t1);
 Texture2D	Tex2x2				:	register(t2);
 
-SamplerState	SS_WrapLine2	:	register(s0);
+SamplerState	SS_BorderLine2	:	register(s0);
+SamplerState	SS_WrapLine2	:	register(s1);
 SamplerState	SS_WrapPoint2	:	register(s2);
 
 
@@ -131,9 +132,9 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 	for(int i=0;i<SHADOW_SAMPLE_NUMBER;i++){
    
       float2 off   =   lerp(offset[i].xy,float2(1,-1)*offset[i].yx,rot.x)*rot.y;
-      float2 tempuv   =   shadowUV+off*invShadowViewport;
+      float2 tempuv   =   shadowUV+off*invShadowViewport*0.25f;
       float2 xyoff   =   UV_XY(tempuv);
-      float    Oldshadowz   =  ShadowDepthTex.Sample(SS_WrapLine2,tempuv).x;
+      float    Oldshadowz   =  ShadowDepthTex.SampleLevel(SS_BorderLine2,tempuv,0).x;
       float4 tempshadow   =   mul(mShadowViewProjInv,float4(xyoff,Oldshadowz,1));
       tempshadow/=tempshadow.w;
       float3 tDir   =   normalize(tempshadow.xyz-vWorldPos.xyz);
