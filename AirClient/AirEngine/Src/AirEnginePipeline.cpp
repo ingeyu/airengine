@@ -11,10 +11,14 @@
 #include "AirEngineMaterial.h"
 #include "AirEngineLight.h"
 #include "AirEngineCharacterManager.h"
+#include "AirInterfaceResourceSystem.h"
+
+
+#include "AirNavMesh.h"
 
 namespace	Air{
 	namespace	Client{
-
+		NavMesh*	pMesh	=	NULL;
 		extern Character::Manager	g_mgr;
 
 		SceneNode*	pTest	=	NULL;
@@ -114,6 +118,14 @@ namespace	Air{
 
 			//pTest	=	m_pScene->GetRootNode()->CreateChildSceneNode("TestNode");
 			//pTest->attachObject(pEnt);
+					Data data;
+					GetGlobalSetting().m_pResourceSystem->Find("AirMesh/NAV2.ame",data);
+					NavMesh::Info navinfo;
+					navinfo.pData	=	data.buff;
+					navinfo.uiSize	=	data.size;
+							
+					pMesh	=	new NavMesh("testnav",&navinfo);
+					pMesh->AddRef();
 
 			RenderTarget::Info	rtinfo;
 			Render::TFormat fmtArray[]={
@@ -170,6 +182,8 @@ namespace	Air{
 
 		Air::U1 Pipeline::Destroy()
 		{
+			SAFE_RELEASE_REF(pMesh);
+
 			SAFE_RELEASE_REF(m_pMainLight);
 
 			SAFE_DELETE(m_pQuad);
@@ -397,27 +411,32 @@ namespace	Air{
 			
 			return true;
 		}
-
+		static Float3 vEnd;
 		bool Pipeline::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 		{
+			POINT	p;
+			p.x	=	arg.state.X.abs;
+			p.y	=	arg.state.Y.abs;
+
+			RECT	r;
+			GetClientRect(GetGlobalSetting().m_EngineParam.hWnd,&r);
+
+			POINT	size;
+			size.x	=	r.right		-	r.left;
+			size.y	=	r.bottom	-	r.top;
+
+			Ray	ray	=	m_pScene->GetMainCamera()->BuildRay(p.x/(float)size.x,p.y/(float)size.y);
+
+			float	fDis	=	9999999.0f;
+
 			if(id	==	OIS::MB_Left){
-				POINT	p;
-				p.x	=	arg.state.X.abs;
-				p.y	=	arg.state.Y.abs;
 
-
-				RECT	r;
-				GetClientRect(GetGlobalSetting().m_EngineParam.hWnd,&r);
-
-				POINT	size;
-				size.x	=	r.right		-	r.left;
-				size.y	=	r.bottom	-	r.top;
-
-				Ray	ray	=	m_pScene->GetMainCamera()->BuildRay(p.x/(float)size.x,p.y/(float)size.y);
-
-				float	fDis	=	9999999.0f;
-				if(GetCurrentScene()->GetRootNode()->RayCast(ray,&fDis)){
+				//if(GetCurrentScene()->GetRootNode()->RayCast(ray,&fDis))
+				TreeElement* pElement	=	pMesh->RayCast(ray,&fDis);
+				if(pElement)
+				{
 					Float3	vPos	=	ray.m_vStart+ray.m_vDirection*fDis;
+					vEnd			=	vPos;
 					g_mgr.GetSceneNode()->SetPosition(vPos);
 				}
 				//Ray	ray	=	GetGlobalSetting().GetCursorPostionRay(p);
@@ -427,6 +446,23 @@ namespace	Air{
 				//}else{
 				//	OutputDebugStringA("ERROR\n");
 				//}
+			}else if(id == OIS::MB_Middle){
+				TreeElement* pElement	=	pMesh->RayCast(ray,&fDis);
+				if(pElement)
+				{
+					Float3	vPos	=	ray.m_vStart+ray.m_vDirection*fDis;
+					ElementList lst;
+					char str[32];
+					if(pMesh->FindPath(vPos,vEnd,&lst)){
+						ElementList::iterator	itr	=	lst.begin();
+						for(;itr!=lst.end();itr++){
+							sprintf(str,"%d->",(*itr)->m_pData);
+							OutputDebugStringA(str);
+						}
+						OutputDebugStringA("Reached!\n");
+					}
+				}
+
 			}
 
 			return true;

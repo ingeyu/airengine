@@ -33,6 +33,9 @@
     <Filter Include="Character">
       <UniqueIdentifier>{7d9e39df-b977-4782-8e0e-8d486d89b293}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AI">
+      <UniqueIdentifier>{2834b3c2-13c6-42b0-b1dc-7b1fb86d021d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\AirEngine\Src\AirEngine.cpp">
