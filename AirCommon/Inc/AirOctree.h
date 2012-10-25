@@ -2,8 +2,11 @@
 #define AirOctree_h__
 
 #include "AirBoundingBox.h"
+#include "AirRay.h"
 
 namespace Air{
+
+	
 
 	class	TreeElement{
 	public:
@@ -20,6 +23,16 @@ namespace Air{
 		void*	m_pParent;
 		U32		m_pData;
 	};
+	//Ray
+	//Element
+	//OutDistance
+	//UserData
+	typedef U1	(*RayCastFunc)(const Ray&,TreeElement*,float*,void*);
+	//Position
+	//Element
+	//UserData
+	typedef U1	(*FindElementFunc)(const Float3&,TreeElement*,void*);
+
 	typedef	std::list<TreeElement*>	ElementList;
 	typedef	std::vector<TreeElement*>	ElementVector;
 
@@ -76,6 +89,8 @@ namespace Air{
 		static	Float2		CalcBestSplitePlane(const ElementVector&	vecElement,const BoundingBox&	box,int	iSpliteType,float&	fBegin,float&	fEnd);
 
 		void				SaveToMemory(RBTVector&	vecNode,void*&	pData,U32&	iDataCount);
+		TreeElement*		RayCast(const Ray& ray,RayCastFunc pFunc,void*	pUserData	=	NULL,float* pOutDistance	=	NULL);
+		TreeElement*		FindElement(const Float3& vPos,FindElementFunc pFunc,void* pUserData);
 		U32					GetTotalNodeCount();
 		static	U32			m_MaxElement;
 		U32					m_uiDepth;

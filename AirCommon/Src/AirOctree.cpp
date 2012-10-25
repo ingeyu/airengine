@@ -302,4 +302,60 @@ namespace	Air{
 		return	iCount;
 	}
 
+	TreeElement* RelaxBinaryTree::RayCast( const Ray& ray,RayCastFunc pFunc,void* pUserData /*= NULL*/,float* pOutDistance /*= NULL*/ )
+	{
+		TreeElement* pElement	=	NULL;
+		float fDistance	=	999999.0f;
+		U32	uiElementCount	=	m_vecElement.size();
+		for(U32	i=0;i<uiElementCount;i++){
+			float fDis	=	9999999.0f;
+			if(pFunc(ray,m_vecElement[i],&fDis,pUserData)){
+				if(fDis<fDistance){
+					pElement	=	m_vecElement[i];
+					fDistance	=	fDis;
+				}
+			}
+		}
+
+		for(int i=0;i<2;i++){
+			if(m_pChild[i]!=NULL)
+				if(m_pChild[i]->m_BoundingBox.RayCast(ray.GetOrigin(),ray.GetDirection(),fDistance))
+				{
+					float fDis	=	9999999.0f;
+					TreeElement*	p	=	m_pChild[i]->RayCast(ray,pFunc,pUserData,&fDis);
+					if(p!=NULL){
+						if(fDis	<	fDistance){
+							pElement	=	p;
+							fDistance	=	fDis;
+						}
+					}
+				}
+		}
+		if(pOutDistance!=NULL){
+			*pOutDistance	=	fDistance;
+		}
+		return pElement;
+	}
+
+	TreeElement* RelaxBinaryTree::FindElement( const Float3& vPos, FindElementFunc pFunc,void* pUserData)
+	{
+		if(m_BoundingBox.IsInclude(vPos)){
+			U32	uiElementCount	=	m_vecElement.size();
+			for(U32	i=0;i<uiElementCount;i++){
+				if(pFunc(vPos,m_vecElement[i],pUserData)){
+					return m_vecElement[i];
+				}
+			}
+		}
+		for(U32 i=0;i<2;i++){
+			if(m_pChild[i]!=NULL){
+				TreeElement* pElement	=	m_pChild[i]->FindElement(vPos,pFunc,pUserData);
+				if(pElement!=NULL){
+					return pElement;
+				}
+			}
+		}
+		return	NULL;
+	}
+
 }
