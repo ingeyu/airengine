@@ -24,6 +24,7 @@ namespace	Air{
 		void				BuildFrom3Point(const Float3& v0,const Float3& v1,const Float3& v2);
 
 		U1					IsInclude(const Float3&	v)const;
+		U1					IsIncludeH( const Float3& v ) const;
 		U1					IsInclude(const BoundingBox&	b)const;
 		//U1					IsSphereIn(const )
 		BoundingBox&		Add(const Float3&	v);

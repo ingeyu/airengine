@@ -339,19 +339,20 @@ namespace	Air{
 
 	TreeElement* RelaxBinaryTree::FindElement( const Float3& vPos, FindElementFunc pFunc,void* pUserData)
 	{
-		if(m_BoundingBox.IsInclude(vPos)){
+		if(m_BoundingBox.IsIncludeH(vPos)){
 			U32	uiElementCount	=	m_vecElement.size();
 			for(U32	i=0;i<uiElementCount;i++){
 				if(pFunc(vPos,m_vecElement[i],pUserData)){
 					return m_vecElement[i];
 				}
 			}
-		}
-		for(U32 i=0;i<2;i++){
-			if(m_pChild[i]!=NULL){
-				TreeElement* pElement	=	m_pChild[i]->FindElement(vPos,pFunc,pUserData);
-				if(pElement!=NULL){
-					return pElement;
+		
+			for(U32 i=0;i<2;i++){
+				if(m_pChild[i]!=NULL){
+					TreeElement* pElement	=	m_pChild[i]->FindElement(vPos,pFunc,pUserData);
+					if(pElement!=NULL){
+						return pElement;
+					}
 				}
 			}
 		}

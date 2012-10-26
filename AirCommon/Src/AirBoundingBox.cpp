@@ -501,4 +501,21 @@ namespace	Air{
 
 	}
 
+#define FLOAT_OFFSET	0.00001f
+	Air::U1 BoundingBox::IsIncludeH( const Float3& v ) const
+	{
+		Float3	vTempMin	=	vMin	-	Float3(FLOAT_OFFSET,FLOAT_OFFSET,FLOAT_OFFSET);
+		Float3	vTempMax	=	vMax	+	Float3(FLOAT_OFFSET,FLOAT_OFFSET,FLOAT_OFFSET);
+		if(	v.x	<	vTempMin.x	||
+			v.y	<	vTempMin.y	||
+			v.z	<	vTempMin.z	||
+			v.x	>	vTempMax.x	||
+			v.y	>	vTempMax.y	||
+			v.z	>	vTempMax.z)
+		{
+			return	false;
+		}
+		return	true;
+	}
+
 }
