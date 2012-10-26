@@ -451,12 +451,12 @@ namespace	Air{
 				if(pElement)
 				{
 					Float3	vPos	=	ray.m_vStart+ray.m_vDirection*fDis;
-					ElementList lst;
-					char str[32];
-					if(pMesh->FindPath(vPos,vEnd,&lst)){
-						ElementList::iterator	itr	=	lst.begin();
-						for(;itr!=lst.end();itr++){
-							sprintf(str,"%d->",(*itr)->m_pData);
+					WalkPath path;
+					char str[256];
+					if(pMesh->FindPath(vPos,vEnd,&path)){
+						WalkPath::iterator	itr	=	path.begin();
+						for(;itr!=path.end();itr++){
+							sprintf(str,"pos(%f %f %f)\n",itr->x,itr->y,itr->z);
 							OutputDebugStringA(str);
 						}
 						OutputDebugStringA("Reached!\n");
