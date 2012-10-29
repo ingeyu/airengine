@@ -234,14 +234,14 @@ namespace	Air{
 			////生成边路径
 			EdgePtrVector	vecPath;
 			if(BuildEdgePath((TriangleElement*)pBeginElement,(TriangleElement*)pEndElement,vecMask,vecWalked,vecPath)){
-			//	//WalkPath	path;
-			//	pPath->push_back(vBegin);
-			//	if(OptimizePath(vBegin,vEnd,vecPath,*pPath)){
-			//		pPath->push_back(vEnd);
-			//		return true;
-			//	}else{
-			//		pPath->clear();
-			//	}
+				//WalkPath	path;
+				pPath->push_back(vBegin);
+				if(OptimizePath(vBegin,vEnd,vecPath,*pPath)){
+					pPath->push_back(vEnd);
+					return true;
+				}else{
+					pPath->clear();
+				}
 				m_DebugIndex.clear();
 				U32 uiPathCount	=	vecPath.size();
 				for(U32 i=1;i<uiPathCount;i++){
@@ -427,10 +427,30 @@ namespace	Air{
 
 	Air::U1 NavMesh::OptimizePath( const Float3& vBegin,const Float3& vEnd,EdgePtrVector& edgePath,WalkPath& outPath )
 	{
-		U32 uiSize	=	edgePath.size();
-		for(U32 i=0;i<uiSize;i++){
-			outPath.push_back(edgePath[i]->vCenter);
-		}
+		//Float3* pVBuffer	=	(Float3*)GetVB();
+		//U32 uiSize	=	edgePath.size();
+		//U32 idx[2];
+		//memcpy(idx,edgePath[0]->vertexIdx,sizeof(U32)*2);
+
+		//Float3 vDir0	=	(pVBuffer[idx[0]]	-	vBegin).Normalize();
+		//Float3 vDir1	=	(pVBuffer[idx[1]]	-	vBegin).Normalize();
+		//Float3	dir		=	(edgePath[0]->vCenter	-	vBegin).Normalize();
+		//Float3	right	=	vDir0.Cross(vDir1).Normalize();
+		//Float3  vLeft	=	
+
+		//U32	idxNext[2];
+		//for(U32 i=1;i<uiSize;i++){		
+		//	memcpy(idxNext,edgePath[i]->vertexIdx,sizeof(U32)*2);
+
+		//	//找到独立点
+		//	U32 uiNoSharePoint	=	idxNext[0];
+		//	for(U32 j=0;j<0;j++){
+		//		if(idxNext[j]	!=	idx[0]	&&	idxNext[j]!=idx[1]){
+		//			uiNoSharePoint=idxNext[j];
+		//			break;
+		//		}
+		//	}
+		//}
 		return true;
 	}
 
