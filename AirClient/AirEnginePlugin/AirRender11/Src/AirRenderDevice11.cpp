@@ -345,41 +345,19 @@ namespace Air{
 				__super::DrawOpt(opt);
 
 				m_pContext->IASetPrimitiveTopology((D3D11_PRIMITIVE_TOPOLOGY)opt.m_DrawType);
-				U32	uiIndexCountPerFace	=	3;
-				switch(opt.m_DrawType){
-					case	Draw::enPT_POINTLIST                   :{
-						uiIndexCountPerFace	=	1;
-																	}break;
-					case	Draw::enPT_LINELIST                    :{
-						uiIndexCountPerFace	=	2;
-																	}break;
-					case	Draw::enPT_LINESTRIP                   :{
-						uiIndexCountPerFace	=	1;
-																	}break;
-					case	Draw::enPT_TRIANGLELIST                :{
-						uiIndexCountPerFace	=	3;
-																	}break;
-					case	Draw::enPT_TRIANGLESTRIP               :{
-						uiIndexCountPerFace	=1;
-																	}break;
-					case	Draw::enPT_LINELIST_ADJ                :{}break;
-					case	Draw::enPT_LINESTRIP_ADJ               :{}break;
-					case	Draw::enPT_TRIANGLELIST_ADJ            :{}break;
-					case	Draw::enPT_TRIANGLESTRIP_ADJ           :{}break;
-				}
 
 				switch(opt.m_DrawFuncType){
 					case	Draw::FUNC_TYPE_DP		:{
 						m_pContext->Draw(opt.m_uiVertexCount,opt.m_uiBaseVertexIndex);
 						break;}
 					case	Draw::FUNC_TYPE_DIP		:{
-						m_pContext->DrawIndexed(opt.m_uiFaceCount*uiIndexCountPerFace,opt.m_uiStartIndex,opt.m_uiBaseVertexIndex);
+						m_pContext->DrawIndexed(opt.m_uiIndexCount,opt.m_uiStartIndex,opt.m_uiBaseVertexIndex);
 						break;}
 					case	Draw::FUNC_TYPE_DA		:{
 						m_pContext->DrawAuto();
 						break;}
 					case	Draw::FUNC_TYPE_DIP_I	:{
-						m_pContext->DrawIndexedInstanced(opt.m_uiFaceCount*uiIndexCountPerFace,opt.m_uiInstanceCount,opt.m_uiStartIndex,opt.m_uiBaseVertexIndex,0);
+						m_pContext->DrawIndexedInstanced(opt.m_uiIndexCount,opt.m_uiInstanceCount,opt.m_uiStartIndex,opt.m_uiBaseVertexIndex,0);
 						break;}
 					case	Draw::FUNC_TYPE_DP_I	:{
 						m_pContext->DrawInstanced(opt.m_uiVertexCount,opt.m_uiInstanceCount,opt.m_uiBaseVertexIndex,0);

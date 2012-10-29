@@ -126,7 +126,7 @@ namespace	Air{
 
 					ManualMeshEntity::Info	info;
 					info.uiVertexCount	=	890;
-					info.uiFaceCount	=	980;
+					info.uiIndexCount	=	980;
 					info.uiVertexSize	=	sizeof(Float3);
 					info.vdInfo.SetDeclP3();
 					info.strMaterial	=	"RedHelper";
@@ -480,7 +480,7 @@ namespace	Air{
 					//}
 					DebugTriangleIndex& IDX	=	pMesh->GetDebugIndex();
 					if(!IDX.empty())
-						pTestManualEnt->UpdateIB(&IDX[0],IDX.size()/2);
+						pTestManualEnt->UpdateIB(&IDX[0],IDX.size());
 				}
 
 			}

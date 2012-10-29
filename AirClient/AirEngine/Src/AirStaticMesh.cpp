@@ -49,7 +49,7 @@ namespace	Air{
 				m_DrawBuff.m_DrawOption.m_DrawFuncType	=	Render::Draw::FUNC_TYPE_DIP;
 				m_DrawBuff.m_DrawOption.m_DrawType		=	Render::Draw::enPT_TRIANGLELIST;
 				m_DrawBuff.m_DrawOption.m_uiVertexCount	=	m_uiNumVertex;
-				m_DrawBuff.m_DrawOption.m_uiFaceCount	=	m_uiNumFace;
+				m_DrawBuff.m_DrawOption.m_uiIndexCount	=	m_uiNumFace*3;
 				
 				return	true;
 			}

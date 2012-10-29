@@ -55,7 +55,7 @@ namespace	Air{
 			m_DrawBuff.m_DrawOption.m_DrawFuncType	=	Render::Draw::FUNC_TYPE_DIP;
 			m_DrawBuff.m_DrawOption.m_DrawType		=	Render::Draw::enPT_TRIANGLELIST;
 			m_DrawBuff.m_DrawOption.m_uiVertexCount	=	8;
-			m_DrawBuff.m_DrawOption.m_uiFaceCount	=	12;
+			m_DrawBuff.m_DrawOption.m_uiIndexCount	=	36;
 		}
 
 		BoxMesh::~BoxMesh()

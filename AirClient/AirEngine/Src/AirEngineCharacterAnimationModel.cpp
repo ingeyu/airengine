@@ -152,7 +152,7 @@ namespace Air{
 							m_DrawBuff.m_DrawOption.m_DrawFuncType	=	Render::Draw::FUNC_TYPE_DIP;
 
 							m_DrawBuff.m_DrawOption.m_uiVertexCount	=	pHDBuff->pVertexBuff->GetElementCount();
-							m_DrawBuff.m_DrawOption.m_uiFaceCount	=	pHDBuff->pIndexBuff->GetElementCount()/3;
+							m_DrawBuff.m_DrawOption.m_uiIndexCount	=	pHDBuff->pIndexBuff->GetElementCount();
 
 
 						}

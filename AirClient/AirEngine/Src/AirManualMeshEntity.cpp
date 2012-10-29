@@ -34,22 +34,14 @@ namespace	Air{
 
 			}
 
-			U32 uiCount	=	3;
-			switch(m_Info.enDrawType){
-				case Render::Draw::enPT_POINTLIST:{
-					uiCount	=	1;
-												  }break;
-				case Render::Draw::enPT_LINELIST:{
-					uiCount	=	2;
-												 };
-			}
 
-			if(m_Info.uiFaceCount>0){
+
+			if(m_Info.uiIndexCount>0){
 				Render::Buffer::Info	ibinfo;
-				ibinfo.SetIndexBuffer32(m_Info.uiFaceCount*uiCount);
+				ibinfo.SetIndexBuffer32(m_Info.uiIndexCount);
 				ibinfo.usage	=	Render::enUSAGE_DYNAMIC;
 				m_DrawBuff.m_pIndexBuff	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer*>(m_strProductName+"_IB","Buffer",&ibinfo);
-				m_DrawBuff.m_DrawOption.m_uiFaceCount	=	m_Info.uiFaceCount;
+				m_DrawBuff.m_DrawOption.m_uiIndexCount	=	m_Info.uiIndexCount;
 				m_DrawBuff.m_DrawOption.m_DrawFuncType	=	Render::Draw::FUNC_TYPE_DIP;
 
 			}else{
@@ -118,21 +110,11 @@ namespace	Air{
 			}
 		}
 
-		void ManualMeshEntity::UpdateIB( const void* pIB,U32 uiFaceCount )
+		void ManualMeshEntity::UpdateIB( const void* pIB,U32 uiIndexCount )
 		{
-			if(m_DrawBuff.m_pIndexBuff!=NULL	&&	m_Info.uiFaceCount	>=	uiFaceCount){
-				U32 uiCount	=	3;
-				switch(m_Info.enDrawType){
-				case Render::Draw::enPT_POINTLIST:{
-					uiCount	=	1;
-												  }break;
-				case Render::Draw::enPT_LINELIST:{
-					uiCount	=	2;
-												 };
-				}
-
-				m_DrawBuff.m_pIndexBuff->Write(0,sizeof(U32)*uiFaceCount*uiCount,(void*)pIB);
-				m_DrawBuff.m_DrawOption.m_uiFaceCount	=	uiFaceCount;
+			if(m_DrawBuff.m_pIndexBuff!=NULL	&&	m_Info.uiIndexCount	>=	uiIndexCount){
+				m_DrawBuff.m_pIndexBuff->Write(0,sizeof(U32)*uiIndexCount,(void*)pIB);
+				m_DrawBuff.m_DrawOption.m_uiIndexCount	=	uiIndexCount;
 			}
 		}
 
@@ -141,10 +123,10 @@ namespace	Air{
 			m_DrawBuff.m_DrawOption.m_DrawType	=	t;
 		}
 
-		void ManualMeshEntity::SetFaceCount( U32 uiCount )
+		void ManualMeshEntity::SetIndexCount( U32 uiCount )
 		{
-			m_Info.uiFaceCount	=	uiCount;
-			m_DrawBuff.m_DrawOption.m_uiFaceCount	=	uiCount;
+			m_Info.uiIndexCount	=	uiCount;
+			m_DrawBuff.m_DrawOption.m_uiIndexCount	=	uiCount;
 		}
 
 	}

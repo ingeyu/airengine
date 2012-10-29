@@ -658,13 +658,13 @@ namespace Air{
 							U32					base	=	0,
 							U32					count	=	0,
 							U32					start	=	0,
-							U32					face	=	0){
+							U32					index	=	0){
 						m_DrawType			=	type;
 						m_DrawFuncType		=	funType;
 						m_uiBaseVertexIndex	=	base;
 						m_uiVertexCount		=	count;
 						m_uiStartIndex		=	start;
-						m_uiFaceCount		=	face;
+						m_uiIndexCount		=	index;
 						m_uiInstanceCount	=	0;
 					};
 					enumPrimitiveType	m_DrawType;				///<	绘制方式
@@ -672,7 +672,7 @@ namespace Air{
 					U32					m_uiBaseVertexIndex;	///<	基本顶点索引
 					U32					m_uiVertexCount;		///<	顶点总数
 					U32					m_uiStartIndex;			///<	开始索引位置
-					U32					m_uiFaceCount;			///<	绘制面数
+					U32					m_uiIndexCount;			///<	绘制面数
 					U32					m_uiInstanceCount;		///<	Instance数量
 				};
 	

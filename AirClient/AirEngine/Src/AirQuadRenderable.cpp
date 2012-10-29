@@ -30,7 +30,7 @@ namespace	Air{
 			m_DrawBuff.m_DrawOption.m_DrawFuncType	=	Render::Draw::FUNC_TYPE_DP;
 			m_DrawBuff.m_DrawOption.m_DrawType		=	Render::Draw::enPT_TRIANGLELIST;
 			m_DrawBuff.m_DrawOption.m_uiVertexCount	=	6;
-			m_DrawBuff.m_DrawOption.m_uiFaceCount	=	2;
+			m_DrawBuff.m_DrawOption.m_uiIndexCount	=	6;
 		}
 
 		QuadRenderable::~QuadRenderable()

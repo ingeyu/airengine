@@ -106,7 +106,7 @@ namespace Air{
 			}
 	
 			void Renderer::StartRender(){
-				m_DrawBuff.m_DrawOption.m_uiFaceCount	=	m_uiSize*2;
+				m_DrawBuff.m_DrawOption.m_uiIndexCount	=	m_uiSize;
 				//Render::IMaterial::Technique*	pTechnique	=	m_pMaterial->GetCurrentTechnique();
 				//pTechnique->m_mapParam.
 // 				pTechnique->SetParam("PositionSize",	&m_vPositionSizeArray,		0);

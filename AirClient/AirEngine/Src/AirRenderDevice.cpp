@@ -79,7 +79,7 @@ namespace	Air{
 			void Device::DrawOpt( const DrawOption& opt )
 			{
 				m_uiDrawBatch++;
-				m_uiDrawTriangleCount	+=	opt.m_uiFaceCount;
+				m_uiDrawTriangleCount	+=	opt.m_uiIndexCount/3;
 			}
 
 			void Device::SetVP( Viewport* pVP )

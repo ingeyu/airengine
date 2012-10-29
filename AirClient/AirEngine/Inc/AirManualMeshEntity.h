@@ -14,7 +14,7 @@ namespace	Air{
 			struct Info{
 				U32									uiVertexSize;
 				U32									uiVertexCount;
-				U32									uiFaceCount;
+				U32									uiIndexCount;
 				VertexDeclare::Info					vdInfo;
 				AString								strMaterial;
 				Render::Draw::enumPrimitiveType		enDrawType;
@@ -29,7 +29,7 @@ namespace	Air{
 			virtual	Matrix*		GetWorldMatrix();
 
 			void				UpdateVB(const void* pVB,U32	uiVertexCount);
-			void				UpdateIB(const void* pIB,U32	uiFaceCount);
+			void				UpdateIB(const void* pIB,U32	uiIndexCount);
 
 			void				SetPrimitiveType(Render::Draw::enumPrimitiveType	t);
 
@@ -37,11 +37,11 @@ namespace	Air{
 			{
 				return	m_Info.uiVertexCount;
 			};
-			inline	U32			GetFaceCount()const
+			inline	U32			GetIndexCount()const
 			{
-				return	m_Info.uiFaceCount;
+				return	m_Info.uiIndexCount;
 			};
-			void		SetFaceCount(U32 uiCount);
+			void		SetIndexCount(U32 uiCount);
 		protected:
 			Info		m_Info;
 		};
