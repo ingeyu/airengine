@@ -161,7 +161,7 @@ namespace	Air{
 			m_pRT_AO			=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("AO","Target",&rtinfo);
 			m_pRT_AO->SetClearFlag(false,true,false);
 
-			rtinfo.SetSingleTarget(1024,1024,enTFMT_R32_FLOAT,true);
+			rtinfo.SetSingleTargetScreen(enTFMT_R32_FLOAT,1.0f,true);
 			m_pShadowDepth	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("ShadowDepth","Target",&rtinfo);
 			m_pShadowDepth->SetClearFlag(true,true,true);
 			m_pShadowDepth->AddPhaseFlag(enPI_Shadow);
@@ -178,7 +178,7 @@ namespace	Air{
 			m_pMainLight->SetPosition(m_pScene->GetMainCamera()->GetPosition() - dir*100);
 			m_pMainLight->SetDir(dir);
 			m_pMainLight->SetOrtho(true);
-			m_pMainLight->SetWidth(300);
+			m_pMainLight->SetWidth(200);
 
 			m_pShadowDepth->AddCamera(m_pMainLight);
 

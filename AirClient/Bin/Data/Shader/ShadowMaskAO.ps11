@@ -49,17 +49,17 @@ float2 XY_UV(float2 xy){
 #if SHADOW_SAMPLE_NUMBER == 8
 const static	float2 offset[SHADOW_SAMPLE_NUMBER]={
 
-float2(0,2),
-float2(-6,6),
+float2(0,1),
+float2(0,-5),
 
-float2(3,3),
+float2(2,2),
+float2(-6,-6),
+
+float2(3,0),
 float2(-7,0),
 
-float2(4,-0),
-float2(-8,-8),
-
-float2(5,-5),
-float2(-9,-9)
+float2(4,-4),
+float2(-8,8)
 
    };
    #elif	SHADOW_SAMPLE_NUMBER	== 32
@@ -102,7 +102,7 @@ float2(-6.242887,31.385130),
 
 PS_OUTPUT main( VS_OUTPUT Input ){
 
-	float2 invShadowViewport	=	vRTSize.zw;
+	float2 invShadowViewport	=	vRTSize.zw*0.5f;
 	float2 invMrtViewport		=	vRTSize.xy;
 
    float2 halfPixel   =   0.5f*invShadowViewport;
@@ -135,9 +135,9 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 	for(int i=0;i<SHADOW_SAMPLE_NUMBER;i++){
    
       float2 off   =   lerp(offset[i].xy,float2(1,-1)*offset[i].yx,rot.x)*rot.y;
-      float2 tempuv   =   shadowUV+off*invShadowViewport*0.25f;
+      float2 tempuv   =   shadowUV+off*invShadowViewport;
       float2 xyoff   =   UV_XY(tempuv);
-      float    Oldshadowz   =  ShadowDepthTex.SampleLevel(SS_BorderLine2,tempuv,0).x;
+      float    Oldshadowz   =  ShadowDepthTex.Sample(SS_BorderLine2,tempuv).x;
       float4 tempshadow   =   mul(mShadowViewProjInv,float4(xyoff,Oldshadowz,1));
       tempshadow/=tempshadow.w;
       float3 tDir   =   normalize(tempshadow.xyz-vWorldPos.xyz);

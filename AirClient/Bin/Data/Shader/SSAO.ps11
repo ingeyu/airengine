@@ -101,7 +101,7 @@ float4(-6.242887,31.385130,31.385130,-6.242887),
 
 
 float2 GetOffset(float4 off,float4 option){
-   return lerp(off.zw,off.xy,option.x)*option.y;
+   return lerp(off.zw,float2(1,-1)*off.xy,option.x)*option.y;
 };
 
 struct VS_OUTPUT
