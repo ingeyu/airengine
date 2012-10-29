@@ -218,7 +218,7 @@ namespace	Air{
 			etri.pTriangle	=	pEdge->GetNeighbor((TriangleElement*)pBeginElement);
 			if(etri.pTriangle!=NULL){
 				vecEdge.push_back(etri);
-				AddDebugTriangle((TriangleElement*)etri.pTriangle);
+				//AddDebugTriangle((TriangleElement*)etri.pTriangle);
 			}
 			
 
@@ -229,11 +229,11 @@ namespace	Air{
 			if(pPath==NULL){
 				return true;
 			}
-			//WalkMask	vecWalked;
-			//vecWalked.resize(vecMask.size());
+			WalkMask	vecWalked;
+			vecWalked.resize(m_vecEdge.size());
 			////生成边路径
-			//EdgePtrVector	vecPath;
-			//if(BuildEdgePath((TriangleElement*)pBeginElement,(TriangleElement*)pEndElement,vecMask,vecWalked,vecPath)){
+			EdgePtrVector	vecPath;
+			if(BuildEdgePath((TriangleElement*)pBeginElement,(TriangleElement*)pEndElement,vecMask,vecWalked,vecPath)){
 			//	//WalkPath	path;
 			//	pPath->push_back(vBegin);
 			//	if(OptimizePath(vBegin,vEnd,vecPath,*pPath)){
@@ -242,7 +242,7 @@ namespace	Air{
 			//	}else{
 			//		pPath->clear();
 			//	}
-			//}
+			}
 			OutputDebugStringA("Path Finded!\n");
 		};
 
@@ -345,7 +345,7 @@ namespace	Air{
 						edgetri.pTriangle	=	pNextEdge->GetNeighbor(pTri);
 						if(edgetri.pTriangle!=NULL){
 							vecEdge.push_back(edgetri);
-							AddDebugTriangle(edgetri.pTriangle);
+							//AddDebugTriangle(edgetri.pTriangle);
 						}
 						vecWeight.Add(pNextEdge,fTempWeight);
 					}
@@ -383,7 +383,7 @@ namespace	Air{
 			//判断这条边 是否已经被遍历
 			if(vecWalked[idx]==1)
 				continue;
-			float w	=	vecWeight[idx];
+			float w	=	m_vecEdge[idx].weight;
 			//判断权重值 W必须是计算过的边 然后取权重最小的 
 			if(w	<	weight	&& w > 0.0f){
 				weight	=	w;
@@ -403,6 +403,7 @@ namespace	Air{
 			TriangleElement* pTri	=	pEdge->pTriangle[i];
 			if(pTri!=NULL && pTri!=pEnd){
 				pNextTri	=	pTri;
+				AddDebugTriangle(pNextTri);
 				break;
 			}
 		}
