@@ -82,7 +82,7 @@ namespace	Air{
 		void*				GetVB(){return &m_VB[0];};
 		void*				GetIB(){return &m_IB[0];};
 		Float3*				GetEdgeVB(){return &m_EDGEVB[0];};
-
+		//基于广度优先 没有任何优化
 		U1					FindPath(TreeElement*	pBeginElement,const Float3& vBegin,const Float3& vEnd,WalkPath* pPath	=	NULL);
 
 		DebugTriangleIndex&	GetDebugIndex(){return m_DebugIndex;};
