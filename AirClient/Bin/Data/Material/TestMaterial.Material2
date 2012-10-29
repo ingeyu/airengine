@@ -52,6 +52,10 @@ Material	WorldHelper	:	MT_WorldHelper
 {
 	Vector	1 1 1 1
 }
+Material	RedHelper	:	MT_WorldHelper
+{
+	Vector	1 0 0 1
+}
 
 Material	WorldHelperWireFrame	:	MT_WorldHelperWireFrame
 {

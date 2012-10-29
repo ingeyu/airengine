@@ -1,0 +1,46 @@
+// CheckProcess.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include <Windows.h>
+#include "tlhelp32.h" 　　
+#include "stdio.h" 
+#include <string>
+int _tmain(int argc, _TCHAR* argv[])
+{
+	HANDLE   SnapShot=CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS,0); 
+	if(SnapShot==NULL) 
+	{ 
+		//MessageBox( "检测当前进程失败! "); 
+		return   FALSE; 
+	} 
+	SHFILEINFO   shSmall; 
+	int   nIndex; 
+	std::string   str,prcnum; 
+	PROCESSENTRY32   ProcessInfo;//声明进程信息变量 
+	ProcessInfo.dwSize=sizeof(ProcessInfo);//设置ProcessInfo的大小 
+	//返回系统中第一个进程的信息 
+	BOOL   Status=Process32First(SnapShot,&ProcessInfo); 
+	int   m_nProcess=0,num=0; 
+	while(Status) 
+	{ 
+		m_nProcess++; 
+		num++; 
+		//获取进程文件信息 
+		SHGetFileInfo(ProcessInfo.szExeFile,0,&shSmall, 
+			sizeof(shSmall),SHGFI_ICON|SHGFI_SMALLICON); 
+		//在列表控件中添加映像名称 
+		//nIndex=m_list.InsertItem(m_nProcess,ProcessInfo.szExeFile); 
+		wprintf(L"%s\n",ProcessInfo.szExeFile);
+		if(wcscmp(L"notepad.exe",ProcessInfo.szExeFile)==0){
+			wprintf(L"notepad.exe has run!\n");
+			break;
+		}
+		//获取下一个进程的信息 
+		Status=Process32Next(SnapShot,&ProcessInfo); 
+	}
+	BOOL B	=CloseHandle(SnapShot);
+	getchar();
+	return 0;
+}
+

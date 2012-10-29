@@ -167,7 +167,7 @@ namespace	Air{
 			vTempDir[i]		=	vPosDir.Cross(vDir);
 		}
 
-		float	fDirValue	=	(vTempDir[0].Dot(vTempDir[1])	*	vTempDir[1].Dot(vTempDir[1]));
+		float	fDirValue	=	(vTempDir[0].Dot(vTempDir[1])	*	vTempDir[1].Dot(vTempDir[2]));
 
 		return fDirValue	>=	0.0f;
 
@@ -178,9 +178,9 @@ namespace	Air{
 		return m_Tree.RayCast(ray,RayCastTriangleFunc,(void*)this,pOutDistance);
 	}
 
-	Air::U1 NavMesh::FindPath( const Float3& vBegin,const Float3& vEnd,WalkPath* pPath /*= NULL*/ )
+	Air::U1 NavMesh::FindPath( TreeElement*	pBeginElement,const Float3& vBegin,const Float3& vEnd,WalkPath* pPath /*= NULL*/)
 	{
-		TreeElement*	pBeginElement	=	m_Tree.FindElement(vBegin,FindTriangleElementFunc,this);
+		//TreeElement*	pBeginElement	=	m_Tree.FindElement(vBegin,FindTriangleElementFunc,this);
 		TreeElement*	pEndElement		=	m_Tree.FindElement(vEnd,FindTriangleElementFunc,this);
 
 		if(pBeginElement	==	NULL	||
@@ -188,20 +188,22 @@ namespace	Air{
 		{
 			return false;
 		}
+		m_DebugIndex.clear();
+		AddDebugTriangle((TriangleElement*)pBeginElement);
 
 		//Float3* pVBuffer	=	(Float3*)GetVB();
 		
 		//标记所有为-1
 		MaskVector	vecMask;
-		vecMask.resize(m_vecEdge.size());
+		//vecMask.resize(m_vecEdge.size());
 		for(U32 i=0;i<m_vecEdge.size();i++){
-			vecMask[i]	=	-1.0f;
+			m_vecEdge[i].weight	=	-1.0f;
 		}
 		U1	bFinded	=	false;
 		Edge* pEndEdge =	NULL;
 
-		EdgePtrVector	vecEdge;
-		EdgePtrVector	vecTempEdge;
+		EdgeTriangleVector	vecEdge;
+		EdgeTriangleVector	vecTempEdge;
 
 		for(U32 i=0;i<3;i++){
 			TriangleElement* pTriangle	=	(TriangleElement*)pBeginElement;
@@ -209,8 +211,16 @@ namespace	Air{
 
 			float fDistance	=	pEdge->vCenter.Distance(vBegin);
 			//距离Mask
-			vecMask[pEdge->uiIndex]	=	fDistance;
-			vecEdge.push_back(pEdge);
+			//vecMask[pEdge->uiIndex]	=	fDistance;
+			pEdge->weight				=	fDistance;
+			EdgeTriangle	etri;
+			etri.pEdge		=	pEdge;
+			etri.pTriangle	=	pEdge->GetNeighbor((TriangleElement*)pBeginElement);
+			if(etri.pTriangle!=NULL){
+				vecEdge.push_back(etri);
+				AddDebugTriangle((TriangleElement*)etri.pTriangle);
+			}
+			
 
 		}
 
@@ -219,20 +229,21 @@ namespace	Air{
 			if(pPath==NULL){
 				return true;
 			}
-			WalkMask	vecWalked;
-			vecWalked.resize(vecMask.size());
-			//生成边路径
-			EdgePtrVector	vecPath;
-			if(BuildEdgePath((TriangleElement*)pBeginElement,(TriangleElement*)pEndElement,vecMask,vecWalked,vecPath)){
-				//WalkPath	path;
-				pPath->push_back(vBegin);
-				if(OptimizePath(vBegin,vEnd,vecPath,*pPath)){
-					pPath->push_back(vEnd);
-					return true;
-				}else{
-					pPath->clear();
-				}
-			}
+			//WalkMask	vecWalked;
+			//vecWalked.resize(vecMask.size());
+			////生成边路径
+			//EdgePtrVector	vecPath;
+			//if(BuildEdgePath((TriangleElement*)pBeginElement,(TriangleElement*)pEndElement,vecMask,vecWalked,vecPath)){
+			//	//WalkPath	path;
+			//	pPath->push_back(vBegin);
+			//	if(OptimizePath(vBegin,vEnd,vecPath,*pPath)){
+			//		pPath->push_back(vEnd);
+			//		return true;
+			//	}else{
+			//		pPath->clear();
+			//	}
+			//}
+			OutputDebugStringA("Path Finded!\n");
 		};
 
 		return false;
@@ -243,7 +254,10 @@ namespace	Air{
 
 		U32	uiIndex	=	0;
 		Edge*	pEdge	=	NULL;
-		U32	uiHash	=	v0^v1;
+		U32	uiHash	=	(v0<<16) | v1;
+		if(v1<v0){
+			uiHash	=	(v1<<16)|v0;
+		}
 		EdgeMap::iterator	i	=	m_mapEdge.find(uiHash);
 		if(i!=m_mapEdge.end()){
 			uiIndex	=	i->second;
@@ -263,11 +277,34 @@ namespace	Air{
 			pEdge->pTriangle[0]	=	pTriangle;
 			pEdge->vCenter		=	(m_VB[v0] + m_VB[v1])*0.5f;
 			m_mapEdge[uiHash]	=	uiIndex;
+			m_EDGEVB.push_back(pEdge->vCenter);
 		}
 		return uiIndex;
 	}
 
-	U1 NavMesh::Find( EdgePtrVector& vecEdge,EdgePtrVector& tempEdge,TriangleElement* pEnd,MaskVector& vecMask,Edge*& pEndEdge )
+	struct EdgeWeight{
+		EdgeWeight(){
+			for(int i=0;i<4;i++){
+				pEdge[i]	=	NULL;
+				fWeight[i]	=	-1.0f;
+			}
+			uiCount	=	0;
+		};
+		void	Add(Edge* edge,float w){
+			for(U32 i=0;i<uiCount;i++){
+				if(edge==pEdge[i])
+					return;
+			}
+			pEdge[uiCount]		=	edge;
+			fWeight[uiCount]	=	w;
+			uiCount++;
+		};
+		Edge* pEdge[4];
+		float fWeight[4];
+		U32	  uiCount;
+	};
+
+	U1 NavMesh::Find( EdgeTriangleVector& vecEdge,EdgeTriangleVector& tempEdge,TriangleElement* pEnd,MaskVector& vecMask,Edge*& pEndEdge )
 	{
 		if(vecEdge.empty()	||	pEnd==NULL)
 			return false;
@@ -275,30 +312,64 @@ namespace	Air{
 		vecEdge.clear();
 
 
+		std::map<Edge*,EdgeWeight>	mapNextEdge;
+		//vecNextEdge.resize(vecEdge.size());
+
 		unsigned int	uiSize	=	tempEdge.size();
 		for(U32	i=0;i<uiSize;i++){
-			Edge*	pEdge	=	tempEdge[i];
-			if(pEdge==NULL)
+			EdgeTriangle&	etri	=	tempEdge[i];
+			if(etri.pEdge==NULL)
 				continue;
-			float fLastDistance	=	vecMask[pEdge->uiIndex];
-			for(U32	j=0;j<2;j++){
-				TriangleElement*	pTri	=	pEdge->pTriangle[j];
-				if(pTri==NULL)
-					continue;
+
+			mapNextEdge[etri.pEdge]	=	EdgeWeight();
+			std::map<Edge*,EdgeWeight>::iterator	itr	=	mapNextEdge.find(etri.pEdge);
+			EdgeWeight& vecWeight	=	itr->second;
+
+			float fLastDistance	=	etri.pEdge->weight;//vecMask[pEdge->uiIndex];
+
+			TriangleElement* pTri	=	etri.pTriangle;
+
 				if(pTri	==	pEnd){
-					pEndEdge	=	pEdge;
+					pEndEdge	=	etri.pEdge;
+
 					return true;
 				}
 				for(U32 k=0;k<3;k++){
 					Edge*	pNextEdge	=	&m_vecEdge[pTri->m_Edge[k]];
-					float&	fDistance	=	vecMask[pNextEdge->uiIndex];
-					if(fDistance	<0.0f){
-						fDistance	=	fLastDistance	+	pNextEdge->vCenter.Distance(pEdge->vCenter);
-						vecEdge.push_back(pNextEdge);
+					if(pNextEdge	==	etri.pEdge)
+						continue;
+					if(pNextEdge->weight	<0.0f){
+						float	fTempWeight	=	fLastDistance	+	pNextEdge->vCenter.Distance(etri.pEdge->vCenter);
+						EdgeTriangle	edgetri;
+						edgetri.pEdge		=	pNextEdge;
+						edgetri.pTriangle	=	pNextEdge->GetNeighbor(pTri);
+						if(edgetri.pTriangle!=NULL){
+							vecEdge.push_back(edgetri);
+							AddDebugTriangle(edgetri.pTriangle);
+						}
+						vecWeight.Add(pNextEdge,fTempWeight);
 					}
+				}
+			
+		}
+
+		std::map<Edge*,EdgeWeight>::iterator	itr	=	mapNextEdge.begin();
+		for(;itr!=mapNextEdge.end();itr++){
+			Edge*	pSrcEdge	=	itr->first;
+			EdgeWeight& vec	=	itr->second;
+
+			for(U32 i=0;i<vec.uiCount;i++){
+
+				float& weight	=	vec.pEdge[i]->weight;//vecMask[vec.pEdge[i]->uiIndex];
+				float w			=	vec.fWeight[i];
+				if(weight	<	0	){
+					weight	=	w;
+				}else if(w	<	weight){
+					weight	=	w;
 				}
 			}
 		}
+
 		tempEdge.clear();
 		return Find(vecEdge,tempEdge,pEnd,vecMask,pEndEdge);
 	}
@@ -355,6 +426,19 @@ namespace	Air{
 			outPath.push_back(edgePath[i]->vCenter);
 		}
 		return true;
+	}
+
+	void NavMesh::AddDebugTriangle( TriangleElement* pTriangle )
+	{
+		if(pTriangle==NULL)
+			return;
+		U32 uiFaceIndex	=	pTriangle->m_pData;
+
+		U32* pIBuffer	=	(U32*)GetIB();
+
+		for(U32 i=0;i<3;i++){
+			m_DebugIndex.push_back(pIBuffer[uiFaceIndex*3+i]);
+		}
 	}
 
 }

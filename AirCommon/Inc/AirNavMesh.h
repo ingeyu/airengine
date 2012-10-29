@@ -17,14 +17,32 @@ namespace	Air{
 			uiIndex			=	0;
 
 		};
+		TriangleElement*	GetNeighbor(TriangleElement* p){
+			if(p==NULL){
+				return NULL;
+			}
+			for(U32 i=0;i<2;i++){
+				if(pTriangle[i]!=p&&pTriangle[i]!=NULL){
+					return pTriangle[i];
+				}
+			}
+			return NULL;
+		};
 		U32	vertexIdx[2];
 		TriangleElement*	pTriangle[2];
 		U32					uiIndex;
 		Float3				vCenter;
+		float				weight;
 	};
 	typedef	std::hash_map<U32,U32>			EdgeMap;
 	typedef	std::vector<Edge>				EdgeVector;
 	typedef	std::vector<Edge*>				EdgePtrVector;
+
+	struct EdgeTriangle{
+		Edge*				pEdge;
+		TriangleElement*	pTriangle;
+	};
+	typedef std::vector<EdgeTriangle>	EdgeTriangleVector;
 
 	class	COMMON_EXPORT	TriangleElement	:	public	TreeElement{
 	public:
@@ -44,6 +62,7 @@ namespace	Air{
 	typedef std::vector<float>	MaskVector;
 	typedef std::vector<Float3>	WalkPath;
 	typedef std::vector<U8>		WalkMask;
+	typedef std::vector<U32>	DebugTriangleIndex;
 
 	class	COMMON_EXPORT	NavMesh	:	public	Common::IProduct{
 	public:
@@ -62,16 +81,22 @@ namespace	Air{
 		TreeElement*		RayCast(const Ray& ray,float* pOutDistance	=	NULL);
 		void*				GetVB(){return &m_VB[0];};
 		void*				GetIB(){return &m_IB[0];};
+		Float3*				GetEdgeVB(){return &m_EDGEVB[0];};
 
-		U1					FindPath(const Float3&	vBegin,const Float3& vEnd,WalkPath* pPath	=	NULL);
+		U1					FindPath(TreeElement*	pBeginElement,const Float3& vBegin,const Float3& vEnd,WalkPath* pPath	=	NULL);
+
+		DebugTriangleIndex&	GetDebugIndex(){return m_DebugIndex;};
 	protected:
 		U1			LoadAME0();
 		U1			BuildElement();
 		U32			AddEdge(U32	v0,U32	v1,TriangleElement* pTriangle);
 
-		U1			Find(EdgePtrVector& vecEdge,EdgePtrVector& tempEdge,TriangleElement* pEnd,MaskVector& vecMask,Edge*& pEndEdge);
+		U1			Find(EdgeTriangleVector& vecEdge,EdgeTriangleVector& tempEdge,TriangleElement* pEnd,MaskVector& vecMask,Edge*& pEndEdge);
 		U1			BuildEdgePath(TriangleElement* pBegin,TriangleElement* pEnd,MaskVector& vecWeight,WalkMask& vecWalked,EdgePtrVector& outPath);
 		U1			OptimizePath(const Float3& vBegin,const Float3& vEnd,EdgePtrVector& edgePath,WalkPath& outPath);
+
+		void		AddDebugTriangle(TriangleElement* pTriangle);
+
 		U32			m_uiNumVertex;
 		U32			m_uiNumFace;
 		void*		pVB;
@@ -87,6 +112,9 @@ namespace	Air{
 		EdgeMap			m_mapEdge;
 		std::vector<Float3>		m_VB;
 		std::vector<U32>		m_IB;
+		std::vector<Float3>		m_EDGEVB;
+
+		DebugTriangleIndex	m_DebugIndex;
 	};
 }
 #endif // AirNavMesh_h__

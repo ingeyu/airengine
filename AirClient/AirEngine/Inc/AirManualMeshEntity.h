@@ -12,11 +12,12 @@ namespace	Air{
 			public	MovableObject{
 		public:
 			struct Info{
-				U32						uiVertexSize;
-				U32						uiVertexCount;
-				U32						uiFaceCount;
-				VertexDeclare::Info		vdInfo;
-				AString					strMaterial;
+				U32									uiVertexSize;
+				U32									uiVertexCount;
+				U32									uiFaceCount;
+				VertexDeclare::Info					vdInfo;
+				AString								strMaterial;
+				Render::Draw::enumPrimitiveType		enDrawType;
 			};
 		public:
 			ManualMeshEntity(CAString& strName,Info* pInfo);
@@ -40,6 +41,7 @@ namespace	Air{
 			{
 				return	m_Info.uiFaceCount;
 			};
+			void		SetFaceCount(U32 uiCount);
 		protected:
 			Info		m_Info;
 		};

@@ -77,6 +77,9 @@ namespace	Air{
 						mdepthinfo.strTemplate		=	"MT_Object_ShadowDepth";
 					}
 					minfo.vecTextureName[0]		=	strPath+pInfo->mapTexture[enMSPT_TexDiffuse];
+					if(minfo.vecTextureName[0].empty()){
+						minfo.vecTextureName[0]	=	"Texture/1x1white.png";
+					}
 
 					Material*	p	=	EngineSystem::GetSingleton()->CreateProduct<Material*>(strMSName+"MRT","Material",&minfo);
 					pEnt->SetMaterial(p);
@@ -108,7 +111,8 @@ namespace	Air{
 
 		void SceneLoader::SetNode( SceneNode* pParent )
 		{
-			m_pParentNode	=	pParent;
+			m_pParentNode	=	pParent->CreateChildSceneNode();
+			m_pParentNode->SetScale(Float3(0.1,0.1,0.1));
 		}
 
 	}

@@ -70,19 +70,16 @@ namespace	Air{
 			m_pMainWindow->AddCamera(m_pScene->GetMainCamera());
 			//pVP->SetCamera(m_pScene->GetMainCamera());
 
-			MeshEntity::Info	info;
-			info.strMeshName	=	"..\\Data\\AirMesh\\nav_test.ame";
-			info.strMaterial	=	"Test3";
 
 			//MeshEntity*	pEnt[100];
 			//for(int i=-5;i<5;i++){
 				//for(int j=-5;j<5;j++){
-					long iIndex	=	0;//(i+5)*10+j+5;
+					//long iIndex	=	0;//(i+5)*10+j+5;
 
-					AString	strName = Common::Converter::ToString(iIndex);
-					
-					pTestEnt	=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity*>(strName,"MeshEntity",&info);
-					pTest	=	m_pScene->GetRootNode()->CreateChildSceneNode(strName);
+					//AString	strName = Common::Converter::ToString(iIndex);
+					//
+					//pTestManualEnt	=	EngineSystem::GetSingleton()->CreateProduct<ManualMeshEntity*>("Test","ManualMeshEntity",&info);
+					//pTest	=	m_pScene->GetRootNode()->CreateChildSceneNode(strName);
 					//pTest->attachObject(pTestEnt);
 					//pTest->SetPosition(Float3(j*21,i*20,0));
 					//pTest->SetScale(Float3(0.5f,0.5f,0.5f));
@@ -127,6 +124,19 @@ namespace	Air{
 					pMesh	=	new NavMesh("testnav",&navinfo);
 					pMesh->AddRef();
 
+					ManualMeshEntity::Info	info;
+					info.uiVertexCount	=	890;
+					info.uiFaceCount	=	980;
+					info.uiVertexSize	=	sizeof(Float3);
+					info.vdInfo.SetDeclP3();
+					info.strMaterial	=	"RedHelper";
+					info.enDrawType		=	Render::Draw::enPT_TRIANGLELIST;
+					pTestManualEnt	=	EngineSystem::GetSingleton()->CreateProduct<ManualMeshEntity*>("Test","ManualMeshEntity",&info);
+
+					pTestManualEnt->UpdateVB(pMesh->GetVB(),89);
+					pTestManualEnt->UpdateIB(pMesh->GetIB(),98);
+					m_pScene->GetRootNode()->attachObject(pTestManualEnt);
+
 			RenderTarget::Info	rtinfo;
 			Render::TFormat fmtArray[]={
 				enTFMT_R32_FLOAT,
@@ -135,7 +145,7 @@ namespace	Air{
 				enTFMT_B8G8R8A8_UNORM,
 				enTFMT_B8G8R8A8_UNORM,
 			};
-			rtinfo.SetMutilTargetScreen(5,fmtArray,1.0f,true);
+			rtinfo.SetMutilTargetScreen(5,fmtArray,1.0f,true,m_pMainWindow);
 			m_pMRT	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("MRT","Target",&rtinfo);
 			
 			m_pMRT->SetClearFlag(true,true,true);
@@ -143,6 +153,7 @@ namespace	Air{
 			m_pMRT->SetBKColor(Float4(1,1,1,1));
 
 			m_pMRT->AddCamera(m_pScene->GetMainCamera());
+
 
 			rtinfo.SetSingleTargetScreen(enTFMT_R8G8B8A8_UNORM);
 			m_pRT_ShadowMask	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("ShadowMask","Target",&rtinfo);
@@ -303,7 +314,7 @@ namespace	Air{
 			}
 
 			//SSAO
-			m_pMainWindow->SetClearFlag(true,true,true);
+			m_pMainWindow->SetClearFlag(false,true,false);
 			if(m_pMainWindow->BeforeUpdate()){
 				m_pScene->GetMainCamera()->Render2D(m_pMainWindow->GetWidth(),m_pMainWindow->GetHeight());
 
@@ -315,7 +326,7 @@ namespace	Air{
 				//m_pSSAO->RenderOneObject(m_pQuad);
 				//m_pQuadCopy->RenderOneObject(m_pQuad);
 				m_pCombine->RenderOneObject(m_pQuad);
-				
+				//m_pMainWindow->AfterUpdate();
 			}
 			m_pMainWindow->SetClearFlag(false,false,false);
 			m_pMainWindow->Update();
@@ -429,7 +440,7 @@ namespace	Air{
 
 			float	fDis	=	9999999.0f;
 
-			if(id	==	OIS::MB_Left){
+			if(id	==	OIS::MB_Middle){
 
 				//if(GetCurrentScene()->GetRootNode()->RayCast(ray,&fDis))
 				TreeElement* pElement	=	pMesh->RayCast(ray,&fDis);
@@ -446,21 +457,30 @@ namespace	Air{
 				//}else{
 				//	OutputDebugStringA("ERROR\n");
 				//}
-			}else if(id == OIS::MB_Middle){
+			}else if(id == OIS::MB_Left){
 				TreeElement* pElement	=	pMesh->RayCast(ray,&fDis);
 				if(pElement)
 				{
 					Float3	vPos	=	ray.m_vStart+ray.m_vDirection*fDis;
 					WalkPath path;
 					char str[256];
-					if(pMesh->FindPath(vPos,vEnd,&path)){
-						WalkPath::iterator	itr	=	path.begin();
-						for(;itr!=path.end();itr++){
-							sprintf(str,"pos(%f %f %f)\n",itr->x,itr->y,itr->z);
-							OutputDebugStringA(str);
-						}
-						OutputDebugStringA("Reached!\n");
+					if(pMesh->FindPath(pElement,vPos,vEnd,&path)){
+						//WalkPath::iterator	itr	=	path.begin();
+						//for(;itr!=path.end();itr++){
+						//	sprintf(str,"pos(%f %f %f)\n",itr->x,itr->y,itr->z);
+						//	OutputDebugStringA(str);
+						//}
+						//OutputDebugStringA("Reached!\n");
+						
 					}
+					//U32* pIndex	=	(U32*)pMesh->GetIB();
+					//U32 idx[3];
+					//for(int i=0;i<3;i++){
+					//	idx[i]	=	pIndex[pElement->m_pData*3+i];
+					//}
+					DebugTriangleIndex& IDX	=	pMesh->GetDebugIndex();
+					if(!IDX.empty())
+						pTestManualEnt->UpdateIB(&IDX[0],IDX.size()/3);
 				}
 
 			}
