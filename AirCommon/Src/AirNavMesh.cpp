@@ -188,8 +188,8 @@ namespace	Air{
 		{
 			return false;
 		}
-		m_DebugIndex.clear();
-		AddDebugTriangle((TriangleElement*)pBeginElement);
+		
+		//AddDebugTriangle((TriangleElement*)pBeginElement);
 
 		//Float3* pVBuffer	=	(Float3*)GetVB();
 		
@@ -242,6 +242,11 @@ namespace	Air{
 			//	}else{
 			//		pPath->clear();
 			//	}
+				m_DebugIndex.clear();
+				U32 uiPathCount	=	vecPath.size();
+				for(U32 i=1;i<uiPathCount;i++){
+					AddDebugLine(vecPath[i-1],vecPath[i]);
+				}
 			}
 			OutputDebugStringA("Path Finded!\n");
 		};
@@ -403,7 +408,7 @@ namespace	Air{
 			TriangleElement* pTri	=	pEdge->pTriangle[i];
 			if(pTri!=NULL && pTri!=pEnd){
 				pNextTri	=	pTri;
-				AddDebugTriangle(pNextTri);
+				//AddDebugTriangle(pNextTri);
 				break;
 			}
 		}
@@ -440,6 +445,12 @@ namespace	Air{
 		for(U32 i=0;i<3;i++){
 			m_DebugIndex.push_back(pIBuffer[uiFaceIndex*3+i]);
 		}
+	}
+
+	void NavMesh::AddDebugLine( Edge* pEdge0,Edge* pEdge1 )
+	{
+		m_DebugIndex.push_back(pEdge0->uiIndex);
+		m_DebugIndex.push_back(pEdge1->uiIndex);
 	}
 
 }

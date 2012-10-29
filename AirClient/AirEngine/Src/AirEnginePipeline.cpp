@@ -130,11 +130,11 @@ namespace	Air{
 					info.uiVertexSize	=	sizeof(Float3);
 					info.vdInfo.SetDeclP3();
 					info.strMaterial	=	"RedHelper";
-					info.enDrawType		=	Render::Draw::enPT_TRIANGLELIST;
+					info.enDrawType		=	Render::Draw::enPT_LINELIST;
 					pTestManualEnt	=	EngineSystem::GetSingleton()->CreateProduct<ManualMeshEntity*>("Test","ManualMeshEntity",&info);
 
-					pTestManualEnt->UpdateVB(pMesh->GetVB(),89);
-					pTestManualEnt->UpdateIB(pMesh->GetIB(),98);
+					pTestManualEnt->UpdateVB(pMesh->GetEdgeVB(),185);
+					//pTestManualEnt->UpdateIB(pMesh->GetIB(),98);
 					m_pScene->GetRootNode()->attachObject(pTestManualEnt);
 
 			RenderTarget::Info	rtinfo;
@@ -480,7 +480,7 @@ namespace	Air{
 					//}
 					DebugTriangleIndex& IDX	=	pMesh->GetDebugIndex();
 					if(!IDX.empty())
-						pTestManualEnt->UpdateIB(&IDX[0],IDX.size()/3);
+						pTestManualEnt->UpdateIB(&IDX[0],IDX.size()/2);
 				}
 
 			}

@@ -96,6 +96,7 @@ namespace	Air{
 		U1			OptimizePath(const Float3& vBegin,const Float3& vEnd,EdgePtrVector& edgePath,WalkPath& outPath);
 
 		void		AddDebugTriangle(TriangleElement* pTriangle);
+		void		AddDebugLine(Edge* pEdge0,Edge* pEdge1);
 
 		U32			m_uiNumVertex;
 		U32			m_uiNumFace;

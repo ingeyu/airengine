@@ -121,7 +121,17 @@ namespace	Air{
 		void ManualMeshEntity::UpdateIB( const void* pIB,U32 uiFaceCount )
 		{
 			if(m_DrawBuff.m_pIndexBuff!=NULL	&&	m_Info.uiFaceCount	>=	uiFaceCount){
-				m_DrawBuff.m_pIndexBuff->Write(0,sizeof(U32)*uiFaceCount*3,(void*)pIB);
+				U32 uiCount	=	3;
+				switch(m_Info.enDrawType){
+				case Render::Draw::enPT_POINTLIST:{
+					uiCount	=	1;
+												  }break;
+				case Render::Draw::enPT_LINELIST:{
+					uiCount	=	2;
+												 };
+				}
+
+				m_DrawBuff.m_pIndexBuff->Write(0,sizeof(U32)*uiFaceCount*uiCount,(void*)pIB);
 				m_DrawBuff.m_DrawOption.m_uiFaceCount	=	uiFaceCount;
 			}
 		}
