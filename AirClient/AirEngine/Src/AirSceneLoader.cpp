@@ -112,7 +112,7 @@ namespace	Air{
 		void SceneLoader::SetNode( SceneNode* pParent )
 		{
 			m_pParentNode	=	pParent->CreateChildSceneNode();
-			m_pParentNode->SetScale(Float3(0.1,0.1,0.1));
+			//m_pParentNode->SetScale(Float3(0.1,0.1,0.1));
 		}
 
 	}

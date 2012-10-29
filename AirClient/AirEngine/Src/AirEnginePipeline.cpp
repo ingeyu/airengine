@@ -442,9 +442,9 @@ namespace	Air{
 
 			if(id	==	OIS::MB_Middle){
 
-				//if(GetCurrentScene()->GetRootNode()->RayCast(ray,&fDis))
-				TreeElement* pElement	=	pMesh->RayCast(ray,&fDis);
-				if(pElement)
+				if(GetCurrentScene()->GetRootNode()->RayCast(ray,&fDis))
+				//TreeElement* pElement	=	pMesh->RayCast(ray,&fDis);
+				//if(pElement)
 				{
 					Float3	vPos	=	ray.m_vStart+ray.m_vDirection*fDis;
 					vEnd			=	vPos;
@@ -458,7 +458,7 @@ namespace	Air{
 				//	OutputDebugStringA("ERROR\n");
 				//}
 			}else if(id == OIS::MB_Left){
-				TreeElement* pElement	=	pMesh->RayCast(ray,&fDis);
+				TreeElement* pElement	=	NULL;//pMesh->RayCast(ray,&fDis);
 				if(pElement)
 				{
 					Float3	vPos	=	ray.m_vStart+ray.m_vDirection*fDis;

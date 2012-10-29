@@ -235,13 +235,13 @@ namespace	Air{
 			EdgePtrVector	vecPath;
 			if(BuildEdgePath((TriangleElement*)pBeginElement,(TriangleElement*)pEndElement,vecMask,vecWalked,vecPath)){
 				//WalkPath	path;
-				pPath->push_back(vBegin);
-				if(OptimizePath(vBegin,vEnd,vecPath,*pPath)){
-					pPath->push_back(vEnd);
-					return true;
-				}else{
-					pPath->clear();
-				}
+				//pPath->push_back(vBegin);
+				//if(OptimizePath(vBegin,vEnd,vecPath,*pPath)){
+				//	pPath->push_back(vEnd);
+				//	//return true;
+				//}else{
+				//	pPath->clear();
+				//}
 				m_DebugIndex.clear();
 				U32 uiPathCount	=	vecPath.size();
 				for(U32 i=1;i<uiPathCount;i++){

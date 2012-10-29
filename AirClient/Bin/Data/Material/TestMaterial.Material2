@@ -71,6 +71,7 @@ Material	ShadowMask	:	MT_ShadowMask
 	Texture ShadowDepth
 	Texture MRT0
 	Texture Texture/2x2_rot.png
+	Texture MRT1
 }
 Material	Combine		:	MT_Combine
 {

@@ -29,6 +29,7 @@ struct	PS_OUTPUT{
 Texture2D	ShadowDepthTex		:	register(t0);
 Texture2D	MRTDepthTex			:	register(t1);
 Texture2D	Tex2x2				:	register(t2);
+Texture2D	MRTNormalTex		:	register(t3);
 
 SamplerState	SS_BorderLine2	:	register(s0);
 SamplerState	SS_WrapLine2	:	register(s1);
@@ -115,6 +116,8 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 	float4	vProjPos	=	float4(xy,0,1);
 	vProjPos.z			=	MRTDepthTex.Sample(SS_WrapLine2,Input.UV).x;
 
+	float3	vNormal		=	MRTNormalTex.Sample(SS_WrapLine2,Input.UV).xyz*2-1;
+
 	float4	vWorldPos	=	mul(mViewProjectionInv,vProjPos);
 	vWorldPos/=vWorldPos.w;
 
@@ -139,14 +142,14 @@ PS_OUTPUT main( VS_OUTPUT Input ){
       tempshadow/=tempshadow.w;
       float3 tDir   =   normalize(tempshadow.xyz-vWorldPos.xyz);
       //float   fShadow      = ( oldZ.z > 0)&&(oldZ.z <(Oldshadowz+0.0001));
-      fRet+=saturate(dot(tDir,L)*0.5+0.5);
+      fRet+=dot(tDir,L);
    }
 
-
+	float fDot	=	(dot(vNormal,-L))*0.5+0.5;
 	
 
 	PS_OUTPUT	Out;
-	Out.Color						= pow(fRet/SHADOW_SAMPLE_NUMBER,1);//vShadowPos.z > 0 &&	vShadowPos.z < oldZ + 0.0001f;
+	Out.Color						= fDot*((fRet/SHADOW_SAMPLE_NUMBER)*0.5+0.5);//vShadowPos.z > 0 &&	vShadowPos.z < oldZ + 0.0001f;
 	return	Out;
    
 }
