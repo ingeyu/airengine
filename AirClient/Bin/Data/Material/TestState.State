@@ -30,6 +30,12 @@ DepthStencilState DisableDepthCompareWrite
     DepthEnable = False;
     DepthWriteMask = Zero;
 };
+DepthStencilState EnableDepthNoWrite_LessEqual
+{
+    DepthEnable		=	TRUE;
+	DepthFunc		=	LessEqual;
+    DepthWriteMask	=	Zero;
+};
 
 BlendState AdditiveBlending
 {

@@ -31,7 +31,7 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 
 	PS_OUTPUT	Out;
 	float4	diff		=	DiffuseTex.Sample(SS_WrapLine2,Input.UV);
-	float4	ao			=	AOTex.Sample(SS_WrapLine2,uv);
+	float4	ao			=	AOTex.Sample(SS_WrapLine2,uv)*0.5;
 	float4	shadow		=	ShadowTex.Sample(SS_WrapLine2,uv);
 	Out.Color			=	(ao+shadow)*diff;
 	return	Out;

@@ -225,3 +225,20 @@ MaterialTemplate	MT_Combine
 	}
 
 };
+
+MaterialTemplate	MT_Sky
+{
+	Phase		Manual
+	Pass
+	{
+		DepthStencilState EnableDepthNoWrite_LessEqual
+		VertexShader		"Shader/Quad"
+		{
+		}
+		PixelShader			"Shader/Sky"
+		{
+			Texture		0	0		SS_WarpLine2
+		}
+	}
+
+};

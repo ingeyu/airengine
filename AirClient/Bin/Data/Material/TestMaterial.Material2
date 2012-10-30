@@ -79,3 +79,8 @@ Material	Combine		:	MT_Combine
 	Texture AO
 	Texture ShadowMask
 }
+Material	Sky		:	MT_Sky
+{
+	Matrix	
+	Texture Texture/CubeMap/SkyCubemap.dds
+}
