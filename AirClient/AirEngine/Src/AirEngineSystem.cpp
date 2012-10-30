@@ -210,7 +210,7 @@ namespace Air{
 					::DispatchMessage(&msg);
 				}else{
 
-					Sleep(10);
+					//Sleep(10);
 					GetTimer().AddFrame();
 					ExecuteOneFrame(GetTimer().m_FrameTime);
 				}

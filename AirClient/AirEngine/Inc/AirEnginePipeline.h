@@ -62,6 +62,7 @@ namespace	Air{
 			Material*		m_pSSAO;
 			Material*		m_pShadowMask;
 			Material*		m_pCombine;
+			Material*		m_pSky;
 
 			Float3			vMoveDirection;
 			float			fVolocity;

@@ -40,6 +40,8 @@ namespace	Air{
 			m_pMainLight	=	NULL;
 			m_pCombine		=	NULL;
 
+			m_pSky			=	NULL;
+
 			fVolocity		=	10.0f;
 		}
 
@@ -158,6 +160,7 @@ namespace	Air{
 			rtinfo.SetSingleTargetScreen(enTFMT_R8G8B8A8_UNORM);
 			m_pRT_ShadowMask	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("ShadowMask","Target",&rtinfo);
 			m_pRT_ShadowMask->SetClearFlag(false,true,false);
+			m_pRT_ShadowMask->SetBKColor(Float4(1,1,1,1));
 			m_pRT_AO			=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("AO","Target",&rtinfo);
 			m_pRT_AO->SetClearFlag(false,true,false);
 
@@ -188,6 +191,7 @@ namespace	Air{
 			m_pSSAO			=	EngineSystem::GetSingleton()->CreateProduct<Material*>("SSAO","Material");
 			m_pShadowMask	=	EngineSystem::GetSingleton()->CreateProduct<Material*>("ShadowMask","Material");
 			m_pCombine		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("Combine","Material");
+			m_pSky			=	EngineSystem::GetSingleton()->CreateProduct<Material*>("Sky","Material");
 			return	true;
 		}
 
@@ -203,6 +207,7 @@ namespace	Air{
 			SAFE_RELEASE_REF(m_pShadowMask);
 			SAFE_RELEASE_REF(m_pRT_AO);
 			SAFE_RELEASE_REF(m_pCombine);
+			SAFE_RELEASE_REF(m_pSky);
 
 			if(m_pScene!=NULL){
 				m_pScene->Release();
@@ -272,8 +277,17 @@ namespace	Air{
 			}
 
 			setCamera.clear();
-
+			m_pMRT->SetClearFlag(true,true,true);
 			m_pMRT->Update();
+
+			m_pMRT->SetClearFlag(false,false,false);
+			if(m_pMRT->BeforeUpdate()){
+				Float44 matVPInv	=	m_pScene->GetMainCamera()->GetViewProjMatrix();
+				matVPInv.Inverse();
+				m_pSky->GetConstantBuffer()->UpdateData(&matVPInv);
+				m_pSky->RenderOneObject(m_pQuad);
+				m_pMRT->AfterUpdate();
+			}
 
 			m_pShadowDepth->Update();
 			
