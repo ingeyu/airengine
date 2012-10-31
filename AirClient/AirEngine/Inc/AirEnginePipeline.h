@@ -48,9 +48,12 @@ namespace	Air{
 			virtual bool keyPressed( const OIS::KeyEvent &arg );
 			virtual bool keyReleased( const OIS::KeyEvent &arg );
 		protected:
+			void	BlurRenderTarget(RenderTarget* pDst,RenderTarget* pSrc);
+		protected:
 			RenderWindow*	m_pMainWindow;
 			RenderTarget*	m_pMRT;
 			RenderTarget*	m_pShadowDepth;
+			RenderTarget*	m_pShadowDepthTemp;
 			RenderTarget*	m_pRT_ShadowMask;
 			RenderTarget*	m_pRT_AO;
 			Light*			m_pMainLight;
@@ -63,6 +66,10 @@ namespace	Air{
 			Material*		m_pShadowMask;
 			Material*		m_pCombine;
 			Material*		m_pSky;
+
+
+			Material*		m_pBlurX;
+			Material*		m_pBlurY;
 
 			Float3			vMoveDirection;
 			float			fVolocity;

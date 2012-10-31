@@ -42,6 +42,10 @@ namespace	Air{
 
 			m_pSky			=	NULL;
 
+
+			m_pBlurX		=	NULL;
+			m_pBlurY		=	NULL;
+
 			fVolocity		=	10.0f;
 		}
 
@@ -164,14 +168,16 @@ namespace	Air{
 			m_pRT_AO			=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("AO","Target",&rtinfo);
 			m_pRT_AO->SetClearFlag(false,true,false);
 
-			rtinfo.SetSingleTargetScreen(enTFMT_R32_FLOAT,1.0f,true);
+			rtinfo.SetSingleTargetScreen(enTFMT_R32G32_FLOAT,1.0f,true);
 			m_pShadowDepth	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("ShadowDepth","Target",&rtinfo);
 			m_pShadowDepth->SetClearFlag(true,true,true);
 			m_pShadowDepth->AddPhaseFlag(enPI_Shadow);
-			m_pShadowDepth->SetBKColor(Float4(1,1,1,1));
+			m_pShadowDepth->SetBKColor(Float4(1000,1000000,1,1));
 
-
-
+			rtinfo.SetSingleTargetScreen(enTFMT_R32G32_FLOAT,1.0f,false);
+			m_pShadowDepthTemp	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("ShadowDepthTemp","Target",&rtinfo);
+			m_pShadowDepthTemp->SetClearFlag(false,true,false);
+			m_pShadowDepthTemp->SetBKColor(Float4(1000,1000000,1,1));
 
 			Light::Info	infoLight;
 			//infoLight.SetDirection(Float3(-1,-1,-1));
@@ -192,6 +198,11 @@ namespace	Air{
 			m_pShadowMask	=	EngineSystem::GetSingleton()->CreateProduct<Material*>("ShadowMask","Material");
 			m_pCombine		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("Combine","Material");
 			m_pSky			=	EngineSystem::GetSingleton()->CreateProduct<Material*>("Sky","Material");
+			Material::Info	blurinfo;
+			blurinfo.strTemplate	=	"MT_BlurX";
+			m_pBlurX		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("BlurX","Material",&blurinfo);
+			blurinfo.strTemplate	=	"MT_BlurY";
+			m_pBlurY		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("BlurY","Material",&blurinfo);
 			return	true;
 		}
 
@@ -209,6 +220,8 @@ namespace	Air{
 			SAFE_RELEASE_REF(m_pCombine);
 			SAFE_RELEASE_REF(m_pSky);
 
+			SAFE_RELEASE_REF(m_pBlurX);
+			SAFE_RELEASE_REF(m_pBlurY);
 			if(m_pScene!=NULL){
 				m_pScene->Release();
 				delete m_pScene;
@@ -218,6 +231,7 @@ namespace	Air{
 			SAFE_RELEASE_REF(m_pMRT);
 			SAFE_RELEASE_REF(m_pShadowDepth);
 			SAFE_RELEASE_REF(m_pRT_ShadowMask);
+			SAFE_RELEASE_REF(m_pShadowDepthTemp);
 
 			if(m_pMainWindow!=NULL){
 				m_pMainWindow->ReleaseRef();
@@ -290,6 +304,8 @@ namespace	Air{
 			}
 
 			m_pShadowDepth->Update();
+
+			BlurRenderTarget(m_pShadowDepthTemp,m_pShadowDepth);
 			
 
 			//Shadow Mask
@@ -477,7 +493,7 @@ namespace	Air{
 				{
 					Float3	vPos	=	ray.m_vStart+ray.m_vDirection*fDis;
 					WalkPath path;
-					char str[256];
+					//char str[256];
 					if(pMesh->FindPath(pElement,vPos,vEnd,&path)){
 						//WalkPath::iterator	itr	=	path.begin();
 						//for(;itr!=path.end();itr++){
@@ -564,5 +580,26 @@ namespace	Air{
 
 			pCam->SetPosition(pCam->GetPosition()+x+y+z);
 		}
+
+		void Pipeline::BlurRenderTarget( RenderTarget* pDst,RenderTarget* pSrc )
+		{
+			if(pDst==NULL	||	pSrc	==	NULL)
+				return;
+			if(pDst->BeforeUpdate()){
+
+				RenderSystem::GetSingleton()->GetDevice()->SetSRV(enPS,0,pSrc->GetSRV());
+				m_pBlurX->RenderOneObject(m_pQuad);
+
+				pDst->AfterUpdate();
+			}
+			
+			if(pSrc->BeforeUpdate()){
+				RenderSystem::GetSingleton()->GetDevice()->SetSRV(enPS,0,pDst->GetSRV());
+				m_pBlurY->RenderOneObject(m_pQuad);
+
+				pSrc->AfterUpdate();
+			}
+		}
+
 	}
 }
