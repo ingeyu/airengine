@@ -1,0 +1,64 @@
+cbuffer cbPerCamera : register( b1 )
+{
+    matrix  ViewProjection;
+	float4	vCameraDir;
+	float4	vCameraPosition;
+	float4	vCameraUp;
+	float4	vVP_NearFar;
+   
+};
+cbuffer cbPerMaterial		: register( b3 )
+{
+    matrix  mViewProjectionInv;
+};
+
+struct VS_OUTPUT
+{
+    float4 Position     : SV_POSITION; // vertex position
+	float2 UV			: TEXCOORD0;
+};
+
+
+TextureCube	SkyTex		:	register(t0);
+
+
+SamplerState	SS_WrapLine2	:	register(s0);
+
+
+
+float2 UV_XY(float2 uv){
+	return	uv*float2(2,-2)+float2(-1,1);
+};
+
+float2 XY_UV(float2 xy){
+	return	xy*float2(0.5,-0.5)+0.5;
+};
+
+struct	PS_OUTPUT{
+	float4	Depth			:	SV_Target0;
+	float4	Normal			:	SV_Target1;
+	float4	Diffuse			:	SV_Target2;
+	float4	Specular		:	SV_Target3;
+	float4	SelfIllum		:	SV_Target4;
+};
+
+PS_OUTPUT main( VS_OUTPUT Input ){
+
+	float4	vProjPos	=	float4(UV_XY(Input.UV),1,1);
+
+	float4	vWorldPos	=	mul(mViewProjectionInv,vProjPos);
+
+	vWorldPos/=vWorldPos.w;
+	
+	float3 dir	=	normalize(vWorldPos.xyz-vCameraPosition.xyz);
+
+
+	PS_OUTPUT	Out;
+	Out.Depth		=	1;
+	Out.Diffuse		=	SkyTex.Sample(SS_WrapLine2,dir);
+	Out.Normal		=	float4(0.5,1,0.5,0);
+	Out.Specular	=	0;
+	Out.SelfIllum	=	0;
+	return	Out;
+   
+}

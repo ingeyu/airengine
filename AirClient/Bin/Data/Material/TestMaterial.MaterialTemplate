@@ -163,7 +163,7 @@ MaterialTemplate	MT_ShadowMask
 		VertexShader		"Shader/Quad"
 		{
 		}
-		PixelShader			"Shader/ShadowMaskAO"
+		PixelShader			"Shader/VSM"
 		{
 			Texture		0	0		SS_BorderLine2
 			Texture		1	1		SS_ClampLine2
@@ -242,3 +242,33 @@ MaterialTemplate	MT_Sky
 	}
 
 };
+MaterialTemplate	MT_BlurX
+{
+	Phase		Manual
+	Pass
+	{
+		DepthStencilState DisableDepthCompareWrite
+		VertexShader		"Shader/Quad"
+		{
+		}
+		PixelShader			"Shader/BlurX7"
+		{
+			Texture		0	0		SS_WarpLine2
+		}
+	}
+}
+MaterialTemplate	MT_BlurY
+{
+	Phase		Manual
+	Pass
+	{
+		DepthStencilState DisableDepthCompareWrite
+		VertexShader		"Shader/Quad"
+		{
+		}
+		PixelShader			"Shader/BlurY7"
+		{
+			Texture		0	0		SS_WarpLine2
+		}
+	}
+}

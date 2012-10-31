@@ -1,4 +1,12 @@
-
+cbuffer cbPerCamera : register( b1 )
+{
+    matrix  ViewProjection;
+	float4	vCameraDir;
+	float4	vCameraPosition;
+	float4	vCameraUp;
+	float4	vVP_NearFar;
+   
+}
 
 Texture2D		DiffuseTex		:	register(t0);
 SamplerState	SS_WrapLine2	:	register(s0);
@@ -22,8 +30,9 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 	PS_OUTPUT	Out;
 	float4 diff			=	DiffuseTex.Sample(SS_WrapLine2,Input.TextureUV);
 	clip(diff.w - 0.5);
-
-	Out.Depth			=	float4(Input.ProjPos.z/Input.ProjPos.w,0,0,0);
+	float z	=	distance(vCameraPosition.xyz,Input.WPos.xyz);
+	Out.Depth			=	float4(z,z*z,0,1);
+	//Out.Depth			=	float4(Input.ProjPos.z/Input.ProjPos.w,0,0,0);
 	return	Out;
    
 }

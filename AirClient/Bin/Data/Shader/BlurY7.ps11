@@ -1,0 +1,42 @@
+Texture2D		Texture0		:	register(t0);
+SamplerState	SS_ClampLine2	:	register(s0);
+
+cbuffer cbPerCamera		: register( b1 )
+{
+    matrix  ViewProjection;
+	float4	vCameraDir;
+	float4	vCameraPosition;
+	float4	vCameraUp;
+	float4	vVP_NearFar;
+   
+}
+struct VS_OUTPUT
+{
+    float4 Position     : SV_POSITION; // vertex position
+	float2 UV			: TEXCOORD0;
+};
+
+
+
+const static float2 uvoffset[]={
+   float2(-3,1.0/21.0f),
+   float2(-2,2.0/21.0f),
+   float2(-1,4.0/21.0f),
+   float2(-0,7.0/21.0f),
+   float2(1,4.0/21.0f),
+   float2(2,2.0/21.0f),
+   float2(3,1.0/21.0f),
+};
+float4 main( VS_OUTPUT Input ) : SV_Target
+{
+	float2 fInvViewport	=	vVP_NearFar.xy;
+	float fScale	=	1.0f;
+	float2   fPixel   =  fInvViewport*fScale; 
+	float2   uv            =   Input.UV;
+	float4 c   =   0;
+	for(int i=0;i<7;i++){
+		float2   offset   = uvoffset[i]; 
+		c+=Texture0.Sample(SS_ClampLine2,float2(0,offset.x*fPixel.y)+uv)*offset.y;
+	}
+	return c;//float4(texCoord,0,0);
+}

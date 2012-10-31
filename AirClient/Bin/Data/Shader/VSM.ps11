@@ -1,0 +1,124 @@
+cbuffer cbPerCamera : register( b1 )
+{
+    matrix  ViewProjection;
+	float4	vCameraDir;
+	float4	vCameraPosition;
+	float4	vCameraUp;
+	float4	vVP_NearFar;
+   
+};
+
+cbuffer cbPerMaterial		: register( b3 )
+{
+    matrix  mViewProjectionInv;
+	matrix	mShadowViewProj;
+	matrix  mShadowViewProjInv;
+   float4	vRTSize;
+};
+
+
+Texture2D	ShadowDepthTex		:	register(t0);
+Texture2D	MRTDepthTex			:	register(t1);
+Texture2D	Tex2x2				:	register(t2);
+Texture2D	MRTNormalTex		:	register(t3);
+
+SamplerState	SS_BorderLine2	:	register(s0);
+SamplerState	SS_WrapLine2	:	register(s1);
+
+struct VS_OUTPUT
+{
+    float4 Position     : SV_POSITION; // vertex position
+	float2 UV			: TEXCOORD0;
+};
+
+struct	PS_OUTPUT{
+	float4	Color				:	SV_Target0;
+};
+
+float2 UV_XY(float2 uv){
+	return	uv*float2(2,-2)+float2(-1,1);
+};
+
+float2 XY_UV(float2 xy){
+	return	xy*float2(0.5,-0.5)+0.5;
+};
+
+//--------------------------------------------------------
+// Computes Chebyshev's Inequality
+//
+float ChebyshevUpperBound( float2 moments, float t, float minVariance)
+{
+ // Standard shadow map comparison
+ float p = ( t<=moments.x);
+
+ // compute probabilistic upper bound
+ float variance = moments.y - ( moments.x*moments.x);
+ variance = max( variance, minVariance);
+
+ // compute probabilistic upper bound
+ float d = t - moments.x;
+ float p_max = variance / ( variance + d*d);
+
+ return max( p, p_max);
+}
+
+//--------------------------------------------------------
+// variance shadow map
+//
+//uniform float g_lbrAmount;// = 0.18f;
+
+float CalcVSM( Texture2D DepthTexture,SamplerState sampState, float2 UV,float z)
+{
+ //float4 projPos = posInLightSpace / posInLightSpace.w;
+	float g_lbrAmount = 0.18f;
+ // soft shadow
+ float2 moments = DepthTexture.Sample(sampState, UV).xy;
+
+ float shadowContrib = ChebyshevUpperBound( moments, z, 0.00001f);
+
+ float lbr = clamp( (shadowContrib - g_lbrAmount)/(1-g_lbrAmount), 0, 1);
+ //float lbr = smoothstep( g_lbrAmount, 1, shadowContrib);
+
+ return saturate( lbr );
+} 
+
+
+PS_OUTPUT main(VS_OUTPUT Input){
+
+	float2 invShadowViewport	=	vRTSize.zw*0.5f;
+	float2 invMrtViewport		=	vRTSize.xy;
+
+   float2 halfPixel   =   0.5f*invShadowViewport;
+   float2   uv=   Input.UV;//+halfPixel;
+   float2	offsetuv	=	uv+halfPixel;
+   float2   xy=   UV_XY(uv);
+
+
+
+	float4	vProjPos	=	float4(xy,0,1);
+	vProjPos.z			=	MRTDepthTex.Sample(SS_WrapLine2,Input.UV).x;
+
+	float3	vNormal		=	MRTNormalTex.Sample(SS_WrapLine2,Input.UV).xyz*2-1;
+
+	float4	vWorldPos	=	mul(mViewProjectionInv,vProjPos);
+	vWorldPos/=vWorldPos.w;
+
+	float3	L	=	-normalize(vCameraDir.xyz);//normalize(float3(-1,-1,-1));	
+
+
+	float4	vShadowPos	=	mul(mShadowViewProj,vWorldPos);
+	vShadowPos/=vShadowPos.w;
+	float2 absXY	=	abs(vShadowPos.xy);
+	if(absXY.x > 1.0f||absXY.y>1.0f){
+		discard;
+	}
+
+	float2	ShadowUV	=	XY_UV(vShadowPos.xy);
+
+	float	z			=	distance(vWorldPos.xyz,vCameraPosition.xyz);
+
+	PS_OUTPUT Out;
+
+	Out.Color	=	saturate(dot(vNormal,L))*CalcVSM(ShadowDepthTex,SS_WrapLine2,ShadowUV,z);
+	return Out;
+};
