@@ -43,7 +43,7 @@ namespace	Air{
 			minfo.vecTextureName.resize(1);
 
 			minfo.vecFloatParam[0]	=	Float4(1,1,1,1);
-			minfo.vecFloatParam[1]	=	Float4(0.5,0.5,0.5,0);
+			minfo.vecFloatParam[1]	=	Float4(1,1,1,0);
 			minfo.vecFloatParam[2]	=	Float4(0.1,0.1,0.1,0.1);
 			minfo.vecFloatParam[3]	=	Float4(0,0,0,0);
 
