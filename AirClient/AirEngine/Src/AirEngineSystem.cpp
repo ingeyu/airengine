@@ -133,23 +133,23 @@ namespace Air{
 			
 			//AddFactory(new	Common::PluginFactory());
 			AddFactory(new	NoParamFactory<Pipeline>("Pipeline"));
-			AddFactory(new	FontFactory());
+			//AddFactory(new	FontFactory());
 			AddFactory(new	ExtraOptionParamFactory<MaterialTemplate,MaterialTemplateInfo*>("MaterialTemplate"));
 			AddFactory(new	OptionParamFactory<Material>("Material"));
-			AddFactory(new	SubEntityFactory());
+			//AddFactory(new	SubEntityFactory());
 			//AddFactory(new	CameraFactory());
 			//AddFactory(new	LightFactory());
 			AddFactory(new	ExtraOptionParamFactory<Character::Resource,AString*>("Character"));
 			AddFactory(new	ParamFactory<Character::Animation::Model>("Model"));
 			//AddFactory(new	Character::Animation::TextureModelFactory());
-			AddFactory(new	Terrain::IPageFactory());
-			AddFactory(new	MeshFactory());
-			AddFactory(new	ScreenEntityFactory());
-			AddFactory(new	PostComposerFactory());
-			AddFactory(new	ParticleEntityFactory());
-			AddFactory(new	IParticleFactory());
-			AddFactory(new	ShootParticleFactory());
-			AddFactory(new	TextInstanceFactory());
+			//AddFactory(new	Terrain::IPageFactory());
+			//AddFactory(new	MeshFactory());
+			//AddFactory(new	ScreenEntityFactory());
+			///AddFactory(new	PostComposerFactory());
+			//AddFactory(new	ParticleEntityFactory());
+			//AddFactory(new	IParticleFactory());
+			//AddFactory(new	ShootParticleFactory());
+			//AddFactory(new	TextInstanceFactory());
 
 			AddFactory(new	NoParamFactory<StaticMesh>("StaticMesh"));
 			AddFactory(new	ParamFactory<MeshEntity>("MeshEntity"));
@@ -284,7 +284,7 @@ namespace Air{
 
 
 			for(UInt i=0;i<uiSize;i++){
-				Common::Plugin*	pPlugin	=	new Common::Plugin(lstString[i],NULL);
+				Common::Plugin*	pPlugin	=	AirNew<Common::Plugin>(lstString[i],(void*)NULL);
 				pPlugin->Create();
 				m_vecPlugin.push_back(pPlugin);
 			}
@@ -321,7 +321,7 @@ namespace Air{
 			U32	uiSize	=	m_vecPlugin.size();
 			for(int	i	=	uiSize-1;i>=0;i--){
 				m_vecPlugin[i]->Destroy();
-				delete m_vecPlugin[i];
+				AirDelete(m_vecPlugin[i]);
 			}
 			m_vecPlugin.clear();
 //			ENGINE_LOG_INFO

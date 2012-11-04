@@ -24,8 +24,9 @@ namespace Air{
 		*
 		***/
 		class	ENGINE_EXPORT	Camera	:
-			public	Frustum,
-			public	Common::IProduct{
+			public	Common::IProduct,
+			public	Frustum
+		{
 		public:
 			Camera(CAString&	strName);
 	

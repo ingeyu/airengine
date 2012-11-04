@@ -212,8 +212,9 @@ namespace Air{
 				*
 				***/
 				class	ENGINE_EXPORT	Model	:
-					public	MovableObject,
-					public	Common::IProduct{
+					public	Common::IProduct,
+					public	MovableObject
+				{
 				public:
 					/**	\brief	创建信息
 					*

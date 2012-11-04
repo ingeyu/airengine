@@ -382,7 +382,7 @@ namespace Air{
 			m_strTypeName	=	strName;
 		};
 		virtual	Common::IProduct*	NewProduct(CAString& strName,Common::IFactoryParamList* lstParam /* = NULL */){
-			return	new	T_Product(strName);
+			return	AirNew<T_Product>(strName);
 		}
 	};
 	/**	\brief	模板工厂有参数
@@ -400,7 +400,7 @@ namespace Air{
 		virtual	Common::IProduct*	NewProduct(CAString& strName,Common::IFactoryParamList* lstParam /* = NULL */){
 			if(lstParam	==	NULL)
 				return	NULL;
-			return	new	T_Product(strName,(T_Product::Info*)lstParam);
+			return	AirNew<T_Product>(strName,(T_Product::Info*)lstParam);
 		}
 	};
 		/**	\brief	模板工厂有参数
@@ -416,7 +416,7 @@ namespace Air{
 			m_strTypeName	=	strName;
 		};
 		virtual	Common::IProduct*	NewProduct(CAString& strName,Common::IFactoryParamList* lstParam /* = NULL */){
-			return	new	T_Product(strName,(T_Product::Info*)lstParam);
+			return	AirNew<T_Product>(strName,(T_Product::Info*)lstParam);
 		}
 	};
 	/**	\brief	模板工厂有参数
@@ -434,7 +434,7 @@ namespace Air{
 		virtual	Common::IProduct*	NewProduct(CAString& strName,Common::IFactoryParamList* lstParam /* = NULL */){
 			if(lstParam	==	NULL)
 				return	NULL;
-			return	new	T_Product(strName,(T_ProductInfo*)lstParam);
+			return	AirNew<T_Product>(strName,(T_ProductInfo*)lstParam);
 		}
 	};
 	/**	\brief	模板工厂可选参数
@@ -450,7 +450,7 @@ namespace Air{
 			m_strTypeName	=	strName;
 		};
 		virtual	Common::IProduct*	NewProduct(CAString& strName,Common::IFactoryParamList* lstParam /* = NULL */){
-			return	new	T_Product(strName,(T_ProductInfo)lstParam);
+			return	AirNew<T_Product>(strName,(T_ProductInfo)lstParam);
 		}
 	};
 };

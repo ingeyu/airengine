@@ -30,7 +30,7 @@ namespace Air{
 				if(m_pFactory!=NULL)
 					m_pFactory->Erase(m_strProductName);
 				Destroy();
-				delete	this;
+				AirDelete(this);
 			}
 			return uiRef;
 		}

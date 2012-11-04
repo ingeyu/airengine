@@ -34,6 +34,49 @@ namespace Air{
 	#define AIR_FREE(p)				if(p!=NULL){delete[] p;p=NULL;}
 #endif
 
+	template<typename T>
+	T* AirNew()
+	{
+		void *p	=	__Alloc(sizeof(T));
+		return new(p)T();
+	};
+	template<typename T>
+	T* AirNew(unsigned int	uiCount)
+	{
+		T *p	=	(T*)__Alloc(sizeof(T)*uiCount);
+		for(unsigned int i=0;i<uiCount;i++){
+			new (&p[i])T();
+		}
+		return p;
+	};
+	template<typename T,typename P0>
+	T* AirNew(P0 p0)
+	{
+		void *p	=	__Alloc(sizeof(T));
+		return new(p)T(p0);
+	};
+	template<typename T,typename P0,typename P1>
+	T* AirNew(P0 p0,P1 p1)
+	{
+		void *p	=	__Alloc(sizeof(T));
+		return new(p)T(p0,p1);
+	};
+	template<typename T>
+	void	AirDelete(T* p){
+		if(p!=NULL){
+			p->~T();
+			__Free(p);
+		}
+	};
+	template<typename T>
+	void	AirDeleteArray(T* p,unsigned int uiCount){
+		if(p!=NULL){
+			for(unsigned int i=0;i<uiCount;i++){
+				p[i].~T();
+			}
+			__Free(p);
+		}
+	};
 	namespace Common{
 		/**	\brief	ÄÚ´æ¿½±´
 		*   
