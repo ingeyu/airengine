@@ -88,6 +88,8 @@ namespace	Air{
 		ClientInfoMap		m_mapClientInfo;
 	};
 
+	//class	File
+
 	class	FileClient	:
 		public	Common::NetListener{
 	public:
@@ -100,6 +102,9 @@ namespace	Air{
 		virtual	U1	OnConnected(U32	socket,AString&	strIP,AString&	strPort);
 		virtual	U1	OnClose(U32	uiSocket);
 		virtual	U1	OnReceive(U32	uiSocket,AChar*	pData,U32	uiSize);
+	protected:
+		void		OnLoadFileComplate();
+		void		OnReturn(NetCommand<NCT_SC_Return>* p);
 	protected:
 		Common::NetClient*	m_pConnect;
 		FileMapping*		m_pFile;

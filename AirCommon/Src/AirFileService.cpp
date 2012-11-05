@@ -202,7 +202,26 @@ namespace	Air{
 
 	Air::U1 FileClient::OnReceive( U32 uiSocket,AChar* pData,U32 uiSize )
 	{
+		NetBaseCommand* pBase	=	(NetBaseCommand*)pData;
+		switch(pBase->type){
+			case	enNCT_SC_LoadFileComplate:{
+				OnLoadFileComplate();
+											  }break;
+			case	enNCT_SC_Return:{
+				OnReturn((NetCommand<NCT_SC_Return>*)pBase);
+									}break;
+		}
 		return true;
+	}
+
+	void FileClient::OnLoadFileComplate()
+	{
+
+	}
+
+	void FileClient::OnReturn( NetCommand<NCT_SC_Return>* p )
+	{
+
 	}
 
 }
