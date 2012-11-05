@@ -195,6 +195,12 @@
     <ClCompile Include="..\..\AirCommon\Src\AirNavMesh.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirFileMapping.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirFileService.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\AirCommon\Inc\Airarg_parser.h">
@@ -426,6 +432,12 @@
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\AirCommon\Inc\AirNavMesh.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirFileMapping.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirFileService.h">
       <Filter>Inc</Filter>
     </ClInclude>
   </ItemGroup>
