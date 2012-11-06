@@ -1,11 +1,14 @@
 #include "AirFileService.h"
 
+#define DEFAULT_SHARE_MEMORY_SIZE	24*1024*1024
+
 namespace	Air{
 
 
 	FileServer::FileServer()
 	{
 		m_pConnect	=	NULL;
+		m_bExit		=	false;
 	}
 
 	FileServer::~FileServer()
@@ -15,6 +18,7 @@ namespace	Air{
 
 	Air::U1 FileServer::OnConnected( U32 socket,AString& strIP,AString& strPort )
 	{
+		OutputDebugStringA("Client Connected!\n");
 		ClientInfoMap::iterator	i	=	m_mapClientInfo.find(socket);
 		if(i!=m_mapClientInfo.end()){
 			ClientInfo& info	=	i->second;
@@ -48,6 +52,10 @@ namespace	Air{
 			m_mapClientInfo.erase(i);
 		}
 
+		if(m_mapClientInfo.empty()){
+			m_bExit	=	true;
+		}
+
 		return true;
 	}
 
@@ -75,6 +83,8 @@ namespace	Air{
 
 	void FileServer::OnCreateFileMapping( U32 uiSocket,NetCommand<NCT_CS_CreateMappingFile>* p )
 	{
+		OutputDebugStringA("Create FileMapping!");
+
 		NetCommand<NCT_SC_Return>	r(enNCT_SC_Return);
 		r.data.uiReturnValue	=	0;
 		r.data.uiUserData		=	0;
@@ -84,13 +94,19 @@ namespace	Air{
 		if(i!=m_mapClientInfo.end()){
 			ClientInfo& info	=	i->second;
 			char strTempName[256];
-			sprintf(strTempName,"%s_%d",p->data.strName,p->data.ProcessId);
+			sprintf_s(strTempName,256,"%s_%d",p->data.strName,p->data.ProcessId);
 			FileMapping::Info finfo;
 			finfo.type			=	FileMapping::enFMT_Create;
-			finfo.uiFileSize	=	24*1024*1024;
-			info.m_pFile	=	new FileMapping(strTempName,&finfo);
+			finfo.uiFileSize	=	DEFAULT_SHARE_MEMORY_SIZE;
+			info.m_pFile	=	AirNew< FileMapping>(strTempName,&finfo);
 			info.m_pFile->AddRef();
 			r.data.uiReturnValue	=	1;
+
+			if(info.m_pFile==NULL){
+				OutputDebugStringA("Error!\n");
+			}else{
+				OutputDebugStringA("OK!\n");
+			}
 		}
 
 		SendCommand(uiSocket,r);
@@ -104,6 +120,16 @@ namespace	Air{
 		r.data.type				=	p->type;
 
 		SendCommand(uiSocket,r);
+
+		ClientInfoMap::iterator	i	=	m_mapClientInfo.find(uiSocket);
+		if(i!=m_mapClientInfo.end()){
+			ClientInfo& info	=	i->second;
+			void*	pData	=	info.m_pFile->GetLockedBuffer();
+			r.data.uiReturnValue	=	LoadFile(p->data.strFileName,pData,r.data.uiUserData);
+
+			r.data.type				=	enNCT_SC_LoadFileComplate;
+			SendCommand(uiSocket,r);
+		}
 	}
 
 	void FileServer::OnRequestUnLoadFile( U32 uiSocket,NetCommand<NCT_CS_Return>* p )
@@ -121,10 +147,12 @@ namespace	Air{
 		Common::NetServer::Info sinfo;
 		sinfo.pListener	=	this;
 		sinfo.strPort	=	"60000";
-		m_pConnect	=	new Common::NetServer("ResourceServer",&sinfo);
+		m_pConnect	=	AirNew< Common::NetServer>("ResourceServer",&sinfo);
 		m_pConnect->AddRef();
 
-		
+		while(!m_bExit){
+			Sleep(1000);
+		}
 
 		return true;
 	}
@@ -139,13 +167,16 @@ namespace	Air{
 	{
 		if(strName.empty())
 			return false;
-		HANDLE	h	=	CreateFileA(strName.c_str(),PAGE_READONLY,FILE_SHARE_READ,NULL,OPEN_EXISTING,0,0);
+		HANDLE	h	=	CreateFileA(strName.c_str(),GENERIC_READ,FILE_SHARE_READ,NULL,OPEN_EXISTING,0,0);
 		if(h==INVALID_HANDLE_VALUE){
 			return false;
 		}
-		GetFileSize(h,&uiSize);
-		pData	=	__Alloc(uiSize);
-		ReadFile(h,pData,0,&uiSize,0);
+		uiSize	=	GetFileSize(h,0);
+		DWORD dwRSize=0;
+		//static char str[16*1024];
+		ReadFile(h,pData,uiSize,&dwRSize,0);
+		//ReadFile(h,str,uiSize,&dwRSize,0);
+		//memcpy(pData,str,uiSize);
 		CloseHandle(h);
 		return true;
 	}
@@ -155,6 +186,10 @@ namespace	Air{
 	{
 		m_pConnect	=	NULL;
 		m_pFile		=	NULL;
+		char str[256];
+		sprintf_s(str,256,"%s_%d",strName.c_str(),GetCurrentProcessId());
+		m_strFileMappingName	=	str;
+		m_pCurrentCallback		=	NULL;
 	}
 
 	FileClient::~FileClient()
@@ -168,7 +203,7 @@ namespace	Air{
 		info.strIP		=	"127.0.0.1";
 		info.strPort	=	"60000";
 		info.pListener	=	this;
-		m_pConnect		=	new Common::NetClient("ResourceClient",&info);
+		m_pConnect		=	AirNew< Common::NetClient>("ResourceClient",&info);
 		m_pConnect->AddRef();
 
 		if(!m_pConnect->Connect(info)){
@@ -189,7 +224,7 @@ namespace	Air{
 	{
 		NetCommand<NCT_CS_CreateMappingFile> r(enNCT_CS_CreateMappingFile);
 		r.data.ProcessId	=	GetCurrentProcessId();
-		strcpy(r.data.strName,m_strName.c_str());
+		strcpy_s(r.data.strName,32,m_strName.c_str());
 		m_pConnect->Send(&r,sizeof(r));
 
 		return true;
@@ -197,6 +232,7 @@ namespace	Air{
 
 	Air::U1 FileClient::OnClose( U32 uiSocket )
 	{
+		OutputDebugStringA("Server Exit!\n");
 		return true;
 	}
 
@@ -204,9 +240,6 @@ namespace	Air{
 	{
 		NetBaseCommand* pBase	=	(NetBaseCommand*)pData;
 		switch(pBase->type){
-			case	enNCT_SC_LoadFileComplate:{
-				OnLoadFileComplate();
-											  }break;
 			case	enNCT_SC_Return:{
 				OnReturn((NetCommand<NCT_SC_Return>*)pBase);
 									}break;
@@ -214,14 +247,56 @@ namespace	Air{
 		return true;
 	}
 
-	void FileClient::OnLoadFileComplate()
+	void FileClient::OnLoadFileComplate(U32 uiFileSize)
 	{
+		void*	pData	=	m_pFile->GetLockedBuffer();
+		//Callback
+		if(m_pCurrentCallback!=NULL)
+			m_pCurrentCallback->OnLoadComplate(m_strCurrentName,pData,uiFileSize);
 
+		m_pCurrentCallback	=	NULL;
 	}
 
 	void FileClient::OnReturn( NetCommand<NCT_SC_Return>* p )
 	{
+		switch(p->data.type){
+			case enNCT_CS_CreateMappingFile:{
+				FileMapping::Info info;
+				info.type		=	FileMapping::enFMT_Open;
+				info.uiFileSize	=	DEFAULT_SHARE_MEMORY_SIZE;
+				m_pFile	=	AirNew<FileMapping>(m_strFileMappingName,&info);
+				m_pFile->AddRef();
+				
+											}break;
+			case enNCT_CS_RequestLoadFile:{
 
+										  }break;
+			case enNCT_SC_LoadFileComplate:{
+				OnLoadFileComplate(p->data.uiUserData);
+										   }break;
+			case enNCT_CS_RequestUnloadFile:{
+
+											}break;
+		}
+	}
+
+	Air::U1 FileClient::RequestFile( CAString& strName,LoadFileCallback* pCB )
+	{
+		if(m_pCurrentCallback==NULL){
+			strcpy_s(m_strCurrentName,256,strName.c_str());
+			m_pCurrentCallback	=	pCB;
+
+			NetCommand<NCT_CS_RequestLoadFile>	r(enNCT_CS_RequestLoadFile);
+			strcpy_s(r.data.strFileName,256,strName.c_str());
+
+			m_pConnect->Send(&r,sizeof(r));
+		}else{
+			LoadFileRequest req;
+			req.strFileName	=	strName;
+			req.pCB			=	pCB;
+			m_lstRequest.push_back(req);
+		}
+		return true;
 	}
 
 }

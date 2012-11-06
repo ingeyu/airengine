@@ -25,14 +25,17 @@ namespace	Air{
 		virtual	U1	Create();
 		virtual	U1	Destroy();
 
-		void*	Lock(	U32 uiOffset,U32	uiSize);
-		void	UnLock();
+
+		void*	GetLockedBuffer(){
+			return m_pLockBuffer;
+		};
 	protected:
 		U1		CreateFile();
 		U1		OpenFile();
 		U1		CloseFile();
 
-
+		void*	Lock(	U32 uiOffset,U32	uiSize);
+		void	UnLock();
 	protected:
 		HANDLE	m_hFile;
 		void*	m_pLockBuffer;

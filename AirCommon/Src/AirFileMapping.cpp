@@ -5,7 +5,7 @@ namespace	Air{
 	{
 		if(m_pLockBuffer!=NULL)
 			return NULL;
-		m_pLockBuffer	=	MapViewOfFile(m_hFile,PAGE_READWRITE,0,uiOffset,uiSize);
+		m_pLockBuffer	=	MapViewOfFile(m_hFile,FILE_MAP_ALL_ACCESS,0,uiOffset,uiSize);
 		return m_pLockBuffer;
 	}
 
@@ -39,16 +39,23 @@ namespace	Air{
 				0,
 				m_Info.uiFileSize,
 				m_strProductName.c_str());
+			if(m_hFile!=NULL){
+				Lock(0,m_Info.uiFileSize);
+			}
 		}
-		return true;
+		return m_hFile!=NULL;;
 	}
 
 	Air::U1 FileMapping::OpenFile()
 	{
 		if(m_hFile==NULL){
 			m_hFile	=	OpenFileMappingA(FILE_MAP_ALL_ACCESS,NULL,m_strProductName.c_str());
+			if(m_hFile!=NULL){
+				Lock(0,m_Info.uiFileSize);
+			}
+			
 		}
-		return true;
+		return m_hFile!=NULL;
 	}
 
 	Air::U1 FileMapping::CloseFile()

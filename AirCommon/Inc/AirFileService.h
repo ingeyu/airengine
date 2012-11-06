@@ -59,7 +59,7 @@ namespace	Air{
 
 	};
 
-	class	FileServer	:
+	class	COMMON_EXPORT	FileServer	:
 		public	Common::NetListener{
 	public:
 		FileServer();
@@ -86,11 +86,20 @@ namespace	Air{
 	protected:
 		Common::NetServer*	m_pConnect;
 		ClientInfoMap		m_mapClientInfo;
+		bool				m_bExit;
 	};
 
-	//class	File
+	class	LoadFileCallback{
+	public:
+		virtual	void	OnLoadComplate(const AChar* strName,void* pData,U32 uiSize)=0;
+	};
+	struct LoadFileRequest{
+		AString				strFileName;
+		LoadFileCallback*	pCB;
+	};
+	typedef STD_LIST<LoadFileRequest>	LoadFileRequestList;
 
-	class	FileClient	:
+	class	COMMON_EXPORT	FileClient	:
 		public	Common::NetListener{
 	public:
 		FileClient(CAString& strName);
@@ -102,13 +111,21 @@ namespace	Air{
 		virtual	U1	OnConnected(U32	socket,AString&	strIP,AString&	strPort);
 		virtual	U1	OnClose(U32	uiSocket);
 		virtual	U1	OnReceive(U32	uiSocket,AChar*	pData,U32	uiSize);
+
+		U1			RequestFile(CAString& strName,LoadFileCallback* pCB);
 	protected:
-		void		OnLoadFileComplate();
+		void		OnLoadFileComplate(U32 uiFileSize);
 		void		OnReturn(NetCommand<NCT_SC_Return>* p);
 	protected:
 		Common::NetClient*	m_pConnect;
 		FileMapping*		m_pFile;
 		AString				m_strName;
+		AString				m_strFileMappingName;
+
+		LoadFileRequestList	m_lstRequest;
+		AChar				m_strCurrentName[256];
+		LoadFileCallback*	m_pCurrentCallback;
+
 	};
 }
 #endif // AirFileService_h__

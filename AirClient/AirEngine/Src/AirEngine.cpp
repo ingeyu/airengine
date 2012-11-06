@@ -9,7 +9,7 @@
 #include "AirRenderSystem.h"
 #include "AirStaticMesh.h"
 #include "AirCommonWindow.h"
-
+#include "AirFileService.h"
 
 
 BOOL APIENTRY DllMain( HMODULE hModule,
@@ -51,6 +51,11 @@ namespace Air{
  	 			memcpy(pDst,pEngineParam,uiSize);
  	 
  	 		//OutputDebugStringA(pDst->strDisplay);
+			//FileServer	server;
+			//server.Create();
+			//server.Destroy();
+
+
  			
  			EngineSystem::GetSingleton()->Initialization();
 
