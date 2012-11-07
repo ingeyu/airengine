@@ -34,6 +34,9 @@
     <Filter Include="Math">
       <UniqueIdentifier>{3981189a-78fd-4399-89e1-4290e9581699}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MemoryPool">
+      <UniqueIdentifier>{8de8e89c-622d-4e32-8690-832cfb5c1c3c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\AirCommon\Src\Airarg_parser.cc">
@@ -200,6 +203,9 @@
     </ClCompile>
     <ClCompile Include="..\..\AirCommon\Src\AirFileService.cpp">
       <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirSmallObjectAllocator.cpp">
+      <Filter>MemoryPool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -439,6 +445,9 @@
     </ClInclude>
     <ClInclude Include="..\..\AirCommon\Inc\AirFileService.h">
       <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirSmallObjectAllocator.h">
+      <Filter>MemoryPool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
