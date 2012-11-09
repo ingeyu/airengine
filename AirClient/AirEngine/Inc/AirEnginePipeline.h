@@ -56,6 +56,7 @@ namespace	Air{
 			RenderTarget*	m_pShadowDepthTemp;
 			RenderTarget*	m_pRT_ShadowMask;
 			RenderTarget*	m_pRT_AO;
+			RenderTarget*	m_pRT_SO;
 			Light*			m_pMainLight;
 
 
@@ -63,6 +64,7 @@ namespace	Air{
 			QuadRenderable*	m_pQuad;
 			Material*		m_pQuadCopy;
 			Material*		m_pSSAO;
+			Material*		m_pSSSO;
 			Material*		m_pShadowMask;
 			Material*		m_pCombine;
 			Material*		m_pSky;

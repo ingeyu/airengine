@@ -33,6 +33,8 @@ namespace	Air{
 			m_pQuadCopy		=	NULL;
 			m_pSSAO			=	NULL;
 			m_pRT_AO		=	NULL;
+			m_pSSSO			=	NULL;
+			m_pRT_SO		=	NULL;
 
 			m_pShadowDepth	=	NULL;
 			m_pRT_ShadowMask	=	NULL;
@@ -179,6 +181,10 @@ namespace	Air{
 			m_pShadowDepthTemp->SetClearFlag(false,true,false);
 			m_pShadowDepthTemp->SetBKColor(Float4(1000,1000000,1,1));
 
+			rtinfo.SetSingleTargetScreen(enTFMT_R8G8B8A8_UNORM,1.0f,false);
+			m_pRT_SO	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("SO","Target",&rtinfo);
+			m_pRT_SO->SetClearFlag(false,true,false);
+
 			Light::Info	infoLight;
 			//infoLight.SetDirection(Float3(-1,-1,-1));
 
@@ -198,6 +204,7 @@ namespace	Air{
 			m_pShadowMask	=	EngineSystem::GetSingleton()->CreateProduct<Material*>("ShadowMask","Material");
 			m_pCombine		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("Combine","Material");
 			m_pSky			=	EngineSystem::GetSingleton()->CreateProduct<Material*>("Sky","Material");
+			m_pSSSO			=	EngineSystem::GetSingleton()->CreateProduct<Material*>("SSSO","Material");
 			Material::Info	blurinfo;
 			blurinfo.strTemplate	=	"MT_BlurX";
 			m_pBlurX		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("BlurX","Material",&blurinfo);
@@ -219,6 +226,9 @@ namespace	Air{
 			SAFE_RELEASE_REF(m_pRT_AO);
 			SAFE_RELEASE_REF(m_pCombine);
 			SAFE_RELEASE_REF(m_pSky);
+
+			SAFE_RELEASE_REF(m_pSSSO);
+			SAFE_RELEASE_REF(m_pRT_SO);
 
 			SAFE_RELEASE_REF(m_pBlurX);
 			SAFE_RELEASE_REF(m_pBlurY);
@@ -343,16 +353,22 @@ namespace	Air{
 				m_pRT_AO->AfterUpdate();
 			}
 
-			//SSAO
-			m_pMainWindow->SetClearFlag(false,true,false);
-			if(m_pMainWindow->BeforeUpdate()){
-				m_pScene->GetMainCamera()->Render2D(m_pMainWindow->GetWidth(),m_pMainWindow->GetHeight());
-
-				m_pSSAO->GetConstantBuffer()->GetBuffer();
+			//SSSO
+			if(m_pRT_SO->BeforeUpdate()){
+	
 				Float44	matInvVP	=	m_pScene->GetMainCamera()->GetViewProjMatrix();
 				matInvVP.Inverse();
 
-				m_pSSAO->GetConstantBuffer()->UpdateData(&matInvVP);
+				m_pSSSO->GetConstantBuffer()->UpdateData(&matInvVP);
+				m_pSSSO->RenderOneObject(m_pQuad);
+
+				m_pRT_SO->AfterUpdate();
+			}
+
+			//SSAO
+			m_pMainWindow->SetClearFlag(false,true,false);
+			if(m_pMainWindow->BeforeUpdate()){
+
 				//m_pSSAO->RenderOneObject(m_pQuad);
 				//m_pQuadCopy->RenderOneObject(m_pQuad);
 				m_pCombine->RenderOneObject(m_pQuad);

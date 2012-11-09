@@ -47,6 +47,14 @@ Material	SSAO	:	MT_SSAO
 	Texture	MRT2
 	Texture	MRT1
 }
+Material	SSSO	:	MT_SSSO
+{
+	Matrix
+	Texture	MRT0
+	Texture	Texture/2x2.png
+	Texture	MRT2
+	Texture	MRT1
+}
 
 Material	WorldHelper	:	MT_WorldHelper
 {
@@ -78,6 +86,7 @@ Material	Combine		:	MT_Combine
 	Texture MRT2
 	Texture AO
 	Texture ShadowMask
+	Texture SO
 }
 Material	Sky		:	MT_Sky
 {

@@ -21,6 +21,7 @@ struct	PS_OUTPUT{
 Texture2D		DiffuseTex		:	register(t0);
 Texture2D		AOTex			:	register(t1);
 Texture2D		ShadowTex		:	register(t2);
+Texture2D		SOTex			:	register(t3);
 SamplerState	SS_WrapLine2	:	register(s0);
 
 
@@ -32,8 +33,9 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 	PS_OUTPUT	Out;
 	float4	diff		=	DiffuseTex.Sample(SS_WrapLine2,Input.UV);
 	float4	ao			=	AOTex.Sample(SS_WrapLine2,uv);
-	float4	shadow		=	ShadowTex.Sample(SS_WrapLine2,uv);
-	Out.Color			=	pow(float4((ao.xyz*diff.w+shadow.xyz)*diff.xyz,1),0.384);
+	float4	shadow		=	0;//ShadowTex.Sample(SS_WrapLine2,uv);
+	float4	so			=	SOTex.Sample(SS_WrapLine2,uv);
+	Out.Color			=	pow(abs(float4((ao.xyz*diff.w*so.xyz+shadow.xyz)*diff.xyz,1)),0.384);
 	return	Out;
    
 }

@@ -52,10 +52,11 @@ namespace Air{
 	
 		U1 Scene::Initialization(){
 	
-			AddFactory(new	EntityFactory());
-			AddFactory(new	EntityClothFactory());
+			//AddFactory(new	EntityFactory());
+			//AddFactory(new	EntityClothFactory());
 			AddFactory(new	NoParamFactory<Camera>("Camera"));
 
+			EngineSystem::GetSingleton()->CreateProduct<Material*>("NoMaterial","Material");
 
  			m_pMainCamera	=	CreateProduct<Camera*>("MainCamera","Camera");
 			U32	uiSize	=	sizeof(Camera);

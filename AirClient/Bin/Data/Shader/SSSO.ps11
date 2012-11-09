@@ -1,0 +1,131 @@
+Texture2D TexDepth		:	register(t0);
+Texture2D Tex2x2		:	register(t1);
+Texture2D TexDiff		:	register(t2);
+Texture2D TexNor		:	register(t3);
+SamplerState	ss_wrappoint	:	register(s0);
+SamplerState	ss_clampline2	:	register(s1);
+
+
+
+
+cbuffer cbPerCamera		: register( b1 )
+{
+    matrix  ViewProjection;
+	float4	vCameraDir;
+	float4	vCameraPosition;
+	float4	vCameraUp;
+	float4	vVP_NearFar;
+   
+}
+
+cbuffer	cbPerMaterial	:	register(b3)
+{
+	float4x4 matViewProjectionInverse;
+	//float4 OccSize;
+}
+
+#define SAMPLER_NUM 32
+
+
+const static float4   temp   =   float4(2,-2,-1,1);
+
+float2 GetOffset(float4 off,float4 option){
+   return (off.xy*option.x+off.yx*(1-option.x))*option.y;
+};
+
+struct VS_OUTPUT
+{
+    float4 Position     : SV_POSITION; // vertex position
+	float2 UV			: TEXCOORD0;
+};
+float4 main( VS_OUTPUT Input ) : SV_Target
+{
+	float2	invViewport	=	vVP_NearFar.xy;
+		
+   float2   uv=   Input.UV;
+   float2   xy=   uv*temp.xy+temp.zw;
+   float4   opt   =  Tex2x2.Sample(ss_wrappoint,(uv)/invViewport*0.5f);
+   //opt.y = opt.y*temp.x-temp.w;
+  
+   float4   oldPos;
+   oldPos.xy      =   xy;
+   oldPos.z       =   TexDepth.Sample(ss_wrappoint,uv).x;;
+   oldPos.w      =   1;
+   oldPos         =   mul(matViewProjectionInverse,oldPos);
+   
+   oldPos/=oldPos.w;
+   
+
+   float3   oldNor=   TexNor.Sample(ss_wrappoint,uv).xyz;
+   oldNor=oldNor*2-1;
+
+   //normalize(oldNor);
+   //oldNor         =   normalize(mul(oldNor,(float3x3)matViewProjectionInverse));
+   
+   float3 viewDir   =   normalize(vCameraPosition.xyz-oldPos.xyz);
+   float3 wrefl      =   reflect(-viewDir,oldNor);
+
+    float4 dirpos      =   mul(ViewProjection,float4(oldPos.xyz+wrefl,1));
+    dirpos/=dirpos.w;
+    
+    float2   UV      =   dirpos.xy*float2(0.5,-0.5)+float2(0.5f,0.5f);
+    float2   UVDir   =   normalize(UV   -   uv);
+   
+   float2   tempUV;
+   float4   tempXY;
+
+   float4   tempPos   =   temp.w;
+   
+   float3   centerDir   =   0;
+   //float3   tempDir;
+   
+   float occ=SAMPLER_NUM;
+
+	
+	float	fStep		=	0.005f;
+	float	fAngle		=	0.707f;
+	float	fDisWeight	=26.0f;
+	//float	fScale		=	0.1f;
+   [loop]
+   for(int i=0;i<SAMPLER_NUM;i++){
+ 
+      tempUV     =   (i+opt.x)*fStep*UVDir+uv;
+
+      tempXY.xy     =   tempUV*float2(2,-2)+   float2(-1,1);
+      tempXY.z      =   TexDepth.Sample(ss_clampline2,tempUV).x;
+      tempXY.w      =   1;
+      tempXY       =   mul(matViewProjectionInverse,tempXY);
+      tempXY/=tempXY.w;
+ 
+      
+      
+      tempXY.xyz   -=   oldPos.xyz;
+
+      
+      
+      float d  =   dot(wrefl.xyz,normalize(tempXY.xyz));
+
+   
+       d=saturate((d-fAngle)/(1-fAngle));
+      d *=   pow(saturate(1-length(tempXY.xyz)/fDisWeight),2);
+
+      
+
+
+      occ -=d;//dot(saturate(d),1);
+      //co+=length(tempDir);
+   }
+   
+  // float3 norDir   =   normalize(centerDir);
+
+  float fTempOcc   =   occ/SAMPLER_NUM;
+ // float   fWeight   =   lerp(dot(normalize(reflect(-viewDir,oldNor)),oldNor),1,fNor);
+  // float fSO   =   lerp(0,1-fTempOcc,fWeight);
+  //float   fdot   =   pow(dot(wrefl,normalize(float3(1,1,1))),64);
+  
+  //float   fSpec     =   pow(saturate(1-dot(viewDir,oldNor)),f);//*0.5+0.5;
+  //float4 env      =   texCUBE(Texture4,wrefl);
+  //float4 diff      =   saturate(myColor*dot(oldNor,float3(0,1,0)));
+   return fTempOcc;//lerp(fTempOcc.y,env*(fTempOcc.y),f);//*(dot(wrefl,normalize(float3(10,1,0)))*0.5+0.5f);///4;
+}
+
