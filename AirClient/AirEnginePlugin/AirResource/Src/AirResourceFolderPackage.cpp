@@ -6,18 +6,23 @@ namespace	Air{
 
 			FolderPackage::FolderPackage( CAString& strName ):IPackage(strName){
 				m_pTempListener	=	NULL;
+				AChar cEnd	=	strName[strName.size()-1];
+				if(cEnd!='\\'&&	cEnd!='/'){
+					m_strRealPath	=	strName	+	"/";
+				}else{
+					m_strRealPath	=	strName;
+				}
 			}
 
 			U32			FolderPackage::Find(CAString&	strName,Data&	data){
-				return	FindWithFullPath(m_strProductName	+	"\\"	+	strName,data);
+				return	FindWithFullPath(m_strRealPath	+	strName,data);
 			}
 
 			void FolderPackage::FindWithPostfix( CAString& strPostfix,IFindFileListener* pListener ){
 				m_pTempListener		=	pListener;
 				m_strTempPostfix	=	AString(".")+strPostfix;
-				File::FolderTraversal(m_strProductName,this);
+				File::FolderTraversal(m_strRealPath,this);
 				m_pTempListener		=	NULL;
-				//strPostfix			=	AString("");
 			}
 
 			Air::U1 FolderPackage::Create(){

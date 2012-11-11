@@ -71,15 +71,15 @@ namespace Air{
 			MeshEntity::Info	info;
 			info.strMaterial	=	"WorldHelperWireFrame";
 			info.strMeshName	=	"AirMesh/NAV2.ame";
- 			MeshEntity*	pMesh	=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity*>(info.strMeshName,"MeshEntity",&info);;
+ 			//MeshEntity*	pMesh	=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity*>(info.strMeshName,"MeshEntity",&info);;
 // 			pMesh->Create();
 // 			//Material*	pMaterial	=	CreateProduct<Material*>("Test2","Material");
 // 			pMesh->SetMaterialName("Test2");
- 			m_pRootNode.attachObject(pMesh);
+ 			//m_pRootNode.attachObject(pMesh);
 
 			m_Loader.SetNode(&m_pRootNode);
 			//"..\\Data\\AirMesh\\jianxia3\\jianxia3.ame.Scene"
-			m_Loader.Load("AirMesh/Strom/Strom.ame.Scene");
+			m_Loader.Load("AirMesh/jianxia3/jianxia3.ame.Scene");
 
 			//m_pRootNode.SetScale(Float3(0.1,0.1,0.1));
 			g_mgr.LoadSLK("Character.slk");

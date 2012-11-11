@@ -22,7 +22,7 @@ namespace	Air{
 
 				}else{
 					AString	strPostfix	=	Converter::ToLowerCase(Common::GetPostfix(strName));
-					if(strPostfix.empty()	||	strPostfix.size()	>	3){
+					if(strPostfix.empty()||	strPostfix[0]=='/'||strPostfix[0]=='\\'){
 						p	=	m_pSystem->CreateProduct<IPackage*>(strName,AString("Folder"));
 					}else{
 						p	=	m_pSystem->CreateProduct<IPackage*>(strName,strPostfix);

@@ -434,7 +434,7 @@ namespace Air{
 						return false;
 					SInt	uiActionID	=	m_pResource->GetAnimationID(strActionName);
 	
-					CoreAnimation*	pAnim	=	(CoreAnimation*)m_pObject;
+					CoreAnimation*	pAnim	=	(CoreAnimation*)m_pAnimation;
 					//²¥·Å¶¯»­
 					return	pAnim->getMixer()->executeAction(uiActionID, fBlendTime, fBlendTime);
 				}

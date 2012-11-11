@@ -104,6 +104,10 @@ namespace	Air{
 				virtual	void*			GetSRV(){return	NULL;};
 				virtual	void			CopyBufferTo(Texture*	pDest)=NULL;
 				virtual	void			GenMipMap()=NULL;
+				U1				Reload(){
+					Destroy();
+					return Create();
+				};
 
 				inline	U32						GetWidth()			{return	m_Info.width;};
 				inline	U32						GetHeight()			{return	m_Info.height;};

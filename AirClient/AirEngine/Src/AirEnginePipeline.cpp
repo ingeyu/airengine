@@ -563,7 +563,15 @@ namespace	Air{
 
 		bool Pipeline::keyReleased( const OIS::KeyEvent &arg )
 		{
+			switch(arg.key){
 
+			case OIS::KC_UP:{
+				g_mgr.NextState();
+							}break;
+			case OIS::KC_DOWN:{
+				g_mgr.NextAction();
+							  }break;
+			}
 			return true;
 		}
 

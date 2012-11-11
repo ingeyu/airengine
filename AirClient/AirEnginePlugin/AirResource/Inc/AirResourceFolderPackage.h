@@ -83,6 +83,7 @@ namespace	Air{
 
 			protected:
 				AString				m_strTempPostfix;
+				AString				m_strRealPath;
 				IFindFileListener*	m_pTempListener;
 			};
 			/**	\brief	文件夹工厂

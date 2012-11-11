@@ -55,7 +55,7 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 
 	PS_OUTPUT	Out;
 	Out.Depth		=	1;
-	Out.Diffuse		=	float4(pow(SkyTex.Sample(SS_WrapLine2,dir).xyz,1.0f/0.384f),0);
+	Out.Diffuse		=	float4(pow(abs(SkyTex.SampleLevel(SS_WrapLine2,dir,0).xyz),1.0f/0.384f),0);
 	Out.Normal		=	float4(0.5,1,0.5,0);
 	Out.Specular	=	0;
 	Out.SelfIllum	=	0;

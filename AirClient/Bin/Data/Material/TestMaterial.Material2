@@ -91,5 +91,5 @@ Material	Combine		:	MT_Combine
 Material	Sky		:	MT_Sky
 {
 	Matrix	
-	Texture Texture/CubeMap/SkyCubemap.dds
+	Texture Texture/CubeMap/IncloudsCubemap.dds
 }
