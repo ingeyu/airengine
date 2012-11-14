@@ -154,7 +154,10 @@ namespace	Air{
 				enTFMT_B8G8R8A8_UNORM,
 			};
 			rtinfo.SetMutilTargetScreen(5,fmtArray,1.0f,true,m_pMainWindow);
+			rtinfo.vecTextureInfo[0].mipmap	=	3;
+			rtinfo.vecTextureInfo[0].bAutoMipMap	=	true;
 			m_pMRT	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("MRT","Target",&rtinfo);
+			rtinfo	=	RenderTarget::Info();
 			
 			m_pMRT->SetClearFlag(true,true,true);
 			m_pMRT->AddPhaseFlag(enPI_MRT);

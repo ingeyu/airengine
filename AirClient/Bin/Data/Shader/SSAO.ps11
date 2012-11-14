@@ -6,7 +6,7 @@ Texture2D TexNor		:	register(t3);
 Texture2D Tex4x4		:	register(t4);
 SamplerState	ss_wrappoint	:	register(s0);
 SamplerState	ss_clampline2	:	register(s1);
-
+SamplerState	ss_clampline3	:	register(s1);
 
 #define SAMPLER_NUM 2
 #define STEP_NUM	4
@@ -36,7 +36,7 @@ float2 UV_XY(float2 uv){
 float2 GetOffset2(int   i,float rotoffset){
    float2 initxy   =   float2(0,1);
    float fsin,fcos;
-   sincos((i*0.25f/SAMPLER_NUM+rotoffset)*2.0f*3.1415926f,fsin,fcos);
+   sincos((i*0.0625f/SAMPLER_NUM+rotoffset)*2.0f*3.1415926f,fsin,fcos);
    float2x2 rot   =   float2x2(fcos,-fsin,fsin,fcos);
    return mul(initxy,rot)*float2(1,-1);
 };
@@ -44,7 +44,7 @@ float2 GetOffset2(int   i,float rotoffset){
 float4   GenPos(float2 fuv,float iLod){
       float4 XY;
       XY.xy     =   UV_XY(fuv);     
-      XY.z      =   TexDepth.SampleLevel(ss_clampline2,fuv,iLod).x;
+      XY.z      =   TexDepth.SampleLevel(ss_clampline3,fuv,iLod).x;
       XY.w      =   1;
       XY       =   mul(matViewProjectionInverse,XY);
       XY      /=   XY.w;
@@ -72,9 +72,9 @@ float4 main( VS_OUTPUT Input ) : SV_TARGET
    float2	offsetuv	=	uv+halfPixel;
    float2   xy=   UV_XY(uv);//float2(uv.x*2-1,uv.y*-2+1);//*temp.xy+temp.zw;
 
-   //float	offset   =  Tex2x2.Sample(ss_wrappoint,uv/invViewport/2).x;
+   float4	noise2   =  Tex2x2.Sample(ss_wrappoint,uv/invViewport/4);
    float4	noise4	=	Tex4x4.Sample(ss_wrappoint,uv/invViewport/4);
-   float	offset	=	noise4.w;
+   //float	offset	=	noise4.z;
    float4   oldPos;
    oldPos.xy      =   xy;
    oldPos.z       =   TexDepth.Sample(ss_wrappoint,uv).x;
@@ -92,9 +92,9 @@ float4 main( VS_OUTPUT Input ) : SV_TARGET
    //oldPos.xyz+=oldNor.xyz;
 
    float occ=0;
-   float2 fPixel   =   18*invViewport*noise4.y;//*5;//OccSize.y;
+   float2 fPixel   =   8*invViewport*(noise2.w+1);//*5;//OccSize.y;
    
-   float	rotoffset	=	offset+(noise4.z)*0.25f/SAMPLER_NUM;
+   float	rotoffset	=	noise4.x+(noise2.z)*0.0625f/(SAMPLER_NUM);
 
    //[loop]
    //int i = 0;
@@ -106,7 +106,7 @@ float4 main( VS_OUTPUT Input ) : SV_TARGET
       [loop]
       for(int j=0;j<STEP_NUM;j++){
          float2 UV     =   tempuv*(j+1)   +uv;
-         float4 XY     =   GenPos(UV,0);
+         float4 XY     =   GenPos(UV,j);
          XY.xyz   -=   oldPos.xyz;
          float fdot   =   dot(viewDir.xyz,normalize(XY.xyz));
          if(fdot   <   ffinaldot)

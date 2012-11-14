@@ -40,7 +40,7 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 	ao*=0.25f;
 	float4	shadow		=	ShadowTex.Sample(SS_WrapLine2,uv);
 	float4	so			=	SOTex.Sample(SS_WrapLine2,uv);
-	Out.Color			=	pow(abs(float4((ao.xyz*diff.w+shadow.xyz)*diff.xyz,1)),1/1.5f);
+	Out.Color			=	pow(abs(float4((ao.xyz*diff.w),1)),1);
 	return	Out;
    
 }

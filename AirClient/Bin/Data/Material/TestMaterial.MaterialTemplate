@@ -147,7 +147,7 @@ MaterialTemplate	MT_SSAO
 		{
 			Texture		0	0		SS_WarpPoint
 			Texture		1	1		SS_ClampLine2
-			Texture		2	2		SS_ClampLine2
+			Texture		2	2		SS_ClampLine3
 			Texture		3	3		SS_ClampLine2
 			Texture		4	4		SS_WarpPoint
 		}

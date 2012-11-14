@@ -43,10 +43,10 @@ Material	SSAO	:	MT_SSAO
 {
 	Matrix
 	Texture	MRT0
-	Texture	Texture/2x2rot.png
+	Texture	Texture/noise4.dds
 	Texture	MRT2
 	Texture	MRT1
-	Texture Texture/noise4.dds
+	Texture Texture/4x4.png
 }
 Material	SSSO	:	MT_SSSO
 {
@@ -92,5 +92,5 @@ Material	Combine		:	MT_Combine
 Material	Sky		:	MT_Sky
 {
 	Matrix	
-	Texture Texture/CubeMap/IncloudsCubemap.dds
+	Texture Texture/CubeMap/SkyCubemap.dds
 }
