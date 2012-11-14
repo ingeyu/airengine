@@ -43,9 +43,10 @@ Material	SSAO	:	MT_SSAO
 {
 	Matrix
 	Texture	MRT0
-	Texture	Texture/2x2_rot.png
+	Texture	Texture/2x2rot.png
 	Texture	MRT2
 	Texture	MRT1
+	Texture Texture/noise4.dds
 }
 Material	SSSO	:	MT_SSSO
 {
