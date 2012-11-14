@@ -72,9 +72,9 @@ float4 main( VS_OUTPUT Input ) : SV_TARGET
    float2	offsetuv	=	uv+halfPixel;
    float2   xy=   UV_XY(uv);//float2(uv.x*2-1,uv.y*-2+1);//*temp.xy+temp.zw;
 
-   float	offset   =  Tex2x2.Sample(ss_wrappoint,uv/invViewport/2).x;
+   //float	offset   =  Tex2x2.Sample(ss_wrappoint,uv/invViewport/2).x;
    float4	noise4	=	Tex4x4.Sample(ss_wrappoint,uv/invViewport/4);
-  
+   float	offset	=	noise4.w;
    float4   oldPos;
    oldPos.xy      =   xy;
    oldPos.z       =   TexDepth.Sample(ss_wrappoint,uv).x;
