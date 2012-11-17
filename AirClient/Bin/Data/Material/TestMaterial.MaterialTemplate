@@ -293,3 +293,54 @@ MaterialTemplate	MT_BlurY
 		}
 	}
 }
+MaterialTemplate	MT_CubeToViewSphere
+{
+	Phase		Manual
+	Pass	CubeToViewSphere
+	{
+		DepthStencilState DisableDepthCompareWrite
+		VertexShader		"Shader/Quad"
+		{
+		}
+		PixelShader			"Shader/CubeToViewSphere"
+		{
+			Texture		0	0		SS_WarpLine2
+		}
+	}
+
+}
+MaterialTemplate	MT_ViewSphereSAT
+{
+	Phase		Manual
+	Pass	SAT
+	{
+		DepthStencilState DisableDepthCompareWrite
+		VertexShader		"Shader/Quad"
+		{
+		}
+		PixelShader			"Shader/ViewSphereSAT"
+		{
+			Texture		0	0		SS_WarpLine2
+		}
+	}
+}
+MaterialTemplate	MT_AmbientLighting
+{
+	Phase		Manual
+	Pass	AmbientLighting
+	{
+		DepthStencilState DisableDepthCompareWrite
+		VertexShader		"Shader/Quad"
+		{
+		}
+		PixelShader			"Shader/AmbientLighting"
+		{
+			Texture		0	0		SS_WarpPoint
+			Texture		1	1		SS_ClampLine2
+			Texture		2	2		SS_ClampLine3
+			Texture		3	3		SS_ClampLine2
+			Texture		4	4		SS_WarpPoint
+			Texture		5	5		SS_WarpPoint
+		}
+	}
+}

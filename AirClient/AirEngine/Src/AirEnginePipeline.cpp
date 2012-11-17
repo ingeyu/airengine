@@ -36,6 +36,9 @@ namespace	Air{
 			m_pSSSO			=	NULL;
 			m_pRT_SO		=	NULL;
 
+			m_pRT_EnvSphere	=	NULL;
+			m_pRT_EnvSAT	=	NULL;
+
 			m_pShadowDepth	=	NULL;
 			m_pRT_ShadowMask	=	NULL;
 			m_pShadowMask	=	NULL;
@@ -43,7 +46,9 @@ namespace	Air{
 			m_pCombine		=	NULL;
 
 			m_pSky			=	NULL;
-
+			m_pCubeToViewSphere=	NULL;
+			m_pViewSphereSAT=	NULL;
+			m_pAmbientLight	=	NULL;
 
 			m_pBlurX		=	NULL;
 			m_pBlurY		=	NULL;
@@ -188,6 +193,13 @@ namespace	Air{
 			m_pRT_SO	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("SO","Target",&rtinfo);
 			m_pRT_SO->SetClearFlag(false,true,false);
 
+			rtinfo.SetSingleTarget(1024,64,enTFMT_R8G8B8A8_UNORM);
+			m_pRT_EnvSphere	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("EnvSphere","Target",&rtinfo);
+			m_pRT_EnvSphere->SetClearFlag(false,true,false);
+			rtinfo.SetSingleTarget(256,16,enTFMT_R16G16B16A16_UNORM);
+			m_pRT_EnvSAT	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("EnvSAT","Target",&rtinfo);
+			m_pRT_EnvSAT->SetClearFlag(false,true,false);
+
 			Light::Info	infoLight;
 			//infoLight.SetDirection(Float3(-1,-1,-1));
 
@@ -213,6 +225,9 @@ namespace	Air{
 			m_pBlurX		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("BlurX","Material",&blurinfo);
 			blurinfo.strTemplate	=	"MT_BlurY";
 			m_pBlurY		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("BlurY","Material",&blurinfo);
+			m_pCubeToViewSphere	=	EngineSystem::GetSingleton()->CreateProduct<Material*>("CubeToViewSphere","Material");
+			m_pViewSphereSAT	=	EngineSystem::GetSingleton()->CreateProduct<Material*>("ViewSphereSAT","Material");
+			m_pAmbientLight		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("AmbientLight","Material");
 			return	true;
 		}
 
@@ -229,9 +244,14 @@ namespace	Air{
 			SAFE_RELEASE_REF(m_pRT_AO);
 			SAFE_RELEASE_REF(m_pCombine);
 			SAFE_RELEASE_REF(m_pSky);
+			SAFE_RELEASE_REF(m_pCubeToViewSphere);
+			SAFE_RELEASE_REF(m_pViewSphereSAT);
+			SAFE_RELEASE_REF(m_pAmbientLight);
 
 			SAFE_RELEASE_REF(m_pSSSO);
 			SAFE_RELEASE_REF(m_pRT_SO);
+			SAFE_RELEASE_REF(m_pRT_EnvSphere);
+			SAFE_RELEASE_REF(m_pRT_EnvSAT);
 
 			SAFE_RELEASE_REF(m_pBlurX);
 			SAFE_RELEASE_REF(m_pBlurY);
@@ -342,16 +362,33 @@ namespace	Air{
 
 				m_pRT_ShadowMask->AfterUpdate();
 			}
+			//CubeToViewSphere
+			if(m_pRT_EnvSphere->BeforeUpdate()){
+
+				Float44	matInvV	=	m_pScene->GetMainCamera()->GetViewMatrix();
+				matInvV.Inverse();
+
+				m_pCubeToViewSphere->GetConstantBuffer()->UpdateData(&matInvV);
+
+				m_pCubeToViewSphere->RenderOneObject(m_pQuad);
+				m_pRT_EnvSphere->AfterUpdate();
+			}
+			//ViewSphereSAT
+			if(m_pRT_EnvSAT->BeforeUpdate()){
+
+				m_pViewSphereSAT->RenderOneObject(m_pQuad);
+				m_pRT_EnvSAT->AfterUpdate();
+			}
 			//SSAO
 			if(m_pRT_AO->BeforeUpdate()){
 				m_pScene->GetMainCamera()->Render2D(m_pMainWindow->GetWidth(),m_pMainWindow->GetHeight());
 
-				m_pSSAO->GetConstantBuffer()->GetBuffer();
+				//m_pAmbientLight->GetConstantBuffer()->GetBuffer();
 				Float44	matInvVP	=	m_pScene->GetMainCamera()->GetViewProjMatrix();
 				matInvVP.Inverse();
 
-				m_pSSAO->GetConstantBuffer()->UpdateData(&matInvVP);
-				m_pSSAO->RenderOneObject(m_pQuad);
+				m_pAmbientLight->GetConstantBuffer()->UpdateData(&matInvVP);
+				m_pAmbientLight->RenderOneObject(m_pQuad);
 
 				m_pRT_AO->AfterUpdate();
 			}

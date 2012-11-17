@@ -94,3 +94,23 @@ Material	Sky		:	MT_Sky
 	Matrix	
 	Texture Texture/CubeMap/SkyCubemap.dds
 }
+
+Material	CubeToViewSphere	:	MT_CubeToViewSphere
+{
+	Matrix
+	Texture	Texture/CubeMap/SkyCubemap.dds
+}
+Material	ViewSphereSAT		:	MT_ViewSphereSAT
+{
+	Texture	EnvSphere
+}
+Material	AmbientLight	:	MT_AmbientLighting
+{
+	Matrix
+	Texture	MRT0
+	Texture	Texture/2x2rotal.png
+	Texture	MRT2
+	Texture	MRT1
+	Texture Texture/noise4_.dds
+	Texture EnvSAT
+}	

@@ -57,6 +57,11 @@ namespace	Air{
 			RenderTarget*	m_pRT_ShadowMask;
 			RenderTarget*	m_pRT_AO;
 			RenderTarget*	m_pRT_SO;
+
+			RenderTarget*	m_pRT_EnvSphere;
+			RenderTarget*	m_pRT_EnvSAT;
+			
+
 			Light*			m_pMainLight;
 
 
@@ -68,6 +73,9 @@ namespace	Air{
 			Material*		m_pShadowMask;
 			Material*		m_pCombine;
 			Material*		m_pSky;
+			Material*		m_pCubeToViewSphere;
+			Material*		m_pViewSphereSAT;
+			Material*		m_pAmbientLight;
 
 
 			Material*		m_pBlurX;
