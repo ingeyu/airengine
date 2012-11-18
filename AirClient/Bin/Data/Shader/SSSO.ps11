@@ -45,6 +45,7 @@ float4 main( VS_OUTPUT Input ) : SV_Target
    float2   uv=   Input.UV;
    float2   xy=   uv*temp.xy+temp.zw;
    float4   opt   =  Tex2x2.Sample(ss_wrappoint,(uv)/invViewport*0.5f);
+   opt.x+=1;
    //opt.y = opt.y*temp.x-temp.w;
   
    float4   oldPos;
@@ -65,7 +66,9 @@ float4 main( VS_OUTPUT Input ) : SV_Target
    float3 viewDir   =   normalize(vCameraPosition.xyz-oldPos.xyz);
    float3 wrefl      =   reflect(-viewDir,oldNor);
 
-    float4 dirpos      =   mul(ViewProjection,float4(oldPos.xyz+wrefl,1));
+   float fReflAngle	=	acos(dot(viewDir,wrefl));
+
+    float4 dirpos      =   mul(ViewProjection,float4(oldPos.xyz+wrefl*5,1));
     dirpos/=dirpos.w;
     
     float2   UV      =   dirpos.xy*float2(0.5,-0.5)+float2(0.5f,0.5f);
@@ -79,12 +82,15 @@ float4 main( VS_OUTPUT Input ) : SV_Target
    float3   centerDir   =   0;
    //float3   tempDir;
    
-   float occ=SAMPLER_NUM;
+   float occ=1;
+
+   
 
 	
-	float	fStep		=	0.005f;
-	float	fAngle		=	0.707f;
+	float	fStep		=	0.01f;
+	float	fAngle		=	1.5707f;
 	float	fDisWeight	=26.0f;
+	float2 minmax	=	float2(fReflAngle-fAngle,fReflAngle+fAngle);
 	//float	fScale		=	0.1f;
    [loop]
    for(int i=0;i<SAMPLER_NUM;i++){
@@ -103,16 +109,19 @@ float4 main( VS_OUTPUT Input ) : SV_Target
 
       
       
-      float d  =   dot(wrefl.xyz,normalize(tempXY.xyz));
-
-   
-       d=saturate((d-fAngle)/(1-fAngle));
-      d *=   pow(saturate(1-length(tempXY.xyz)/fDisWeight),2);
+      float d  =   dot(viewDir.xyz,normalize(tempXY.xyz));
+		float angle	=	acos(d);
+		float angleweight	=	saturate((angle	-minmax.x)*0.5/fAngle);
+		float w = 0.5-0.5*cos(angleweight*3.1415926);
+		//if(w < occ)
+		occ += w;
+       //d=saturate((d-fAngle)/(1-fAngle));
+      //d *=   pow(saturate(1-length(tempXY.xyz)/fDisWeight),2);
 
       
 
 
-      occ -=d;//dot(saturate(d),1);
+      //occ -=d;//dot(saturate(d),1);
       //co+=length(tempDir);
    }
    
@@ -126,6 +135,6 @@ float4 main( VS_OUTPUT Input ) : SV_Target
   //float   fSpec     =   pow(saturate(1-dot(viewDir,oldNor)),f);//*0.5+0.5;
   //float4 env      =   texCUBE(Texture4,wrefl);
   //float4 diff      =   saturate(myColor*dot(oldNor,float3(0,1,0)));
-   return fTempOcc;//lerp(fTempOcc.y,env*(fTempOcc.y),f);//*(dot(wrefl,normalize(float3(10,1,0)))*0.5+0.5f);///4;
+   return pow(fTempOcc,4);//lerp(fTempOcc.y,env*(fTempOcc.y),f);//*(dot(wrefl,normalize(float3(10,1,0)))*0.5+0.5f);///4;
 }
 
