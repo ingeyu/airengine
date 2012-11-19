@@ -1,0 +1,48 @@
+cbuffer cbPerCamera : register( b1 )
+{
+    matrix  ViewProjection;
+	float4	vCameraDir;
+	float4	vCameraPosition;
+	float4	vCameraUp;
+	float4	vVP_NearFar;
+   
+};
+TextureCube		Texture0		:	register(t0);
+SamplerState	SS_WrapLine2	:	register(s0);
+cbuffer	cbPerMaterial	:	register(b3)
+{
+	float4x4 matViewInverse;
+	//float4 OccSize;
+}
+
+
+
+struct VS_OUTPUT
+{
+    float4 Position     : SV_POSITION; // vertex position
+	float2 UV			: TEXCOORD0;
+};
+
+float4 main( VS_OUTPUT Input ) : SV_Target
+{
+   float   y   =   (1-Input.UV.x)*2-1;//*3.1415926f;
+   float2   xz   =   float2(0,1);
+   float   rotAngle   =   Input.UV.y*2*3.14159265f;
+   float fsin,fcos;
+   sincos(rotAngle,fsin,fcos);
+   float2x2 rot = float2x2(fcos,-fsin,fsin,fcos);
+   float2 newxz   =   mul(xz,rot)*pow(1-(y*y),0.5);
+   
+   float3 xyz   =   float3(newxz.xy,y);
+   
+   float3 newxyz   =   normalize(mul((float3x3)matViewInverse,xyz));
+   
+   float4 cEnv   =    pow(abs(Texture0.SampleLevel( SS_WrapLine2, newxyz,3 )),1.0f/0.384f);
+
+
+
+    if(newxyz.y<0)
+       cEnv*=0.05;//pow(1+newxyz.y,0.5);
+   return cEnv;
+
+}

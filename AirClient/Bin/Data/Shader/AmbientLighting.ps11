@@ -1,0 +1,125 @@
+
+Texture2D TexDepth		:	register(t0);
+Texture2D Tex2x2		:	register(t1);
+Texture2D TexDiff		:	register(t2);
+Texture2D TexNor		:	register(t3);
+Texture2D Tex4x4		:	register(t4);
+Texture2D TexSAT		:	register(t5);
+SamplerState	ss_wrappoint	:	register(s0);
+SamplerState	ss_clampline2	:	register(s1);
+SamplerState	ss_clampline3	:	register(s2);
+
+#define SAMPLER_NUM 4
+#define STEP_NUM	6
+cbuffer cbPerCamera		: register( b1 )
+{
+    matrix  ViewProjection;
+	float4	vCameraDir;
+	float4	vCameraPosition;
+	float4	vCameraUp;
+	float4	vVP_NearFar;
+   
+}
+
+cbuffer	cbPerMaterial	:	register(b3)
+{
+	float4x4 matViewProjectionInverse;
+	//float4 OccSize;
+}
+
+#define	invViewport		vVP_NearFar.xy
+#define	vViewPosition	vCameraPosition
+
+float2 GetOffset2(int   i,float rotoffset){
+   float2 initxy   =   float2(0,1);
+   float fsin,fcos;
+   sincos((i*0.25f/SAMPLER_NUM+rotoffset)*2.0f*3.1415926f,fsin,fcos);
+   float2x2 rot   =   float2x2(fcos,-fsin,fsin,fcos);
+   return mul(initxy,rot)*float2(1,-1);
+};
+
+float2 UV_XY(float2 uv){
+	return uv*float2(2,-2)+float2(-1,1);
+}
+
+float4   GenPos(float2 fuv,float iLod){
+      float4 XY;
+      XY.xy     =   UV_XY(fuv);     
+      XY.z      =   TexDepth.SampleLevel(ss_clampline3,fuv,iLod).x;
+      XY.w      =   1;
+      XY       =   mul(matViewProjectionInverse,XY);
+      XY      /=   XY.w;
+      
+      return XY;
+};
+struct VS_OUTPUT
+{
+    float4 Position     : SV_POSITION; // vertex position
+	float2 UV			: TEXCOORD0;
+};
+
+float4 main( VS_OUTPUT Input ) : SV_Target
+{
+   
+   float2   uv=   Input.UV;
+   float2   xy=   uv*float2(2,-2)+float2(-1,1);
+   float4   noisep     =   Tex4x4.SampleLevel(ss_wrappoint,uv/invViewport/4,1);
+   //noisep.x+=0.1f;
+   
+   float   rotoffset   =  Tex2x2.SampleLevel(ss_wrappoint,uv/invViewport/2,0).x;
+   //noisep   =   noisep.x*float4(1,2,4,8);
+
+   float4   oldPos;
+   oldPos.xy      =   xy;
+   oldPos.z       =   TexDepth.Sample(ss_clampline2,uv).x;
+   oldPos.w      =   1;
+   oldPos         =   mul(matViewProjectionInverse,oldPos);
+   oldPos/=oldPos.w;
+
+   float3   oldNor=   TexNor.Sample(ss_clampline2,uv).xyz;
+   oldNor=oldNor*2-1;
+   
+   float3 viewDir   =   -normalize(oldPos.xyz-vCameraPosition.xyz);
+   
+
+   
+   float4 lighting=0;
+   float  occ=0;
+   float2 uvScale   =   invViewport*20*(noisep.w);//*OccSize.y;
+
+
+   float offset   =   rotoffset+(noisep.x)*0.25f/SAMPLER_NUM;
+   //int i   =   0;
+   //[loop]
+   for(int i=0;i<SAMPLER_NUM;i++){
+      float2   tempuv   =   GetOffset2(i    ,offset)*uvScale;
+      
+      float ffinaldot   =   -1;
+      [loop]
+      for(int j=0;j<STEP_NUM;j++){
+         float2 UV     =   tempuv*(j+1)   +Input.UV;
+         float4 XY     =   GenPos(UV,j);
+         XY.xyz   -=   oldPos.xyz;
+         float fdot   =   dot(viewDir.xyz,normalize(XY.xyz));
+         if(fdot   >   ffinaldot)
+            ffinaldot   =   fdot;
+      }
+     
+      //float fmin   =   dot(fdot,0.25);//
+      float   x   =   ffinaldot*0.5+0.5;
+      float   y   =   (i*0.25)/SAMPLER_NUM+offset;
+      
+      float2 satuv         =   float2(x,y);
+      float4 currentEnv    =   TexSAT.Sample(ss_clampline2,satuv);
+      float4 maxEnv        =   TexSAT.Sample(ss_clampline2,float2(1,y));
+
+      lighting += maxEnv-currentEnv;
+	  occ+=1-x;
+      //co+=length(tempDir);
+   }
+
+   float4 fAO   =   ((lighting/SAMPLER_NUM));//*fWeight;
+
+   return fAO;
+}
+
