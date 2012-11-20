@@ -187,10 +187,96 @@ Air::AString CXWinVersion::GetWinVersionString()
 		case WIN8:		strVersion = "Windows8/Windows Server 2012";			break;
 		case WCE:		strVersion = WCESTR;		break;
 	}
+	//SYSTEM_INFO	sysinfo;
+	//GetNativeSystemInfo(&sysinfo);
+	//switch(sysinfo.wProcessorArchitecture){
+	//case PROCESSOR_ARCHITECTURE_INTEL        :{}break;
+	//case PROCESSOR_ARCHITECTURE_MIPS         :{}break;
+	//case PROCESSOR_ARCHITECTURE_ALPHA        :{}break;
+	//case PROCESSOR_ARCHITECTURE_PPC          :{}break;
+	//case PROCESSOR_ARCHITECTURE_SHX          :{}break;
+	//case PROCESSOR_ARCHITECTURE_ARM          :{}break;
+	//case PROCESSOR_ARCHITECTURE_IA64         :{}break;
+	//case PROCESSOR_ARCHITECTURE_ALPHA64      :{}break;
+	//case PROCESSOR_ARCHITECTURE_MSIL         :{}break;
+	//case PROCESSOR_ARCHITECTURE_AMD64        :{}break;
+	//}
 	if(IsX64()){
 		strVersion	+=	"	64bit";
 	}else{
 		strVersion	+=	"	32bit";
+	}
+	switch(m_dwVistaProductType){
+	case PRODUCT_ULTIMATE                           : {strVersion+=" ULTIMATE						   ";}break;
+	case PRODUCT_HOME_BASIC                         : {strVersion+=" HOME_BASIC						   ";}break;
+	case PRODUCT_HOME_PREMIUM                       : {strVersion+=" HOME_PREMIUM					   ";}break;
+	case PRODUCT_ENTERPRISE                         : {strVersion+=" ENTERPRISE						   ";}break;
+	case PRODUCT_HOME_BASIC_N                       : {strVersion+=" HOME_BASIC_N					   ";}break;
+	case PRODUCT_BUSINESS                           : {strVersion+=" BUSINESS						   ";}break;
+	case PRODUCT_STANDARD_SERVER                    : {strVersion+=" STANDARD_SERVER				   ";}break;
+	case PRODUCT_DATACENTER_SERVER                  : {strVersion+=" DATACENTER_SERVER				   ";}break;
+	case PRODUCT_SMALLBUSINESS_SERVER               : {strVersion+=" SMALLBUSINESS_SERVER              ";}break;
+	case PRODUCT_ENTERPRISE_SERVER                  : {strVersion+=" ENTERPRISE_SERVER                 ";}break;
+	case PRODUCT_STARTER                            : {strVersion+=" STARTER                           ";}break;
+	case PRODUCT_DATACENTER_SERVER_CORE             : {strVersion+=" DATACENTER_SERVER_CORE            ";}break;
+	case PRODUCT_STANDARD_SERVER_CORE               : {strVersion+=" STANDARD_SERVER_CORE              ";}break;
+	case PRODUCT_ENTERPRISE_SERVER_CORE             : {strVersion+=" ENTERPRISE_SERVER_CORE            ";}break;
+	case PRODUCT_ENTERPRISE_SERVER_IA64             : {strVersion+=" ENTERPRISE_SERVER_IA64            ";}break;
+	case PRODUCT_BUSINESS_N                         : {strVersion+=" BUSINESS_N                        ";}break;
+	case PRODUCT_WEB_SERVER                         : {strVersion+=" WEB_SERVER                        ";}break;
+	case PRODUCT_CLUSTER_SERVER                     : {strVersion+=" CLUSTER_SERVER                    ";}break;
+	case PRODUCT_HOME_SERVER                        : {strVersion+=" HOME_SERVER                       ";}break;
+	case PRODUCT_STORAGE_EXPRESS_SERVER             : {strVersion+=" STORAGE_EXPRESS_SERVER            ";}break;
+	case PRODUCT_STORAGE_STANDARD_SERVER            : {strVersion+=" STORAGE_STANDARD_SERVER           ";}break;
+	case PRODUCT_STORAGE_WORKGROUP_SERVER           : {strVersion+=" STORAGE_WORKGROUP_SERVER          ";}break;
+	case PRODUCT_STORAGE_ENTERPRISE_SERVER          : {strVersion+=" STORAGE_ENTERPRISE_SERVER         ";}break;
+	case PRODUCT_SERVER_FOR_SMALLBUSINESS           : {strVersion+=" SERVER_FOR_SMALLBUSINESS          ";}break;
+	case PRODUCT_SMALLBUSINESS_SERVER_PREMIUM       : {strVersion+=" SMALLBUSINESS_SERVER_PREMIUM      ";}break;
+	case PRODUCT_HOME_PREMIUM_N                     : {strVersion+=" HOME_PREMIUM_N                    ";}break;
+	case PRODUCT_ENTERPRISE_N                       : {strVersion+=" ENTERPRISE_N                      ";}break;
+	case PRODUCT_ULTIMATE_N                         : {strVersion+=" ULTIMATE_N                        ";}break;
+	case PRODUCT_WEB_SERVER_CORE                    : {strVersion+=" WEB_SERVER_CORE                   ";}break;
+	case PRODUCT_MEDIUMBUSINESS_SERVER_MANAGEMENT   : {strVersion+=" MEDIUMBUSINESS_SERVER_MANAGEMENT  ";}break;
+	case PRODUCT_MEDIUMBUSINESS_SERVER_SECURITY     : {strVersion+=" MEDIUMBUSINESS_SERVER_SECURITY    ";}break;
+	case PRODUCT_MEDIUMBUSINESS_SERVER_MESSAGING    : {strVersion+=" MEDIUMBUSINESS_SERVER_MESSAGING   ";}break;
+	case PRODUCT_SERVER_FOUNDATION                  : {strVersion+=" SERVER_FOUNDATION                 ";}break;
+	case PRODUCT_HOME_PREMIUM_SERVER                : {strVersion+=" HOME_PREMIUM_SERVER               ";}break;
+	case PRODUCT_SERVER_FOR_SMALLBUSINESS_V         : {strVersion+=" SERVER_FOR_SMALLBUSINESS_V        ";}break;
+	case PRODUCT_STANDARD_SERVER_V                  : {strVersion+=" STANDARD_SERVER_V                 ";}break;
+	case PRODUCT_DATACENTER_SERVER_V                : {strVersion+=" DATACENTER_SERVER_V               ";}break;
+	case PRODUCT_ENTERPRISE_SERVER_V                : {strVersion+=" ENTERPRISE_SERVER_V               ";}break;
+	case PRODUCT_DATACENTER_SERVER_CORE_V           : {strVersion+=" DATACENTER_SERVER_CORE_V          ";}break;
+	case PRODUCT_STANDARD_SERVER_CORE_V             : {strVersion+=" STANDARD_SERVER_CORE_V            ";}break;
+	case PRODUCT_ENTERPRISE_SERVER_CORE_V           : {strVersion+=" ENTERPRISE_SERVER_CORE_V          ";}break;
+	case PRODUCT_HYPERV                             : {strVersion+=" HYPERV                            ";}break;
+	case PRODUCT_STORAGE_EXPRESS_SERVER_CORE        : {strVersion+=" STORAGE_EXPRESS_SERVER_CORE       ";}break;
+	case PRODUCT_STORAGE_STANDARD_SERVER_CORE       : {strVersion+=" STORAGE_STANDARD_SERVER_CORE      ";}break;
+	case PRODUCT_STORAGE_WORKGROUP_SERVER_CORE      : {strVersion+=" STORAGE_WORKGROUP_SERVER_CORE     ";}break;
+	case PRODUCT_STORAGE_ENTERPRISE_SERVER_CORE     : {strVersion+=" STORAGE_ENTERPRISE_SERVER_CORE    ";}break;
+	case PRODUCT_STARTER_N                          : {strVersion+=" STARTER_N                         ";}break;
+	case PRODUCT_PROFESSIONAL                       : {strVersion+=" PROFESSIONAL                      ";}break;
+	case PRODUCT_PROFESSIONAL_N                     : {strVersion+=" PROFESSIONAL_N                    ";}break;
+	case PRODUCT_SB_SOLUTION_SERVER                 : {strVersion+=" SB_SOLUTION_SERVER                ";}break;
+	case PRODUCT_SERVER_FOR_SB_SOLUTIONS            : {strVersion+=" SERVER_FOR_SB_SOLUTIONS           ";}break;
+	case PRODUCT_STANDARD_SERVER_SOLUTIONS          : {strVersion+=" STANDARD_SERVER_SOLUTIONS         ";}break;
+	case PRODUCT_STANDARD_SERVER_SOLUTIONS_CORE     : {strVersion+=" STANDARD_SERVER_SOLUTIONS_CORE    ";}break;
+	case PRODUCT_SB_SOLUTION_SERVER_EM              : {strVersion+=" SB_SOLUTION_SERVER_EM             ";}break;
+	case PRODUCT_SERVER_FOR_SB_SOLUTIONS_EM         : {strVersion+=" SERVER_FOR_SB_SOLUTIONS_EM        ";}break;
+	case PRODUCT_SOLUTION_EMBEDDEDSERVER            : {strVersion+=" SOLUTION_EMBEDDEDSERVER           ";}break;
+	case PRODUCT_SOLUTION_EMBEDDEDSERVER_CORE       : {strVersion+=" SOLUTION_EMBEDDEDSERVER_CORE      ";}break;
+	case PRODUCT_SMALLBUSINESS_SERVER_PREMIUM_CORE  : {strVersion+=" SMALLBUSINESS_SERVER_PREMIUM_CORE ";}break;
+	case PRODUCT_ESSENTIALBUSINESS_SERVER_MGMT      : {strVersion+=" ESSENTIALBUSINESS_SERVER_MGMT     ";}break;
+	case PRODUCT_ESSENTIALBUSINESS_SERVER_ADDL      : {strVersion+=" ESSENTIALBUSINESS_SERVER_ADDL     ";}break;
+	case PRODUCT_ESSENTIALBUSINESS_SERVER_MGMTSVC   : {strVersion+=" ESSENTIALBUSINESS_SERVER_MGMTSVC  ";}break;
+	case PRODUCT_ESSENTIALBUSINESS_SERVER_ADDLSVC   : {strVersion+=" ESSENTIALBUSINESS_SERVER_ADDLSVC  ";}break;
+	case PRODUCT_CLUSTER_SERVER_V                   : {strVersion+=" CLUSTER_SERVER_V                  ";}break;
+	case PRODUCT_EMBEDDED                           : {strVersion+=" EMBEDDED                          ";}break;
+	case PRODUCT_STARTER_E                          : {strVersion+=" STARTER_E                         ";}break;
+	case PRODUCT_HOME_BASIC_E                       : {strVersion+=" HOME_BASIC_E                      ";}break;
+	case PRODUCT_HOME_PREMIUM_E                     : {strVersion+=" HOME_PREMIUM_E                    ";}break;
+	case PRODUCT_PROFESSIONAL_E                     : {strVersion+=" PROFESSIONAL_E                    ";}break;
+	case PRODUCT_ENTERPRISE_E                       : {strVersion+=" ENTERPRISE_E                      ";}break;
+	case PRODUCT_ULTIMATE_E                         : {strVersion+=" ULTIMATE_E                        ";}break;
 	}
 	return strVersion;
 }
@@ -264,15 +350,18 @@ int CXWinVersion::GetWinVersion()
 		else if ((dwMajorVersion == 6) && (dwMinorVersion == 0))
 		{
 			nVersion = WVISTA;
-			GetVistaProductType();
+			//GetVistaProductType();
+			GetProductInfo(dwMajorVersion,dwMinorVersion,m_osinfo.wServicePackMajor,m_osinfo.wServicePackMinor,&m_dwVistaProductType);
 		}
 		else if ((dwMajorVersion == 6) && (dwMinorVersion == 1))
 		{
 			nVersion = WIN7;
+			GetProductInfo(dwMajorVersion,dwMinorVersion,m_osinfo.wServicePackMajor,m_osinfo.wServicePackMinor,&m_dwVistaProductType);
 		}
 		else if ((dwMajorVersion == 6) && (dwMinorVersion == 2))
 		{
 			nVersion = WIN8;
+			GetProductInfo(dwMajorVersion,dwMinorVersion,m_osinfo.wServicePackMajor,m_osinfo.wServicePackMinor,&m_dwVistaProductType);
 		}
 	}
 	else if (dwPlatformId == VER_PLATFORM_WIN32_CE)
