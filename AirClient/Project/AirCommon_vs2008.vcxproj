@@ -209,6 +209,7 @@
     <ClCompile Include="..\..\AirCommon\Src\AirSmallObjectAllocator.cpp" />
     <ClCompile Include="..\..\AirCommon\Src\AirTimer.cpp" />
     <ClCompile Include="..\..\AirCommon\Src\AirVideoPlugin.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirWinVer.cpp" />
     <ClCompile Include="..\..\AirCommon\Src\AirYExcel.cpp" />
     <ClCompile Include="..\..\AirCommon\Inc\AirCommonStreamIO.cpp" />
     <ClCompile Include="..\..\AirCommon\Inc\AirCommonString.cpp" />
@@ -293,6 +294,7 @@
     <ClInclude Include="..\..\AirCommon\Inc\AirTimer.h" />
     <ClInclude Include="..\..\AirCommon\Inc\AirUnion.h" />
     <ClInclude Include="..\..\AirCommon\Inc\AirVideoPlugin.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirWinVer.h" />
     <ClInclude Include="..\..\Dependencies\LZO\lzoconf.h" />
     <ClInclude Include="..\..\Dependencies\LZO\lzodefs.h" />
     <ClInclude Include="..\..\Dependencies\LZO\minilzo.h" />

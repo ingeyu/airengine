@@ -165,6 +165,9 @@ namespace Air{
 
 			Air::U1 Shader11::Destroy()
 			{
+				SAFE_RELEASE(m_pBinaryCode);
+				if(m_pDxShader==NULL)
+					return true;
 				switch(m_ShaderType){
 				case enVS:{
 					((DxVertexShader*)m_pDxShader)->Release();
@@ -187,7 +190,7 @@ namespace Air{
 				}
 			
 				m_pDxShader	=	NULL;
-				SAFE_RELEASE(m_pBinaryCode);
+				
 
 				return	true;
 			}

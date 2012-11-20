@@ -255,7 +255,7 @@ namespace Air{
 				if(pShader!=NULL)
 					pDxShader	=	pShader->GetShader();
 				m_pShaderArray[type]	=	pShader;
-				switch(pShader->GetType()){
+				switch(type){
 					case enVS:{
 						if(pDxShader!=NULL)
 							m_pContext->VSSetShader((DxVertexShader*)pDxShader,NULL,NULL);

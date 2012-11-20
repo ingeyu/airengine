@@ -8,28 +8,31 @@
 #include "AirCommonLog.h"
 #include "AirCommonNet.h"
 #include "AirCommonProfile.h"
+#include "AirWinVer.h"
 
 
 BOOL APIENTRY DllMain( HMODULE hModule,DWORD  ul_reason_for_call,LPVOID lpReserved){
 	switch (ul_reason_for_call){
 		
-		case DLL_PROCESS_ATTACH://第一次加载此Dll
+		case DLL_PROCESS_ATTACH:{//第一次加载此Dll
 			Air::Common::Number::InitSrand();
  			Air::Common::Compress::Init();
  			Air::Common::InitNet();
-		break;
+			CXWinVersion version;		
+			OutputDebugStringA(version.GetWinVersionString().c_str());
+			break;}
 		case DLL_THREAD_ATTACH://每一次创建线程
 
 		break;
 		case DLL_THREAD_DETACH://每一次线程结束
 			
 		break;
-		case DLL_PROCESS_DETACH://卸载该Dll
+		case DLL_PROCESS_DETACH:{//卸载该Dll
  			Air::Common::Compress::Release();	
  			Air::ProfileManager::ReleaseSingleton();
  			Air::Common::ReleaseNet();
 			Air::Common::Log::ReleaseSingleton();
-		break;
+			break;}
 	}
     return TRUE;
 }
@@ -83,22 +86,22 @@ bool IsInsideVMWare()
 		__asm
 		{
 			push  edx
-				push  ecx
-				push  ebx
+			push  ecx
+			push  ebx
 
-				mov  eax,'VMXh';
+			mov  eax,'VMXh';
 			mov  ebx, 0 // any value but not the MAGIC VALUE
-				mov  ecx, 10 // get VMWare version
-				mov  edx, 'VX'; // port number
+			mov  ecx, 10 // get VMWare version
+			mov  edx, 'VX'; // port number
 
 			in   eax, dx // read port
 				// on return EAX returns the VERSION
-				cmp  ebx, 'VMXh'; // is it a reply from VMWare?
+			cmp  ebx, 'VMXh'; // is it a reply from VMWare?
 			setz  [rc] // set return value
 
 			pop  ebx
-				pop  ecx
-				pop  edx
+			pop  ecx
+			pop  edx
 		}
 	}
 	__except(EXCEPTION_EXECUTE_HANDLER)

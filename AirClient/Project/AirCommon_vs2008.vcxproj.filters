@@ -207,6 +207,9 @@
     <ClCompile Include="..\..\AirCommon\Src\AirSmallObjectAllocator.cpp">
       <Filter>MemoryPool</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirWinVer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\AirCommon\Inc\Airarg_parser.h">
@@ -448,6 +451,9 @@
     </ClInclude>
     <ClInclude Include="..\..\AirCommon\Inc\AirSmallObjectAllocator.h">
       <Filter>MemoryPool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirWinVer.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
