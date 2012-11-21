@@ -99,7 +99,7 @@ Material	Sky		:	MT_Sky
 Material	CubeToViewSphere	:	MT_CubeToViewSphere
 {
 	Matrix
-	Texture	Texture/CubeMap/SkyCubemap.dds
+	Texture	Texture/CubeMap/Sky_01_1024.dds
 }
 Material	ViewSphereSAT		:	MT_ViewSphereSAT
 {

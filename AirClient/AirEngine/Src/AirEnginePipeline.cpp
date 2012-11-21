@@ -178,13 +178,13 @@ namespace	Air{
 			m_pRT_AO			=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("AO","Target",&rtinfo);
 			m_pRT_AO->SetClearFlag(false,true,false);
 
-			rtinfo.SetSingleTargetScreen(enTFMT_R32G32_FLOAT,1.0f,true);
+			rtinfo.SetSingleTarget(512,512,enTFMT_R32G32_FLOAT,true);
 			m_pShadowDepth	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("ShadowDepth","Target",&rtinfo);
 			m_pShadowDepth->SetClearFlag(true,true,true);
 			m_pShadowDepth->AddPhaseFlag(enPI_Shadow);
 			m_pShadowDepth->SetBKColor(Float4(1000,1000000,1,1));
 
-			rtinfo.SetSingleTargetScreen(enTFMT_R32G32_FLOAT,1.0f,false);
+			rtinfo.SetSingleTarget(512,512,enTFMT_R32G32_FLOAT,true);
 			m_pShadowDepthTemp	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("ShadowDepthTemp","Target",&rtinfo);
 			m_pShadowDepthTemp->SetClearFlag(false,true,false);
 			m_pShadowDepthTemp->SetBKColor(Float4(1000,1000000,1,1));
@@ -208,7 +208,7 @@ namespace	Air{
 			m_pMainLight->SetPosition(m_pScene->GetMainCamera()->GetPosition() - dir*100);
 			m_pMainLight->SetDir(dir);
 			m_pMainLight->SetOrtho(true);
-			m_pMainLight->SetWidth(200);
+			m_pMainLight->SetWidth(128);
 
 			m_pShadowDepth->AddCamera(m_pMainLight);
 
@@ -291,7 +291,21 @@ namespace	Air{
 			}
 
 			Float3 dir(1,-1,1);
-			m_pMainLight->SetPosition(m_pScene->GetMainCamera()->GetPosition() - dir*100);
+			dir.Normalize();
+			
+			
+			Float3 vCamPos	=	m_pScene->GetMainCamera()->GetPosition();
+			Float3 pos		=	vCamPos-dir*100;
+
+			Float44	view = m_pMainLight->GetViewMatrix();
+			Float3 viewpos	=	view*pos;
+			view.Inverse();
+			
+			viewpos	=	Float3(floor(viewpos.x),floor(viewpos.y),floor(viewpos.z));
+	
+			
+			Float3 vpos	=	view*viewpos;
+			m_pMainLight->SetPosition(vpos);
 
 			if(m_pScene!=NULL){
 				m_pScene->UpdateSceneTree(frameTime);
