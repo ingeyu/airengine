@@ -1,0 +1,12 @@
+01.// Compute view-space w   
+02.float w = dot(ViewProj[3], float4(In.Position.xyz, 1.0f));  
+03.  
+04.// Compute what radius a pixel wide wire would have   
+05.float pixel_radius = w * PixelScale;  
+06.  
+07.// Clamp radius to pixel size. Fade with reduction in radius vs original.   
+08.float radius = max(actual_radius, pixel_radius);  
+09.float fade = actual_radius / radius;  
+10.  
+11.// Compute final position   
+12.float3 position = In.Position + radius * normalize(In.Normal);
