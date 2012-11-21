@@ -14,6 +14,7 @@ cbuffer cbPerMaterial		: register( b3 )
 	matrix	mShadowViewProj;
 	matrix  mShadowViewProjInv;
    float4	vRTSize;
+   float4   vViewPos;
 };
 
 
@@ -41,6 +42,28 @@ float2 UV_XY(float2 uv){
 
 float2 XY_UV(float2 xy){
 	return	xy*float2(0.5,-0.5)+0.5;
+};
+
+float2	PBRDF(float3 N,float3	L,float3 E,float fShiness){
+   float fn         =   fShiness;//*tex2D(baseMap_1,Input.Texcoord).x;
+   
+   float3 H         = normalize( E+L);
+   float   NL       =   dot(N,L) ;
+   float   NH       =   dot(N,H) ;
+   float   EH       =   dot(E,H);
+   float   NE       =   dot(N,E);
+   
+   float f0   =   pow((1-fn)/(1+fn),2);
+   
+   float   Fdiff   =   f0+(1-f0)*pow(1-NL,5);
+   float   Fspec   =   f0+(1-f0)*pow(1-EH,5);
+   
+   float   diff   =   NL*saturate(1-Fdiff);//*pow(c,2.2);
+   float   n      =   fn;
+   float   spec   =   (0.0397436*n+0.0856832)*Fspec*pow(saturate(NH),n)/max(NL,NE);
+    
+
+   return float2(max(diff,0),max(spec,0));
 };
 
 //--------------------------------------------------------
@@ -117,8 +140,11 @@ PS_OUTPUT main(VS_OUTPUT Input){
 
 	float	z			=	distance(vWorldPos.xyz,vCameraPosition.xyz);
 
+	float3	E			=	normalize(vViewPos.xyz - vWorldPos.xyz);
+	float2	vDiff_Spec	=	PBRDF(vNormal,L,E,15);
+
 	PS_OUTPUT Out;
 
-	Out.Color	=	saturate(dot(vNormal,L))*CalcVSM(ShadowDepthTex,SS_WrapLine2,ShadowUV,z);
+	Out.Color	=	(vDiff_Spec.x+vDiff_Spec.y)*CalcVSM(ShadowDepthTex,SS_WrapLine2,ShadowUV,z);
 	return Out;
 };

@@ -343,7 +343,7 @@ namespace	Air{
 
 			//Shadow Mask
 			if(m_pRT_ShadowMask->BeforeUpdate()){
-				Float4	matArray[13];
+				Float4	matArray[14];
 				Float44*	pMVPInv	=	(Float44*)&matArray[0];
 				Float44*	pSVP	=	(Float44*)&matArray[4];
 				Float44*	pSVPInv	=	(Float44*)&matArray[8];
@@ -356,7 +356,7 @@ namespace	Air{
 				*pSVPInv	=	*pSVP;
 				pSVPInv->Inverse();
 				matArray[12]	=	Float4(1.0f/m_pMRT->GetWidth(),1.0f/m_pMRT->GetHeight(),1.0f/m_pRT_ShadowMask->GetWidth(),1.0f/m_pRT_ShadowMask->GetHeight());
-
+				matArray[13]	=	m_pScene->GetMainCamera()->GetPosition();
 				m_pShadowMask->GetConstantBuffer()->UpdateData(matArray);
 				m_pShadowMask->RenderOneObject(m_pQuad);
 

@@ -77,6 +77,7 @@ Material	ShadowMask	:	MT_ShadowMask
 	Matrix
 	Matrix
 	Vector	1 1 1 1
+	Vector	1 1 1 1
 	Texture ShadowDepth
 	Texture MRT0
 	Texture Texture/2x2_rot.png
@@ -92,7 +93,7 @@ Material	Combine		:	MT_Combine
 Material	Sky		:	MT_Sky
 {
 	Matrix	
-	Texture Texture/CubeMap/SkyCubemap.dds
+	Texture Texture/CubeMap/Sky_01_1024.dds
 }
 
 Material	CubeToViewSphere	:	MT_CubeToViewSphere
