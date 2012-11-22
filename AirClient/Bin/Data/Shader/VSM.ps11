@@ -142,10 +142,10 @@ PS_OUTPUT main(VS_OUTPUT Input){
 	float	z			=	distance(vWorldPos.xyz,vCameraPosition.xyz);
 
 	float3	E			=	normalize(vViewPos.xyz - vWorldPos.xyz);
-	float2	vDiff_Spec	=	PBRDF(N,L,E,vNormal.w*100);
+	float2	vDiff_Spec	=	PBRDF(N,L,E,vNormal.w*127+1);
 
 	PS_OUTPUT Out;
 
-	Out.Color	=	(vDiff_Spec.x+vDiff_Spec.y)*CalcVSM(ShadowDepthTex,SS_WrapLine2,ShadowUV,z);
+	Out.Color	=	float4(vDiff_Spec.xy,0,0)*CalcVSM(ShadowDepthTex,SS_WrapLine2,ShadowUV,z);
 	return Out;
 };
