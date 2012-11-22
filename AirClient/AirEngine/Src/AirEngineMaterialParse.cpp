@@ -341,7 +341,7 @@ namespace Air{
 				m_mapMaterialParamType["diffuse"]				=	enMSPT_Diffuse;
 				m_mapMaterialParamType["ambient"]				=	enMSPT_Ambient;
 				m_mapMaterialParamType["specular"]				=	enMSPT_Specular;
-				m_mapMaterialParamType["glossoness"]			=	enMSPT_Glossiness;
+				m_mapMaterialParamType["glossiness"]			=	enMSPT_Glossiness;
 				m_mapMaterialParamType["opacity"]				=	enMSPT_Opacity;
 				m_mapMaterialParamType["specularlevel"]			=	enMSPT_SpecularLevel;
 				m_mapMaterialParamType["selfillumcolor"]		=	enMSPT_SelfIllumColor;
