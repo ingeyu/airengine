@@ -296,7 +296,7 @@ namespace	Air{
 			
 			Float3 vCamPos	=	m_pScene->GetMainCamera()->GetPosition();
 			Float3 vCamDir	=	m_pScene->GetMainCamera()->GetDir();
-			Float3 pos		=	vCamPos+vCamDir*64.0f-dir*100;
+			Float3 pos		=	vCamPos+vCamDir*64.0f-dir*200;
 
 			Float44	view = m_pMainLight->GetViewMatrix();
 			Float3 viewpos	=	view*pos;

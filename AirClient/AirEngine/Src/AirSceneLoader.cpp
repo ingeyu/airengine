@@ -65,6 +65,9 @@ namespace	Air{
 				MaterialSetInfo*	pInfo	=	MaterialParse::GetSingleton()->GetMaterialSetInfo(strMSName);
 				if(pInfo!=NULL){
 
+					minfo.vecFloatParam[0]	=	pInfo->diffuse_opacity;
+					minfo.vecFloatParam[2]	=	pInfo->specular_glossiness;
+					minfo.vecFloatParam[3]	=	pInfo->selfIllumColor_fresnel;
 					Material::Info	mdepthinfo;
 
 					if(!pInfo->mapTexture[enMSPT_TexOpacity].empty()){

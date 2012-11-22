@@ -37,7 +37,7 @@ float4 main( VS_OUTPUT Input ) : SV_Target
    
    float3 newxyz   =   normalize(mul((float3x3)matViewInverse,xyz));
    
-   float4 cEnv   =    pow(abs(Texture0.SampleLevel( SS_WrapLine2, newxyz,3 )),1.0f/0.384f);
+   float4 cEnv   =    pow(abs(Texture0.SampleLevel( SS_WrapLine2, newxyz,3 )),2.2f);
 
 
 

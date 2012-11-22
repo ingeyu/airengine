@@ -121,7 +121,8 @@ PS_OUTPUT main(VS_OUTPUT Input){
 	float4	vProjPos	=	float4(xy,0,1);
 	vProjPos.z			=	MRTDepthTex.Sample(SS_WrapLine2,Input.UV).x;
 
-	float3	vNormal		=	MRTNormalTex.Sample(SS_WrapLine2,Input.UV).xyz*2-1;
+	float4	vNormal		=	MRTNormalTex.Sample(SS_WrapLine2,Input.UV);
+	float3 N	=	vNormal.xyz*2-1;
 
 	float4	vWorldPos	=	mul(mViewProjectionInv,vProjPos);
 	vWorldPos/=vWorldPos.w;
@@ -141,7 +142,7 @@ PS_OUTPUT main(VS_OUTPUT Input){
 	float	z			=	distance(vWorldPos.xyz,vCameraPosition.xyz);
 
 	float3	E			=	normalize(vViewPos.xyz - vWorldPos.xyz);
-	float2	vDiff_Spec	=	PBRDF(vNormal,L,E,15);
+	float2	vDiff_Spec	=	PBRDF(N,L,E,vNormal.w*100);
 
 	PS_OUTPUT Out;
 

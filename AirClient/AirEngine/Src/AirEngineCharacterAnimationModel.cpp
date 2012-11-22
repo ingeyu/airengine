@@ -123,10 +123,10 @@ namespace Air{
 							minfo.vecFloatParam.resize(4);
 							minfo.vecTextureName.resize(1);
 
-							minfo.vecFloatParam[0]	=	Float4(1,1,1,1);
+							minfo.vecFloatParam[0]	=	pSetInfo->diffuse_opacity;//Float4(1,1,1,1);
 							minfo.vecFloatParam[1]	=	Float4(1,1,1,0.5);
-							minfo.vecFloatParam[2]	=	Float4(0.1,0.1,0.1,0.1);
-							minfo.vecFloatParam[3]	=	Float4(0,0,0,0);
+							minfo.vecFloatParam[2]	=	pSetInfo->specular_glossiness;//Float4(0.1,0.1,0.1,0.1);
+							minfo.vecFloatParam[3]	=	pSetInfo->selfIllumColor_fresnel;//Float4(0,0,0,0);
 							minfo.vecTextureName[0]	=	pSetInfo->mapTexture[enMSPT_TexDiffuse];
 							//´´½¨²ÄÖÊ
 							Material*	p	=	EngineSystem::GetSingleton()->CreateProduct<Material*>(strMaterialName+"MRT","Material",&minfo);

@@ -42,7 +42,7 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 	float alpha	=		diffuse_opacity.w*diff.w;
 	clip(diff.w - ambient_alphatest.w);
 
-	float3	diffcolor	=	pow(diff.xyz,1.0/0.384f);
+	float3	diffcolor	=	pow(diff.xyz,2.2f);
 
 	Out.Depth			=	float4(Input.ProjPos.z/Input.ProjPos.w,0,0,alpha);
 	Out.Normal		    =	float4(normalize( Input.Normal.xyz )*0.5f+0.5f,specular_glossiness.w);
