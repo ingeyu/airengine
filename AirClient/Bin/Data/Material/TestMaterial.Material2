@@ -89,6 +89,7 @@ Material	Combine		:	MT_Combine
 	Texture AO
 	Texture ShadowMask
 	Texture SO
+	Texture MRT4
 }
 Material	Sky		:	MT_Sky
 {
