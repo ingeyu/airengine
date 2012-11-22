@@ -295,7 +295,8 @@ namespace	Air{
 			
 			
 			Float3 vCamPos	=	m_pScene->GetMainCamera()->GetPosition();
-			Float3 pos		=	vCamPos-dir*100;
+			Float3 vCamDir	=	m_pScene->GetMainCamera()->GetDir();
+			Float3 pos		=	vCamPos+vCamDir*64.0f-dir*100;
 
 			Float44	view = m_pMainLight->GetViewMatrix();
 			Float3 viewpos	=	view*pos;
@@ -408,6 +409,7 @@ namespace	Air{
 			}
 
 			//SSSO
+			/*
 			if(m_pRT_SO->BeforeUpdate()){
 	
 				Float44	matInvVP	=	m_pScene->GetMainCamera()->GetViewProjMatrix();
@@ -418,7 +420,7 @@ namespace	Air{
 
 				m_pRT_SO->AfterUpdate();
 			}
-
+			*/
 			//SSAO
 			m_pMainWindow->SetClearFlag(false,true,false);
 			if(m_pMainWindow->BeforeUpdate()){
