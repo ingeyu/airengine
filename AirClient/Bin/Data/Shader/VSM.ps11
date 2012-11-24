@@ -133,7 +133,7 @@ PS_OUTPUT main(VS_OUTPUT Input){
 	float4	vShadowPos	=	mul(mShadowViewProj,vWorldPos);
 	vShadowPos/=vShadowPos.w;
 	float2 absXY	=	abs(vShadowPos.xy);
-	if(absXY.x > 1.0f||absXY.y>1.0f || vShadowPos.z < 0){
+	if(absXY.x > 0.98f||absXY.y>0.98f || vShadowPos.z < 0){
 		discard;
 	}
 

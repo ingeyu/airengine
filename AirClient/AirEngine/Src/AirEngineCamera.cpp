@@ -83,6 +83,13 @@ namespace Air{
 
 			Render::System::GetSingleton()->GetDevice()->SetCB(1,m_pConstantBuffer);
 
+
+			//阴影部分是渲染的时候才 push到渲染树中
+			if(GetType()==enCT_SHADOW){
+				RenderSystem::GetSingleton()->ClearRenderObject(1<<enPI_Shadow);
+				ProcessShadowObject();
+			}
+
 		}
 		void Camera::RenderCubeMap( DWORD dwFace,SInt uiWidth,SInt uiHeight ){
 	
@@ -224,7 +231,7 @@ namespace Air{
 					TVector<MovableObject*>::iterator	iEnd	=	vec.end();
 					for(;i!=iEnd;i++){
 						if(IsVisiable((*i)->GetWorldBoundingBox())){
-							(*i)->ProcessRenderObject(m_PhaseFlag);
+							m_vecShadowMovable.push_back(*i);//(m_PhaseFlag);
 						}
 					}
 				}
@@ -237,7 +244,12 @@ namespace Air{
 		}
 
 		void Camera::ProcessShadowObject(){
-			
+			TVector<MovableObject*>&	vec				=	m_vecShadowMovable;
+			TVector<MovableObject*>::iterator	i		=	vec.begin();
+			TVector<MovableObject*>::iterator	iEnd	=	vec.end();
+			for(;i!=iEnd;i++){
+				(*i)->ProcessRenderObject(m_PhaseFlag);
+			}
 		}
 
 		void Camera::AddMovableObject( MovableObject* pObj ){

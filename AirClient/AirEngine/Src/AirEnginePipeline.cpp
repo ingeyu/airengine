@@ -39,10 +39,9 @@ namespace	Air{
 			m_pRT_EnvSphere	=	NULL;
 			m_pRT_EnvSAT	=	NULL;
 
-			m_pShadowDepth	=	NULL;
-			m_pRT_ShadowMask	=	NULL;
-			m_pShadowMask	=	NULL;
-			m_pMainLight	=	NULL;
+
+
+
 			m_pCombine		=	NULL;
 
 			m_pSky			=	NULL;
@@ -50,8 +49,6 @@ namespace	Air{
 			m_pViewSphereSAT=	NULL;
 			m_pAmbientLight	=	NULL;
 
-			m_pBlurX		=	NULL;
-			m_pBlurY		=	NULL;
 
 			fVolocity		=	10.0f;
 		}
@@ -171,23 +168,13 @@ namespace	Air{
 			m_pMRT->AddCamera(m_pScene->GetMainCamera());
 
 
-			rtinfo.SetSingleTargetScreen(enTFMT_R8G8B8A8_UNORM);
-			m_pRT_ShadowMask	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("ShadowMask","Target",&rtinfo);
-			m_pRT_ShadowMask->SetClearFlag(false,true,false);
-			m_pRT_ShadowMask->SetBKColor(Float4(1,1,1,1));
+			rtinfo.SetSingleTargetScreen(enTFMT_R8G8B8A8_UNORM,1.0f,true,m_pMainWindow);
 			m_pRT_AO			=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("AO","Target",&rtinfo);
 			m_pRT_AO->SetClearFlag(false,true,false);
 
-			rtinfo.SetSingleTarget(512,512,enTFMT_R32G32_FLOAT,true);
-			m_pShadowDepth	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("ShadowDepth","Target",&rtinfo);
-			m_pShadowDepth->SetClearFlag(true,true,true);
-			m_pShadowDepth->AddPhaseFlag(enPI_Shadow);
-			m_pShadowDepth->SetBKColor(Float4(1000,1000000,1,1));
 
-			rtinfo.SetSingleTarget(512,512,enTFMT_R32G32_FLOAT,true);
-			m_pShadowDepthTemp	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("ShadowDepthTemp","Target",&rtinfo);
-			m_pShadowDepthTemp->SetClearFlag(false,true,false);
-			m_pShadowDepthTemp->SetBKColor(Float4(1000,1000000,1,1));
+
+
 
 			rtinfo.SetSingleTargetScreen(enTFMT_R8G8B8A8_UNORM,1.0f,false);
 			m_pRT_SO	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("SO","Target",&rtinfo);
@@ -200,31 +187,18 @@ namespace	Air{
 			m_pRT_EnvSAT	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("EnvSAT","Target",&rtinfo);
 			m_pRT_EnvSAT->SetClearFlag(false,true,false);
 
-			Light::Info	infoLight;
-			//infoLight.SetDirection(Float3(-1,-1,-1));
+			m_CSM.Init(m_pScene->GetMainCamera(),3);
 
-			Float3 dir(1,-1,1);
-			m_pMainLight	=	EngineSystem::GetSingleton()->CreateProduct<Light*>("Sun","Light",&infoLight);
-			m_pMainLight->SetPosition(m_pScene->GetMainCamera()->GetPosition() - dir*100);
-			m_pMainLight->SetDir(dir);
-			m_pMainLight->SetOrtho(true);
-			m_pMainLight->SetWidth(128);
 
-			m_pShadowDepth->AddCamera(m_pMainLight);
 
 
 			m_pQuad			=	new QuadRenderable();
 			m_pQuadCopy		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("QuadCopy","Material");
 			m_pSSAO			=	EngineSystem::GetSingleton()->CreateProduct<Material*>("SSAO","Material");
-			m_pShadowMask	=	EngineSystem::GetSingleton()->CreateProduct<Material*>("ShadowMask","Material");
 			m_pCombine		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("Combine","Material");
 			m_pSky			=	EngineSystem::GetSingleton()->CreateProduct<Material*>("Sky","Material");
 			m_pSSSO			=	EngineSystem::GetSingleton()->CreateProduct<Material*>("SSSO","Material");
-			Material::Info	blurinfo;
-			blurinfo.strTemplate	=	"MT_BlurX";
-			m_pBlurX		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("BlurX","Material",&blurinfo);
-			blurinfo.strTemplate	=	"MT_BlurY";
-			m_pBlurY		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("BlurY","Material",&blurinfo);
+
 			m_pCubeToViewSphere	=	EngineSystem::GetSingleton()->CreateProduct<Material*>("CubeToViewSphere","Material");
 			m_pViewSphereSAT	=	EngineSystem::GetSingleton()->CreateProduct<Material*>("ViewSphereSAT","Material");
 			m_pAmbientLight		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("AmbientLight","Material");
@@ -233,14 +207,15 @@ namespace	Air{
 
 		Air::U1 Pipeline::Destroy()
 		{
+			m_CSM.Release();
+
 			SAFE_RELEASE_REF(pMesh);
 
-			SAFE_RELEASE_REF(m_pMainLight);
 
 			SAFE_DELETE(m_pQuad);
 			SAFE_RELEASE_REF(m_pQuadCopy);
 			SAFE_RELEASE_REF(m_pSSAO);
-			SAFE_RELEASE_REF(m_pShadowMask);
+
 			SAFE_RELEASE_REF(m_pRT_AO);
 			SAFE_RELEASE_REF(m_pCombine);
 			SAFE_RELEASE_REF(m_pSky);
@@ -253,8 +228,6 @@ namespace	Air{
 			SAFE_RELEASE_REF(m_pRT_EnvSphere);
 			SAFE_RELEASE_REF(m_pRT_EnvSAT);
 
-			SAFE_RELEASE_REF(m_pBlurX);
-			SAFE_RELEASE_REF(m_pBlurY);
 			if(m_pScene!=NULL){
 				m_pScene->Release();
 				delete m_pScene;
@@ -262,14 +235,9 @@ namespace	Air{
 			}
 
 			SAFE_RELEASE_REF(m_pMRT);
-			SAFE_RELEASE_REF(m_pShadowDepth);
-			SAFE_RELEASE_REF(m_pRT_ShadowMask);
-			SAFE_RELEASE_REF(m_pShadowDepthTemp);
 
-			if(m_pMainWindow!=NULL){
-				m_pMainWindow->ReleaseRef();
-				m_pMainWindow=NULL;
-			}
+
+			SAFE_RELEASE_REF(m_pMainWindow);
 
 
 			return	true;
@@ -285,28 +253,14 @@ namespace	Air{
 			pDevice->ResetCounter();
 
 
+
+
 			ListenerList::iterator	itr	=	m_lstListener.begin();
 			for(;itr!=m_lstListener.end();itr++){
 				(*itr)->OnBeforeRenderFrame(frameTime);
 			}
 
-			Float3 dir(1,-1,1);
-			dir.Normalize();
-			
-			
-			Float3 vCamPos	=	m_pScene->GetMainCamera()->GetPosition();
-			Float3 vCamDir	=	m_pScene->GetMainCamera()->GetDir();
-			Float3 pos		=	vCamPos+vCamDir*64.0f-dir*200;
-
-			Float44	view = m_pMainLight->GetViewMatrix();
-			Float3 viewpos	=	view*pos;
-			view.Inverse();
-			
-			viewpos	=	Float3(floor(viewpos.x),floor(viewpos.y),floor(viewpos.z));
-	
-			
-			Float3 vpos	=	view*viewpos;
-			m_pMainLight->SetPosition(vpos);
+			m_CSM.UpdateCamera(m_pScene->GetMainCamera());
 
 			if(m_pScene!=NULL){
 				m_pScene->UpdateSceneTree(frameTime);
@@ -351,32 +305,12 @@ namespace	Air{
 				m_pMRT->AfterUpdate();
 			}
 
-			m_pShadowDepth->Update();
-
-			BlurRenderTarget(m_pShadowDepthTemp,m_pShadowDepth);
 			
 
-			//Shadow Mask
-			if(m_pRT_ShadowMask->BeforeUpdate()){
-				Float4	matArray[14];
-				Float44*	pMVPInv	=	(Float44*)&matArray[0];
-				Float44*	pSVP	=	(Float44*)&matArray[4];
-				Float44*	pSVPInv	=	(Float44*)&matArray[8];
+			m_CSM.UpdateTarget();
+			
 
-				m_pShadowMask->GetConstantBuffer()->GetBuffer();
-				*pMVPInv	=	m_pScene->GetMainCamera()->GetViewProjMatrix();
-				pMVPInv->Inverse();
 
-				*pSVP	=	m_pMainLight->GetViewProjMatrix();
-				*pSVPInv	=	*pSVP;
-				pSVPInv->Inverse();
-				matArray[12]	=	Float4(1.0f/m_pMRT->GetWidth(),1.0f/m_pMRT->GetHeight(),1.0f/m_pRT_ShadowMask->GetWidth(),1.0f/m_pRT_ShadowMask->GetHeight());
-				matArray[13]	=	m_pScene->GetMainCamera()->GetPosition();
-				m_pShadowMask->GetConstantBuffer()->UpdateData(matArray);
-				m_pShadowMask->RenderOneObject(m_pQuad);
-
-				m_pRT_ShadowMask->AfterUpdate();
-			}
 			//CubeToViewSphere
 			if(m_pRT_EnvSphere->BeforeUpdate()){
 
@@ -661,25 +595,7 @@ namespace	Air{
 			pCam->SetPosition(pCam->GetPosition()+x+y+z);
 		}
 
-		void Pipeline::BlurRenderTarget( RenderTarget* pDst,RenderTarget* pSrc )
-		{
-			if(pDst==NULL	||	pSrc	==	NULL)
-				return;
-			if(pDst->BeforeUpdate()){
 
-				RenderSystem::GetSingleton()->GetDevice()->SetSRV(enPS,0,pSrc->GetSRV());
-				m_pBlurX->RenderOneObject(m_pQuad);
-
-				pDst->AfterUpdate();
-			}
-			
-			if(pSrc->BeforeUpdate()){
-				RenderSystem::GetSingleton()->GetDevice()->SetSRV(enPS,0,pDst->GetSRV());
-				m_pBlurY->RenderOneObject(m_pQuad);
-
-				pSrc->AfterUpdate();
-			}
-		}
 
 	}
 }

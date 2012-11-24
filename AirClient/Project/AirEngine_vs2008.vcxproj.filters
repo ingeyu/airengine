@@ -215,9 +215,6 @@
     <ClCompile Include="..\AirEngine\Src\AirInterfaceResourceSystem.cpp">
       <Filter>Resource</Filter>
     </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirEnginePipeline.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="..\AirEngine\Src\AirRenderbuffer.cpp">
       <Filter>Render</Filter>
     </ClCompile>
@@ -277,6 +274,12 @@
     </ClCompile>
     <ClCompile Include="..\AirEngine\Src\AirBoxRenderable.cpp">
       <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirCascadedShadowMap.cpp">
+      <Filter>Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEnginePipeline.cpp">
+      <Filter>Pipeline</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -541,9 +544,6 @@
     <ClInclude Include="..\AirEngine\Inc\AirInterfaceAudioSystem.h">
       <Filter>Audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirEnginePipeline.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirRenderbuffer.h">
       <Filter>Render</Filter>
     </ClInclude>
@@ -609,6 +609,12 @@
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirBoxRenderable.h">
       <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirCascadedShadowMap.h">
+      <Filter>Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEnginePipeline.h">
+      <Filter>Pipeline</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

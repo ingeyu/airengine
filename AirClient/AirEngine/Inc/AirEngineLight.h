@@ -123,7 +123,6 @@ namespace Air{
 	
 			void				SetSpecular(Real	fSpec);
 		protected:
-			Camera*				m_pShadowCamera;		///<	ÒõÓ°ÉãÏñ»ú
 			Info				m_Info;
 			Real				m_fAttenuation;			///<	Ë¥¼õ		
 	

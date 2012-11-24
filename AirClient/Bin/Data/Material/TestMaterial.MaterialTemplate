@@ -179,7 +179,26 @@ MaterialTemplate	MT_ShadowMask
 	Phase	Manual
 	Pass
 	{
-		DepthStencilState DisableDepthCompareWrite
+		DepthStencilState DS_CSM
+		VertexShader		"Shader/Quad"
+		{
+		}
+		PixelShader			"Shader/VSM"
+		{
+			Texture		0	0		SS_BorderLine2
+			Texture		1	1		SS_ClampLine2
+			Texture		2	2		SS_WarpPoint
+			Texture		3	3		SS_ClampLine2
+		}
+	}
+
+};
+MaterialTemplate	MT_CSM
+{
+	Phase	Manual
+	Pass
+	{
+		DepthStencilState DS_CSM
 		VertexShader		"Shader/Quad"
 		{
 		}

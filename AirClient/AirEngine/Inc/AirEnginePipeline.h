@@ -2,7 +2,7 @@
 #define AirEnginePipeline_h__
 
 #include "AirRenderSystem.h"
-
+#include "AirCascadedShadowMap.h"
 #include "AirInterfaceInputSystem.h"
 
 namespace	Air{
@@ -52,9 +52,7 @@ namespace	Air{
 		protected:
 			RenderWindow*	m_pMainWindow;
 			RenderTarget*	m_pMRT;
-			RenderTarget*	m_pShadowDepth;
-			RenderTarget*	m_pShadowDepthTemp;
-			RenderTarget*	m_pRT_ShadowMask;
+
 			RenderTarget*	m_pRT_AO;
 			RenderTarget*	m_pRT_SO;
 
@@ -62,7 +60,6 @@ namespace	Air{
 			RenderTarget*	m_pRT_EnvSAT;
 			
 
-			Light*			m_pMainLight;
 
 
 			Scene*			m_pScene;
@@ -70,7 +67,7 @@ namespace	Air{
 			Material*		m_pQuadCopy;
 			Material*		m_pSSAO;
 			Material*		m_pSSSO;
-			Material*		m_pShadowMask;
+
 			Material*		m_pCombine;
 			Material*		m_pSky;
 			Material*		m_pCubeToViewSphere;
@@ -78,11 +75,12 @@ namespace	Air{
 			Material*		m_pAmbientLight;
 
 
-			Material*		m_pBlurX;
-			Material*		m_pBlurY;
+
 
 			Float3			vMoveDirection;
 			float			fVolocity;
+
+			CascadedShadowMap	m_CSM;
 		};
 	}
 }

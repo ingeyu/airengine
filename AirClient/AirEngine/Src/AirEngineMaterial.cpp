@@ -114,15 +114,15 @@ namespace Air{
 		void Material::AddRenderObject( Renderable* pObj){
 			if(pObj==NULL)
 				return;
-			m_ObjectCS.Enter();
+			//m_ObjectCS.Enter();
 			m_vecRenderObjects.push_back(pObj);
-			m_ObjectCS.Leave();
+			//m_ObjectCS.Leave();
 		}
 
 		void Material::ClearRenderObjects(){
-			m_ObjectCS.Enter();
+			//m_ObjectCS.Enter();
 			m_vecRenderObjects.clear();
-			m_ObjectCS.Leave();
+			//m_ObjectCS.Leave();
 		}
 
 		void Material::RenderAllObjects(){

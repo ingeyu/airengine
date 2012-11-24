@@ -79,7 +79,7 @@ namespace	Air{
 			bool ISystem::RepetitionRun(){
 				IStream*	pFile	=	NULL;
 
-
+				Sleep(100);
 
 				U32	uiLoadIdx	=	m_uiLoadIndex&1;
 				StreamList::iterator	i	=	m_lstLoad[uiLoadIdx].begin();

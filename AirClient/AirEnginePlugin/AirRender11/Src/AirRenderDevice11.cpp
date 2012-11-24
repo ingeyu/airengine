@@ -416,9 +416,13 @@ namespace Air{
 			void Device11::SetDSS( State* pState )
 			{
 				ID3D11DepthStencilState*	pDSS	=		NULL;
-				if(pState!=NULL)
-					pDSS	=	(ID3D11DepthStencilState*)pState->GetState();
-				m_pContext->OMSetDepthStencilState(pDSS,0xFFFFFFFF);
+				U32 uiStencilRef	=	0xFFFFFFFF;
+				if(pState!=NULL){
+					pDSS			=	(ID3D11DepthStencilState*)pState->GetState();
+					uiStencilRef	=	pState->m_Info.ds.StencilRef;
+				}
+				
+				m_pContext->OMSetDepthStencilState(pDSS,uiStencilRef);
 			}
 
 			void Device11::SetBS( State* pState )

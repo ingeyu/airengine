@@ -10,7 +10,6 @@ namespace Air{
 	
 	
 		Light::Light( CAString& strName ,Info*	pInfo):Camera(strName){
-			m_pShadowCamera	=	NULL;
 			m_Info			=	*pInfo;
 			SetPosition(Float3(m_Info.vPosition.x,m_Info.vPosition.y,m_Info.vPosition.z));
 	

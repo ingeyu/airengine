@@ -70,7 +70,7 @@ namespace Air{
 				m_mapParam["SamplerState"]			=	enSamplerState;
 				m_mapParam["Filter"]				=	enTextureFilter;
 				m_mapParam["Address"]				=	enTextureAddress;
-
+				m_mapParam["BorderColor"]			=	enBorderColor;
 				m_mapParam["GeometryShader"]		=	enGeometryShader;
 				m_mapParam["PixelShader"]			=	enPixelShader;
 				m_mapParam["HullShader"]			=	enHullShader;
@@ -105,14 +105,15 @@ namespace Air{
 				m_mapParam["StencilEnable"]			=	enStencilEnable;
 				m_mapParam["StencilReadMask"]		=	enStencilReadMask;
 				m_mapParam["StencilWriteMask"]		=	enStencilWriteMask;
-				m_mapParam["FrontFace"]				=	enFrontFace;
-				m_mapParam["StencilFailOp"]			=	enStencilFailOp;
-				m_mapParam["StencilDepthfailOp"]	=	enStencilDepthFailOp;
-				m_mapParam["StencilFunc"]			=	enStencilPassOp;
-				m_mapParam["StencilFunc"]			=	enStencilFunc;
-				m_mapParam["BackFace"]				=	enBackFace;
-
-
+				m_mapParam["FrontFaceStencilFailOp"]		=	enFrontFaceStencilFailOp;
+				m_mapParam["FrontFaceStencilDepthfailOp"]	=	enFrontFaceStencilDepthFailOp;
+				m_mapParam["FrontFaceStencilPassOp"]		=	enFrontFaceStencilPassOp;
+				m_mapParam["FrontFaceStencilFunc"]			=	enFrontFaceStencilFunc;
+				m_mapParam["BackFaceStencilFailOp"]			=	enBackFaceStencilFailOp;
+				m_mapParam["BackFaceStencilDepthfailOp"]	=	enBackFaceStencilDepthFailOp;
+				m_mapParam["BackFaceStencilPassOp"]			=	enBackFaceStencilPassOp;
+				m_mapParam["BackFaceStencilFunc"]			=	enBackFaceStencilFunc;
+				m_mapParam["StencilRef"]					=	enStencilRef;
 
 				m_mapPhaseIndex["Reflect"]		=		enPI_Reflect;
 				m_mapPhaseIndex["Shadow"]		=		enPI_Shadow;
@@ -676,6 +677,13 @@ namespace Air{
 							pInfo->ss.AddressV	=	pInfo->ss.AddressU;
 							pInfo->ss.AddressW	=	pInfo->ss.AddressU;
 							break;}
+						case	enBorderColor:{
+							Float4& c	=	pInfo->ss.BorderColor;
+							c.x	=	ParseReal(vecWord,i);
+							c.y	=	ParseReal(vecWord,i);
+							c.z	=	ParseReal(vecWord,i);
+							c.w	=	ParseReal(vecWord,i);
+							break;}
 						//Render	State
 						case	enFillMode:{
 							pInfo->rs.FillMode	=	(enumFillMode)m_mapFillMode[vecWord[i].c_str()];
@@ -740,7 +748,7 @@ namespace Air{
 							pInfo->ds.DepthEnable	=	Converter::ToU1(vecWord[i]);
 							break;}
 						case	enDepthWriteMask:{
-							pInfo->ds.DepthWriteMask	=	(enumDepthWriteMask)Converter::ToS32(vecWord[i]);
+							pInfo->ds.DepthWriteMask	=	(enumDepthWriteMask)m_mapDepthWriteMask[vecWord[i]];
 							break;}
 						case	enDepthFunc:{
 							pInfo->ds.DepthFunc	=	(enumCompare)m_mapCompare[vecWord[i].c_str()];
@@ -753,6 +761,33 @@ namespace Air{
 							break;}
 						case	enStencilWriteMask:{
 							pInfo->ds.StencilWriteMask	=	Converter::ToS32(vecWord[i]);
+							break;}
+						case	enFrontFaceStencilFailOp:{
+							pInfo->ds.FrontFace.StencilFailOp		=	(enumStencileOP)m_mapStencileOP[vecWord[i]];
+							break;}
+						case	enFrontFaceStencilDepthFailOp:{
+							pInfo->ds.FrontFace.StencilDepthFailOp	=	(enumStencileOP)m_mapStencileOP[vecWord[i]];
+							break;}
+						case	enFrontFaceStencilPassOp:{
+							pInfo->ds.FrontFace.StencilPassOp		=	(enumStencileOP)m_mapStencileOP[vecWord[i]];
+							break;}
+						case	enFrontFaceStencilFunc:{
+							pInfo->ds.FrontFace.StencilFunc			=	(enumCompare)m_mapCompare[vecWord[i]];
+							break;}
+						case	enBackFaceStencilFailOp:{
+							pInfo->ds.BackFace.StencilFailOp		=	(enumStencileOP)m_mapStencileOP[vecWord[i]];
+							break;}
+						case	enBackFaceStencilDepthFailOp:{
+							pInfo->ds.BackFace.StencilDepthFailOp	=	(enumStencileOP)m_mapStencileOP[vecWord[i]];
+							break;}
+						case	enBackFaceStencilPassOp:{
+							pInfo->ds.BackFace.StencilPassOp		=	(enumStencileOP)m_mapStencileOP[vecWord[i]];
+							break;}
+						case	enBackFaceStencilFunc:{
+							pInfo->ds.BackFace.StencilFunc			=	(enumCompare)m_mapCompare[vecWord[i]];
+							break;}
+						case	enStencilRef:{
+							pInfo->ds.StencilRef					=	Converter::ToU32(vecWord[i]);
 							break;}
 						default:{
 							continue;

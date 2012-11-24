@@ -192,8 +192,7 @@ namespace	Air{
 				return	(*this	-	v).Length();
 			};
 			inline	float		Dot(const	Vector3&	v)const{
-				return	XMVector3Dot(	ToXM(),
-										XMLoadFloat3((XMFLOAT3*)&v)).m128_f32[0];
+				return	x*v.x+y*v.y+z*v.z;//XMVector3Dot(	ToXM(),										XMLoadFloat3((XMFLOAT3*)&v)).m128_f32[0];
 			};
 			inline	Vector3		Cross(const	Vector3&	v)const{
 				return	XMVector3Cross(	ToXM(),

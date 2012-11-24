@@ -321,6 +321,7 @@ namespace Air{
 								enSamplerState,
 								enTextureFilter,
 								enTextureAddress,
+								enBorderColor,
 							enGeometryShader,
 							enPixelShader,
 							enHullShader,
@@ -356,13 +357,15 @@ namespace Air{
 								enStencilEnable,
 								enStencilReadMask,
 								enStencilWriteMask,
-								enFrontFace,
-									enStencilFailOp,
-									enStencilDepthFailOp,
-									enStencilPassOp,
-									enStencilFunc,
-								enBackFace,
-	
+								enFrontFaceStencilFailOp,
+								enFrontFaceStencilDepthFailOp,
+								enFrontFaceStencilPassOp,
+								enFrontFaceStencilFunc,
+								enBackFaceStencilFailOp,
+								enBackFaceStencilDepthFailOp,
+								enBackFaceStencilPassOp,
+								enBackFaceStencilFunc,
+								enStencilRef,
 				enMaterialMax
 			};
 			enum	enumStencileOP{
@@ -784,6 +787,7 @@ namespace Air{
 					StencilEnable		=	FALSE;
 					StencilReadMask		=	0xff;
 					StencilWriteMask	=	0xff;
+					StencilRef			=	0xFFFFFFFF;
 				};
 				SInt				DepthEnable;
 				enumDepthWriteMask	DepthWriteMask;
@@ -793,6 +797,7 @@ namespace Air{
 				U8					StencilWriteMask;
 				DEPTH_STENCILOP		FrontFace;
 				DEPTH_STENCILOP		BackFace;
+				U32					StencilRef;
 			};
 			/**	\brief	¹âÕ¤»¯×´Ì¬
 			*
