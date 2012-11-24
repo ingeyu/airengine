@@ -18,7 +18,7 @@ namespace	Air{
 			m_pBlurX		=	NULL;
 			m_pBlurY		=	NULL;
 
-			m_vLightDirection	=	Float3(-1,-1,-1);
+			m_vLightDirection	=	Float3(1,-1,1);
 			m_vLightDirection.Normalize();
 		}
 
@@ -62,16 +62,14 @@ namespace	Air{
 
 			m_pMaskMaterial	=	EngineSystem::GetSingleton()->CreateProduct<Material*>("ShadowMask","Material");
 
-			Float3 vDir(-1,-1,-1);
-			vDir.Normalize();
 
 			m_vecCSMCamera.resize(uiSplite);
 			AString	strCameraName	=	"CascadedShadowCamera";
 			Light::Info info;
-			info.SetDirection(vDir);
+			info.SetDirection(m_vLightDirection);
 			for(U32 i=0;i<uiSplite;i++){
 				m_vecCSMCamera[i]	=	EngineSystem::GetSingleton()->CreateProduct<Light*>(strCameraName+Common::Converter::ToString(i),"Light",&info);
-				m_vecCSMCamera[i]->SetDir(vDir);
+				m_vecCSMCamera[i]->SetDir(m_vLightDirection);
 				m_vecCSMCamera[i]->SetOrtho(true);
 				float Scale	=	pow(4.0f,(float)(i+1))*4.0f;
 	
@@ -112,8 +110,8 @@ namespace	Air{
 				Float44	view = pLight->GetViewMatrix();
 				Float3 viewpos	=	view*pos;
 				view.Inverse();
-				viewpos/=(i+1);
-				viewpos	=	Float3(floor(viewpos.x),floor(viewpos.y),floor(viewpos.z))*(i+1);
+				viewpos*=(i+1)*4;
+				viewpos	=	Float3(floor(viewpos.x),floor(viewpos.y),floor(viewpos.z))*0.25/(i+1);
 				Float3 vpos	=	view*viewpos;
 				pLight->SetPosition(vpos);
 			}
