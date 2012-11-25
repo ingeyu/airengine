@@ -1656,3 +1656,12 @@ opacity=1.000000
 specularLevel=0.000000
 selfIllumColor=0.000000 0.000000 0.000000
 DiffuseTex=19574d20.dds
+[iFlowers-04]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=20120314094205015846.jpg
