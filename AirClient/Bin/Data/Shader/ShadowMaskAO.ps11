@@ -152,7 +152,7 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 	float4	vShadowPos	=	mul(mShadowViewProj,vWorldPos);
 	vShadowPos/=vShadowPos.w;
 	float2 absXY	=	abs(vShadowPos.xy);
-	if(absXY.x > 1.0f||absXY.y>1.0f){
+	if(absXY.x > 1.0f||absXY.y>1.0f||vShadowPos.z < 0.0f){
 		discard;
 	}
 	float2  oldShaodwUV	=	XY_UV(vShadowPos.xy);

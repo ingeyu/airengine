@@ -237,8 +237,12 @@ namespace	Air{
 
 			void Window11::OnSize()
 			{
+				HWND	hWindow	=	m_WndHandle;
+				if(m_Info.extraWnd){
+					hWindow		=	m_Info.extraWnd;
+				}
 				RECT rect;
-				GetClientRect(m_WndHandle,&rect);
+				GetClientRect(hWindow,&rect);
 				U32	uiWidth		=	rect.right	-	rect.left;
 				U32	uiHeight	=	rect.bottom	-	rect.top;
 				if(	uiWidth		!=	m_SwapChainDesc.BufferDesc.Width	||
