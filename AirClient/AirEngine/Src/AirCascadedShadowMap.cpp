@@ -36,16 +36,16 @@ namespace	Air{
 
 			m_pMainCamera	=	pMainCamera;
 			RenderTarget::Info rtinfo;
-			rtinfo.SetSingleTarget(512,512,enTFMT_R32G32_FLOAT,true);
+			rtinfo.SetSingleTarget(512,512,enTFMT_R32_FLOAT,true);
 			m_pShadowDepth	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("CascadedShadowMapDepth","Target",&rtinfo);
 			m_pShadowDepth->SetClearFlag(true,true,true);
 			m_pShadowDepth->AddPhaseFlag(enPI_Shadow);
-			m_pShadowDepth->SetBKColor(Float4(1000,1000000,1,1));
-			rtinfo.SetSingleTarget(512,512,enTFMT_R32G32_FLOAT);
-			m_pShadowDepthTemp	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("CascadedShadowMapDepthTemp","Target",&rtinfo);
-			m_pShadowDepthTemp->SetClearFlag(true,true,true);
-			m_pShadowDepthTemp->AddPhaseFlag(enPI_Shadow);
-			m_pShadowDepthTemp->SetBKColor(Float4(1000,1000000,1,1));
+			m_pShadowDepth->SetBKColor(Float4(1,1,1,1));
+			//rtinfo.SetSingleTarget(512,512,enTFMT_R32G32_FLOAT);
+			//m_pShadowDepthTemp	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("CascadedShadowMapDepthTemp","Target",&rtinfo);
+			//m_pShadowDepthTemp->SetClearFlag(true,true,true);
+			//m_pShadowDepthTemp->AddPhaseFlag(enPI_Shadow);
+			//m_pShadowDepthTemp->SetBKColor(Float4(1,1,1,1));
 
 
 			
@@ -134,7 +134,7 @@ namespace	Air{
 					m_pShadowDepth->AfterUpdate();
 				}
 
-				BlurRenderTarget(m_pShadowDepthTemp,m_pShadowDepth);
+				//BlurRenderTarget(m_pShadowDepthTemp,m_pShadowDepth);
 
 				//Shadow Mask
 				if(i==0){

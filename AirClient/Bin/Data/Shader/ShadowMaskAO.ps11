@@ -5,7 +5,7 @@ cbuffer cbPerCamera : register( b1 )
 	float4	vCameraPosition;
 	float4	vCameraUp;
 	float4	vVP_NearFar;
-   
+    
 };
 
 cbuffer cbPerMaterial		: register( b3 )
@@ -14,6 +14,7 @@ cbuffer cbPerMaterial		: register( b3 )
 	matrix	mShadowViewProj;
 	matrix  mShadowViewProjInv;
    float4	vRTSize;
+   float4   vViewPos;
 };
 
 struct VS_OUTPUT
@@ -100,6 +101,28 @@ float2(-6.242887,31.385130),
 
 #endif
 
+float2	PBRDF(float3 N,float3	L,float3 E,float fShiness){
+   float fn         =   fShiness;//*tex2D(baseMap_1,Input.Texcoord).x;
+   
+   float3 H         = normalize( E+L);
+   float   NL       =   dot(N,L) ;
+   float   NH       =   dot(N,H) ;
+   float   EH       =   dot(E,H);
+   float   NE       =   dot(N,E);
+   
+   float f0   =   pow((1-fn)/(1+fn),2);
+   
+   float   Fdiff   =   f0+(1-f0)*pow(1-NL,5);
+   float   Fspec   =   f0+(1-f0)*pow(1-EH,5);
+   
+   float   diff   =   NL*saturate(1-Fdiff);//*pow(c,2.2);
+   float   n      =   fn;
+   float   spec   =   (0.0397436*n+0.0856832)*Fspec*pow(saturate(NH),n)/max(NL,NE);
+    
+
+   return float2(max(diff,0),max(spec,0));
+};
+
 PS_OUTPUT main( VS_OUTPUT Input ){
 
 	float2 invShadowViewport	=	vRTSize.zw*0.5f;
@@ -116,12 +139,14 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 	float4	vProjPos	=	float4(xy,0,1);
 	vProjPos.z			=	MRTDepthTex.Sample(SS_WrapLine2,Input.UV).x;
 
-	float3	vNormal		=	MRTNormalTex.Sample(SS_WrapLine2,Input.UV).xyz*2-1;
+	float4	vNormal		=	MRTNormalTex.Sample(SS_WrapLine2,Input.UV);//.xyz*2-1;
+	float3 N	=	vNormal.xyz*2-1;
 
 	float4	vWorldPos	=	mul(mViewProjectionInv,vProjPos);
 	vWorldPos/=vWorldPos.w;
 
-	float3	L	=	vCameraDir.xyz;//normalize(float3(-1,-1,-1));	
+	float3	L	=	vCameraDir.xyz;//normalize(float3(-1,-1,-1));
+	float3  E	=	normalize(vViewPos.xyz-	vWorldPos.xyz);
 
 
 	float4	vShadowPos	=	mul(mShadowViewProj,vWorldPos);
@@ -148,11 +173,11 @@ PS_OUTPUT main( VS_OUTPUT Input ){
       fRet+=dot(tDir,L);
    }
 
-	float fDot	=	(dot(vNormal,-L))*0.5+0.5;
+	float2 fDot	=	PBRDF(N,-L,E,vNormal.w*127+1);
 	
 
 	PS_OUTPUT	Out;
-	Out.Color						= fDot*((fRet/SHADOW_SAMPLE_NUMBER)*0.5+0.5);//vShadowPos.z > 0 &&	vShadowPos.z < oldZ + 0.0001f;
+	Out.Color						= float4(fDot,0,0)*((fRet/SHADOW_SAMPLE_NUMBER)*0.5+0.5);//vShadowPos.z > 0 &&	vShadowPos.z < oldZ + 0.0001f;
 	return	Out;
    
 }

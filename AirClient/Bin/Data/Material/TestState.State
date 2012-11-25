@@ -48,17 +48,6 @@ DepthStencilState DS_CSM
 	FrontFaceStencilFunc		=	Greater;
 	StencilRef					=	128;
 };
-DepthStencilState DS_CSM1
-{
-    DepthEnable		=	FALSE;
-    DepthWriteMask	=	Zero;
-	StencilEnable	=	TRUE;
-	FrontFaceStencilFailOp		=	Keep;
-	FrontFaceStencilPassOp		=	Replace;
-	FrontFaceStencilDepthfailOp	=	Keep;
-	FrontFaceStencilFunc		=	Greater;
-	StencilRef					=	2;
-};
 
 BlendState AdditiveBlending
 {
