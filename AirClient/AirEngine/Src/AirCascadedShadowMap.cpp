@@ -104,14 +104,15 @@ namespace	Air{
 			for(int i=0;i<m_vecCSMCamera.size();i++){
 				Light*	pLight	=	m_vecCSMCamera[i];
 
-
-				Float3 pos		=	vCamPos+vCamDir*pow(4.0f,(float)(i+1))*2.0f-m_vLightDirection*200;
+				float fScale	=	pow(4.0f,(float)(i+1))*2.0f;
+				float fScale2	=	fScale*2/256.0f;
+				Float3 pos		=	vCamPos+vCamDir*fScale-m_vLightDirection*200;
 
 				Float44	view = pLight->GetViewMatrix();
 				Float3 viewpos	=	view*pos;
 				view.Inverse();
-				viewpos*=(i+1)*4;
-				viewpos	=	Float3(floor(viewpos.x),floor(viewpos.y),floor(viewpos.z))*0.25/(i+1);
+				viewpos/=fScale2;
+				viewpos	=	Float3(floor(viewpos.x),floor(viewpos.y),floor(viewpos.z))*fScale2;
 				Float3 vpos	=	view*viewpos;
 				pLight->SetPosition(vpos);
 			}
