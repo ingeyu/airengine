@@ -9,8 +9,8 @@ SamplerState	ss_wrappoint	:	register(s0);
 SamplerState	ss_clampline2	:	register(s1);
 SamplerState	ss_clampline3	:	register(s2);
 
-#define SAMPLER_NUM 4
-#define STEP_NUM	6
+#define SAMPLER_NUM 3
+#define STEP_NUM	5
 cbuffer cbPerCamera		: register( b1 )
 {
     matrix  ViewProjection;
@@ -85,7 +85,7 @@ float4 main( VS_OUTPUT Input ) : SV_Target
    
    float4 lighting=0;
    float  occ=0;
-   float2 uvScale   =   invViewport*20*(noisep.w);//*OccSize.y;
+   float2 uvScale   =   invViewport*15*(noisep.w+0.5f);//*OccSize.y;
 
 
    float offset   =   rotoffset+(noisep.x)*0.25f/SAMPLER_NUM;
@@ -112,8 +112,9 @@ float4 main( VS_OUTPUT Input ) : SV_Target
       float2 satuv         =   float2(x,y);
       float4 currentEnv    =   TexSAT.Sample(ss_clampline2,satuv);
       float4 maxEnv        =   TexSAT.Sample(ss_clampline2,float2(1,y));
-
-      lighting += maxEnv-currentEnv;
+	  float4 middle1	   =	TexSAT.Sample(ss_clampline2,float2(lerp(x,1,0.4),y));
+	  float4 middle2	   =	TexSAT.Sample(ss_clampline2,float2(lerp(x,1,0.6),y));
+      lighting += (maxEnv-currentEnv)*0.5+middle2-middle1;
 	  occ+=1-x;
       //co+=length(tempDir);
    }

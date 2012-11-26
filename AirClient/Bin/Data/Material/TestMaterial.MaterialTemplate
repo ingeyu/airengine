@@ -40,6 +40,7 @@ MaterialTemplate	MT_Object
 	Phase	MRT
 	Pass
 	{
+		RasterizerState		CullNone
 		VertexShader		"Shader/Obj_MRT_NoSkin"
 		{
 		}
@@ -59,6 +60,7 @@ MaterialTemplate	MT_Object_ShadowDepth
 	Phase	Shadow
 	Pass
 	{
+		RasterizerState		CullNone
 		VertexShader		"Shader/Obj_MRT_NoSkin"
 		{
 		}
@@ -73,6 +75,7 @@ MaterialTemplate	MT_Object_ShadowDepth_AlphaTest
 	Phase	Shadow
 	Pass
 	{
+		RasterizerState		CullNone
 		VertexShader		"Shader/Obj_MRT_NoSkin"
 		{
 		}
@@ -89,6 +92,7 @@ MaterialTemplate	MT_ObjectSkin
 	Phase	MRT
 	Pass
 	{
+		RasterizerState		CullNone
 		VertexShader		"Shader/Obj_MRT_Skin"
 		{
 		}
@@ -107,6 +111,7 @@ MaterialTemplate	MT_ObjectSkin_ShadowDepth
 	Phase	Shadow
 	Pass
 	{
+		RasterizerState		CullNone
 		VertexShader		"Shader/Obj_MRT_Skin"
 		{
 		}

@@ -1564,7 +1564,7 @@ specular=0.900000 0.900000 0.900000
 glossiness=0.100000
 opacity=1.000000
 specularLevel=0.000000
-selfIllumColor=0.000000 0.000000 0.000000
+selfIllumColor=0.500000 0.300000 0.250000
 DiffuseTex=1958adc0.dds
 [Material #423]
 diffuse=0.588000 0.588000 0.588000
