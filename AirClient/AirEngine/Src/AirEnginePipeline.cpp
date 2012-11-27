@@ -188,7 +188,7 @@ namespace	Air{
 			m_pRT_EnvSAT->SetClearFlag(false,true,false);
 
 			m_CSM.Init(m_pScene->GetMainCamera(),3);
-
+			m_Tesellation.Init();
 
 
 
@@ -208,6 +208,7 @@ namespace	Air{
 		Air::U1 Pipeline::Destroy()
 		{
 			m_CSM.Release();
+			m_Tesellation.Release();
 
 			SAFE_RELEASE_REF(pMesh);
 

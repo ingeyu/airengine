@@ -3,6 +3,7 @@
 
 #include "AirRenderSystem.h"
 #include "AirCascadedShadowMap.h"
+#include "AirScreenSpaceTessellation.h"
 #include "AirInterfaceInputSystem.h"
 
 namespace	Air{
@@ -80,7 +81,8 @@ namespace	Air{
 			Float3			vMoveDirection;
 			float			fVolocity;
 
-			CascadedShadowMap	m_CSM;
+			CascadedShadowMap		m_CSM;
+			ScreenSpaceTessellation	m_Tesellation;
 		};
 	}
 }
