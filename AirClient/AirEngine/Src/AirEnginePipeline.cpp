@@ -305,7 +305,8 @@ namespace	Air{
 				m_pSky->RenderOneObject(m_pQuad);
 				m_pMRT->AfterUpdate();
 			}
-
+			//
+			m_Tesellation.UpdateTarget(pMainCamera);
 			
 
 			m_CSM.UpdateTarget();

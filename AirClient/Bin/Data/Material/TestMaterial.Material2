@@ -36,7 +36,7 @@ Material	NoMaterial	:	MT_Object
 
 Material	QuadCopy	:	QuadCopy
 {
-	Texture	ShadowMask
+	Texture	CascadedShadowMapMask
 }
 
 Material	SSAO	:	MT_SSAO
@@ -85,7 +85,7 @@ Material	ShadowMask	:	MT_ShadowMask
 }
 Material	Combine		:	MT_Combine
 {
-	Texture MRT2
+	Texture TessMRT1
 	Texture AO
 	Texture CascadedShadowMapMask
 	Texture SO
@@ -116,3 +116,12 @@ Material	AmbientLight	:	MT_AmbientLighting
 	Texture Texture/noise4_.dds
 	Texture EnvSAT
 }	
+Material	ScreenSpaceTessellation	:	MT_ScreenSpaceTessellation
+{
+	Matrix
+	Texture	MRT0
+	Texture	MRT1
+	Texture	MRT2
+	Texture	MRT3
+	Texture	MRT4
+}

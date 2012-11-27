@@ -1151,7 +1151,7 @@ namespace Air{
 								info.diffuse_opacity.w	=	Converter::ToFloat(v[0]);
 								break;}
 							case enMSPT_SpecularLevel:{
-
+								info.selfIllumColor_fresnel.w	=	Converter::ToFloat(v[0]);
 								break;}
 							case enMSPT_SelfIllumColor:{
 								Converter::ParseString(v[0],(float*)&info.selfIllumColor_fresnel,3);

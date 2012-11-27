@@ -229,6 +229,7 @@
     <ClCompile Include="..\AirEngine\Src\AirInterfaceResourceStream.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirInterfaceResourceSystem.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirSceneLoader.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirScreenSpaceTessellation.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirStaticMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -322,6 +323,7 @@
     <ClInclude Include="..\AirEngine\Inc\AirRenderTarget.h" />
     <ClInclude Include="..\AirEngine\Inc\AirRenderDevice.h" />
     <ClInclude Include="..\AirEngine\Inc\AirSceneLoader.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirScreenSpaceTessellation.h" />
     <ClInclude Include="..\AirEngine\Inc\AirStaticMesh.h" />
     <ClInclude Include="..\AirEngine\Inc\AirRenderbuffer.h" />
     <ClInclude Include="..\AirEngine\Inc\AirRenderPhase.h" />

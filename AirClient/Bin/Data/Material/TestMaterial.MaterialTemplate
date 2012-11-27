@@ -92,7 +92,7 @@ MaterialTemplate	MT_ObjectSkin
 	Phase	MRT
 	Pass
 	{
-		RasterizerState		CullNone
+		//RasterizerState		CullNone
 		VertexShader		"Shader/Obj_MRT_Skin"
 		{
 		}
@@ -111,7 +111,7 @@ MaterialTemplate	MT_ObjectSkin_ShadowDepth
 	Phase	Shadow
 	Pass
 	{
-		RasterizerState		CullNone
+		//RasterizerState		CullNone
 		VertexShader		"Shader/Obj_MRT_Skin"
 		{
 		}
@@ -366,6 +366,28 @@ MaterialTemplate	MT_AmbientLighting
 			Texture		3	3		SS_ClampLine2
 			Texture		4	4		SS_WarpPoint
 			Texture		5	5		SS_WarpPoint
+		}
+	}
+}
+
+MaterialTemplate	MT_ScreenSpaceTessellation
+{
+	Phase		Manual
+	Pass
+	{
+		VertexShader		"Shader/QuadTessellation"
+		{
+			Texture		0	0		SS_ClampLine2
+			Texture		1	1		SS_ClampLine2
+			Texture		3	2		SS_ClampLine2
+		}
+		PixelShader			"Shader/QuadTessellation"
+		{
+			Texture		0	0		SS_ClampLine2
+			Texture		1	1		SS_ClampLine2
+			Texture		2	2		SS_ClampLine2
+			Texture		3	3		SS_ClampLine2
+			Texture		4	4		SS_ClampLine2
 		}
 	}
 }

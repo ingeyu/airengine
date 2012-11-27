@@ -18,7 +18,7 @@ namespace	Air{
 
 			U1	Init();
 			U1	Release();
-			U1		UpdateTarget();
+			U1		UpdateTarget(Camera* pMainCamera);
 
 			RenderTarget*	m_pTessellationTarget;
 			Material*		m_pTessellationMaterial;

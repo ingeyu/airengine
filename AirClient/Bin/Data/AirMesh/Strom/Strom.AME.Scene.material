@@ -1095,7 +1095,7 @@ ambient=0.588000 0.588000 0.588000
 specular=0.900000 0.900000 0.900000
 glossiness=0.100000
 opacity=1.000000
-specularLevel=0.000000
+specularLevel=0.500000
 selfIllumColor=0.000000 0.000000 0.000000
 DiffuseTex=195e2fe0.dds
 [Material #371]
@@ -1149,7 +1149,7 @@ ambient=0.588000 0.588000 0.588000
 specular=0.900000 0.900000 0.900000
 glossiness=0.100000
 opacity=1.000000
-specularLevel=0.000000
+specularLevel=0.500000
 selfIllumColor=0.000000 0.000000 0.000000
 DiffuseTex=195e2fe0.dds
 [Material #377]
@@ -1230,7 +1230,7 @@ ambient=0.588000 0.588000 0.588000
 specular=0.900000 0.900000 0.900000
 glossiness=0.100000
 opacity=1.000000
-specularLevel=0.000000
+specularLevel=0.500000
 selfIllumColor=0.000000 0.000000 0.000000
 DiffuseTex=195e2fe0.dds
 [Material #386]
@@ -1275,7 +1275,7 @@ ambient=0.588000 0.588000 0.588000
 specular=0.900000 0.900000 0.900000
 glossiness=0.100000
 opacity=1.000000
-specularLevel=0.000000
+specularLevel=0.500000
 selfIllumColor=0.000000 0.000000 0.000000
 DiffuseTex=195e2fe0.dds
 [Material #391]
@@ -1329,7 +1329,7 @@ ambient=0.588000 0.588000 0.588000
 specular=0.900000 0.900000 0.900000
 glossiness=0.100000
 opacity=1.000000
-specularLevel=0.000000
+specularLevel=0.500000
 selfIllumColor=0.000000 0.000000 0.000000
 DiffuseTex=195e2fe0.dds
 [Material #397]
@@ -1536,7 +1536,7 @@ ambient=0.588000 0.588000 0.588000
 specular=0.900000 0.900000 0.900000
 glossiness=0.100000
 opacity=1.000000
-specularLevel=0.000000
+specularLevel=0.500000
 selfIllumColor=0.000000 0.000000 0.000000
 DiffuseTex=195e2fe0.dds
 [Material #420]
