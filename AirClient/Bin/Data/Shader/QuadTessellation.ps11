@@ -25,9 +25,10 @@ PS_OUTPUT main( GS_OUTPUT input )
 	float2 uv	=	input.UV;
     PS_OUTPUT Output;
     Output.Depth		=	input.ProjPos.z/input.ProjPos.w;
-	Output.Normal		=	float4(normalize(input.Normal.xyz)*0.5+0.5,0);
+	Output.Normal		=	float4(normalize(input.Normal.xyz)*0.5+0.5,1.0);
 	Output.Diffuse		=	DiffuseTex.SampleLevel(BorderLine2,uv,0);
 	Output.Specular		=	SpecularTex.SampleLevel(BorderLine2,uv,0);
 	Output.SelfIllum	=	SelfIllumTex.SampleLevel(BorderLine2,uv,0);
+	Output.Normal.w		=	Output.Specular.w;
     return Output;    
 }

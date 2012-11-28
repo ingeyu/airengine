@@ -379,7 +379,6 @@ MaterialTemplate	MT_ScreenSpaceTessellation
 		{
 			Texture		0	0		SS_ClampLine2
 			Texture		1	1		SS_ClampLine2
-			Texture		3	2		SS_ClampLine2
 		}
 		GeometryShader		"Shader/QuadTessellation"
 		{

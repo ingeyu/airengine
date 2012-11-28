@@ -36,10 +36,9 @@ VS_OUTPUT main( VS_INPUT input )
 	float4	wpos	=	mul(invViewProj,proj);
 	wpos/=wpos.w;
 
-	float3	N		=	NormalTex.SampleLevel(BorderLine2,uv,0).xyz*2-1;
-	float4	fBump	=	DiffTex.SampleLevel(BorderLine2,uv,0);
-	
-	wpos.xyz -= N*fBump.w;
+	float4	N		=	NormalTex.SampleLevel(BorderLine2,uv,0);
+	N.xyz	=	N.xyz*2-1;
+	wpos.xyz += N.xyz*(N.w);
 
     //proj			=	mul(ViewProjection,wpos);
 	//Output.Position	=	wpos;

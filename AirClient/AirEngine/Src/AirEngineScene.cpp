@@ -69,13 +69,18 @@ namespace Air{
 			m_pMainCamera->SetUpDir(0,1,0);
 
 			MeshEntity::Info	info;
-			info.strMaterial	=	"WorldHelperWireFrame";
-			info.strMeshName	=	"AirMesh/NAV2.ame";
- 			//MeshEntity*	pMesh	=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity*>(info.strMeshName,"MeshEntity",&info);;
-// 			pMesh->Create();
+			info.strMaterial	=	"NoMaterial";
+			info.strMeshName	=	"AirMesh/Tiger.ame";
+ 			MeshEntity*	pMesh	=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity*>(info.strMeshName,"MeshEntity",&info);;
+			pMesh->SetMaterialName("NoMaterialShadowDepth");
+
+			// 			pMesh->Create();
 // 			//Material*	pMaterial	=	CreateProduct<Material*>("Test2","Material");
 // 			pMesh->SetMaterialName("Test2");
- 			//m_pRootNode.attachObject(pMesh);
+ 			SceneNode* pNode	=	m_pRootNode.CreateChildSceneNode();
+			pNode->attachObject(pMesh);
+			pNode->SetScale(Float3(0.02,0.02,0.02));
+			pNode->SetPosition(Float3(-8,6.5,0));
 
 			m_Loader.SetNode(&m_pRootNode);
 			//"..\\Data\\AirMesh\\jianxia3\\jianxia3.ame.Scene"

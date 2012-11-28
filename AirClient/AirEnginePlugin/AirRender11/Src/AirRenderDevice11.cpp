@@ -13,6 +13,8 @@
 #include "AirRenderTarget11.h"
 #include "AirCommonFactory.h"
 
+//#define ENABLE_WARP_DEVICE
+
 
 namespace Air{
 	
@@ -124,7 +126,18 @@ namespace Air{
 				HMODULE	h	=	GetModuleHandle(NULL);
 
 				D3D_FEATURE_LEVEL	outLevel	=	D3D_FEATURE_LEVEL_11_0;
-
+#ifdef ENABLE_WARP_DEVICE
+				hr	=	D3D11CreateDevice(	0,
+											D3D_DRIVER_TYPE_WARP,
+											NULL,
+											createDeviceFlags,
+											featureLevels,
+											3,
+											D3D11_SDK_VERSION,
+											&m_pDevice,
+											&outLevel,
+											&m_pContext);
+#else
 				hr	=	D3D11CreateDevice(	pAdapter,
 											D3D_DRIVER_TYPE_UNKNOWN ,
 											NULL,
@@ -135,6 +148,7 @@ namespace Air{
 											&m_pDevice,
 											&outLevel,
 											&m_pContext);
+#endif
 
 				if(FAILED(hr)){
 					return	false;
@@ -162,6 +176,46 @@ namespace Air{
 
 				
 				SAFE_RELEASE(pAdapter);
+#ifdef ENABLE_WARP_DEVICE
+				IDXGIDevice1 * pDXGIDevice1=NULL;
+				hr = m_pDevice->QueryInterface(__uuidof(IDXGIDevice1), (void **)&pDXGIDevice1);
+				if(pDXGIDevice1!=NULL){
+					pDXGIDevice1->GetAdapter(&pAdapter);
+					SAFE_RELEASE(pDXGIDevice1);
+				}else{
+					IDXGIDevice*	pDXGIDevice=NULL;
+					hr = m_pDevice->QueryInterface(__uuidof(IDXGIDevice), (void **)&pDXGIDevice);
+					if(pDXGIDevice!=NULL){
+						pDXGIDevice->GetAdapter(&pAdapter);
+					}
+					SAFE_RELEASE(pDXGIDevice);
+				}
+				SAFE_RELEASE(m_pFactory);
+				SAFE_RELEASE(m_pFactory1);
+
+				//GetParent
+				/**********************
+									NULL
+									|
+								IDXGIFactory
+								|			|
+					IDXGISwapChain		IDXGIAdapter
+						|				|			|
+					IDXGISurface	IDXGIOutput	IDXGIDevice
+										|			|
+								IDXGIResource	IDXGISurface
+													|
+												IDXGISurface
+				**********************/
+
+				pAdapter->GetParent(__uuidof(IDXGIFactory1),(void**)&m_pFactory1);
+				if(m_pFactory1==NULL){
+					pAdapter->GetParent(__uuidof(IDXGIFactory),(void**)&m_pFactory);
+				}
+				SAFE_RELEASE(pAdapter);
+#endif
+
+
 
 				Render::System::GetSingleton()->AddFactory(new ExtraOptionParamFactory<State11,PassStateInfo*>("State"));
 				Render::System::GetSingleton()->AddFactory(new ParamFactory<Buffer11>("Buffer"));

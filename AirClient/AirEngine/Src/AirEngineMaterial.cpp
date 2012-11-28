@@ -88,7 +88,8 @@ namespace Air{
 		}
 
 		Air::U1 Material::Destroy(){
-			m_pTemplate->RemoveMaterial(this);
+			if(m_pTemplate!=NULL)
+				m_pTemplate->RemoveMaterial(this);
 
 			m_Hash	=	0;
 
