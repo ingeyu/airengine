@@ -1,0 +1,30 @@
+
+Texture2D	DiffuseTex		:	register(t2);
+Texture2D	SpecularTex		:	register(t3);
+Texture2D	SelfIllumTex	:	register(t4);
+SamplerState	BorderLine2	:	register(s0);
+
+struct VS_OUTPUT
+{
+    float4 Position     : SV_POSITION; // vertex position
+	float2 UV			: TEXCOORD0;
+	float4 ProjPos		: TEXCOORD1;
+};
+struct PS_OUTPUT
+{
+	float4	Depth			:	SV_Target0;
+	float4	Diffuse			:	SV_Target1;
+	float4	Specular		:	SV_Target2;
+	float4	SelfIllum		:	SV_Target3;
+};
+
+PS_OUTPUT main( VS_OUTPUT input )
+{
+	float2 uv	=	input.UV;
+    PS_OUTPUT Output;
+    Output.Depth		=	input.ProjPos.z/input.ProjPos.w;
+	Output.Diffuse		=	DiffuseTex.SampleLevel(BorderLine2,uv,0);
+	Output.Specular		=	SpecularTex.SampleLevel(BorderLine2,uv,0);
+	Output.SelfIllum	=	SelfIllumTex.SampleLevel(BorderLine2,uv,0);
+    return Output;    
+}

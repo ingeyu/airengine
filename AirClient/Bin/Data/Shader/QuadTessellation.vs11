@@ -1,0 +1,59 @@
+Texture2D	DepthTex	:	register(t0);
+Texture2D	NormalTex	:	register(t1);
+Texture2D	DiffTex		:	register(t2);
+SamplerState	BorderLine2	:	register(s0);
+
+cbuffer cbPerCamera : register( b1 )
+{
+    matrix  ViewProjection;
+	float4	vCameraPosition;
+	float4	vCameraDir;
+	float4	vCameraUp;
+	float4	vVP_NearFar;
+   
+}
+cbuffer	cbPerObject	:	register(b2)
+{
+	 matrix  World;
+}
+
+cbuffer	cbPerMaterial		:	register(b3)
+{
+	matrix	invViewProj;
+}
+
+struct VS_INPUT
+{
+    float2 Position     : POSITION; // vertex position 
+};
+
+struct VS_OUTPUT
+{
+    float4 Position     : SV_POSITION; // vertex position
+	float2 UV			: TEXCOORD0;
+	float4 ProjPos		: TEXCOORD1;
+};
+
+VS_OUTPUT main( VS_INPUT input )
+{
+    VS_OUTPUT Output;
+
+    // Transform the position from object space to homogeneous projection space
+    float4	proj	=	float4(input.Position,1,1);
+	float2	uv		=	input.Position.xy*float2(0.5,-0.5)+0.5;
+	
+	proj.z			=	DepthTex.SampleLevel(BorderLine2,uv,0).x;
+	float4	wpos	=	mul(invViewProj,proj);
+	wpos/=wpos.w;
+
+	float3	N		=	NormalTex.SampleLevel(BorderLine2,uv,0).xyz*2-1;
+	float4	fBump	=	DiffTex.SampleLevel(BorderLine2,uv,0);
+	
+	wpos.xyz -= N*fBump.w;
+
+    proj			=	mul(ViewProjection,wpos);
+	Output.Position	=	proj;
+	Output.ProjPos	=	proj;
+	Output.UV		=	uv;
+    return Output;    
+}
