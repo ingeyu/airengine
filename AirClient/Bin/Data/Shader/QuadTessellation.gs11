@@ -1,0 +1,43 @@
+
+cbuffer	cbPerMaterial		:	register(b3)
+{
+	matrix	invViewProj;
+	matrix	ViewProjection;
+}
+
+struct GS_OUTPUT
+{
+    float4 Position     : SV_POSITION; // vertex position
+	float2 UV			: TEXCOORD0;
+	float4 ProjPos		: TEXCOORD1;
+	float3 Normal		: TEXCOORD2;
+};
+
+struct VS_OUTPUT
+{
+    //float4 Position     : SV_POSITION; // vertex position
+	float2 UV			: TEXCOORD0;
+	float4 WPos			: POSITION;
+};
+
+[maxvertexcount(18)]
+void main( triangle VS_OUTPUT input[3],inout TriangleStream<GS_OUTPUT> OutStream )
+{
+    VS_OUTPUT Output;
+
+    // Transform the position from object space to homogeneous projection space
+    float3	V0	=	normalize(input[1].WPos.xyz	-	input[0].WPos.xyz);
+	float3	V1	=	normalize(input[2].WPos.xyz	-	input[0].WPos.xyz);
+	float3	N	=	normalize(cross(V0,V1));
+
+	GS_OUTPUT	Out;
+	for(int i=0;i<3;i++){
+		Out.UV			=	input[i].UV;
+		Out.ProjPos		=	mul(ViewProjection,input[i].WPos);
+		Out.Position	=	Out.ProjPos;
+		Out.Normal		=	N;
+		OutStream.Append(Out);
+	}
+
+    OutStream.RestartStrip();  
+}

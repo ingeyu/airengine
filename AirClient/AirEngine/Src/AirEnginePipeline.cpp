@@ -187,8 +187,9 @@ namespace	Air{
 			m_pRT_EnvSAT	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("EnvSAT","Target",&rtinfo);
 			m_pRT_EnvSAT->SetClearFlag(false,true,false);
 
-			m_CSM.Init(m_pScene->GetMainCamera(),3);
 			m_Tesellation.Init();
+			m_CSM.Init(m_pScene->GetMainCamera(),3);
+			
 
 
 

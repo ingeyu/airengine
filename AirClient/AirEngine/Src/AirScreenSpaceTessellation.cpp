@@ -96,15 +96,16 @@ namespace	Air{
 				m_pTessellationMaterial	=	EngineSystem::GetSingleton()->CreateProduct<Material*>("ScreenSpaceTessellation","Material");
 			}
 
-			enumTextureFormat	fmt[4]={
+			enumTextureFormat	fmt[5]={
 				enTFMT_R32_FLOAT,
+				enTFMT_R8G8B8A8_UNORM,
 				enTFMT_R8G8B8A8_UNORM,
 				enTFMT_R8G8B8A8_UNORM,
 				enTFMT_R8G8B8A8_UNORM
 			};
 
 			RenderTarget::Info rtinfo;
-			rtinfo.SetMutilTargetScreen(4,fmt,1.0f,TRUE,RenderSystem::GetSingleton()->GetMainWindow());
+			rtinfo.SetMutilTargetScreen(5,fmt,1.0f,TRUE,RenderSystem::GetSingleton()->GetMainWindow());
 			m_pTessellationTarget	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("TessMRT","Target",&rtinfo);
 			m_pTessellationTarget->SetClearFlag(true,true,true);
 			m_pTessellationTarget->SetBKColor(Float4(1.0f,1.0f,1.0f,1.0f));
@@ -114,7 +115,7 @@ namespace	Air{
 
 		Air::U1 ScreenSpaceTessellation::Release()
 		{
-			SAFE_DELETE(m_pTessRenderable		 );
+			AirDelete(m_pTessRenderable		 );
 			SAFE_RELEASE_REF(m_pTessellationTarget	 );
 			SAFE_RELEASE_REF(m_pTessellationMaterial );
 			return true;
@@ -129,9 +130,11 @@ namespace	Air{
 		{
 			if(m_pTessellationTarget!=NULL){
 
-				Float44	matVP	=	pMainCamera->GetViewProjMatrix();
-				matVP.Inverse();
-				m_pTessellationMaterial->GetConstantBuffer()->UpdateData(&matVP);
+				Float44	matVP[2];
+				matVP[0]	=	pMainCamera->GetViewProjMatrix();
+				matVP[1]	=	matVP[0];
+				matVP[0].Inverse();
+				m_pTessellationMaterial->GetConstantBuffer()->UpdateData(matVP);
 				if(m_pTessellationTarget->BeforeUpdate()){
 					m_pTessellationMaterial->RenderOneObject(m_pTessRenderable);
 					m_pTessellationTarget->AfterUpdate();

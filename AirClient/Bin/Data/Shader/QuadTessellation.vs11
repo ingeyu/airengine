@@ -3,23 +3,13 @@ Texture2D	NormalTex	:	register(t1);
 Texture2D	DiffTex		:	register(t2);
 SamplerState	BorderLine2	:	register(s0);
 
-cbuffer cbPerCamera : register( b1 )
-{
-    matrix  ViewProjection;
-	float4	vCameraPosition;
-	float4	vCameraDir;
-	float4	vCameraUp;
-	float4	vVP_NearFar;
-   
-}
-cbuffer	cbPerObject	:	register(b2)
-{
-	 matrix  World;
-}
+
+
 
 cbuffer	cbPerMaterial		:	register(b3)
 {
 	matrix	invViewProj;
+	matrix	ViewProjection;
 }
 
 struct VS_INPUT
@@ -29,9 +19,9 @@ struct VS_INPUT
 
 struct VS_OUTPUT
 {
-    float4 Position     : SV_POSITION; // vertex position
+    //float4 Position     : SV_POSITION; // vertex position
 	float2 UV			: TEXCOORD0;
-	float4 ProjPos		: TEXCOORD1;
+	float4 WPos			: POSITION;
 };
 
 VS_OUTPUT main( VS_INPUT input )
@@ -51,9 +41,9 @@ VS_OUTPUT main( VS_INPUT input )
 	
 	wpos.xyz -= N*fBump.w;
 
-    proj			=	mul(ViewProjection,wpos);
-	Output.Position	=	proj;
-	Output.ProjPos	=	proj;
+    //proj			=	mul(ViewProjection,wpos);
+	//Output.Position	=	wpos;
+	Output.WPos		=	wpos;
 	Output.UV		=	uv;
     return Output;    
 }

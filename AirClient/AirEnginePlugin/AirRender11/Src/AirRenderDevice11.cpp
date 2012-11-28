@@ -309,6 +309,7 @@ namespace Air{
 			{
 				ID3D11Buffer*	pCB	=	(ID3D11Buffer*)pBuffer->GetBuffer();
 				m_pContext->VSSetConstantBuffers(uiIndex,1,&pCB);
+				m_pContext->GSSetConstantBuffers(uiIndex,1,&pCB);
 				m_pContext->PSSetConstantBuffers(uiIndex,1,&pCB);
 			}
 

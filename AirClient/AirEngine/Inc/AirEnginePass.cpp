@@ -167,6 +167,10 @@ namespace	Air{
 					m_pShaderArray[i]->UpdateShader_SamplerState();
 				}
 			}
+
+			if(m_pShaderArray[enGS]==NULL){
+				pDevice->SetShader(enGS,NULL);
+			}
 		}
 	}
 }
