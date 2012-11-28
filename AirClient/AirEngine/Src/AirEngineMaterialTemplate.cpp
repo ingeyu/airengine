@@ -138,12 +138,13 @@ namespace	Air{
 			for(U32 i=0;i<uiSize;i++){
 				pPass	=	m_vecPass[i];
 				//提交 渲染状态 Shader 采样状态
-				pPass->Prepare();
+				pPass->Begin();
 				//提交纹理
 				pPass->UpdateTextureArray(vecTexture);
 				//渲染
 				Render::System::GetSingleton()->GetDevice()->DrawObject(pObj);
 
+				pPass->End();
 			}
 		}
 
@@ -168,9 +169,11 @@ namespace	Air{
 				for(U32 i=0;i<uiSize;i++){
 					pPass	=	m_vecPass[i];
 
-					pPass->Prepare();
+					pPass->Begin();
 
 					RenderWithPass(*pPass);
+
+					pPass->End();
 				}
 			}
 		}

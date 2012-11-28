@@ -88,7 +88,8 @@ namespace	Air{
 			virtual	U1				DestroyShaderProgram(enumShaderType	type);
 
 			virtual	void			UpdateTextureArray(TextureArray&	vecTexture);
-			virtual	void			Prepare();
+			void					Begin();
+			void					End();
 
 			inline	PassHash		GetHash(){
 				return	m_Hash;

@@ -156,7 +156,7 @@ namespace	Air{
 			}
 		}
 
-		void Pass::Prepare(){
+		void Pass::Begin(){
 			Render::Device*	pDevice	=	Render::System::GetSingleton()->GetDevice();
  			pDevice->SetRS(m_pRasterizerState);
  			pDevice->SetDSS(m_pDepthStencilState);
@@ -167,10 +167,22 @@ namespace	Air{
 					m_pShaderArray[i]->UpdateShader_SamplerState();
 				}
 			}
+		}
 
-			if(m_pShaderArray[enGS]==NULL){
+		void Pass::End()
+		{
+			Render::Device*	pDevice	=	Render::System::GetSingleton()->GetDevice();
+
+			if(m_pShaderArray[enGS]!=NULL){
 				pDevice->SetShader(enGS,NULL);
 			}
+			if(m_pShaderArray[enHS]!=NULL){
+				pDevice->SetShader(enHS,NULL);
+			}
+			if(m_pShaderArray[enDS]!=NULL){
+				pDevice->SetShader(enDS,NULL);
+			}
 		}
+
 	}
 }
