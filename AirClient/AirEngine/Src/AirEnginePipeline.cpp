@@ -78,6 +78,8 @@ namespace	Air{
 			//Viewport*	pVP	=	new Viewport();
 			
 			m_pMainWindow->AddCamera(m_pScene->GetMainCamera());
+
+			m_pQuad			=	new QuadRenderable();
 			//pVP->SetCamera(m_pScene->GetMainCamera());
 
 
@@ -187,13 +189,13 @@ namespace	Air{
 			m_pRT_EnvSAT	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("EnvSAT","Target",&rtinfo);
 			m_pRT_EnvSAT->SetClearFlag(false,true,false);
 
-			m_Tesellation.Init();
+			//m_Tesellation.Init();
 			m_CSM.Init(m_pScene->GetMainCamera(),3);
 			
 
 
 
-			m_pQuad			=	new QuadRenderable();
+			
 			m_pQuadCopy		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("QuadCopy","Material");
 			m_pSSAO			=	EngineSystem::GetSingleton()->CreateProduct<Material*>("SSAO","Material");
 			m_pCombine		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("Combine","Material");
@@ -209,7 +211,7 @@ namespace	Air{
 		Air::U1 Pipeline::Destroy()
 		{
 			m_CSM.Release();
-			m_Tesellation.Release();
+			//m_Tesellation.Release();
 
 			SAFE_RELEASE_REF(pMesh);
 
@@ -307,7 +309,7 @@ namespace	Air{
 				m_pMRT->AfterUpdate();
 			}
 			//
-			m_Tesellation.UpdateTarget(pMainCamera);
+			//m_Tesellation.UpdateTarget(pMainCamera);
 			
 
 			m_CSM.UpdateTarget();

@@ -82,7 +82,7 @@ namespace	Air{
 			float			fVolocity;
 
 			CascadedShadowMap		m_CSM;
-			ScreenSpaceTessellation	m_Tesellation;
+			//ScreenSpaceTessellation	m_Tesellation;
 		};
 	}
 }
