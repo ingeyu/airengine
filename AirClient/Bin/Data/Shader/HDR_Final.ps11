@@ -1,0 +1,79 @@
+//--------------------------------------------------------------------------------------
+// File: PSApproach.hlsl
+//
+// The PSs for doing post-processing, used in PS path of 
+// HDRToneMappingCS11 sample
+// 
+// Copyright (c) Microsoft Corporation. All rights reserved.
+//--------------------------------------------------------------------------------------
+static const float4 LUM_VECTOR = float4(.299, .587, .114, 0);
+static const float  MIDDLE_GRAY = 0.72f;
+static const float  LUM_WHITE = 1.5f;
+static const float  BRIGHT_THRESHOLD = 0.5f;
+
+SamplerState PointSampler : register (s0);
+SamplerState LinearSampler : register (s1);
+
+struct QuadVS_Output
+{
+    float4 Pos : SV_POSITION;              
+    float2 Tex : TEXCOORD0;
+};
+
+Texture2D s0 : register(t0);
+Texture2D s1 : register(t1);
+Texture2D s2 : register(t2);
+
+float3 Uncharted2Tonemap(float3 x)
+{
+float A = 0.15;
+float B = 0.50;
+float C = 0.10;
+float D = 0.20;
+float E = 0.02;
+float F = 0.30;
+float W = 11.2;
+
+   return ((x*(A*x+C*B)+D*E)/(x*(A*x+B)+D*F))-E/F;
+};
+
+float4 ToneMapping( float4 texColor,float e )
+{	
+float W = 11.2;
+   texColor *= e;  // Hardcoded Exposure Adjustment
+
+   float ExposureBias = 2.0f;
+   float3 curr = Uncharted2Tonemap(ExposureBias*texColor.xyz);
+
+   float3 whiteScale = 1.0f/Uncharted2Tonemap(W);
+   float3 color = curr*whiteScale;
+
+   float3 retColor = pow(abs(color),1/2.2);
+   return float4(retColor,1);
+}
+
+
+
+float4 main( QuadVS_Output Input ) : SV_TARGET
+{   
+    //float4 vColor = 0;
+    float4 vColor = s0.Sample( PointSampler, Input.Tex );
+    float4 vLum = s1.Sample( PointSampler, float2(0,0) );
+    float3 vBloom = s2.Sample( LinearSampler, Input.Tex ).xyz;       
+    
+
+	#if 0
+    // Tone mapping
+    vColor.rgb *= MIDDLE_GRAY / (vLum.r + 0.001f);
+    vColor.rgb *= (1.0f + vColor.xyz/LUM_WHITE);
+    vColor.rgb /= (1.0f + vColor.xyz);
+    
+    vColor.rgb += 0.6f * vBloom;
+    vColor.a = 1.0f;  
+	#else
+	float Exposure	=	MIDDLE_GRAY / (vLum.r + 0.001f);
+	vColor	=	ToneMapping(vColor,Exposure);
+	#endif  
+    
+    return vColor;
+}
