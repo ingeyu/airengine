@@ -82,17 +82,17 @@ Material	ShadowMask	:	MT_ShadowMask
 	Vector	1 1 1 1
 	Vector	1 1 1 1
 	Texture CascadedShadowMapDepth
-	Texture TessMRT0
+	Texture MRT0
 	Texture Texture/2x2_rot.png
-	Texture TessMRT1
+	Texture MRT1
 }
 Material	Combine		:	MT_Combine
 {
-	Texture TessMRT2
+	Texture MRT2
 	Texture AO
 	Texture CascadedShadowMapMask
 	Texture SO
-	Texture TessMRT4
+	Texture MRT4
 }
 Material	Sky		:	MT_Sky
 {
@@ -112,10 +112,10 @@ Material	ViewSphereSAT		:	MT_ViewSphereSAT
 Material	AmbientLight	:	MT_AmbientLighting
 {
 	Matrix
-	Texture	TessMRT0
+	Texture	MRT0
 	Texture	Texture/2x2rotal.png
-	Texture	TessMRT2
-	Texture	TessMRT1
+	Texture	MRT2
+	Texture	MRT1
 	Texture Texture/noise4_.dds
 	Texture EnvSAT
 }	
