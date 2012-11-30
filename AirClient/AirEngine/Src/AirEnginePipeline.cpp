@@ -51,6 +51,11 @@ namespace	Air{
 
 
 			fVolocity		=	10.0f;
+
+			m_cbFrame.vAmbient		=	Float4(1,1,1,1);
+			m_cbFrame.vSunDiffuse	=	Float4(1,0.9,0.8,1);
+			m_cbFrame.vSunDir		=	Float3(-1,-1,-1).NormalizeCopy();
+			m_cbFrame.vMainCamPos	=	Float3(0,0,0);
 		}
 
 		Pipeline::~Pipeline()
@@ -598,6 +603,15 @@ namespace	Air{
 			Float3	z	=	vDir*vMoveDirection.z*frameTime.fTimeDelta;
 
 			pCam->SetPosition(pCam->GetPosition()+x+y+z);
+
+			m_cbFrame.vTime.x	=	frameTime.fTimeDelta;
+			m_cbFrame.vTime.y	=	frameTime.fTotalTime;
+			m_cbFrame.vTime.z	=	frameTime.uiFrameIndex;//sin(frameTime.fTotalTime);
+			double	daytime	=	(frameTime.fTotalTime/3600/24);
+			m_cbFrame.vTime.w	=	daytime	-	floor(daytime);
+			m_cbFrame.vMainCamPos	=	pCam->GetPosition();
+
+			RenderSystem::GetSingleton()->SetCBFrame(m_cbFrame);
 		}
 
 

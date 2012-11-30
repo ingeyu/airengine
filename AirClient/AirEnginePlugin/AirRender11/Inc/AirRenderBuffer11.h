@@ -41,7 +41,7 @@ namespace Air{
 				virtual	void*	GetUAV();
 
 				virtual	void	CopyBufferTo(Buffer*	pDest);
-				virtual	U1		Write(U32	uiOffset,U32	uiSize,void*	pSourceData);
+				virtual	U1		Write(U32	uiOffset,U32	uiSize,const void*	pSourceData);
 
 				DxVertexBuff*	m_pBuffer;
 				DxSRV*			m_pBufferSRV;

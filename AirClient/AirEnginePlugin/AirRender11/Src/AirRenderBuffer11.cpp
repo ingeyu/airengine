@@ -74,7 +74,7 @@ namespace Air{
 				pContext->CopyResource(pDestResource,pSrcResource);
 			}
 
-			Air::U1 Buffer11::Write( U32 uiOffset,U32 uiSize,void* pSourceData )
+			Air::U1 Buffer11::Write( U32 uiOffset,U32 uiSize,const void* pSourceData )
 			{
 				DxContext*	pContext	=	(DxContext*)(pDevice->GetContext());
 				ID3D11Resource*	pResource	=	(ID3D11Resource*)GetBuffer();

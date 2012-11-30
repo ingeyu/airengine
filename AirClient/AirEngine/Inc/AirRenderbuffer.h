@@ -13,10 +13,9 @@ namespace Air{
 				//IntVec4	vScreen;
 				Float4	vTime;			///<	x=totaltime t=sin(x) z=cos(x) w= frac(time/(3600*24))
 				Float4	vAmbient;
-				Float4	vFog;
 				Float4	vSunDir;		///<	xyz	=	direction	w	=	lighttype(0,1)
-				Float4	vSunDiffuse;	
-				Float4	vSunSpec;
+				Float4	vSunDiffuse;
+				Float4	vMainCamPos;
 				enum{
 					enRegister	=	0
 				};
@@ -234,7 +233,7 @@ namespace Air{
 				virtual	void*	GetUAV(){return	NULL;};
 
 				virtual	void	CopyBufferTo(Buffer*	pDest)=NULL;
-				virtual	U1		Write(U32	uiOffset,U32	uiSize,void*	pSourceData)=NULL;
+				virtual	U1		Write(U32	uiOffset,U32	uiSize,const void*	pSourceData)=NULL;
 			protected:
 				Info			m_Info;				///<	创建信息
 				U1				m_bDirty;			///<	是否已经改变

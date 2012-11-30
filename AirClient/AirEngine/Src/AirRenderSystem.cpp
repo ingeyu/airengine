@@ -12,23 +12,8 @@ namespace Air{
 
 
 				m_bDeviceLost	=	false;
+				m_pFrameBuffer	=	NULL;
 
-
-
-// 				m_CBFrame.vAmbient		=	Float4(0.5f,0.5f,0.5f,0);
-// 				m_CBFrame.vFog			=	Float4(0.5f,0.5f,0.5f,0);
-// 				m_CBFrame.vSunDiffuse	=	Float4(1,1,1,1);
-// 				m_CBFrame.vSunDir		=	Float4(-1,-1,-1,0).Normalize();
-// 				m_CBFrame.vSunSpec		=	Float4(1,1,1,64);
-// 				m_CBFrame.vTime			=	Float4(0,0,0,0);
-// 
-// 				m_CBCamera.vCameraDir	=	Float4(0,0,-1,0);
-// 				m_CBCamera.vCameraPosition	=	Float4(0,0,0,0);
-// 				m_CBCamera.vCameraRight	=	Float4(1,0,0,0);
-// 				m_CBCamera.vCameraUp	=	Float4(0,1,0,0);
-// 				m_CBCamera.vVP_NearFar	=	Float4(1.0f/1024.0f,1.0f/768.0f,1,1000);
-// 
-// 				memset(&m_CBBone,0,sizeof(m_CBBone));
 				m_pDevice				=	NULL;
 				m_pMainWindow			=	NULL;
 
@@ -100,6 +85,14 @@ namespace Air{
 					m_pMainWindow	=	CreateProduct<Window*>("MainWindow","Window",&info);
 					m_pMainWindow->SetClearFlag(1,1,1);
 				}
+				if(m_pFrameBuffer==NULL){
+					Buffer::Info	info;
+					info.SetConstantBuffer(sizeof(CBFrame));
+					info.cbType		=	enCBT_Frame;
+					info.usage		=	enUSAGE_DYNAMIC;
+					m_pFrameBuffer	=	CreateProduct<Buffer*>("CBPerFrame","Buffer",&info);
+					m_pDevice->SetCB(0,m_pFrameBuffer);
+				}
 
 				if(m_pWorldMatrixBuffer	==	NULL){
 
@@ -107,7 +100,7 @@ namespace Air{
 					info.SetConstantBuffer(sizeof(Float44));
 					info.cbType		=	enCBT_Object;
 					info.usage		=	enUSAGE_DYNAMIC;
-					m_pWorldMatrixBuffer	=	CreateProduct<Buffer*>("WorldMatrix","Buffer",&info);
+					m_pWorldMatrixBuffer	=	CreateProduct<Buffer*>("CBPerObject","Buffer",&info);
 					m_pDevice->SetCB(enVS,2,m_pWorldMatrixBuffer);
 				};
 				if(m_pBoneMatrixBuffer		==	NULL){
@@ -116,7 +109,7 @@ namespace Air{
 					info.SetConstantBuffer(256*sizeof(Float44));
 					info.cbType		=	enCBT_Bone;
 					info.usage		=	enUSAGE_DYNAMIC;
-					m_pBoneMatrixBuffer	=	CreateProduct<Buffer*>("BoneMatrix","Buffer",&info);
+					m_pBoneMatrixBuffer	=	CreateProduct<Buffer*>("CBPerSkin","Buffer",&info);
 					m_pDevice->SetCB(enVS,4,m_pBoneMatrixBuffer);
 				};
 				return	true;
@@ -124,6 +117,7 @@ namespace Air{
 
 			Air::U1 System::Release()
 			{
+				SAFE_RELEASE_REF(m_pFrameBuffer);
 				SAFE_RELEASE_REF(m_pBoneMatrixBuffer);
 				SAFE_RELEASE_REF(m_pWorldMatrixBuffer);
 				SAFE_RELEASE_REF(m_pMainWindow);
@@ -223,6 +217,13 @@ namespace Air{
 				}
 				//äÖÈ¾
 				m_pDevice->DrawObject(pObject);
+			}
+
+			void System::SetCBFrame( const CBFrame& cbFrame )
+			{
+				if(m_pFrameBuffer!=NULL){
+					m_pFrameBuffer->Write(0,sizeof(cbFrame),&cbFrame);
+				}
 			}
 
 		}

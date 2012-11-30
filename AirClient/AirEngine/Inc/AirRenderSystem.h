@@ -76,6 +76,7 @@ namespace Air{
 				void				DrawObject(Renderable*	pObject,bool	bUseSkin	=	false);
 				void				SetWorldMatrix(const	Float44&	matWorld);
 				void				SetBoneMatrix(Float44*	pBone,U32	uiBoneCount);
+				void				SetCBFrame(const CBFrame& cbFrame);
 			protected:
 				U1						m_bDeviceLost;
 				DeviceVector			m_vecDevice;
@@ -84,12 +85,8 @@ namespace Air{
 
 				Buffer*					m_pWorldMatrixBuffer;
 				Buffer*					m_pBoneMatrixBuffer;
-			public:
-// 				CBFrame					m_CBFrame;
-// 				CBCamera				m_CBCamera;
-// 				CBObject				m_CBObject;
-// 				CBMaterial				m_CBMaterial;
-// 				CBBone					m_CBBone;
+
+				Buffer*					m_pFrameBuffer;
 			};
 		}
 	
