@@ -112,9 +112,9 @@ float4 main( VS_OUTPUT Input ) : SV_Target
       float2 satuv         =   float2(x,y);
       float4 currentEnv    =   TexSAT.Sample(ss_clampline2,satuv);
       float4 maxEnv        =   TexSAT.Sample(ss_clampline2,float2(1,y));
-	  float4 middle1	   =	TexSAT.Sample(ss_clampline2,float2(lerp(x,1,0.4),y));
-	  float4 middle2	   =	TexSAT.Sample(ss_clampline2,float2(lerp(x,1,0.6),y));
-      lighting += (maxEnv-currentEnv)*0.5+middle2-middle1;
+	  //float4 middle1	   =	TexSAT.Sample(ss_clampline2,float2(lerp(x,1,0.4),y));
+	 // float4 middle2	   =	TexSAT.Sample(ss_clampline2,float2(lerp(x,1,0.6),y));
+      lighting += (maxEnv-currentEnv);
 	  occ+=1-x;
       //co+=length(tempDir);
    }

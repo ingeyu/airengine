@@ -13,10 +13,10 @@ float4 main( VS_OUTPUT Input ) : SV_Target
    int i   =   0;//vpos.x;
    [loop]
    while(i<iMax){
-      float4 c1 = ViewSphereTex.SampleLevel(SS_WrapLine2,float2((i)/256.0f,Input.UV.y),2)/256.0f;
+      float4 c1 = ViewSphereTex.SampleLevel(SS_WrapLine2,float2((i)/256.0f,Input.UV.y),2);
       c+=c1;
       i++;
    }
    
-   return c;//
+   return c/32.0f;//
 }

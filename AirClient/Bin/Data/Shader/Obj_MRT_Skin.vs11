@@ -1,21 +1,5 @@
-cbuffer cbPerCamera : register( b1 )
-{
-    matrix  ViewProjection;
-	float4	vCameraDir;
-	float4	vCameraPosition;
-	float4	vCameraUp;
-	float4	vVP_NearFar;
-   
-}
-cbuffer	cbPerObject	:	register(b2)
-{
-	 matrix  World;
-}
+#include "Common.h"
 
-cbuffer cbPerSkeleton	:	register(b4)
-{
-	matrix	BoneMatrix[256];
-}
 
 struct VS_INPUT
 {

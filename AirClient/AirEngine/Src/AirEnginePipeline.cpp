@@ -175,7 +175,7 @@ namespace	Air{
 			m_pMRT->AddCamera(m_pScene->GetMainCamera());
 
 
-			rtinfo.SetSingleTargetScreen(enTFMT_R8G8B8A8_UNORM,1.0f,true,m_pMainWindow);
+			rtinfo.SetSingleTargetScreen(enTFMT_R16G16B16A16_FLOAT,1.0f,true,m_pMainWindow);
 			m_pRT_AO			=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("AO","Target",&rtinfo);
 			m_pRT_AO->SetClearFlag(false,true,false);
 
@@ -190,7 +190,7 @@ namespace	Air{
 			rtinfo.SetSingleTarget(1024,64,enTFMT_R8G8B8A8_UNORM);
 			m_pRT_EnvSphere	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("EnvSphere","Target",&rtinfo);
 			m_pRT_EnvSphere->SetClearFlag(false,true,false);
-			rtinfo.SetSingleTarget(256,16,enTFMT_R16G16B16A16_UNORM);
+			rtinfo.SetSingleTarget(256,16,enTFMT_R16G16B16A16_FLOAT);
 			m_pRT_EnvSAT	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("EnvSAT","Target",&rtinfo);
 			m_pRT_EnvSAT->SetClearFlag(false,true,false);
 

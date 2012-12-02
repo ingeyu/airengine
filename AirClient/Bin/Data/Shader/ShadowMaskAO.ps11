@@ -166,7 +166,7 @@ PS_OUTPUT main( VS_OUTPUT Input ){
       float2 off   =   lerp(offset[i].xy,float2(1,-1)*offset[i].yx,rot.x)*rot.y;
       float2 tempuv   =   shadowUV+off*invShadowViewport;
       float2 xyoff   =   UV_XY(tempuv);
-      float    Oldshadowz   =  ShadowDepthTex.Sample(SS_BorderLine2,tempuv).x;
+      float    Oldshadowz   =  ShadowDepthTex.SampleLevel(SS_BorderLine2,tempuv,2).x;
       float4 tempshadow   =   mul(mShadowViewProjInv,float4(xyoff,Oldshadowz,1));
       tempshadow/=tempshadow.w;
       float3 tDir   =   normalize(tempshadow.xyz-vWorldPos.xyz);

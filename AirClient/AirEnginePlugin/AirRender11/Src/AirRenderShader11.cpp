@@ -15,7 +15,8 @@ namespace Air{
 				case	D3D_INCLUDE_LOCAL:
 				case	D3D_INCLUDE_SYSTEM:{
 					Data data;
-					U32	uiSize	=	GetGlobalSetting().m_pResourceSystem->Find(pFileName,data);
+					AString	strFullPath	=	strPath	+	pFileName;
+					U32	uiSize	=	GetGlobalSetting().m_pResourceSystem->Find(strFullPath.c_str(),data);
 					if(!data.IsNull()){
 						*ppData	=	data.buff;
 						*pBytes	=	data.size;
@@ -34,6 +35,7 @@ namespace Air{
 				}
 				return	S_OK;
 			};
+			AString strPath;
 		};
 		namespace	Render{
 			
@@ -112,6 +114,8 @@ namespace Air{
 				if(!data.IsNull()){
 					ID3DBlob*	pError	=	NULL;
 					FileInclude	fileInc;
+
+					fileInc.strPath		=	strPath;
 					HRESULT	hr	=	D3DCompile(data.buff,data.size,m_strProductName.c_str(),NULL,&fileInc,"main",strProfile.c_str(),0,0,&m_pBinaryCode,&pError);
 					if(FAILED(hr)){
 						char strOutputString[512];
