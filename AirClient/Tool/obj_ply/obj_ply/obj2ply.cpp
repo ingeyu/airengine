@@ -35,6 +35,18 @@ typedef struct Vertex {
   float x,y,z,w;          /* position */
   float nx,ny,nz;         /* surface normal */
   float s,t;              /* texture coordinates */
+  bool operator == (const Vertex& v)const{
+	  return	(x	== v.x  )	&&
+		  (y	== v.y  )	&&
+		  (z	== v.z  )	&&
+		  (w	== v.w  )	&&
+		  (nx == v.nx )	&&
+		  (ny == v.ny )	&&
+		  (nz == v.nz )	&&
+		  (s	== v.s  )	&&
+		  (t	== v.t  );
+
+  };
 } Vertex;
 
 typedef struct Face {
@@ -434,6 +446,73 @@ int fetch_words()
   return (num_words);
 }
 
+#include	<vector>
+#include	<unordered_map>
+
+struct float3{
+	float x,y,z;
+};
+struct float2{
+	float x,y;
+};
+typedef	std::vector<float3>	Float3Array;
+typedef	std::vector<float2>	Float2Array;
+Float3Array	vPosition;
+Float3Array	vNormal;
+Float2Array	vUV;
+std::vector<Vertex>	vVertex;
+std::vector<int>	vIndex;
+
+std::tr1::unordered_map<Vertex,int>	mapVertex;
+#define NEW_LOAD
+
+
+int	AddVertex(const Vertex& v){
+	for(int i=0;i<vVertex.size();i++){
+		if(vVertex[i]==v){
+			return i;
+		}
+	}
+	vVertex.push_back(v);
+	return vVertex.size()-1;
+};
+
+void LoadFace(char** strWorld,int nwords){
+	
+	//int idx[3];
+
+	for (int i = 0; i < nwords; i++) {
+		Vertex v={0,0,0,0,0,0,0,0,0};
+		int vindex=0;
+		int tindex=0;
+		int nindex=0;
+		get_indices (strWorld[i], &vindex, &tindex, &nindex);
+
+		/* maybe flip vertex order */
+
+		
+			if(vindex!=0){
+				float3& p = vPosition[vindex-1];
+				v.x	=	p.x;
+				v.y =	p.y;
+				v.z = p.z;
+				v.w = 1.0;
+			}
+			if(tindex!=0){
+				float2& t = vUV[tindex-1];
+				v.s	=	t.x;
+				v.t =	t.y;
+			}
+			if(nindex!=0){
+				float3& n = vNormal[nindex-1];
+				v.nx	=	n.x;
+				v.ny	=	n.y;
+				v.nz	=	n.z;
+			}
+
+		vIndex.push_back(AddVertex(v));
+	}
+}
 
 /******************************************************************************
 Read in a Wavefront OBJ file.
@@ -476,32 +555,64 @@ void	read_obj(const char* strName)
 
     if (equal_strings (first_word, "v")) {
       if (nwords < 4) {
-	fprintf (stderr, "Too few coordinates: '%s'", str_orig);
-	exit (-1);
+		  fprintf (stderr, "Too few coordinates: '%s'", str_orig);
+		  exit (-1);
       }
+#ifdef	NEW_LOAD
+
+	  float3 pos;
+	  pos.x	=	atof (words[1]);
+	  pos.y	=	atof (words[2]);
+	  pos.z	=	atof (words[3]);
+	  vPosition.push_back(pos);
+#else
       x = atof (words[1]);
       y = atof (words[2]);
       z = atof (words[3]);
       if (nwords == 5) {
         w = atof (words[3]);
+
 	has_w = 1;
       }
       else
         w = 1.0;
       make_vertex (x, y, z, w);
+#endif
     }
     else if (equal_strings (first_word, "vn")) {
+#ifdef	NEW_LOAD
+		float3 n;
+		n.x	=	atof (words[1]);
+		n.y	=	atof (words[2]);
+		n.z	=	atof (words[3]);
+		vNormal.push_back(n);	
+		has_normals	=	true;
+#endif
     }
     else if (equal_strings (first_word, "vt")) {
+#ifdef	NEW_LOAD
+		float2 t;
+		t.x	=	atof (words[1]);
+		t.y	=	atof (words[2]);
+		vUV.push_back(t);	
+		texture_coords	=	true;
+#endif
     }
     else if (equal_strings (first_word, "f")) {
+#ifdef NEW_LOAD
+		LoadFace(&words[1],nwords-1);
+#else
       make_face (&words[1], nwords-1);
+#endif
     }
     else {
       fprintf (stderr, "Do not recognize: '%s'\n", str_orig);
     }
 
   }
+
+  nverts	=	vVertex.size();
+  nfaces	=	vIndex.size()/3;
   fclose(fp);
 }
 
@@ -528,13 +639,13 @@ void	write_file(const char* strName)
   describe_property_ply (ply, &vert_props[1]);
   describe_property_ply (ply, &vert_props[2]);
   if (has_normals) {
-    describe_property_ply (ply, &vert_props[3]);
     describe_property_ply (ply, &vert_props[4]);
     describe_property_ply (ply, &vert_props[5]);
+    describe_property_ply (ply, &vert_props[6]);
   }
   if (texture_coords) {
-    describe_property_ply (ply, &vert_props[6]);
     describe_property_ply (ply, &vert_props[7]);
+    describe_property_ply (ply, &vert_props[8]);
   }
 
   describe_element_ply (ply, "face", nfaces);
@@ -550,12 +661,18 @@ void	write_file(const char* strName)
   /* set up and write the vertex elements */
   put_element_setup_ply (ply, "vertex");
   for (i = 0; i < nverts; i++)
-    put_element_ply (ply, (void *) &vlist[i]);
+    put_element_ply (ply, &vVertex[i]);//(void *) &vlist[i]);
 
   /* set up and write the face elements */
   put_element_setup_ply (ply, "face");
-  for (i = 0; i < nfaces; i++)
-    put_element_ply (ply, (void *) &flist[i]);
+  for (i = 0; i < nfaces; i++){
+	  int idx[3];
+	  memcpy(idx,&vIndex[i*3],sizeof(int)*3);
+	  Face f;
+	  f.nverts	=	3;
+	  f.verts	=	idx;
+    put_element_ply (ply, (void *)&f);// &flist[i]);
+  }
 
   close_ply (ply);
   free_ply (ply);
