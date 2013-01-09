@@ -13,6 +13,15 @@ namespace	Air{
 		m_iRead		=	0;
 		m_iWrite	=	0;
 	};
+	RingBuffer::~RingBuffer(){
+		if(m_pData!=0){
+			__Free(m_pData);
+			m_pData=0;
+		}
+		m_iBufferSize	=	0;
+		m_iRead		=	0;
+		m_iWrite	=	0;
+	}
 
 	int		RingBuffer::Write(const void* pData,unsigned int uiSize){
 		if(uiSize	>	m_iBufferSize)
