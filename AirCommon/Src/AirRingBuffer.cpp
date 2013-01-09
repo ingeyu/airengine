@@ -65,4 +65,38 @@ namespace	Air{
 		}
 		return iCount;
 	};
+
+	int RingBuffer::Read( void* pData,int iMaxSize /*= 1024*/ )
+	{
+		if(m_iRead	==	m_iWrite)
+			return 0;
+		int	iCount	=	0;
+		unsigned char* pBase = (unsigned char*)pData;
+		while(true){
+			int iSize =	*(int*)&m_pData[m_iRead];
+			switch(iSize){
+			case -1:{
+				m_iRead	=	0;
+					}break;
+			case 0:{
+				return iCount;
+				   }break;
+			default:{
+				if(iSize<0)
+					return iCount;
+				int iDataSize = iSize+sizeof(int);
+				if(iCount+iSize+4 <	iMaxSize){
+					memcpy(pBase,&m_pData[m_iRead],iDataSize);
+					iCount+=iDataSize;
+					m_iRead+=iDataSize;
+				}else{
+					return iCount;
+				}
+					}break;
+			}
+		}
+		return iCount;
+	}
+
+
 }

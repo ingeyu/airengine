@@ -11,6 +11,7 @@ namespace	Air{
 
 		int		Write(const void* pData,unsigned int uiSize);
 		int		Read(DataProcess pProcessFunc);
+		int		Read(void* pData,int iMaxSize	=	1024);
 		unsigned char*		m_pData;
 		int					m_iBufferSize;
 		int					m_iRead;
