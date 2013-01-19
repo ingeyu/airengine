@@ -288,6 +288,7 @@
     <ClInclude Include="..\..\AirCommon\Inc\AirOctree.h" />
     <ClInclude Include="..\..\AirCommon\Inc\AirRandom.h" />
     <ClInclude Include="..\..\AirCommon\Inc\AirRay.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirRingBuffer.h" />
     <ClInclude Include="..\..\AirCommon\Inc\AirSingleton.h" />
     <ClInclude Include="..\..\AirCommon\Inc\AirSlkReader.h" />
     <ClInclude Include="..\..\AirCommon\Inc\AirSmallObjectAllocator.h" />
@@ -296,6 +297,7 @@
     <ClInclude Include="..\..\AirCommon\Inc\AirUnion.h" />
     <ClInclude Include="..\..\AirCommon\Inc\AirVideoPlugin.h" />
     <ClInclude Include="..\..\AirCommon\Inc\AirWinVer.h" />
+    <ClInclude Include="..\..\AirCommon\Src\AirRingBuffer.cpp" />
     <ClInclude Include="..\..\Dependencies\LZO\lzoconf.h" />
     <ClInclude Include="..\..\Dependencies\LZO\lzodefs.h" />
     <ClInclude Include="..\..\Dependencies\LZO\minilzo.h" />

@@ -152,8 +152,8 @@ extern "C" int WINAPI
 
 
 	//检测是否在虚拟机里
-	if(IsInsideVPC()||IsInsideVMWare())
-		return	-2;
+	//if(IsInsideVPC()||IsInsideVMWare())
+	//	return	-2;
 	char strModuleName[1024];
 	GetModuleFileNameA(hInstance,strModuleName,1024);
 

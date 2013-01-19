@@ -242,14 +242,14 @@ namespace Air{
 			}
 			
 			
-			
+			DestroyAllProduct();
 	
 			//释放所有系统管理器
 			ReleaseAllSystemManager();
 	
 
 
-			DestroyAllFactory();
+			
 
 			Render::System::GetSingleton()->Release();
 	

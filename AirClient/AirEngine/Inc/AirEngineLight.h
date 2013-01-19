@@ -48,26 +48,6 @@ namespace Air{
 				U1		bCastShadow;	///<	是否投射阴影
 			};
 			Light(CAString&	strName,Info*	pInfo);
-	
-			/**	\brief	创建
-			*   
-			*	@remarks 	创建
-			*	@see		Light
-			*	@return   	U1
-			*	@note
-			*
-			**/
-			virtual	U1			Create();
-			/**	\brief	摧毁
-			*   
-			*	@remarks 	摧毁
-			*	@see		Light
-			*	@return   	U1
-			*	@note
-			*
-			**/
-			virtual	U1			Destroy();
-	
 			/**	\brief	设置灯光类型
 			*   
 			*	@remarks 	设置灯光类型

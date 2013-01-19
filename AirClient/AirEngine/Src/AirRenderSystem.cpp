@@ -121,6 +121,9 @@ namespace Air{
 				SAFE_RELEASE_REF(m_pBoneMatrixBuffer);
 				SAFE_RELEASE_REF(m_pWorldMatrixBuffer);
 				SAFE_RELEASE_REF(m_pMainWindow);
+
+				DestroyAllProduct();
+
 				if(m_pDevice!=NULL){
 					m_pDevice->Destroy();
 				}

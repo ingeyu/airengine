@@ -52,6 +52,11 @@ namespace	Air{
 				return	m_pDeclare;
 			}
 
+			VertexDeclare11::~VertexDeclare11()
+			{
+				SAFE_RELEASE(m_pDeclare);
+			}
+
 		}
 	}
 }

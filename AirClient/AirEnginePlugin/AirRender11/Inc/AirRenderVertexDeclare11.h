@@ -30,6 +30,7 @@ namespace	Air{
 			class	VertexDeclare11	:	public	Vertex::IDeclare{
 			public:
 				VertexDeclare11(CAString&	strName,Info*	pInfo);
+				virtual	~VertexDeclare11();
 
 				virtual	void*	GetDeclare();
 				DxVertexDeclare*	m_pDeclare;

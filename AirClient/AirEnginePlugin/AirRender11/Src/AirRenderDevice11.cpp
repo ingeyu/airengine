@@ -239,9 +239,29 @@ namespace Air{
 				Render::System::GetSingleton()->RemoveFactory("Shader");
 				Render::System::GetSingleton()->RemoveFactory("Buffer");
 				Render::System::GetSingleton()->RemoveFactory("State");
+				if(m_pContext!=NULL){
+					
+					ID3D11ShaderResourceView*	pSRV[]		={NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
+					ID3D11Buffer*				pBuffer[]	={NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
+					ID3D11SamplerState*			pSS[]		={NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
+					m_pContext->VSSetShader(NULL,NULL,NULL);
+					m_pContext->VSSetSamplers(0,8,pSS);
+					m_pContext->VSSetShaderResources(0,8,pSRV);
+					m_pContext->VSSetConstantBuffers(0,8,pBuffer);
+					m_pContext->GSSetShader(NULL,NULL,NULL);
+					m_pContext->GSSetSamplers(0,8,pSS);
+					m_pContext->GSSetShaderResources(0,8,pSRV);
+					m_pContext->GSSetConstantBuffers(0,8,pBuffer);
+					m_pContext->PSSetShader(NULL,NULL,NULL);
+					m_pContext->PSSetSamplers(0,8,pSS);
+					m_pContext->PSSetShaderResources(0,8,pSRV);
+					m_pContext->PSSetConstantBuffers(0,8,pBuffer);
+					
+				}
 
-				SAFE_RELEASE(m_pDevice);
 				SAFE_RELEASE(m_pContext);
+				SAFE_RELEASE(m_pDevice);
+				
 				return	true;
 
 			}

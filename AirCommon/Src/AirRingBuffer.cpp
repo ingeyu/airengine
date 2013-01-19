@@ -86,7 +86,7 @@ namespace	Air{
 					return iCount;
 				int iDataSize = iSize+sizeof(int);
 				if(iCount+iSize+4 <	iMaxSize){
-					memcpy(pBase,&m_pData[m_iRead],iDataSize);
+					memcpy(&pBase[iCount],&m_pData[m_iRead],iDataSize);
 					iCount+=iDataSize;
 					m_iRead+=iDataSize;
 				}else{

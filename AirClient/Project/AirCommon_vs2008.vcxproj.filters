@@ -455,6 +455,12 @@
     <ClInclude Include="..\..\AirCommon\Inc\AirWinVer.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirRingBuffer.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Src\AirRingBuffer.cpp">
+      <Filter>Src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\AirCommon\Inc\xnamathconvert.inl">

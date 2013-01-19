@@ -107,6 +107,7 @@ namespace	Air{
 			{
 				SAFE_RELEASE(m_pBackBufferSRV);
 				SAFE_RELEASE(m_pBackBufferRTV);
+				SAFE_RELEASE(m_pBackBuffer);
 				SAFE_RELEASE(m_pSwapChain);
 				return	true;
 			}

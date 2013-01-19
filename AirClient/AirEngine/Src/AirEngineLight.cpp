@@ -18,14 +18,6 @@ namespace Air{
 			m_fAttenuation	=	1000;
 		}
 	
-		U1 Light::Create(){
-			return true;
-		}
-	
-		U1 Light::Destroy(){
-			return true;
-		}
-	
 		void Light::SetLightType( enumType type ){
 			if(m_Info.type==type){
 				return;

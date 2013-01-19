@@ -141,18 +141,18 @@ namespace	Air{
 					pMesh	=	new NavMesh("testnav",&navinfo);
 					pMesh->AddRef();
 
-					ManualMeshEntity::Info	info;
-					info.uiVertexCount	=	890;
-					info.uiIndexCount	=	980;
-					info.uiVertexSize	=	sizeof(Float3);
-					info.vdInfo.SetDeclP3();
-					info.strMaterial	=	"RedHelper";
-					info.enDrawType		=	Render::Draw::enPT_LINELIST;
-					pTestManualEnt	=	EngineSystem::GetSingleton()->CreateProduct<ManualMeshEntity*>("Test","ManualMeshEntity",&info);
+					//ManualMeshEntity::Info	info;
+					//info.uiVertexCount	=	890;
+					//info.uiIndexCount	=	980;
+					//info.uiVertexSize	=	sizeof(Float3);
+					//info.vdInfo.SetDeclP3();
+					//info.strMaterial	=	"RedHelper";
+					//info.enDrawType		=	Render::Draw::enPT_LINELIST;
+					//pTestManualEnt	=	EngineSystem::GetSingleton()->CreateProduct<ManualMeshEntity*>("Test","ManualMeshEntity",&info);
 
-					pTestManualEnt->UpdateVB(pMesh->GetEdgeVB(),185);
-					//pTestManualEnt->UpdateIB(pMesh->GetIB(),98);
-					m_pScene->GetRootNode()->attachObject(pTestManualEnt);
+					//pTestManualEnt->UpdateVB(pMesh->GetEdgeVB(),185);
+					////pTestManualEnt->UpdateIB(pMesh->GetIB(),98);
+					//m_pScene->GetRootNode()->attachObject(pTestManualEnt);
 
 			RenderTarget::Info	rtinfo;
 			Render::TFormat fmtArray[]={
@@ -525,8 +525,8 @@ namespace	Air{
 					//	idx[i]	=	pIndex[pElement->m_pData*3+i];
 					//}
 					DebugTriangleIndex& IDX	=	pMesh->GetDebugIndex();
-					if(!IDX.empty())
-						pTestManualEnt->UpdateIB(&IDX[0],IDX.size());
+					//if(!IDX.empty())
+					//	pTestManualEnt->UpdateIB(&IDX[0],IDX.size());
 				}
 
 			}
