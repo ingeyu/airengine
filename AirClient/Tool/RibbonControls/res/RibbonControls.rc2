@@ -8,6 +8,6 @@
 
 
 
-#include "CodejockSample.rc"
+#include "AboutDlg\CodejockSample.rc"
 
 #include "Styles\Office2007\Office2007.rc"
