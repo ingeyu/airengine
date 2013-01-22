@@ -403,9 +403,17 @@ namespace Air{
 		}
 
 		Air::U1 EngineSystem::CreateWin(){
-			U32	uiWidth		=	GetGlobalSetting().m_DisplayParam.iWidth	+	16;
-			U32	uiHeight	=	GetGlobalSetting().m_DisplayParam.iHeight	+	38;
-			GetGlobalSetting().m_EngineParam.hWnd	=	Common::NewWindow("AirEngine",uiWidth,uiHeight,WNDPROC(WndProc));
+			HWND& hWindow	=	GetGlobalSetting().m_EngineParam.hWnd;
+			if(hWindow==NULL){
+				U32	uiWidth		=	GetGlobalSetting().m_DisplayParam.iWidth	+	16;
+				U32	uiHeight	=	GetGlobalSetting().m_DisplayParam.iHeight	+	38;
+				hWindow	=	Common::NewWindow("AirEngine",uiWidth,uiHeight,WNDPROC(WndProc));
+			}else{
+				RECT r;
+				GetClientRect(hWindow,&r);
+				GetGlobalSetting().m_DisplayParam.iWidth	=	r.right		-	r.left;
+				GetGlobalSetting().m_DisplayParam.iHeight	=	r.bottom	-	r.top;
+			}
 			return	true;
 		}
 	}

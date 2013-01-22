@@ -87,6 +87,7 @@ struct	EngineParam{
 	EngineParam(){
 		hParentWnd	=	NULL;
 		hWnd		=	NULL;
+		InputWnd	=	NULL;
 		ZeroMemory(strPlugin,128);
 		ZeroMemory(strGamePlugin,128);
 		ZeroMemory(strMedia,128);
@@ -95,6 +96,7 @@ struct	EngineParam{
 	};
 	HWND	hParentWnd;
 	HWND	hWnd;
+	HWND	InputWnd;
 	AChar	strPlugin[128];
 	AChar	strGamePlugin[128];
 	AChar	strMedia[128];

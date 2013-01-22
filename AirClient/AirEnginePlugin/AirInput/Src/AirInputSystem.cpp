@@ -202,14 +202,14 @@ namespace Air{
 			U1 System::Initialization(){
 				::OIS::ParamList pl;
 	
-				HWND*	pWnd	=	&Client::GetGlobalSetting().m_EngineParam.hWnd;
-				while(*pWnd==NULL){
-					Sleep(0);
+				HWND	pWnd	=	Client::GetGlobalSetting().m_EngineParam.InputWnd;
+				if(pWnd==NULL){
+					pWnd	=	Client::GetGlobalSetting().m_EngineParam.hWnd;
 					//等待窗口创建完成
 				}
 	
 				std::ostringstream wnd;
-				wnd << (size_t)(*pWnd);
+				wnd << (size_t)(pWnd);
 	
 				pl.insert(std::make_pair( std::string("WINDOW"), wnd.str() ));
 	

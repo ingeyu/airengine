@@ -157,6 +157,8 @@
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Unicode Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Unicode Release|x64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Unicode Release|x64'" />
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">E:\Codejock Software\MFC\Xtreme ToolkitPro v15.0.1\Source;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">E:\Codejock Software\MFC\Xtreme ToolkitPro v15.0.1\Lib\vc100;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Midl>
