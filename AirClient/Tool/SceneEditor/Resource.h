@@ -76,6 +76,11 @@
 #define ID_APP_CLOSE                    32879
 #define ID_APP_OPTIONS                  32880
 
+#define ID_OBJECT_SELECT				60000
+#define ID_OBJECT_SELECT_LIST			60001
+#define ID_OBJECT_MOVE					60002
+#define ID_OBJECT_ROTATE				60003
+#define ID_OBJECT_SCALE					60004
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED

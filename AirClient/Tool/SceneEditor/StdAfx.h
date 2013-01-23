@@ -67,4 +67,11 @@
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
+enum enumEditMode{
+	eEM_Select,
+	eEM_Move,
+	eEM_Rotate,
+	eEM_Scale,
+};
+
 #endif // !defined(AFX_STDAFX_H__23C8E86C_3840_4B7C_A839_1C49BC7BAEF3__INCLUDED_)

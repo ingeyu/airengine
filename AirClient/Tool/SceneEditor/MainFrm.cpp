@@ -30,8 +30,18 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	//}}AFX_MSG_MAP
 	ON_XTP_CREATECONTROL()
 	
-	ON_COMMAND(ID_BUTTON_LARGETOGGLEBUTTON, OnToggleButton)
-	ON_UPDATE_COMMAND_UI(ID_BUTTON_LARGETOGGLEBUTTON, OnUpdateToggleButton)
+	//ON_COMMAND(ID_BUTTON_LARGETOGGLEBUTTON, OnToggleButton)
+	//ON_UPDATE_COMMAND_UI(ID_BUTTON_LARGETOGGLEBUTTON, OnUpdateToggleButton)
+	ON_COMMAND(ID_OBJECT_SELECT, OnSelectButton)
+	ON_UPDATE_COMMAND_UI(ID_OBJECT_SELECT, OnUpdateSelectButton)
+	ON_COMMAND(ID_OBJECT_SELECT_LIST, OnSelectListButton)
+	//ON_UPDATE_COMMAND_UI(ID_OBJECT_SELECT, OnUpdateSelectButton)
+	ON_COMMAND(ID_OBJECT_MOVE, OnMoveButton)
+	ON_UPDATE_COMMAND_UI(ID_OBJECT_MOVE, OnUpdateMoveButton)
+	ON_COMMAND(ID_OBJECT_ROTATE, OnRotateButton)
+	ON_UPDATE_COMMAND_UI(ID_OBJECT_ROTATE, OnUpdateRotateButton)
+	ON_COMMAND(ID_OBJECT_SCALE, OnScaleButton)
+	ON_UPDATE_COMMAND_UI(ID_OBJECT_SCALE, OnUpdateScaleButton)
 
 	ON_UPDATE_COMMAND_UI_RANGE(ID_BUTTON_LARGESIMPLEBUTTON, ID_BUTTON_SMALLSPLITPOPUPBUTTON, OnEnableButton)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_POPUP_OPTION1, ID_POPUP_OPTION3, OnEnableButton)
@@ -82,6 +92,8 @@ CMainFrame::CMainFrame()
 	m_nRibbonStyle = ID_OPTIONS_STYLEBLUE;
 	m_clr = 0;
 	
+
+	m_EditMode	=	eEM_Select;
 }
 
 CMainFrame::~CMainFrame()
@@ -175,7 +187,7 @@ BOOL CMainFrame::CreateRibbonBar()
 
 		CXTPRibbonGroup* pGroup = pTabHome->AddGroup(ID_GROUP_LARGEBUTTONS);
 		pGroup->ShowOptionButton();
-
+		/*
 		pControl = pGroup->Add(xtpControlButton, ID_BUTTON_LARGESIMPLEBUTTON);
 		pControl->SetStyle(xtpButtonIconAndCaptionBelow);
 
@@ -192,6 +204,26 @@ BOOL CMainFrame::CreateRibbonBar()
 		UINT nIDs[] = {ID_BUTTON_LARGESIMPLEBUTTON, ID_BUTTON_LARGEPOPUPBUTTON, ID_BUTTON_LARGESPLITPOPUPBUTTON, ID_BUTTON_LARGETOGGLEBUTTON};
 		pCommandBars->GetImageManager()->SetIcons(ID_GROUP_LARGEBUTTONS, nIDs, 4, CSize(32, 32), xtpImageNormal);
 		pCommandBars->GetImageManager()->SetIcons(ID_GROUP_SMALLBUTTONS, nIDs, 4, CSize(16, 16), xtpImageNormal);
+		*/
+		pControl = pGroup->Add(xtpControlButton, ID_OBJECT_SELECT);
+		pControl->SetStyle(xtpButtonIconAndCaptionBelow);
+		pControl = pGroup->Add(xtpControlButton, ID_OBJECT_SELECT_LIST);
+		pControl->SetStyle(xtpButtonIconAndCaptionBelow);
+		pControl = pGroup->Add(xtpControlButton, ID_OBJECT_MOVE);
+		pControl->SetStyle(xtpButtonIconAndCaptionBelow);
+		pControl = pGroup->Add(xtpControlButton, ID_OBJECT_ROTATE);
+		pControl->SetStyle(xtpButtonIconAndCaptionBelow);
+		pControl = pGroup->Add(xtpControlButton, ID_OBJECT_SCALE);
+		pControl->SetStyle(xtpButtonIconAndCaptionBelow);
+
+		UINT nIDs[] = {
+			ID_OBJECT_SELECT, 
+			ID_OBJECT_SELECT_LIST, 
+			ID_OBJECT_MOVE, 
+			ID_OBJECT_ROTATE,
+			ID_OBJECT_SCALE};
+		pCommandBars->GetImageManager()->SetIcons(ID_GROUP_LARGEBUTTONS, nIDs, 5, CSize(32, 32), xtpImageNormal);
+		//pCommandBars->GetImageManager()->SetIcons(ID_GROUP_SMALLBUTTONS, nIDs, 5, CSize(16, 16), xtpImageNormal);
 	}
 
 	// Small Buttons
@@ -760,6 +792,33 @@ void CMainFrame::OnUpdateToggleButton(CCmdUI* pCmdUI)
 	//GetDlgItem(ID_BUTTON_LARGETOGGLEBUTTON)->setche
 }
 
+
+void CMainFrame::OnSelectButton(){
+	m_EditMode	=	eEM_Select;
+};
+void CMainFrame::OnUpdateSelectButton(CCmdUI* pCmdUI){
+	pCmdUI->SetCheck(m_EditMode==eEM_Select);
+};
+void CMainFrame::OnSelectListButton(){};
+void CMainFrame::OnUpdateSelectListButton(CCmdUI* pCmdUI){};
+void CMainFrame::OnMoveButton(){
+	m_EditMode	=	eEM_Move;
+};
+void CMainFrame::OnUpdateMoveButton(CCmdUI* pCmdUI){
+	pCmdUI->SetCheck(m_EditMode==eEM_Move);
+};
+void CMainFrame::OnRotateButton(){
+	m_EditMode	=	eEM_Rotate;
+};
+void CMainFrame::OnUpdateRotateButton(CCmdUI* pCmdUI){
+	pCmdUI->SetCheck(m_EditMode==eEM_Rotate);
+};
+void CMainFrame::OnScaleButton(){
+	m_EditMode	=	eEM_Scale;
+};
+void CMainFrame::OnUpdateScaleButton(CCmdUI* pCmdUI){
+	pCmdUI->SetCheck(m_EditMode==eEM_Scale);
+}
 
 void CMainFrame::OnOptionsRighttoleft() 
 {

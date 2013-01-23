@@ -102,5 +102,17 @@
     <None Include="res\LargeIcons\SignatureInsertMenu.png">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="res\Maintoolbar_16i.PNG">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Maintoolbar_24i.PNG">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Edit_Bar16.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Edit_Bar32.png">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

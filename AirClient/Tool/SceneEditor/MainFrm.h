@@ -61,7 +61,18 @@ protected:
 	afx_msg void OnUpdateRadioButton(CCmdUI* pCmdUI);
 	afx_msg void OnToggleButton();
 	afx_msg void OnUpdateToggleButton(CCmdUI* pCmdUI);
-	
+
+	//Edit
+	afx_msg void OnSelectButton();
+	afx_msg void OnUpdateSelectButton(CCmdUI* pCmdUI);
+	afx_msg void OnSelectListButton();
+	afx_msg void OnUpdateSelectListButton(CCmdUI* pCmdUI);
+	afx_msg void OnMoveButton();
+	afx_msg void OnUpdateMoveButton(CCmdUI* pCmdUI);
+	afx_msg void OnRotateButton();
+	afx_msg void OnUpdateRotateButton(CCmdUI* pCmdUI);
+	afx_msg void OnScaleButton();
+	afx_msg void OnUpdateScaleButton(CCmdUI* pCmdUI);
 	
 	afx_msg void OnOptionsRighttoleft();
 	afx_msg void OnUpdateOptionsRighttoleft(CCmdUI* pCmdUI);
@@ -84,6 +95,8 @@ protected:
 	int m_nRadioButton;
 	COLORREF m_clr;
 	BOOL m_bToggleButton;
+
+	enumEditMode	m_EditMode;
 
 	DECLARE_MESSAGE_MAP()
 };
