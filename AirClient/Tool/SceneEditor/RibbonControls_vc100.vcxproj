@@ -551,6 +551,7 @@
   <ItemGroup>
     <None Include="res\ApplicationIcons.png" />
     <None Include="res\ApplicationMenu.png" />
+    <None Include="res\Create32.png" />
     <None Include="res\Edit_Bar16.png" />
     <None Include="res\Edit_Bar32.png" />
     <None Include="res\GalleryStyles.png" />
@@ -558,8 +559,6 @@
     <None Include="res\GroupGalleries.png" />
     <None Include="res\GroupLargeButtons.png" />
     <None Include="res\GroupSmallButtons.png" />
-    <None Include="res\Maintoolbar_16i.PNG" />
-    <None Include="res\Maintoolbar_24i.PNG" />
     <None Include="res\RibbonControls.rc2" />
     <None Include="res\RibbonControlsDoc.ico" />
     <None Include="res\shiny-gear.png" />

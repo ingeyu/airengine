@@ -18,7 +18,7 @@
 #define ID_BUTTON_SMALLSIMPLEBUTTON     138
 #define ID_BUTTON_SMALLPOPUPBUTTON      139
 #define ID_BUTTON_SMALLSPLITPOPUPBUTTON 140
-#define ID_GROUP_CHECKBOXES             141
+#define ID_GROUP_CREATE					141
 #define ID_BUTTON_CHECKBOX1             142
 #define ID_BUTTON_CHECKBOX2             143
 #define ID_BUTTON_CHECKBOX3             144
@@ -76,11 +76,27 @@
 #define ID_APP_CLOSE                    32879
 #define ID_APP_OPTIONS                  32880
 
+#define ID_CREATE_OBJECT				50000
+#define ID_CREATE_ACTOR					50001
+#define ID_CREATE_BUILDING				50002
+#define ID_CREATE_POINT_LIGHT			50003
+#define ID_CREATE_SPOT_LIGHT			50004
+#define ID_CREATE_SUN_LIGHT				50005
+#define ID_CREATE_WATER					50006
+#define ID_CREATE_CLOUD					50007
+#define ID_CREATE_TREE					50008
+#define ID_CREATE_GRASS					50009
+
 #define ID_OBJECT_SELECT				60000
 #define ID_OBJECT_SELECT_LIST			60001
 #define ID_OBJECT_MOVE					60002
 #define ID_OBJECT_ROTATE				60003
 #define ID_OBJECT_SCALE					60004
+
+
+
+#define ID_PANE_PROPERTY_WINDOW			70000
+
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED

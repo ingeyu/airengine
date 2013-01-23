@@ -43,6 +43,18 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_OBJECT_SCALE, OnScaleButton)
 	ON_UPDATE_COMMAND_UI(ID_OBJECT_SCALE, OnUpdateScaleButton)
 
+
+	ON_COMMAND(ID_CREATE_OBJECT			,OnButtonCreate_Object		  )
+	ON_COMMAND(ID_CREATE_ACTOR			,OnButtonCreate_Actor		  )
+	ON_COMMAND(ID_CREATE_BUILDING		,OnButtonCreate_Building	  )
+	ON_COMMAND(ID_CREATE_POINT_LIGHT	,OnButtonCreate_Point_light	  )
+	ON_COMMAND(ID_CREATE_SPOT_LIGHT		,OnButtonCreate_Spot_light	  )
+	ON_COMMAND(ID_CREATE_SUN_LIGHT		,OnButtonCreate_Sun_light	  )
+	ON_COMMAND(ID_CREATE_WATER			,OnButtonCreate_Water		  )
+	ON_COMMAND(ID_CREATE_CLOUD			,OnButtonCreate_Cloud		  )
+	ON_COMMAND(ID_CREATE_TREE			,OnButtonCreate_Tree		  )
+	ON_COMMAND(ID_CREATE_GRASS			,OnButtonCreate_Grass		  )
+
 	ON_UPDATE_COMMAND_UI_RANGE(ID_BUTTON_LARGESIMPLEBUTTON, ID_BUTTON_SMALLSPLITPOPUPBUTTON, OnEnableButton)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_POPUP_OPTION1, ID_POPUP_OPTION3, OnEnableButton)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_EDITOR_EDIT, ID_EDITOR_COMBO, OnEnableButton)
@@ -92,7 +104,6 @@ CMainFrame::CMainFrame()
 	m_nRibbonStyle = ID_OPTIONS_STYLEBLUE;
 	m_clr = 0;
 	
-
 	m_EditMode	=	eEM_Select;
 }
 
@@ -120,6 +131,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	{
 		TRACE0("Failed to create ribbon\n");
 		return -1;
+	}
+	if(!CreatePane()){
+
 	}
 
 	CXTPToolTipContext* pToolTipContext = GetCommandBars()->GetToolTipContext();
@@ -233,48 +247,87 @@ BOOL CMainFrame::CreateRibbonBar()
 
 		CXTPRibbonGroup* pGroup = pTabHome->AddGroup(ID_GROUP_SMALLBUTTONS);
 
-		pControl = pGroup->Add(xtpControlButton, ID_BUTTON_SMALLSIMPLEBUTTON);
+		pControl = pGroup->Add(xtpControlButton, ID_EDIT_COPY);
+		pControl->SetStyle(xtpButtonIconAndCaption);
+		pControl = pGroup->Add(xtpControlButton, ID_EDIT_CUT);
+		pControl->SetStyle(xtpButtonIconAndCaption);
+		pControl = pGroup->Add(xtpControlButton, ID_EDIT_PASTE);
 		pControl->SetStyle(xtpButtonIconAndCaption);
 
-		pControl = pGroup->Add(xtpControlPopup, ID_BUTTON_SMALLPOPUPBUTTON);
-		pControl->SetStyle(xtpButtonIconAndCaption);
+		//pControl = pGroup->Add(xtpControlButton, ID_BUTTON_SMALLSIMPLEBUTTON);
+		//pControl->SetStyle(xtpButtonIconAndCaption);
 
-		pControl = pGroup->Add(xtpControlSplitButtonPopup, ID_BUTTON_SMALLSPLITPOPUPBUTTON);
-		pControl->SetStyle(xtpButtonIconAndCaption);
+		//pControl = pGroup->Add(xtpControlPopup, ID_BUTTON_SMALLPOPUPBUTTON);
+		//pControl->SetStyle(xtpButtonIconAndCaption);
 
-		pControl = pGroup->Add(xtpControlButton, ID_BUTTON_SMALLSIMPLEBUTTON);
-		pControl->SetStyle(xtpButtonIcon);
+		//pControl = pGroup->Add(xtpControlSplitButtonPopup, ID_BUTTON_SMALLSPLITPOPUPBUTTON);
+		//pControl->SetStyle(xtpButtonIconAndCaption);
 
-		pControl = pGroup->Add(xtpControlPopup, ID_BUTTON_SMALLPOPUPBUTTON);
-		pControl->SetStyle(xtpButtonIcon);
+		//pControl = pGroup->Add(xtpControlButton, ID_BUTTON_SMALLSIMPLEBUTTON);
+		//pControl->SetStyle(xtpButtonIcon);
 
-		pControl = pGroup->Add(xtpControlSplitButtonPopup, ID_BUTTON_SMALLSPLITPOPUPBUTTON);
-		pControl->SetStyle(xtpButtonIcon);
+		//pControl = pGroup->Add(xtpControlPopup, ID_BUTTON_SMALLPOPUPBUTTON);
+		//pControl->SetStyle(xtpButtonIcon);
 
-		UINT nIDs[] = {ID_BUTTON_SMALLSIMPLEBUTTON, ID_BUTTON_SMALLPOPUPBUTTON, ID_BUTTON_SMALLSPLITPOPUPBUTTON};
-		pCommandBars->GetImageManager()->SetIcons(ID_GROUP_SMALLBUTTONS, nIDs, 3, CSize(16, 16), xtpImageNormal);
+		//pControl = pGroup->Add(xtpControlSplitButtonPopup, ID_BUTTON_SMALLSPLITPOPUPBUTTON);
+		//pControl->SetStyle(xtpButtonIcon);
+
+		//UINT nIDs[] = {ID_BUTTON_SMALLSIMPLEBUTTON, ID_BUTTON_SMALLPOPUPBUTTON, ID_BUTTON_SMALLSPLITPOPUPBUTTON};
+		//pCommandBars->GetImageManager()->SetIcons(ID_GROUP_SMALLBUTTONS, nIDs, 3, CSize(16, 16), xtpImageNormal);
 	}
 
 	// CheckBoxes and Radio Buttons
 	if (pTabHome)
 	{
 
-		CXTPRibbonGroup* pGroup = pTabHome->AddGroup(ID_GROUP_CHECKBOXES);
+		CXTPRibbonGroup* pGroup = pTabHome->AddGroup(ID_GROUP_CREATE);
 		CXTPControl* pControl;
 
-		pControl = pGroup->Add(xtpControlCheckBox, ID_BUTTON_CHECKBOX1);
+		pControl = pGroup->Add(xtpControlButton, ID_CREATE_OBJECT);
+		pControl->SetStyle(xtpButtonIconAndCaptionBelow);
+		pControl = pGroup->Add(xtpControlButton, ID_CREATE_ACTOR);
+		pControl->SetStyle(xtpButtonIconAndCaptionBelow);
+		pControl = pGroup->Add(xtpControlButton, ID_CREATE_BUILDING);
+		pControl->SetStyle(xtpButtonIconAndCaptionBelow);
+		pControl = pGroup->Add(xtpControlSplitButtonPopup, ID_CREATE_POINT_LIGHT);
+		pControl->SetStyle(xtpButtonIconAndCaptionBelow);
+		pControl->GetCommandBar()->GetControls()->Add(xtpControlButton,ID_CREATE_SPOT_LIGHT);
+		pControl->GetCommandBar()->GetControls()->Add(xtpControlButton,ID_CREATE_SUN_LIGHT);
 
-		pControl = pGroup->Add(xtpControlCheckBox, ID_BUTTON_CHECKBOX2);
+		pControl = pGroup->Add(xtpControlButton, ID_CREATE_WATER);
+		pControl->SetStyle(xtpButtonIconAndCaptionBelow);
+		pControl = pGroup->Add(xtpControlButton, ID_CREATE_TREE);
+		pControl->SetStyle(xtpButtonIconAndCaptionBelow);
+		pControl = pGroup->Add(xtpControlButton, ID_CREATE_GRASS);
+		pControl->SetStyle(xtpButtonIconAndCaptionBelow);
 
-		pControl = pGroup->Add(xtpControlCheckBox, ID_BUTTON_CHECKBOX3);
+		UINT nIDs[] = {
+			ID_CREATE_OBJECT		,
+			ID_CREATE_ACTOR			,
+			ID_CREATE_BUILDING		,
+			ID_CREATE_POINT_LIGHT	,
+			ID_CREATE_SPOT_LIGHT	,
+			ID_CREATE_SUN_LIGHT		,
+			ID_CREATE_WATER			,
+			ID_CREATE_CLOUD			,
+			ID_CREATE_TREE			,
+			ID_CREATE_GRASS			,
+			};
+		pCommandBars->GetImageManager()->SetIcons(ID_GROUP_CREATE, nIDs, 10, CSize(32, 32), xtpImageNormal);
+
+		//pControl = pGroup->Add(xtpControlCheckBox, ID_BUTTON_CHECKBOX1);
+
+		//pControl = pGroup->Add(xtpControlCheckBox, ID_BUTTON_CHECKBOX2);
+
+		//pControl = pGroup->Add(xtpControlCheckBox, ID_BUTTON_CHECKBOX3);
 
 
-		pControl = pGroup->Add(xtpControlRadioButton, ID_BUTTON_RADIOBUTTON1);
-		pControl->SetBeginGroup(TRUE);
+		//pControl = pGroup->Add(xtpControlRadioButton, ID_BUTTON_RADIOBUTTON1);
+		//pControl->SetBeginGroup(TRUE);
 
-		pControl = pGroup->Add(xtpControlRadioButton, ID_BUTTON_RADIOBUTTON2);
+		//pControl = pGroup->Add(xtpControlRadioButton, ID_BUTTON_RADIOBUTTON2);
 
-		pControl = pGroup->Add(xtpControlRadioButton, ID_BUTTON_RADIOBUTTON3);
+		//pControl = pGroup->Add(xtpControlRadioButton, ID_BUTTON_RADIOBUTTON3);
 	}
 
 	if (pTabHome)
@@ -820,6 +873,37 @@ void CMainFrame::OnUpdateScaleButton(CCmdUI* pCmdUI){
 	pCmdUI->SetCheck(m_EditMode==eEM_Scale);
 }
 
+void CMainFrame::OnButtonCreate_Object(){
+
+};		
+void CMainFrame::OnButtonCreate_Actor(){
+
+};		
+void CMainFrame::OnButtonCreate_Building(){
+
+};		
+void CMainFrame::OnButtonCreate_Point_light(){
+
+};	
+void CMainFrame::OnButtonCreate_Spot_light(){
+
+};	
+void CMainFrame::OnButtonCreate_Sun_light(){
+
+};	
+void CMainFrame::OnButtonCreate_Water(){
+
+};		
+void CMainFrame::OnButtonCreate_Cloud(){
+
+};		
+void CMainFrame::OnButtonCreate_Tree(){
+
+};			
+void CMainFrame::OnButtonCreate_Grass(){
+
+};		
+
 void CMainFrame::OnOptionsRighttoleft() 
 {
 	if (GetExStyle() & WS_EX_LAYOUTRTL)
@@ -959,5 +1043,28 @@ void CMainFrame::OnSelectorText(NMHDR* pNMHDR, LRESULT* pResult)
 
 
 	*pResult = 1;
+}
+
+BOOL CMainFrame::CreatePane()
+{
+	m_paneManager.InstallDockingPanes(this);
+	m_paneManager.SetClientMargin(0);
+	m_paneManager.SetTheme(xtpPaneThemeOffice2007);
+	m_paneManager.SetFloatingFrameCaption(_T("Panes"));
+	m_paneManager.SetStickyFloatingFrames(TRUE);
+	m_paneManager.SetThemedFloatingFrames(TRUE);
+
+	m_paneManager.SetSideDockingMargin(CRect(2, 2, 2, 2));
+	m_paneManager.EnableSideDocking();
+
+	m_paneManager.EnableKeyboardNavigate();
+
+	CXTPDockingPane* pPaneProperty = m_paneManager.CreatePane(ID_PANE_PROPERTY_WINDOW, CRect(0, 0,150, 300), xtpPaneDockLeft);
+	if(pPaneProperty!=NULL){
+		//pPaneProperty->
+		pPaneProperty->SetTitle("Property");
+
+	}
+	return	TRUE;
 }
 

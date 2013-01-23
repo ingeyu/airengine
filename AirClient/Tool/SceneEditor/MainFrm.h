@@ -42,6 +42,7 @@ protected:  // control bar embedded members
 
 	BOOL CreateRibbonBar();
 	BOOL CreateStatusBar();
+	BOOL CreatePane();
 
 
 
@@ -73,6 +74,17 @@ protected:
 	afx_msg void OnUpdateRotateButton(CCmdUI* pCmdUI);
 	afx_msg void OnScaleButton();
 	afx_msg void OnUpdateScaleButton(CCmdUI* pCmdUI);
+	//Create
+	afx_msg void OnButtonCreate_Object();		
+	afx_msg void OnButtonCreate_Actor();				
+	afx_msg void OnButtonCreate_Building();			
+	afx_msg void OnButtonCreate_Point_light();	
+	afx_msg void OnButtonCreate_Spot_light();	
+	afx_msg void OnButtonCreate_Sun_light();		
+	afx_msg void OnButtonCreate_Water();		
+	afx_msg void OnButtonCreate_Cloud();			
+	afx_msg void OnButtonCreate_Tree();			
+	afx_msg void OnButtonCreate_Grass();			
 	
 	afx_msg void OnOptionsRighttoleft();
 	afx_msg void OnUpdateOptionsRighttoleft(CCmdUI* pCmdUI);
@@ -97,6 +109,15 @@ protected:
 	BOOL m_bToggleButton;
 
 	enumEditMode	m_EditMode;
+	// Attributes
+public:
+	CXTPDockingPaneManager m_paneManager;
+
+	// Operations
+public:
+	CXTPDockingPaneManager* GetDockingPaneManager() {
+		return &m_paneManager;
+	}
 
 	DECLARE_MESSAGE_MAP()
 };
