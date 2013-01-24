@@ -105,6 +105,19 @@ CMainFrame::CMainFrame()
 	m_clr = 0;
 	
 	m_EditMode	=	eEM_Select;
+	TCHAR szStylesPath[_MAX_PATH];
+
+	VERIFY(::GetModuleFileName(
+		AfxGetApp()->m_hInstance, szStylesPath, _MAX_PATH));		
+	CString csStylesPath(szStylesPath);
+	int nIndex  = csStylesPath.ReverseFind(_T('\\'));
+	if (nIndex > 0) {
+		csStylesPath = csStylesPath.Left(nIndex);
+	}
+	else {
+		csStylesPath.Empty();
+	}
+	m_csStylesPath += csStylesPath + _T("\\Styles\\");
 }
 
 CMainFrame::~CMainFrame()
@@ -193,7 +206,7 @@ BOOL CMainFrame::CreateRibbonBar()
 	pCommandBars->GetImageManager()->SetIcons(IDB_GEAR, &uCommand, 1, CSize(0, 0), xtpImageNormal);
 	
 	CXTPRibbonTab* pTabHome = pRibbonBar->AddTab(ID_TAB_BUTTONS);
-
+	
 	// Large Buttons
 	if (pTabHome)
 	{
@@ -281,6 +294,7 @@ BOOL CMainFrame::CreateRibbonBar()
 	{
 
 		CXTPRibbonGroup* pGroup = pTabHome->AddGroup(ID_GROUP_CREATE);
+		
 		CXTPControl* pControl;
 
 		pControl = pGroup->Add(xtpControlButton, ID_CREATE_OBJECT);
@@ -291,8 +305,10 @@ BOOL CMainFrame::CreateRibbonBar()
 		pControl->SetStyle(xtpButtonIconAndCaptionBelow);
 		pControl = pGroup->Add(xtpControlSplitButtonPopup, ID_CREATE_POINT_LIGHT);
 		pControl->SetStyle(xtpButtonIconAndCaptionBelow);
-		pControl->GetCommandBar()->GetControls()->Add(xtpControlButton,ID_CREATE_SPOT_LIGHT);
-		pControl->GetCommandBar()->GetControls()->Add(xtpControlButton,ID_CREATE_SUN_LIGHT);
+		pControl = pGroup->Add(xtpControlButton,ID_CREATE_SPOT_LIGHT);
+		pControl->SetStyle(xtpButtonIconAndCaptionBelow);
+		pControl = pGroup->Add(xtpControlButton,ID_CREATE_SUN_LIGHT);
+		pControl->SetStyle(xtpButtonIconAndCaptionBelow);
 
 		pControl = pGroup->Add(xtpControlButton, ID_CREATE_WATER);
 		pControl->SetStyle(xtpButtonIconAndCaptionBelow);
@@ -943,13 +959,17 @@ void CMainFrame::OnOptionsStyle(UINT nStyle)
 	switch (nStyle)
 	{
 		case ID_OPTIONS_STYLEBLUE: 
-			lpszIniFile = _T("OFFICE2007BLUE.INI"); break;
+			hModule = LoadLibrary(m_csStylesPath + _T("Office2010.dll"));
+			lpszIniFile = _T("OFFICE2010BLUE.INI"); break;
 		case ID_OPTIONS_STYLEBLACK: 
-			lpszIniFile = _T("OFFICE2007BLACK.INI"); break;
+			hModule = LoadLibrary(m_csStylesPath + _T("Office2010.dll"));
+			lpszIniFile = _T("OFFICE2010BLACK.INI"); break;
 		case ID_OPTIONS_STYLEAQUA: 
-			lpszIniFile = _T("OFFICE2007AQUA.INI"); break;
+			hModule = LoadLibrary(m_csStylesPath + _T("Office2010.dll"));
+			lpszIniFile = _T("OFFICE2010AQUA.INI"); break;
 		case ID_OPTIONS_STYLESILVER: 
-			lpszIniFile = _T("OFFICE2007SILVER.INI"); break;
+			hModule = LoadLibrary(m_csStylesPath + _T("Office2010.dll"));
+			lpszIniFile = _T("OFFICE2010SILVER.INI"); break;
 	}
 
 

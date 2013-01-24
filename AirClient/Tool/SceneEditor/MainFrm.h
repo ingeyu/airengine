@@ -109,6 +109,7 @@ protected:
 	BOOL m_bToggleButton;
 
 	enumEditMode	m_EditMode;
+	CString m_csStylesPath;
 	// Attributes
 public:
 	CXTPDockingPaneManager m_paneManager;
