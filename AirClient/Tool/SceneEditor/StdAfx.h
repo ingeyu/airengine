@@ -63,6 +63,8 @@
 #include "AirTimer.h"
 #include "AirEngineSystem.h"
 #include "AirGlobalSetting.h"
+#include "AirRenderSystem.h"
+#include "AirRenderWindow.h"
  
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.

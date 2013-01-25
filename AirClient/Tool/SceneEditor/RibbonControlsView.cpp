@@ -27,6 +27,7 @@ BEGIN_MESSAGE_MAP(CRibbonControlsView, CView)
 	ON_COMMAND(ID_FILE_PRINT, CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, CView::OnFilePrintPreview)
+	ON_MESSAGE(WM_SIZE,CRibbonControlsView::OnSize)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -97,6 +98,36 @@ CRibbonControlsDoc* CRibbonControlsView::GetDocument() // non-debug version is i
 	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CRibbonControlsDoc)));
 	return (CRibbonControlsDoc*)m_pDocument;
 }
+
+
+
+LRESULT CRibbonControlsView::OnSize( WPARAM w,LPARAM l )
+{
+	switch(w){
+		case SIZE_RESTORED:
+		case SIZE_MAXIMIZED:{
+			Air::Client::Render::Window*	pWindow	=	(Air::Client::Render::Window*)GetWindowLong(GetSafeHwnd(),GWL_USERDATA);
+			if(pWindow!=NULL){
+				pWindow->OnSize();
+			}
+			break;}
+		case SIZE_MINIMIZED:{
+
+			break;}
+		case SIZE_MAXSHOW:{
+			Air::Client::Render::Window*	pWindow	=	(Air::Client::Render::Window*)GetWindowLong(GetSafeHwnd(),GWL_USERDATA);
+			if(pWindow!=NULL){
+				pWindow->OnSize();
+			}
+			break;}
+		case SIZE_MAXHIDE:{
+
+			break;}		 
+	}
+	
+	return S_OK;
+}
+
 #endif //_DEBUG
 
 /////////////////////////////////////////////////////////////////////////////

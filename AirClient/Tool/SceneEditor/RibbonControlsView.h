@@ -28,6 +28,7 @@ public:
 	//{{AFX_VIRTUAL(CRibbonControlsView)
 	public:
 	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
+	LRESULT OnSize(WPARAM w,LPARAM l);
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	protected:
 	virtual BOOL OnPreparePrinting(CPrintInfo* pInfo);

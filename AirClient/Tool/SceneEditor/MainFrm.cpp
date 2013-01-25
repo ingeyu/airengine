@@ -303,7 +303,7 @@ BOOL CMainFrame::CreateRibbonBar()
 		pControl->SetStyle(xtpButtonIconAndCaptionBelow);
 		pControl = pGroup->Add(xtpControlButton, ID_CREATE_BUILDING);
 		pControl->SetStyle(xtpButtonIconAndCaptionBelow);
-		pControl = pGroup->Add(xtpControlSplitButtonPopup, ID_CREATE_POINT_LIGHT);
+		pControl = pGroup->Add(xtpControlButton, ID_CREATE_POINT_LIGHT);
 		pControl->SetStyle(xtpButtonIconAndCaptionBelow);
 		pControl = pGroup->Add(xtpControlButton,ID_CREATE_SPOT_LIGHT);
 		pControl->SetStyle(xtpButtonIconAndCaptionBelow);

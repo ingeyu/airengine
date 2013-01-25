@@ -157,7 +157,7 @@ BOOL CRibbonControlsApp::InitInstance()
 	Air::Client::GetGlobalSetting().m_EngineParam.InputWnd	=	m_pMainWnd->GetSafeHwnd();
 	Air::Client::EngineSystem::GetSingleton()->Initialization();
 
-	SetTimer(pView->GetSafeHwnd(),100,20,TimeerCalback);
+	SetTimer(pView->GetSafeHwnd(),100,33,TimeerCalback);
 	return TRUE;
 }
 
