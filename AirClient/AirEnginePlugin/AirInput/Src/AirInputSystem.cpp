@@ -70,11 +70,21 @@ namespace Air{
 	
 			bool System::mouseMoved( const ::OIS::MouseEvent &arg ){
 				
-				//using namespace	Client;
-				
 				GlobalSetting&	setting	=	GetGlobalSetting();
 	
 				if(!m_bMouseEnable)return true;
+
+				HWND hInputWnd	=	setting.m_EngineParam.InputWnd;
+				HWND hRenderWnd	=	setting.m_EngineParam.hWnd;
+				if(hInputWnd!=NULL && hInputWnd!=hRenderWnd){
+					POINT p;
+					p.x	=	arg.state.X.abs;
+					p.y	=	arg.state.Y.abs;
+					ClientToScreen(hInputWnd,&p);
+					ScreenToClient(hRenderWnd,&p);
+					memcpy((void*)&arg.state.X.abs,&p.x,sizeof(int));
+					memcpy((void*)&arg.state.Y.abs,&p.y,sizeof(int));
+				}
 	
 				m_iX				=	arg.state.X.abs;
 				m_iY				=	arg.state.Y.abs;
@@ -105,7 +115,9 @@ namespace Air{
 	
 			bool System::mousePressed( const ::OIS::MouseEvent &arg,::OIS::MouseButtonID id ){
 				if(!m_bMouseEnable)return true;
-	
+
+
+
 				m_MouseArray[id]	=	true;
 	
 				MouseListenList::iterator	i	=	m_lstMouse.begin();
@@ -120,7 +132,8 @@ namespace Air{
 	
 			bool System::mouseReleased( const ::OIS::MouseEvent &arg, ::OIS::MouseButtonID id ){
 				if(!m_bMouseEnable)return true;
-	
+
+
 				m_MouseArray[id]	=	false;
 	
 				MouseListenList::iterator	i	=	m_lstMouse.begin();
@@ -380,6 +393,18 @@ namespace Air{
 					m_pKeyboard->copyKeyStates(m_KeyArray);
 				}
 				if(m_pMouse!=NULL){
+					const ::OIS::MouseState &ms = m_pMouse->getMouseState();
+					HWND hInputWnd	=	GetGlobalSetting().m_EngineParam.InputWnd;
+					HWND hRenderWnd	=	GetGlobalSetting().m_EngineParam.hWnd;
+					RECT r;
+					if(hInputWnd!=NULL){
+						GetClientRect(hInputWnd,&r);
+					}else if(hRenderWnd!=NULL){
+						GetClientRect(hRenderWnd,&r);
+					}
+					
+					ms.width	= r.right	-	r.left;
+					ms.height	= r.bottom	-	r.top;
 					m_pMouse->capture();
 				}
 				for(int i=0;i<4;i++){

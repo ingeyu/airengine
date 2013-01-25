@@ -120,10 +120,10 @@ namespace Air{
 					if(FAILED(hr)){
 						char strOutputString[512];
 						if(pError!=NULL){
-							sprintf(strOutputString,"File[%s]Compile Failed!%s!\n",m_strProductName.c_str(),(char*)pError->GetBufferPointer());
+							sprintf_s(strOutputString,512,"File[%s]Compile Failed!%s!\n",m_strProductName.c_str(),(char*)pError->GetBufferPointer());
 							SAFE_RELEASE(pError);
 						}else
-							sprintf(strOutputString,"File[%s]Compile Failed!No Error Infomation!\n",m_strProductName.c_str());
+							sprintf_s(strOutputString,512,"File[%s]Compile Failed!No Error Infomation!\n",m_strProductName.c_str());
 						OutputDebugStringA(strOutputString);
 						return false;
 					}
