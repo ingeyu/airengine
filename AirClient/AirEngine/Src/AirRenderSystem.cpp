@@ -219,7 +219,7 @@ namespace Air{
 					SetBoneMatrix(pObject->GetBoneMatrix(),uiBoneCount);
 				}
 				//äÖÈ¾
-				m_pDevice->DrawObject(pObject);
+				pObject->OnRender(m_pDevice);
 			}
 
 			void System::SetCBFrame( const CBFrame& cbFrame )

@@ -3,6 +3,7 @@
 #include "AirEngineMaterial.h"
 #include "AirRenderSystem.h"
 #include "AirGlobalSetting.h"
+#include "AirEngineRenderable.h"
 namespace	Air{
 	namespace	Client{
 
@@ -142,7 +143,7 @@ namespace	Air{
 				//Ìá½»ÎÆÀí
 				pPass->UpdateTextureArray(vecTexture);
 				//äÖÈ¾
-				Render::System::GetSingleton()->GetDevice()->DrawObject(pObj);
+				Render::System::GetSingleton()->DrawObject(pObj,true);
 
 				pPass->End();
 			}

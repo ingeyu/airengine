@@ -151,6 +151,7 @@ namespace Air{
 				pObj->BeforeRender(this);
 
 				pSys->DrawObject(pObj,m_Info.bUseSkin);
+				
 			}
 		}
 

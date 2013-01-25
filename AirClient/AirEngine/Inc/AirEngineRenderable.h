@@ -32,6 +32,7 @@ namespace	Air{
 				class	IBuff;
 			}
 			class	Buffer;
+			class	Device;
 		}
 	
 		/**	\brief	物品渲染的回调
@@ -116,6 +117,8 @@ namespace	Air{
 			*
 			**/
 			virtual	void	BeforeRender(Material*	pMaterial);
+
+			virtual	void	OnRender(Render::Device* pDevice);
 			/**	\brief	判断自身是否需要世界矩阵
 			*   
 			*	@remarks 	由SceneNode->MovableObject->Renderable传递而来	自身并不创建
@@ -136,9 +139,7 @@ namespace	Air{
 			**/
 			void			SetNeedWorldMatrix(U1	bNeed);
 
-			const DrawBuff&		GetDrawBuff(){
-				return	m_DrawBuff;
-			};
+			
 
 			/**	\brief	设置Instance个数
 			*   

@@ -77,7 +77,7 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 	float4	so			=	SOTex.Sample(SS_WrapLine2,uv);
 	float4  emissive	=	EmissiveTex.Sample(SS_WrapLine2,uv);
 	//emissive.xyz+ao.xyz*diff.w+
-	float4 finalcolor	=	float4((emissive.xyz+ao.xyz*0.5+(shadow.xxx+shadow.yyy)*float3(1.0,0.8,0.7)*3)*diff.xyz,1);
+	float4 finalcolor	=	float4(emissive.xyz+(ao.xyz*0.5+(shadow.xxx+shadow.yyy)*float3(1.0,0.8,0.7)*3)*diff.xyz,1);
 	Out.Color			=	ToneMapping(finalcolor,0.7);
 	return	Out;
    

@@ -33,7 +33,7 @@ namespace	Air{
 				virtual	void		SetRTV_DSV(U32	uiCount,void**	pRTV,void*	pDSV);
 				virtual	void		SetUAV(U32	uiCount,void**	pUAV);
 
-				virtual	void		DrawObject(Renderable*	pObj);
+				
 				virtual	void		DrawOpt(const DrawOption&	opt);
 
 				void				ResetCounter(){
