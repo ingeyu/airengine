@@ -394,3 +394,33 @@ MaterialTemplate	MT_ScreenSpaceTessellation
 		}
 	}
 }
+
+MaterialTemplate	MT_HelperMove
+{
+	Phase		Helper
+	Pass
+	{
+		DepthStencilState DisableDepthCompareWrite
+		VertexShader		"Shader/HelperMove"
+		{
+		}
+		PixelShader			"Shader/Helper"
+		{
+		}
+	}
+}
+MaterialTemplate	MT_HelperRotate
+{
+	Phase		Helper
+	Pass
+	{
+		RasterizerState		CullNone
+		//DepthStencilState DisableDepthCompareWrite
+		VertexShader		"Shader/HelperRotate"
+		{
+		}
+		PixelShader			"Shader/HelperRotate"
+		{
+		}
+	}
+}

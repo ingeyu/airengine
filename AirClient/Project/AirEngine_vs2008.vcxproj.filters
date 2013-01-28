@@ -39,6 +39,9 @@
     <Filter Include="Pipeline">
       <UniqueIdentifier>{71a95a87-d18f-4129-b5b1-80c777114c34}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Renderable">
+      <UniqueIdentifier>{92e5cb49-3fd2-499b-a4a4-49cd9c39152f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\AirEngine\Src\AirEngine.cpp">
@@ -191,9 +194,6 @@
     <ClCompile Include="..\AirEngine\Src\AirEngineMovableObject.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirEngineRenderable.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="..\AirEngine\Src\AirEngineScene.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
@@ -248,9 +248,6 @@
     <ClCompile Include="..\AirEngine\Src\AirEngineMaterialParameterTable.cpp">
       <Filter>Material</Filter>
     </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirQuadRenderable.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="..\AirEngine\Src\AirSceneLoader.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
@@ -272,9 +269,6 @@
     <ClCompile Include="..\AirEngine\Src\AirEngineCharacterResource.cpp">
       <Filter>Character</Filter>
     </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirBoxRenderable.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="..\AirEngine\Src\AirCascadedShadowMap.cpp">
       <Filter>Pipeline</Filter>
     </ClCompile>
@@ -286,6 +280,18 @@
     </ClCompile>
     <ClCompile Include="..\AirEngine\Src\AirPostProcessHDR.cpp">
       <Filter>Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirBoxRenderable.cpp">
+      <Filter>Engine\Renderable</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineRenderable.cpp">
+      <Filter>Engine\Renderable</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirQuadRenderable.cpp">
+      <Filter>Engine\Renderable</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirHelperRenderable.cpp">
+      <Filter>Engine\Renderable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -517,9 +523,6 @@
     <ClInclude Include="..\AirEngine\Inc\AirEngineMovableObject.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirEngineRenderable.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirEngineScene.h">
       <Filter>Engine</Filter>
     </ClInclude>
@@ -589,9 +592,6 @@
     <ClInclude Include="..\AirEngine\Inc\AirEngineMaterialParameterTable.h">
       <Filter>Material</Filter>
     </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirQuadRenderable.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirSceneLoader.h">
       <Filter>Engine</Filter>
     </ClInclude>
@@ -613,9 +613,6 @@
     <ClInclude Include="..\AirEngine\Inc\AirEngineCharacterResource.h">
       <Filter>Character</Filter>
     </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirBoxRenderable.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirCascadedShadowMap.h">
       <Filter>Pipeline</Filter>
     </ClInclude>
@@ -627,6 +624,18 @@
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirPostProcessHDR.h">
       <Filter>Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirBoxRenderable.h">
+      <Filter>Engine\Renderable</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineRenderable.h">
+      <Filter>Engine\Renderable</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirQuadRenderable.h">
+      <Filter>Engine\Renderable</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirHelperRenderable.h">
+      <Filter>Engine\Renderable</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

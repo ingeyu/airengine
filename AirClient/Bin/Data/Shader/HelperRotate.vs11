@@ -1,0 +1,52 @@
+cbuffer cbPerCamera : register( b1 )
+{
+    matrix  ViewProjection;
+	float4	vCameraPosition;
+	float4	vCameraDir;
+	float4	vCameraUp;
+	float4	vVP_NearFar;
+   
+}
+cbuffer	cbPerObject	:	register(b2)
+{
+	 matrix  World;
+}
+
+struct VS_INPUT
+{
+    float4 Position     : POSITION; // vertex position 
+};
+
+struct VS_OUTPUT
+{
+	float4 Color		: TEXCOORD0;
+	float4 UV			: TEXCOORD1;
+    float4 Position     : SV_POSITION; // vertex position
+};
+
+VS_OUTPUT main( VS_INPUT input )
+{
+    VS_OUTPUT Output;
+
+	int iType		=	(int)input.Position.w;
+	float4	color	=	0;
+	switch(iType){
+		case 0:{
+			color	=	float4(1,0,0,1);
+		}break;
+		case 1:{
+			color	=	float4(0,1,0,1);
+		}break;
+		case 2:{
+			color	=	float4(0,0,1,1);
+		}break;
+	}
+
+	float4	worldpos	=	mul(World,float4(input.Position.xyz,1));
+    // Transform the position from object space to homogeneous projection space
+    Output.Position	=	mul( ViewProjection ,float4(worldpos.xyz,1));
+	Output.Color	=	color;	
+	Output.UV		=	input.Position;	
+    
+    return Output;    
+}

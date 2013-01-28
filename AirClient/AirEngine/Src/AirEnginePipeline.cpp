@@ -15,6 +15,7 @@
 
 
 #include "AirNavMesh.h"
+#include "AirHelperRenderable.h"
 
 namespace	Air{
 	namespace	Client{
@@ -24,6 +25,8 @@ namespace	Air{
 		SceneNode*	pTest	=	NULL;
 		MeshEntity*	pTestEnt	=	NULL;
 		ManualMeshEntity*	pTestManualEnt	=	NULL;
+		ObjectController*	g_pController=NULL;
+
 		Pipeline::Pipeline( CAString& strName):IProduct(strName)
 		{
 			m_pMainWindow	=	NULL;
@@ -141,6 +144,9 @@ namespace	Air{
 					pMesh	=	new NavMesh("testnav",&navinfo);
 					pMesh->AddRef();
 
+					g_pController	=	new ObjectController;
+					m_pScene->GetRootNode()->attachObject(g_pController);
+
 					//ManualMeshEntity::Info	info;
 					//info.uiVertexCount	=	890;
 					//info.uiIndexCount	=	980;
@@ -215,6 +221,8 @@ namespace	Air{
 
 		Air::U1 Pipeline::Destroy()
 		{
+			SAFE_DELETE(g_pController);
+
 			m_CSM.Release();
 			//m_Tesellation.Release();
 

@@ -1,0 +1,21 @@
+struct VS_OUTPUT
+{
+	float4 Color		: TEXCOORD0;
+	float4 UV			: TEXCOORD1;
+    float4 Position     : SV_POSITION; // vertex position
+};
+
+struct	PS_OUTPUT{
+	float4	Color			:	SV_Target0;
+};
+
+PS_OUTPUT main( VS_OUTPUT Input ){
+
+	clip(1-length(Input.UV.xyz));
+	PS_OUTPUT	Out;
+
+	Out.Color			=	Input.Color;
+
+	return	Out;
+   
+}

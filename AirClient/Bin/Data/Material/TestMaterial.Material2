@@ -129,3 +129,11 @@ Material	ScreenSpaceTessellation	:	MT_ScreenSpaceTessellation
 	Texture	MRT3
 	Texture	MRT4
 }
+Material	Move	:	MT_HelperMove
+{
+
+}
+Material	Rotate	:	MT_HelperRotate
+{
+
+}
