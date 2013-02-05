@@ -157,7 +157,7 @@ namespace	Air{
 			m_pRotate	=	new	RotateRenderable(this);
 			m_pRotate->SetMaterialName("Rotate");
 			m_pRotate->SetNeedWorldMatrix(true);
-			m_ControlMode	=	eMCM_Move;
+			m_ControlMode	=	eMCM_Rotate;
 			m_RayCastType	=	eMRCT_None;
 
 			m_BoundingBox.vMin	=	Float3(-1,-1,-1);

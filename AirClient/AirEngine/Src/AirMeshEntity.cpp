@@ -43,7 +43,7 @@ namespace	Air{
 
 			m_BoundingBox	=	m_pMesh->GetBoundingBox();
 			m_DrawBuff		=	m_pMesh->GetDrawBuffer();
-#if 1
+#if 0
 			m_pBoxRenderable	=	new	BoxRenderable();
 			((BoxRenderable*)m_pBoxRenderable)->m_WorldMatrix	=	Float44(m_BoundingBox.GetCenter(),m_BoundingBox.GetHalfSize(),Float4(0,0,0,1));
 
@@ -67,7 +67,7 @@ namespace	Air{
 					m_pMaterial[i]->AddRenderObject(this);
 				}
 			}
-#if 1
+#if 0
 			if((1<<m_pBoundingBoxMaterial->GetPhaseIndex()) & uiPhaseFlag){
 				((BoxRenderable*)m_pBoxRenderable)->m_WorldMatrix	=	Float44(m_WorldBound.GetCenter(),m_WorldBound.GetHalfSize(),Float4(0,0,0,1));
 				m_pBoundingBoxMaterial->AddRenderObject(m_pBoxRenderable);
