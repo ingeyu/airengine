@@ -474,6 +474,22 @@ namespace	Air{
 			Float3	pos		=	m_pScene->GetMainCamera()->GetPosition();
 			m_pScene->GetMainCamera()->SetPosition(pos+dir*arg.state.Z.rel*0.1f);
 			
+			if(g_pController!=NULL){
+				Float3 vPorjPos	=	Float3(
+					(float)arg.state.X.abs/(float)m_pMainWindow->GetWidth(),
+					(float)arg.state.Y.abs/(float)m_pMainWindow->GetHeight(),
+					1.0f);
+				vPorjPos.x	=	vPorjPos.x*2-1;
+				vPorjPos.y	=	1-2*vPorjPos.y;
+
+				Float44 matVP	= m_pScene->GetMainCamera()->GetViewProjMatrix();
+				matVP.Inverse();
+				vPorjPos	=	matVP*vPorjPos;
+				vPorjPos	-=	pos;
+				vPorjPos.Normalize();
+
+				g_pController->ChangeType(pos,vPorjPos);
+			}
 			return true;
 		}
 		static Float3 vEnd;
