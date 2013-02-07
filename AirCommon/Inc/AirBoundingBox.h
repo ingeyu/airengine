@@ -38,16 +38,9 @@ namespace	Air{
 		void				GetCenter(Float3& vOut)const;
 
 		BoundingBox			Transform(const Common::Matrix&	matrix);
-		//只判断是否相交
-		U1					RayCast(const	Float3&	vStart,const	Float3&	vDir)const;
-		//只判断是否相交	有最大相交距离限制
-		U1					RayCast(const	Float3&	vStart,const	Float3&	vDir,float fMaxDistance)const;
 		//判断相交并且返回 近交点和远交点距离
-		U1					RayCast(const	Float3&	vStart,const	Float3&	vDir,float*	pNearDistance,float*	pFarDistance)const;
-		//判断相交并且返回	近交点 
-		U1					RayCastNear(const	Float3&	vStart,const	Float3&	vDir,float*	pNearDistance)const;
-		//判断相交并且返回	远交点 （主要用于 射线起点在包围盒内部）
-		U1					RayCastFar(const	Float3&	vStart,const	Float3&	vDir,float*	pFarDistance)const;
+		U1					RayCast(const	Float3&	vStart,const	Float3&	vDir,float*	pNearDistance	=	NULL,float*	pFarDistance	=	NULL)const;
+
 		
 	};
 }

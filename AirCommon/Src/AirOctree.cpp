@@ -319,7 +319,7 @@ namespace	Air{
 
 		for(int i=0;i<2;i++){
 			if(m_pChild[i]!=NULL)
-				if(m_pChild[i]->m_BoundingBox.RayCast(ray.GetOrigin(),ray.GetDirection(),fDistance))
+				if(m_pChild[i]->m_BoundingBox.RayCast(ray.GetOrigin(),ray.GetDirection(),&fDistance))
 				{
 					float fDis	=	9999999.0f;
 					TreeElement*	p	=	m_pChild[i]->RayCast(ray,pFunc,pUserData,&fDis);

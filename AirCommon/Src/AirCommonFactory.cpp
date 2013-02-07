@@ -199,7 +199,7 @@ namespace Air{
 			if(pFactory == NULL)
 				return 0;
 	
-			m_CS.Enter();
+			
 			//查找是否已经创建 是则直接返回
 			IProduct* pProduct = pFactory->GetProduct(strName);
 
@@ -213,13 +213,12 @@ namespace Air{
 					//添加引用计数
 					if(pProduct->AddRef()==0){
 						pFactory->Destroy(pProduct);
-						m_CS.Leave();
-							return NULL;
+						return NULL;
 					}
 					pFactory->Insert(pProduct);
 				}
 			}
-			m_CS.Leave();
+			
 			return pProduct;
 		}
 	

@@ -326,11 +326,11 @@ namespace Air{
 				//     |
 				//     D
 				//------------------------------------------------------
-				m_CS.Enter();
+				
 	 			IProduct*	p	=	dynamic_cast<IProduct*>(pProduct);
 	 			bool	bReturn	= Destroy(p);
 	 			pProduct	=	NULL;
-				m_CS.Leave();
+				
 	 			return bReturn;
 	 		};
 	
@@ -363,7 +363,7 @@ namespace Air{
 		protected:
 			FactoryMap		m_mapFactory;		///<	工厂列表
 			FactoryList		m_lstFactory;
-			CriticalSection	m_CS;				///<	临界区锁
+			
 		};
 	
 	

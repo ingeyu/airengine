@@ -52,7 +52,7 @@ namespace	Air{
 			}
 			return	true;
 		}
-		return	obj.RayCastNear(m_vStart,m_vDirection,pNear);
+		return	obj.RayCast(m_vStart,m_vDirection,pNear);
 	}
 
 	bool Ray::Intersect( const Float3& v0,const Float3& v1,const Float3& v2,float* pDistance ) const
