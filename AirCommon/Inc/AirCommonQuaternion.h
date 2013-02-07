@@ -117,6 +117,20 @@ namespace	Air{
 				*this	=	XMQuaternionMultiply(ToXM(),q.ToXM());
 				return	*this;
 			};
+			inline	const Quaternion&		operator	*=	(float f){
+				x	*=	f;
+				y	*=	f;
+				z	*=	f;
+				w	*=	f;
+				return	*this;
+			};
+			inline	const Quaternion&		operator	/=	(float f){
+				x	/=	f;
+				y	/=	f;
+				z	/=	f;
+				w	/=	f;
+				return	*this;
+			};
 			inline	const Quaternion&		operator	+=	(const	Quaternion&	q){
 				x	+=	q.x;
 				y	+=	q.y;
@@ -124,11 +138,25 @@ namespace	Air{
 				w	+=	q.w;
 				return	*this;
 			};
+			inline	const Quaternion&		operator	+=	(float f){
+				x	+=	f;
+				y	+=	f;
+				z	+=	f;
+				w	+=	f;
+				return	*this;
+			};
 			inline	const Quaternion&		operator	-=	(const	Quaternion&	q){
 				x	-=	q.x;
 				y	-=	q.y;
 				z	-=	q.z;
 				w	-=	q.w;
+				return	*this;
+			};
+			inline	const Quaternion&		operator	-=	(float f){
+				x	-=	f;
+				y	-=	f;
+				z	-=	f;
+				w	-=	f;
 				return	*this;
 			};
 			inline	XMMATRIX	ToMatrix()const{
