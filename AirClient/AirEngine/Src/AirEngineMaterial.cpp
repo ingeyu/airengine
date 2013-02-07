@@ -180,6 +180,7 @@ namespace Air{
 				pSys->GetDevice()->SetCB(3,m_pConstantBuffer);
 			}
 
+			pObj->BeforeRender(this);
 			m_pTemplate->RenderOneObject(m_vecTexture,pObj);
 		}
 
