@@ -11,7 +11,10 @@ struct	PS_OUTPUT{
 
 PS_OUTPUT main( VS_OUTPUT Input ){
 
-	clip(1-length(Input.UV.xyz));
+	float fLength	=	length(Input.UV.xyz);
+	if(fLength	>	1.0f || fLength	<	0.8f){
+		discard;
+	}
 	PS_OUTPUT	Out;
 
 	Out.Color			=	Input.Color;

@@ -11,6 +11,11 @@ cbuffer	cbPerObject	:	register(b2)
 {
 	 matrix  World;
 }
+cbuffer	cbPerMaterial	:	register(b3)
+{
+	 float4  type;
+}
+
 
 struct VS_INPUT
 {
@@ -30,7 +35,7 @@ VS_OUTPUT main( VS_INPUT input )
 	float4	worldpos	=	mul(World,input.Position);
     // Transform the position from object space to homogeneous projection space
     Output.Position =	mul( ViewProjection ,float4(worldpos.xyz,1));
-	Output.UV		=	input.Position;	
+	Output.UV		=	input.Position*type;	
 
     
     return Output;    

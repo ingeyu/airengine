@@ -21,6 +21,7 @@ namespace	Air{
 		public:
 			MoveRenderable(ObjectController* pControl);
 			virtual	~MoveRenderable();
+			virtual	void BeforeRender( Material* pMaterial );
 			virtual	Matrix*	GetWorldMatrix();
 			ObjectController* m_pControl;
 		};
@@ -28,6 +29,7 @@ namespace	Air{
 		public:
 			RotateRenderable(ObjectController* pControl);
 			virtual	~RotateRenderable();
+			virtual	void BeforeRender( Material* pMaterial );
 			virtual	Matrix*	GetWorldMatrix();
 			ObjectController* m_pControl;
 		};
@@ -39,6 +41,9 @@ namespace	Air{
 			virtual	void			ProcessRenderObject(U32	uiPhaseFlag);
 			enumMouseControlMode	ChangeMode(enumMouseControlMode mode);
 			enumMouseRayCastType	ChangeType(const Float3& vStart,const Float3& vDir);
+			inline enumMouseRayCastType	GetType()const{
+				return m_RayCastType;
+			};
 		protected:
 			MoveRenderable*			m_pMove;
 			RotateRenderable*		m_pRotate;

@@ -131,9 +131,9 @@ Material	ScreenSpaceTessellation	:	MT_ScreenSpaceTessellation
 }
 Material	Move	:	MT_HelperMove
 {
-
+	Vector	0 0 0 0
 }
 Material	Rotate	:	MT_HelperRotate
 {
-
+	Vector	0 0 0 0
 }

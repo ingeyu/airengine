@@ -1,5 +1,6 @@
 #include "AirHelperRenderable.h"
 #include "AirRenderSystem.h"
+#include "AirEngineMaterial.h"
 
 namespace	Air{
 	namespace	Client{
@@ -84,6 +85,23 @@ namespace	Air{
 			return m_pControl->GetWorldMatrix();
 		}
 
+		void MoveRenderable::BeforeRender( Material* pMaterial )
+		{
+			if(pMaterial!=NULL){
+				pMaterial->GetConstantBuffer()->GetBuffer();
+				Buffer* pCB	=	pMaterial->GetConstantBuffer();
+				if(pCB){
+					pCB->GetBuffer();
+					Float4 v(1,1,1,1);
+					if(m_pControl->GetType()	!=	eMRCT_None){
+						v*=0.5f;
+						v[m_pControl->GetType()-1] =	1.0f;
+					}
+					pCB->UpdateData(&v);
+				}
+			}
+		}
+
 
 		RotateRenderable::RotateRenderable(ObjectController* pControl):m_pControl(pControl)
 		{
@@ -145,6 +163,24 @@ namespace	Air{
 		Matrix* RotateRenderable::GetWorldMatrix()
 		{
 			return m_pControl->GetWorldMatrix();
+		}
+
+		void RotateRenderable::BeforeRender( Material* pMaterial )
+		{
+			if(pMaterial!=NULL){
+				pMaterial->GetConstantBuffer()->GetBuffer();
+				Buffer* pCB	=	pMaterial->GetConstantBuffer();
+				if(pCB){
+					pCB->GetBuffer();
+					Float4 v(1,1,1,1);
+					if(m_pControl->GetType()	!=	eMRCT_None){
+						v*=0.5f;
+						v[m_pControl->GetType()-1] =	1.0f;
+					}
+					
+					pCB->UpdateData(&v);
+				}
+			}
 		}
 
 
@@ -213,7 +249,7 @@ namespace	Air{
 						for(int i=0;i<3;i++){
 							if(AXIS[i].RayCast(vStart,vDir)){
 								m_RayCastType	=	enumMouseRayCastType(i+1);
-#if 1
+#if 0
 								char str[64];
 								sprintf_s(str,"%d\n",m_RayCastType);
 								OutputDebugStringA(str);
@@ -234,13 +270,19 @@ namespace	Air{
 						AXIS[1].vMax	=	Float3(1,0.01,1);
 
 						AXIS[2].vMin	=	Float3(-1,-1,-0.01);
-						AXIS[2].vMax	=	Float3(1,1,-0.01);
+						AXIS[2].vMax	=	Float3(1,1,0.01);
 
 						float fDis[3]={10000,10000,10000};
 						bool bHit	=	false;
 						for(int i=0;i<3;i++){
 							if(AXIS[i].RayCast(vStart,vDir,&fDis[i],NULL)){
-								bHit	=	true;
+								Float3 hitPos	=	vDir*fDis[i]+vStart;
+								float dis	=	hitPos.Distance(Float3(0,0,0));
+								if(dis < 1.0	&& dis > 0.8f){
+									bHit	=	true;
+								}else{
+									fDis[i]	=	10000.0f;
+								}
 							}	
 						}
 						if(bHit){
@@ -251,6 +293,14 @@ namespace	Air{
 									m_RayCastType	=	enumMouseRayCastType(i+1);
 								}
 							}
+#if 0
+							char str[64];
+							sprintf_s(str,"%d\n",m_RayCastType);
+							OutputDebugStringA(str);
+#endif
+
+						}else{
+							m_RayCastType	=	eMRCT_None;
 						}
 								 }break;
 				}

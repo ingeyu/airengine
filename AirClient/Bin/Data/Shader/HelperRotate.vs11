@@ -11,7 +11,10 @@ cbuffer	cbPerObject	:	register(b2)
 {
 	 matrix  World;
 }
-
+cbuffer	cbPerMaterial	:	register(b3)
+{
+	 float4  type;
+}
 struct VS_INPUT
 {
     float4 Position     : POSITION; // vertex position 
@@ -45,7 +48,7 @@ VS_OUTPUT main( VS_INPUT input )
 	float4	worldpos	=	mul(World,float4(input.Position.xyz,1));
     // Transform the position from object space to homogeneous projection space
     Output.Position	=	mul( ViewProjection ,float4(worldpos.xyz,1));
-	Output.Color	=	color;	
+	Output.Color	=	color*type;	
 	Output.UV		=	input.Position;	
     
     return Output;    
