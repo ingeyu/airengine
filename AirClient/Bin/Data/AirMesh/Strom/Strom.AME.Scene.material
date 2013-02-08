@@ -1689,3 +1689,12 @@ glossiness=0.100000
 opacity=1.000000
 specularLevel=0.000000
 selfIllumColor=0.000000 1.000000 0.000000
+[_wolfdefault]
+diffuse=1 1 1
+ambient=0.5 0.5 0.5
+specular=1 1 1
+glossiness=2.000000
+opacity=100
+specularLevel=0.500000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=wolf.dds
