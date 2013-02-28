@@ -1,0 +1,27 @@
+Texture2D			Color		:	register(t0);
+
+struct Pixel{
+	float4	c;
+	int		last;
+};
+
+RWStructuredBuffer<int>			PixelStart	:	register(u0);
+RWStructuredBuffer<Pixel>		PixelBuffer	:	register(u1);
+RWStructuredBuffer<int>			Count		:	register(u2);
+SamplerState					ss_line2	:	register(s0);
+
+
+
+void	main(float2 uv:TEXCOORD0)
+{
+	int idx	=	int(uv.y*720)*1280+int(uv.x*1280);
+
+	Pixel p;
+	p.c	=	Color.Sample(ss_line2,uv);
+	int iOffset	=	0;
+	InterlockedAdd(Count[0],1,iOffset);
+	int iLast	=	0;
+	InterlockedExchange(PixelStart[idx],iOffset,iLast);
+	p.last		=	iLast;
+	PixelBuffer[iOffset]	=	p;
+}
