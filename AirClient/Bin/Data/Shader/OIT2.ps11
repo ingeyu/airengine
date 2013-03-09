@@ -1,0 +1,56 @@
+#include "common.h"
+struct SFragment {
+    uint uColor;
+    float fDepth;
+};
+
+struct SFragmentLink {
+    SFragment fragment;
+    uint uNext;
+};
+
+// Fragment And Link Buffer
+RWStructuredBuffer<SFragmentLink>	FLBuffer			: register( u0 );
+
+// Start Offset Buffer
+RWByteAddressBuffer					StartOffsetBuffer	: register( u1 );
+
+
+struct SceneVS_Output{
+	float2 uv		:	TEXCOORD0;
+	float4 projpos	:	TEXCOORD1;
+	float4 pos		:	TEXCOORD2;
+	float4 color	:	TEXCOORD3;
+};
+[earlydepthstencil]
+void main( SceneVS_Output input )
+{
+    uint x = input.pos.x;
+    uint y = input.pos.y;
+
+
+    // Create fragment data.
+    uint4 ucolor = saturate( input.color ) * 255;
+    SFragmentLink element;
+    element.fragment.uColor = (ucolor.x) | (ucolor.y << 8) | (ucolor.z << 16) | (ucolor.a << 24);
+    element.fragment.fDepth = input.pos.z;
+
+
+    // Increment and get current pixel count.
+    uint uPixelCount = FLBuffer.IncrementCounter();
+
+	uint g_nFrameWidth	=	1.0f/vVP_NearFar.x;
+
+
+    // Read and update Start Offset Buffer.
+    uint uIndex = y * g_nFrameWidth + x;
+    uint uStartOffsetAddress = 4 * uIndex;
+    uint uOldStartOffset;
+    StartOffsetBuffer.InterlockedExchange( 
+        uStartOffsetAddress, uPixelCount, uOldStartOffset );
+
+
+    // Store fragment link.
+    element.uNext = uOldStartOffset;
+    FLBuffer[uPixelCount] = element;
+}

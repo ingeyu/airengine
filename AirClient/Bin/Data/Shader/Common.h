@@ -10,7 +10,7 @@ cbuffer cbPerFrame : register( b0 )
 }
 cbuffer cbPerCamera : register( b1 )
 {
-    	matrix  ViewProjection;
+    matrix  ViewProjection;
 	float4	vCameraDir;
 	float4	vCameraPosition;
 	float4	vCameraUp;
