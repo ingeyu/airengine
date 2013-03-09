@@ -16,11 +16,10 @@ RWStructuredBuffer<SFragmentLink>	FLBuffer			: register( u0 );
 RWByteAddressBuffer					StartOffsetBuffer	: register( u1 );
 
 
-struct SceneVS_Output{
-	float2 uv		:	TEXCOORD0;
-	float4 projpos	:	TEXCOORD1;
-	float4 pos		:	TEXCOORD2;
-	float4 color	:	TEXCOORD3;
+struct SceneVS_Output
+{
+    float4 pos   : SV_POSITION;
+    float4 color : COLOR0;
 };
 [earlydepthstencil]
 void main( SceneVS_Output input )
