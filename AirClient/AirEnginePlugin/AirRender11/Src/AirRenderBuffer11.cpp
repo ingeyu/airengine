@@ -106,7 +106,22 @@ namespace Air{
 						desc.BindFlags	|=	D3D11_BIND_CONSTANT_BUFFER;
 						break;}
 					case enBT_SB:{
-						desc.MiscFlags	|=	D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+						if(m_Info.Flag	&	enVF_SRV){
+							desc.BindFlags	|=	D3D11_BIND_SHADER_RESOURCE;
+						}
+						if(m_Info.Flag	&	enVF_UAV){
+							desc.MiscFlags	|=	D3D11_BIND_UNORDERED_ACCESS;
+						}
+						desc.StructureByteStride	=	m_Info.uiElementSize;
+						break;}
+					case enBT_BAB:{
+						if(m_Info.Flag	&	enVF_SRV){
+							desc.BindFlags	|=	D3D11_BIND_SHADER_RESOURCE;
+						}
+						if(m_Info.Flag	&	enVF_UAV){
+							desc.MiscFlags	|=	D3D11_BIND_UNORDERED_ACCESS;
+						}
+						desc.MiscFlags	|=	D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS;
 						desc.StructureByteStride	=	m_Info.uiElementSize;
 						break;}
 					}
@@ -144,6 +159,9 @@ namespace Air{
 						uavDesc.Buffer.NumElements	=	m_Info.uiElementCount;
 						uavDesc.ViewDimension		=	D3D11_UAV_DIMENSION_BUFFER;
 						uavDesc.Format				=	DXGI_FORMAT_UNKNOWN;
+						if(m_Info.Flag	&	enVF_Counter){
+							uavDesc.Buffer.Flags		=	D3D11_BUFFER_UAV_FLAG_COUNTER;
+						}
 
 						pDxDevice->CreateUnorderedAccessView( m_pBuffer, &uavDesc, &m_pBufferUAV );
 					}

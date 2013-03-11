@@ -143,6 +143,12 @@ namespace Air{
 						pCB				=	pCallback;
 						type			=	enBT_SB;
 					}
+					void	SetByteAddressBuffer(U32	uiCount,U32	uiSize,BufferCallback*	pCallback	=	NULL){
+						uiElementSize	=	uiSize;
+						uiElementCount	=	uiCount;
+						pCB				=	pCallback;
+						type			=	enBT_BAB;
+					};
 					void	SetViewFlag(U32	flag){
 						Flag	=	flag;
 					};

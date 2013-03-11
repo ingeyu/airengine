@@ -180,12 +180,14 @@ namespace Air{
 			enVF_RTV	=	2,	///<	Render		Target		View
 			enVF_DSV	=	4,	///<	Depth		Stencil		View
 			enVF_UAV	=	8,	///<	Unordered	Access		View
+			enVF_Counter=	16,
 		};
 		enum	enumBufferType{
 			enBT_VB,	///<	VertexBuffer
 			enBT_IB,	///<	IndexBuffer
 			enBT_CB,	///<	ConstantBuffer
-			enBT_SB		///<	StructureBuffer	/ RAWBuffer
+			enBT_SB,	///<	StructureBuffer	
+			enBT_BAB	///<	ByteAddressBuffer
 		};
 		enum	enumConstantBufferType{
 			enCBT_Frame,		///<	Frame,	
