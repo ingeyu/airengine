@@ -121,6 +121,7 @@ namespace Air{
 						if(m_Info.Flag	&	enVF_UAV){
 							desc.MiscFlags	|=	D3D11_BIND_UNORDERED_ACCESS;
 						}
+						//The UAV bound to this resource must have been created with the D3D11_BUFFER_UAV_FLAG_RAW.
 						desc.MiscFlags	|=	D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS;
 						desc.StructureByteStride	=	m_Info.uiElementSize;
 						break;}
@@ -158,7 +159,8 @@ namespace Air{
 						MemoryZero(uavDesc);
 						uavDesc.Buffer.NumElements	=	m_Info.uiElementCount;
 						uavDesc.ViewDimension		=	D3D11_UAV_DIMENSION_BUFFER;
-						uavDesc.Format				=	DXGI_FORMAT_UNKNOWN;
+						//The UAV format bound to RWByteAddressBuffer needs to be created with the DXGI_FORMAT_R32_TYPELESS format.
+						uavDesc.Format				=	DXGI_FORMAT_R32_TYPELESS;
 						if(m_Info.Flag	&	enVF_Counter){
 							uavDesc.Buffer.Flags		=	D3D11_BUFFER_UAV_FLAG_COUNTER;
 						}
