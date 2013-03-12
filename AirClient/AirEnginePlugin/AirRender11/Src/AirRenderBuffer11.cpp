@@ -110,8 +110,9 @@ namespace Air{
 							desc.BindFlags	|=	D3D11_BIND_SHADER_RESOURCE;
 						}
 						if(m_Info.Flag	&	enVF_UAV){
-							desc.MiscFlags	|=	D3D11_BIND_UNORDERED_ACCESS;
+							desc.BindFlags	|=	D3D11_BIND_UNORDERED_ACCESS;
 						}
+						desc.MiscFlags	|=	D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
 						desc.StructureByteStride	=	m_Info.uiElementSize;
 						break;}
 					case enBT_BAB:{
@@ -119,7 +120,7 @@ namespace Air{
 							desc.BindFlags	|=	D3D11_BIND_SHADER_RESOURCE;
 						}
 						if(m_Info.Flag	&	enVF_UAV){
-							desc.MiscFlags	|=	D3D11_BIND_UNORDERED_ACCESS;
+							desc.BindFlags	|=	D3D11_BIND_UNORDERED_ACCESS;
 						}
 						//The UAV bound to this resource must have been created with the D3D11_BUFFER_UAV_FLAG_RAW.
 						desc.MiscFlags	|=	D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS;
@@ -149,7 +150,11 @@ namespace Air{
 						MemoryZero(srvDesc);
 						srvDesc.Buffer.NumElements	=	m_Info.uiElementCount;
 						srvDesc.ViewDimension		=	D3D11_SRV_DIMENSION_BUFFER;
-						srvDesc.Format				=	DXGI_FORMAT_UNKNOWN;
+						if(m_Info.type	==	enBT_BAB){
+							srvDesc.Format				=	DXGI_FORMAT_R32_UINT;
+						}else{
+							srvDesc.Format				=	DXGI_FORMAT_UNKNOWN;
+						}
 
 						pDxDevice->CreateShaderResourceView( m_pBuffer, &srvDesc, &m_pBufferSRV );
 					}
@@ -160,7 +165,11 @@ namespace Air{
 						uavDesc.Buffer.NumElements	=	m_Info.uiElementCount;
 						uavDesc.ViewDimension		=	D3D11_UAV_DIMENSION_BUFFER;
 						//The UAV format bound to RWByteAddressBuffer needs to be created with the DXGI_FORMAT_R32_TYPELESS format.
-						uavDesc.Format				=	DXGI_FORMAT_R32_TYPELESS;
+						if(m_Info.type	==	enBT_BAB)
+							uavDesc.Format				=	DXGI_FORMAT_R32_TYPELESS;
+						else if(m_Info.type	==	enBT_SB){
+							uavDesc.Format				=	DXGI_FORMAT_UNKNOWN;
+						}
 						if(m_Info.Flag	&	enVF_Counter){
 							uavDesc.Buffer.Flags		=	D3D11_BUFFER_UAV_FLAG_COUNTER;
 						}

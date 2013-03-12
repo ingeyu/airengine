@@ -293,6 +293,9 @@
     <ClCompile Include="..\AirEngine\Src\AirHelperRenderable.cpp">
       <Filter>Engine\Renderable</Filter>
     </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirPipelineOIT.cpp">
+      <Filter>Pipeline</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\AirEngine\Inc\AirEngine.h">
@@ -636,6 +639,9 @@
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirHelperRenderable.h">
       <Filter>Engine\Renderable</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirPipelineOIT.h">
+      <Filter>Pipeline</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

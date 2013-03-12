@@ -237,13 +237,13 @@ namespace	Air{
 					case eMCM_Move:
 					case eMCM_Scale:{
 						BoundingBox AXIS[3];
-						AXIS[0].vMin	=	Float3(0,0,0);
+						AXIS[0].vMin	=	Float3(0,-0.05,-0.05);
 						AXIS[0].vMax	=	Float3(1,0.05,0.05);
 
-						AXIS[1].vMin	=	Float3(0,0,0);
+						AXIS[1].vMin	=	Float3(-0.05,0,-0.05);
 						AXIS[1].vMax	=	Float3(0.05,1,0.05);
 
-						AXIS[2].vMin	=	Float3(0,0,0);
+						AXIS[2].vMin	=	Float3(-0.05,-0.05,0);
 						AXIS[2].vMax	=	Float3(0.05,0.05,1);
 
 						for(int i=0;i<3;i++){

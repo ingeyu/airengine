@@ -202,7 +202,7 @@ namespace	Air{
 
 			//m_Tesellation.Init();
 			m_CSM.Init(m_pScene->GetMainCamera(),3);
-			
+			m_OIT.Initialize(m_pMainWindow);
 
 
 
@@ -222,7 +222,7 @@ namespace	Air{
 		Air::U1 Pipeline::Destroy()
 		{
 			SAFE_DELETE(g_pController);
-
+			m_OIT.Release();
 			m_CSM.Release();
 			//m_Tesellation.Release();
 

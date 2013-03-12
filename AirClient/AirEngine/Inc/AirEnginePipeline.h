@@ -5,6 +5,7 @@
 #include "AirCascadedShadowMap.h"
 #include "AirScreenSpaceTessellation.h"
 #include "AirInterfaceInputSystem.h"
+#include "AirPipelineOIT.h"
 
 namespace	Air{
 	namespace	Client{
@@ -82,7 +83,7 @@ namespace	Air{
 			float			fVolocity;
 
 			CascadedShadowMap		m_CSM;
-			
+			OIT						m_OIT;
 
 			Render::CBFrame		m_cbFrame;
 		};
