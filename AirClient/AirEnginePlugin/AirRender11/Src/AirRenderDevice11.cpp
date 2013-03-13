@@ -16,7 +16,7 @@
 #define HARDWARE_DEVICE			0
 #define WARP_DEVICE				1
 #define REFERENCE_DEVICE		2
-#define DX_DEVICE_TYPE			HARDWARE_DEVICE
+#define DX_DEVICE_TYPE			REFERENCE_DEVICE
 
 
 namespace Air{
@@ -151,6 +151,20 @@ namespace Air{
 					&m_pDevice,
 					&outLevel,
 					&m_pContext);
+				SAFE_RELEASE(m_pFactory);
+				SAFE_RELEASE(m_pFactory1);
+				if(m_pDevice!=NULL){
+					IDXGIDevice * pDXGIDevice;
+					hr = m_pDevice->QueryInterface(__uuidof(IDXGIDevice), (void **)&pDXGIDevice);
+
+					IDXGIAdapter * pDXGIAdapter;
+					hr = pDXGIDevice->GetParent(__uuidof(IDXGIAdapter), (void **)&pDXGIAdapter);
+					SAFE_RELEASE(pDXGIDevice);
+
+					pDXGIAdapter->GetParent(__uuidof(IDXGIFactory), (void **)&m_pFactory);
+					SAFE_RELEASE(pDXGIAdapter);
+					m_pFactory->QueryInterface(__uuidof(IDXGIFactory1), (void **)&m_pFactory1);
+				}
 
 #elif	(DX_DEVICE_TYPE	==	HARDWARE_DEVICE)
 				hr	=	D3D11CreateDevice(	pAdapter,

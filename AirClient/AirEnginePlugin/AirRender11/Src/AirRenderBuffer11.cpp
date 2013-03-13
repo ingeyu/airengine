@@ -165,9 +165,10 @@ namespace Air{
 						uavDesc.Buffer.NumElements	=	m_Info.uiElementCount;
 						uavDesc.ViewDimension		=	D3D11_UAV_DIMENSION_BUFFER;
 						//The UAV format bound to RWByteAddressBuffer needs to be created with the DXGI_FORMAT_R32_TYPELESS format.
-						if(m_Info.type	==	enBT_BAB)
+						if(m_Info.type	==	enBT_BAB){
 							uavDesc.Format				=	DXGI_FORMAT_R32_TYPELESS;
-						else if(m_Info.type	==	enBT_SB){
+							uavDesc.Buffer.Flags		|=	D3D11_BUFFER_UAV_FLAG_RAW;
+						}else if(m_Info.type	==	enBT_SB){
 							uavDesc.Format				=	DXGI_FORMAT_UNKNOWN;
 						}
 						if(m_Info.Flag	&	enVF_Counter){
