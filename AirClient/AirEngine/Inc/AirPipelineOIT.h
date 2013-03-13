@@ -17,8 +17,8 @@ namespace	Air{
 
 			void	UpdateOIT();
 
-			Render::Buffer*	m_pPixelBuffer;
-			Render::Buffer*	m_pScreenMask_Counter;
+			Render::Buffer*	m_pPixelBuffer_Counter;
+			Render::Buffer*	m_pScreenMask;
 			Material*		m_pPerPixelLinkedList;
 			Material*		m_pSortRender;
 		};
