@@ -448,6 +448,7 @@ MaterialTemplate	MT_OIT_SortRender
 	{
 		RasterizerState		CullNone
 		DepthStencilState	DisableDepthCompareWrite
+		BlendState AdditiveBlending
 		VertexShader		"Shader/Quad"
 		{
 		}

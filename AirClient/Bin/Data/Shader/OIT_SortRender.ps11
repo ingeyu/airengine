@@ -24,6 +24,7 @@ struct QuadVS_Output
 
 float4 main( QuadVS_Output _input ) : SV_Target0
 {
+
 	uint g_nFrameWidth	=	1.0f/vVP_NearFar.x;
     uint uIndex = (uint)_input.pos.y * g_nFrameWidth + (uint)_input.pos.x;
 
@@ -32,6 +33,9 @@ float4 main( QuadVS_Output _input ) : SV_Target0
     int anIndex[32];
     uint uNumFragment = 0;    
     uint uNext = StartOffsetSRV[uIndex];
+	if(uNext==0xffffffff){
+		discard;
+	}
     
     while ( uNext != 0xFFFFFFFF ) {
         SFragmentLink element = FragmentLinkSRV[uNext];

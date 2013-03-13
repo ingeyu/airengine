@@ -398,9 +398,13 @@ namespace Air{
 
 			void Device11::SetIB( Buffer* pBuffer )
 			{
-				U32	uiElementSize	=	pBuffer->GetElementSize();
-				DXGI_FORMAT	fmt		=	uiElementSize	==	4?DXGI_FORMAT_R32_UINT:DXGI_FORMAT_R16_UINT;
-				m_pContext->IASetIndexBuffer((ID3D11Buffer*)pBuffer->GetBuffer(),fmt,0);
+				if(pBuffer==NULL){
+					m_pContext->IASetIndexBuffer(NULL,DXGI_FORMAT_R16_UINT,0);
+				}else{
+					U32	uiElementSize	=	pBuffer->GetElementSize();
+					DXGI_FORMAT	fmt		=	uiElementSize	==	4?DXGI_FORMAT_R32_UINT:DXGI_FORMAT_R16_UINT;
+					m_pContext->IASetIndexBuffer((ID3D11Buffer*)pBuffer->GetBuffer(),fmt,0);
+				}
 			}
 
 			void Device11::SetVD( Vertex::IDeclare* pDeclare )

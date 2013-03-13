@@ -81,8 +81,8 @@ namespace	Air{
 
 				pUAVArray[0]	=	NULL;
 				pUAVArray[1]	=	NULL;
-				pDevice->SetRTV_DSV_UAV(1,&pRTV,pDSV,2,pUAVArray);
-
+				pDevice->SetRTV_DSV(1,&pRTV,pDSV);
+				
 				void* pSRV[]={
 					m_pPixelBuffer_Counter->GetSRV(),
 					m_pScreenMask->GetSRV()

@@ -120,8 +120,8 @@ namespace	Air{
 					pDevice->SetVB(i,pVB);
 			}
 			//如果IB为空 则不设置
-			if(m_DrawBuff.m_pIndexBuff!=NULL)
-				pDevice->SetIB(m_DrawBuff.m_pIndexBuff);
+			//if(m_DrawBuff.m_pIndexBuff!=NULL)
+			pDevice->SetIB(m_DrawBuff.m_pIndexBuff);
 
 			pDevice->DrawOpt(m_DrawBuff.m_DrawOption);
 		}
