@@ -27,8 +27,11 @@ namespace Air{
 			U32	uiRef	=	InterlockedDecrement(&m_uiNumRef);
 			//这里要考虑多线程的卸载
 			if(uiRef==0){
-				if(m_pFactory!=NULL)
-					m_pFactory->Erase(m_strProductName);
+				if(m_pFactory!=NULL){
+					if(!m_pFactory->Erase(m_strProductName)){
+						return m_uiNumRef;
+					}
+				}
 				Destroy();
 				AirDelete(this);
 			}

@@ -91,8 +91,11 @@ namespace Air{
 				return dynamic_cast<T_Product>(Create(strName,lstParam));
 			};
 	
-			virtual IProduct*	NewProduct(CAString& strName,IFactoryParamList* lstParam = NULL)=NULL;
+			virtual IProduct*	NewProduct(CAString& strName,IFactoryParamList* lstParam = NULL){
+				return NULL;
+			};
 	
+			virtual	IProduct*	CreateProduct(CAString& strName,IFactoryParamList* lstParam = NULL);
 	
 			/**	\brief	´Ý»Ù²úÆ·
 			*   

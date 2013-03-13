@@ -48,9 +48,10 @@ namespace Air{
 			ProductMap::const_iterator itr = m_mapProduct.find(strName.c_str());
 			if(itr!=m_mapProduct.end())
 				pProduct	= itr->second;
-			m_CS.Leave();
 			if(pProduct!=NULL)
 				pProduct->AddRef();
+			m_CS.Leave();
+
 			return pProduct;
 		}
 	
@@ -60,13 +61,18 @@ namespace Air{
 		}
 	
 		bool IFactory::Erase(const AString& strName ){
+			bool bRet	=	true;
 			m_CS.Enter();
 			ProductMapItr itr = m_mapProduct.find(strName.c_str());
 			if(itr!=m_mapProduct.end()){
-				m_mapProduct.erase(itr);
+				if(itr->second->GetRefCount()==0){
+					m_mapProduct.erase(itr);
+				}else{
+					bRet	=	false;
+				}
 			}
 			m_CS.Leave();
-			return	true;
+			return	bRet;
 		}
 	
 		bool IFactory::Erase( IProduct* pProduct ){
@@ -108,6 +114,29 @@ namespace Air{
 		const IFactory::ProductMap& IFactory::GetProductList()const{
 			return	m_mapProduct;
 		}
+
+		IProduct* IFactory::CreateProduct( CAString& strName,IFactoryParamList* lstParam /*= NULL*/ )
+		{
+			IProduct*	pProduct	=	NULL;
+			m_CS.Enter();
+			ProductMap::const_iterator itr = m_mapProduct.find(strName);
+			if(itr!=m_mapProduct.end()){
+				pProduct	= itr->second;
+			}else{
+				pProduct	= NewProduct(strName,lstParam);
+				if(pProduct!=NULL){
+					pProduct->SetFactory(this);
+					pProduct->SetFactoryManager(m_pFactoryMgr);
+					m_mapProduct[strName.c_str()]	=	pProduct;
+				}
+			}
+			if(pProduct!=NULL)
+				pProduct->AddRef();
+			m_CS.Leave();
+			return pProduct;
+
+		}
+
 		IFactoryManager::IFactoryManager(): IBaseFactory(){
 			
 		}
@@ -198,28 +227,7 @@ namespace Air{
 			IFactory* pFactory = GetFactory(strFactoryName);
 			if(pFactory == NULL)
 				return 0;
-	
-			
-			//查找是否已经创建 是则直接返回
-			IProduct* pProduct = pFactory->GetProduct(strName);
-
-			if(pProduct==NULL){
-				//未创建则直接创建
-				pProduct = pFactory->NewProduct(strName,lstParam);
-				if(pProduct!=NULL){
-					pProduct->SetFactory(pFactory);
-					pProduct->SetFactoryManager(this);
-					//考虑多线程加载
-					//添加引用计数
-					if(pProduct->AddRef()==0){
-						pFactory->Destroy(pProduct);
-						return NULL;
-					}
-					pFactory->Insert(pProduct);
-				}
-			}
-			
-			return pProduct;
+			return pFactory->CreateProduct(strName,lstParam);
 		}
 	
 		IProduct* IFactoryManager::GetProduct(const AString& strName,const AString& strFactoryName)const{
