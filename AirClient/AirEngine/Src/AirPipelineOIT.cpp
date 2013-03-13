@@ -35,10 +35,10 @@ namespace	Air{
 			Render::Buffer::Info info;
 			info.SetStructureBuffer(uiCount*4,sizeof(Pixel));
 			info.SetViewFlag(enVF_SRV|enVF_UAV|enVF_Counter);
-			m_pPixelBuffer	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer*>("OIT_PixelBuffer","Buffer",&info);
+			m_pPixelBuffer	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer*>("OIT_PixelBuffer_Counter","Buffer",&info);
 			info.SetByteAddressBuffer(uiCount,sizeof(S32));
 			info.SetViewFlag(enVF_SRV|enVF_UAV);
-			m_pScreenMask_Counter	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer*>("OIT_ScreenMask_Counter","Buffer",&info);
+			m_pScreenMask_Counter	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer*>("OIT_ScreenMask","Buffer",&info);
 			return true;
 		}
 

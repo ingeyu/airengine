@@ -151,6 +151,10 @@ namespace Air{
 					};
 					void	SetViewFlag(U32	flag){
 						Flag	=	flag;
+						//Only StructBuffer Surport Counter
+						if(type!=enBT_SB){
+							Flag &= ~enVF_Counter;
+						}
 					};
 					
 
