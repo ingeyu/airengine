@@ -13,7 +13,10 @@
 #include "AirRenderTarget11.h"
 #include "AirCommonFactory.h"
 
-//#define ENABLE_WARP_DEVICE
+#define HARDWARE_DEVICE			0
+#define WARP_DEVICE				1
+#define REFERENCE_DEVICE		2
+#define DX_DEVICE_TYPE			HARDWARE_DEVICE
 
 
 namespace Air{
@@ -126,7 +129,7 @@ namespace Air{
 				HMODULE	h	=	GetModuleHandle(NULL);
 
 				D3D_FEATURE_LEVEL	outLevel	=	D3D_FEATURE_LEVEL_11_0;
-#ifdef ENABLE_WARP_DEVICE
+#if		(DX_DEVICE_TYPE	==	WARP_DEVICE)
 				hr	=	D3D11CreateDevice(	0,
 											D3D_DRIVER_TYPE_WARP,
 											NULL,
@@ -137,7 +140,19 @@ namespace Air{
 											&m_pDevice,
 											&outLevel,
 											&m_pContext);
-#else
+#elif	(DX_DEVICE_TYPE	==	REFERENCE_DEVICE)
+				hr	=	D3D11CreateDevice(	0,
+					D3D_DRIVER_TYPE_REFERENCE ,
+					NULL,
+					createDeviceFlags,
+					featureLevels,
+					3,
+					D3D11_SDK_VERSION,
+					&m_pDevice,
+					&outLevel,
+					&m_pContext);
+
+#elif	(DX_DEVICE_TYPE	==	HARDWARE_DEVICE)
 				hr	=	D3D11CreateDevice(	pAdapter,
 											D3D_DRIVER_TYPE_UNKNOWN ,
 											NULL,
