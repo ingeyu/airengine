@@ -18,8 +18,8 @@ BOOL APIENTRY DllMain( HMODULE hModule,DWORD  ul_reason_for_call,LPVOID lpReserv
 			Air::Common::Number::InitSrand();
  			Air::Common::Compress::Init();
  			Air::Common::InitNet();
-			CXWinVersion version;		
-			OutputDebugStringA(version.GetWinVersionString().c_str());
+			//CXWinVersion version;		
+			//OutputDebugStringA(version.GetWinVersionString().c_str());
 			break;}
 		case DLL_THREAD_ATTACH://每一次创建线程
 

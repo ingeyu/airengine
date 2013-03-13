@@ -166,6 +166,7 @@ extern "C" int WINAPI
 	SetCurrentDirectoryA(strPath.c_str());
 
 	//Common::LogTitle("Application",g_EngineVersion);
+	//static_assert(__is_empty(Air::Common::Plugin),"dasdiaspodiasdo");
 
 
 	if(ParseCommandLine(lpCmdLine))

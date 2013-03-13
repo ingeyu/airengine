@@ -71,7 +71,7 @@ namespace	Air{
 					m_pScreenMask->GetUAV()
 				};
 				U32 uiClear=0xffffffff;
-				pDevice->ClearUAV(pUAVArray[0],&uiClear);
+				pDevice->ClearUAV(pUAVArray[1],&uiClear);
 				pDevice->SetRTV_DSV_UAV(1,&pRTV,pDSV,2,pUAVArray);
 
 

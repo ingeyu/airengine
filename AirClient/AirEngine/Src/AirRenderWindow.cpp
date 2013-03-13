@@ -10,7 +10,7 @@ namespace	Air{
 			Window::Window( CAString& strName,Info* pInfo ):Target(strName,pInfo){
 				m_WndHandle		=	NULL;
 				m_bMainWindow	=	false;
-
+				AddPhaseFlag(enPI_Alpha);
 				AddPhaseFlag(enPI_Helper);
 				AddPhaseFlag(enPI_UI);
 				AddPhaseFlag(enPI_Overlay);

@@ -287,6 +287,13 @@ namespace	Air{
 			//清理渲染队列中的物体
 			pSys->ClearRenderObject();
 
+			m_pMainWindow->ClearPhaseFlag();
+			m_pMainWindow->AddPhaseFlag(enPI_Alpha);
+			m_pMainWindow->AddPhaseFlag(enPI_Helper);
+			m_pMainWindow->AddPhaseFlag(enPI_UI);
+			m_pMainWindow->AddPhaseFlag(enPI_Overlay);
+
+
 			//查找所有摄像机
 			CameraSet	setCamera;
 			pSys->FindActiveCamera(setCamera);
@@ -383,6 +390,10 @@ namespace	Air{
 				//m_pMainWindow->AfterUpdate();
 				m_OIT.Update(m_pQuad);
 			}
+			m_pMainWindow->ClearPhaseFlag();
+			m_pMainWindow->AddPhaseFlag(enPI_Helper);
+			m_pMainWindow->AddPhaseFlag(enPI_UI);
+			m_pMainWindow->AddPhaseFlag(enPI_Overlay);
 			m_pMainWindow->SetClearFlag(false,false,false);
 			m_pMainWindow->Update();
 			//调用监听器

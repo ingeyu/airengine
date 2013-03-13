@@ -131,18 +131,18 @@ namespace Air{
 			m_pMainCamera->SetUpDir(0,1,0);
 
 			MeshEntity::Info	info;
-			info.strMaterial	=	"NoMaterial";
+			info.strMaterial	=	"OIT_TEST";
 			info.strMeshName	=	"AirMesh/Tiger.ame";
  			MeshEntity*	pMesh	=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity*>(info.strMeshName,"MeshEntity",&info);;
-			pMesh->SetMaterialName("OIT_TEST");
+			//pMesh->SetMaterialName("OIT_TEST");
 
 			// 			pMesh->Create();
 // 			//Material*	pMaterial	=	CreateProduct<Material*>("Test2","Material");
 // 			pMesh->SetMaterialName("Test2");
  			SceneNode* pNode	=	m_pRootNode.CreateChildSceneNode();
 			pNode->attachObject(pMesh);
-			pNode->SetScale(Float3(0.02,0.02,0.02));
-			pNode->SetPosition(Float3(-8,6.5,0));
+			pNode->SetScale(Float3(0.05,0.05,0.05));
+			//pNode->SetPosition(Float3(-8,6.5,0));
 
 			m_Loader.SetNode(&m_pRootNode);
 			//"..\\Data\\AirMesh\\jianxia3\\jianxia3.ame.Scene"
@@ -162,8 +162,6 @@ namespace Air{
 			//RECT r={0,0,256,256};
 			//pTex->Write(&vecData[0],1024,&r);
 			//pTex->ReleaseRef();
-
-			
 
 			return	true;
 		}

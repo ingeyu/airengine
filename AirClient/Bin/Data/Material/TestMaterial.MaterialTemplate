@@ -437,13 +437,13 @@ MaterialTemplate	MT_OIT
 		}
 		PixelShader			"Shader/OIT2"
 		{
-			Texture		0	0		SS_ClampLine2
+			Texture		0	0		SS_WarpLine2
 		}
 	}
 }
 MaterialTemplate	MT_OIT_SortRender
 {
-	Phase		Alpha
+	Phase		Manual
 	Pass
 	{
 		RasterizerState		CullNone
