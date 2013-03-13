@@ -15,24 +15,34 @@ RWStructuredBuffer<SFragmentLink>	FLBuffer			: register( u0 );
 // Start Offset Buffer
 RWByteAddressBuffer					StartOffsetBuffer	: register( u1 );
 
+Texture2D		DiffuseTex		:	register(t0);
 
-struct SceneVS_Output
+SamplerState	SS_WrapLine2	:	register(s0);
+
+
+struct VS_OUTPUT
 {
-    float4 pos   : SV_POSITION;
-    float4 color : COLOR0;
+    float4 Position     : SV_POSITION; // vertex position
+	float3 Normal       : TEXCOORD0;
+    float2 TextureUV    : TEXCOORD1;   // vertex texture coords 
+	float3 Tangent		: TEXCOORD2;
+	float4 WPos			: TEXCOORD3;
+	float4 ProjPos		: TEXCOORD4;
 };
 [earlydepthstencil]
-void main( SceneVS_Output input )
+void main( VS_OUTPUT input )
 {
-    uint x = input.pos.x;
-    uint y = input.pos.y;
+    uint x = input.Position.x;
+    uint y = input.Position.y;
+
+	float4 color	=		DiffuseTex.Sample(SS_WrapLine2,input.TextureUV);
 
 
     // Create fragment data.
-    uint4 ucolor = saturate( input.color ) * 255;
+    uint4 ucolor = saturate( color ) * 255;
     SFragmentLink element;
     element.fragment.uColor = (ucolor.x) | (ucolor.y << 8) | (ucolor.z << 16) | (ucolor.a << 24);
-    element.fragment.fDepth = input.pos.z;
+    element.fragment.fDepth = input.Position.z;
 
 
     // Increment and get current pixel count.

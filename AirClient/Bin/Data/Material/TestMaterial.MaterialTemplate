@@ -424,3 +424,35 @@ MaterialTemplate	MT_HelperRotate
 		}
 	}
 }
+
+MaterialTemplate	MT_OIT
+{
+	Phase		Alpha
+	Pass
+	{
+		RasterizerState		CullNone
+		DepthStencilState DisableDepthCompareWrite
+		VertexShader		"Shader/Obj_MRT_NoSkin"
+		{
+		}
+		PixelShader			"Shader/OIT2"
+		{
+			Texture		0	0		SS_ClampLine2
+		}
+	}
+}
+MaterialTemplate	MT_OIT_SortRender
+{
+	Phase		Alpha
+	Pass
+	{
+		RasterizerState		CullNone
+		DepthStencilState	DisableDepthCompareWrite
+		VertexShader		"Shader/Quad"
+		{
+		}
+		PixelShader			"Shader/OIT_SortRender"
+		{
+		}
+	}
+}

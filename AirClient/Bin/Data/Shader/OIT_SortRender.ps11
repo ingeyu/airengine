@@ -1,0 +1,102 @@
+// SortAndRender_PS.hlsl
+//
+#include "common.h"
+struct SFragment {
+    uint  uColor;
+    float fDepth;
+};
+struct SFragmentLink {
+    SFragment fragment;
+    uint      uNext;
+};
+
+
+
+StructuredBuffer<SFragmentLink> FragmentLinkSRV : register(t0);
+Buffer<uint> StartOffsetSRV : register(t1);
+
+struct QuadVS_Output
+{
+    float4 pos		: SV_POSITION; // vertex position
+	float2 UV		: TEXCOORD0;
+};
+
+
+float4 main( QuadVS_Output _input ) : SV_Target0
+{
+	uint g_nFrameWidth	=	1.0f/vVP_NearFar.x;
+    uint uIndex = (uint)_input.pos.y * g_nFrameWidth + (uint)_input.pos.x;
+
+	// Read and store linked list data to the tempolary buffer.
+    SFragment aData[32];
+    int anIndex[32];
+    uint uNumFragment = 0;    
+    uint uNext = StartOffsetSRV[uIndex];
+    
+    while ( uNext != 0xFFFFFFFF ) {
+        SFragmentLink element = FragmentLinkSRV[uNext];
+		
+        aData[uNumFragment] = element.fragment;
+        anIndex[uNumFragment] = uNumFragment;
+        ++uNumFragment;
+        uNext = element.uNext;
+    }
+
+
+    uint N2 = 1 << (int)(ceil(log2(uNumFragment)));
+    // fill initial data
+    for(uint i = uNumFragment; i < N2; i++)
+    {
+        anIndex[i] = i;
+        aData[i].fDepth = 1.1f;
+    }
+
+    // Bitonic sort
+    for( uint k = 2; k <= N2; k = 2*k )
+    {
+        for( int j = k>>1; j > 0 ; j = j>>1 ) 
+        {
+            for( int i = 0; i < N2; i++ ) 
+            {
+                float di = aData[ anIndex[ i ] ].fDepth;
+                int ixj = i^j;
+                if ( ( ixj ) > i )
+                {
+                    float dixj = aData[ anIndex[ ixj ] ].fDepth;
+                    if ( ( i&k ) == 0 && di > dixj )
+                    { 
+                        int temp = anIndex[ i ];
+                        anIndex[ i ] = anIndex[ ixj ];
+                        anIndex[ ixj ] = temp;
+                    }
+                    if ( ( i&k ) != 0 && di < dixj )
+                    {
+                        int temp = anIndex[ i ];
+                        anIndex[ i ] = anIndex[ ixj ];
+                        anIndex[ ixj ] = temp;
+                    }
+                }
+            }
+        }
+    }
+
+    // Output the final result to the frame buffer
+    // Accumulate fragments into final result
+    float4 result = 0.0f;
+    for( int x = uNumFragment-1; x >= 0; x-- )
+    {
+		uint uColor = aData[ anIndex[ x ] ].uColor;
+        float4 color;
+        color.r = ( uColor >> 0  & 0xFF ) / 255.0f;
+        color.g = ( uColor >> 8  & 0xFF ) / 255.0f;
+        color.b = ( uColor >> 16 & 0xFF ) / 255.0f;
+        color.a = ( uColor >> 24 & 0xFF ) / 255.0f;
+        result = lerp( result, color, color.a );
+    }
+    result.a = 1.0f;
+
+    return result;
+}
+
+
+

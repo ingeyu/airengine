@@ -137,3 +137,10 @@ Material	Rotate	:	MT_HelperRotate
 {
 	Vector	0 0 0 0
 }
+Material	OIT_TEST	:	MT_OIT
+{
+	Texture	Texture/Effect/oittest.dds
+}
+Material	OIT_SortRender	:	MT_OIT_SortRender
+{
+}
