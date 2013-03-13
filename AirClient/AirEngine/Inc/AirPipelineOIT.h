@@ -15,7 +15,7 @@ namespace	Air{
 			U1	Initialize(Render::Window*	pMainWindow);
 			U1	Release();
 
-			void	UpdateOIT();
+			void	Update(Renderable* pRenderable);
 
 			Render::Buffer*	m_pPixelBuffer_Counter;
 			Render::Buffer*	m_pScreenMask;

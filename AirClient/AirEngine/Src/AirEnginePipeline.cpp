@@ -169,8 +169,8 @@ namespace	Air{
 				enTFMT_B8G8R8A8_UNORM,
 			};
 			rtinfo.SetMutilTargetScreen(5,fmtArray,1.0f,true,m_pMainWindow);
-			rtinfo.vecTextureInfo[0].mipmap	=	3;
-			rtinfo.vecTextureInfo[0].bAutoMipMap	=	true;
+			//rtinfo.vecTextureInfo[0].mipmap	=	3;
+			//rtinfo.vecTextureInfo[0].bAutoMipMap	=	true;
 			m_pMRT	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("MRT","Target",&rtinfo);
 			rtinfo	=	RenderTarget::Info();
 			
@@ -381,6 +381,7 @@ namespace	Air{
 				//m_pQuadCopy->RenderOneObject(m_pQuad);
 				m_pCombine->RenderOneObject(m_pQuad);
 				//m_pMainWindow->AfterUpdate();
+				m_OIT.Update(m_pQuad);
 			}
 			m_pMainWindow->SetClearFlag(false,false,false);
 			m_pMainWindow->Update();

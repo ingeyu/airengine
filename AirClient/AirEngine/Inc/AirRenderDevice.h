@@ -31,7 +31,10 @@ namespace	Air{
 				virtual	void		SetVP(Viewport* pVP);
 				virtual	void		SetSRV(enumShaderType	type,U32	uiIndex,void*	pSRV);
 				virtual	void		SetRTV_DSV(U32	uiCount,void**	pRTV,void*	pDSV);
+				virtual	void		SetRTV_DSV_UAV(U32	uiCount,void**	pRTV,void*	pDSV,U32 uiUAVCount,void** pUAV);
 				virtual	void		SetUAV(U32	uiCount,void**	pUAV);
+				virtual	void		ClearUAV(void* pUAV,U32* uiClear);
+				virtual	void		ClearUAV(void* pUAV,float* fClear);
 
 				
 				virtual	void		DrawOpt(const DrawOption&	opt);

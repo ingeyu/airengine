@@ -134,7 +134,7 @@ namespace Air{
 			info.strMaterial	=	"NoMaterial";
 			info.strMeshName	=	"AirMesh/Tiger.ame";
  			MeshEntity*	pMesh	=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity*>(info.strMeshName,"MeshEntity",&info);;
-			pMesh->SetMaterialName("NoMaterialShadowDepth");
+			pMesh->SetMaterialName("OIT_TEST");
 
 			// 			pMesh->Create();
 // 			//Material*	pMaterial	=	CreateProduct<Material*>("Test2","Material");
@@ -146,15 +146,15 @@ namespace Air{
 
 			m_Loader.SetNode(&m_pRootNode);
 			//"..\\Data\\AirMesh\\jianxia3\\jianxia3.ame.Scene"
-			m_Loader.Load("AirMesh/Strom/Strom.ame.Scene");
+			//m_Loader.Load("AirMesh/Strom/Strom.ame.Scene");
 
 			//m_pRootNode.SetScale(Float3(0.1,0.1,0.1));
-			g_mgr.LoadSLK("Character.slk");
-			g_mgr.SetSceneNode(&m_pRootNode);
+			//g_mgr.LoadSLK("Character.slk");
+			//g_mgr.SetSceneNode(&m_pRootNode);
 			//AString	strSkele	=	"Mage.CSF";
 			//Character::Resource*	pRes	=	EngineSystem::GetSingleton()->CreateProduct<Character::Resource*>("Character/Mage/","Character",&strSkele);
-			Character::Animation::Model*	pModel	=	g_mgr.Create("1","法师");
-			pModel->SetActionState("Walk.CAF");
+			//Character::Animation::Model*	pModel	=	g_mgr.Create("1","法师");
+			//pModel->SetActionState("Walk.CAF");
 
 			//Texture*	pTex	=	Render::System::GetSingleton()->CreateProduct<Texture*>("AirMesh/agrm/ORCHANGINGTARP.dds","Texture");
 			//std::vector<DWORD>	vecData;

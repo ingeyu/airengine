@@ -1,5 +1,6 @@
 #include "AirPipelineOIT.h"
 #include "AirEngineMaterial.h"
+#include "AirEngineSystem.h"
 
 namespace	Air{
 	namespace	Client{
@@ -39,6 +40,9 @@ namespace	Air{
 			info.SetByteAddressBuffer(uiCount,sizeof(S32));
 			info.SetViewFlag(enVF_SRV|enVF_UAV);
 			m_pScreenMask	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer*>("OIT_ScreenMask","Buffer",&info);
+
+			m_pSortRender	=	EngineSystem::GetSingleton()->CreateProduct<Material*>("OIT_SortRender","Material");
+
 			return true;
 		}
 
@@ -51,21 +55,50 @@ namespace	Air{
 			return true;
 		}
 
-		void OIT::UpdateOIT()
+		void OIT::Update(Renderable* pRenderable)
 		{
 			Render::Device*	pDevice	=	RenderSystem::GetSingleton()->GetDevice();
-			void* pUAVArray[]={
-				m_pPixelBuffer_Counter->GetUAV(),
-				m_pScreenMask->GetUAV()
-			};
-			pDevice->SetUAV(2,pUAVArray);
+
+
+			Render::Window* pWindow	=	RenderSystem::GetSingleton()->GetMainWindow();
+
+			
+			{
+				void*	pRTV	=	pWindow->GetRTV();
+				void*	pDSV	=	pWindow->GetDepthRTV();
+				void* pUAVArray[]={
+					m_pPixelBuffer_Counter->GetUAV(),
+					m_pScreenMask->GetUAV()
+				};
+				U32 uiClear=0xffffffff;
+				pDevice->ClearUAV(pUAVArray[0],&uiClear);
+				pDevice->SetRTV_DSV_UAV(1,&pRTV,pDSV,2,pUAVArray);
+
+
+				PhaseOption opt;
+				opt.AddIndex(enPI_Alpha);
+				RenderSystem::GetSingleton()->RenderPhase(opt);
+
+				pUAVArray[0]	=	NULL;
+				pUAVArray[1]	=	NULL;
+				pDevice->SetRTV_DSV_UAV(1,&pRTV,pDSV,2,pUAVArray);
+
+				void* pSRV[]={
+					m_pPixelBuffer_Counter->GetSRV(),
+					m_pScreenMask->GetSRV()
+				};
+				pDevice->SetSRV(enPS,0,pSRV[0]);
+				pDevice->SetSRV(enPS,1,pSRV[1]);
+				m_pSortRender->RenderOneObject(pRenderable);
+				pDevice->SetSRV(enPS,0,NULL);
+				pDevice->SetSRV(enPS,1,NULL);
+
+			}
 
 
 
 
-			pUAVArray[0]	=	NULL;
-			pUAVArray[1]	=	NULL;
-			pDevice->SetUAV(2,pUAVArray);
+
 		}
 
 	}

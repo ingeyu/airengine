@@ -563,17 +563,37 @@ namespace Air{
 
 				}
 			}
-
+			static UINT uiUAVInitCounter[8]	=	{0,0,0,0,0,0,0,0}; 
 			void Device11::SetUAV( U32 uiCount,void** pUAV )
 			{
+				
 				ID3D11UnorderedAccessView**	pUAV11	=	(ID3D11UnorderedAccessView**)pUAV;
-				m_pContext->CSSetUnorderedAccessViews(0,uiCount,pUAV11,NULL);
+				m_pContext->CSSetUnorderedAccessViews(0,uiCount,pUAV11,uiUAVInitCounter);
 			}
 
 			void Device11::SetRTV_DSV( U32 uiCount,void** pRTV,void* pDSV )
 			{
 				ID3D11RenderTargetView**	pRTV11	=	(ID3D11RenderTargetView**)pRTV;
 				m_pContext->OMSetRenderTargets(uiCount,pRTV11,(ID3D11DepthStencilView*)pDSV);
+			}
+
+			void Device11::ClearUAV( void* pUAV,U32* uiClear )
+			{
+				ID3D11UnorderedAccessView*	pUAV11	=	(ID3D11UnorderedAccessView*)pUAV;
+				m_pContext->ClearUnorderedAccessViewUint(pUAV11,(UINT*)uiClear);
+			}
+
+			void Device11::ClearUAV( void* pUAV,float* fClear )
+			{
+				ID3D11UnorderedAccessView*	pUAV11	=	(ID3D11UnorderedAccessView*)pUAV;
+				m_pContext->ClearUnorderedAccessViewFloat(pUAV11,fClear);
+			}
+
+			void Device11::SetRTV_DSV_UAV( U32 uiCount,void** pRTV,void* pDSV,U32 uiUAVCount,void** pUAV )
+			{
+				ID3D11RenderTargetView**	pRTV11	=	(ID3D11RenderTargetView**)pRTV;
+				ID3D11UnorderedAccessView**	pUAV11	=	(ID3D11UnorderedAccessView**)pUAV;
+				m_pContext->OMSetRenderTargetsAndUnorderedAccessViews(uiCount,pRTV11,(ID3D11DepthStencilView*)pDSV,0,uiUAVCount,pUAV11,uiUAVInitCounter);
 			}
 
 		}

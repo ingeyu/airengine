@@ -63,22 +63,33 @@ namespace	Air{
 				m_uiDrawTriangleCount	+=	opt.m_uiIndexCount/3;
 			}
 
-			void Device::SetVP( Viewport* pVP )
+			void	Device::SetVP( Viewport* pVP )
 			{
 
 			}
 
-			void Device::SetSRV( enumShaderType type,U32 uiIndex,void* pSRV )
+			void	Device::SetSRV( enumShaderType type,U32 uiIndex,void* pSRV )
 			{
 
 			}
 
-			void Device::SetUAV( U32 uiCount,void** pUAV )
+			void	Device::SetUAV( U32 uiCount,void** pUAV )
 			{
 
 			}
+			void	Device::ClearUAV(void* pUAV,U32* uiClear)
+			{
 
-			void Device::SetRTV_DSV( U32 uiCount,void** pRTV,void* pDSV )
+			};
+			void	Device::ClearUAV(void* pUAV,float* fClear)
+			{
+
+			};
+			void	Device::SetRTV_DSV( U32 uiCount,void** pRTV,void* pDSV )
+			{
+
+			}
+			void	Device::SetRTV_DSV_UAV(U32	uiCount,void**	pRTV,void*	pDSV,U32 uiUAVCount,void** pUAV)
 			{
 
 			}
