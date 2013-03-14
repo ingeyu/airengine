@@ -98,6 +98,15 @@ namespace	Air{
 
 		Air::U1 CascadedShadowMap::UpdateCamera( Camera* pMainCamera )
 		{
+			Float3 axis(1,0.001,0.005);
+			axis.Normalize();
+			Common::Quaternion q(axis,GetTimer().GetTimeDelta()*0.05);//m_vLightDirection
+			m_vLightDirection	=	q*m_vLightDirection;
+			m_vLightDirection.Normalize();
+			for(U32 i=0;i<m_vecCSMCamera.size();i++){
+				m_vecCSMCamera[i]->SetDir(m_vLightDirection);
+			}
+
 			Float3 vCamPos	=	m_pMainCamera->GetPosition();
 			Float3 vCamDir	=	m_pMainCamera->GetDir();
 

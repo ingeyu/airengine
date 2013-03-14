@@ -141,7 +141,7 @@ namespace Air{
 // 			pMesh->SetMaterialName("Test2");
  			SceneNode* pNode	=	m_pRootNode.CreateChildSceneNode();
 			pNode->attachObject(pMesh);
-			pNode->SetScale(Float3(0.05,0.05,0.05));
+			pNode->SetScale(Float3(0.5,0.5,0.5));
 			//pNode->SetPosition(Float3(-8,6.5,0));
 
 			m_Loader.SetNode(&m_pRootNode);
@@ -149,12 +149,12 @@ namespace Air{
 			m_Loader.Load("AirMesh/Strom/Strom.ame.Scene");
 
 			//m_pRootNode.SetScale(Float3(0.1,0.1,0.1));
-			//g_mgr.LoadSLK("Character.slk");
-			//g_mgr.SetSceneNode(&m_pRootNode);
+			g_mgr.LoadSLK("Character.slk");
+			g_mgr.SetSceneNode(&m_pRootNode);
 			//AString	strSkele	=	"Mage.CSF";
 			//Character::Resource*	pRes	=	EngineSystem::GetSingleton()->CreateProduct<Character::Resource*>("Character/Mage/","Character",&strSkele);
-			//Character::Animation::Model*	pModel	=	g_mgr.Create("1","法师");
-			//pModel->SetActionState("Walk.CAF");
+			Character::Animation::Model*	pModel	=	g_mgr.Create("1","法师");
+			pModel->SetActionState("Walk.CAF");
 
 			//Texture*	pTex	=	Render::System::GetSingleton()->CreateProduct<Texture*>("AirMesh/agrm/ORCHANGINGTARP.dds","Texture");
 			//std::vector<DWORD>	vecData;

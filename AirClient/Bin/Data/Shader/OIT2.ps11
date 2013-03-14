@@ -35,7 +35,7 @@ void main( VS_OUTPUT input )
     uint x = input.Position.x;
     uint y = input.Position.y;
 
-	float4 color	=		float4(1,1,1,0.25);//DiffuseTex.Sample(SS_WrapLine2,input.TextureUV).x);
+	float4 color	=		DiffuseTex.Sample(SS_WrapLine2,input.TextureUV).xyzz;
 	if(color.a<=0.001f){
 		return;
 	}
