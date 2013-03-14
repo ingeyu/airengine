@@ -103,6 +103,9 @@ namespace	Air{
 			Common::Quaternion q(axis,GetTimer().GetTimeDelta()*0.05);//m_vLightDirection
 			m_vLightDirection	=	q*m_vLightDirection;
 			m_vLightDirection.Normalize();
+			if(m_vLightDirection.y>0){
+				m_vLightDirection	=	-m_vLightDirection;
+			}
 			for(U32 i=0;i<m_vecCSMCamera.size();i++){
 				m_vecCSMCamera[i]->SetDir(m_vLightDirection);
 			}
