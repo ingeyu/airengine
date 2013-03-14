@@ -139,7 +139,7 @@ Material	Rotate	:	MT_HelperRotate
 }
 Material	OIT_TEST	:	MT_OIT
 {
-	Texture	Texture/Effect/oittest.dds
+	Texture	Texture/Effect/royc0600.bmp
 }
 Material	OIT_SortRender	:	MT_OIT_SortRender
 {

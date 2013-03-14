@@ -96,8 +96,9 @@ float4 main( QuadVS_Output _input ) : SV_Target0
         color.b = ( uColor >> 16 & 0xFF ) / 255.0f;
         color.a = ( uColor >> 24 & 0xFF ) / 255.0f;
         result = lerp( result, color, color.a );
+		result.a	+=	(1-result.a)*color.a;
     }
-    result.a = 1.0f;
+    //result.a = 1.0f;
 
     return result;
 }

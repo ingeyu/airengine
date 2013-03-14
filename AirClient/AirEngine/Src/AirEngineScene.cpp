@@ -132,7 +132,7 @@ namespace Air{
 
 			MeshEntity::Info	info;
 			info.strMaterial	=	"OIT_TEST";
-			info.strMeshName	=	"AirMesh/Tiger.ame";
+			info.strMeshName	=	"AirMesh/Teapot.AME";
  			MeshEntity*	pMesh	=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity*>(info.strMeshName,"MeshEntity",&info);;
 			//pMesh->SetMaterialName("OIT_TEST");
 
@@ -146,7 +146,7 @@ namespace Air{
 
 			m_Loader.SetNode(&m_pRootNode);
 			//"..\\Data\\AirMesh\\jianxia3\\jianxia3.ame.Scene"
-			//m_Loader.Load("AirMesh/Strom/Strom.ame.Scene");
+			m_Loader.Load("AirMesh/Strom/Strom.ame.Scene");
 
 			//m_pRootNode.SetScale(Float3(0.1,0.1,0.1));
 			//g_mgr.LoadSLK("Character.slk");

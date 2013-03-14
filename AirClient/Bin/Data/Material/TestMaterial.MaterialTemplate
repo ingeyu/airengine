@@ -431,7 +431,7 @@ MaterialTemplate	MT_OIT
 	Pass
 	{
 		RasterizerState		CullNone
-		DepthStencilState DisableDepthCompareWrite
+		DepthStencilState DisableDepthWrite
 		VertexShader		"Shader/Obj_MRT_NoSkin"
 		{
 		}
