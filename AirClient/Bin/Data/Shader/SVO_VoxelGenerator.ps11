@@ -35,22 +35,25 @@ void main( VS_OUTPUT input )
 		idx		+=	(VoxelIndex.z&mask);
 		if(i==8){
 			SVOBuffer[offset+idx]	=		uiColor;
-			break;			
+			return;			
 		}
 		uint	oldChildOffset	=	0xffffffff;
-		uint    uiLoopCount	=	0;
-		[loop]
-		while(uiLoopCount < 10){
-			uiLoopCount++;
-			BrickBuffer.InterlockedCompareExchange((offset+idx)*VOXEL_SIZE,0,0xffffffff,oldChildOffset);
-			if(oldChildOffset	==	0xffffffff){	
-				continue;
-			}else if(oldChildOffset	==	0){
-				uint uVoxelCount = SVOBuffer.IncrementCounter();
-				BrickBuffer.InterlockedCompareExchange(offset*VOXEL_SIZE,0xffffffff,uVoxelCount*8,oldChildOffset);
+		uint	address			=	(offset+idx)*VOXEL_SIZE;
+
+		BrickBuffer.InterlockedCompareExchange(address,0,0xffffffff,oldChildOffset);
+		if(oldChildOffset	==	0xffffffff){
+			uint    uiLoopCount	=	0;
+			[unroll]
+			while(oldChildOffset==0xffffffff&&uiLoopCount < 10){
+				uiLoopCount++;
+				oldChildOffset	=	BrickBuffer.Load(address);	
 			}
-			break;
+		}else if(oldChildOffset	==	0){
+				uint uVoxelCount = SVOBuffer.IncrementCounter();
+				BrickBuffer.InterlockedCompareExchange(address,0xffffffff,uVoxelCount*8,oldChildOffset);
 		}
+		
+		
 		offset =	oldChildOffset;
 
 		mask	=	mask>>1;
