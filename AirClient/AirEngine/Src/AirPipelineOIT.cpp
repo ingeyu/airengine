@@ -72,7 +72,7 @@ namespace	Air{
 				};
 				U32 uiClear=0xffffffff;
 				pDevice->ClearUAV(pUAVArray[1],&uiClear);
-				pDevice->SetRTV_DSV_UAV(1,&pRTV,pDSV,2,pUAVArray);
+				pDevice->SetRTV_DSV_UAV(1,&pRTV,pDSV,2,pUAVArray,0);
 
 
 				PhaseOption opt;

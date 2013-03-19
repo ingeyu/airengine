@@ -73,7 +73,7 @@ namespace	Air{
 
 			}
 
-			void	Device::SetUAV( U32 uiCount,void** pUAV )
+			void	Device::SetUAV( U32 uiCount,void** pUAV,U32 uiUAVInitCount  )
 			{
 
 			}
@@ -89,7 +89,7 @@ namespace	Air{
 			{
 
 			}
-			void	Device::SetRTV_DSV_UAV(U32	uiCount,void**	pRTV,void*	pDSV,U32 uiUAVCount,void** pUAV)
+			void	Device::SetRTV_DSV_UAV(U32	uiCount,void**	pRTV,void*	pDSV,U32 uiUAVCount,void** pUAV,U32 uiUAVInitCount )
 			{
 
 			}

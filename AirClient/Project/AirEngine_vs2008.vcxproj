@@ -187,6 +187,7 @@
     <ClCompile Include="..\AirEngine\Src\AirGlobalSetting.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirHelperRenderable.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirPipelineOIT.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirPipelineVoxelGen.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirPostProcessHDR.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirInterfaceAlphaObjectManager.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirInterfaceAutoReleaseManager.cpp" />
@@ -279,6 +280,7 @@
     <ClInclude Include="..\AirEngine\Inc\AirGlobalSetting.h" />
     <ClInclude Include="..\AirEngine\Inc\AirHelperRenderable.h" />
     <ClInclude Include="..\AirEngine\Inc\AirPipelineOIT.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirPipelineVoxelGen.h" />
     <ClInclude Include="..\AirEngine\Inc\AirPostProcessHDR.h" />
     <ClInclude Include="..\AirEngine\Inc\AirInterfaceAlphaObjectManager.h" />
     <ClInclude Include="..\AirEngine\Inc\AirInterfaceAutoReleaseManager.h" />
