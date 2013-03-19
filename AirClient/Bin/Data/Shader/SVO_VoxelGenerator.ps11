@@ -1,0 +1,37 @@
+// Fragment And Link Buffer
+RWStructuredBuffer<uint2>			SVOBuffer	: register( u0 );
+
+// Start Offset Buffer
+RWByteAddressBuffer					BrickBuffer	: register( u1 );
+
+Texture2D		DiffuseTex		:	register(t0);
+
+SamplerState	SS_WrapLine2	:	register(s0);
+
+struct VS_OUTPUT
+{
+    float4 Position     : SV_POSITION; // vertex position
+	float3 Normal       : TEXCOORD0;
+    float2 TextureUV    : TEXCOORD1;   // vertex texture coords 
+	float3 Tangent		: TEXCOORD2;
+	float4 WPos			: TEXCOORD3;
+	float4 ProjPos		: TEXCOORD4;
+};
+
+void main( VS_OUTPUT input )
+{
+    uint x = input.Position.x;
+    uint y = input.Position.y;
+
+	float4 color	=		DiffuseTex.Sample(SS_WrapLine2,input.TextureUV).xyzw;
+	uint4 ucolor = saturate( color ) * 255;
+	uint2 node;
+	node.x	=	0;
+	node.y	=	(ucolor.x) | (ucolor.y << 8) | (ucolor.z << 16) | (ucolor.a << 24);
+
+	uint uVoxelCount = SVOBuffer.IncrementCounter();
+
+	uint uStartOffsetAddress = 8 * uIndex;
+
+
+}
