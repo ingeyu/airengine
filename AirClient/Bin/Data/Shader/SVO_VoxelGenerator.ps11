@@ -1,5 +1,5 @@
 // Fragment And Link Buffer
-RWStructuredBuffer<uint2>			SVOBuffer	: register( u0 );
+RWStructuredBuffer<uint>			SVOBuffer	: register( u0 );
 
 // Start Offset Buffer
 RWByteAddressBuffer					BrickBuffer	: register( u1 );
@@ -18,20 +18,43 @@ struct VS_OUTPUT
 	float4 ProjPos		: TEXCOORD4;
 };
 
+#define	VOXEL_SIZE	4
+
 void main( VS_OUTPUT input )
 {
-    uint x = input.Position.x;
-    uint y = input.Position.y;
-
 	float4 color	=		DiffuseTex.Sample(SS_WrapLine2,input.TextureUV).xyzw;
 	uint4 ucolor = saturate( color ) * 255;
-	uint2 node;
-	node.x	=	0;
-	node.y	=	(ucolor.x) | (ucolor.y << 8) | (ucolor.z << 16) | (ucolor.a << 24);
+	uint uiColor	=	(ucolor.x) | (ucolor.y << 8) | (ucolor.z << 16) | (ucolor.a << 24);
+	
+    uint3 VoxelIndex = input.Position.xyz;
+	int mask	=	0x100;
+	int	offset	=	0;
+	for(int i=0;i<9;i++){
+		int idx	=	(VoxelIndex.x&mask)<<2;
+		idx		+=	(VoxelIndex.y&mask)<<1;
+		idx		+=	(VoxelIndex.z&mask);
+		if(i==8){
+			SVOBuffer[offset+idx]	=		uiColor;
+			break;			
+		}
+		uint	oldChildOffset	=	0xffffffff;
+		uint    uiLoopCount	=	0;
+		[loop]
+		while(uiLoopCount < 10){
+			uiLoopCount++;
+			BrickBuffer.InterlockedCompareExchange((offset+idx)*VOXEL_SIZE,0,0xffffffff,oldChildOffset);
+			if(oldChildOffset	==	0xffffffff){	
+				continue;
+			}else if(oldChildOffset	==	0){
+				uint uVoxelCount = SVOBuffer.IncrementCounter();
+				BrickBuffer.InterlockedCompareExchange(offset*VOXEL_SIZE,0xffffffff,uVoxelCount*8,oldChildOffset);
+			}
+			break;
+		}
+		offset =	oldChildOffset;
 
-	uint uVoxelCount = SVOBuffer.IncrementCounter();
-
-	uint uStartOffsetAddress = 8 * uIndex;
-
-
+		mask	=	mask>>1;
+	}
 }
+
+
