@@ -11,7 +11,8 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	if(argc<2)
 	{
-		printf("no enough parameter!\n");
+		printf("Usage:DumpReader [*.dmp]\n");
+		getchar();
 		return -1;
 	}
 	printf("dump file name=[");
@@ -36,6 +37,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	fclose(pFile);
 
 	mdmp_dump(pBuffer,uiSize);
+	free(pBuffer);
 	printf("------------------Finished!--------------\n");
 	//getchar();
 	return 0;
