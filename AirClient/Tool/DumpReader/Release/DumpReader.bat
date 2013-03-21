@@ -1,0 +1,1 @@
+DumpReader.exe 1.dmp >1.txt
