@@ -3,6 +3,15 @@
 #include <DbgHelp.h>
 #include <time.h>
 
+#include <string>
+
+std::string GetWinVersionString(
+	DWORD dwPlatformId  ,
+	DWORD dwMinorVersion,
+	DWORD dwMajorVersion,
+	DWORD dwBuildNumber
+	);
+
 #define NONAMELESSUNION
 #define NONAMELESSSTRUCT
 
@@ -389,36 +398,38 @@ void mdmp_dump(void* pBase,unsigned int uiSize)
 					break;
 				}
 				printf("  Processor: %s (#%d CPUs)\n", str, msi->NumberOfProcessors);
+				/*				
 				switch (msi->MajorVersion)
 				{
 				case 3:
-					switch (msi->MinorVersion)
-					{
-					case 51: str = "NT 3.51"; break;
-					default: str = "3-????"; break;
-					}
-					break;
+				switch (msi->MinorVersion)
+				{
+				case 51: str = "NT 3.51"; break;
+				default: str = "3-????"; break;
+				}
+				break;
 				case 4:
-					switch (msi->MinorVersion)
-					{
-					case 0: str = (msi->PlatformId == VER_PLATFORM_WIN32_NT) ? "NT 4.0" : "95"; break;
-					case 10: str = "98"; break;
-					case 90: str = "ME"; break;
-					default: str = "5-????"; break;
-					}
-					break;
+				switch (msi->MinorVersion)
+				{
+				case 0: str = (msi->PlatformId == VER_PLATFORM_WIN32_NT) ? "NT 4.0" : "95"; break;
+				case 10: str = "98"; break;
+				case 90: str = "ME"; break;
+				default: str = "5-????"; break;
+				}
+				break;
 				case 5:
-					switch (msi->MinorVersion)
-					{
-					case 0: str = "2000"; break;
-					case 1: str = "XP"; break;
-					case 2: str = "Server 2003"; break;
-					default: str = "5-????"; break;
-					}
-					break;
+				switch (msi->MinorVersion)
+				{
+				case 0: str = "2000"; break;
+				case 1: str = "XP"; break;
+				case 2: str = "Server 2003"; break;
+				default: str = "5-????"; break;
+				}
+				break;
 				default: str = "???"; break;
 				}
-				printf("  Version: Windows %s (%u)\n", str, msi->BuildNumber);
+				*/
+				printf("  Version: Windows %s (%u)\n", GetWinVersionString(msi->PlatformId,msi->MinorVersion,msi->MajorVersion,msi->BuildNumber).c_str(), msi->BuildNumber);
 				printf("  PlatformId: %u\n", msi->PlatformId);
 				printf("  CSD: ");
 				dump_mdmp_string(msi->CSDVersionRva);
