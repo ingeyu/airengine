@@ -89,6 +89,8 @@ namespace	Air{
 			m_pCamera->SetHeight(256);
 			m_pCamera->SetOrtho(true);
 			m_pCamera->SetPosition(0,0,-128);
+
+			m_pGenVoxelTree	=	EngineSystem::GetSingleton()->CreateProduct<Material*>("SVO_Build_NoSkin","Material");	
 			return true;
 		}
 
@@ -97,6 +99,7 @@ namespace	Air{
 			SAFE_RELEASE_REF(m_pVoxel);
 			SAFE_RELEASE_REF(m_pNodeTree);
 			SAFE_RELEASE_REF(m_pCamera);
+			SAFE_RELEASE_REF(m_pGenVoxelTree);
 			return true;
 		}
 
