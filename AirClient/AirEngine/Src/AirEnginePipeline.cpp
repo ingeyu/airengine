@@ -607,6 +607,9 @@ namespace	Air{
 			case OIS::KC_DOWN:{
 				g_mgr.NextAction();
 							  }break;
+			case OIS::KC_M:{
+				__asm int 3;
+						   }break;
 			}
 			return true;
 		}

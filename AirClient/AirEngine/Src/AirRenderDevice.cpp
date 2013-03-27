@@ -63,7 +63,7 @@ namespace	Air{
 				m_uiDrawTriangleCount	+=	opt.m_uiIndexCount/3;
 			}
 
-			void	Device::SetVP( Viewport* pVP )
+			void	Device::SetVP( float fX,float fY,float fW,float fH )
 			{
 
 			}

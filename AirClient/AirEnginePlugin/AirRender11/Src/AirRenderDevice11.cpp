@@ -474,13 +474,13 @@ namespace Air{
 				}
 			}
 
-			void Device11::SetVP( Viewport* pVP )
+			void Device11::SetVP( float fX,float fY,float fW,float fH )
 			{
 				D3D11_VIEWPORT	vp;
-				vp.TopLeftX	=	pVP->GetAbsX();
-				vp.TopLeftY	=	pVP->GetAbsY();
-				vp.Width	=	pVP->GetAbsWidth();
-				vp.Height	=	pVP->GetAbsHeight();
+				vp.TopLeftX	=	fX;//pVP->GetAbsX();
+				vp.TopLeftY	=	fY;//pVP->GetAbsY();
+				vp.Width	=	fW;//pVP->GetAbsWidth();
+				vp.Height	=	fH;//pVP->GetAbsHeight();
 				vp.MinDepth	=	0.0f;
 				vp.MaxDepth	=	1.0f;
 				m_pContext->RSSetViewports(1,&vp);

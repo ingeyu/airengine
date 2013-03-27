@@ -56,7 +56,7 @@ namespace Air{
 				virtual	void		SetVD(Vertex::IDeclare*	pDeclare);
 				virtual void		SetCB(U32	uiIndex,Buffer*		pBuffer);
 				virtual void		SetCB(enumShaderType	type,U32	uiIndex,Buffer*		pBuffer);
-				virtual	void		SetVP(Viewport* pVP);
+				virtual	void		SetVP(float fX,float fY,float fW,float fH);
 				virtual	void		SetSS(enumShaderType	type,U32	uiRegister,State*	pState);
 				virtual	void		SetRS(State*	pState);
 				virtual	void		SetDSS(State*	pState);

@@ -28,7 +28,7 @@ namespace	Air{
 				virtual	void		SetRS(State*	pState);
 				virtual	void		SetDSS(State*	pState);
 				virtual	void		SetBS(State*	pState);
-				virtual	void		SetVP(Viewport* pVP);
+				virtual	void		SetVP(float fX,float fY,float fW,float fH);
 				virtual	void		SetSRV(enumShaderType	type,U32	uiIndex,void*	pSRV);
 				virtual	void		SetRTV_DSV(U32	uiCount,void**	pRTV,void*	pDSV);
 				virtual	void		SetRTV_DSV_UAV(U32	uiCount,void**	pRTV,void*	pDSV,U32 uiUAVCount,void** pUAV,U32 uiUAVInitCount = 0xFFFFFFFF);

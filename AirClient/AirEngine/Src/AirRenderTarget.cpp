@@ -167,7 +167,7 @@ namespace	Air{
 					ViewportMap::iterator	i	=	m_mapViewport.begin();
 					for(;i!=m_mapViewport.end();i++){
 						pVP	=	i->second;
-						pSys->GetDevice()->SetVP(pVP);
+						pSys->GetDevice()->SetVP(pVP->GetAbsX(),pVP->GetAbsY(),pVP->GetAbsWidth(),pVP->GetAbsHeight());
 						pVP->Update();
 						pSys->RenderPhase(m_PhaseOpt);
 					}

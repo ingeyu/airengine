@@ -13,10 +13,11 @@ namespace	Air{
 			U1		Release();
 			void	Update(Renderable* pRenderable);
 
-			Render::Buffer*	m_pVoxelNodeTree;
-			Render::Buffer*	m_pBrick;
+			Render::Buffer*	m_pVoxel;
+			Render::Buffer*	m_pNodeTree;
 			Material*		m_pGenVoxelTree;
 			Material*		m_pMipVoxelTree;
+			Camera*			m_pCamera;
 		};
 	}
 }
