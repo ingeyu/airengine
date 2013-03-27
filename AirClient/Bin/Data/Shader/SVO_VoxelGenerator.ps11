@@ -42,15 +42,14 @@ void main( VS_OUTPUT input )
 
 		BrickBuffer.InterlockedCompareExchange(address,0,0xffffffff,oldChildOffset);
 		if(oldChildOffset	==	0xffffffff){
-			uint    uiLoopCount	=	0;
-			[unroll]
-			while(oldChildOffset==0xffffffff&&uiLoopCount < 10){
-				uiLoopCount++;
-				oldChildOffset	=	BrickBuffer.Load(address);	
+			oldChildOffset	=	BrickBuffer.Load(address);	
+			if(oldChildOffset==0xffffffff){
+				BrickBuffer.InterlockedCompareExchange(address,0,0xffffffff,oldChildOffset);	
 			}
 		}else if(oldChildOffset	==	0){
 				uint uVoxelCount = SVOBuffer.IncrementCounter();
-				BrickBuffer.InterlockedCompareExchange(address,0xffffffff,uVoxelCount*8,oldChildOffset);
+				oldChildOffset	=	uVoxelCount*8;
+				BrickBuffer.Store(address,oldChildOffset);
 		}
 		
 		
