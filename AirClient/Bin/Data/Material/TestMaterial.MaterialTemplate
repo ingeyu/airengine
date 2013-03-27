@@ -457,3 +457,36 @@ MaterialTemplate	MT_OIT_SortRender
 		}
 	}
 }
+
+MaterialTemplate	MT_SVO_Build_NoSkin
+{
+	Phase		Manual
+	Pass
+	{
+		RasterizerState		CullNone
+		DepthStencilState	DisableDepthCompareWrite
+		//BlendState AdditiveBlending
+		VertexShader		"Shader/Obj_MRT_NoSkin"
+		{
+		}
+		PixelShader			"Shader/SVO_VoxelGenerator"
+		{
+		}
+	}
+}
+MaterialTemplate	MT_SVO_Build_Skin
+{
+	Phase		Manual
+	Pass
+	{
+		RasterizerState		CullNone
+		DepthStencilState	DisableDepthCompareWrite
+		//BlendState AdditiveBlending
+		VertexShader		"Shader/Obj_MRT_Skin"
+		{
+		}
+		PixelShader			"Shader/SVO_VoxelGenerator"
+		{
+		}
+	}
+}
