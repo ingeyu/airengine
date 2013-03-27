@@ -141,6 +141,9 @@ Material	OIT_TEST	:	MT_OIT
 {
 	Texture	Texture/Effect/Flag.jpg
 }
+Material	OIT_SortRender	:	MT_OIT_SortRender
+{
+}
 Material	SVO_Build_NoSkin	:	MT_SVO_Build_NoSkin
 {
 }
