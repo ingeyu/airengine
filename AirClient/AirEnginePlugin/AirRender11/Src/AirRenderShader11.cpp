@@ -4,9 +4,13 @@
 #include "AirGlobalSetting.h"
 #include "AirInterfaceResourceSystem.h"
 
+#define SHADER_VERSION_EXT "11"
+
 namespace Air{
 	
 	namespace	Client{
+
+
 		extern	Render::Device11*	pDevice;
 		class FileInclude	:	public	ID3DInclude{
 		public:
@@ -89,12 +93,8 @@ namespace Air{
 				memcpy(&strType[0],&strExt[0],2);
 				Common::Converter::ToLowerCase(strType);
 				m_ShaderType		=	ParseShaderType(strType);
-				AString	strVersion	=	&strExt[2];
-				m_ShaderVersion		=	ParseShaderVersion(strVersion);
-				enumSystemVersion	hwVersion	=	pDevice->GetHWVersion();
-				if(m_ShaderVersion	>	hwVersion){
-					m_ShaderVersion	=	hwVersion;
-				}
+				m_ShaderVersion		=	pDevice->GetHWVersion();//ParseShaderVersion(strVersion);
+
 
 				static	AString	strShaderType[]	=	{
 					"",
@@ -109,7 +109,7 @@ namespace Air{
 				AString	strProfile	=	strType	+	strShaderType[m_ShaderVersion];
 
 				Data data;
-				GetGlobalSetting().m_pResourceSystem->Find(m_strProductName,data);
+				GetGlobalSetting().m_pResourceSystem->Find(m_strProductName+ SHADER_VERSION_EXT,data);
 
 				if(!data.IsNull()){
 					ID3DBlob*	pError	=	NULL;

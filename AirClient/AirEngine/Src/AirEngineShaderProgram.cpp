@@ -9,12 +9,12 @@ namespace	Air{
 	namespace	Client{
 
 		static AString	strTypeName[6]={
-			".vs11",
-			".gs11",
-			".ps11",
-			".cs11",
-			".hs11",
-			".ds11"
+			".vs",
+			".gs",
+			".ps",
+			".cs",
+			".hs",
+			".ds"
 		};
 
 
