@@ -4,7 +4,7 @@
 #include "..\..\AirCharacter\cal3d.h"
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 		namespace	Character{
 			namespace	Animation{
 	

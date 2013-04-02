@@ -41,7 +41,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 }
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 	
 		Render::Device11*	pDevice	=	NULL;
 // 		Render::Window11*	pWindow	=	NULL;
@@ -54,8 +54,8 @@ namespace Air{
 		extern "C" RENDER_EXPORT U1 DllInit(void*		pParam)throw(){
 
  			if(pDevice==NULL){
- 				pDevice	=	new	Air::Client::Render::Device11();
- 				Air::Client::Render::System::GetSingleton()->AddDevice(pDevice);
+ 				pDevice	=	new	Air::Engine::Render::Device11();
+ 				Air::Engine::Render::System::GetSingleton()->AddDevice(pDevice);
  				//pDevice->Create();
  			}
 			/*

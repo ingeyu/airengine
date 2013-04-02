@@ -3,7 +3,7 @@
 #include "AirEngineMovableObject.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 		enum enumMouseRayCastType{
 			eMRCT_None,
 			eMRCT_X,

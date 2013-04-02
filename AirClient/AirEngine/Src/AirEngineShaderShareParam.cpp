@@ -2,7 +2,7 @@
 //#include "asm_math.h"
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 	
 	
 		ShaderShareParam::ShaderShareParam(){

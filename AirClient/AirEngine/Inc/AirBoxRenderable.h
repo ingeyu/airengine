@@ -4,7 +4,7 @@
 #include "AirEngineRenderable.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 		class	ENGINE_EXPORT	BoxMesh	:	public	RefSingleton<BoxMesh>{
 		public:
 			BoxMesh();

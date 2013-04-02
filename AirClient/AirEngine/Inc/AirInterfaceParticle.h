@@ -5,7 +5,7 @@
 #include "AirEngineMovableObject.h"
 namespace Air{
 	
-	namespace Client{
+	namespace Engine{
 		//namespace	Particle{
 	
 		/**	\brief	»ù±¾Á£×Ó

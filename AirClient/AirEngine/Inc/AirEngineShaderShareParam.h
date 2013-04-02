@@ -4,7 +4,7 @@
 #include "AirEngineHeader.h"
 namespace Air{
 	
-	namespace Client{
+	namespace Engine{
 	
 	#ifndef MAX_LIGHT
 	#define MAX_LIGHT	9

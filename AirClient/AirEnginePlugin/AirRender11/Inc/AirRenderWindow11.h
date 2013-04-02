@@ -22,7 +22,7 @@
 #include "AirRenderWindow.h"
 
 namespace	Air{
-	namespace Client{
+	namespace Engine{
 	
 		namespace	Render{
 			class	Device11;

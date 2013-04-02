@@ -7,7 +7,7 @@
 #include "AirEngineSceneNode.h"
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 		
 	
 		IParticle::IParticle( CAString& strName,Info* pInfo )

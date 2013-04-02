@@ -6,7 +6,7 @@
 #include "AirEngineMovableObject.h"
 namespace Air{
 	
-	namespace Client{
+	namespace Engine{
 		class	Material;
 		/**	\brief	屏幕后期渲染物体
 		*

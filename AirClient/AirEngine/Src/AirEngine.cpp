@@ -33,7 +33,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 // 		Common::Plugin	renderPlugin("AirRender11.dll",NULL);
 // 		Shader*			pVS	=	NULL;
 // 		Shader*			pPS	=	NULL;

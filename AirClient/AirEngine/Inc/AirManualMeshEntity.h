@@ -5,7 +5,7 @@
 #include "AirRenderVertexDeclare.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 		class	ManualMeshEntity	:	
 			public	IProduct,
 			public	Renderable,

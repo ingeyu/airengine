@@ -28,7 +28,7 @@
 namespace Air{
 	
 	
-	namespace Client{
+	namespace Engine{
 	
 		typedef		std::vector<Float3>		Vec3Array;
 		typedef		std::vector<U32>		IndexArray;

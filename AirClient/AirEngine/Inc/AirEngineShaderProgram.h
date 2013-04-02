@@ -23,7 +23,7 @@
 
 
 namespace	Air{
-	namespace Client{
+	namespace Engine{
 		struct ShaderParamInfo;
 		/**	\brief	PASS×ÅÉ«ÓïÑÔ
 		*

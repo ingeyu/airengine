@@ -48,7 +48,7 @@
 namespace Air{
 	
 	
-	namespace	Client{
+	namespace	Engine{
 	
 		Character::Manager	g_CharacterMgr;
 		const	static	UInt	g_uiNumPlugin		=	16;

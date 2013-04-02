@@ -20,7 +20,7 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 }
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 	
 		Audio::ISystem*	pPlugin	=	NULL;
 	

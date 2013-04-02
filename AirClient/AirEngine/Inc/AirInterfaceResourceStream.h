@@ -21,7 +21,7 @@
 #include "AirEngineHeader.h"
 
 namespace	Air{
-	namespace Client{
+	namespace Engine{
 	
 		namespace	Resource{
 			enum	enumStreamState{

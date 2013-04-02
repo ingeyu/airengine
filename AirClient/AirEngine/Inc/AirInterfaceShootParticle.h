@@ -4,7 +4,7 @@
 #include "AirInterfaceParticle.h"
 namespace Air{
 	
-	namespace Client{
+	namespace Engine{
 	
 		class	ShootParticle	:
 			public	IParticle{

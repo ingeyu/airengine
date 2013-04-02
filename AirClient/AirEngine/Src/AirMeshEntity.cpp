@@ -4,7 +4,7 @@
 #include "AirEngineSystem.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 
 
 		MeshEntity::MeshEntity( CAString& strName,Info* pInfo ):IProduct(strName)

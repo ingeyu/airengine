@@ -5,7 +5,7 @@
 #include "AirRenderSystem.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 		class QuadRenderable;
 		class	CascadedShadowMap{
 		public:

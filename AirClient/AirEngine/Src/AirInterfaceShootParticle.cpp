@@ -2,7 +2,7 @@
 #include "AirGlobalSetting.h"
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 	
 	
 		ShootParticle::ShootParticle( CAString& strName,Info* pInfo ):IParticle(strName,pInfo){

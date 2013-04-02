@@ -5,7 +5,7 @@
 
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 		
 		static	std::map<AString,U8>	g_StringKey;
 		static	AString					g_KeyString[]	=	{

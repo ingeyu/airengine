@@ -3,7 +3,7 @@
 #include "AirEngineSystem.h"
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 	
 	
 		InstanceEntity::InstanceEntity(CAString&	strName,UInt	uiMaxInstance):Common::IProduct(strName){

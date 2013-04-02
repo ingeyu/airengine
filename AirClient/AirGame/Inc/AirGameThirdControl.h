@@ -5,7 +5,7 @@
 #include "AirGameFPSControl.h"
 namespace Air{
 	
-	namespace Client{
+	namespace Engine{
 	
 		namespace	Game{
 			class	ThirdControl	:

@@ -4,7 +4,7 @@
 #include	"AirEngineHeader.h"
 namespace Air{
 	
-	namespace Client{
+	namespace Engine{
 		enum	enumSystemVersion{
 			enRSV_UNKNOWN,
 			enRSV_81,

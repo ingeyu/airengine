@@ -21,7 +21,7 @@
 #include "AirRenderCommon.h"
 
 namespace	Air{
-	namespace Client{
+	namespace Engine{
 		class	Material;
 		namespace	Render{
 			namespace	Vertex{

@@ -4,7 +4,7 @@
 #include "AirEngineSceneNode.h"
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 		namespace	Particle{
 	
 	#ifndef SET_PARTICLE_PROPERTY

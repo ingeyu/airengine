@@ -10,7 +10,7 @@
 
 namespace Air{
 	const	Real	PI	=	4.0 * atan( 1.0 );
-	namespace	Client{
+	namespace	Engine{
 
 		enum	enumHighKeyCode{
 			enHKC_SHIFT	=	1,

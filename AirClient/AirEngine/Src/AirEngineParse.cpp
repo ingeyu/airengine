@@ -31,7 +31,7 @@ Torus Knot Software Ltd.
 
 namespace Air{
 	
-	namespace Client {
+	namespace Engine {
 	
 	    /// stream overhead = ID + size
 	    const UInt STREAM_OVERHEAD_SIZE = sizeof(U16) + sizeof(UInt);

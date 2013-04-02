@@ -18,7 +18,7 @@
 #include "AirHelperRenderable.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 		NavMesh*	pMesh	=	NULL;
 		extern Character::Manager	g_mgr;
 
@@ -388,7 +388,7 @@ namespace	Air{
 				//m_pQuadCopy->RenderOneObject(m_pQuad);
 				m_pCombine->RenderOneObject(m_pQuad);
 				//m_pMainWindow->AfterUpdate();
-				m_OIT.Update(m_pQuad);
+				//m_OIT.Update(m_pQuad);
 			}
 			m_pMainWindow->ClearPhaseFlag();
 			m_pMainWindow->AddPhaseFlag(enPI_Helper);

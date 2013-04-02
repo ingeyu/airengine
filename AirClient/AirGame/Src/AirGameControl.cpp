@@ -1,7 +1,7 @@
 #include "AirGameControl.h"
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 		namespace	Game{
 	
 	

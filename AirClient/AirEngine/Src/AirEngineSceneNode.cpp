@@ -4,7 +4,7 @@
 #include "AirEngineCamera.h"
 namespace Air{
 	
-	namespace Client{
+	namespace Engine{
 	
 	
 		SceneNode::SceneNode()	:
@@ -200,7 +200,7 @@ namespace Air{
 			}
 		}
 
-		Air::Client::enumSceneNodeType SceneNode::GetType(){
+		Air::Engine::enumSceneNodeType SceneNode::GetType(){
 			return	m_Type;
 		}
 

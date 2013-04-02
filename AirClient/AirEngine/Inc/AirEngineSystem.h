@@ -28,7 +28,7 @@
 namespace Air{
 	
 	
-	namespace Client{
+	namespace Engine{
 	
 		class ENGINE_EXPORT	EngineSystem	
 			:	public	IPlugin,

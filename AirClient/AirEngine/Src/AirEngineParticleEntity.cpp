@@ -5,7 +5,7 @@
 namespace Air{
 	
 	
-	namespace	Client{
+	namespace	Engine{
 	
 	
 		ParticleEntity::ParticleEntity( CAString& strName,Info* pInfo ):Common::IProduct(strName){

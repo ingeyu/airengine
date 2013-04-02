@@ -21,7 +21,7 @@
 #include "AirResourceHeader.h"
 
 namespace	Air{
-	namespace Client{
+	namespace Engine{
 	
 		namespace	Resource{
 			typedef	std::list<IPackage*>	PackageList;

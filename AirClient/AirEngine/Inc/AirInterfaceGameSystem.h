@@ -4,7 +4,7 @@
 #include "AirEngineHeader.h"
 namespace Air{
 	
-	namespace Client{
+	namespace Engine{
 		namespace	Game{
 			/**	\brief	游戏系统基类
 			*

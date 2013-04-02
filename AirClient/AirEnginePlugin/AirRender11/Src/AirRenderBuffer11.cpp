@@ -4,7 +4,7 @@
 
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 		extern	Render::Device11*	pDevice;
 		namespace	Render{
 

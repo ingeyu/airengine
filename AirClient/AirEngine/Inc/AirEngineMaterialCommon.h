@@ -22,7 +22,7 @@
 
 
 namespace	Air{
-	namespace Client{
+	namespace Engine{
 		enum	enumQualityType{
 			enQT_VeryHigh,
 			enQT_High,

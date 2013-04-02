@@ -2,7 +2,7 @@
 #include "AirEngineRenderable.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 		namespace	Render{
 
 
@@ -94,7 +94,7 @@ namespace	Air{
 
 			}
 
-			Air::Client::enumSystemVersion Device::GetHWVersion()
+			Air::Engine::enumSystemVersion Device::GetHWVersion()
 			{
 				return	m_HWVersion;
 			}

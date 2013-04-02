@@ -4,7 +4,7 @@
 #include "AirInterfaceUIElement.h"
 namespace Air{
 	
-	namespace Client{
+	namespace Engine{
 	
 		namespace	UI{
 			//typedef		std::vector<Common::StringVector>		StateStringMap;

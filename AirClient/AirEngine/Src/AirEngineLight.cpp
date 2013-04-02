@@ -6,7 +6,7 @@
 #include "AirEngineCamera.h"
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 	
 	
 		Light::Light( CAString& strName ,Info*	pInfo):Camera(strName){

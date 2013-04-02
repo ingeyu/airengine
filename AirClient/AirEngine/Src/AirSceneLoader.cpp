@@ -5,7 +5,7 @@
 #include "AirGlobalSetting.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 
 
 		SceneLoader::SceneLoader()

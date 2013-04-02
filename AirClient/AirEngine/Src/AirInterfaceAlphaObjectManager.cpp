@@ -3,7 +3,7 @@
 namespace Air{
 	
 	
-	namespace	Client{
+	namespace	Engine{
 		
 	
 		IAlphaObjectManager::IAlphaObjectManager(){

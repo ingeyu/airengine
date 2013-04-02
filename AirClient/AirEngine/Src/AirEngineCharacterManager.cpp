@@ -8,7 +8,7 @@
 #include "AirEngineMaterialParse.h"
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 		namespace	Character{
 			//Manager g_CharacterMgr;
 	

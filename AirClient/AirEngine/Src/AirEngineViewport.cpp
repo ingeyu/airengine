@@ -5,7 +5,7 @@
 #include "AirEngineCamera.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 
 
 		Viewport::Viewport( Real fWidth /*= 1.0f*/, 

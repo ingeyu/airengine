@@ -21,7 +21,7 @@
 #include "AirRenderTarget.h"
 
 namespace	Air{
-	namespace Client{
+	namespace Engine{
 		/**	\brief	消息回调
 		*   
 		*	@remarks 	消息回调

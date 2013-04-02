@@ -2,7 +2,7 @@
 #include "AirCommonWindow.h"
 #include "AirRenderDevice11.h"
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 		extern	Render::Device11*	pDevice;
 		namespace	Render{
 

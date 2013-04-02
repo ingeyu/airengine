@@ -26,7 +26,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 }
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 	
 		Game::System*	pPlugin	=	NULL;
 	

@@ -6,7 +6,7 @@
 #include "AirRenderSystem.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 
 		static AString	strTypeName[6]={
 			".vs",

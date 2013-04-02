@@ -4,7 +4,7 @@
 //#include "AirRenderMaterial.h"
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 		namespace	Render{
 			static	Global	g_Global;
 	

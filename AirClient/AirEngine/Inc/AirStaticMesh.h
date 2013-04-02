@@ -7,7 +7,7 @@
 #include "AirEngineMovableObject.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 		class	ENGINE_EXPORT	StaticMesh	:	
 			public	IProduct{
 		public:

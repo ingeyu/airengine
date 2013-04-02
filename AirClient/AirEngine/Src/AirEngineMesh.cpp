@@ -3,7 +3,7 @@
 namespace Air{
 	
 	
-	namespace	Client{
+	namespace	Engine{
 	
 		std::map<AString,Mesh::IParseCallBack*>		Mesh::m_mapParseFunction;
 	

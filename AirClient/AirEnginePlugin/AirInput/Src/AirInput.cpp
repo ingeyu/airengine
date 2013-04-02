@@ -26,7 +26,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 }
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 	
 		
 		Input::System*	pPlugin	=	NULL;

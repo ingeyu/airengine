@@ -1223,7 +1223,7 @@ AOL]]></RmTextDataBlock></RmStringVariable>
     </RmRegistryBranch>
     <RmRegistryBranch NAME="WORKSPACE" API="" XML_VERSION="RenderMonkey 1.71">
      <RmStringVariable NAME="LAST_SAVE" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
-13/12/2012 20:35:40]]></RmTextDataBlock></RmStringVariable>
+20/12/2012 20:22:47]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
 RenderMonkey Version 1.82 (build 322)]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="XML_VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
@@ -1235,12 +1235,12 @@ D:\AirEngine\Doc\EffectExample\]]></RmTextDataBlock></RmStringVariable>
   </RmRegistryBranch>
   <RmEffectGroup NAME="Effect Group 1" API="">
    <RmDirectXEffect NAME="SSAO" API="D3D" ACTIVE_CAMERA="Camera">
-    <RmMatrixVariable NAME="matViewProjection" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="ViewProjection" VALUE_0="0.848240" VALUE_1="-0.057507" VALUE_2="0.855437" VALUE_3="-1.230402" VALUE_4="-0.630287" VALUE_5="2.198629" VALUE_6="0.772787" VALUE_7="-1.969985" VALUE_8="-0.661867" VALUE_9="-0.410714" VALUE_10="0.628689" VALUE_11="203.241592" VALUE_12="-0.661205" VALUE_13="-0.410303" VALUE_14="0.628060" VALUE_15="204.038361"/>
+    <RmMatrixVariable NAME="matViewProjection" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="ViewProjection" VALUE_0="-0.653204" VALUE_1="-0.922984" VALUE_2="-0.419541" VALUE_3="41.043133" VALUE_4="-0.244349" VALUE_5="1.135064" VALUE_6="-2.116684" VALUE_7="-38.530834" VALUE_8="0.835357" VALUE_9="-0.440085" VALUE_10="-0.332427" VALUE_11="82.019150" VALUE_12="0.834521" VALUE_13="-0.439645" VALUE_14="-0.332094" VALUE_15="82.937126"/>
     <RmMatrixVariable NAME="matViewProjectionInverse" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="ProjectionInverse" VALUE_0="0.829144" VALUE_1="0.000000" VALUE_2="0.000000" VALUE_3="0.000000" VALUE_4="0.000000" VALUE_5="0.414214" VALUE_6="0.000000" VALUE_7="0.000000" VALUE_8="0.000000" VALUE_9="0.000000" VALUE_10="0.000000" VALUE_11="1.000000" VALUE_12="0.000000" VALUE_13="0.000000" VALUE_14="-0.999000" VALUE_15="1.000000"/>
-    <RmVectorVariable NAME="OccSize" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE_0="568.084045" VALUE_1="26.900000" VALUE_2="29.700001" VALUE_3="1.000000" MIN="1.000000" MAX="36.000000" CLAMP="FALSE" NORMALIZE="FALSE"/>
+    <RmVectorVariable NAME="OccSize" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE_0="568.084045" VALUE_1="12.200000" VALUE_2="586.362915" VALUE_3="1.000000" MIN="1.000000" MAX="36.000000" CLAMP="FALSE" NORMALIZE="FALSE"/>
     <RmVectorVariable NAME="LightDir" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE_0="0.000000" VALUE_1="1.000000" VALUE_2="-0.146800" VALUE_3="1.000000" MIN="-1.000000" MAX="1.000000" CLAMP="FALSE" NORMALIZE="FALSE"/>
     <RmVectorVariable NAME="vViewPosition" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="ViewPosition" VALUE_0="118.171036" VALUE_1="123.350098" VALUE_2="175.575592" VALUE_3="1.000000" MIN="-10.000000" MAX="10.000000" CLAMP="FALSE" NORMALIZE="FALSE"/>
-    <RmMatrixVariable NAME="matView" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="View" VALUE_0="0.703313" VALUE_1="-0.047681" VALUE_2="0.709280" VALUE_3="-1.020180" VALUE_4="-0.261073" VALUE_5="0.910702" VALUE_6="0.320099" VALUE_7="-0.815994" VALUE_8="-0.661205" VALUE_9="-0.410303" VALUE_10="0.628060" VALUE_11="204.038361" VALUE_12="0.000000" VALUE_13="0.000000" VALUE_14="0.000000" VALUE_15="1.000000"/>
+    <RmMatrixVariable NAME="matView" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="View" VALUE_0="-0.541600" VALUE_1="-0.765286" VALUE_2="-0.347860" VALUE_3="34.030655" VALUE_4="-0.101213" VALUE_5="0.470159" VALUE_6="-0.876759" VALUE_7="-15.959993" VALUE_8="0.834521" VALUE_9="-0.439645" VALUE_10="-0.332094" VALUE_11="82.937126" VALUE_12="0.000000" VALUE_13="0.000000" VALUE_14="0.000000" VALUE_15="1.000000"/>
     <RmDynamicVariable NAME="invViewport" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="ViewportDimensionsInverse" VARIABLE_TYPE="FLOAT" ROWS="2" COLUMNS="1" FIXED_SIZE="TRUE" MIN="-1.000000" MAX="1.000000" CLAMP="FALSE" NORMALIZE="FALSE">
      <RmDynamicVariableValueContainer>
       <RmDynamicVariableValue ROW_INDEX="0" COLUMN_INDEX="0" VALUE="0.000864"/>
@@ -1248,17 +1248,17 @@ D:\AirEngine\Doc\EffectExample\]]></RmTextDataBlock></RmStringVariable>
      </RmDynamicVariableValueContainer>
     </RmDynamicVariable>
     <RmFloatVariable NAME="fNormal" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="0.000000" MIN="0.000000" MAX="1.000000" CLAMP="FALSE"/>
-    <RmMatrixVariable NAME="matViewInverse" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="ViewInverse" VALUE_0="0.703313" VALUE_1="-0.261073" VALUE_2="-0.661205" VALUE_3="135.415649" VALUE_4="-0.047681" VALUE_5="0.910702" VALUE_6="-0.410303" VALUE_7="84.412109" VALUE_8="0.709280" VALUE_9="0.320098" VALUE_10="0.628060" VALUE_11="-127.163475" VALUE_12="-0.000000" VALUE_13="-0.000000" VALUE_14="0.000000" VALUE_15="1.000000"/>
-    <RmFloatVariable NAME="fGarmma" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="1.315197" MIN="-1.000000" MAX="0.000000" CLAMP="FALSE"/>
-    <RmFloatVariable NAME="fScale" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="0.246799" MIN="0.000000" MAX="0.000000" CLAMP="FALSE"/>
+    <RmMatrixVariable NAME="matViewInverse" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="ViewInverse" VALUE_0="-0.541600" VALUE_1="-0.101212" VALUE_2="0.834521" VALUE_3="-52.397125" VALUE_4="-0.765286" VALUE_5="0.470159" VALUE_6="-0.439645" VALUE_7="70.009796" VALUE_8="-0.347860" VALUE_9="-0.876759" VALUE_10="-0.332095" VALUE_11="25.387806" VALUE_12="0.000000" VALUE_13="0.000000" VALUE_14="0.000000" VALUE_15="1.000000"/>
+    <RmFloatVariable NAME="fGarmma" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="2.218128" MIN="-1.000000" MAX="0.000000" CLAMP="FALSE"/>
+    <RmFloatVariable NAME="fScale" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="0.044621" MIN="0.000000" MAX="0.000000" CLAMP="FALSE"/>
     <RmFloatVariable NAME="fLerp" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="0.000000" MIN="0.000000" MAX="1.000000" CLAMP="TRUE"/>
     <RmVectorVariable NAME="vCenter" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE_0="159.398621" VALUE_1="72.894753" VALUE_2="84.952003" VALUE_3="1.000000" MIN="1.000000" MAX="1.000000" CLAMP="FALSE" NORMALIZE="FALSE"/>
     <RmVectorVariable NAME="vX" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE_0="56.773285" VALUE_1="0.000000" VALUE_2="0.000000" VALUE_3="1.000000" MIN="-10.000000" MAX="10.000000" CLAMP="FALSE" NORMALIZE="FALSE"/>
     <RmVectorVariable NAME="vY" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE_0="0.000000" VALUE_1="0.000000" VALUE_2="53.790798" VALUE_3="1.000000" MIN="-10.000000" MAX="10.000000" CLAMP="FALSE" NORMALIZE="FALSE"/>
     <RmColorVariable NAME="LightColor" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE_0="0.443609" VALUE_1="0.443609" VALUE_2="0.443609" VALUE_3="1.000000"/>
     <Rm2DTextureVariable NAME="base_1" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" FILE_NAME="..\..\AirClient\Bin\Data\AirMesh\Strom\20120314094205015846.jpg" ORIGIN="0"/>
-    <Rm2DTextureVariable NAME="my2DTexture" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" FILE_NAME="..\..\AirClient\Bin\Data\Texture\2x2rot.png" ORIGIN="0"/>
-    <Rm2DTextureVariable NAME="random" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" FILE_NAME="..\..\AirClient\Tool\RandomTexGen\Release\noise2.dds" ORIGIN="0"/>
+    <Rm2DTextureVariable NAME="my2DTexture" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" FILE_NAME="..\..\AirClient\Bin\Data\Texture\2x2.png" ORIGIN="0"/>
+    <Rm2DTextureVariable NAME="random" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" FILE_NAME="..\..\AirClient\Bin\Data\Texture\4x4.png" ORIGIN="0"/>
     <Rm2DTextureVariable NAME="Angle" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" FILE_NAME="..\..\..\..\AirEngine\AirClient\Bin\Data\Texture\precompute_refl_angle.jpg" ORIGIN="0"/>
     <Rm2DTextureVariable NAME="AngleWeight" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" FILE_NAME="..\..\AirClient\Bin\Data\Texture\precompute_refl_angle.jpg" ORIGIN="0"/>
     <Rm2DTextureVariable NAME="my2DTexture_1" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" FILE_NAME="..\..\AirClient\Bin\Data\Texture\Effect\Ff807001.bmp" ORIGIN="0"/>
@@ -1542,7 +1542,7 @@ float4 ps_main( float2 texCoord  : TEXCOORD0,int2 ScreenPos:VPOS ) : COLOR
       <RmState NAME="D3DSAMP_MIPFILTER" API="D3D" STATE="7" VALUE="1" USAGE="SAMPLER_STATE"/>
      </RmTextureObject>
     </RmPass>
-    <RmPass NAME="Reflect" API="D3D" PASS_INDEX="5" ENABLED="TRUE">
+    <RmPass NAME="Reflect" API="D3D" PASS_INDEX="5" ENABLED="FALSE">
      <RmModelReference NAME="ScreenAlignedQuad" API=""/>
      <RmHLSLShader NAME="Pixel Shader" API="D3D" PIXEL_SHADER="TRUE" TARGET="ps_3_0" ENTRY_POINT="ps_main" COMPILER_FLAGS="0"><RmShaderCode TYPE="TEXT"><![CDATA[
 sampler2D Texture5;
@@ -2168,7 +2168,7 @@ sampler2D Texture1;
 sampler2D Texture2;
 sampler2D Texture3;
 sampler2D Texture5;
-#define SAMPLER_NUM 4
+#define SAMPLER_NUM 3
 #define STEP_NUM    4
 
 float4x4 matViewProjectionInverse;
@@ -2212,8 +2212,8 @@ float4 ps_main( float2 texCoord  : TEXCOORD0,int2 ScreenPos:VPOS ) : COLOR
    float2 halfPixel   =   0.5f*invViewport;
    float2   uv=   texCoord+halfPixel;
    float2   xy=   uv*temp.xy+temp.zw;
-   float4   noisep     =   tex2D(Texture5,uv/invViewport/2);
-   noisep.x+=0.1f;
+   float4   noisep     =   tex2D(Texture5,uv/invViewport/4);
+   //noisep.x+=0.1f;
    
    float   rotoffset   =  tex2D(Texture3,uv/invViewport/2).x;
    //noisep   =   noisep.x*float4(1,2,4,8);
@@ -2247,7 +2247,7 @@ float4 ps_main( float2 texCoord  : TEXCOORD0,int2 ScreenPos:VPOS ) : COLOR
    tempUV.zw   =   invViewport*OccSize.y;
 
 
-   float offset   =   rotoffset+(noisep.y)*0.25f/SAMPLER_NUM;
+   float offset   =   rotoffset+(noisep.x)*0.25f/SAMPLER_NUM;
    //int i   =   0;
    //[loop]
    for(int i=0;i<SAMPLER_NUM;i++){
@@ -2256,7 +2256,7 @@ float4 ps_main( float2 texCoord  : TEXCOORD0,int2 ScreenPos:VPOS ) : COLOR
       float ffinaldot   =   0;
       [loop]
       for(int j=0;j<STEP_NUM;j++){
-         float2 UV     =   tempuv*noisep.x*(j+1)   +texCoord;
+         float2 UV     =   tempuv*(j+1)   +texCoord;
          float4 XY     =   GenPos(UV,j);
          XY.xyz   -=   oldPos.xyz;
          float fLen   =  saturate(OccSize.z/length(XY.xyz));
@@ -2305,7 +2305,7 @@ float4 ps_main( float2 texCoord  : TEXCOORD0,int2 ScreenPos:VPOS ) : COLOR
       <RmShaderConstant NAME="matViewProjectionInverse" API="" REGISTER="0"/>
       <RmShaderConstant NAME="temp" API="" REGISTER="6"/>
      </RmHLSLShader>
-     <RmRenderTarget NAME="AD" API="" INDEX="0" RENDER_TO_SCREEN="FALSE" COLOR_CLEAR="TRUE" DEPTH_CLEAR="TRUE" CLEAR_COLOR_VALUE="-16777216" DEPTH_CLEAR_VALUE="1.000000"/>
+     <RmRenderTarget NAME="AD" API="" INDEX="0" RENDER_TO_SCREEN="TRUE" COLOR_CLEAR="TRUE" DEPTH_CLEAR="TRUE" CLEAR_COLOR_VALUE="-16777216" DEPTH_CLEAR_VALUE="1.000000"/>
      <RmStreamMapReference NAME="Stream Mapping" API=""/>
      <RmFloatVariable NAME="fNor" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="0.500000" MIN="0.000000" MAX="1.000000" CLAMP="TRUE"/>
      <RmTextureObject NAME="Texture3" API="D3D" STATE_INDEX="2" VERTEX_TEXTURE="FALSE">

@@ -5,7 +5,7 @@
 #include "AirEngineInstanceEntity.h"
 namespace Air{
 	
-	namespace Client{
+	namespace Engine{
 		class	Font;
 	
 		/**	\brief	纹理实体类

@@ -5,7 +5,7 @@
 #include "AirGlobalSetting.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 
 
 		Pass::Pass( PassInfo* pInfo ){

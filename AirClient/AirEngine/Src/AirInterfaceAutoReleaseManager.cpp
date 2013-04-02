@@ -1,7 +1,7 @@
 #include "AirInterfaceAutoReleaseManager.h"
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 	
 	
 		IAutoReleaseManager::IAutoReleaseManager(){

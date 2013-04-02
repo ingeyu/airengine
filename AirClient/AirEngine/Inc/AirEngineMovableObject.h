@@ -27,7 +27,7 @@
 namespace Air{
 	
 	
-	namespace Client{
+	namespace Engine{
 		class	SceneNode;
 		class	Camera;
 		enum	enumMovableObjectFlag{

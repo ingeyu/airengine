@@ -44,7 +44,7 @@ Torus Knot Software Ltd.
 #include "AirRenderVertexDeclare.h"
 namespace Air{
 	
-	namespace Client {
+	namespace Engine {
 	
 		/** Definition of the OGRE .mesh file format 
 	

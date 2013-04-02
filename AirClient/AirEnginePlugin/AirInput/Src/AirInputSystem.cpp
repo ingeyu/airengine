@@ -2,7 +2,7 @@
 #include "AirGlobalSetting.h"
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 		namespace	Input{
 	
 			const AChar *g_DeviceType[6] = {
@@ -32,12 +32,12 @@ namespace Air{
 	
 	
 	
-				Client::GetGlobalSetting().m_pInputSystem	=	this;
+				Engine::GetGlobalSetting().m_pInputSystem	=	this;
 	
 			}
 	
 			System::~System(){
-				Client::GetGlobalSetting().m_pInputSystem	=	NULL;
+				Engine::GetGlobalSetting().m_pInputSystem	=	NULL;
 			}
 	
 			bool System::keyPressed( const ::OIS::KeyEvent &arg ){
@@ -215,9 +215,9 @@ namespace Air{
 			U1 System::Initialization(){
 				::OIS::ParamList pl;
 	
-				HWND	pWnd	=	Client::GetGlobalSetting().m_EngineParam.InputWnd;
+				HWND	pWnd	=	Engine::GetGlobalSetting().m_EngineParam.InputWnd;
 				if(pWnd==NULL){
-					pWnd	=	Client::GetGlobalSetting().m_EngineParam.hWnd;
+					pWnd	=	Engine::GetGlobalSetting().m_EngineParam.hWnd;
 					//等待窗口创建完成
 				}
 	
@@ -257,8 +257,8 @@ namespace Air{
 				m_pMouse = (::OIS::Mouse*)m_pInputMgr->createInputObject( ::OIS::OISMouse, true );
 				m_pMouse->setEventCallback( this );
 				const ::OIS::MouseState &ms = m_pMouse->getMouseState();
-				ms.width = Client::GetGlobalSetting().m_ShaderParam.m_iScreenWidth;
-				ms.height = Client::GetGlobalSetting().m_ShaderParam.m_iScreenHeight;
+				ms.width = Engine::GetGlobalSetting().m_ShaderParam.m_iScreenWidth;
+				ms.height = Engine::GetGlobalSetting().m_ShaderParam.m_iScreenHeight;
 	
 				try
 				{
@@ -412,7 +412,7 @@ namespace Air{
 						m_pJoyStick[i]->capture();
 					}
 				}
-				Client::GlobalSetting&	setting		=	Client::GetGlobalSetting();
+				Engine::GlobalSetting&	setting		=	Engine::GetGlobalSetting();
 				//更新当前鼠标位置
 				if(m_MouseArray[OIS::MB_Left])
 					setting.m_ShaderParam.m_vCursorPosition.z	=	1.0f;

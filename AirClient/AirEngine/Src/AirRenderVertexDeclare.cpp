@@ -1,7 +1,7 @@
 #include "AirRenderVertexDeclare.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 		namespace	Render{
 
 			void* Vertex::IDeclare::GetDeclare(){

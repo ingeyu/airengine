@@ -4,7 +4,7 @@
 #include "AirEngineCamera.h"
 #include "AirQuadRenderable.h"
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 
 
 		CascadedShadowMap::CascadedShadowMap()
@@ -135,7 +135,7 @@ namespace	Air{
 
 		Air::U1 CascadedShadowMap::UpdateTarget()
 		{
-			Air::Client::PhaseOption opt;
+			Air::Engine::PhaseOption opt;
 			opt.AddIndex(enPI_Shadow);
 
 			for(U32 i=0;i<m_vecCSMCamera.size();i++){

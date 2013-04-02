@@ -27,7 +27,7 @@
 namespace Air{
 	
 	
-	namespace Client{
+	namespace Engine{
 	
 		
 		namespace Script{
@@ -133,10 +133,10 @@ namespace Air{
 				unsigned char flag; // 1 = generic, 2 = global func, 3 = method
 			};
 	
-	#define METHOD(c,m)				Client::Script::Function::_Method((void (c::*)())(&c::m))
-	#define METHODPR(c,m,p,r)		Client::Script::Function::_Method(static_cast<r (c::*)p>(&c::m))
-	#define FUNCTION(f)				Client::Script::Function::_Function(f)
-	#define FUNCYIONPR(f,p,r)		Client::Script::Function::_Function((void (*)())((r (*)p)(f))
+	#define METHOD(c,m)				Engine::Script::Function::_Method((void (c::*)())(&c::m))
+	#define METHODPR(c,m,p,r)		Engine::Script::Function::_Method(static_cast<r (c::*)p>(&c::m))
+	#define FUNCTION(f)				Engine::Script::Function::_Function(f)
+	#define FUNCYIONPR(f,p,r)		Engine::Script::Function::_Function((void (*)())((r (*)p)(f))
 	
 	
 			/**	\brief	ÐÐÎª

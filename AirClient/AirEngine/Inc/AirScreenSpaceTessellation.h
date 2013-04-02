@@ -5,7 +5,7 @@
 #include "AirEngineRenderable.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 		class	TessellationRenderable	:public	Renderable{
 		public:
 			TessellationRenderable();

@@ -5,7 +5,7 @@
 
 namespace Air{
 	
-	namespace Client{
+	namespace Engine{
 		class	Renderable;
 	
 		/**	\brief	°ëÍ¸Ã÷ÎïÌå

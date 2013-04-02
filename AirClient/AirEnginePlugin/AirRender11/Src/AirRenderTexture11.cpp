@@ -7,7 +7,7 @@ static const GUID ___IID_ID3D11Texture3D={0x037e866e,0xf56d,0x4357,0xa8,0xaf,0x9
 
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 		extern	Render::Device11*	pDevice;
 		namespace	Render{
 	

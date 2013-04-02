@@ -9,7 +9,7 @@
 
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 
 		Material::Material( CAString& strName,Info* pInfo ):IProduct(strName){
 			if(pInfo!=NULL){

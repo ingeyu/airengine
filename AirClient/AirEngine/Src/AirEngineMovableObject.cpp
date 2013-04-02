@@ -6,7 +6,7 @@
 namespace Air{
 	
 	
-	namespace Client{
+	namespace Engine{
 	
 		MovableObject::MovableObject(){
 			m_pParentNode	=	NULL;

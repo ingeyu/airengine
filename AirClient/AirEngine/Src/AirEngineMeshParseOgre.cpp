@@ -31,7 +31,7 @@ Torus Knot Software Ltd.
 namespace Air{
 	
 	
-	namespace Client {
+	namespace Engine {
 	
 	    AString ParseOgre::msCurrentVersion = "[MeshSerializer_v1.40]";
 	    const unsigned short HEADER_CHUNK_ID = 0x1000;

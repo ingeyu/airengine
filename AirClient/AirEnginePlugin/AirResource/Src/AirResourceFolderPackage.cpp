@@ -1,7 +1,7 @@
 #include "AirResourceFolderPackage.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 		namespace	Resource{
 
 			FolderPackage::FolderPackage( CAString& strName ):IPackage(strName){

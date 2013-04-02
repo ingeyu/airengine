@@ -35,7 +35,7 @@ Torus Knot Software Ltd.
 namespace Air{
 	
 	
-	namespace Client {
+	namespace Engine {
 	#define SharedPtr		Common::RefPtr
 	
 		/** General purpose class used for encapsulating the reading of data.

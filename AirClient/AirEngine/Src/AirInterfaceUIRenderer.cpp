@@ -8,7 +8,7 @@
 namespace Air{
 	
 	
-	namespace	Client{
+	namespace	Engine{
 		namespace	UI{
 	
 			typedef	Render::Vertex::IDeclare	VertexDeclare;

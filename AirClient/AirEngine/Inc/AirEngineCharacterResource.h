@@ -26,7 +26,7 @@ class	CalCoreModel;
 class	CalCoreMesh;
 namespace Air{
 	
-	namespace Client{
+	namespace Engine{
 	
 		namespace	Character{
 			typedef	CalCoreModel	CoreMesh;

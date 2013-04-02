@@ -1,7 +1,7 @@
 #include "AirRenderState11.h"
 #include "AirRenderDevice11.h"
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 		extern	Render::Device11*	pDevice;
 		namespace	Render{
 #define CREATE_STATE(StateType)	ID3D11##StateType*	p		=	NULL;pDxDevice->Create##StateType(desc,&p);m_pDxState	=	p;

@@ -3,7 +3,7 @@
 #include "AirEngineSystem.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 		struct Pixel{
 			struct{
 				U32		uiColor;

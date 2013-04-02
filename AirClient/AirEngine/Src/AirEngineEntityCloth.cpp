@@ -6,7 +6,7 @@
 #include "AirInterfacePhysicsSystem.h"
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 	
 	
 		EntityCloth::EntityCloth( CAString& strName,Info* pInfo ):Common::IProduct(strName){

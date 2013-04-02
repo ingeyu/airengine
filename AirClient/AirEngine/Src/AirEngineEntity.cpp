@@ -8,7 +8,7 @@
 namespace Air{
 	
 	
-	namespace	Client{
+	namespace	Engine{
 		
 	
 		Entity::Entity( CAString& strName,Info* pInfo ):IProduct(strName){

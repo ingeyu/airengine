@@ -4,7 +4,7 @@
 #include "AirEngineHeader.h"
 namespace Air{
 	
-	namespace Client{
+	namespace Engine{
 		class	Material;
 	
 		/**	\brief	后期效果

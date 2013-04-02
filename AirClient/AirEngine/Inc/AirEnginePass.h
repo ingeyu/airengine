@@ -22,7 +22,7 @@
 #include "AirEngineMaterialCommon.h"
 
 namespace	Air{
-	namespace Client{
+	namespace Engine{
 		struct PassInfo;
 		/**	\brief	Í¨µÀ
 		*

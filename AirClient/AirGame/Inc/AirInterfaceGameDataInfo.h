@@ -2,7 +2,7 @@
 #define INTERFACEGAMEDATAINFO_HEAD_FILE
 namespace Air{
 	
-	namespace Client{
+	namespace Engine{
 	
 		namespace	Game{
 			namespace	Data{

@@ -7,7 +7,7 @@
 #include "AirEngineCamera.h"
 
 namespace Air{
-	namespace Client{
+	namespace Engine{
 	
 		//class	Camera;
 	

@@ -22,7 +22,7 @@
 #include "AirCommonStreamIO.h"
 
 namespace	Air{
-	namespace Client{
+	namespace Engine{
 	
 		class	ENGINE_EXPORT	ResourceReader	:
 			public	Common::StreamReader{

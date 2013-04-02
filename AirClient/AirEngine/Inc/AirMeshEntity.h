@@ -3,7 +3,7 @@
 #include "AirStaticMesh.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 		class	MeshEntity	:	
 			public	IProduct,
 			public	Renderable,

@@ -9,7 +9,7 @@ struct FT_FaceRec_;			///<	FT2	Face
 namespace Air{
 	
 	
-	namespace Client{
+	namespace Engine{
 		namespace	Render{
 			class	ITexture;
 		}

@@ -4,7 +4,7 @@
 #include "AirRenderSystem.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 		class	Material;
 		class	QuadRenderable;
 

@@ -3,7 +3,7 @@
 #include "AirGlobalSetting.h"
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 		namespace	UI{
 	
 			IImageSet::IImageSet( AString strName ,Info*	pInfo)	:	IProduct(strName){

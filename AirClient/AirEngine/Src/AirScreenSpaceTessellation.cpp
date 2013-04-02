@@ -3,7 +3,7 @@
 #include "AirEngineSystem.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 
 #define TESS_WIDTH	800
 #define TESS_HEIGHT	600

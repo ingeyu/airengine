@@ -20,7 +20,7 @@
 #include "AirEnginePass.h"
 
 namespace	Air{
-	namespace Client{
+	namespace Engine{
 		class	Material;
 		struct	MaterialTemplateInfo;
 

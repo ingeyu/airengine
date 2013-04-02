@@ -1,7 +1,7 @@
 #include "AirRenderPhase.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 		namespace	Render{
 			U32	PhaseManager::m_uiMaxPhase	=	64;
 

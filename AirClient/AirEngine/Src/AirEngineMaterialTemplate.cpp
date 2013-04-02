@@ -5,7 +5,7 @@
 #include "AirGlobalSetting.h"
 #include "AirEngineRenderable.h"
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 
 
 		MaterialTemplate::MaterialTemplate( CAString& strName,MaterialTemplateInfo* pInfo )

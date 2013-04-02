@@ -1,7 +1,7 @@
 #include "AirEngineMaterialParameterTable.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 
 
 		MaterialParameterTable::MaterialParameterTable( CAString& strName ):IProduct(strName)

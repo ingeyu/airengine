@@ -6,7 +6,7 @@
 #include "AirEngineCamera.h"
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 		namespace	UI{
 			namespace	Window{
 				Float2	IControl::TopLeft			=	Float2(0,0);

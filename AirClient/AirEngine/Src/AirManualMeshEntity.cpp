@@ -3,7 +3,7 @@
 #include "AirRenderSystem.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 
 
 		ManualMeshEntity::ManualMeshEntity( CAString& strName,Info* pInfo ):IProduct(strName)

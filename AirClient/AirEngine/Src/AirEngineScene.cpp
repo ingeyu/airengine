@@ -28,7 +28,7 @@
 
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 
 		Character::Manager	g_mgr;
 

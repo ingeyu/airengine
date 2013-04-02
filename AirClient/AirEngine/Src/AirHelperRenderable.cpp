@@ -3,7 +3,7 @@
 #include "AirEngineMaterial.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 
 
 		bool	RayCastTriangle(const Float3&	vStart,const Float3& vDir,const Float3& v0,const Float3& v1,const Float3& v2,float& fMaxDistance)
@@ -227,7 +227,7 @@ namespace	Air{
 			SAFE_DELETE(m_pRotate);
 		}
 
-		Air::Client::enumMouseRayCastType ObjectController::ChangeType( const Float3& vStart,const Float3& vDir )
+		Air::Engine::enumMouseRayCastType ObjectController::ChangeType( const Float3& vStart,const Float3& vDir )
 		{
 			if(m_BoundingBox.RayCast(vStart,vDir)){
 				switch(m_ControlMode){
@@ -311,7 +311,7 @@ namespace	Air{
 			return m_RayCastType;
 		}
 
-		Air::Client::enumMouseControlMode ObjectController::ChangeMode( enumMouseControlMode mode )
+		Air::Engine::enumMouseControlMode ObjectController::ChangeMode( enumMouseControlMode mode )
 		{
 			m_ControlMode	=	mode;
 			return m_ControlMode;

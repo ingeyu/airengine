@@ -4,13 +4,13 @@
 #include "AirEngineSceneNode.h"
 namespace Air{
 	
-	namespace Client{
+	namespace Engine{
 	
 		
 			namespace	Terrain{
 	
 	
-				Client::Terrain::ID GetTitleIDByPosition( Real x,Real y ){
+				Engine::Terrain::ID GetTitleIDByPosition( Real x,Real y ){
 					SInt	iX			= x;
 					SInt	iY			= y;
 					ID	index;
@@ -19,7 +19,7 @@ namespace Air{
 					return index;
 				}
 	
-				Client::Terrain::ID GetPageIDByPosition( Real x,Real y ){
+				Engine::Terrain::ID GetPageIDByPosition( Real x,Real y ){
 					SInt	iX	= x;
 					SInt	iY	= y;
 					ID index;
@@ -34,7 +34,7 @@ namespace Air{
 					//sprintf(strPageName,"%s\\Page_%d_%d\\",m_Info.strMapPath.c_str(),m_Info.uiID.height,m_Info.uiID.width);
 				};
 	
-				Client::Terrain::ID IPage::GetID(){
+				Engine::Terrain::ID IPage::GetID(){
 					return m_Info.uiID;
 				}
 				U1 IPage::Destroy(){

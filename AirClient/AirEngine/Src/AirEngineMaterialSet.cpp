@@ -3,7 +3,7 @@
 #include "AirEngineMaterialParse.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 		MaterialSet::MaterialSet(CAString& strName):IProduct(strName){
 
 		}

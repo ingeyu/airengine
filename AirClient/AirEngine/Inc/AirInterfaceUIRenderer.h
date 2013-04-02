@@ -6,7 +6,7 @@
 #include "AirEngineRenderable.h"
 namespace Air{
 	
-	namespace Client{
+	namespace Engine{
 		class	ScreenEntity;
 
 	

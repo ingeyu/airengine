@@ -21,7 +21,7 @@
 #include "AirEngineMaterialTemplate.h"
 
 namespace	Air{
-	namespace Client{
+	namespace Engine{
 		typedef	std::map<U64,MaterialTemplate*>	MaterialTemplateMap;
 		typedef	std::vector<MaterialTemplateMap>	MaterialTemplateMapVector;
 

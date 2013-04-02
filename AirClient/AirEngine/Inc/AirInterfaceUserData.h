@@ -4,7 +4,7 @@
 #include "AirEngineHeader.h"
 
 namespace Air{
-	namespace Client{
+	namespace Engine{
 	
 		/**	\brief	用户数据类
 		*

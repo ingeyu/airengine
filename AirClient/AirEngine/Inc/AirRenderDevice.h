@@ -4,7 +4,7 @@
 #include "AirRenderCommon.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 		class	Shader;
 		class	Viewport;
 		namespace	Render{

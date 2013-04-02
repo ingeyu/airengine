@@ -4,7 +4,7 @@
 #include "AirEngineMaterial.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 		struct Voxel{
 			Voxel(){
 				uiMask		=	0;

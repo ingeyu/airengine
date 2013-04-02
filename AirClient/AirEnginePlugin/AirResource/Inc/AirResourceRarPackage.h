@@ -4,7 +4,7 @@
 #include "AirResourceHeader.h"
 namespace Air{
 	
-	namespace Client{
+	namespace Engine{
 	
 		namespace	Resource{
 			/**	\brief	×ÊÔ´°ü

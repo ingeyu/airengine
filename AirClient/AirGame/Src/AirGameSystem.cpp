@@ -9,7 +9,7 @@
 namespace Air{
 	
 	
-	namespace	Client{
+	namespace	Engine{
 		Terrain::World*	g_World	=	NULL;
 		Terrain::IPage*	g_pPage	=	NULL;
 		SubEntity*		g_pEntity	=	NULL;

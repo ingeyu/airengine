@@ -6,7 +6,7 @@
 #include "AirInterfaceResourceStream.h"
 
 namespace Air{
-	namespace Client{
+	namespace Engine{
 	
 		namespace	Resource{
 			class	IFindFileListener{

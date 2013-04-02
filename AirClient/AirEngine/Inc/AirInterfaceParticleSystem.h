@@ -4,7 +4,7 @@
 #include "AirInterfaceBaseParticle.h"
 namespace Air{
 	
-	namespace Client{
+	namespace Engine{
 	
 		namespace	Particle{
 			/**	\brief	粒子系统类

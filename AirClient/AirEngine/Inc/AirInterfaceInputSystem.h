@@ -7,7 +7,7 @@
 
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 		namespace	Input{
 			typedef	Air::Common::IPlugin	IPlugin;
 		

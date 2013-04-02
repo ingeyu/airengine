@@ -4,7 +4,7 @@
 #include "AirEngineMaterialSet.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 		class	MaterialParameterTable	:	public	IProduct{
 		public:
 			struct	Info{

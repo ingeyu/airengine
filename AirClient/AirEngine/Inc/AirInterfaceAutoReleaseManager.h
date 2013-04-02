@@ -4,7 +4,7 @@
 #include "AirEngineHeader.h"
 namespace Air{
 	
-	namespace Client{
+	namespace Engine{
 	
 		/**	\brief	自动释放类
 		*

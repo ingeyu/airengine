@@ -2,7 +2,7 @@
 #include "AirRenderSystem.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 		BoxMesh::BoxMesh()
 		{
 			Float3 box[]={

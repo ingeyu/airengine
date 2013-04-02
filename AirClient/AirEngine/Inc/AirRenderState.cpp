@@ -2,7 +2,7 @@
 #include "AirEngineMaterialParse.h"
 
 namespace	Air{
-	namespace	Client{
+	namespace	Engine{
 		namespace	Render{
 
 
@@ -31,7 +31,7 @@ namespace	Air{
 				return	NULL;
 			}
 
-			Air::Client::enumRenderStateType State::GetType()
+			Air::Engine::enumRenderStateType State::GetType()
 			{
 				return	m_Info.type;
 			}

@@ -38,7 +38,7 @@ Torus Knot Software Ltd.
 #include "AirEngineParse.h"
 namespace Air{
 	
-	namespace Client {
+	namespace Engine {
 		
 		class ParseOgreListener;
 		class OgreMesh;

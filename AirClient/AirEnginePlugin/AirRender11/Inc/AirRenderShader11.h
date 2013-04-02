@@ -5,7 +5,7 @@
 #include "AirRenderShader.h"
 namespace Air{
 	
-	namespace Client{
+	namespace Engine{
 	
 		namespace	Render{
 			typedef	std::map<AString,DxVertexShader*>	VertexShaderMap;

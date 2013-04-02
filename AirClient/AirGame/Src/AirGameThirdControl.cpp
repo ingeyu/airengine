@@ -7,7 +7,7 @@
 using namespace OIS;
 namespace Air{
 	
-	namespace	Client{
+	namespace	Engine{
 		namespace	Game{
 	
 	

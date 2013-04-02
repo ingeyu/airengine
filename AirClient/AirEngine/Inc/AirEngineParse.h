@@ -35,7 +35,7 @@ Torus Knot Software Ltd.
 #include "AirEngineDataStream.h"
 namespace Air{
 	
-	namespace Client {
+	namespace Engine {
 	
 	    /** Generic class for serialising data to / from binary stream-based files.
 	    @remarks

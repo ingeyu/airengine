@@ -22,7 +22,7 @@
 #include "AirEngineMovableObject.h"
 
 namespace	Air{
-	namespace Client{
+	namespace Engine{
 		enum enumFrustumSide
 		{
 			enFS_Left,
