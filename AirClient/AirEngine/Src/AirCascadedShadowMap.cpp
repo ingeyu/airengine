@@ -100,8 +100,9 @@ namespace	Air{
 		{
 			Float3 axis(1,0.001,0.005);
 			axis.Normalize();
-			Common::Quaternion q(axis,GetTimer().GetTimeDelta()*0.001);//m_vLightDirection
-			m_vLightDirection	=	q*m_vLightDirection;
+			float fSec = floor(GetTimer().GetTotalTime());
+			Common::Quaternion q(axis,fSec*0.001);//m_vLightDirection
+			m_vLightDirection	=	q*Float3(-1,1,0.5).Normalize();//m_vLightDirection;
 			m_vLightDirection.Normalize();
 			if(m_vLightDirection.y>0){
 				m_vLightDirection	=	-m_vLightDirection;
