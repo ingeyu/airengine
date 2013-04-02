@@ -46,7 +46,7 @@ CRibbonControlsApp::CRibbonControlsApp()
 
 
 
-Air::Client::EngineParam							g_Param;
+Air::Engine::EngineParam							g_Param;
 
 
 
@@ -87,7 +87,7 @@ CRibbonControlsApp theApp;
 // CRibbonControlsApp initialization
 void __stdcall TimerCallback(HWND hWindow,UINT,UINT_PTR,DWORD){
 	Air::GetTimer().AddFrame();
-	Air::Client::EngineSystem::GetSingleton()->ExecuteOneFrame(Air::GetTimer().m_FrameTime);
+	Air::Engine::EngineSystem::GetSingleton()->ExecuteOneFrame(Air::GetTimer().m_FrameTime);
 }
 BOOL CRibbonControlsApp::InitInstance()
 {
@@ -118,7 +118,7 @@ BOOL CRibbonControlsApp::InitInstance()
 
 	__ParseCommandLine(NULL);
 
-	memcpy(&Air::Client::GetGlobalSetting().m_EngineParam,&g_Param,sizeof(g_Param));
+	memcpy(&Air::Engine::GetGlobalSetting().m_EngineParam,&g_Param,sizeof(g_Param));
 
 	// Change the registry key under which our settings are stored.
 	// TODO: You should modify this string to be something appropriate
@@ -153,9 +153,9 @@ BOOL CRibbonControlsApp::InitInstance()
 
 	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
 	CView* pView = (CView*)pMainFrame->GetActiveView();
-	Air::Client::GetGlobalSetting().m_EngineParam.hWnd	=	pView->GetSafeHwnd();
-	Air::Client::GetGlobalSetting().m_EngineParam.InputWnd	=	m_pMainWnd->GetSafeHwnd();
-	Air::Client::EngineSystem::GetSingleton()->Initialization();
+	Air::Engine::GetGlobalSetting().m_EngineParam.hWnd	=	pView->GetSafeHwnd();
+	Air::Engine::GetGlobalSetting().m_EngineParam.InputWnd	=	m_pMainWnd->GetSafeHwnd();
+	Air::Engine::EngineSystem::GetSingleton()->Initialization();
 
 	SetTimer(pView->GetSafeHwnd(),100,16,TimerCallback);
 	return TRUE;
@@ -176,8 +176,8 @@ BOOL CRibbonControlsApp::OnIdle( LONG lCount )
 
 int CRibbonControlsApp::ExitInstance()
 {
-	Air::Client::EngineSystem::GetSingleton()->Release();
-	Air::Client::EngineSystem::ReleaseSingleton();
+	Air::Engine::EngineSystem::GetSingleton()->Release();
+	Air::Engine::EngineSystem::ReleaseSingleton();
 	return __super::ExitInstance();
 }
 

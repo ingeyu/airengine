@@ -106,7 +106,7 @@ LRESULT CRibbonControlsView::OnSize( WPARAM w,LPARAM l )
 	switch(w){
 		case SIZE_RESTORED:
 		case SIZE_MAXIMIZED:{
-			Air::Client::Render::Window*	pWindow	=	(Air::Client::Render::Window*)GetWindowLong(GetSafeHwnd(),GWL_USERDATA);
+			Air::Engine::Render::Window*	pWindow	=	(Air::Engine::Render::Window*)GetWindowLong(GetSafeHwnd(),GWL_USERDATA);
 			if(pWindow!=NULL){
 				pWindow->OnSize();
 			}
@@ -115,7 +115,7 @@ LRESULT CRibbonControlsView::OnSize( WPARAM w,LPARAM l )
 
 			break;}
 		case SIZE_MAXSHOW:{
-			Air::Client::Render::Window*	pWindow	=	(Air::Client::Render::Window*)GetWindowLong(GetSafeHwnd(),GWL_USERDATA);
+			Air::Engine::Render::Window*	pWindow	=	(Air::Engine::Render::Window*)GetWindowLong(GetSafeHwnd(),GWL_USERDATA);
 			if(pWindow!=NULL){
 				pWindow->OnSize();
 			}

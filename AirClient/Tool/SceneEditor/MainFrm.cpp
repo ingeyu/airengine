@@ -893,7 +893,12 @@ void CMainFrame::OnButtonCreate_Object(){
 
 };		
 void CMainFrame::OnButtonCreate_Actor(){
-
+	Air::Engine::RenderSystem* pSys = Air::Engine::RenderSystem::GetSingleton();
+	Air::Engine::Shader*	pShader = (Air::Engine::Shader*)pSys->GetProduct("Shader/ShadowMaskAO.ps","Shader");
+	if(pShader){
+		pShader->Reload();
+		pShader->ReleaseRef();
+	}
 };		
 void CMainFrame::OnButtonCreate_Building(){
 
