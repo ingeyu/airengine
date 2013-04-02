@@ -134,6 +134,15 @@ float3	PBRDF(float3 N,float3	L,float3 E,float fShiness){
    return float3(max(diff,0),max(spec,0),saturate(1-Fambient));
 };
 
+
+float2 GetOffset2(int   i,float2 inituv,float fNoise){
+   
+   float fsin,fcos;
+   sincos((i*0.166666f+fNoise)*3.1415926f,fsin,fcos);
+   float2x2 rot   =   float2x2(fcos,-fsin,fsin,fcos);
+   return mul(inituv,rot)*(i+1);
+};
+
 PS_OUTPUT main( VS_OUTPUT Input ){
 
 	float2 invShadowViewport	=	vRTSize.zw*0.5f;
@@ -144,8 +153,9 @@ PS_OUTPUT main( VS_OUTPUT Input ){
   // float2	offsetuv	=	uv;//+halfPixel;
    float2   xy=   UV_XY(uv);
 
-   float4   rot   =  Tex2x2.Sample(SS_WrapPoint2,uv/invMrtViewport/2);
-   rot.y = rot.y*2-1;
+   float4   rot   =  Tex2x2.Sample(SS_WrapPoint2,uv/invMrtViewport/4);
+   float2 offsetDir	=	normalize(rot.yz*2-1)*(rot.x+1);
+   //rot.y = rot.y*2-1;
 
 	float4	vProjPos	=	float4(xy,0,1);
 	vProjPos.z			=	MRTDepthTex.Sample(SS_WrapLine2,Input.UV).x;
@@ -173,10 +183,13 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 	float fRet   =   0;
 	for(int i=0;i<SHADOW_SAMPLE_NUMBER;i++){
    
-      float2 off   =   lerp(offset[i].xy,float2(1,-1)*offset[i].yx,rot.x)*rot.y;
-      float2 tempuv   =   shadowUV+off*invShadowViewport;
+
+		
+      //float2 off   =   offset[i].xy,float2(1,-1)*offset[i].yx,rot.x)*rot.y;
+	  float2 rotoff = GetOffset2(i,float2(0,2),rot.y)*1.5;//*100;
+      float2 tempuv   =   shadowUV+rotoff*invShadowViewport;
       float2 xyoff   =   UV_XY(tempuv);
-      float    Oldshadowz   =  ShadowDepthTex.SampleLevel(SS_BorderLine2,tempuv,0).x;
+      float    Oldshadowz   =  ShadowDepthTex.SampleLevel(SS_BorderLine2,tempuv,0).x+0.00001f;
       float4 tempshadow   =   mul(mShadowViewProjInv,float4(xyoff,Oldshadowz,1));
       tempshadow/=tempshadow.w;
       float3 tDir   =   normalize(tempshadow.xyz-vWorldPos.xyz);
@@ -188,7 +201,8 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 	
 
 	PS_OUTPUT	Out;
-	Out.Color						= float4(fDot.xy*((fRet/SHADOW_SAMPLE_NUMBER)*0.5+0.5),fDot.z,0);//vShadowPos.z > 0 &&	vShadowPos.z < oldZ + 0.0001f;
+	float shadowValue	=	(fRet/SHADOW_SAMPLE_NUMBER)*0.5+0.5;
+	Out.Color						= float4(fDot.xy*shadowValue,fDot.z,0);//vShadowPos.z > 0 &&	vShadowPos.z < oldZ + 0.0001f;
 	return	Out;
    
 }

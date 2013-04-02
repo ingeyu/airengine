@@ -83,7 +83,7 @@ Material	ShadowMask	:	MT_ShadowMask
 	Vector	1 1 1 1
 	Texture CascadedShadowMapDepth
 	Texture MRT0
-	Texture Texture/2x2_rot.png
+	Texture Texture/4x4.png
 	Texture MRT1
 }
 Material	Combine		:	MT_Combine
