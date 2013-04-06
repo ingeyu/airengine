@@ -34,11 +34,11 @@ PS_OUTPUT main( VS_OUTPUT input )
 	uint uiColor	=	(ucolor.x) | (ucolor.y << 8) | (ucolor.z << 16) | (ucolor.a << 24);
 	
     uint3 VoxelIndex = input.WPos.xyz-float3(-127,-127,-127);
-	uint mask	=	0x80;
+	//uint mask	=	0x80;
 	int	offset	=	0;
 	[loop]
 	for(int i=0;i<8;i++){
-		uint3	maskValue	=	VoxelIndex>>mask;
+		uint3	maskValue	=	VoxelIndex>>(7-i);//mask;
 		maskValue	=	maskValue&1;
 
 		uint idx	=	(maskValue.x<<2)+(maskValue.y<<1)+maskValue.z;
@@ -80,7 +80,7 @@ PS_OUTPUT main( VS_OUTPUT input )
 		
 		offset	=	oldChildOffset;
 
-		mask	=	mask>>	1;
+		//mask	=	mask>>	1;
 	}
 
 
