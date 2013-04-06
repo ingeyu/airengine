@@ -596,14 +596,14 @@ namespace Air{
 				m_pContext->ClearUnorderedAccessViewFloat(pUAV11,fClear);
 			}
 
-			void Device11::SetRTV_DSV_UAV( U32 uiCount,void** pRTV,void* pDSV,U32 uiUAVCount,void** pUAV,U32 uiUAVInitCount )
+			void Device11::SetRTV_DSV_UAV( U32 uiCount,void** pRTV,void* pDSV,U32 uiUAVStart,U32 uiUAVCount,void** pUAV,U32 uiUAVInitCount )
 			{
 				ID3D11RenderTargetView**	pRTV11	=	(ID3D11RenderTargetView**)pRTV;
 				ID3D11UnorderedAccessView**	pUAV11	=	(ID3D11UnorderedAccessView**)pUAV;
 				for(U32 i=0;i<uiUAVCount;i++){
 					uiUAVInitCounter[i]	=	uiUAVInitCount;
 				}
-				m_pContext->OMSetRenderTargetsAndUnorderedAccessViews(uiCount,pRTV11,(ID3D11DepthStencilView*)pDSV,0,uiUAVCount,pUAV11,uiUAVInitCounter);
+				m_pContext->OMSetRenderTargetsAndUnorderedAccessViews(uiCount,pRTV11,(ID3D11DepthStencilView*)pDSV,uiUAVStart,uiUAVCount,pUAV11,uiUAVInitCounter);
 			}
 
 		}

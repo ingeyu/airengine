@@ -203,7 +203,7 @@ namespace	Air{
 			//m_Tesellation.Init();
 			m_CSM.Init(m_pScene->GetMainCamera(),3);
 			m_OIT.Initialize(m_pMainWindow);
-
+			m_VoxelGen.Initialize(m_pMainWindow);
 
 
 			
@@ -224,6 +224,7 @@ namespace	Air{
 			SAFE_DELETE(g_pController);
 			m_OIT.Release();
 			m_CSM.Release();
+			m_VoxelGen.Release();
 			//m_Tesellation.Release();
 
 			SAFE_RELEASE_REF(pMesh);
@@ -313,7 +314,7 @@ namespace	Air{
 
 			i	=	setCamera.begin();
 			for(;i!=setCamera.end();i++){
-				(*i)->FindMovableObject(pMainCamera);
+				(*i)->FindMovableObject(pMainCamera->GetCurrentScene(),pMainCamera);
 			}
 
 			setCamera.clear();
@@ -330,7 +331,7 @@ namespace	Air{
 			}
 			//
 			//m_Tesellation.UpdateTarget(pMainCamera);
-			
+			m_VoxelGen.Update(NULL);
 
 			m_CSM.UpdateTarget();
 			
@@ -380,6 +381,9 @@ namespace	Air{
 				m_pRT_SO->AfterUpdate();
 			}
 			*/
+
+			
+
 			//SSAO
 			m_pMainWindow->SetClearFlag(false,true,false);
 			if(m_pMainWindow->BeforeUpdate()){

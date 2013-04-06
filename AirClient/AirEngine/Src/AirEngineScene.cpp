@@ -59,12 +59,12 @@ namespace Air{
 	
 			//AddFactory(new	EntityFactory());
 			//AddFactory(new	EntityClothFactory());
-			AddFactory(new	NoParamFactory<Camera>("Camera"));
+			
 
 			EngineSystem::GetSingleton()->CreateProduct<Material*>("NoMaterial","Material");
 
- 			m_pMainCamera	=	CreateProduct<Camera*>("MainCamera","Camera");
-			U32	uiSize	=	sizeof(Camera);
+ 			m_pMainCamera	=	EngineSystem::GetSingleton()->CreateProduct<Camera*>("MainCamera","Camera");
+			m_pMainCamera->SetCurrentScene(this);
 			m_pMainCamera->SetType(enCT_MAIN);
 
 			m_pMainCamera->SetPosition(0,0,100);
@@ -191,7 +191,7 @@ namespace Air{
 
 	
 		Camera* Scene::CreateCamera(AString	strName){
-			Camera*	pCamera	=	CreateProduct<Camera*>(strName,"Camera");
+			Camera*	pCamera	=	EngineSystem::GetSingleton()->CreateProduct<Camera*>(strName,"Camera");
 
 			return pCamera;
 		}

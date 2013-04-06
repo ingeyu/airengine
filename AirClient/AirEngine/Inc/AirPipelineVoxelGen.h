@@ -18,6 +18,7 @@ namespace	Air{
 			Material*		m_pGenVoxelTree;
 			Material*		m_pMipVoxelTree;
 			Camera*			m_pCamera;
+			RenderTarget*	m_pRT;
 		};
 	}
 }

@@ -1,8 +1,8 @@
 // Fragment And Link Buffer
-RWStructuredBuffer<uint>			SVOBuffer	: register( u0 );
+RWStructuredBuffer<uint>			SVOBuffer	: register( u1 );
 
 // Start Offset Buffer
-RWByteAddressBuffer					BrickBuffer	: register( u1 );
+RWByteAddressBuffer					BrickBuffer	: register( u2 );
 
 Texture2D		DiffuseTex		:	register(t0);
 
@@ -19,44 +19,72 @@ struct VS_OUTPUT
 };
 
 #define	VOXEL_SIZE	4
+#define INVALID_OFFSET	10000000
 
-void main( VS_OUTPUT input )
+struct	PS_OUTPUT{
+	float4	Diff			:	SV_Target0;
+};
+
+PS_OUTPUT main( VS_OUTPUT input )
 {
 	float4 color	=		DiffuseTex.Sample(SS_WrapLine2,input.TextureUV).xyzw;
+	PS_OUTPUT	Output;
+	Output.Diff	=	color;
 	uint4 ucolor = saturate( color ) * 255;
 	uint uiColor	=	(ucolor.x) | (ucolor.y << 8) | (ucolor.z << 16) | (ucolor.a << 24);
 	
-    uint3 VoxelIndex = input.Position.xyz;
-	int mask	=	0x100;
+    uint3 VoxelIndex = input.WPos.xyz-float3(-127,-127,-127);
+	uint mask	=	0x80;
 	int	offset	=	0;
-	for(int i=0;i<9;i++){
-		int idx	=	(VoxelIndex.x&mask)<<2;
-		idx		+=	(VoxelIndex.y&mask)<<1;
-		idx		+=	(VoxelIndex.z&mask);
-		if(i==8){
-			SVOBuffer[offset+idx]	=		uiColor;
-			return;			
-		}
-		uint	oldChildOffset	=	0xffffffff;
-		uint	address			=	(offset+idx)*VOXEL_SIZE;
+	[loop]
+	for(int i=0;i<8;i++){
+		uint3	maskValue	=	VoxelIndex>>mask;
+		maskValue	=	maskValue&1;
 
-		BrickBuffer.InterlockedCompareExchange(address,0,0xffffffff,oldChildOffset);
-		if(oldChildOffset	==	0xffffffff){
+		uint idx	=	(maskValue.x<<2)+(maskValue.y<<1)+maskValue.z;
+
+		uint	address			=	(offset+idx)*VOXEL_SIZE;
+		if(i==7){
+			//SVOBuffer[offset+idx]	=		uiColor;
+			uint uiRet=INVALID_OFFSET;
+			BrickBuffer.InterlockedExchange(address,uiColor,uiRet);
+			return Output;			
+		}
+		uint	oldChildOffset	=	INVALID_OFFSET;
+		
+
+		BrickBuffer.InterlockedCompareExchange(address,0,INVALID_OFFSET,oldChildOffset);
+		if(oldChildOffset	==	INVALID_OFFSET){
 			oldChildOffset	=	BrickBuffer.Load(address);	
-			if(oldChildOffset==0xffffffff){
-				BrickBuffer.InterlockedCompareExchange(address,0,0xffffffff,oldChildOffset);	
+			if(oldChildOffset==INVALID_OFFSET){
+				BrickBuffer.InterlockedCompareExchange(address,0,INVALID_OFFSET,oldChildOffset);
+				if(oldChildOffset==INVALID_OFFSET){
+					oldChildOffset	=	BrickBuffer.Load(address);	
+					if(oldChildOffset==INVALID_OFFSET){
+						BrickBuffer.InterlockedCompareExchange(address,0,INVALID_OFFSET,oldChildOffset);
+						if(oldChildOffset==INVALID_OFFSET){
+							//oldChildOffset	=	BrickBuffer.Load(address);
+							//i=7;
+							uint uiRet=INVALID_OFFSET;
+							BrickBuffer.InterlockedAdd(1048575,1,uiRet);
+						}
+					}	
+				}	
 			}
 		}else if(oldChildOffset	==	0){
-				uint uVoxelCount = SVOBuffer.IncrementCounter();
+				uint uVoxelCount = SVOBuffer.IncrementCounter()+1;
 				oldChildOffset	=	uVoxelCount*8;
-				BrickBuffer.Store(address,oldChildOffset);
+				BrickBuffer.InterlockedCompareStore(address,INVALID_OFFSET,oldChildOffset);
 		}
 		
 		
-		offset =	oldChildOffset;
+		offset	=	oldChildOffset;
 
-		mask	=	mask>>1;
+		mask	=	mask>>	1;
 	}
+
+
+	return Output;
 }
 
 

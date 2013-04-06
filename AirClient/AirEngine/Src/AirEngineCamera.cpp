@@ -212,7 +212,7 @@ namespace Air{
 		}
 
 
-		void Camera::FindMovableObject( Camera* pMainCamera /*= NULL*/ ){
+		void Camera::FindMovableObject( Scene* pScene,Camera* pMainCamera /*= NULL*/ ){
 			BuildPlane();
 			//m_vecMainMovable.clear();
 			m_vecReflectMovable.clear();
@@ -236,9 +236,11 @@ namespace Air{
 					}
 				}
 			}else{
-				Scene*	pScene	=	static_cast<Scene*>(m_pFactoryMgr);
+				
 				if(pScene!=NULL){
 					pScene->FindMovableObject(this);
+				}else{
+					m_pScene->FindMovableObject(this);
 				}
 			}
 		}
@@ -283,6 +285,17 @@ namespace Air{
 		void Camera::SetPhaseFlag( U32 flag ){
 			m_PhaseFlag	=	flag;
 		}
+
+		void Camera::SetCurrentScene( Scene* pScene )
+		{
+			m_pScene	=	pScene;
+		}
+
+		Scene* Camera::GetCurrentScene() const
+		{
+			return m_pScene;
+		}
+
 		CameraFactory::CameraFactory(){
 			m_strTypeName	=	"Camera";
 		}

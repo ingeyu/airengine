@@ -6,6 +6,7 @@
 #include "AirScreenSpaceTessellation.h"
 #include "AirInterfaceInputSystem.h"
 #include "AirPipelineOIT.h"
+#include "AirPipelineVoxelGen.h"
 
 namespace	Air{
 	namespace	Engine{
@@ -84,6 +85,7 @@ namespace	Air{
 
 			CascadedShadowMap		m_CSM;
 			OIT						m_OIT;
+			VoxelGenerator			m_VoxelGen;
 
 			Render::CBFrame		m_cbFrame;
 		};

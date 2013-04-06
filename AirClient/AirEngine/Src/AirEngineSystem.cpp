@@ -137,7 +137,7 @@ namespace Air{
 			AddFactory(new	ExtraOptionParamFactory<MaterialTemplate,MaterialTemplateInfo*>("MaterialTemplate"));
 			AddFactory(new	OptionParamFactory<Material>("Material"));
 			//AddFactory(new	SubEntityFactory());
-			//AddFactory(new	CameraFactory());
+			
 			//AddFactory(new	LightFactory());
 			AddFactory(new	ExtraOptionParamFactory<Character::Resource,AString*>("Character"));
 			AddFactory(new	ParamFactory<Character::Animation::Model>("Model"));
@@ -154,6 +154,7 @@ namespace Air{
 			AddFactory(new	NoParamFactory<StaticMesh>("StaticMesh"));
 			AddFactory(new	ParamFactory<MeshEntity>("MeshEntity"));
 			AddFactory(new	ParamFactory<ManualMeshEntity>("ManualMeshEntity"));
+			AddFactory(new	NoParamFactory<Camera>("Camera"));
 			AddFactory(new	ParamFactory<Light>("Light"));
 	
 	

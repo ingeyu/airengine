@@ -2,6 +2,7 @@
 #include "AirEngineSystem.h"
 #include "AirEngineCamera.h"
 #include "AirEngineMaterial.h"
+#include "AirMeshEntity.h"
 
 namespace	Air{
 	namespace	Engine{
@@ -70,10 +71,16 @@ namespace	Air{
 			m_pNodeTree			=	NULL;
 			m_pGenVoxelTree		=	NULL;
 			m_pMipVoxelTree		=	NULL;
+			m_pRT				=	NULL;
 		}
 
 		Air::U1 VoxelGenerator::Initialize( Render::Window* pMainWindow )
 		{
+			RenderTarget::Info rtinfo;
+			rtinfo.SetSingleTarget(256,256,enTFMT_R8G8B8A8_UNORM);
+
+			m_pRT		=	RenderSystem::GetSingleton()->CreateProduct<Render::Target*>("SVO_Test","Target",&rtinfo);
+
 			Render::Buffer::Info info;
 			info.SetStructureBuffer(1048576,sizeof(U32));
 			info.SetViewFlag(enVF_SRV|enVF_UAV|enVF_Counter);
@@ -81,7 +88,7 @@ namespace	Air{
 			
 			info.SetByteAddressBuffer(1048576,sizeof(U32));
 			info.SetViewFlag(enVF_SRV|enVF_UAV);
-			m_pVoxel	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer*>("SVO_Octree","Buffer",&info);
+			m_pNodeTree	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer*>("SVO_Octree","Buffer",&info);
 			
 			m_pCamera	=	EngineSystem::GetSingleton()->CreateProduct<Camera*>("SVO_Camera","Camera");
 			m_pCamera->SetDir(0,0,1);
@@ -90,7 +97,9 @@ namespace	Air{
 			m_pCamera->SetOrtho(true);
 			m_pCamera->SetPosition(0,0,-128);
 
-			m_pGenVoxelTree	=	EngineSystem::GetSingleton()->CreateProduct<Material*>("SVO_Build_NoSkin","Material");	
+			m_pGenVoxelTree	=	EngineSystem::GetSingleton()->CreateProduct<Material*>("SVO_Build_NoSkin","Material");	//"SVO_Test"
+
+			m_pRT->AddCamera(m_pCamera);
 			return true;
 		}
 
@@ -100,25 +109,57 @@ namespace	Air{
 			SAFE_RELEASE_REF(m_pNodeTree);
 			SAFE_RELEASE_REF(m_pCamera);
 			SAFE_RELEASE_REF(m_pGenVoxelTree);
+			SAFE_RELEASE_REF(m_pRT);
 			return true;
 		}
 
 		void VoxelGenerator::Update( Renderable* pRenderable )
 		{
+			static MeshEntity*	pEnt = NULL;
+			if(pEnt==NULL){
+				MeshEntity::Info	info;
+				info.strMaterial	=	"SVO_Test";
+				info.strMeshName	=	"AirMesh/TEAPOT.AME";
+				pEnt	=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity*>(info.strMeshName,"MeshEntity",&info);;
+				pEnt->GetWorldMatrix()->m00	=	2.0f;
+				pEnt->GetWorldMatrix()->m11	=	2.0f;;
+				pEnt->GetWorldMatrix()->m22	=	2.0f;;
+
+			}
+#if 1
 			Render::Device* pDevice	=	RenderSystem::GetSingleton()->GetDevice();
+			
 			pDevice->SetVP(0,0,256,256);
 
 			m_pCamera->Render2D(256,256);
-			void* pRTV[4]={NULL,NULL,NULL,NULL};
-			void* pDSV=NULL;
-			void* pUAV[2]={m_pVoxel->GetUAV(),m_pNodeTree->GetUAV()};
+			m_pRT->SetClearFlag(true,true,true);
+			if(m_pRT->BeforeUpdate()){
 
-			pDevice->SetRTV_DSV_UAV(4,pRTV,pDSV,2,pUAV,0);
+				void* pRTV[1]={m_pRT->GetRTV()};
+				void* pDSV=NULL;
+				void* pUAV[2]={m_pVoxel->GetUAV(),m_pNodeTree->GetUAV()};
+				U32	clearValue[4]={0};
+				pDevice->ClearUAV(pUAV[1],clearValue);
+				pDevice->SetRTV_DSV_UAV(1,pRTV,pDSV,1,2,pUAV,0);
 
 
-			if(m_pGenVoxelTree)
-				m_pGenVoxelTree->RenderOneObject(pRenderable);
+				if(m_pGenVoxelTree)
+					m_pGenVoxelTree->RenderOneObject(pEnt);
+				m_pRT->AfterUpdate();
+			}
+#else
 
+
+			m_pRT->SetClearFlag(true,true,true);
+			if(m_pRT->BeforeUpdate()){
+				m_pCamera->Render2D(256,256);
+
+				m_pGenVoxelTree->RenderOneObject(pEnt);
+
+				m_pRT->AfterUpdate();
+			}
+
+#endif
 		}
 
 	}

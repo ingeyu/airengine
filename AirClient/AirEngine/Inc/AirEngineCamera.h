@@ -121,7 +121,7 @@ namespace Air{
 				m_Type	=	type;
 			};
 
-			void			FindMovableObject(Camera*	pMainCamera	=	NULL);
+			void			FindMovableObject(Scene*	pScene	=	NULL,Camera*	pMainCamera	=	NULL);
 			void			ProcessShadowObject();
 			void			AddMovableObject(MovableObject*	pObj);
 
@@ -129,6 +129,9 @@ namespace Air{
 			void			AddPhaseFlag(U32	flag);
 			void			RemovePhaseFlag(U32	flag);
 			void			ClearPhaseFlag();
+
+			void			SetCurrentScene(Scene* pScene);
+			Scene*			GetCurrentScene()const;
 			
 		protected:
 			Scene*				m_pScene;			///<	³¡¾°Ö¸Õë

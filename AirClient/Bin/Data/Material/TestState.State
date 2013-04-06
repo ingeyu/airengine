@@ -49,7 +49,7 @@ DepthStencilState DS_CSM
 	StencilRef					=	128;
 };
 
-BlendState AdditiveBlending
+BlendState BS_AlphaBlending
 {
     AlphaToCoverageEnable = FALSE;
     BlendEnable = TRUE;
@@ -60,6 +60,13 @@ BlendState AdditiveBlending
     DestBlendAlpha = One;
     BlendOpAlpha = Add;
     
+};
+BlendState BS_AddBlending
+{
+    AlphaToCoverageEnable = FALSE;
+    BlendEnable = TRUE;
+    SrcBlend = One;
+    DestBlend = One;  
 };
 
 SamplerState	SS_WarpLine3
