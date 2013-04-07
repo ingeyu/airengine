@@ -210,6 +210,9 @@
     <ClCompile Include="..\..\AirCommon\Src\AirWinVer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirDump.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\AirCommon\Inc\Airarg_parser.h">
@@ -460,6 +463,9 @@
     </ClInclude>
     <ClInclude Include="..\..\AirCommon\Src\AirRingBuffer.cpp">
       <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirDump.h">
+      <Filter>Inc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

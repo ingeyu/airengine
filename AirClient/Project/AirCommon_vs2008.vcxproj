@@ -201,6 +201,7 @@
     <ClCompile Include="..\..\AirCommon\Src\AirCommonXml.cpp" />
     <ClCompile Include="..\..\AirCommon\Src\AirCompress.cpp" />
     <ClCompile Include="..\..\AirCommon\Src\AirDataBase.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirDump.cpp" />
     <ClCompile Include="..\..\AirCommon\Src\AirFileMapping.cpp" />
     <ClCompile Include="..\..\AirCommon\Src\AirFileMonitor.cpp" />
     <ClCompile Include="..\..\AirCommon\Src\AirFileService.cpp" />
@@ -282,6 +283,7 @@
     <ClInclude Include="..\..\AirCommon\Inc\AirCommonXml.h" />
     <ClInclude Include="..\..\AirCommon\Inc\AirCompress.h" />
     <ClInclude Include="..\..\AirCommon\Inc\AirDataBase.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirDump.h" />
     <ClInclude Include="..\..\AirCommon\Inc\AirFileMapping.h" />
     <ClInclude Include="..\..\AirCommon\Inc\AirFileMonitor.h" />
     <ClInclude Include="..\..\AirCommon\Inc\AirFileService.h" />
