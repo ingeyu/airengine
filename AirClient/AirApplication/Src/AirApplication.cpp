@@ -4,6 +4,7 @@
 #include "AirCommonConverter.h"
 #define USE_PROFILE
 #include "AirCommonProfile.h"
+#include "AirDump.h"
 
 
 using	namespace	Air;
@@ -151,7 +152,7 @@ extern "C" int WINAPI
 	LPTSTR lpCmdLine, int nCmdShow) 
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF|_CRTDBG_LEAK_CHECK_DF);
-
+	Air::Dump_Init();
 
 	//检测是否在虚拟机里
 	//if(IsInsideVPC()||IsInsideVMWare())
