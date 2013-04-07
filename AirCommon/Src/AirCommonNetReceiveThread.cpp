@@ -28,24 +28,33 @@ namespace Air{
 	
 				m_Socket	=	NULL;
 			}else{
-				m_ReceiveSize	=	*(U32*)m_ReceiveBuffer;
-				iRecvSize		+=	iRet;
-				while(iRecvSize<m_ReceiveSize+4){
-					iRet	=	recv(m_Socket,&m_ReceiveBuffer[iRecvSize],1024*1024*10,0);
-					if(iRet	<=	0){
-						//连接关闭
-						if(m_pListener!=NULL){
-							m_pListener->OnClose(m_Socket);
+				m_ReceiveSize	+=	iRet;
+
+				while(true){
+					U32 uiOffset	=	0;
+					if(m_ReceiveSize<uiOffset+4){
+						U32 uiLeftSize	=	m_ReceiveSize	-	uiOffset;
+						if(uiLeftSize	>0){
+							memcpy(m_ReceiveBuffer,&m_ReceiveBuffer[uiOffset],uiLeftSize);
 						}
-						m_Socket	=	NULL;
+						m_ReceiveSize	=	uiLeftSize;
 						return false;
-					}else{
-						iRecvSize	+=	iRet;
 					}
-				}
-				//接收数据回调
-				if(m_pListener!=NULL){
-					m_pListener->OnReceive(m_Socket,&m_ReceiveBuffer[4],m_ReceiveSize);
+					U32 uiPackageSize		=	*(U32*)m_ReceiveBuffer[uiOffset];
+					U32	uiNextPackageOffset	=	uiOffset	+uiPackageSize+4;
+					if(m_ReceiveSize	<	uiNextPackageOffset){
+						U32	uiLeftSize	=	m_ReceiveSize	-	uiOffset;
+						if(uiLeftSize>0){
+							memcpy(m_ReceiveBuffer,&m_ReceiveBuffer[uiOffset+4],uiLeftSize);
+						}
+						m_ReceiveSize	=	uiLeftSize;
+						return false;
+					}
+					//接收数据回调
+					if(m_pListener!=NULL){
+						m_pListener->OnReceive(m_Socket,&m_ReceiveBuffer[uiOffset+4],uiPackageSize);
+					}
+					uiOffset+=uiNextPackageOffset;
 				}
 			}
 			return	true;
