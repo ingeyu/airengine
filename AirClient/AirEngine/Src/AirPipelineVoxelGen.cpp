@@ -121,20 +121,18 @@ namespace	Air{
 				info.strMaterial	=	"SVO_Test";
 				info.strMeshName	=	"AirMesh/TEAPOT.AME";
 				pEnt	=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity*>(info.strMeshName,"MeshEntity",&info);;
-				pEnt->GetWorldMatrix()->m00	=	2.0f;
-				pEnt->GetWorldMatrix()->m11	=	2.0f;;
-				pEnt->GetWorldMatrix()->m22	=	2.0f;;
+				pEnt->GetWorldMatrix()->m00	=	1.0f;
+				pEnt->GetWorldMatrix()->m11	=	1.0f;;
+				pEnt->GetWorldMatrix()->m22	=	1.0f;;
 
 			}
 #if 1
 			Render::Device* pDevice	=	RenderSystem::GetSingleton()->GetDevice();
 			
-			pDevice->SetVP(0,0,256,256);
 
-			m_pCamera->Render2D(256,256);
 			m_pRT->SetClearFlag(true,true,true);
 			if(m_pRT->BeforeUpdate()){
-
+				m_pCamera->Render2D(256,256);
 				void* pRTV[1]={m_pRT->GetRTV()};
 				void* pDSV=NULL;
 				void* pUAV[2]={m_pVoxel->GetUAV(),m_pNodeTree->GetUAV()};
@@ -147,9 +145,15 @@ namespace	Air{
 					m_pGenVoxelTree->RenderOneObject(pEnt);
 				m_pRT->AfterUpdate();
 			}
+			if(m_pRT->BeforeUpdate()){
+				pDevice->SetSRV(enPS,0,m_pNodeTree->GetSRV());
+				m_pRT->AfterUpdate();
+			}
 #else
 
+			pDevice->SetVP(0,0,256,256);
 
+			m_pCamera->Render2D(256,256);
 			m_pRT->SetClearFlag(true,true,true);
 			if(m_pRT->BeforeUpdate()){
 				m_pCamera->Render2D(256,256);
