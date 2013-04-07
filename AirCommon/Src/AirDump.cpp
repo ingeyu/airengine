@@ -4,6 +4,7 @@
 #include <new.h>
 #include <signal.h>
 #include <exception>
+#include <stdio.h>
 #pragma comment(lib,"dbghelp")
 
 namespace	Air{
@@ -126,11 +127,22 @@ namespace	Air{
 		return bRet; 
 
 	}
+
+	void	GetTimeString(char* str){
+		SYSTEMTIME t;
+		GetLocalTime(&t);
+		sprintf_s(str,256,"MiniDump\\%02d_%02d_%02d__%02d_%02d_%02d.dmp",t.wYear,t.wMonth,t.wDay,t.wHour,t.wMinute,t.wSecond);
+	};
+
 	void CreateMiniDump( EXCEPTION_POINTERS* pep ) 
 	{
-		// Open the file 
+		
+		CreateDirectoryA("MiniDump",NULL);
+		char strName[256];
+		GetTimeString(strName);
 
-		HANDLE hFile = CreateFileA( ("MiniDump.dmp"), GENERIC_READ | GENERIC_WRITE, 
+		// Open the file 
+		HANDLE hFile = CreateFileA( strName, GENERIC_READ | GENERIC_WRITE, 
 			0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL ); 
 
 		if( ( hFile != NULL ) && ( hFile != INVALID_HANDLE_VALUE ) ) 
@@ -174,7 +186,7 @@ namespace	Air{
 		{
 			//_tprintf( _T("CreateFile failed. Error: %u \n"), GetLastError() ); 
 		}
-
+		MessageBoxA(NULL,"Program Crash","Error",NULL);
 	}
 
 	LONG WINAPI __TOP_LEVEL_EXCEPTION_FILTER(
