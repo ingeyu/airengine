@@ -19,7 +19,7 @@ namespace Air{
 				return	false;
 			}
 			U32 iRecvSize	=	0;
-			int	iRet	=	recv(m_Socket,&m_ReceiveBuffer[iRecvSize],1024*1024*10,0);
+			int	iRet	=	recv(m_Socket,&m_ReceiveBuffer[m_ReceiveSize],1024*1024*10,0);
 			if(iRet	<=	0){
 				//Á¬½Ó¹Ø±Õ
 				if(m_pListener!=NULL){
