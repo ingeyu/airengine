@@ -3,6 +3,7 @@
 #include "AirEngineCamera.h"
 #include "AirEngineMaterial.h"
 #include "AirMeshEntity.h"
+#include "AirBoxRenderable.h"
 
 namespace	Air{
 	namespace	Engine{
@@ -72,6 +73,9 @@ namespace	Air{
 			m_pGenVoxelTree		=	NULL;
 			m_pMipVoxelTree		=	NULL;
 			m_pRT				=	NULL;
+			m_pDebugSVO			=	NULL;
+			m_pDebugSVORenderable=NULL;
+			m_pDebugSVOMaterial=NULL;
 		}
 
 		Air::U1 VoxelGenerator::Initialize( Render::Window* pMainWindow )
@@ -90,6 +94,15 @@ namespace	Air{
 			info.SetViewFlag(enVF_SRV|enVF_UAV);
 			m_pNodeTree	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer*>("SVO_Octree","Buffer",&info);
 			
+			Data data;
+			Common::File::Load("../Data/AirMesh/Teapot.svo",data);
+
+			info.SetByteAddressBuffer(data.size/sizeof(U32),sizeof(U32));
+			info.SetViewFlag(enVF_SRV);
+			info.InitData	=	data.buff;
+			m_pDebugSVO	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer*>("SVO_DebugBuffer","Buffer",&info);
+			//m_pDebugSVO->UpdateData(data.buff);
+
 			m_pCamera	=	EngineSystem::GetSingleton()->CreateProduct<Camera*>("SVO_Camera","Camera");
 			m_pCamera->SetDir(0,0,1);
 			m_pCamera->SetWidth(256);
@@ -100,6 +113,10 @@ namespace	Air{
 			m_pGenVoxelTree	=	EngineSystem::GetSingleton()->CreateProduct<Material*>("SVO_Build_NoSkin","Material");	//"SVO_Test"
 
 			m_pRT->AddCamera(m_pCamera);
+
+
+			m_pDebugSVORenderable	=	new BoxRenderable();
+			m_pDebugSVOMaterial		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("WorldHelperWireFrame","Material");
 			return true;
 		}
 
@@ -110,6 +127,9 @@ namespace	Air{
 			SAFE_RELEASE_REF(m_pCamera);
 			SAFE_RELEASE_REF(m_pGenVoxelTree);
 			SAFE_RELEASE_REF(m_pRT);
+			SAFE_RELEASE_REF(m_pDebugSVO);
+			delete m_pDebugSVORenderable;
+			m_pDebugSVORenderable=NULL;
 			return true;
 		}
 
@@ -126,11 +146,67 @@ namespace	Air{
 				pEnt->GetWorldMatrix()->m22	=	1.0f;;
 
 			}
+
+#if 1
+			static Data data;
+			if(data.IsNull())
+				Common::File::Load("../Data/AirMesh/Teapot.svo",data);
+			U32*	pSVO	=	(U32*)data.buff;
+
+			U32 uiDepth=0;
+			U32 uiOffset[10]={0};
+			U32	uiStack[10]={0};
+			Float3 vOffset[8]={
+				Float3(0,0,0),
+				Float3(0,0,1),
+				Float3(0,1,0),
+				Float3(0,1,1),
+
+				Float3(1,0,0),
+				Float3(1,0,1),
+				Float3(1,1,0),
+				Float3(1,1,1),
+			};
+			Float3 vMin(-64,-64,-64);
+			Float3 vHalfSize(64,64,64);
+			float	fMaxDis		=	10000;
+			while(1){
+				for(U32 i=uiStack[uiDepth];i<8;i++){
+					U32 addr		=	(uiOffset[uiDepth]+i);
+					U32 uiChild	=	pSVO[addr];
+					if(uiChild==0)
+						continue;
+					Float3	vNewMin	=	vMin+vOffset[i]*vHalfSize;
+					Float3	vNewMax	=	vNewMin+vHalfSize;
+					if(uiDepth	==	6){
+						((BoxRenderable*)m_pDebugSVORenderable)->m_WorldMatrix	=	Float44((vNewMin+vNewMax)*0.5,vHalfSize*0.5,Float4(0,0,0,1));
+						m_pDebugSVOMaterial->RenderOneObject(m_pDebugSVORenderable);
+
+						continue;
+					}else{
+						uiStack[uiDepth]	=	i+1;
+						uiDepth++;
+						uiStack[uiDepth]	=	0;
+						uiOffset[uiDepth]	=	uiChild;
+						vHalfSize	/=	2.0f;
+						vMin		=	vNewMin;
+					}
+					
+				}
+				if(uiDepth==0){
+					break;
+				}else{
+					uiDepth--;
+					vHalfSize*=2.0f;
+					vMin	-=	vOffset[uiStack[uiDepth]-1]*vHalfSize;
+				}
+			}
+#endif
 #if 1
 			Render::Device* pDevice	=	RenderSystem::GetSingleton()->GetDevice();
 			
 
-			m_pRT->SetClearFlag(true,true,true);
+			/*m_pRT->SetClearFlag(true,true,true);
 			if(m_pRT->BeforeUpdate()){
 				m_pCamera->Render2D(256,256);
 				void* pRTV[1]={m_pRT->GetRTV()};
@@ -148,7 +224,7 @@ namespace	Air{
 			if(m_pRT->BeforeUpdate()){
 				pDevice->SetSRV(enPS,0,m_pNodeTree->GetSRV());
 				m_pRT->AfterUpdate();
-			}
+			}*/
 #else
 
 			pDevice->SetVP(0,0,256,256);

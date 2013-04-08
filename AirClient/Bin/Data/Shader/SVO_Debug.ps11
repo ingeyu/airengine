@@ -1,4 +1,10 @@
+#include "Common.h"
 ByteAddressBuffer	voxeloctree		:	register(t0);
+
+cbuffer cbPerMaterial	:	register(b3)
+{
+	matrix	matViewProjInv;
+}
 
 bool	RayCastBoundingBox(float3 vStart,float3 vDir,float3 vMin,float3 vMax,in float fMaxDistance,inout float fOutDistance)
 
@@ -29,11 +35,7 @@ bool	RayCastBoundingBox(float3 vStart,float3 vDir,float3 vMin,float3 vMax,in flo
 struct VS_OUTPUT
 {
     float4 Position     : SV_POSITION; // vertex position
-	float3 Normal       : TEXCOORD0;
-    float2 TextureUV    : TEXCOORD1;   // vertex texture coords 
-	float3 Tangent		: TEXCOORD2;
-	float4 WPos			: TEXCOORD3;
-	float4 ProjPos		: TEXCOORD4;
+	float2 UV			: TEXCOORD0;
 };
 
 struct	PS_OUTPUT{
@@ -50,7 +52,10 @@ float4	U32_F32(uint uiColor){
 }
 
 float4 main( VS_OUTPUT Input ):SV_Target0{
-
+	float2 xy	=	Input.UV*float2(2,-2)+float2(-1,1);
+	float4	wpos	=	mul(matViewProjInv,float4(xy,0,1));
+	wpos/=wpos.w;
+	float3 dir	=	normalize(wpos.xyz	-	vCameraPosition.xyz);
 	uint uiOffset[10]={
 		0,0,0,0,0,
 		0,0,0,0,0
@@ -78,19 +83,22 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 		
 		for(int i=uiStack[uiDepth];i<8;i++){
 			
-			float3	vNewMin	=	vMin+vOffset[i]*vHalfSize;
-			float3	vNewMax	=	vNewMin+vHalfSize;
 
-			if(!RayCastBoundingBox(Input.WPos.xyz,Input.Normal.xyz,vNewMin,vNewMax,fMaxDis,fMaxDis)){
-				continue;
-			}
 
 			uint addr		=	(uiOffset[uiDepth]+i)*4;
 			uint uiChild	=	voxeloctree.Load(addr);
+			if(uiChild==0)
+				continue;
+
+			float3	vNewMin	=	vMin+vOffset[i]*vHalfSize;
+			float3	vNewMax	=	vNewMin+vHalfSize;
+
+			if(!RayCastBoundingBox(vCameraPosition.xyz,dir,vNewMin,vNewMax,fMaxDis,fMaxDis)){
+				continue;
+			}
+
 			if(uiDepth	==	7){
 				return U32_F32(uiChild);
-			}else if(uiChild==0){
-				continue;
 			}else{
 				uiStack[uiDepth]	=	i+1;
 				uiDepth++;

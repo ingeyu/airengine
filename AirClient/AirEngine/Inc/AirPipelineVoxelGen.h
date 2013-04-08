@@ -19,6 +19,10 @@ namespace	Air{
 			Material*		m_pMipVoxelTree;
 			Camera*			m_pCamera;
 			RenderTarget*	m_pRT;
+
+			Render::Buffer*	m_pDebugSVO;
+			Renderable*		m_pDebugSVORenderable;
+			Material*		m_pDebugSVOMaterial;
 		};
 	}
 }
