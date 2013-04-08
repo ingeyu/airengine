@@ -178,7 +178,7 @@ namespace Air{
 				}
 			}
 
-			Air::U1 Target11::AfterUpdate()
+			Air::U1 Target11::AfterUpdate(U1 bSwapBuffer)
 			{
 				U32	uiSize	=	m_vecTexture.size();
 				for(U32	i=0;i<uiSize;i++){

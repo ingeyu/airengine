@@ -186,7 +186,7 @@ namespace	Air{
 				return	true;
 			}
 
-			Air::U1 Target::AfterUpdate(){
+			Air::U1 Target::AfterUpdate(U1 bSwapBuffer){
 
 				return	true;
 			}

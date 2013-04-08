@@ -149,9 +149,10 @@ namespace	Air{
 			}
 
 
-			Air::U1 Window11::AfterUpdate()
+			Air::U1 Window11::AfterUpdate(U1 bSwapBuffer)
 			{
-				m_pSwapChain->Present(0,0);
+				if(bSwapBuffer)
+					m_pSwapChain->Present(0,0);
 				D3DPERF_EndEvent();
 				return	true;
 			}

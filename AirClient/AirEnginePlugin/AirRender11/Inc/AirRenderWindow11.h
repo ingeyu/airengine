@@ -55,7 +55,7 @@ namespace	Air{
 				U1					DestroyDepthStencil();
 
 				virtual	U1			BeforeUpdate(U32	uiFace	=	0);
-				virtual	U1			AfterUpdate();
+				virtual	U1			AfterUpdate(U1 bSwapBuffer);
 
 				virtual	U32			GetWidth();
 				virtual	U32			GetHeight();

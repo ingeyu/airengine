@@ -155,6 +155,46 @@ namespace	Air{
 
 			
 
+
+#if 1
+			//Render::Device* pDevice	=	RenderSystem::GetSingleton()->GetDevice();
+			
+
+			/*m_pRT->SetClearFlag(true,true,true);
+			if(m_pRT->BeforeUpdate()){
+				m_pCamera->Render2D(256,256);
+				void* pRTV[1]={m_pRT->GetRTV()};
+				void* pDSV=NULL;
+				void* pUAV[2]={m_pVoxel->GetUAV(),m_pNodeTree->GetUAV()};
+				U32	clearValue[4]={0};
+				pDevice->ClearUAV(pUAV[1],clearValue);
+				pDevice->SetRTV_DSV_UAV(1,pRTV,pDSV,1,2,pUAV,0);
+
+
+				if(m_pGenVoxelTree)
+					m_pGenVoxelTree->RenderOneObject(pEnt);
+				m_pRT->AfterUpdate();
+			}
+			if(m_pRT->BeforeUpdate()){
+				pDevice->SetSRV(enPS,0,m_pNodeTree->GetSRV());
+				m_pRT->AfterUpdate();
+			}*/
+#else
+
+			pDevice->SetVP(0,0,256,256);
+
+			m_pCamera->Render2D(256,256);
+			m_pRT->SetClearFlag(true,true,true);
+			if(m_pRT->BeforeUpdate()){
+				m_pCamera->Render2D(256,256);
+
+				m_pGenVoxelTree->RenderOneObject(pEnt);
+
+				m_pRT->AfterUpdate();
+			}
+
+#endif
+
 #ifdef GPU_DEBUG
 			Render::Device* pDevice	=	RenderSystem::GetSingleton()->GetDevice();
 			pDevice->SetSRV(enPS,0,m_pDebugSVO->GetSRV());
@@ -214,7 +254,7 @@ namespace	Air{
 						vMin		=	vNewMin;
 						i=0;
 					}
-					
+
 				}
 				if(uiDepth==0){
 					break;
@@ -224,44 +264,6 @@ namespace	Air{
 					vMin	-=	vOffset[uiStack[uiDepth]-1]*vHalfSize;
 				}
 			}
-#endif
-#if 1
-			//Render::Device* pDevice	=	RenderSystem::GetSingleton()->GetDevice();
-			
-
-			/*m_pRT->SetClearFlag(true,true,true);
-			if(m_pRT->BeforeUpdate()){
-				m_pCamera->Render2D(256,256);
-				void* pRTV[1]={m_pRT->GetRTV()};
-				void* pDSV=NULL;
-				void* pUAV[2]={m_pVoxel->GetUAV(),m_pNodeTree->GetUAV()};
-				U32	clearValue[4]={0};
-				pDevice->ClearUAV(pUAV[1],clearValue);
-				pDevice->SetRTV_DSV_UAV(1,pRTV,pDSV,1,2,pUAV,0);
-
-
-				if(m_pGenVoxelTree)
-					m_pGenVoxelTree->RenderOneObject(pEnt);
-				m_pRT->AfterUpdate();
-			}
-			if(m_pRT->BeforeUpdate()){
-				pDevice->SetSRV(enPS,0,m_pNodeTree->GetSRV());
-				m_pRT->AfterUpdate();
-			}*/
-#else
-
-			pDevice->SetVP(0,0,256,256);
-
-			m_pCamera->Render2D(256,256);
-			m_pRT->SetClearFlag(true,true,true);
-			if(m_pRT->BeforeUpdate()){
-				m_pCamera->Render2D(256,256);
-
-				m_pGenVoxelTree->RenderOneObject(pEnt);
-
-				m_pRT->AfterUpdate();
-			}
-
 #endif
 		}
 

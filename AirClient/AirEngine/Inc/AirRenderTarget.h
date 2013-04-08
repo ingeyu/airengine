@@ -214,7 +214,7 @@ namespace Air{
 				*	@note
 				*
 				**/
-				virtual	U1			AfterUpdate();
+				virtual	U1			AfterUpdate(U1 bSwapBuffer	=	true);
 				/**	\brief	设置背景颜色
 				*   
 				*	@remarks 	设置背景颜色

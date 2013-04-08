@@ -49,7 +49,7 @@ namespace Air{
 				*
 				**/
 				virtual	U1			BeforeUpdate(U32	uiFace	=	0);
-				virtual	U1			AfterUpdate();
+				virtual	U1			AfterUpdate(U1 bSwapBuffer);
 	
 				/**	\brief	设置渲染目标物体
 				*   
