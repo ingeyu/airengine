@@ -255,7 +255,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			static	U1	Load(CAString& strName,U8*&	pData,U32& uiSize);
+			static	U1	Load(CAString& strName,Data& data);
 			/**	\brief	保存文件
 			*   
 			*	@remarks 	保存文件到文件夹 二进制文件

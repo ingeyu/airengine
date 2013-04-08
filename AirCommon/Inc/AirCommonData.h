@@ -27,40 +27,18 @@ namespace	Air{
 		*	数据类
 		*
 		***/
-		class	Data{
+		class	COMMON_EXPORT	Data{
 		public:
-			Data():buff(0),size(0){};
-			Data(U8* b,U32 s){
-				if(b==NULL || s == 0){
-					_ZERO(size);
-					_ZERO(buff);
-				}else{
-					size	=	s;
-					buff	=	new	U8[size];
-					memcpy(buff,b,size);
-				}
-			};
+			Data();
+			Data(void* p,U32 uiSize);
 			template	<typename	T_Type>
-			Data(T_Type*	p){
-				if(p!=NULL){
-					size	=	sizeof(T_Type);
-					buff	=	new	U8[size];
-					memcpy(buff,p,size);
-				}else{
-					_ZERO(size);
-					_ZERO(buff);
-				}
+			Data(const T_Type&	p){
+				Fill(&p,sizeof(T_Type));
 			};
-			~Data(){
-				SAF_DA(buff);
-				_ZERO(size);
-			};
+			~Data();
+			void	Fill(void*	p,U32 uiSize);
 
-			Data*	Clone(){
-				if(IsNull())
-					return	NULL;
-				return	new	Data(buff,size);
-			};
+			Data*	Clone();
 			/**	\brief	是否为空
 			*   
 			*	@remarks 	是否为空
@@ -98,21 +76,8 @@ namespace	Air{
 			*	@note
 			*
 			**/
-			inline	U8*	ReSize(U32	s){
-
-				SAF_DA(buff);
-				size	= s;
-				//如果S==0表面为清空
-				if(s==0)
-					return	NULL;
-
-				buff	=	new	U8[size];
-				return buff;
-			}
-			inline	void	Clear(){
-				SAF_DA(buff);
-				_ZERO(size);
-			}
+			U8*		ReSize(U32	s);
+			void	Clear();
 			U8*				buff;					///<	数据
 			U32				size;					///<	大小
 		};

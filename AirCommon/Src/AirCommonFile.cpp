@@ -209,7 +209,7 @@ namespace Air{
 			return	pPackage->AddFileFromMemery((S8*)m_strName.c_str(),pData->GetBuff(),pData->GetSize());
 		}
 	
-		U1 File::Load( CAString& strName,U8*& pData,U32& uiSize ){
+		U1 File::Load( CAString& strName,Data& data ){
 			if(strName.empty())
 				return	false;
 			FILE*	f	=	fopen(strName.c_str(),"rb");
@@ -218,16 +218,16 @@ namespace Air{
 			//将文件指针 移动到文件尾
 			fseek(f,0,SEEK_END);
 			//获取当前文件指针的位置
-			uiSize	=	ftell(f);
+			U32 uiSize	=	ftell(f);
 			//将文件指针 移动到文件头
 			fseek(f,0,SEEK_SET);
 			//判断文件内容长度
 			if(uiSize	== 0)
 				return false;
+
+			data.ReSize(uiSize);
 	
-			pData	=	new	U8[uiSize];
-	
-			fread(pData,uiSize,1,f);
+			fread(data.buff,uiSize,1,f);
 			fclose(f);
 	
 			return	true;
