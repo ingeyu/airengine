@@ -35,6 +35,7 @@ namespace	Air{
 			const Render::Draw::Buff&	GetDrawBuffer()const;
 
 			U1	RayCast(const Ray& ray ,float*	pOutDistance	=	NULL);
+			U1	BuildSVO(const Matrix& matWorld,std::vector<U32>& SVO);
 		protected:
 			U1			LoadAME0();
 

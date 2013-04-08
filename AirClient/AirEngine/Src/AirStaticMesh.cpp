@@ -131,5 +131,127 @@ namespace	Air{
 			return	bHit;
 		}
 
+		void	AddToSVO(const Float3& pos,std::vector<U32>& svo,U32& uiSVOSize,U32 iEdgeSize){
+			U32 iMask = iEdgeSize;
+			U32 uiLOOP=0;
+			for(U32 i=0;i<32;i++){
+				if((1<<i) >= iMask){
+					uiLOOP	=	i;
+					break;
+				}
+			}
+			U32 x		=	pos.x;
+			U32 y		=	pos.y;
+			U32	z		=	pos.z;
+
+			U32 uiOffset=0;
+			for(U32 i=0;i<uiLOOP;i++){
+				int ishift	=	i+1;
+				U32 uiTempMask=iMask>>ishift;
+				U32	uileftshr	=	uiLOOP-ishift;
+				U32 idx = ((x&uiTempMask)>>uileftshr)*4;
+				idx		+=((y&uiTempMask)>>uileftshr)*2;
+				idx		+=((z&uiTempMask)>>uileftshr);
+				U32&	uiSVO	=	svo[uiOffset+idx];
+				if(i==uiLOOP-1){
+					uiSVO	=	0XFFFFFFFF;
+					break;
+				}else{
+					if(uiSVO==0){
+						uiSVO	=	uiSVOSize;
+						uiSVOSize+=8;
+					}
+					uiOffset	=	uiSVO;
+					
+				}
+			}
+		}
+
+		Air::U1 StaticMesh::BuildSVO( const Matrix& matWorld,std::vector<U32>& SVO)
+		{
+			std::vector<Float3>	vecPos;
+			vecPos.resize(m_uiNumVertex);
+			U32*			pIndex			=	(U32*)GetIB();
+			Render::PNTT*	pVB				=	(Render::PNTT*)GetVB();
+			for(U32 i=0;i<m_uiNumVertex;i++){
+				vecPos[i]	=	matWorld*pVB[i].Position;
+			}
+
+			Matrix matWorldInv	=	matWorld;
+			matWorldInv.Inverse();
+			BoundingBox	worldBound = m_BoundingBox.Transform(matWorld);
+			Float3 vFloorMin	=	Float3(floor(worldBound.vMin.x),floor(worldBound.vMin.y),floor(worldBound.vMin.z));
+			Float3	vBoundSize	=	worldBound.vMax	-	vFloorMin;
+			float fEdgeSize	=	vBoundSize.x;
+			if(vBoundSize.y > fEdgeSize){
+				fEdgeSize	=	vBoundSize.y;
+			}
+			if(vBoundSize.z	>	fEdgeSize){
+				fEdgeSize	=	vBoundSize.z;
+			}
+			U32 uiCmp[]={
+				1,2,4,8,16,32,64,128,256,512,1024,2048,4096
+			};
+			int iEdgeSize	=	fEdgeSize;
+			for(U32 i=0;i<13;i++){
+				if(uiCmp[i]	>iEdgeSize){
+					iEdgeSize	=	uiCmp[i];
+					break;
+				}
+			}
+			std::vector<U32>	vecBuffer;
+			vecBuffer.resize(1048576);
+			U32 uiTempSize=8;
+
+			Float3 vDirArray[3]={
+				Float3(1,0,0),
+				Float3(0,1,0),
+				Float3(0,0,1)
+			};
+
+			for(U32 uiFace =0;uiFace<3;uiFace++){
+				Ray r;
+				r.m_vDirection	=	vDirArray[uiFace];
+				
+				for(U32 i=0;i<iEdgeSize;i++){
+					for(U32 j=0;j<iEdgeSize;j++){
+						switch(uiFace){
+							case 0:{
+								r.m_vStart	=	vFloorMin+Float3(0,i+0.5,j+0.5);
+								   }break;
+							case 1:{
+								r.m_vStart	=	vFloorMin+Float3(i+0.5,0,j+0.5);
+								   }break;
+							case 2:{
+								r.m_vStart	=	vFloorMin+Float3(i+0.5,j+0.5,0);
+								   }break;
+						}
+						float fDistance	=	10000.0f;
+						for(U32	i=0;i<m_uiNumFace;i++){
+
+							Float3&	v0	=	vecPos	[pIndex[i*3]	];
+							Float3&	v1	=	vecPos	[pIndex[i*3+1]	];
+							Float3&	v2	=	vecPos	[pIndex[i*3+2]	];
+							float	fDis	=	-1.0f;
+							if(r.Intersect(v0,v1,v2,&fDis)){
+								Float3 pos	=	r.m_vStart+r.m_vDirection*fDis - vFloorMin;
+								AddToSVO(pos,vecBuffer,uiTempSize,iEdgeSize);
+							}
+							if(r.Intersect(v2,v1,v0,&fDis)){
+								Float3 pos	=	r.m_vStart+r.m_vDirection*fDis - vFloorMin;
+								AddToSVO(pos,vecBuffer,uiTempSize,iEdgeSize);
+							}
+						}
+						
+					}
+				}
+			}
+
+			SVO.resize(uiTempSize);
+			memcpy(&SVO[0],&vecBuffer[0],uiTempSize*sizeof(U32));
+
+			return true;
+		}
+
 	}
 }

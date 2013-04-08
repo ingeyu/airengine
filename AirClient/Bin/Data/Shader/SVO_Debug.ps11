@@ -1,5 +1,30 @@
-RWStructuredBuffer<uint>	voxeloctree		:	register(t0);
+ByteAddressBuffer	voxeloctree		:	register(t0);
 
+bool	RayCastBoundingBox(float3 vStart,float3 vDir,float3 vMin,float3 vMax,in float fMaxDistance,inout float fOutDistance)
+
+{
+	float3	fmin		=	vMin	-	vStart;
+	float3	fmax		=	vMax	-	vStart;
+	float3	invMinDir	=	fmin	/	vDir;
+	float3	invMaxDir	=	fmax	/	vDir;
+
+	fOutDistance		=	10000.0f;
+
+	float3	fNear		=	min(invMinDir,invMaxDir);
+	float3	fFar		=	max(invMinDir,invMaxDir);
+	float	maxNear		=	max(max(fNear.x,fNear.y),fNear.z);
+	float	minFar		=	min(min(fFar.x,fFar.y),fFar.z);
+	if(	maxNear	>	minFar	||
+		maxNear	>	fMaxDistance	||
+		minFar	<	0.0f)
+	{
+		return	false;
+	}
+	if(maxNear	<	0.0f)
+		maxNear	=	0.0f;
+	fOutDistance	=	maxNear;	
+	return	true;
+};
 
 struct VS_OUTPUT
 {
@@ -15,13 +40,75 @@ struct	PS_OUTPUT{
 	float4	Diff			:	SV_Target0;
 };
 
-PS_OUTPUT main( VS_OUTPUT Input ){
-	PS_OUTPUT	Output;
-	Output.Diff		=	DiffuseTex.Sample(SS_WrapLine2,Input.TextureUV)*0.2;
+float4	U32_F32(uint uiColor){
+	return	float4(
+					((uiColor&0x00ff0000)>>16)/255.0f,
+					((uiColor&0x0000ff00)>>8)/255.0f,
+					((uiColor&0x000000ff))/255.0f,
+					((uiColor&0xff000000)>>24)/255.0f
+			);
+}
 
-	for(int i=0;i<8;i++){
-	
+float4 main( VS_OUTPUT Input ):SV_Target0{
+
+	uint uiOffset[10]={
+		0,0,0,0,0,
+		0,0,0,0,0
+	};
+	uint uiStack[10]={
+		0,0,0,0,0,
+		0,0,0,0,0
+	};
+	float3 vOffset[8]={
+		float3(0,0,0),
+		float3(0,0,1),
+		float3(0,1,0),
+		float3(0,1,1),
+
+		float3(1,0,0),
+		float3(1,0,1),
+		float3(1,1,0),
+		float3(1,1,1),
+	};
+	uint	uiDepth	=	0;
+	float3	vHalfSize	=	128.0f;
+	float3  vMin		=	float3(-128,-128,-128);
+	float	fMaxDis		=	10000;
+	while(true){
+		
+		for(int i=uiStack[uiDepth];i<8;i++){
+			
+			float3	vNewMin	=	vMin+vOffset[i]*vHalfSize;
+			float3	vNewMax	=	vNewMin+vHalfSize;
+
+			if(!RayCastBoundingBox(Input.WPos.xyz,Input.Normal.xyz,vNewMin,vNewMax,fMaxDis,fMaxDis)){
+				continue;
+			}
+
+			uint addr		=	(uiOffset[uiDepth]+i)*4;
+			uint uiChild	=	voxeloctree.Load(addr);
+			if(uiDepth	==	7){
+				return U32_F32(uiChild);
+			}else if(uiChild==0){
+				continue;
+			}else{
+				uiStack[uiDepth]	=	i+1;
+				uiDepth++;
+				uiStack[uiDepth]	=	0;
+				uiOffset[uiDepth]	=	uiChild;
+				vHalfSize	/=	2.0f;
+				vMin		=	vNewMin;
+				break;
+			}
+		}
+		if(uiDepth==0){
+			break;
+		}else{
+			uiDepth--;
+			vHalfSize*=2.0f;
+			vMin	-=	vOffset[uiStack[uiDepth]-1]*vHalfSize;
+		}
 	}
-
-	return Output;
+	discard;
+	return 0;
 };
