@@ -156,3 +156,7 @@ Material	SVO_Test			:	MT_SVO_Test
 {
 	Texture	AirMesh/Strom/1984ec80.dds
 }
+Material	SVO_Debug			:	MT_SVO_Debug
+{
+	Matrix
+}

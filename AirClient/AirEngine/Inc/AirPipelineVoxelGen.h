@@ -11,7 +11,7 @@ namespace	Air{
 
 			U1		Initialize(Render::Window*	pMainWindow);
 			U1		Release();
-			void	Update(Renderable* pRenderable);
+			void	Update(Renderable* pRenderable,Camera* pMainCamera);
 
 			Render::Buffer*	m_pVoxel;
 			Render::Buffer*	m_pNodeTree;

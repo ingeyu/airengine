@@ -509,4 +509,20 @@ MaterialTemplate	MT_SVO_Test
 		}
 	}
 }
+MaterialTemplate	MT_SVO_Debug
+{
+	Phase		Manual
+	Pass
+	{
+		RasterizerState		CullNone
+		DepthStencilState	DisableDepthCompareWrite
+		//BlendState			BS_AddBlending
+		VertexShader		"Shader/Quad"
+		{
+		}
+		PixelShader			"Shader/SVO_Debug"
+		{
+		}
+	}
+}
 

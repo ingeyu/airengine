@@ -53,9 +53,11 @@ float4	U32_F32(uint uiColor){
 
 float4 main( VS_OUTPUT Input ):SV_Target0{
 	float2 xy	=	Input.UV*float2(2,-2)+float2(-1,1);
-	float4	wpos	=	mul(matViewProjInv,float4(xy,0,1));
+	float4	wpos	=	mul(matViewProjInv,float4(xy,1,1));
 	wpos/=wpos.w;
 	float3 dir	=	normalize(wpos.xyz	-	vCameraPosition.xyz);
+
+
 	uint uiOffset[10]={
 		0,0,0,0,0,
 		0,0,0,0,0
@@ -76,29 +78,45 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 		float3(1,1,1),
 	};
 	uint	uiDepth	=	0;
-	float3	vHalfSize	=	128.0f;
-	float3  vMin		=	float3(-128,-128,-128);
+	float3	vHalfSize	=	64.0f;
+	float3  vMin		=	float3(-64,-64,-64);
 	float	fMaxDis		=	10000;
+	float f=0;
+	if(!RayCastBoundingBox(vCameraPosition.xyz,dir,vMin,vHalfSize,fMaxDis,f)){
+		discard;
+	}
+	uint	retColor	=	0xffff0000;
 	while(true){
 		
-		for(int i=uiStack[uiDepth];i<8;i++){
+		for(int i=uiStack[uiDepth];i<8;){
 			
 
 
 			uint addr		=	(uiOffset[uiDepth]+i)*4;
 			uint uiChild	=	voxeloctree.Load(addr);
-			if(uiChild==0)
-				continue;
-
-			float3	vNewMin	=	vMin+vOffset[i]*vHalfSize;
-			float3	vNewMax	=	vNewMin+vHalfSize;
-
-			if(!RayCastBoundingBox(vCameraPosition.xyz,dir,vNewMin,vNewMax,fMaxDis,fMaxDis)){
+			if(uiChild==0){
+				i++;
 				continue;
 			}
 
-			if(uiDepth	==	7){
-				return U32_F32(uiChild);
+			float3	vNewMin	=	vMin+vOffset[i]*vHalfSize;
+			float3	vNewMax	=	vNewMin+vHalfSize;
+			
+			float fDis	=	100000.0f;
+			if(!RayCastBoundingBox(vCameraPosition.xyz,dir,vNewMin,vNewMax,fMaxDis,fDis)){
+				i++;
+				continue;
+			}
+			
+
+			if(uiDepth	==	1){
+				if(fDis	<	fMaxDis){
+					fMaxDis		=	fDis;
+					retColor	=	0xffffffff;//uiChild;	
+				}	
+				
+				i++;
+				continue;			
 			}else{
 				uiStack[uiDepth]	=	i+1;
 				uiDepth++;
@@ -106,6 +124,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 				uiOffset[uiDepth]	=	uiChild;
 				vHalfSize	/=	2.0f;
 				vMin		=	vNewMin;
+				i=0;
 				break;
 			}
 		}
@@ -117,6 +136,6 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 			vMin	-=	vOffset[uiStack[uiDepth]-1]*vHalfSize;
 		}
 	}
-	discard;
-	return 0;
+	return U32_F32(retColor);
+//	return float4(1,0,0,0);
 };

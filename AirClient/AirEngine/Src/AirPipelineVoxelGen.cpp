@@ -5,6 +5,8 @@
 #include "AirMeshEntity.h"
 #include "AirBoxRenderable.h"
 
+#define GPU_DEBUG
+
 namespace	Air{
 	namespace	Engine{
 		struct Voxel{
@@ -116,7 +118,11 @@ namespace	Air{
 
 
 			m_pDebugSVORenderable	=	new BoxRenderable();
+#ifdef GPU_DEBUG
+			m_pDebugSVOMaterial		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("SVO_Debug","Material");
+#else
 			m_pDebugSVOMaterial		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("WorldHelperWireFrame","Material");
+#endif
 			return true;
 		}
 
@@ -133,7 +139,7 @@ namespace	Air{
 			return true;
 		}
 
-		void VoxelGenerator::Update( Renderable* pRenderable )
+		void VoxelGenerator::Update( Renderable* pRenderable ,Camera* pMainCamera)
 		{
 			static MeshEntity*	pEnt = NULL;
 			if(pEnt==NULL){
@@ -147,7 +153,21 @@ namespace	Air{
 
 			}
 
-#if 1
+			
+
+#ifdef GPU_DEBUG
+			Render::Device* pDevice	=	RenderSystem::GetSingleton()->GetDevice();
+			pDevice->SetSRV(enPS,0,m_pDebugSVO->GetSRV());
+			Matrix matViewProjInv;
+			pMainCamera->GetViewProjMatrix(matViewProjInv);
+			matViewProjInv.Inverse();
+			m_pDebugSVOMaterial->GetConstantBuffer()->UpdateData(&matViewProjInv);
+			m_pDebugSVOMaterial->RenderOneObject(pRenderable);
+#else
+			U32 iLevel	=	GetTimer().m_FrameTime.fTotalTime;
+			iLevel=iLevel>>1;
+			iLevel%=4;
+			iLevel+=2;
 			static Data data;
 			if(data.IsNull())
 				Common::File::Load("../Data/AirMesh/Teapot.svo",data);
@@ -180,7 +200,7 @@ namespace	Air{
 					}
 					Float3	vNewMin	=	vMin+vOffset[i]*vHalfSize;
 					Float3	vNewMax	=	vNewMin+vHalfSize;
-					if(uiDepth	==	6){
+					if(uiDepth	==	iLevel){
 						((BoxRenderable*)m_pDebugSVORenderable)->m_WorldMatrix	=	Float44((vNewMin+vNewMax)*0.5,vHalfSize*0.5,Float4(0,0,0,1));
 						m_pDebugSVOMaterial->RenderOneObject(m_pDebugSVORenderable);
 						i++;
@@ -206,7 +226,7 @@ namespace	Air{
 			}
 #endif
 #if 1
-			Render::Device* pDevice	=	RenderSystem::GetSingleton()->GetDevice();
+			//Render::Device* pDevice	=	RenderSystem::GetSingleton()->GetDevice();
 			
 
 			/*m_pRT->SetClearFlag(true,true,true);
