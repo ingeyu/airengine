@@ -118,16 +118,16 @@ namespace Air{
 			CreateWin();
 
  			Data	data;
- 			Common::File::Load("..\\Data\\Material\\TestState.State",data.buff,data.size);
+ 			Common::File::Load("..\\Data\\Material\\TestState.State",data);
  			MaterialParse::GetSingleton()->CompileState(data.buff,data.size);
  			data.Clear();
- 			Common::File::Load("..\\Data\\Material\\TestMaterial.MaterialTemplate",data.buff,data.size);
+ 			Common::File::Load("..\\Data\\Material\\TestMaterial.MaterialTemplate",data);
  			MaterialParse::GetSingleton()->CompileMaterialTemplate(data.buff,data.size);
  			data.Clear();
- 			Common::File::Load("..\\Data\\Material\\TestMaterial.Material2",data.buff,data.size);
+ 			Common::File::Load("..\\Data\\Material\\TestMaterial.Material2",data);
  			MaterialParse::GetSingleton()->CompileMaterial(data.buff,data.size);
  			data.Clear();
-			Common::File::Load("..\\Data\\AirMesh\\Material #1.material",data.buff,data.size);
+			Common::File::Load("..\\Data\\AirMesh\\Material #1.material",data);
 			MaterialParse::GetSingleton()->CompileMaterialSet(data.buff,data.size);
 			data.Clear();
 			

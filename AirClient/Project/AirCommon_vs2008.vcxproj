@@ -171,6 +171,7 @@
     <ClCompile Include="..\..\AirCommon\Src\AirCommon.cpp" />
     <ClCompile Include="..\..\AirCommon\Src\AirCommonCollision.cpp" />
     <ClCompile Include="..\..\AirCommon\Src\AirCommonConverter.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonData.cpp" />
     <ClCompile Include="..\..\AirCommon\Src\AirCommonFactory.cpp" />
     <ClCompile Include="..\..\AirCommon\Src\AirCommonFile.cpp" />
     <ClCompile Include="..\..\AirCommon\Src\AirCommonIniFile.cpp" />

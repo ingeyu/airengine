@@ -46,12 +46,8 @@ namespace	Air{
 			}
 
 			U32		FolderPackage::FindWithFullPath( CAString& filename ,Data&	data){
-				U8*	p			=	NULL;
-				U32		uiSize	=	0;
-				if(Common::File::Load(filename,p,uiSize)){
-					data.Clear();
-					data.buff	=	p;
-					data.size	=	uiSize;
+				
+				if(Common::File::Load(filename,data)){
 					return	data.size;
 				}
 				return	NULL;

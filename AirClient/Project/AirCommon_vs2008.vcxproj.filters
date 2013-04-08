@@ -213,6 +213,9 @@
     <ClCompile Include="..\..\AirCommon\Src\AirDump.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCommonData.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\AirCommon\Inc\Airarg_parser.h">
