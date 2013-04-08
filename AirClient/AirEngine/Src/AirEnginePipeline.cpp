@@ -331,7 +331,7 @@ namespace	Air{
 			}
 			//
 			//m_Tesellation.UpdateTarget(pMainCamera);
-			m_VoxelGen.Update(NULL);
+			//m_VoxelGen.Update(NULL);
 
 			m_CSM.UpdateTarget();
 			
@@ -393,6 +393,7 @@ namespace	Air{
 				m_pCombine->RenderOneObject(m_pQuad);
 				//m_pMainWindow->AfterUpdate();
 				//m_OIT.Update(m_pQuad);
+				m_VoxelGen.Update(NULL);
 			}
 			m_pMainWindow->ClearPhaseFlag();
 			m_pMainWindow->AddPhaseFlag(enPI_Helper);

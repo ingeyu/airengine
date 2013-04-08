@@ -171,17 +171,19 @@ namespace	Air{
 			Float3 vHalfSize(64,64,64);
 			float	fMaxDis		=	10000;
 			while(1){
-				for(U32 i=uiStack[uiDepth];i<8;i++){
+				for(U32 i=uiStack[uiDepth];i<8;){
 					U32 addr		=	(uiOffset[uiDepth]+i);
 					U32 uiChild	=	pSVO[addr];
-					if(uiChild==0)
+					if(uiChild==0){
+						i++;
 						continue;
+					}
 					Float3	vNewMin	=	vMin+vOffset[i]*vHalfSize;
 					Float3	vNewMax	=	vNewMin+vHalfSize;
 					if(uiDepth	==	6){
 						((BoxRenderable*)m_pDebugSVORenderable)->m_WorldMatrix	=	Float44((vNewMin+vNewMax)*0.5,vHalfSize*0.5,Float4(0,0,0,1));
 						m_pDebugSVOMaterial->RenderOneObject(m_pDebugSVORenderable);
-
+						i++;
 						continue;
 					}else{
 						uiStack[uiDepth]	=	i+1;
@@ -190,6 +192,7 @@ namespace	Air{
 						uiOffset[uiDepth]	=	uiChild;
 						vHalfSize	/=	2.0f;
 						vMin		=	vNewMin;
+						i=0;
 					}
 					
 				}
