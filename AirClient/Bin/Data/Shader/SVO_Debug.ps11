@@ -123,7 +123,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 		return 0;
 	}
 	uint	retColor	=	0;
-	static uint	uiChildOrder	=	uiOrder;
+	uint	uiChildOrder	=	uiOrder;
 	[loop]
 	while(true){
 		
@@ -145,12 +145,9 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 			
 			
 			float fDis	=	100000.0f;
-#ifdef USE_SPHERE_CHECK
-			if(!RayCastSphere(vCamPos,dir,vNewMin+0.5f*vHalfSize,1.73205080f*vHalfSize.x,fMaxDis,fDis)){
-#else
 			float3	vNewMax	=	vNewMin+vHalfSize;
 			if(!RayCastBoundingBox(vCamPos,dir,vNewMin,vNewMax,fMaxDis,fDis)){
-#endif
+
 				i++;
 				continue;
 			}
@@ -159,16 +156,11 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 	
 
 			if(uiDepth	==	6){
-#ifdef USE_SPHERE_CHECK
-				float3	vNewMax	=	vNewMin+vHalfSize;
-				if(!RayCastBoundingBox(vCamPos,dir,vNewMin,vNewMax,fMaxDis,fDis)){
-#endif
-				fMaxDis		=	fDis;
-				retColor=retColor<<8;
-				retColor+=255;//	=	0xffffffff;//uiChild;
-#ifdef USE_SPHERE_CHECK
+				if(fDis	<	fMaxDis){
+					fMaxDis		=	fDis;
+					retColor=uiChild;
 				}
-#endif
+
 				i++;
 				continue;			
 			}else{
@@ -195,7 +187,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 			vMin	-=	vOffset[childidx]*vHalfSize;
 		}
 	}
-	if(retColor==0){
+	if(retColor<=1){
 		discard;
 	}
 	return U32_F32(retColor);

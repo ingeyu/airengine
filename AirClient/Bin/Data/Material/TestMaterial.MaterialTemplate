@@ -471,7 +471,7 @@ MaterialTemplate	MT_SVO_Build_NoSkin
 		}
 		PixelShader			"Shader/SVO_VoxelGenerator"
 		{
-			Texture		0	0		SS_WarpLine2
+			Texture		0	0		SS_WarpLine3
 		}
 	}
 }

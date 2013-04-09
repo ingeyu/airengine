@@ -118,7 +118,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 	static uint	uiChildOrder	=	uiOrder;
 	int RayCastCount	=	0;
 
-	[loop]
+	//[loop]
 	while(true){
 		
 		int iWalk	=	nodeStack[uiDepth].walkidx;
@@ -131,22 +131,21 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 			float4	intersectDis;
 			uint	intersectCount=0;
 			//Find Intersect Child
-			[loop]
+			//[loop]
 			for(int i=0;i<8;i++)
 			{
 				uint addr = (uiOffset+i)*4;
 				uint uiChild	=	voxeloctree.Load(addr);
-				if(uiChild==0){
-					continue;
-				}
-				float3	vNewMin	=	vMin+vOffset[i]*vHalfSize;
-				float	fDis	=	100000.0f;
-				float3	vNewMax	=	vNewMin+vHalfSize;
-				if(RayCastBoundingBox(vCamPos,dir,vNewMin,vNewMax,fMaxDis,fDis)){
-					intersectIdx[intersectCount]		=	i;
-					intersectoffset[intersectCount]	=	uiChild;
-					intersectDis[intersectCount]		=	fDis;
-					intersectCount++;
+				if(uiChild!=0){
+					float3	vNewMin	=	vMin+vOffset[i]*vHalfSize;
+					float	fDis	=	100000.0f;
+					float3	vNewMax	=	vNewMin+vHalfSize;
+					if(RayCastBoundingBox(vCamPos,dir,vNewMin,vNewMax,fMaxDis,fDis)){
+						((uint[4])intersectIdx)[intersectCount]		=	i;
+						intersectoffset[intersectCount]	=	uiChild;
+						intersectDis[intersectCount]		=	fDis;
+						intersectCount++;
+					}
 				}
 			}
 			//If these child node Is Leaf Node
@@ -158,8 +157,8 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 					}
 				}
 				retColor	=	intersectoffset.x;
-				break;
-				//return retColor;
+				//break;
+				return retColor;
 			}
 			//Sort
 			if(intersectCount==0){

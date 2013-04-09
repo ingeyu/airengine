@@ -146,7 +146,7 @@ Material	OIT_SortRender	:	MT_OIT_SortRender
 }
 Material	SVO_Build_NoSkin	:	MT_SVO_Build_NoSkin
 {
-	Texture	AirMesh/Strom/1984ec80.dds
+	Texture	AirMesh/Strom/wolf.dds
 }
 Material	SVO_Build_Skin		:	MT_SVO_Build_Skin
 {
@@ -154,7 +154,7 @@ Material	SVO_Build_Skin		:	MT_SVO_Build_Skin
 
 Material	SVO_Test			:	MT_SVO_Test
 {
-	Texture	AirMesh/Strom/1984ec80.dds
+	Texture	AirMesh/Strom/wolf.dds
 }
 Material	SVO_Debug			:	MT_SVO_Debug
 {

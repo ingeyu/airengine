@@ -393,9 +393,11 @@ namespace	Air{
 				m_pCombine->RenderOneObject(m_pQuad);
 				//m_pMainWindow->AfterUpdate();
 				//m_OIT.Update(m_pQuad);
-				m_VoxelGen.Update(m_pQuad,m_pScene->GetMainCamera());
+				
 				m_pMainWindow->AfterUpdate(false);
 			}
+			m_VoxelGen.Update(m_pQuad,m_pScene->GetMainCamera());
+
 			m_pMainWindow->ClearPhaseFlag();
 			m_pMainWindow->AddPhaseFlag(enPI_Helper);
 			m_pMainWindow->AddPhaseFlag(enPI_UI);

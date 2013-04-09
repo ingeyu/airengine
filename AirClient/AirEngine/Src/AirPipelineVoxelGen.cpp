@@ -83,7 +83,7 @@ namespace	Air{
 		Air::U1 VoxelGenerator::Initialize( Render::Window* pMainWindow )
 		{
 			RenderTarget::Info rtinfo;
-			rtinfo.SetSingleTarget(256,256,enTFMT_R8G8B8A8_UNORM);
+			rtinfo.SetSingleTarget(128,128,enTFMT_R8G8B8A8_UNORM);
 
 			m_pRT		=	RenderSystem::GetSingleton()->CreateProduct<Render::Target*>("SVO_Test","Target",&rtinfo);
 
@@ -107,10 +107,10 @@ namespace	Air{
 
 			m_pCamera	=	EngineSystem::GetSingleton()->CreateProduct<Camera*>("SVO_Camera","Camera");
 			m_pCamera->SetDir(0,0,1);
-			m_pCamera->SetWidth(256);
-			m_pCamera->SetHeight(256);
+			m_pCamera->SetWidth(128);
+			m_pCamera->SetHeight(128);
 			m_pCamera->SetOrtho(true);
-			m_pCamera->SetPosition(0,0,-128);
+			m_pCamera->SetPosition(0,0,-64);
 
 			m_pGenVoxelTree	=	EngineSystem::GetSingleton()->CreateProduct<Material*>("SVO_Build_NoSkin","Material");	//"SVO_Test"
 
@@ -151,48 +151,52 @@ namespace	Air{
 			if(pEnt==NULL){
 				MeshEntity::Info	info;
 				info.strMaterial	=	"SVO_Test";
-				info.strMeshName	=	"AirMesh/TEAPOT.AME";
+				info.strMeshName	=	"AirMesh/Strom/Wolf.AME";
 				pEnt	=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity*>(info.strMeshName,"MeshEntity",&info);;
-				pEnt->GetWorldMatrix()->m00	=	1.0f;
-				pEnt->GetWorldMatrix()->m11	=	1.0f;;
-				pEnt->GetWorldMatrix()->m22	=	1.0f;;
+				;
+				pEnt->GetWorldMatrix()->SetPosition(-pEnt->GetOrginBoundingBox().GetCenter()*10);
+				pEnt->GetWorldMatrix()->m00	=	10;
+				pEnt->GetWorldMatrix()->m11	=	10;;
+				pEnt->GetWorldMatrix()->m22	=	10;;
 
 			}
 
 			
 
-
+			Render::Device* pDevice	=	RenderSystem::GetSingleton()->GetDevice();
 #if 1
-			//Render::Device* pDevice	=	RenderSystem::GetSingleton()->GetDevice();
+			static bool bVoxel	=	false;
+			if(!bVoxel){
+				bVoxel=true;
 			
-
-			/*m_pRT->SetClearFlag(true,true,true);
-			if(m_pRT->BeforeUpdate()){
-				m_pCamera->Render2D(256,256);
-				void* pRTV[1]={m_pRT->GetRTV()};
-				void* pDSV=NULL;
-				void* pUAV[2]={m_pVoxel->GetUAV(),m_pNodeTree->GetUAV()};
-				U32	clearValue[4]={0};
-				pDevice->ClearUAV(pUAV[1],clearValue);
-				pDevice->SetRTV_DSV_UAV(1,pRTV,pDSV,1,2,pUAV,0);
+				
 
 
-				if(m_pGenVoxelTree)
-					m_pGenVoxelTree->RenderOneObject(pEnt);
-				m_pRT->AfterUpdate();
+				m_pRT->SetClearFlag(true,true,true);
+				if(m_pRT->BeforeUpdate()){
+					m_pCamera->Render2D(128,128);
+					void* pRTV[1]={m_pRT->GetRTV()};
+					void* pDSV=NULL;
+					void* pUAV[2]={m_pVoxel->GetUAV(),m_pNodeTree->GetUAV()};
+					U32	clearValue[4]={0};
+					pDevice->ClearUAV(pUAV[1],clearValue);
+					pDevice->SetRTV_DSV_UAV(1,pRTV,pDSV,1,2,pUAV,0);
+
+
+					if(m_pGenVoxelTree)
+						m_pGenVoxelTree->RenderOneObject(pEnt);
+					m_pRT->AfterUpdate();
+				}
 			}
-			if(m_pRT->BeforeUpdate()){
-				pDevice->SetSRV(enPS,0,m_pNodeTree->GetSRV());
-				m_pRT->AfterUpdate();
-			}*/
+
 #else
+			Render::Device* pDevice	=	RenderSystem::GetSingleton()->GetDevice();
+			pDevice->SetVP(0,0,128,128);
 
-			pDevice->SetVP(0,0,256,256);
-
-			m_pCamera->Render2D(256,256);
+			//m_pCamera->Render2D(128,128);
 			m_pRT->SetClearFlag(true,true,true);
 			if(m_pRT->BeforeUpdate()){
-				m_pCamera->Render2D(256,256);
+				m_pCamera->Render2D(128,128);
 
 				m_pGenVoxelTree->RenderOneObject(pEnt);
 
@@ -202,8 +206,11 @@ namespace	Air{
 #endif
 
 #ifdef GPU_DEBUG
-			Render::Device* pDevice	=	RenderSystem::GetSingleton()->GetDevice();
-			pDevice->SetSRV(enPS,0,m_pDebugSVO->GetSRV());
+			pDevice->SetVP(0,0,800,600);
+			RenderSystem::GetSingleton()->GetMainWindow()->BeforeUpdate();
+			pMainCamera->Render2D();
+
+			pDevice->SetSRV(enPS,0,m_pNodeTree->GetSRV());
 			struct{
 				Matrix matViewProjInv;
 				U32 uiOrder;
@@ -236,6 +243,8 @@ namespace	Air{
 			}
 			m_pDebugSVOMaterial->GetConstantBuffer()->UpdateData(&CBMaterial);
 			m_pDebugSVOMaterial->RenderOneObject(pRenderable);
+
+			RenderSystem::GetSingleton()->GetMainWindow()->AfterUpdate(false);
 #else
 			U32 iLevel	=	GetTimer().m_FrameTime.fTotalTime;
 			iLevel=iLevel>>1;

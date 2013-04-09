@@ -8,6 +8,8 @@ Texture2D		DiffuseTex		:	register(t0);
 
 SamplerState	SS_WrapLine2	:	register(s0);
 
+#define	MAX_DEPTH	7
+
 struct VS_OUTPUT
 {
     float4 Position     : SV_POSITION; // vertex position
@@ -31,20 +33,20 @@ PS_OUTPUT main( VS_OUTPUT input )
 	PS_OUTPUT	Output;
 	Output.Diff	=	color;
 	uint4 ucolor = saturate( color ) * 255;
-	uint uiColor	=	(ucolor.x) | (ucolor.y << 8) | (ucolor.z << 16) | (ucolor.a << 24);
+	uint uiColor	=	(ucolor.b) | (ucolor.g << 8) | (ucolor.r << 16) | (ucolor.a << 24);
 	
-    uint3 VoxelIndex = input.WPos.xyz-float3(-127,-127,-127);
+    uint3 VoxelIndex = input.WPos.xyz-float3(-64,-64,-64);
 	//uint mask	=	0x80;
 	int	offset	=	0;
 	[loop]
-	for(int i=0;i<8;i++){
-		uint3	maskValue	=	VoxelIndex>>(7-i);//mask;
+	for(int i=0;i<MAX_DEPTH;i++){
+		uint3	maskValue	=	VoxelIndex>>(MAX_DEPTH-1-i);//mask;
 		maskValue	=	maskValue&1;
 
 		uint idx	=	(maskValue.x<<2)+(maskValue.y<<1)+maskValue.z;
 
 		uint	address			=	(offset+idx)*VOXEL_SIZE;
-		if(i==7){
+		if(i==MAX_DEPTH-1){
 			//SVOBuffer[offset+idx]	=		uiColor;
 			uint uiRet=INVALID_OFFSET;
 			BrickBuffer.InterlockedExchange(address,uiColor,uiRet);
