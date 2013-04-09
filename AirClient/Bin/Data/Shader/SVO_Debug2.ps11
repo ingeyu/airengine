@@ -1,0 +1,248 @@
+//#include "Common.h"
+ByteAddressBuffer	voxeloctree		:	register(t0);
+cbuffer cbPerCamera : register( b1 )
+{
+    matrix  ViewProjection;
+	float4	vCameraDir;
+	float4	vCameraPosition;
+	float4	vCameraUp;
+	float4	vVP_NearFar;
+   
+}
+cbuffer cbPerMaterial	:	register(b3)
+{
+	matrix	matViewProjInv;
+	uint	uiOrder;
+;
+}
+
+
+bool	RayCastBoundingBox(float3 vStart,float3 vDir,float3 vMin,float3 vMax,in float fMaxDistance,inout float fOutDistance)
+
+{
+	float3	fmin		=	vMin	-	vStart;
+	float3	fmax		=	vMax	-	vStart;
+	float3	invMinDir	=	fmin	/	vDir;
+	float3	invMaxDir	=	fmax	/	vDir;
+
+	fOutDistance		=	10000.0f;
+
+	float3	fNear		=	min(invMinDir,invMaxDir);
+	float3	fFar		=	max(invMinDir,invMaxDir);
+	float	maxNear		=	max(max(fNear.x,fNear.y),fNear.z);
+	float	minFar		=	min(min(fFar.x,fFar.y),fFar.z);
+	if(	maxNear	>	minFar	||
+		maxNear	>	fMaxDistance	||
+		minFar	<	0.0f)
+	{
+		return	false;
+	}
+	if(maxNear	<	0.0f)
+		maxNear	=	0.0f;
+	fOutDistance	=	maxNear;	
+	return	true;
+};
+
+
+
+struct VS_OUTPUT
+{
+    float4 Position     : SV_POSITION; // vertex position
+	float2 UV			: TEXCOORD0;
+};
+
+struct	PS_OUTPUT{
+	float4	Diff			:	SV_Target0;
+};
+
+
+float4	U32_F32(uint uiColor){
+	return	float4(
+					((uiColor&0x00ff0000)>>16)/255.0f,
+					((uiColor&0x0000ff00)>>8)/255.0f,
+					((uiColor&0x000000ff))/255.0f,
+					((uiColor&0xff000000)>>24)/255.0f
+			);
+}
+
+struct Node{
+	uint4	childIndex;
+	uint4	childOffset;
+	uint	walkidx;
+};
+
+float4 main( VS_OUTPUT Input ):SV_Target0{
+	float2 xy	=	Input.UV*float2(2,-2)+float2(-1,1);
+	float4	wpos	=	mul(matViewProjInv,float4(xy,1,1));
+	wpos/=wpos.w;
+	float3 vCamPos	=	vCameraPosition.xyz;
+	float3 dir	=	normalize(wpos.xyz	-	vCamPos	);
+
+
+
+
+	Node nodeStack[10]={
+		uint4(0,0,0,0),uint4(0,0,0,0),0,
+		uint4(0,0,0,0),uint4(0,0,0,0),0,
+		uint4(0,0,0,0),uint4(0,0,0,0),0,
+		uint4(0,0,0,0),uint4(0,0,0,0),0,
+		uint4(0,0,0,0),uint4(0,0,0,0),0,
+		uint4(0,0,0,0),uint4(0,0,0,0),0,
+		uint4(0,0,0,0),uint4(0,0,0,0),0,
+		uint4(0,0,0,0),uint4(0,0,0,0),0,
+		uint4(0,0,0,0),uint4(0,0,0,0),0,
+		uint4(0,0,0,0),uint4(0,0,0,0),0
+	};
+	const static float3 vOffset[8]={
+		float3(0,0,0),
+		float3(0,0,1),
+		float3(0,1,0),
+		float3(0,1,1),
+
+		float3(1,0,0),
+		float3(1,0,1),
+		float3(1,1,0),
+		float3(1,1,1)
+	};
+	int	uiDepth		=	0;
+	int uiOffset	=	0;
+	float3	vHalfSize	=	64.0f;
+	float3  vMin		=	float3(-64,-64,-64);
+	float	fMaxDis		=	10000;
+	float f=0;
+	if(!RayCastBoundingBox(vCamPos,dir,vMin,vHalfSize,fMaxDis,f)){
+		discard;
+		return 0;
+	}
+	uint	retColor	=	0;
+	static uint	uiChildOrder	=	uiOrder;
+	int RayCastCount	=	0;
+
+	[loop]
+	while(true){
+		
+		int iWalk	=	nodeStack[uiDepth].walkidx;
+		//First Enter This Node,Search	all child.
+		if(iWalk==0){
+		
+
+			uint4	intersectIdx;
+			uint4	intersectoffset;
+			float4	intersectDis;
+			uint	intersectCount=0;
+			//Find Intersect Child
+			[loop]
+			for(int i=0;i<8;i++)
+			{
+				uint addr = (uiOffset+i)*4;
+				uint uiChild	=	voxeloctree.Load(addr);
+				if(uiChild==0){
+					continue;
+				}
+				float3	vNewMin	=	vMin+vOffset[i]*vHalfSize;
+				float	fDis	=	100000.0f;
+				float3	vNewMax	=	vNewMin+vHalfSize;
+				if(RayCastBoundingBox(vCamPos,dir,vNewMin,vNewMax,fMaxDis,fDis)){
+					intersectIdx[intersectCount]		=	i;
+					intersectoffset[intersectCount]	=	uiChild;
+					intersectDis[intersectCount]		=	fDis;
+					intersectCount++;
+				}
+			}
+			//If these child node Is Leaf Node
+			if(uiDepth==5&&intersectCount!=0){
+				for(uint i=1;i<intersectCount;i++){
+					if(intersectDis[i]	<	intersectDis.x){
+						intersectDis.x		=	intersectDis[i];
+						intersectoffset.x	=	intersectoffset[i];
+					}
+				}
+				retColor	=	intersectoffset.x;
+				break;
+				//return retColor;
+			}
+			//Sort
+			if(intersectCount==0){
+			
+			}else if(intersectCount==1){
+				nodeStack[uiDepth].childIndex	=	uint4(intersectIdx.x,0,0,0);
+				nodeStack[uiDepth].childOffset	=	uint4(intersectoffset.x,0,0,0);
+			}else if(intersectCount==2){
+				if(intersectDis.x	<	intersectDis.y){
+					nodeStack[uiDepth].childIndex	=	uint4(intersectIdx.xy,0,0);
+					nodeStack[uiDepth].childOffset	=	uint4(intersectoffset.xy,0,0);
+				}else{
+					nodeStack[uiDepth].childIndex	=	uint4(intersectIdx.yx,0,0);
+					nodeStack[uiDepth].childOffset	=	uint4(intersectoffset.yx,0,0);		
+				}
+			}else{
+				if(intersectDis.x	<	intersectDis.y){
+					if(intersectDis.z	<	intersectDis.x){
+						//zxy
+						nodeStack[uiDepth].childIndex	=	uint4(intersectIdx.zxy,0);
+						nodeStack[uiDepth].childOffset	=	uint4(intersectoffset.zxy,0);
+					}else if(intersectDis.y	<	intersectDis.z){
+						//xyz
+						nodeStack[uiDepth].childIndex	=	uint4(intersectIdx.xyz,0);
+						nodeStack[uiDepth].childOffset	=	uint4(intersectoffset.xyz,0);
+					}else{
+						//xzy
+						nodeStack[uiDepth].childIndex	=	uint4(intersectIdx.xzy,0);
+						nodeStack[uiDepth].childOffset	=	uint4(intersectoffset.xzy,0);
+					}
+				}
+				else
+				{
+					if(intersectDis.z	<	intersectDis.y){
+						//zyx
+						nodeStack[uiDepth].childIndex	=	uint4(intersectIdx.zyx,0);
+						nodeStack[uiDepth].childOffset	=	uint4(intersectoffset.zyx,0);
+					}else if(intersectDis.x	<	intersectDis.z){
+						//yxz
+						nodeStack[uiDepth].childIndex	=	uint4(intersectIdx.yxz,0);
+						nodeStack[uiDepth].childOffset	=	uint4(intersectoffset.yxz,0);
+					}else{
+						//yzx
+						nodeStack[uiDepth].childIndex	=	uint4(intersectIdx.yzx,0);
+						nodeStack[uiDepth].childOffset	=	uint4(intersectoffset.yzx,0);
+					}
+				}
+				
+			}
+
+			
+		}
+		//Walk	Other Child Node
+
+
+		//uiOffset	=	
+		//Check	Child is End
+		if(uiOffset==0 || iWalk>=4){	
+			//Go Back To Parent Node	
+			uiDepth--;
+			
+			int iwalkidx	=	nodeStack[uiDepth].walkidx;
+			nodeStack[uiDepth].walkidx++;
+			int childidx	=	nodeStack[uiDepth].childIndex[iwalkidx];
+			vHalfSize		*=	2.0f;
+			vMin			-=	vOffset[childidx]*vHalfSize;
+			uiOffset	=	nodeStack[uiDepth].childOffset[iwalkidx];
+		}else{
+			//Enter Child	Node
+			uiOffset	=	nodeStack[uiDepth].childOffset[iWalk];
+			uiDepth++;
+			nodeStack[uiDepth].walkidx	=	0;
+
+			int childidx	=	nodeStack[uiDepth].childIndex[iWalk];
+			vMin			+=	vOffset[childidx]*vHalfSize;
+			vHalfSize		/=	2.0f;
+		}
+		
+	}	
+		
+	if(retColor==0){
+		discard;
+	}
+	return U32_F32(retColor);
+//	return float4(1,0,0,0);
+};
