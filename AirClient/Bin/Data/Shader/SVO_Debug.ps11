@@ -11,8 +11,8 @@ cbuffer cbPerCamera : register( b1 )
 }
 cbuffer cbPerMaterial	:	register(b3)
 {
-	matrix	matViewProjInv	: packoffset(c0);
-	uint	uiOrder			: packoffset(c4.x);
+	matrix	matViewProjInv;
+	uint	uiOrder;
 ;
 }
 
@@ -98,6 +98,10 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 		0,0,0,0,0,
 		0,0,0,0,0
 	};
+//	uint uiTestOrder[8]={
+//		1,3,5,7,
+//		0,2,4,6
+//	};
 	const static float3 vOffset[8]={
 		float3(0,0,0),
 		float3(0,0,1),
@@ -118,7 +122,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 		discard;
 	}
 	uint	retColor	=	0;
-	uint	uiChildOrder	=	uiOrder;
+	static uint	uiChildOrder	=	uiOrder;
 	[loop]
 	while(true){
 		
@@ -127,7 +131,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 			
 			uint childidx	=	(uiChildOrder>>(i*3))&0x7;
 
-			uint addr		=	(uiOffset[uiDepth]+i)*4;
+			uint addr		=	(uiOffset[uiDepth]+childidx)*4;
 			uint uiChild	=	voxeloctree.Load(addr);
 
 			//float fCmp=uiChild*1.001f;
@@ -136,7 +140,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 				continue;
 			}
 
-			float3	vNewMin	=	vMin+vOffset[i]*vHalfSize;
+			float3	vNewMin	=	vMin+vOffset[childidx]*vHalfSize;
 			
 			
 			float fDis	=	100000.0f;
@@ -184,7 +188,9 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 		}else{
 			uiDepth--;
 			vHalfSize*=2.0f;
-			vMin	-=	vOffset[(uiStack[uiDepth]-1)]*vHalfSize;
+			int iIDX	=	(uiStack[uiDepth]-1);
+			uint childidx	=	(uiChildOrder>>(iIDX*3))&0x7;
+			vMin	-=	vOffset[childidx]*vHalfSize;
 		}
 	}
 	if(retColor==0){
