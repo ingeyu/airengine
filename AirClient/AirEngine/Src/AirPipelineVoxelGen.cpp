@@ -139,6 +139,12 @@ namespace	Air{
 			return true;
 		}
 
+		int OrderSortCompare(const void* pSrc0,const void* pSrc1){
+			const Float3* p0 = (const Float3*)pSrc0;
+			const Float3* p1 = (const Float3*)pSrc1;
+			return p0->x > p1->x;
+		}
+
 		void VoxelGenerator::Update( Renderable* pRenderable ,Camera* pMainCamera)
 		{
 			static MeshEntity*	pEnt = NULL;
@@ -198,10 +204,37 @@ namespace	Air{
 #ifdef GPU_DEBUG
 			Render::Device* pDevice	=	RenderSystem::GetSingleton()->GetDevice();
 			pDevice->SetSRV(enPS,0,m_pDebugSVO->GetSRV());
-			Matrix matViewProjInv;
-			pMainCamera->GetViewProjMatrix(matViewProjInv);
-			matViewProjInv.Inverse();
-			m_pDebugSVOMaterial->GetConstantBuffer()->UpdateData(&matViewProjInv);
+			struct{
+				Matrix matViewProjInv;
+				U32 uiOrder;
+			}CBMaterial;
+			pMainCamera->GetViewProjMatrix(CBMaterial.matViewProjInv);
+			CBMaterial.matViewProjInv.Inverse();
+
+			Float3 vDir	=	pMainCamera->GetRealDirection();
+			vDir.Normalize();
+			Float3 vTest[8]={
+				Float3(0,0,0),
+				Float3(0,0,1),
+				Float3(0,1,0),
+				Float3(0,1,1),
+
+				Float3(1,0,0),
+				Float3(1,0,1),
+				Float3(1,1,0),
+				Float3(1,1,1)
+			};
+
+			for(U32 i=0;i<8;i++){
+				vTest[i].x = vTest[i].Dot(vDir);
+				vTest[i].y	=	i;
+			}
+			std::qsort(vTest,8,sizeof(Float3),OrderSortCompare);
+			CBMaterial.uiOrder=0;
+			for(U32 i=0;i<8;i++){
+				CBMaterial.uiOrder	|=	((U32)(vTest[i].y))<<(i*3);
+			}
+			m_pDebugSVOMaterial->GetConstantBuffer()->UpdateData(&CBMaterial);
 			m_pDebugSVOMaterial->RenderOneObject(pRenderable);
 #else
 			U32 iLevel	=	GetTimer().m_FrameTime.fTotalTime;

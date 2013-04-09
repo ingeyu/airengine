@@ -125,7 +125,11 @@ namespace Air{
 								desc.MiscFlags	|=	D3D11_RESOURCE_MISC_GENERATE_MIPS;
 							}
 
-							pDxDevice->CreateTexture2D(&desc,NULL,&m_pTexture2D);
+							HRESULT	hr	=	pDxDevice->CreateTexture2D(&desc,NULL,&m_pTexture2D);
+							if(hr!=S_OK)
+							{
+								return false;
+							}
 
 							if(m_Info.viewFlag&enVF_SRV){
 								D3D11_SHADER_RESOURCE_VIEW_DESC	srvDesc;

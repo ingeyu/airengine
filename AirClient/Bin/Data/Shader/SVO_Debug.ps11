@@ -1,10 +1,22 @@
-#include "Common.h"
+//#include "Common.h"
 ByteAddressBuffer	voxeloctree		:	register(t0);
-
+cbuffer cbPerCamera : register( b1 )
+{
+    matrix  ViewProjection;
+	float4	vCameraDir;
+	float4	vCameraPosition;
+	float4	vCameraUp;
+	float4	vVP_NearFar;
+   
+}
 cbuffer cbPerMaterial	:	register(b3)
 {
-	matrix	matViewProjInv;
+	matrix	matViewProjInv	: packoffset(c0);
+	uint	uiOrder			: packoffset(c4.x);
+;
 }
+
+//#define USE_SPHERE_CHECK
 
 bool	RayCastBoundingBox(float3 vStart,float3 vDir,float3 vMin,float3 vMax,in float fMaxDistance,inout float fOutDistance)
 
@@ -32,6 +44,25 @@ bool	RayCastBoundingBox(float3 vStart,float3 vDir,float3 vMin,float3 vMax,in flo
 	return	true;
 };
 
+bool RayCastSphere(float3 vStart,float3 vDir,float3 vSphere,float fSize,float fMaxDistance,inout float fOutDistance)
+{
+	float3	vSphere_Eye	=	vSphere   -   vStart;
+    float   dis            =   length(vSphere_Eye);
+    if(dis   <=   fSize){
+		fOutDistance   =   0;
+		return   true;
+    }
+    float   dotLen         =   dot(vSphere_Eye,vDir);
+      
+    float   center_to_ray   =   dis*dis-dotLen*dotLen;
+    if(   center_to_ray   <   fSize*fSize){
+		fOutDistance   =   dis-fSize;
+		if(fOutDistance	<	fMaxDistance)
+			return true;
+    };
+    return false;
+}
+
 struct VS_OUTPUT
 {
     float4 Position     : SV_POSITION; // vertex position
@@ -55,7 +86,8 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 	float2 xy	=	Input.UV*float2(2,-2)+float2(-1,1);
 	float4	wpos	=	mul(matViewProjInv,float4(xy,1,1));
 	wpos/=wpos.w;
-	float3 dir	=	normalize(wpos.xyz	-	vCameraPosition.xyz);
+	float3 vCamPos	=	vCameraPosition.xyz;
+	float3 dir	=	normalize(wpos.xyz	-	vCamPos	);
 
 
 	uint uiOffset[10]={
@@ -66,7 +98,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 		0,0,0,0,0,
 		0,0,0,0,0
 	};
-	float3 vOffset[8]={
+	const static float3 vOffset[8]={
 		float3(0,0,0),
 		float3(0,0,1),
 		float3(0,1,0),
@@ -82,17 +114,18 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 	float3  vMin		=	float3(-64,-64,-64);
 	float	fMaxDis		=	10000;
 	float f=0;
-	if(!RayCastBoundingBox(vCameraPosition.xyz,dir,vMin,vHalfSize,fMaxDis,f)){
+	if(!RayCastBoundingBox(vCamPos,dir,vMin,vHalfSize,fMaxDis,f)){
 		discard;
 	}
 	uint	retColor	=	0;
+	uint	uiChildOrder	=	uiOrder;
 	[loop]
 	while(true){
 		
 		[loop]
 		for(int i=uiStack[uiDepth];i<8;){
 			
-
+			uint childidx	=	(uiChildOrder>>(i*3))&0x7;
 
 			uint addr		=	(uiOffset[uiDepth]+i)*4;
 			uint uiChild	=	voxeloctree.Load(addr);
@@ -104,19 +137,32 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 			}
 
 			float3	vNewMin	=	vMin+vOffset[i]*vHalfSize;
-			float3	vNewMax	=	vNewMin+vHalfSize;
+			
 			
 			float fDis	=	100000.0f;
-			if(!RayCastBoundingBox(vCameraPosition.xyz,dir,vNewMin,vNewMax,fMaxDis,fDis)){
+#ifdef USE_SPHERE_CHECK
+			if(!RayCastSphere(vCamPos,dir,vNewMin+0.5f*vHalfSize,1.73205080f*vHalfSize.x,fMaxDis,fDis)){
+#else
+			float3	vNewMax	=	vNewMin+vHalfSize;
+			if(!RayCastBoundingBox(vCamPos,dir,vNewMin,vNewMax,fMaxDis,fDis)){
+#endif
 				i++;
 				continue;
 			}
+
+		
 	
 
 			if(uiDepth	==	6){
-				
+#ifdef USE_SPHERE_CHECK
+				float3	vNewMax	=	vNewMin+vHalfSize;
+				if(!RayCastBoundingBox(vCamPos,dir,vNewMin,vNewMax,fMaxDis,fDis)){
+#endif
 				fMaxDis		=	fDis;
-				retColor	=	0xffffffff;//uiChild;	
+				retColor	=	0xffffffff;//uiChild;
+#ifdef USE_SPHERE_CHECK
+				}
+#endif
 				i++;
 				continue;			
 			}else{
@@ -138,12 +184,12 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 		}else{
 			uiDepth--;
 			vHalfSize*=2.0f;
-			vMin	-=	vOffset[(uiStack[uiDepth]-1)%8]*vHalfSize;
+			vMin	-=	vOffset[(uiStack[uiDepth]-1)]*vHalfSize;
 		}
 	}
 	if(retColor==0){
 		discard;
 	}
-	return U32_F32(retColor);
+	return 1;//U32_F32(retColor);
 //	return float4(1,0,0,0);
 };

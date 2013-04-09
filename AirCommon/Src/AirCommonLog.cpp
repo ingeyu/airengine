@@ -59,11 +59,6 @@ namespace Air{
 			WORD	d	=	sysTime.wDay;
 			WORD	h	=	sysTime.wHour;
 	
-			//进入临界区
-			m_CS.Enter();
-	
-	
-		
 			sprintf_s(strTime,MAX_NAME,"[%d-%d-%d %d:%d:%d]",
 				y,
 				m,
@@ -73,7 +68,8 @@ namespace Air{
 				sysTime.wSecond);
 			AString	str	=	AString(strTime)	+	strName;
 	
-			
+			//进入临界区
+			m_CS.Enter();
 			UInt	uiSize	=	str.size()+1;
 			memcpy(&m_pBuff[m_uiBuffSize],str.c_str(),uiSize-1);
 			m_pBuff[m_uiBuffSize+uiSize-1]	=	'\n';
@@ -97,7 +93,7 @@ namespace Air{
 			if(p==NULL){
 				return;
 			}
-			fputs(m_pBuff,p);
+			fprintf_s(p,m_pBuff);
 			memset(m_pBuff,0,LOG_BUFF_SIZE);
 			m_uiBuffSize=0;
 	

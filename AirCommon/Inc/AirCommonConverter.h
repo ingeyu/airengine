@@ -102,7 +102,7 @@ namespace Air{
 		#define LANGUAGE_TYPE_FR	3
 		#endif
 
-		};
+		
 	
 	};
 };

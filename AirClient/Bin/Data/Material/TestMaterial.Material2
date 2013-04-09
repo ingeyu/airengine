@@ -159,4 +159,5 @@ Material	SVO_Test			:	MT_SVO_Test
 Material	SVO_Debug			:	MT_SVO_Debug
 {
 	Matrix
+	Vector	0 1 2 3
 }
