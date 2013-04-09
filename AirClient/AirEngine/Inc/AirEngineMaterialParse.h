@@ -25,6 +25,7 @@ namespace Air{
 			*
 			***/
 			class	ENGINE_EXPORT	MaterialParse	:
+				public	MemoryObject,
 				public	Singleton<MaterialParse>{
 			public:
 				MaterialParse();

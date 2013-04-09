@@ -31,7 +31,7 @@ namespace	Air{
 		*	基本的物体属性
 		*
 		***/
-		class IObject{
+		class IObject	:	public	MemoryObject{
 		public:
 			IObject(){
 				m_pUserData	=	NULL;

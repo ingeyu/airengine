@@ -5,7 +5,7 @@
 
 namespace	Air{
 	namespace	Engine{
-		class	VoxelGenerator{
+		class	VoxelGenerator	:	public	MemoryObject{
 		public:
 			VoxelGenerator();
 

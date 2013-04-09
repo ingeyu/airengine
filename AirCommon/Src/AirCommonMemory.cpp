@@ -50,4 +50,17 @@ namespace Air{
 	void __Free( void* p ){
 		free(p);
 	}
+
+	void*	MemoryObject::operator new(size_t uiSize){
+		return __Alloc(uiSize);
+	};
+	void*	MemoryObject::operator new[](size_t uiSize){
+		return __Alloc(uiSize);
+	};
+	void	MemoryObject::operator delete(void* p){
+		__Free(p);
+	};
+	void	MemoryObject::operator delete[](void* p){
+		__Free(p);
+	};
 };

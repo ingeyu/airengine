@@ -50,8 +50,8 @@ namespace Air{
 			*
 			***/
 			class ENGINE_EXPORT	System	:
-				public	Singleton<System>,
 				public	IFactoryManager,
+				public	Singleton<System>,
 				public	PhaseManager{
 			public:
 				System();

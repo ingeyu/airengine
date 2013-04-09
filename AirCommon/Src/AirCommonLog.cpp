@@ -86,19 +86,22 @@ namespace Air{
 			if(strlen(m_pBuff)==0)
 				return;
 	
+			AChar strTemp[4096];
 			m_CS.Enter();
+			memcpy(strTemp,m_pBuff,LOG_BUFF_SIZE);
+			memset(m_pBuff,0,LOG_BUFF_SIZE);
+			m_uiBuffSize=0;
+			m_CS.Leave();
+
+
 			//追加方式打开文件
 			FILE*	p	=	NULL;
 			fopen_s(&p,m_strProductName.c_str(),"a+");
-			if(p==NULL){
-				return;
+			if(p!=NULL){
+				fprintf_s(p,strTemp);
+				fclose(p);
 			}
-			fprintf_s(p,m_pBuff);
-			memset(m_pBuff,0,LOG_BUFF_SIZE);
-			m_uiBuffSize=0;
-	
-			fclose(p);
-			m_CS.Leave();
+			
 		}
 	
 		void Log::SetFileName(AString&	strFileName){

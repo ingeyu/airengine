@@ -43,7 +43,7 @@ namespace Air{
 		*	ÎÄ¼þÁ÷
 		*
 		***/
-		class COMMON_EXPORT	File{
+		class COMMON_EXPORT	File	:	public	MemoryObject{
 		public:
 			class COMMON_EXPORT	Info{
 			public:

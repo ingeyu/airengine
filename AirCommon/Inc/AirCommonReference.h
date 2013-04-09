@@ -24,7 +24,7 @@ namespace Air{
 	
 	namespace Common{
 	
-		class COMMON_EXPORT	IReference{
+		class COMMON_EXPORT	IReference	:	public MemoryObject{
 		public:
 			IReference();
 			virtual	~IReference();

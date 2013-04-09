@@ -25,8 +25,9 @@ namespace Air{
 			*
 			***/
 			class	ENGINE_EXPORT	IBaseObject	:
-				public	MovableObject,
-				public	Common::IProduct{
+				public	Common::IProduct,
+				public	MovableObject
+				{
 			public:
 				IBaseObject(CAString&	strName,Info*	pInfo);
 	

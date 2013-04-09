@@ -11,7 +11,7 @@ namespace	Air{
 			TessellationRenderable();
 			~TessellationRenderable();
 		};
-		class	ScreenSpaceTessellation{
+		class	ScreenSpaceTessellation	:	public	MemoryObject{
 		public:
 			ScreenSpaceTessellation();
 			~ScreenSpaceTessellation();

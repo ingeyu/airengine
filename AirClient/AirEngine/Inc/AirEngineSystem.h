@@ -31,8 +31,8 @@ namespace Air{
 	namespace Engine{
 	
 		class ENGINE_EXPORT	EngineSystem	
-			:	public	IPlugin,
-				public	IFactoryManager,
+			:	public	IFactoryManager,
+				public	IPlugin,
 				public	IAlphaObjectManager,
 				public	IAutoReleaseManager,
 				public	Common::SystemManagerGroup,

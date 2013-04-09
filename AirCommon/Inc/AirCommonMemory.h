@@ -26,6 +26,19 @@ namespace Air{
 	**/
 	COMMON_EXPORT	void	__Free(void*	p);
 
+	class COMMON_EXPORT	MemoryObject{
+	public:
+		static	void*	operator new(size_t uiSize);
+		static	void*	operator new[](size_t uiSize);
+		static	void	operator delete(void* p);
+		static	void	operator delete[](void* p);
+		//replacement new
+		static	void*	operator new(size_t uiSize,void* p){return p;};
+		static	void*	operator new[](size_t uiSize,void* p){return p;};
+		static	void	operator delete(void* ,void*){};
+		static	void	operator delete[](void* ,void*){};
+	};
+
 #ifdef	USE_AIR_ALLOC
 	#define AIR_ALLOC(Type,Size)	static_cast<Type*>(__Alloc(Size))
 	#define AIR_FREE(p)				if(p!=NULL){__Free(p);p=NULL;}

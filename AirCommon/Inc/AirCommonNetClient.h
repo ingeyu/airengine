@@ -11,9 +11,10 @@ namespace Air{
 	
 	namespace Common{
 	
-		class	COMMON_EXPORT	NetClient	
-			:	public	NetConnect,
-				public	IProduct{
+		class	COMMON_EXPORT	NetClient	:	
+			public	IProduct,
+			public	NetConnect
+		{
 		public:
 			struct	Info{
 				Info(){	

@@ -27,7 +27,7 @@ namespace	Air{
 		*	Êý¾ÝÀà
 		*
 		***/
-		class	COMMON_EXPORT	Data{
+		class	COMMON_EXPORT	Data	:	public	MemoryObject{
 		public:
 			Data();
 			Data(void* p,U32 uiSize);

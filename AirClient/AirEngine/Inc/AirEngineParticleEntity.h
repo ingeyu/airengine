@@ -14,8 +14,9 @@ namespace Air{
 		*
 		***/
 		class	ENGINE_EXPORT	ParticleEntity	:
-			public	MovableObject,
-			public	Common::IProduct{
+			public	Common::IProduct,
+			public	MovableObject
+		{
 		public:
 			struct	Info{
 				Info(AString	strName	=	""){strParticleName	=	strName;};

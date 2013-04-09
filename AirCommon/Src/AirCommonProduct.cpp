@@ -33,7 +33,7 @@ namespace Air{
 					}
 				}
 				Destroy();
-				AirDelete(this);
+				delete this;
 			}
 			return uiRef;
 		}

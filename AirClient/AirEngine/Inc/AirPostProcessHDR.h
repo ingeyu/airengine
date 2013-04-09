@@ -9,7 +9,7 @@ namespace	Air{
 		class	QuadRenderable;
 
 		namespace	PostProcess{
-			class	HDR{
+			class	HDR	:	public	MemoryObject{
 			public:
 				HDR();
 				~HDR();

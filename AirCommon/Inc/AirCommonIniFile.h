@@ -68,7 +68,7 @@ namespace Air{
 		*
 		****/
 	
-		class COMMON_EXPORT	IniFile{
+		class COMMON_EXPORT	IniFile	:	public	MemoryObject{
 		public:
 	
 		public:

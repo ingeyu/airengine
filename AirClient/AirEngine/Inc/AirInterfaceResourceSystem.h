@@ -19,8 +19,9 @@ namespace Air{
 			*
 			***/
 			class	ENGINE_EXPORT	ISystem	:
-				public	Common::ISystem,
-				public	Common::Thread{
+				public	Common::Thread,
+				public	Common::ISystem
+			{
 			public:	
 				ISystem(CAString&	strType);
 

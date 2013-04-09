@@ -10,7 +10,7 @@ namespace	Air{
 
 		class MeshEntity;
 
-		class	ENGINE_EXPORT	SceneLoader{
+		class	ENGINE_EXPORT	SceneLoader	:	public	MemoryObject{
 		public:
 
 

@@ -37,7 +37,7 @@ namespace Air{
 		*	工厂模版接口基类
 		*
 		***/
-		class COMMON_EXPORT IBaseFactory{
+		class COMMON_EXPORT IBaseFactory	:	public	MemoryObject{
 		public:
 			IBaseFactory();
 			virtual ~IBaseFactory();
@@ -385,7 +385,7 @@ namespace Air{
 			m_strTypeName	=	strName;
 		};
 		virtual	Common::IProduct*	NewProduct(CAString& strName,Common::IFactoryParamList* lstParam /* = NULL */){
-			return	AirNew<T_Product>(strName);
+			return	new T_Product(strName);
 		}
 	};
 	/**	\brief	模板工厂有参数
@@ -403,7 +403,7 @@ namespace Air{
 		virtual	Common::IProduct*	NewProduct(CAString& strName,Common::IFactoryParamList* lstParam /* = NULL */){
 			if(lstParam	==	NULL)
 				return	NULL;
-			return	AirNew<T_Product>(strName,(T_Product::Info*)lstParam);
+			return	new T_Product(strName,(T_Product::Info*)lstParam);
 		}
 	};
 		/**	\brief	模板工厂有参数
@@ -419,7 +419,7 @@ namespace Air{
 			m_strTypeName	=	strName;
 		};
 		virtual	Common::IProduct*	NewProduct(CAString& strName,Common::IFactoryParamList* lstParam /* = NULL */){
-			return	AirNew<T_Product>(strName,(T_Product::Info*)lstParam);
+			return	new T_Product(strName,(T_Product::Info*)lstParam);
 		}
 	};
 	/**	\brief	模板工厂有参数
@@ -437,7 +437,7 @@ namespace Air{
 		virtual	Common::IProduct*	NewProduct(CAString& strName,Common::IFactoryParamList* lstParam /* = NULL */){
 			if(lstParam	==	NULL)
 				return	NULL;
-			return	AirNew<T_Product>(strName,(T_ProductInfo*)lstParam);
+			return	new T_Product(strName,(T_ProductInfo*)lstParam);
 		}
 	};
 	/**	\brief	模板工厂可选参数
@@ -453,7 +453,7 @@ namespace Air{
 			m_strTypeName	=	strName;
 		};
 		virtual	Common::IProduct*	NewProduct(CAString& strName,Common::IFactoryParamList* lstParam /* = NULL */){
-			return	AirNew<T_Product>(strName,(T_ProductInfo)lstParam);
+			return	new T_Product(strName,(T_ProductInfo)lstParam);
 		}
 	};
 };

@@ -32,6 +32,7 @@ namespace Air{
 	
 	namespace Common{
 		class	COMMON_EXPORT	Log	:
+			public	MemoryObject,
 			public	Singleton<Log>{
 		public:
 			Log();

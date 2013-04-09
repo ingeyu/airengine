@@ -40,7 +40,7 @@ namespace	Air{
 		*	物品渲染的回调
 		*
 		***/
-		class	ENGINE_EXPORT	Renderable{
+		class	ENGINE_EXPORT	Renderable	:public	MemoryObject{
 		public:
 			Renderable();
 			virtual	~Renderable();

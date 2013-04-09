@@ -26,7 +26,7 @@
 namespace Air{
 	
 	namespace Common{
-		class COMMON_EXPORT	Package{
+		class COMMON_EXPORT	Package	:	public	MemoryObject{
 		public:
 			enum	enumVersion{
 				enUnKnown,			//λ�ð汾

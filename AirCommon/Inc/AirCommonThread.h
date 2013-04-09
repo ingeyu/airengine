@@ -29,7 +29,7 @@ namespace Air{
 		*	单独开一条线程 请使用这个类
 		*
 		***/
-		class COMMON_EXPORT Thread{
+		class COMMON_EXPORT Thread	:public	MemoryObject{
 	
 		public:
 			Thread();

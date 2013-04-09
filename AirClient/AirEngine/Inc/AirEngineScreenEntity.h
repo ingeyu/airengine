@@ -14,8 +14,9 @@ namespace Air{
 		*
 		***/
 		class	ENGINE_EXPORT	ScreenEntity	:
-			public	MovableObject,
-			public	Common::IProduct{
+			public	Common::IProduct,
+			public	MovableObject
+		{
 		public:
 	 		struct	Info{
 				Info(AString	strName	=	""){strMaterialName	=	strName;};

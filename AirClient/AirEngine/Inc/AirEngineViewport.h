@@ -25,7 +25,7 @@ namespace	Air{
 		namespace	Render{
 			class	Target;
 		}
-		class	ENGINE_EXPORT	Viewport{
+		class	ENGINE_EXPORT	Viewport	:	public	MemoryObject{
 		public:
 			Viewport(	Real	fWidth	=	1.0f,
 						Real	fHeight	=	1.0f,

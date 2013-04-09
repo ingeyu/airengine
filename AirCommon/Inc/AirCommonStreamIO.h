@@ -28,7 +28,7 @@ namespace	Air{
 		*	¡˜ ‰»Î ‰≥ˆ
 		*
 		***/
-		class	COMMON_EXPORT	StreamIO{
+		class	COMMON_EXPORT	StreamIO	:	public MemoryObject{
 		public:
 			StreamIO();
 			virtual	~StreamIO();

@@ -7,7 +7,7 @@
 namespace	Air{
 	namespace	Engine{
 		class QuadRenderable;
-		class	CascadedShadowMap{
+		class	CascadedShadowMap	:	public	MemoryObject{
 		public:
 			CascadedShadowMap();
 

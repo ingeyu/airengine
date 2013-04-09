@@ -6,7 +6,7 @@
 
 namespace	Air{
 	namespace	Engine{
-		class	OIT{
+		class	OIT	:	public	MemoryObject{
 		public:
 			OIT();
 			~OIT();

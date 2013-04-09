@@ -99,9 +99,10 @@ namespace Air{
 			*
 			***/
 			class	ISound	:
+				public	Common::IProduct,
 				public	IProperty,
-				public	MovableObject,
-				public	Common::IProduct{
+				public	MovableObject
+				{
 			public:
 				/**	\brief	…˘“Ù¿‡–Õ
 				*

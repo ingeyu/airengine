@@ -34,7 +34,7 @@ namespace	Air{
 		*	平面	方程 Ax+By+Cz+D=0
 		*
 		***/
-		class COMMON_EXPORT	Plane{
+		class COMMON_EXPORT	Plane	:	public	MemoryObject{
 		public:
 			Vector3	m_vNormal;
 			float	m_fDistance;
