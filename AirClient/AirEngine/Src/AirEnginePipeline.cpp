@@ -36,7 +36,11 @@ namespace	Air{
 			m_pMainCamera	=	EngineSystem::GetSingleton()->CreateProduct<Camera>(m_strProductName+"_Camera");
 			if(m_pMainCamera==NULL)
 				return false;
+			m_pMainCamera->SetType(enCT_MAIN);
 			RenderSystem*	pRenderSys	=	Render::System::GetSingleton();
+
+			m_pMainCamera->SetPosition(0,0,-100);
+			m_pMainCamera->SetDir(0,0,1);
 
 			m_pMainWindow	=	pRenderSys->GetMainWindow();
 			m_pMainWindow->AddRef();
@@ -400,7 +404,7 @@ namespace	Air{
 				
 				m_pMainWindow->AfterUpdate(false);
 			}
-			m_VoxelGen.Update(m_pQuad,m_pMainCamera);
+			//m_VoxelGen.Update(m_pQuad,m_pMainCamera);
 
 			m_pMainWindow->ClearPhaseFlag();
 			m_pMainWindow->AddPhaseFlag(enPI_Helper);

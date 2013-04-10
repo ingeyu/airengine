@@ -31,7 +31,7 @@ namespace Air{
 
 			void System::FindActiveCamera( CameraSet& setCamera )
 			{
-				IFactory*	pFactory	=	GetFactory("Target");
+				IFactory*	pFactory	=	GetFactory(Target::ProductTypeName);
 				if(pFactory!=NULL)
 				{
 					const	IFactory::ProductMap&	lstTarget	=	pFactory->GetProductList();
@@ -48,7 +48,7 @@ namespace Air{
 				}
 
 
-				pFactory				=	GetFactory("Window");
+				pFactory				=	GetFactory(Window::ProductTypeName);
 				if(pFactory!=NULL)
 				{
 					const	IFactory::ProductMap&	lstWindow	=	pFactory->GetProductList();
