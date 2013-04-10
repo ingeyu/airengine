@@ -40,7 +40,7 @@ namespace	Air{
 
 		Pipeline* Screen::OnCreatePipeline( CAString& strPipelineName )
 		{
-			return	EngineSystem::GetSingleton()->CreateProduct<Pipeline>(m_strProductName+"_Pipeline",strPipelineName,NULL);
+			return	EngineSystem::GetSingleton()->CreateProduct<Pipeline>(m_strProductName+"_Pipeline",strPipelineName);
 		}
 
 		Air::U1 Screen::RenderOneFrame( const FrameTime& frameTime )

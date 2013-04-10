@@ -63,7 +63,7 @@ namespace	Air{
 			m_pMainWindow->Update();
 			return true;
 		};
-		AString	DefaulePipeline::ProductTypeName=typeid(DefaulePipeline).name();
+		AString	DefaulePipeline::ProductTypeName="DefaulePipeline";
 		DefaulePipeline::DefaulePipeline( CAString& strName):Pipeline(strName)
 		{
 			m_pMRT			=	NULL;
