@@ -22,7 +22,8 @@ namespace	Air{
 		NavMesh*	pMesh	=	NULL;
 		extern Character::Manager	g_mgr;
 
-		Pipeline::Pipeline( CAString& strName):TProduct(strName)
+		AString	Pipeline::ProductTypeName="Pipeline";
+		Pipeline::Pipeline( CAString& strName):IProduct(strName)
 		{
 			m_pMainWindow	=	NULL;
 			m_pScene		=	NULL;
@@ -69,8 +70,8 @@ namespace	Air{
 			m_pScene	=	pCurrentScene;
 		}
 
-		AString	DefaulePipeline::ProductTypeName="DefaulePipeline";
-		DefaulePipeline::DefaulePipeline( CAString& strName):Pipeline(strName)
+		AString	DefaultPipeline::ProductTypeName="DefaultPipeline";
+		DefaultPipeline::DefaultPipeline( CAString& strName):Pipeline(strName)
 		{
 			m_pMRT			=	NULL;
 			m_pQuad			=	NULL;
@@ -98,7 +99,7 @@ namespace	Air{
 			m_cbFrame.vMainCamPos	=	Float3(0,0,0);
 		}
 
-		Air::U1 DefaulePipeline::Create()
+		Air::U1 DefaultPipeline::Create()
 		{
 			__super::Create();
 
@@ -200,7 +201,7 @@ namespace	Air{
 			m_pMRT->AddPhaseFlag(enPI_MRT);
 			m_pMRT->SetBKColor(Float4(1,1,1,1));
 
-			m_pMRT->AddCamera(m_pScene->GetMainCamera());
+			m_pMRT->AddCamera(m_pMainCamera);
 
 
 			rtinfo.SetSingleTargetScreen(enTFMT_R16G16B16A16_FLOAT,1.0f,true,m_pMainWindow);
@@ -223,7 +224,7 @@ namespace	Air{
 			m_pRT_EnvSAT->SetClearFlag(false,true,false);
 
 			//m_Tesellation.Init();
-			m_CSM.Init(m_pScene->GetMainCamera(),3);
+			m_CSM.Init(m_pMainCamera,3);
 			m_OIT.Initialize(m_pMainWindow);
 			m_VoxelGen.Initialize(m_pMainWindow);
 
@@ -241,7 +242,7 @@ namespace	Air{
 			return	true;
 		}
 
-		Air::U1 DefaulePipeline::Destroy()
+		Air::U1 DefaultPipeline::Destroy()
 		{
 			//SAFE_DELETE(g_pController);
 			m_OIT.Release();
@@ -274,7 +275,7 @@ namespace	Air{
 			return	__super::Destroy();
 		}
 
-		Air::U1 DefaulePipeline::RenderOneFrame(const FrameTime& frameTime)
+		Air::U1 DefaultPipeline::RenderOneFrame(const FrameTime& frameTime)
 		{
 
 			//pTest->SetPosition(Float3(sin(m_FrameState.fTotalTime)*10,0,cos(m_FrameState.fTotalTime)*10));
@@ -291,7 +292,7 @@ namespace	Air{
 				(*itr)->OnBeforeRenderFrame(frameTime);
 			}
 
-			m_CSM.UpdateCamera(m_pScene->GetMainCamera());
+			m_CSM.UpdateCamera(m_pMainCamera);
 
 			if(m_pScene!=NULL){
 				m_pScene->UpdateSceneTree(frameTime);
@@ -343,7 +344,7 @@ namespace	Air{
 			//CubeToViewSphere
 			if(m_pRT_EnvSphere->BeforeUpdate()){
 
-				Float44	matInvV	=	m_pScene->GetMainCamera()->GetViewMatrix();
+				Float44	matInvV	=	m_pMainCamera->GetViewMatrix();
 				matInvV.Inverse();
 
 				m_pCubeToViewSphere->GetConstantBuffer()->UpdateData(&matInvV);
@@ -359,10 +360,10 @@ namespace	Air{
 			}
 			//SSAO
 			if(m_pRT_AO->BeforeUpdate()){
-				m_pScene->GetMainCamera()->Render2D(m_pMainWindow->GetWidth(),m_pMainWindow->GetHeight());
+				m_pMainCamera->Render2D(m_pMainWindow->GetWidth(),m_pMainWindow->GetHeight());
 
 				//m_pAmbientLight->GetConstantBuffer()->GetBuffer();
-				Float44	matInvVP	=	m_pScene->GetMainCamera()->GetViewProjMatrix();
+				Float44	matInvVP	=	m_pMainCamera->GetViewProjMatrix();
 				matInvVP.Inverse();
 
 				m_pAmbientLight->GetConstantBuffer()->UpdateData(&matInvVP);
@@ -375,7 +376,7 @@ namespace	Air{
 			/*
 			if(m_pRT_SO->BeforeUpdate()){
 	
-				Float44	matInvVP	=	m_pScene->GetMainCamera()->GetViewProjMatrix();
+				Float44	matInvVP	=	m_pMainCamera->GetViewProjMatrix();
 				matInvVP.Inverse();
 
 				m_pSSSO->GetConstantBuffer()->UpdateData(&matInvVP);
@@ -399,7 +400,7 @@ namespace	Air{
 				
 				m_pMainWindow->AfterUpdate(false);
 			}
-			m_VoxelGen.Update(m_pQuad,m_pScene->GetMainCamera());
+			m_VoxelGen.Update(m_pQuad,m_pMainCamera);
 
 			m_pMainWindow->ClearPhaseFlag();
 			m_pMainWindow->AddPhaseFlag(enPI_Helper);
@@ -420,7 +421,7 @@ namespace	Air{
 			return	true;
 		}
 
-		bool DefaulePipeline::mouseMoved( const OIS::MouseEvent &arg )
+		bool DefaultPipeline::mouseMoved( const OIS::MouseEvent &arg )
 		{
 			
 			S8*	pMouseArray	=	GetGlobalSetting().m_pInputSystem->m_MouseArray;
@@ -452,7 +453,7 @@ namespace	Air{
 
 					//TargetPos	+=	dir*(arg.state.Z.rel*0.05f);
 					//pos =	vRelativePos + TargetPos;//
-					//m_pScene->GetMainCamera()->SetPosition(pos);
+					//m_pMainCamera->SetPosition(pos);
 				}
 			}else	if(pMouseArray[OIS::MB_Middle]){
 				Float3	dir		=	GetMainCamera()->GetDir();
@@ -479,7 +480,7 @@ namespace	Air{
 			//	vPorjPos.x	=	vPorjPos.x*2-1;
 			//	vPorjPos.y	=	1-2*vPorjPos.y;
 
-			//	Float44 matVP	= m_pScene->GetMainCamera()->GetViewProjMatrix();
+			//	Float44 matVP	= m_pMainCamera->GetViewProjMatrix();
 			//	matVP.Inverse();
 			//	vPorjPos	=	matVP*vPorjPos;
 			//	vPorjPos	-=	pos;
@@ -490,7 +491,7 @@ namespace	Air{
 			return true;
 		}
 		static Float3 vEnd;
-		bool DefaulePipeline::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
+		bool DefaultPipeline::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 		{
 			POINT	p;
 			p.x	=	arg.state.X.abs;
@@ -555,13 +556,13 @@ namespace	Air{
 			return true;
 		}
 
-		bool DefaulePipeline::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
+		bool DefaultPipeline::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 		{
 
 			return true;
 		}
 
-		bool DefaulePipeline::keyPressed( const OIS::KeyEvent &arg )
+		bool DefaultPipeline::keyPressed( const OIS::KeyEvent &arg )
 		{
 			switch(arg.key){
 				case OIS::KC_LEFT:{
@@ -582,7 +583,7 @@ namespace	Air{
 			return true;
 		}
 
-		bool DefaulePipeline::keyReleased( const OIS::KeyEvent &arg )
+		bool DefaultPipeline::keyReleased( const OIS::KeyEvent &arg )
 		{
 			switch(arg.key){
 
@@ -599,7 +600,7 @@ namespace	Air{
 			return true;
 		}
 
-		void DefaulePipeline::Update(const FrameTime& frameTime)
+		void DefaultPipeline::Update(const FrameTime& frameTime)
 		{
 			if(GetGlobalSetting().m_pInputSystem->m_KeyArray[OIS::KC_A]){
 				vMoveDirection.x=	-fVolocity;

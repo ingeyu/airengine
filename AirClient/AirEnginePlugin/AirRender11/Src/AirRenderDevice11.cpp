@@ -247,7 +247,7 @@ namespace Air{
 
 
 
-				Render::System::GetSingleton()->AddFactory(new ExtraOptionParamFactory<State11,PassStateInfo*>());
+				Render::System::GetSingleton()->AddFactory(new ExtraOptionParamFactory<State11,PassStateInfo>());
 				Render::System::GetSingleton()->AddFactory(new ParamFactory<Buffer11>());
 				Render::System::GetSingleton()->AddFactory(new NoParamFactory<Shader11>());
 				Render::System::GetSingleton()->AddFactory(new ParamFactory<VertexDeclare11>());

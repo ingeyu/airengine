@@ -134,14 +134,14 @@ namespace Air{
 			data.Clear();
 			
 			//AddFactory(new	Common::PluginFactory());
-			AddFactory(new	NoParamFactory<DefaulePipeline>());
+			AddFactory(new	NoParamFactory<DefaultPipeline>());
 			//AddFactory(new	FontFactory());
-			AddFactory(new	ExtraOptionParamFactory<MaterialTemplate,MaterialTemplateInfo*>());
+			AddFactory(new	ExtraOptionParamFactory<MaterialTemplate,MaterialTemplateInfo>());
 			AddFactory(new	OptionParamFactory<Material>());
 			//AddFactory(new	SubEntityFactory());
 			
 			//AddFactory(new	LightFactory());
-			AddFactory(new	ExtraOptionParamFactory<Character::Resource,AString*>());
+			AddFactory(new	ExtraOptionParamFactory<Character::Resource,AString>());
 			AddFactory(new	ParamFactory<Character::Animation::Model>());
 			//AddFactory(new	Character::Animation::TextureModelFactory());
 			//AddFactory(new	Terrain::IPageFactory());
@@ -159,10 +159,11 @@ namespace Air{
 			AddFactory(new	NoParamFactory<Camera>());
 			AddFactory(new	ParamFactory<Light>());
 
+			AddFactory(new NoParamFactory<DefaultPipeline>());
 
-
+			AddFactory(new ParamFactory<Screen>());
 			AddFactory(new NoParamFactory<Scene>());
-			AddFactory(new ExtraParamFactory<Plugin,void>());
+			AddFactory(new ExtraOptionParamFactory<Plugin,void>());
 	
 	
 			//加载所有插件

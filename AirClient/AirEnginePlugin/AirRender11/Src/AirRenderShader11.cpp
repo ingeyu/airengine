@@ -227,15 +227,15 @@ namespace Air{
 
 			void Shader11::GetBinaryCode( void*& pOut,U32& uiSize )
 			{
-				if(pOut==NULL){
-					uiSize	=	m_pBinaryCode->GetBufferSize();
-					return;
-				}
+				//if(pOut==NULL){
+				//	
+				//	return;
+				//}
 				if(m_pBinaryCode==NULL)
 					return;
 
 				pOut	=	m_pBinaryCode->GetBufferPointer();
-				
+				uiSize	=	m_pBinaryCode->GetBufferSize();
 			}
 
 			enumShaderType Shader11::GetType()

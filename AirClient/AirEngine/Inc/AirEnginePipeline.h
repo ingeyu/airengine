@@ -22,12 +22,13 @@ namespace	Air{
 		};
 
 		class	ENGINE_EXPORT	Pipeline	:	
-			public	TProduct<Pipeline>,
+			public	IProduct,
 			public	OIS::MouseListener,
 			public	OIS::KeyListener,
 			public	Common::MutilListenerManager<FrameListener>
 		{
 		public:
+			static	AString	ProductTypeName;
 			Pipeline(CAString&	strName);
 			
 
@@ -60,13 +61,13 @@ namespace	Air{
 			RenderWindow*	m_pMainWindow;
 			Camera*			m_pMainCamera;
 		};
-		class	ENGINE_EXPORT	DefaulePipeline	:	
+		class	ENGINE_EXPORT	DefaultPipeline	:	
 			public	Pipeline
 		{
 		public:
 			static	AString	ProductTypeName;
 		public:
-			DefaulePipeline(CAString&	strName);
+			DefaultPipeline(CAString&	strName);
 			
 
 			virtual	U1		Create();

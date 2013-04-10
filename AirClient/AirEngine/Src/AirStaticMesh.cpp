@@ -35,16 +35,16 @@ namespace	Air{
 				Buffer::Info	vbInfo;
 				vbInfo.SetVertexBuffer(m_uiNumVertex,44);
 				vbInfo.InitData			=	pVB;
-				m_DrawBuff.m_pVertexBuffer[0]	=	pSys->CreateProduct<Buffer>(m_strProductName+"VB","Buffer",&vbInfo);
+				m_DrawBuff.m_pVertexBuffer[0]	=	pSys->CreateProduct<Buffer>(m_strProductName+"VB",&vbInfo);
 
 				Buffer::Info	ibInfo;
 				ibInfo.SetIndexBuffer32(m_uiNumFace*3);
 				ibInfo.InitData			=	pIB;
-				m_DrawBuff.m_pIndexBuff	=	pSys->CreateProduct<Buffer>(m_strProductName+"IB","Buffer",&ibInfo);
+				m_DrawBuff.m_pIndexBuff	=	pSys->CreateProduct<Buffer>(m_strProductName+"IB",&ibInfo);
 
 				Render::Vertex::IDeclare::Info	vdInfo;
 				vdInfo.SetDeclPNTT();
-				m_DrawBuff.m_pVertexDeclare	=	pSys->CreateProduct<Render::Vertex::IDeclare>(m_strProductName,"Declare",&vdInfo);
+				m_DrawBuff.m_pVertexDeclare	=	pSys->CreateProduct<Render::Vertex::IDeclare>("PNTT",&vdInfo);
 
 				m_DrawBuff.m_DrawOption.m_DrawFuncType	=	Render::Draw::FUNC_TYPE_DIP;
 				m_DrawBuff.m_DrawOption.m_DrawType		=	Render::Draw::enPT_TRIANGLELIST;
