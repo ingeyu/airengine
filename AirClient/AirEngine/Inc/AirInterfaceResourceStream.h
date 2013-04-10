@@ -40,6 +40,7 @@ namespace	Air{
 			class	ENGINE_EXPORT	IStream	:
 				public	Common::IProduct{
 			public:
+				static AString ProductTypeName;
 				IStream(CAString&	strName);
 
 				virtual	U1				Create();

@@ -37,7 +37,7 @@ namespace	Air{
 			m_pMainCamera	=	pMainCamera;
 			RenderTarget::Info rtinfo;
 			rtinfo.SetSingleTarget(512,512,enTFMT_R32_FLOAT,true);
-			m_pShadowDepth	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("CascadedShadowMapDepth","Target",&rtinfo);
+			m_pShadowDepth	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget>("CascadedShadowMapDepth",&rtinfo);
 			m_pShadowDepth->SetClearFlag(true,true,true);
 			m_pShadowDepth->AddPhaseFlag(enPI_Shadow);
 			m_pShadowDepth->SetBKColor(Float4(1,1,1,1));
@@ -50,17 +50,17 @@ namespace	Air{
 
 			
 			rtinfo.SetSingleTargetScreen(enTFMT_R8G8B8A8_UNORM,1.0f,true,RenderSystem::GetSingleton()->GetMainWindow());
-			m_pShadowMask	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("CascadedShadowMapMask","Target",&rtinfo);
+			m_pShadowMask	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget>("CascadedShadowMapMask",&rtinfo);
 			m_pShadowMask->SetClearFlag(false,true,false);
 			m_pShadowMask->SetBKColor(Float4(1,1,1,1));
 
 			Material::Info	blurinfo;
 			blurinfo.strTemplate	=	"MT_BlurX";
-			m_pBlurX		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("BlurX","Material",&blurinfo);
+			m_pBlurX		=	EngineSystem::GetSingleton()->CreateProduct<Material>("BlurX",&blurinfo);
 			blurinfo.strTemplate	=	"MT_BlurY";
-			m_pBlurY		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("BlurY","Material",&blurinfo);
+			m_pBlurY		=	EngineSystem::GetSingleton()->CreateProduct<Material>("BlurY",&blurinfo);
 
-			m_pMaskMaterial	=	EngineSystem::GetSingleton()->CreateProduct<Material*>("ShadowMask","Material");
+			m_pMaskMaterial	=	EngineSystem::GetSingleton()->CreateProduct<Material>("ShadowMask");
 
 
 			m_vecCSMCamera.resize(uiSplite);
@@ -68,7 +68,7 @@ namespace	Air{
 			Light::Info info;
 			info.SetDirection(m_vLightDirection);
 			for(U32 i=0;i<uiSplite;i++){
-				m_vecCSMCamera[i]	=	EngineSystem::GetSingleton()->CreateProduct<Light*>(strCameraName+Common::Converter::ToString(i),"Light",&info);
+				m_vecCSMCamera[i]	=	EngineSystem::GetSingleton()->CreateProduct<Light>(strCameraName+Common::Converter::ToString(i),&info);
 				m_vecCSMCamera[i]->SetDir(m_vLightDirection);
 				m_vecCSMCamera[i]->SetOrtho(true);
 				float Scale	=	pow(4.0f,(float)(i+1))*4.0f;

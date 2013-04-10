@@ -22,6 +22,7 @@ namespace Air{
 			public	NetConnect
 		{
 		public:
+			static AString	ProductTypeName;
 			struct	Info{
 				Info(){
 					pListener	=	NULL;
@@ -122,19 +123,7 @@ namespace Air{
 			ReceiveThreadList	m_lstUnUsedThread;	///<	未使用的线程
 			CriticalSection		m_ReceiveCS;
 		};
-		class	NetServerFactory	:	public	IFactory{
-		public:
-			NetServerFactory(){
-				m_strTypeName	=	"Server";
-			}
-			virtual	IProduct*	NewProduct(CAString& strName,IFactoryParamList* lstParam /* = NULL */){
-				if(strName.empty()	||	lstParam	==	NULL)
-					return	NULL;
-				NetServer::Info*	pInfo	=	(NetServer::Info*)(lstParam);
-				return	new	NetServer(strName,pInfo);
-	
-			};
-		};
+
 	};
 };
 #endif // COMMONNETSERVER_HEAD_FILE

@@ -129,14 +129,14 @@ namespace Air{
 							minfo.vecFloatParam[3]	=	pSetInfo->selfIllumColor_fresnel;//Float4(0,0,0,0);
 							minfo.vecTextureName[0]	=	pSetInfo->mapTexture[enMSPT_TexDiffuse];
 							//´´½¨²ÄÖÊ
-							Material*	p	=	EngineSystem::GetSingleton()->CreateProduct<Material*>(strMaterialName+"MRT","Material",&minfo);
+							Material*	p	=	EngineSystem::GetSingleton()->CreateProduct<Material>(strMaterialName+"MRT",&minfo);
 							SetMaterial(p);
 							p->ReleaseRef();
 
 							Material::Info	mdepthinfo;
 							mdepthinfo.bUseSkin			=	true;
 							mdepthinfo.strTemplate		=	"MT_ObjectSkin_ShadowDepth";
-							p	=	EngineSystem::GetSingleton()->CreateProduct<Material*>(strMaterialName+"ShadowDepth","Material",&mdepthinfo);
+							p	=	EngineSystem::GetSingleton()->CreateProduct<Material>(strMaterialName+"ShadowDepth",&mdepthinfo);
 							SetMaterial(p);
 							p->ReleaseRef();
 						}
@@ -244,7 +244,7 @@ namespace Air{
 						return Equipment::enMax;
 					}
 	
-	
+				AString Model::ProductTypeName="CharacterModel";
 				Model::Model( CAString& strName,Info* pInfo ):Common::IProduct(strName){
 
 					m_Info					=	*pInfo;
@@ -270,7 +270,7 @@ namespace Air{
 				U1 Model::Create(){
 					if(m_Info.strResourcePath.empty() || m_Info.strSkeleton.empty())
 						return false;
-					m_pResource	=	EngineSystem::GetSingleton()->CreateProduct<Resource*>(m_Info.strResourcePath,"Character",&m_Info.strSkeleton);
+					m_pResource	=	EngineSystem::GetSingleton()->CreateProduct<Resource>(m_Info.strResourcePath,&m_Info.strSkeleton);
 					if(m_pResource==NULL)
 						return false;
 					if(m_pResource->IsNull())
@@ -871,19 +871,6 @@ namespace Air{
 	// 					pInBuff->pIndexBuff	=	NULL;
 	// 				}
 	// 			}
-				ModelFactory::ModelFactory(){
-					m_strTypeName	=	"CharacterAnimationModel";
-				}
-	
-				IProduct* ModelFactory::NewProduct( CAString& strName,IFactoryParamList* lstParam /*= NULL*/ ){
-					if(lstParam == NULL)
-						return NULL;
-					Model::Info*	pInfo	=	(Model::Info*)lstParam;
-					Model*	pBuff			=	new	Model(strName,pInfo);
-	
-					//Insert(pBuff);
-					return pBuff;
-				}
 			}
 		}
 	}

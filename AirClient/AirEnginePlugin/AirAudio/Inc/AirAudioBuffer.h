@@ -15,6 +15,7 @@ namespace Air{
 			class	Buffer	:
 				public	IProduct{
 			public:
+				static AString	ProductTypeName;
 				Buffer(CAString&	strName);
 	
 				/**	\brief	´´½¨
@@ -98,29 +99,6 @@ namespace Air{
 				UInt	m_uiSize;			///<	ÒôÆµ»º³å´óÐ¡
 				SInt	m_uiFormat;			///<	ÒôÆµ¸ñÊ½
 				SInt	m_uiFreqBuffer;		///<	ÐòÁÐ
-			};
-	
-			/**	\brief	ÒôÆµ»º³å¹¤³§
-			*
-			*	ÒôÆµ»º³å¹¤³§
-			*
-			***/
-			class	BufferFactory	:
-				public	IFactory{
-			public:
-				BufferFactory();
-	
-				/**	\brief	´´½¨ÒôÆµ»º³å
-				*   
-				*	@remarks 	´´½¨ÒôÆµ»º³å
-				*	@see		BufferFactory
-				*	@return   	IProduct*
-				*	@param		AString strName
-				*	@param		IFactoryParamList * lstParam
-				*	@note
-				*
-				**/
-				virtual	IProduct*	NewProduct(CAString& strName,IFactoryParamList* lstParam /* = NULL */);
 			};
 		}
 	

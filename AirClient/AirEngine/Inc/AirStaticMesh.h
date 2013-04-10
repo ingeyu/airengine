@@ -11,6 +11,7 @@ namespace	Air{
 		class	ENGINE_EXPORT	StaticMesh	:	
 			public	IProduct{
 		public:
+			static AString ProductTypeName;
 			StaticMesh(CAString&	strName);
 			virtual	U1	Create();
 			virtual	U1	Destroy();

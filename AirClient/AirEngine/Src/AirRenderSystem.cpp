@@ -2,11 +2,13 @@
 #include "AirEngineRenderable.h"
 #include "AirGlobalSetting.h"
 
+
 namespace Air{
 	
 	namespace	Engine{
+		AString Shader::ProductTypeName	=	"Shader";
 		namespace	Render{
-	
+			
 	
 			System::System(){		
 
@@ -82,7 +84,7 @@ namespace Air{
 					HWND	hParentWnd	=	GetGlobalSetting().m_EngineParam.hParentWnd;
 					info.SetRenderWindow(uiWidth,uiHeight,bWindow,hParentWnd,hWnd);
 					info.bUseDepth		=	true;
-					m_pMainWindow	=	CreateProduct<Window*>("MainWindow","Window",&info);
+					m_pMainWindow	=	CreateProduct<Window>("MainWindow",&info);
 					m_pMainWindow->SetClearFlag(1,1,1);
 				}
 				if(m_pFrameBuffer==NULL){
@@ -90,7 +92,7 @@ namespace Air{
 					info.SetConstantBuffer(sizeof(CBFrame));
 					info.cbType		=	enCBT_Frame;
 					info.usage		=	enUSAGE_DYNAMIC;
-					m_pFrameBuffer	=	CreateProduct<Buffer*>("CBPerFrame","Buffer",&info);
+					m_pFrameBuffer	=	CreateProduct<Buffer>("CBPerFrame",&info);
 					m_pDevice->SetCB(0,m_pFrameBuffer);
 				}
 
@@ -100,7 +102,7 @@ namespace Air{
 					info.SetConstantBuffer(sizeof(Float44));
 					info.cbType		=	enCBT_Object;
 					info.usage		=	enUSAGE_DYNAMIC;
-					m_pWorldMatrixBuffer	=	CreateProduct<Buffer*>("CBPerObject","Buffer",&info);
+					m_pWorldMatrixBuffer	=	CreateProduct<Buffer>("CBPerObject",&info);
 					m_pDevice->SetCB(enVS,2,m_pWorldMatrixBuffer);
 				};
 				if(m_pBoneMatrixBuffer		==	NULL){
@@ -109,7 +111,7 @@ namespace Air{
 					info.SetConstantBuffer(256*sizeof(Float44));
 					info.cbType		=	enCBT_Bone;
 					info.usage		=	enUSAGE_DYNAMIC;
-					m_pBoneMatrixBuffer	=	CreateProduct<Buffer*>("CBPerSkin","Buffer",&info);
+					m_pBoneMatrixBuffer	=	CreateProduct<Buffer>("CBPerSkin",&info);
 					m_pDevice->SetCB(enVS,4,m_pBoneMatrixBuffer);
 				};
 				return	true;

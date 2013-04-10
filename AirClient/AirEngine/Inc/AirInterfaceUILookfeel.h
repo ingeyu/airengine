@@ -18,6 +18,7 @@ namespace Air{
 			class	ENGINE_EXPORT	Lookfeel	:
 				public	IProduct{
 			public:
+				static AString	ProductTypeName;
 				Lookfeel(CAString&	strName);
 	
 				/**	\brief	´´½¨

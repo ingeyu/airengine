@@ -6,7 +6,7 @@ namespace Air{
 	
 	namespace	Common{
 	
-	
+		AString	NetServer::ProductTypeName="NetServer";
 		NetServer::NetServer( CAString& strName,Info* pInfo )
 			:IProduct(strName){
 			if(pInfo!=NULL){

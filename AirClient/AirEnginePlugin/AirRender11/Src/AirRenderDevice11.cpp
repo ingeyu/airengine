@@ -20,7 +20,7 @@
 
 
 namespace Air{
-	
+
 	namespace	Engine{
 		namespace	Render{
 	
@@ -247,13 +247,13 @@ namespace Air{
 
 
 
-				Render::System::GetSingleton()->AddFactory(new ExtraOptionParamFactory<State11,PassStateInfo*>("State"));
-				Render::System::GetSingleton()->AddFactory(new ParamFactory<Buffer11>("Buffer"));
-				Render::System::GetSingleton()->AddFactory(new NoParamFactory<Shader11>("Shader"));
-				Render::System::GetSingleton()->AddFactory(new ParamFactory<VertexDeclare11>("Declare"));
-				Render::System::GetSingleton()->AddFactory(new OptionParamFactory<Texture11>("Texture"));
-				Render::System::GetSingleton()->AddFactory(new ParamFactory<Window11>("Window"));
-				Render::System::GetSingleton()->AddFactory(new ParamFactory<Target11>("Target"));
+				Render::System::GetSingleton()->AddFactory(new ExtraOptionParamFactory<State11,PassStateInfo*>());
+				Render::System::GetSingleton()->AddFactory(new ParamFactory<Buffer11>());
+				Render::System::GetSingleton()->AddFactory(new NoParamFactory<Shader11>());
+				Render::System::GetSingleton()->AddFactory(new ParamFactory<VertexDeclare11>());
+				Render::System::GetSingleton()->AddFactory(new OptionParamFactory<Texture11>());
+				Render::System::GetSingleton()->AddFactory(new ParamFactory<Window11>());
+				Render::System::GetSingleton()->AddFactory(new ParamFactory<Target11>());
 				
 				
 

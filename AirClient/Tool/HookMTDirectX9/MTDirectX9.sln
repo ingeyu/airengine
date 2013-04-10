@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HeapViewer", "HeapViewer\He
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HeapViewerDll", "HeapViewerDll\HeapViewerDll.vcxproj", "{19B2C016-812E-44E0-B854-02C750F6D549}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectX9Monitor", "DirectX9Monitor\DirectX9Monitor.vcxproj", "{AB83B3B3-787B-4A14-8716-093529040574}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -31,6 +33,10 @@ Global
 		{19B2C016-812E-44E0-B854-02C750F6D549}.Debug|Win32.Build.0 = Debug|Win32
 		{19B2C016-812E-44E0-B854-02C750F6D549}.Release|Win32.ActiveCfg = Release|Win32
 		{19B2C016-812E-44E0-B854-02C750F6D549}.Release|Win32.Build.0 = Release|Win32
+		{AB83B3B3-787B-4A14-8716-093529040574}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB83B3B3-787B-4A14-8716-093529040574}.Debug|Win32.Build.0 = Debug|Win32
+		{AB83B3B3-787B-4A14-8716-093529040574}.Release|Win32.ActiveCfg = Release|Win32
+		{AB83B3B3-787B-4A14-8716-093529040574}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

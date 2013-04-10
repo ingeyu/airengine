@@ -9,6 +9,7 @@ namespace Air{
 		class	ShootParticle	:
 			public	IParticle{
 		public:
+			static AString	ProductTypeName;
 			ShootParticle(CAString&	strName,Info*	pInfo);
 	
 			/**	\brief	…Ë÷√≤Œ ˝

@@ -237,23 +237,6 @@ namespace Air{
 	
 			};
 	
-			class	SectionFactory	:
-				public	Common::IFactory{
-			public:
-				SectionFactory();
-	
-				/**	\brief	创建
-				*   
-				*	@remarks 	创建
-				*	@see		BuffFactory
-				*	@return   	Common::IProduct*
-				*	@param		AString strName
-				*	@param		IFactoryParamList * lstParam
-				*	@note
-				*
-				**/
-				virtual	Common::IProduct*	NewProduct(CAString& strName,Common::IFactoryParamList* lstParam =	NULL);
-			};
 		}
 	};
 };

@@ -8,7 +8,7 @@ namespace Air{
 		namespace	Character{
 			namespace	Animation{
 	
-	
+				AString TextureModel::ProductTypeName=typeid(TextureModel).name();
 				TextureModel::TextureModel( CAString& strName,Info* pInfo )
 					:Model(strName,pInfo){
 	
@@ -19,9 +19,9 @@ namespace Air{
 					info.SetDynamicTexture(1024,1,enTFMT_R32G32B32A32_FLOAT);
 					info.usage			=	Render::enUSAGE_DEFAULT;
 
-					m_pBoneTexture		=	Render::System::GetSingleton()->CreateProduct<Render::Texture*>(m_strProductName,("Texture"),&info);
+					m_pBoneTexture		=	Render::System::GetSingleton()->CreateProduct<Render::Texture>(m_strProductName,&info);
 					info.usage			=	Render::enUSAGE_SYSTEM_MEMORY;
-					m_pTempBoneTexture	=	Render::System::GetSingleton()->CreateProduct<Render::Texture*>(m_strProductName	+	"Temp",("Texture"),&info);
+					m_pTempBoneTexture	=	Render::System::GetSingleton()->CreateProduct<Render::Texture>(m_strProductName	+	"Temp",&info);
 					
 					return	__super::Create();
 				}
@@ -82,16 +82,6 @@ namespace Air{
 							continue;
 						//pEquip->Render(pEquip->m_pHareWareRenderBuff);
 					}
-				}
-	
-				TextureModelFactory::TextureModelFactory(){
-					m_strTypeName	=	"CharacterTextureModel";
-				}
-	
-				IProduct* TextureModelFactory::NewProduct( CAString& strName,IFactoryParamList* lstParam /* = NULL */ ){
-					if(lstParam==NULL)
-						return	NULL;
-					return	new	TextureModel(strName,(Model::Info*)lstParam);
 				}
 			}
 		}

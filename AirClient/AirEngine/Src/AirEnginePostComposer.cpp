@@ -9,7 +9,7 @@ namespace Air{
 		
 	
 		PostComposer::PostComposer( AString strName,AString* strMaterialName )
-			:IProduct(strName){
+			:TProduct(strName){
 			m_bEnable	=	true;
 			//m_pMaterial	=	NULL;
 			m_pTerget	=	NULL;
@@ -51,7 +51,7 @@ namespace Air{
 // 				info..format		=	(RenderTexture::enumFormat)Converter::ToS32(strFormat);
 	
 			//创建渲染目标
-			m_pTerget	=	Render::System::GetSingleton()->CreateProduct<RenderTarget*>(strFileName,AString("Target"),&info);
+			m_pTerget	=	Render::System::GetSingleton()->CreateProduct<RenderTarget>(strFileName,&info);
 			if(m_pTerget==NULL){
 				return	false;
 			}
@@ -94,18 +94,6 @@ namespace Air{
 				//获取上一帧的渲染结果
 				//GetGlobalSetting().m_ShaderParam.m_pLastPostComposerResult	=	m_pTerget->GetTexture();
 			}
-		}
-	
-		PostComposerFactory::PostComposerFactory(){
-			m_strTypeName	=	"PostComposer";
-		}
-	
-		IProduct* PostComposerFactory::NewProduct( CAString& strName,IFactoryParamList* lstParam /*= NULL*/ ){
-			if(lstParam==NULL)
-				return NULL;
-			AString*	strMaterial	=	(AString*)lstParam;
-			PostComposer*	pBuff	=	new	PostComposer(strName,strMaterial);
-			return	pBuff;
 		}
 	}
 };

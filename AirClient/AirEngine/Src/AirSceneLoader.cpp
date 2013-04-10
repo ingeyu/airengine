@@ -58,7 +58,7 @@ namespace	Air{
 				info.strMeshName	=	strPath+pVec[i];
 				info.strMaterial	=	"NoMaterial";
 
-				MeshEntity*	pEnt	=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity*>(pVec[i]+Common::Converter::ToString(i),"MeshEntity",&info);
+				MeshEntity*	pEnt	=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity>(pVec[i]+Common::Converter::ToString(i),&info);
 
 				AString	strMSName	=	pEnt->GetMesh()->GetMaterialName();
 
@@ -84,11 +84,11 @@ namespace	Air{
 						minfo.vecTextureName[0]	=	"Texture/1x1white.png";
 					}
 
-					Material*	p	=	EngineSystem::GetSingleton()->CreateProduct<Material*>(strMSName+"MRT","Material",&minfo);
+					Material*	p	=	EngineSystem::GetSingleton()->CreateProduct<Material>(strMSName+"MRT",&minfo);
 					pEnt->SetMaterial(p);
 					p->ReleaseRef();
 
-					p	=	EngineSystem::GetSingleton()->CreateProduct<Material*>(strMSName+"ShadowDepth","Material",&mdepthinfo);
+					p	=	EngineSystem::GetSingleton()->CreateProduct<Material>(strMSName+"ShadowDepth",&mdepthinfo);
 					pEnt->SetMaterial(p);
 					p->ReleaseRef();
 

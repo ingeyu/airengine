@@ -31,8 +31,9 @@ namespace	Air{
 			*
 			***/
 			class	ENGINE_EXPORT	State	:	
-				public	Common::IProduct{
+				public	IProduct{
 			public:
+				static AString	ProductTypeName;
 				State(CAString&	strName,StateInfo*	pInfo);
 
 				/**	\brief	´´½¨×´Ì¬

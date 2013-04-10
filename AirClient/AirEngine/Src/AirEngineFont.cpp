@@ -13,7 +13,7 @@ namespace Air{
 	
 	namespace	Engine{
 	
-	
+		AString	Font::ProductTypeName="Font";
 		Font::Font( AString strName,Info* pInfo ):IProduct(strName){
 			m_Info			=	*pInfo;
 			m_pLibrary		=	NULL;
@@ -55,7 +55,7 @@ namespace Air{
 			texInfo.SetManageTexture(m_Info.uiTexSize,m_Info.uiTexSize,enTFMT_R8G8_UNORM);
 
 			
-			m_pCharTexture	=	Render::System::GetSingleton()->CreateProduct<Texture*>(("..\\Data\\Font.dds"),("Texture"),&texInfo);
+			m_pCharTexture	=	Render::System::GetSingleton()->CreateProduct<Texture>(("..\\Data\\Font.dds"),&texInfo);
 	
 			if(m_pCharTexture==NULL){
 				Destroy();
@@ -215,16 +215,5 @@ namespace Air{
 		}
 		UInt	Font::m_uiCharSize	=	25;
 	
-		FontFactory::FontFactory(){
-			m_strTypeName	=	"Font";
-		}	
-	
-		IProduct* FontFactory::NewProduct( CAString& strName,IFactoryParamList* lstParam /*= NULL*/ ){
-			if(lstParam	==	NULL)
-				return	false;
-			Font::Info*	pInfo	=	(Font::Info*)lstParam;
-			Font*		pBuff	=	new	Font(strName,pInfo);
-			return	pBuff;
-		}
 	}
 };

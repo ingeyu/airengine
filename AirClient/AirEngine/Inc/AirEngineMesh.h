@@ -39,7 +39,7 @@ namespace Air{
 		*
 		***/
 		class	ENGINE_EXPORT	Mesh	:
-			public	IProduct{
+			public	TProduct<Mesh>{
 		public:
 			/**	\brief	¶¥µã
 			*

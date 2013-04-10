@@ -235,20 +235,6 @@ namespace Air{
 					m_pNode->SetPosition(vPosition);
 				}
 			}
-	
-	
-			FPSControlFactory::FPSControlFactory(){
-				m_strTypeName	=	"FPSControl";
-			}
-	
-			IProduct* FPSControlFactory::NewProduct( CAString& strName,IFactoryParamList* lstParam /* = NULL */ ){
-				if(lstParam	==	NULL)
-					return NULL;
-	
-				FPSControl::Info*	pInfo	=	(FPSControl::Info*)lstParam;
-				FPSControl*			pBuff	=	new	FPSControl(strName,pInfo);
-				return	pBuff;
-			}
 		}
 	}
 };

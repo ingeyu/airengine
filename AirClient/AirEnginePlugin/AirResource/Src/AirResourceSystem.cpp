@@ -40,9 +40,9 @@ namespace Air{
 	
 			U1 System::Initialization(){
 	
-				AddFactory(new	ZipPackageFactory());
-				AddFactory(new	RarPackageFactory());
-				AddFactory(new	FolderPackageFactory());
+				AddFactory(new	NoParamFactory<ZipPackage>());
+				AddFactory(new	NoParamFactory<RarPackage>());
+				AddFactory(new	NoParamFactory<FolderPackage>());
 				//AddFactory(new	FileStreamFactory(),this);
 
 

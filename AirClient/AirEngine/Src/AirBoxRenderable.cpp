@@ -21,7 +21,7 @@ namespace	Air{
 			Buffer::Info	vbInfo;
 			vbInfo.SetVertexBuffer(8,12);
 			vbInfo.InitData			=	box;
-			m_DrawBuff.m_pVertexBuffer[0]	=	pSys->CreateProduct<Buffer*>("BoxVB","Buffer",&vbInfo);
+			m_DrawBuff.m_pVertexBuffer[0]	=	pSys->CreateProduct<Buffer>("BoxVB",&vbInfo);
 
 			U16	ib[]={
 				2,3,0,
@@ -45,11 +45,11 @@ namespace	Air{
 			};
 			vbInfo.SetIndexBuffer16(12*3);
 			vbInfo.InitData	=	ib;
-			m_DrawBuff.m_pIndexBuff	=	pSys->CreateProduct<Buffer*>("BoxIB","Buffer",&vbInfo);
+			m_DrawBuff.m_pIndexBuff	=	pSys->CreateProduct<Buffer>("BoxIB",&vbInfo);
 
 			Render::Vertex::IDeclare::Info	vdInfo;
 			vdInfo.SetDeclP3();
-			m_DrawBuff.m_pVertexDeclare	=	pSys->CreateProduct<Render::Vertex::IDeclare*>("BoxVD","Declare",&vdInfo);
+			m_DrawBuff.m_pVertexDeclare	=	pSys->CreateProduct<Render::Vertex::IDeclare>("BoxVD",&vdInfo);
 
 
 			m_DrawBuff.m_DrawOption.m_DrawFuncType	=	Render::Draw::FUNC_TYPE_DIP;

@@ -38,7 +38,7 @@ namespace	Air{
 			if(pRenderSys==NULL)
 				return	false;
 
-			m_pShader	=	pRenderSys->CreateProduct<Shader*>(m_strName	+	strTypeName[m_Type],"Shader");
+			m_pShader	=	pRenderSys->CreateProduct<Shader>(m_strName	+	strTypeName[m_Type]);
 			if(m_pShader==NULL)
 				return	false;
 			
@@ -48,7 +48,7 @@ namespace	Air{
 			AString		strSS;
 			for(U32	i=0;i<uiSize;i++){
 				strSS	=	m_pInfo->m_vecTextureInfo[i].strSamplerState;
-				m_vecSamplerState[i]	=	Render::System::GetSingleton()->CreateProduct<SamplerState*>(strSS,"State");
+				m_vecSamplerState[i]	=	Render::System::GetSingleton()->CreateProduct<SamplerState>(strSS);
 			}
 			
 			return	true;

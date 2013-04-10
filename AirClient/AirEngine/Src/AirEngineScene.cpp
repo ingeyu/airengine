@@ -37,7 +37,6 @@ namespace Air{
 		
 	
 		Scene::Scene( CAString& strName ){
-			m_strTypeName				=	strName;
 			m_pMainCamera				=	NULL;
 			m_bShadowEnable				=	true;
 			m_pSceneTarget				=	NULL;
@@ -61,22 +60,13 @@ namespace Air{
 			//AddFactory(new	EntityClothFactory());
 			
 
-			EngineSystem::GetSingleton()->CreateProduct<Material*>("NoMaterial","Material");
+			EngineSystem::GetSingleton()->CreateProduct<Material>("NoMaterial");
 
- 			m_pMainCamera	=	EngineSystem::GetSingleton()->CreateProduct<Camera*>("MainCamera","Camera");
-			m_pMainCamera->SetCurrentScene(this);
-			m_pMainCamera->SetType(enCT_MAIN);
-
-			m_pMainCamera->SetPosition(0,0,100);
-			Float3	p	=	m_pMainCamera->GetPosition();
-
-			m_pMainCamera->SetDir(-p.NormalizeCopy());
-			m_pMainCamera->SetUpDir(0,1,0);
 
 			MeshEntity::Info	info;
 			info.strMaterial	=	"OIT_TEST";
 			info.strMeshName	=	"AirMesh/Teapot.AME";
- 			MeshEntity*	pMesh	=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity*>(info.strMeshName,"MeshEntity",&info);;
+ 			MeshEntity*	pMesh	=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity>(info.strMeshName,&info);;
 			//pMesh->SetMaterialName("OIT_TEST");
 
 			// 			pMesh->Create();
@@ -173,7 +163,7 @@ namespace Air{
 			info.vDiff	=	Float4(1,1,1,1);
 			info.vPosition	=	Float4(0,0,0,1);
 			info.bCastShadow	=	bCastShadow;
-			Light*	pLight	=	EngineSystem::GetSingleton()->CreateProduct<Light*>(strName,AString("Light"),&info);
+			Light*	pLight	=	EngineSystem::GetSingleton()->CreateProduct<Light>(strName,&info);
 			
 			if(pLight!=NULL){
 				m_lstLight.push_back(pLight);
@@ -191,7 +181,7 @@ namespace Air{
 
 	
 		Camera* Scene::CreateCamera(AString	strName){
-			Camera*	pCamera	=	EngineSystem::GetSingleton()->CreateProduct<Camera*>(strName,"Camera");
+			Camera*	pCamera	=	EngineSystem::GetSingleton()->CreateProduct<Camera>(strName);
 
 			return pCamera;
 		}
@@ -208,7 +198,7 @@ namespace Air{
 			info.strParticleFile	=	strName;
 			info.vVelocity			=	vNormal;
 			info.vPosition			=	vPosition;
-			IParticle*	pParticle	=	EngineSystem::GetSingleton()->CreateProduct<IParticle*>(Number::Increase(""),AString("Particle"),&info);
+			IParticle*	pParticle	=	EngineSystem::GetSingleton()->CreateProduct<IParticle>(Number::Increase(""),&info);
 			if(pParticle!=NULL)
 				m_pRootNode.attachObject(pParticle);
 		}

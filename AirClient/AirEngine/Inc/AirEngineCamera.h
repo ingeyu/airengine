@@ -24,7 +24,7 @@ namespace Air{
 		*
 		***/
 		class	ENGINE_EXPORT	Camera	:
-			public	Common::IProduct,
+			public	TProduct<Camera>,
 			public	Frustum
 		{
 		public:
@@ -145,24 +145,6 @@ namespace Air{
 			enumCameraType			m_Type;
 			U32						m_PhaseFlag;
 		};
-	
-		class	CameraFactory	:
-			public	IFactory{
-		public:
-			CameraFactory();
-			/**	\brief	创建
-			*   
-			*	@remarks 	创建
-			*	@see		BuffFactory
-			*	@return   	IProduct*
-			*	@param		AString& strName
-			*	@param		IFactoryParamList * lstParam
-			*	@note
-			*
-			**/
-			virtual	IProduct*	NewProduct(CAString& strName,IFactoryParamList* lstParam =	NULL);
-		};
-	
 	};
 };
 #endif // ENGINECAMERA_HEAD_FILE

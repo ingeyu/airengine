@@ -37,9 +37,8 @@ namespace Air{
 				return	low	==	k;
 			}
 		};
-	
-	
-		Camera::Camera(CAString&	strName):Common::IProduct(strName){
+
+		Camera::Camera(CAString&	strName):TProduct(strName){
 
 			m_pScene			=	NULL;
 			m_bReflect			=	false;
@@ -69,7 +68,7 @@ namespace Air{
  			if(m_pConstantBuffer==NULL){
 				Buffer::Info	info;
 				info.SetConstantBuffer(sizeof(Float4)*8);
- 				m_pConstantBuffer	=	Render::System::GetSingleton()->CreateProduct<Buffer*>(m_strProductName,"Buffer",&info);
+ 				m_pConstantBuffer	=	Render::System::GetSingleton()->CreateProduct<Buffer>(m_strProductName,&info);
 			}
 
 			Float4	buffer[8];
@@ -296,12 +295,5 @@ namespace Air{
 			return m_pScene;
 		}
 
-		CameraFactory::CameraFactory(){
-			m_strTypeName	=	"Camera";
-		}
-	
-		IProduct* CameraFactory::NewProduct( CAString& strName,IFactoryParamList* lstParam /*= NULL*/ ){
-			return	new	Camera(strName);
-		}
 	}
 };

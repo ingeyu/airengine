@@ -11,7 +11,7 @@ namespace Air{
 	namespace	Engine{
 		namespace	Character{
 	
-	
+			AString Resource::ProductTypeName="CharacterResource";
 			Resource::Resource( CAString& strName,AString*	strSkeleton ):IProduct(strName){
 				m_strSkeleton	=	*strSkeleton;
 			}
@@ -350,15 +350,15 @@ namespace Air{
 					AString	strName	=	m_strProductName	+	pInMesh->getName();
 					Render::Vertex::IDeclare::Info	dInfo;
 					dInfo.SetPNTT_Animation();
- 					pOutBuff->pVertexDeclare	=	Render::System::GetSingleton()->CreateProduct<Render::Vertex::IDeclare*>("PNTTANIM","Declare",&dInfo);
+ 					pOutBuff->pVertexDeclare	=	Render::System::GetSingleton()->CreateProduct<Render::Vertex::IDeclare>("PNTTANIM",&dInfo);
 					Render::Buffer::Info		vInfo;
 					vInfo.SetVertexBuffer(iVertexCount,52);
 					vInfo.InitData			=	&vertexData[0];
-					pOutBuff->pVertexBuff		=	Render::System::GetSingleton()->CreateProduct<Render::Buffer*>(strName+"VB","Buffer",&vInfo);
+					pOutBuff->pVertexBuff		=	Render::System::GetSingleton()->CreateProduct<Render::Buffer>(strName+"VB",&vInfo);
 
 					vInfo.SetIndexBuffer32(iFaceCount*3);
 					vInfo.InitData			=	&indexData[0];
-					pOutBuff->pIndexBuff		=	Render::System::GetSingleton()->CreateProduct<Render::Buffer*>(strName+"IB","Buffer",&vInfo);
+					pOutBuff->pIndexBuff		=	Render::System::GetSingleton()->CreateProduct<Render::Buffer>(strName+"IB",&vInfo);
 
 				}
 				return	true;

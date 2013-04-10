@@ -16,6 +16,7 @@ namespace Air{
 		class	ENGINE_EXPORT	TextInstance	:
 			public	InstanceEntity{
 		public:
+			static AString ProductTypeName;
 			/**	\brief	创建信息
 			*
 			*	创建信息
@@ -138,25 +139,6 @@ namespace Air{
 			Font*		m_pFont;			///<	字体类
 			UInt		m_uiTextSize;		///<	文字大小
 			UInt		m_Rect[4];			///<	文字矩形
-		};
-	
-	
-		class	TextInstanceFactory	:
-			public		IFactory{
-		public:
-			TextInstanceFactory();
-	
-			/**	\brief	创建
-			*   
-			*	@remarks 	创建
-			*	@see		TextInstanceFactory
-			*	@return   	IProduct*
-			*	@param		AString strName
-			*	@param		IFactoryParamList * lstParam
-			*	@note
-			*
-			**/
-			virtual	IProduct*	NewProduct(CAString&	strName,IFactoryParamList* lstParam	=	NULL);
 		};
 	
 	};

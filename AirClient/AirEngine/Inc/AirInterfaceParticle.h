@@ -14,8 +14,9 @@ namespace Air{
 		*
 		***/
 		class	IParticle	:	
-			public	MovableObject,
-			public	Common::IProduct{
+			public	TProduct<IParticle>,
+			public	MovableObject
+		{
 		public:
 			struct	Info{
 				Info(){

@@ -95,6 +95,7 @@ namespace Air{
 			class ENGINE_EXPORT	Buffer
 				:	public	IProduct{
 			public:
+				static AString	ProductTypeName;
 				/**	\brief	创建信息
 				*
 				*	创建信息

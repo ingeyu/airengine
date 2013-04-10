@@ -60,11 +60,11 @@ namespace	Air{
 			Buffer::Info	vbInfo;
 			vbInfo.SetVertexBuffer(6,12);
 			vbInfo.InitData			=	line;
-			m_DrawBuff.m_pVertexBuffer[0]	=	pSys->CreateProduct<Buffer*>("MoveVB","Buffer",&vbInfo);
+			m_DrawBuff.m_pVertexBuffer[0]	=	pSys->CreateProduct<Buffer>("MoveVB",&vbInfo);
 
 			Render::Vertex::IDeclare::Info	vdInfo;
 			vdInfo.SetDeclP3();
-			m_DrawBuff.m_pVertexDeclare	=	pSys->CreateProduct<Render::Vertex::IDeclare*>("BoxVD","Declare",&vdInfo);
+			m_DrawBuff.m_pVertexDeclare	=	pSys->CreateProduct<Render::Vertex::IDeclare>("BoxVD",&vdInfo);
 
 
 			m_DrawBuff.m_DrawOption.m_DrawFuncType	=	Render::Draw::FUNC_TYPE_DP;
@@ -127,11 +127,11 @@ namespace	Air{
 			Buffer::Info	vbInfo;
 			vbInfo.SetVertexBuffer(12,16);
 			vbInfo.InitData			=	line;
-			m_DrawBuff.m_pVertexBuffer[0]	=	pSys->CreateProduct<Buffer*>("RotateRenderableVB","Buffer",&vbInfo);
+			m_DrawBuff.m_pVertexBuffer[0]	=	pSys->CreateProduct<Buffer>("RotateRenderableVB",&vbInfo);
 
 			Render::Vertex::IDeclare::Info	vdInfo;
 			vdInfo.SetDeclP4();
-			m_DrawBuff.m_pVertexDeclare	=	pSys->CreateProduct<Render::Vertex::IDeclare*>("RotateRenderableVD","Declare",&vdInfo);
+			m_DrawBuff.m_pVertexDeclare	=	pSys->CreateProduct<Render::Vertex::IDeclare>("RotateRenderableVD",&vdInfo);
 
 			U16	ib[]={
 				0,1,2,
@@ -145,7 +145,7 @@ namespace	Air{
 			};
 			vbInfo.SetIndexBuffer16(18);
 			vbInfo.InitData	=	ib;
-			m_DrawBuff.m_pIndexBuff	=	pSys->CreateProduct<Buffer*>("RotateRenderableIB","Buffer",&vbInfo);
+			m_DrawBuff.m_pIndexBuff	=	pSys->CreateProduct<Buffer>("RotateRenderableIB",&vbInfo);
 
 			m_DrawBuff.m_DrawOption.m_DrawFuncType	=	Render::Draw::FUNC_TYPE_DIP;
 			m_DrawBuff.m_DrawOption.m_DrawType		=	Render::Draw::enPT_TRIANGLELIST;

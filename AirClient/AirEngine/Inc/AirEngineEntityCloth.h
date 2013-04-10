@@ -16,8 +16,9 @@ namespace Air{
 		*
 		***/
 		class	EntityCloth	:
-			public	MovableObject,
-			public	Common::IProduct{
+			public	TProduct<EntityCloth>,
+			public	MovableObject
+			{
 		public:
 			/**	\brief	创建信息
 			*
@@ -52,20 +53,7 @@ namespace Air{
 			Physics::ICloth*		m_pCloth;
 			Info				m_Info;
 		};
-	
-		class	EntityClothFactory	:
-			public	IFactory{
-		public:
-			EntityClothFactory(){
-				m_strTypeName	=	"EntityCloth";
-			};
-	
-			virtual	IProduct*	NewProduct(CAString& strName,IFactoryParamList* lstParam /* = NULL */){
-				if(lstParam==NULL)
-					return	NULL;
-				return	new	EntityCloth(strName,(EntityCloth::Info*)lstParam);
-			};
-		};
+
 	
 	};
 };

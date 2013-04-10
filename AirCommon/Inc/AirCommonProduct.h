@@ -51,21 +51,6 @@ namespace Air{
 		friend class IFactory;
 		public:
 			IProduct(const AString& strName);
-			///virtual ~IProduct();
-		
-			/**	\brief	获取创建者
-			*   
-			*	@remarks 	
-			*	@see		IProduct
-			*	@return   	T_Scene*
-			*	@note
-			*
-			**/
-			template <typename T_Scene>
-			T_Scene* GetCreator(){
-				return (T_Scene*)m_pFactoryMgr;
-			};
-	
 			/**	\brief	返回产品类型名
 			*   
 			*	@remarks 	返回产品类型名
@@ -74,7 +59,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			virtual const	AString& GetProductTypeName()const;
+			virtual	const	AString& GetProductTypeName()const;
 			/**	\brief	返回产品名
 			*   
 			*	@remarks 	返回产品名
@@ -83,9 +68,9 @@ namespace Air{
 			*	@note
 			*
 			**/
-			const AString& GetProductName()const;
+			const AString&	GetProductName()const;
 
-			void		SetProductName(CAString& strName);
+			void			SetProductName(CAString& strName);
 			/**	\brief	设置工厂管理器
 			*   
 			*	@remarks 	设置工厂管理器
@@ -154,6 +139,19 @@ namespace Air{
 		};
 
 	};
+	template<typename T>
+	class TProduct	:	public	Common::IProduct{
+	public:
+		TProduct(const AString& strName):IProduct(strName){};
+		static AString	ProductTypeName;
+
+		virtual	const	AString& GetProductTypeName()const{
+			return ProductTypeName;
+		};
+	};
+	template<typename T>
+	AString	TProduct<T>::ProductTypeName	=	typeid(T).name();
+
 	template<typename T>
 	void	TReleaseRef(void*&	pProduct){
 		if(pProduct!=NULL){

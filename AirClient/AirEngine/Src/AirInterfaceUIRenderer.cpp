@@ -36,11 +36,11 @@ namespace Air{
 				//创建声明
 				VertexDeclare::Info	vdeclareInfo;
 				//vdeclareInfo.m_FVF	=	VertexBuff::PT::fvf;
-				m_DrawBuff.m_pVertexDeclare	=	setting.m_pRenderSystem->CreateProduct<VertexDeclare*>(AString("XYZ"),AString("VertexDeclare"),&vdeclareInfo);
+				m_DrawBuff.m_pVertexDeclare	=	setting.m_pRenderSystem->CreateProduct<VertexDeclare>("XYZ",&vdeclareInfo);
 				//创建顶点缓冲区
 				VertexBuffer::Info		vbuffinfo;
 				vbuffinfo.SetVertexBuffer(MAX_WINDOW*6,12);
-				m_DrawBuff.m_pVertexBuffer[0]	=	setting.m_pRenderSystem->CreateProduct<VertexBuffer*>(("UI"),("VertexBuffer"),&vbuffinfo);
+				m_DrawBuff.m_pVertexBuffer[0]	=	setting.m_pRenderSystem->CreateProduct<VertexBuffer>("UI",&vbuffinfo);
 				//VertexBuff::PT*	pVertex	=	NULL;
 // 				m_DrawBuff.m_pVertexBuff->Lock(LockOpt(0,0,(void**)&pVertex));
 // 				for(UInt	i	=0;i<MAX_WINDOW;i++){
@@ -58,7 +58,7 @@ namespace Air{
 				m_DrawBuff.m_DrawOption.m_DrawFuncType		=	Render::Draw::FUNC_TYPE_DP;
 	
 				//创建第二个缓冲区
-				m_pScreenEnt	=	EngineSystem::GetSingleton()->CreateProduct<ScreenEntity*>(AString("UIScreen"),AString("ScreenEntity"),NULL);
+				m_pScreenEnt	=	EngineSystem::GetSingleton()->CreateProduct<ScreenEntity>("UIScreen");
 	
 				return true;
 	

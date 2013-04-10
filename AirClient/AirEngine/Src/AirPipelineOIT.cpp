@@ -36,12 +36,12 @@ namespace	Air{
 			Render::Buffer::Info info;
 			info.SetStructureBuffer(uiCount*4,sizeof(Pixel));
 			info.SetViewFlag(enVF_SRV|enVF_UAV|enVF_Counter);
-			m_pPixelBuffer_Counter	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer*>("OIT_PixelBuffer_Counter","Buffer",&info);
+			m_pPixelBuffer_Counter	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer>("OIT_PixelBuffer_Counter",&info);
 			info.SetByteAddressBuffer(uiCount,sizeof(S32));
 			info.SetViewFlag(enVF_SRV|enVF_UAV);
-			m_pScreenMask	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer*>("OIT_ScreenMask","Buffer",&info);
+			m_pScreenMask	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer>("OIT_ScreenMask",&info);
 
-			m_pSortRender	=	EngineSystem::GetSingleton()->CreateProduct<Material*>("OIT_SortRender","Material");
+			m_pSortRender	=	EngineSystem::GetSingleton()->CreateProduct<Material>("OIT_SortRender");
 
 			return true;
 		}

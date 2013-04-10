@@ -3,7 +3,7 @@
 namespace	Air{
 	namespace	Engine{
 		namespace	Render{
-
+			AString	Vertex::IDeclare::ProductTypeName="Vertex::IDeclare";
 			void* Vertex::IDeclare::GetDeclare(){
 				return	NULL;
 			}

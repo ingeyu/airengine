@@ -8,7 +8,7 @@ namespace Air{
 	
 	namespace	Engine{
 	
-	
+		AString	Light::ProductTypeName	=	"Light";
 		Light::Light( CAString& strName ,Info*	pInfo):Camera(strName){
 			m_Info			=	*pInfo;
 			SetPosition(Float3(m_Info.vPosition.x,m_Info.vPosition.y,m_Info.vPosition.z));

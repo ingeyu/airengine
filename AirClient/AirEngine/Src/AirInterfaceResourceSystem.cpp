@@ -16,7 +16,7 @@ namespace	Air{
 			Air::U1 ISystem::Initialization(){
 				//Start();
 
-				AddFactory(new	NoParamFactory<IStream>("Stream"));
+				AddFactory(new	NoParamFactory<IStream>());
 				return	true;
 			}
 

@@ -16,6 +16,7 @@ namespace Air{
 			public	NetConnect
 		{
 		public:
+			static AString	ProductTypeName;
 			struct	Info{
 				Info(){	
 					pListener	=	NULL;
@@ -114,20 +115,6 @@ namespace Air{
 	
 			Info				m_Info;
 			NetReceiveThread	m_ThreadReceive;
-		};
-	
-		class	NetClientFactory	:	public	IFactory{
-		public:
-			NetClientFactory(){
-				m_strTypeName	=	"Client";
-			}
-			virtual	IProduct*	NewProduct(CAString& strName,IFactoryParamList* lstParam /* = NULL */){
-				if(strName.empty()	||	lstParam	==	NULL)
-					return	NULL;
-				NetClient::Info*	pInfo	=	(NetClient::Info*)(lstParam);
-				return	new	NetClient(strName,pInfo);
-	
-			};
 		};
 	
 	};

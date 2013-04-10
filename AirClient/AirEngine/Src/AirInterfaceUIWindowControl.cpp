@@ -212,7 +212,7 @@ namespace Air{
 					//创建渲染目标
 					Render::Target::Info	info;
 					//info.SetSingleTarget(m_Info.vPositionSize.x,m_Info.vPositionSize.y,Render::F).SetRenderToTexture(m_Info.vPositionSize.x,m_Info.vPositionSize.y);
-					m_pTarget	=	setting.m_pRenderSystem->CreateProduct<Render::Target*>(m_strProductName,"Target",&info);
+					m_pTarget	=	setting.m_pRenderSystem->CreateProduct<Render::Target>(m_strProductName,&info);
 					//设置当前UI空间为渲染对象
 					m_pTarget->SetRenderObject(this);
 					//设置背景颜色为黑色

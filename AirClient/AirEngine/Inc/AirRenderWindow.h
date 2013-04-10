@@ -41,6 +41,7 @@ namespace	Air{
 			class	ENGINE_EXPORT	Window	:	
 				public	Target{
 			public:
+				static AString	ProductTypeName;
 				Window(CAString&	strName,Info*	pInfo);
 				virtual	U1	Create();
 				virtual	U1	Destroy();

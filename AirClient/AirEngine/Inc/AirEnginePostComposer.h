@@ -13,7 +13,7 @@ namespace Air{
 		*
 		***/
 		class	PostComposer	:
-			public	IProduct{
+			public	TProduct<PostComposer>{
 		public:
 			PostComposer(AString	strName,AString*	strMaterialName);
 	
@@ -70,23 +70,6 @@ namespace Air{
 			RenderTarget*		m_pTerget;				///<	渲染目标
 			Material*			m_pMaterial;			///<	材质
 			AString				m_strMaterialName;		///<	材质名
-		};
-	
-		class	PostComposerFactory	:
-			public	IFactory{
-		public:
-			PostComposerFactory();
-			/**	\brief	创建
-			*   
-			*	@remarks 	创建
-			*	@see		BuffFactory
-			*	@return   	IProduct*
-			*	@param		CAString& strName
-			*	@param		IFactoryParamList * lstParam
-			*	@note
-			*
-			**/
-			virtual	IProduct*	NewProduct(CAString& strName,IFactoryParamList* lstParam =	NULL);
 		};
 	
 	};

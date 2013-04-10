@@ -24,13 +24,13 @@ namespace Air{
 				
 				//添加工厂
 				//AddFactory(new	Window::LayoutFactory());
-				AddFactory(new	NoParamFactory<Lookfeel>("Lookfeel"));
+				AddFactory(new	NoParamFactory<Lookfeel>());
 	
 				Font::Info	fontInfo;
 				fontInfo.bBorder	=	false;
 				fontInfo.bItalic	=	false;
 				fontInfo.uiSize		=	25;
-				Font*	pDefaultFont	=	EngineSystem::GetSingleton()->CreateProduct<Font*>(AString("..\\Data\\STLITI.ttf"),AString("Font"),&fontInfo);
+				Font*	pDefaultFont	=	EngineSystem::GetSingleton()->CreateProduct<Font>(AString("..\\Data\\STLITI.ttf"),&fontInfo);
 	
 	
 				pDefaultFont->AddString(L"`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:\"ZXCVBNM<>?");
@@ -68,7 +68,7 @@ namespace Air{
 				return true;
 			}
 	
-			void ISystem::Updata(){
+			void ISystem::Update(){
 				//窗口更新
 				if(m_pRootWindow!=NULL){
 					m_pRootWindow->Updata();
@@ -103,7 +103,7 @@ namespace Air{
 			}
 	
 			Window::IControl* ISystem::CreateIWindow( AString strName,AString strType,void*	pParam ){
-				return	CreateProduct<Window::IControl*>(strName,strType,pParam);
+				return	CreateProduct<Window::IControl>(strName,strType,pParam);
 			}
 	
 			void ISystem::DestroyIWindow( Window::IControl* pWindow ){

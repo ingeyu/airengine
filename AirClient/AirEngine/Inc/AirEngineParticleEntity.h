@@ -14,7 +14,7 @@ namespace Air{
 		*
 		***/
 		class	ENGINE_EXPORT	ParticleEntity	:
-			public	Common::IProduct,
+			public	TProduct<ParticleEntity>,
 			public	MovableObject
 		{
 		public:

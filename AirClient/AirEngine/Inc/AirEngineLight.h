@@ -22,6 +22,8 @@ namespace Air{
 		class	ENGINE_EXPORT	Light	:
 			public	Camera{
 		public:
+			static	AString	ProductTypeName;
+		public:
 			enum	enumType{	
 				enPoint,			///<	点光源
 				enDirection,		///<	方向

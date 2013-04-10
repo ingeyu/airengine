@@ -4,7 +4,7 @@ namespace Air{
 	namespace	Common{
 		
 	
-	
+		AString Plugin::ProductTypeName="Plugin";
 		Plugin::Plugin( CAString& strName ,void*	pParam):IProduct(strName){
 			m_pParam	=	pParam;
 			m_Func[0]	=	NULL;
@@ -53,11 +53,6 @@ namespace Air{
 		Common::Func Plugin::GetFunction( AString strName ){
 			return	(Func)GetProcAddress((HINSTANCE)m_pObject,strName.c_str());
 		}
-		PluginFactory::PluginFactory(){
-			m_strTypeName	=	"Plugin";
-		}
-		IProduct* PluginFactory::NewProduct( CAString& strName,IFactoryParamList* lstParam /*= NULL*/ ){
-			return new	Plugin(strName,lstParam);
-		}
+
 	}
 };

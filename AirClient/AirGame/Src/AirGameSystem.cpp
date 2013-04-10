@@ -43,7 +43,7 @@ namespace Air{
 				m_pRootNode							=	new	SceneNode();
 				m_ppSection							=	&GetGlobal().m_pSection;
 				m_ppLoadingSection					=	&GetGlobal().m_pLoadingSection;
-				m_pPluginMgr						=	NULL;
+				//m_pPluginMgr						=	NULL;
 	
 				m_pCurrentSection					=	NULL;
 				m_pTempSection						=	NULL;
@@ -114,11 +114,11 @@ namespace Air{
 	
 			U1 System::Initialization(){
 	
-				AddFactory(new	Common::PluginFactory());
+				AddFactory(new	ExtraParamFactory<Plugin,void>());
 	//			AddFactory(new	DecorationShowSystemFactory(),this);
-				AddFactory(new	SectionFactory());
-				AddFactory(new	FPSControlFactory());
-				AddFactory(new	ThirdControlFactory());
+				//AddFactory(new	SectionFactory());
+				//AddFactory(new	FPSControlFactory());
+				//AddFactory(new	ThirdControlFactory());
 	
 				//Log::GetSingleton()->Write("Game	Init\n");
 	
@@ -357,7 +357,7 @@ namespace Air{
 	 			if(!cfgFile.LoadFileFromMemory(pData->buff,pData->size))
 	 				return false;
 	 
-	 			m_pPluginMgr	=	new	Common::PluginFactory();
+	 			//m_pPluginMgr	=	new	Common::PluginFactory();
 	
 				StringArray	strPluginArray;
 				strPluginArray.resize(g_uiNumPlugin);
@@ -371,17 +371,18 @@ namespace Air{
 	 				if(!m_strPluginNameArray[i].empty()){
 						
 	 					//加载插件	并初始化
-						Plugin*		p		=	dynamic_cast<Plugin*>(m_pPluginMgr->NewProduct(m_strPluginNameArray[i],"Plugin"));
-						
-						if(!p->AddRef()){
-							m_pPluginMgr->Destroy(p);
-							p=NULL;
-							continue;
-						}
-						p->SetFactory(m_pPluginMgr);
-	 					m_pPluginMgr->Insert(p);
-	
-						p->Excute(Plugin::enInit);
+// 						Plugin*		p		=	dynamic_cast<Plugin*>(m_pPluginMgr->NewProduct(m_strPluginNameArray[i],"Plugin"));
+// 						
+// 						if(!p->AddRef()){
+// 							m_pPluginMgr->Destroy(p);
+// 							p=NULL;
+// 							continue;
+// 						}
+// 						p->SetFactory(m_pPluginMgr);
+// 	 					m_pPluginMgr->Insert(p);
+// 	
+// 						p->Excute(Plugin::enInit);
+						CreateProduct<Plugin>(m_strPluginNameArray[i]);
 				
 	 				}
 	 			}
@@ -391,10 +392,10 @@ namespace Air{
 			}
 	
 			U1 System::UnLoadPlugin(){
-				if(m_pPluginMgr==NULL)
-					return true;
+				//if(m_pPluginMgr==NULL)
+				//	return true;
 				//获取插件工厂
-				IFactory*	pPluginFactory	=	m_pPluginMgr;//GetFactory("Plugin");
+				IFactory*	pPluginFactory	=	GetFactory(Plugin::ProductTypeName);
 	
 				if(pPluginFactory==NULL)
 					return false;
@@ -409,8 +410,8 @@ namespace Air{
 				}
 				pPluginFactory->DestroyAllProduct();
 	
-				delete	m_pPluginMgr;
-				m_pPluginMgr	=	NULL;
+				//delete	m_pPluginMgr;
+				//m_pPluginMgr	=	NULL;
 				return	true;
 				//return true;
 			}

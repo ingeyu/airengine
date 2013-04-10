@@ -38,6 +38,7 @@ namespace Air{
 				**/
 				void checkZzipError(int zzipError, const AString& operation) const;
 			public:
+				static AString ProductTypeName;
 				ZipPackage(CAString& name);
 	
 				/**	\brief	创建资源包
@@ -81,37 +82,6 @@ namespace Air{
 				*
 				**/
 				virtual	void		FindWithPostfix(CAString&	strPostfix,IFindFileListener*	pListener);
-			};
-	
-			/**	\brief	ZIP资源包工厂
-			*
-			*	ZIP资源包工厂
-			*
-			***/
-			
-			class ZipPackageFactory	: 
-				public IFactory
-			{
-			public:
-				ZipPackageFactory(){
-					m_strTypeName	=	"zip";
-				};
-	
-				/**	\brief	创建资源包
-				*   
-				*	@remarks 	创建资源包
-				*	@see		ZipPackageFactory
-				*	@return   	IProduct*
-				*	@param		AString strName
-				*	@param		IFactoryParamList * lstParam
-				*	@note
-				*
-				**/
-				virtual	IProduct*	NewProduct(CAString& strName,IFactoryParamList* lstParam /* = NULL */){
-					if(strName.empty())
-						return	NULL;
-					return	new	ZipPackage(strName);
-				};
 			};
 		}
 	};

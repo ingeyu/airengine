@@ -3,7 +3,7 @@
 namespace	Air{
 	namespace	Engine{
 		namespace	Resource{
-
+			AString FolderPackage::ProductTypeName="Folder";
 			FolderPackage::FolderPackage( CAString& strName ):IPackage(strName){
 				m_pTempListener	=	NULL;
 				AChar cEnd	=	strName[strName.size()-1];

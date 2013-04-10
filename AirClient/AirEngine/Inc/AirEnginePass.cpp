@@ -38,11 +38,11 @@ namespace	Air{
 			if(pRenderSys==NULL)
 				return	false;
 			if(!m_pInfo->strRasterizerState.empty())
-				m_pRasterizerState	=	pRenderSys->CreateProduct<Render::IRasterizerState*>(m_pInfo->strRasterizerState,"State");
+				m_pRasterizerState	=	pRenderSys->CreateProduct<Render::IRasterizerState>(m_pInfo->strRasterizerState);
 			if(!m_pInfo->strDepthStencilState.empty())
-				m_pDepthStencilState=	pRenderSys->CreateProduct<Render::IDepthStencilState*>(m_pInfo->strDepthStencilState,"State");
+				m_pDepthStencilState=	pRenderSys->CreateProduct<Render::IDepthStencilState>(m_pInfo->strDepthStencilState);
 			if(!m_pInfo->strBlendState.empty())
-				m_pBlendState		=	pRenderSys->CreateProduct<Render::IBlendState*>(m_pInfo->strBlendState,"State");
+				m_pBlendState		=	pRenderSys->CreateProduct<Render::IBlendState>(m_pInfo->strBlendState);
 
 			for(UInt i=0;i<6;i++){
 				m_pShaderArray[i]	=	CreateShaderProgram(m_pInfo->pShaderArray[i],(enumShaderType)i);

@@ -63,6 +63,7 @@ namespace Air{
 			class	ENGINE_EXPORT	Resource	:
 				public	IProduct{
 			public:
+				static AString ProductTypeName;
 				/**	\brief	模型和动画文件引用信息
 				*
 				*	模型和动画文件引用信息

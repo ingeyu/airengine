@@ -9,7 +9,7 @@ namespace Air{
 	namespace	Engine{
 		//struct	
 	
-	
+		AString TextInstance::ProductTypeName="TextInstance";
 		TextInstance::TextInstance( CAString& strName ,Info*	pInfo):InstanceEntity(strName,pInfo->uiMaxInstance){
 			m_pFont	=	NULL;
 			m_strMaterialName	=	pInfo->strMaterialName;
@@ -55,7 +55,7 @@ namespace Air{
 	
 			//创建字体
 			Font::Info	info;
-			m_pFont	=	EngineSystem::GetSingleton()->CreateProduct<Font*>(AString("..\\Data\\STLITI.ttf"),AString("Font"),&info);
+			m_pFont	=	EngineSystem::GetSingleton()->CreateProduct<Font>(AString("..\\Data\\STLITI.ttf"),&info);
 			
 			return true;
 		}
@@ -75,7 +75,7 @@ namespace Air{
 			//创建索引缓冲
 			IndexBuffer::Info	IndexBuffInfo;
 			IndexBuffInfo.SetIndexBuffer16(6);
-			IndexBuffer*	pIndexBuff	=	Render::System::GetSingleton()->CreateProduct<IndexBuffer*>(AString("ScreenIndexBuff"),AString("IndexBuff"),&IndexBuffInfo);
+			IndexBuffer*	pIndexBuff	=	Render::System::GetSingleton()->CreateProduct<IndexBuffer>(AString("ScreenIndexBuff"),&IndexBuffInfo);
 			if(pIndexBuff==NULL){
 				Render::System::GetSingleton()->DestroyProduct(pIndexBuff);
 				return false;
@@ -200,17 +200,6 @@ namespace Air{
 			rect.bottom	=	m_Rect[1]	+	m_Rect[3];
 			return	rect;
 		}
-		TextInstanceFactory::TextInstanceFactory(){
-			m_strTypeName	=	"TextInstance";
-		}
-	
-		IProduct* TextInstanceFactory::NewProduct( CAString& strName,IFactoryParamList* lstParam /*= NULL*/ ){
-			if(lstParam	==	NULL)
-				return	false;
-			TextInstance::Info*	pInfo	=	(TextInstance::Info*)lstParam;
-			TextInstance*		pBuff	=	new	TextInstance(strName,pInfo);
-	
-			return	pBuff;
-		}
+
 	}
 };

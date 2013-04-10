@@ -253,14 +253,7 @@ namespace Air{
 			void Section::OnEnter(){
 				SetCamera(m_pDefaultCamera);
 			}
-			SectionFactory::SectionFactory(){
-				m_strTypeName	=	"Section";
-			}
-	
-			Common::IProduct* SectionFactory::NewProduct( CAString& strName,Common::IFactoryParamList* lstParam /*= NULL*/ ){
-				Section*	pBuff	=	new	Section(strName);
-				return pBuff;
-			}
+
 		}
 	}
 };

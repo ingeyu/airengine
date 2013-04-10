@@ -61,6 +61,7 @@ namespace Air{
 		***/
 		class	COMMON_EXPORT	Plugin	:	public	IProduct{
 		public:
+			static AString	ProductTypeName;
 			/**	\brief	插件函数类型
 			*
 			*	插件函数类型
@@ -122,26 +123,6 @@ namespace Air{
 			void*		m_pParam;
 			Func		m_Func[enMax];
 		};
-		class	COMMON_EXPORT	PluginFactory	:
-			public	IFactory{
-		public:
-			PluginFactory();
-	
-			/**	\brief	创建插件
-			*   
-			*	@remarks 	创建插件
-			*	@see		PluginFactory
-			*	@return   	IProduct*
-			*	@param		AString strName
-			*	@param		IFactoryParamList * lstParam
-			*	@note
-			*
-			**/
-			virtual IProduct*	NewProduct(CAString& strName,IFactoryParamList* lstParam = NULL);
-	
-		};
-		
-	
 	};
 };
 #endif // COMMONPLUGINMANAGER_HEAD_FILE

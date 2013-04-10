@@ -30,6 +30,7 @@ namespace	Air{
 		class	ENGINE_EXPORT	MaterialTemplate	:
 			public	Common::IProduct{
 		public:
+			static AString ProductTypeName;
 			MaterialTemplate(CAString&	strName,MaterialTemplateInfo*	pInfo);
 
 

@@ -216,6 +216,7 @@ namespace Air{
 					public	MovableObject
 				{
 				public:
+					static AString ProductTypeName;
 					/**	\brief	创建信息
 					*
 					*	创建信息
@@ -498,28 +499,7 @@ namespace Air{
 	
 	
 				};
-	
-				/**	\brief	动画模型工厂
-				*
-				*	动画模型工厂
-				*
-				***/
-				class	ModelFactory	:
-					public	IFactory{
-				public:
-					ModelFactory();
-					/**	\brief	创建
-					*   
-					*	@remarks 	创建
-					*	@see		BuffFactory
-					*	@return   	IProduct*
-					*	@param		CAString& strName
-					*	@param		IFactoryParamList * lstParam
-					*	@note
-					*
-					**/
-					virtual	IProduct*	NewProduct(CAString& strName,IFactoryParamList* lstParam =	NULL);
-				};
+
 			};
 		}
 	

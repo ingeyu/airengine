@@ -153,7 +153,7 @@ namespace Air{
 				Section*		m_pCurrentSection;
 				Section*		m_pTempSection;
 				StringArray			m_strPluginNameArray;
-				Common::PluginFactory*	m_pPluginMgr;
+				//Common::PluginFactory*	m_pPluginMgr;
 	
 				std::map<AString,Plugin*>	m_mapSection;
 				Plugin*			m_pCurrentPlugin;

@@ -4,7 +4,7 @@
 
 namespace	Air{
 	namespace	Engine{
-		MaterialSet::MaterialSet(CAString& strName):IProduct(strName){
+		MaterialSet::MaterialSet(CAString& strName):TProduct(strName){
 
 		}
 
@@ -54,7 +54,7 @@ namespace	Air{
 
 		}
 		void		MaterialSet::AddMaterial(CAString& strMaterialName){
-			Material*	pMaterial	=	EngineSystem::GetSingleton()->CreateProduct<Material*>(strMaterialName,"Material");
+			Material*	pMaterial	=	EngineSystem::GetSingleton()->CreateProduct<Material>(strMaterialName);
 			if(pMaterial==NULL)
 				return;
 			AddMaterial(pMaterial);
@@ -157,7 +157,7 @@ namespace	Air{
 			info.vecTextureName	=	vecTextureName;
 
 			
-			Material*	pMRT	=	EngineSystem::GetSingleton()->CreateProduct<Material*>(strMRT_MT_Name+strName,"Material",&info);
+			Material*	pMRT	=	EngineSystem::GetSingleton()->CreateProduct<Material>(strMRT_MT_Name+strName,&info);
 			if(pMRT!=NULL){
 				pSet->AddMaterial(pMRT);
 				pMRT->ReleaseRef();
@@ -216,11 +216,11 @@ namespace	Air{
 				if(bUseSkin)
 					strMaterialSetName		+=	"Skin";	
 
-				MaterialSet*	pSet	=	(MaterialSet*)EngineSystem::GetSingleton()->GetProduct(strMaterialSetName,"MaterialSet");
+				MaterialSet*	pSet	=	EngineSystem::GetSingleton()->GetProduct<MaterialSet>(strMaterialSetName);
 				if(pSet!=NULL){
 					return	pSet;
 				}else{
-					pSet				=	EngineSystem::GetSingleton()->CreateProduct<MaterialSet*>(strMaterialSetName,"MaterialSet");
+					pSet				=	EngineSystem::GetSingleton()->CreateProduct<MaterialSet>(strMaterialSetName);
 				}
 
 				(*func)(pSet,pSetInfo,strType,bUseSkin);

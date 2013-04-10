@@ -55,15 +55,15 @@ namespace	Air{
 			vbInfo.SetVertexBuffer(TESS_TOTAL_VERTEX,8);
 			vbInfo.InitData			=	&vb[0];
 			//vbInfo.
-			m_DrawBuff.m_pVertexBuffer[0]	=	pSys->CreateProduct<Buffer*>("TessVB","Buffer",&vbInfo);
+			m_DrawBuff.m_pVertexBuffer[0]	=	pSys->CreateProduct<Buffer>("TessVB",&vbInfo);
 
 			vbInfo.SetIndexBuffer32(TESS_TOTAL_INDEX);
 			vbInfo.InitData			=	&ib[0];
-			m_DrawBuff.m_pIndexBuff			=	pSys->CreateProduct<Buffer*>("TessIB","Buffer",&vbInfo);
+			m_DrawBuff.m_pIndexBuff			=	pSys->CreateProduct<Buffer>("TessIB",&vbInfo);
 
 			Render::Vertex::IDeclare::Info	vdInfo;
 			vdInfo.SetDeclP2();
-			m_DrawBuff.m_pVertexDeclare	=	pSys->CreateProduct<Render::Vertex::IDeclare*>("QuadVD","Declare",&vdInfo);
+			m_DrawBuff.m_pVertexDeclare	=	pSys->CreateProduct<Render::Vertex::IDeclare>("QuadVD",&vdInfo);
 
 
 			m_DrawBuff.m_DrawOption.m_DrawFuncType	=	Render::Draw::FUNC_TYPE_DIP;
@@ -93,7 +93,7 @@ namespace	Air{
 				m_pTessRenderable	=	AirNew<TessellationRenderable>();
 			}
 			if(m_pTessellationMaterial==NULL){
-				m_pTessellationMaterial	=	EngineSystem::GetSingleton()->CreateProduct<Material*>("ScreenSpaceTessellation","Material");
+				m_pTessellationMaterial	=	EngineSystem::GetSingleton()->CreateProduct<Material>("ScreenSpaceTessellation");
 			}
 
 			enumTextureFormat	fmt[5]={
@@ -106,7 +106,7 @@ namespace	Air{
 
 			RenderTarget::Info rtinfo;
 			rtinfo.SetMutilTargetScreen(5,fmt,1.0f,TRUE,RenderSystem::GetSingleton()->GetMainWindow());
-			m_pTessellationTarget	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("TessMRT","Target",&rtinfo);
+			m_pTessellationTarget	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget>("TessMRT",&rtinfo);
 			m_pTessellationTarget->SetClearFlag(true,true,true);
 			m_pTessellationTarget->SetBKColor(Float4(1.0f,1.0f,1.0f,1.0f));
 			

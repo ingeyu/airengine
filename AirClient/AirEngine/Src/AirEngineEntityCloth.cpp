@@ -9,7 +9,7 @@ namespace Air{
 	namespace	Engine{
 	
 	
-		EntityCloth::EntityCloth( CAString& strName,Info* pInfo ):Common::IProduct(strName){
+		EntityCloth::EntityCloth( CAString& strName,Info* pInfo ):TProduct(strName){
 			if(pInfo!=NULL)
 				m_Info	=	*pInfo;
 			m_pCloth	=	NULL;

@@ -20,11 +20,11 @@ namespace	Air{
 			Buffer::Info	vbInfo;
 			vbInfo.SetVertexBuffer(6,8);
 			vbInfo.InitData			=	quad;
-			m_DrawBuff.m_pVertexBuffer[0]	=	pSys->CreateProduct<Buffer*>("QuadVB","Buffer",&vbInfo);
+			m_DrawBuff.m_pVertexBuffer[0]	=	pSys->CreateProduct<Buffer>("QuadVB",&vbInfo);
 
 			Render::Vertex::IDeclare::Info	vdInfo;
 			vdInfo.SetDeclP2();
-			m_DrawBuff.m_pVertexDeclare	=	pSys->CreateProduct<Render::Vertex::IDeclare*>("QuadVD","Declare",&vdInfo);
+			m_DrawBuff.m_pVertexDeclare	=	pSys->CreateProduct<Render::Vertex::IDeclare>("QuadVD",&vdInfo);
 
 
 			m_DrawBuff.m_DrawOption.m_DrawFuncType	=	Render::Draw::FUNC_TYPE_DP;

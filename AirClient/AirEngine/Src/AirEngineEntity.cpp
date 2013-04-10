@@ -11,7 +11,7 @@ namespace Air{
 	namespace	Engine{
 		
 	
-		Entity::Entity( CAString& strName,Info* pInfo ):IProduct(strName){
+		Entity::Entity( CAString& strName,Info* pInfo ):TProduct(strName){
 			if(pInfo!=NULL)
 				m_Info	=	*pInfo;
 			m_pNode	=	NULL;
@@ -112,7 +112,7 @@ namespace Air{
 			rInfo.strMeshName		=	file.Get("Render","Name");
 			rInfo.strMaterialName	=	file.Get("Render","Material");
 	
-			m_pRenderObj	=	EngineSystem::GetSingleton()->CreateProduct<SubEntity*>(m_strProductName,AString("SubEntity"),&rInfo);
+			m_pRenderObj	=	EngineSystem::GetSingleton()->CreateProduct<SubEntity>(m_strProductName,&rInfo);
 	
 	
 			Physics::ICollision::Info	cInfo;
@@ -208,7 +208,7 @@ namespace Air{
 	
 	
 			
-			m_pCollisionObj	=	m_Info.pXScene->CreateProduct<Physics::ICollision*>(m_strProductName,AString("Collision"),&cInfo);
+			m_pCollisionObj	=	m_Info.pXScene->CreateProduct<Physics::ICollision>(m_strProductName,&cInfo);
 	
 			if(m_pCollisionObj==NULL)
 				return	false;

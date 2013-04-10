@@ -5,7 +5,7 @@ namespace	Air{
 	namespace	Engine{
 		namespace	Resource{
 
-
+			AString IStream::ProductTypeName=	"IStream";
 			IStream::IStream( CAString& strName ):IProduct(strName){
 				m_State	=	enSS_UnLoad;
 			}

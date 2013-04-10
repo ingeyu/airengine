@@ -6,7 +6,7 @@ namespace	Air{
 	namespace	Engine{
 		namespace	Render{
 
-
+			AString	Window::ProductTypeName="Window";
 			Window::Window( CAString& strName,Info* pInfo ):Target(strName,pInfo){
 				m_WndHandle		=	NULL;
 				m_bMainWindow	=	false;

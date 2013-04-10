@@ -46,7 +46,7 @@ namespace Air{
 			*
 			***/
 			class	ICollision	:
-				public	Common::IProduct{
+				public	TProduct<ICollision>{
 			public:
 				enum	enumType{
 					enDynamic,		///<	动态
@@ -93,7 +93,7 @@ namespace Air{
 					ITriggerCallback*	pCallback;	///<	触发器回调接口
 				};
 			public:
-				ICollision(CAString&	strName,Info*	pInfo):IProduct(strName){
+				ICollision(CAString&	strName,Info*	pInfo):TProduct(strName){
 					if(pInfo!=NULL){
 						m_Info	=	*pInfo;
 					}

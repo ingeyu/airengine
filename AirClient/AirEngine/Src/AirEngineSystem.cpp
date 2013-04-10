@@ -33,6 +33,7 @@
 #include "AirInterfaceInputSystem.h"
 
 #include "AirEnginePipeline.h"
+#include "AirEngineScreen.h"
 #define USE_PROFILE
 #include "AirCommonProfile.h"
 #include "AirCommonWindow.h"
@@ -78,7 +79,7 @@ namespace Air{
 			m_strPluginNameArray.resize(g_uiNumPlugin);
 			//m_strPluginFileName				=	"..\\Data\\Config\\Plugin.ini";
 			
-			m_pPipeline						=	NULL;
+			m_pCurrentScreen	=	NULL;
 		}
 	
 		EngineSystem::~EngineSystem(){
@@ -101,12 +102,11 @@ namespace Air{
 			//渲染界面
 			UI::ISystem*	pUISystem		=	GetGlobalSetting().m_pUISystem;
 			if(pUISystem!=NULL){
-				pUISystem->Updata();
+				pUISystem->Update();
 			}
 
-			if(m_pPipeline!=NULL){
-				m_pPipeline->Update(frameTime);
-				m_pPipeline->RenderOneFrame(frameTime);
+			if(m_pCurrentScreen!=NULL){
+				m_pCurrentScreen->RenderOneFrame(frameTime);
 			}
 		}
 	
@@ -132,15 +132,15 @@ namespace Air{
 			data.Clear();
 			
 			//AddFactory(new	Common::PluginFactory());
-			AddFactory(new	NoParamFactory<Pipeline>("Pipeline"));
+			AddFactory(new	NoParamFactory<DefaulePipeline>());
 			//AddFactory(new	FontFactory());
-			AddFactory(new	ExtraOptionParamFactory<MaterialTemplate,MaterialTemplateInfo*>("MaterialTemplate"));
-			AddFactory(new	OptionParamFactory<Material>("Material"));
+			AddFactory(new	ExtraOptionParamFactory<MaterialTemplate,MaterialTemplateInfo*>());
+			AddFactory(new	OptionParamFactory<Material>());
 			//AddFactory(new	SubEntityFactory());
 			
 			//AddFactory(new	LightFactory());
-			AddFactory(new	ExtraOptionParamFactory<Character::Resource,AString*>("Character"));
-			AddFactory(new	ParamFactory<Character::Animation::Model>("Model"));
+			AddFactory(new	ExtraOptionParamFactory<Character::Resource,AString*>());
+			AddFactory(new	ParamFactory<Character::Animation::Model>());
 			//AddFactory(new	Character::Animation::TextureModelFactory());
 			//AddFactory(new	Terrain::IPageFactory());
 			//AddFactory(new	MeshFactory());
@@ -151,11 +151,11 @@ namespace Air{
 			//AddFactory(new	ShootParticleFactory());
 			//AddFactory(new	TextInstanceFactory());
 
-			AddFactory(new	NoParamFactory<StaticMesh>("StaticMesh"));
-			AddFactory(new	ParamFactory<MeshEntity>("MeshEntity"));
-			AddFactory(new	ParamFactory<ManualMeshEntity>("ManualMeshEntity"));
-			AddFactory(new	NoParamFactory<Camera>("Camera"));
-			AddFactory(new	ParamFactory<Light>("Light"));
+			AddFactory(new	NoParamFactory<StaticMesh>());
+			AddFactory(new	ParamFactory<MeshEntity>());
+			AddFactory(new	ParamFactory<ManualMeshEntity>());
+			AddFactory(new	NoParamFactory<Camera>());
+			AddFactory(new	ParamFactory<Light>());
 	
 	
 			//加载所有插件
@@ -168,7 +168,7 @@ namespace Air{
 			InitAllSystemManager();
 
 			//创建Pipeline
-			m_pPipeline	=	CreateProduct<Pipeline*>("DefaultPipeline","Pipeline");
+			//m_pCurrentScreen=	CreateProduct<Pipeline*>("DefaultPipeline","Pipeline");
 	
 			//启动系统
 			StartAllSystemManager();
@@ -236,12 +236,7 @@ namespace Air{
 
 			//释放所有缓冲区中的物体
 			ReleaseAllAutoObject();
-	
-			if(m_pPipeline!=NULL){
-				m_pPipeline->ReleaseRef();
-				m_pPipeline=NULL;
-			}
-			
+		
 			
 			DestroyAllProduct();
 	

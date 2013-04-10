@@ -19,7 +19,7 @@ namespace Air{
 		*
 		***/
 		class	Entity	:
-			public	IProduct,
+			public	TProduct<Entity>,
 			public	Common::INodeListener{
 		public:
 			struct Info{
@@ -117,20 +117,7 @@ namespace Air{
 			SceneNode*			m_pNode;				///<	节点
 			Info				m_Info;					///<	创建信息
 		};
-	
-		class	EntityFactory	:
-			public	IFactory{
-		public:
-			EntityFactory(){
-				m_strTypeName	=	"Entity";
-			};
-	
-			virtual	IProduct*	NewProduct(CAString& strName,IFactoryParamList* lstParam /* = NULL */){
-				if(lstParam==NULL)
-					return	NULL;
-				return	new	Entity(strName,(Entity::Info*)lstParam);
-			};
-		};
+
 	
 	};
 };

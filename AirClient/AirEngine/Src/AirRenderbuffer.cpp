@@ -4,7 +4,7 @@ namespace	Air{
 	namespace	Engine{
 		namespace	Render{
 
-
+			AString	Buffer::ProductTypeName="Buffer";
 			Buffer::Buffer( CAString& strName,Info* pInfo ):IProduct(strName)
 			{
 				if(pInfo!=NULL){

@@ -85,16 +85,16 @@ namespace	Air{
 			RenderTarget::Info rtinfo;
 			rtinfo.SetSingleTarget(128,128,enTFMT_R8G8B8A8_UNORM);
 
-			m_pRT		=	RenderSystem::GetSingleton()->CreateProduct<Render::Target*>("SVO_Test","Target",&rtinfo);
+			m_pRT		=	RenderSystem::GetSingleton()->CreateProduct<Render::Target>("SVO_Test",&rtinfo);
 
 			Render::Buffer::Info info;
 			info.SetStructureBuffer(1048576,sizeof(U32));
 			info.SetViewFlag(enVF_SRV|enVF_UAV|enVF_Counter);
-			m_pVoxel	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer*>("SVO_Counter","Buffer",&info);
+			m_pVoxel	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer>("SVO_Counter",&info);
 			
 			info.SetByteAddressBuffer(1048576,sizeof(U32));
 			info.SetViewFlag(enVF_SRV|enVF_UAV);
-			m_pNodeTree	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer*>("SVO_Octree","Buffer",&info);
+			m_pNodeTree	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer>("SVO_Octree",&info);
 			
 			Data data;
 			Common::File::Load("../Data/AirMesh/Teapot.svo",data);
@@ -102,26 +102,26 @@ namespace	Air{
 			info.SetByteAddressBuffer(data.size/sizeof(U32),sizeof(U32));
 			info.SetViewFlag(enVF_SRV);
 			info.InitData	=	data.buff;
-			m_pDebugSVO	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer*>("SVO_DebugBuffer","Buffer",&info);
+			m_pDebugSVO	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer>("SVO_DebugBuffer",&info);
 			//m_pDebugSVO->UpdateData(data.buff);
 
-			m_pCamera	=	EngineSystem::GetSingleton()->CreateProduct<Camera*>("SVO_Camera","Camera");
+			m_pCamera	=	EngineSystem::GetSingleton()->CreateProduct<Camera>("SVO_Camera");
 			m_pCamera->SetDir(0,0,1);
 			m_pCamera->SetWidth(128);
 			m_pCamera->SetHeight(128);
 			m_pCamera->SetOrtho(true);
 			m_pCamera->SetPosition(0,0,-64);
 
-			m_pGenVoxelTree	=	EngineSystem::GetSingleton()->CreateProduct<Material*>("SVO_Build_NoSkin","Material");	//"SVO_Test"
+			m_pGenVoxelTree	=	EngineSystem::GetSingleton()->CreateProduct<Material>("SVO_Build_NoSkin");	//"SVO_Test"
 
 			m_pRT->AddCamera(m_pCamera);
 
 
 			m_pDebugSVORenderable	=	new BoxRenderable();
 #ifdef GPU_DEBUG
-			m_pDebugSVOMaterial		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("SVO_Debug","Material");
+			m_pDebugSVOMaterial		=	EngineSystem::GetSingleton()->CreateProduct<Material>("SVO_Debug");
 #else
-			m_pDebugSVOMaterial		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("WorldHelperWireFrame","Material");
+			m_pDebugSVOMaterial		=	EngineSystem::GetSingleton()->CreateProduct<Material>("WorldHelperWireFrame");
 #endif
 			return true;
 		}
@@ -152,7 +152,7 @@ namespace	Air{
 				MeshEntity::Info	info;
 				info.strMaterial	=	"SVO_Test";
 				info.strMeshName	=	"AirMesh/Strom/Wolf.AME";
-				pEnt	=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity*>(info.strMeshName,"MeshEntity",&info);;
+				pEnt	=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity>(info.strMeshName,&info);;
 				;
 				pEnt->GetWorldMatrix()->SetPosition(-pEnt->GetOrginBoundingBox().GetCenter()*10);
 				pEnt->GetWorldMatrix()->m00	=	10;

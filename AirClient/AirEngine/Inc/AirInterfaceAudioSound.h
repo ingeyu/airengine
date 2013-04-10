@@ -99,7 +99,7 @@ namespace Air{
 			*
 			***/
 			class	ISound	:
-				public	Common::IProduct,
+				public	TProduct<ISound>,
 				public	IProperty,
 				public	MovableObject
 				{
@@ -172,7 +172,7 @@ namespace Air{
 					SceneNode*	pParentNode;	///<	要绑定到的节点
 				};
 			public:
-				ISound(CAString&	strName,Info*	pInfo):Common::IProduct(strName){
+				ISound(CAString&	strName,Info*	pInfo):TProduct(strName){
 
 				};
 				/**	\brief	获取声音类型

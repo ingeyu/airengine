@@ -33,6 +33,7 @@ namespace	Air{
 				public	IPackage,
 				public	File::TraversalCallBack{
 			public:
+				static AString ProductTypeName;
 				FolderPackage(CAString&	strName);
 
 				virtual	U1	Create();
@@ -86,21 +87,7 @@ namespace	Air{
 				AString				m_strRealPath;
 				IFindFileListener*	m_pTempListener;
 			};
-			/**	\brief	文件夹工厂
-			*
-			*	文件夹工厂
-			*
-			***/
-			class	FolderPackageFactory	:
-				public	IFactory{
-			public:
-				FolderPackageFactory(){
-					m_strTypeName	=	"Folder";
-				}
-				virtual	IProduct*	NewProduct(CAString& strName,IFactoryParamList* lstParam /* = NULL */){
-					return	new	FolderPackage(strName);
-				};
-			};
+
 		}
 	
 	};//end of	namespace	Client

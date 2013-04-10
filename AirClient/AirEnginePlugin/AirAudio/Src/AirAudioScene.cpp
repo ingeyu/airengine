@@ -47,7 +47,7 @@ namespace Air{
 			}
 	
 			U1 Scene::Initialization(){
-				AddFactory(new	SoundFactory());
+				
 				return	true;
 			}
 	
@@ -84,7 +84,7 @@ namespace Air{
 			ISound* Scene::Play( ISound::Info* pInfo ){
 				if(pInfo==NULL)
 					return	NULL;
-				ISound*	pSound	=	CreateProduct<ISound*>(pInfo->strName,AString("Sound"),pInfo);
+				ISound*	pSound	=	CreateProduct<ISound>(pInfo->strName,pInfo);
 				if(pSound!=NULL)
 					pSound->Play();
 				return	pSound;

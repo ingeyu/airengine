@@ -59,7 +59,7 @@ namespace	Air{
 
 		void Renderable::SetMaterialName( CAString& strMaterialName ){
 
-			Material*	p	=	EngineSystem::GetSingleton()->CreateProduct<Material*>(strMaterialName,"Material");
+			Material*	p	=	EngineSystem::GetSingleton()->CreateProduct<Material>(strMaterialName);
 			if(p==NULL){
 				return;
 			}

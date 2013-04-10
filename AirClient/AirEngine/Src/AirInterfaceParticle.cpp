@@ -9,10 +9,9 @@ namespace Air{
 	
 	namespace	Engine{
 		
-	
 		IParticle::IParticle( CAString& strName,Info* pInfo )
 			:m_fTotalTime(GetGlobalSetting().m_ShaderParam.m_fTotalTime),
-			Common::IProduct(strName){
+			TProduct(strName){
 
 			m_Info			=	*pInfo;
 			m_fLife			=	0.0f;
@@ -141,16 +140,6 @@ namespace Air{
 // 				return;
 // 			}
 		}
-		IParticleFactory::IParticleFactory(){
-			m_strTypeName	=	"Particle";
-		}
-	
-		IProduct* IParticleFactory::NewProduct( CAString& strName,IFactoryParamList* lstParam /* = NULL */ ){
-			if(lstParam==NULL)
-				return NULL;
-			IParticle::Info*	pInfo	=	(IParticle::Info*)lstParam;
-			IParticle*		pBuff	=	new	IParticle(strName,pInfo);
-			return	pBuff;
-		}
+
 	}
 };

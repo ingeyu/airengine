@@ -5,7 +5,7 @@
 namespace	Air{
 	namespace	Engine{
 
-
+		AString	ManualMeshEntity::ProductTypeName	=	"ManualMeshEntity";
 		ManualMeshEntity::ManualMeshEntity( CAString& strName,Info* pInfo ):IProduct(strName)
 		{
 			if(pInfo!=NULL){
@@ -29,7 +29,7 @@ namespace	Air{
 				Render::Buffer::Info	vbinfo;
 				vbinfo.usage	=	Render::enUSAGE_DYNAMIC;
 				vbinfo.SetVertexBuffer(m_Info.uiVertexCount,m_Info.uiVertexSize);
-				m_DrawBuff.m_pVertexBuffer[0]	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer*>(m_strProductName+"_VB","Buffer",&vbinfo);
+				m_DrawBuff.m_pVertexBuffer[0]	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer>(m_strProductName+"_VB",&vbinfo);
 				m_DrawBuff.m_DrawOption.m_uiVertexCount	=	m_Info.uiVertexCount;
 
 			}
@@ -40,7 +40,7 @@ namespace	Air{
 				Render::Buffer::Info	ibinfo;
 				ibinfo.SetIndexBuffer32(m_Info.uiIndexCount);
 				ibinfo.usage	=	Render::enUSAGE_DYNAMIC;
-				m_DrawBuff.m_pIndexBuff	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer*>(m_strProductName+"_IB","Buffer",&ibinfo);
+				m_DrawBuff.m_pIndexBuff	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer>(m_strProductName+"_IB",&ibinfo);
 				m_DrawBuff.m_DrawOption.m_uiIndexCount	=	m_Info.uiIndexCount;
 				m_DrawBuff.m_DrawOption.m_DrawFuncType	=	Render::Draw::FUNC_TYPE_DIP;
 
@@ -48,7 +48,7 @@ namespace	Air{
 				m_DrawBuff.m_DrawOption.m_DrawFuncType	=	Render::Draw::FUNC_TYPE_DP;
 			}
 
-			m_DrawBuff.m_pVertexDeclare	=	RenderSystem::GetSingleton()->CreateProduct<VertexDeclare*>(m_strProductName+"_VD","Declare",&m_Info.vdInfo);
+			m_DrawBuff.m_pVertexDeclare	=	RenderSystem::GetSingleton()->CreateProduct<VertexDeclare>(m_strProductName+"_VD",&m_Info.vdInfo);
 
 			
 			m_DrawBuff.m_DrawOption.m_DrawType		=	m_Info.enDrawType;//Render::Draw::enPT_TRIANGLELIST;

@@ -4,6 +4,7 @@
 #include "AirAudioBuffer.h"
 #include "AirAudioOggBuffer.h"
 #include "AirAudioScene.h"
+#include "AirAudioSound.h"
 namespace Air{
 	
 	namespace	Engine{
@@ -37,7 +38,8 @@ namespace Air{
 				GetGlobal().m_pContext	=	m_pContext;
 				GetGlobal().m_pDevice	=	m_pDevice;
 	
-				AddFactory(new	BufferFactory());
+				AddFactory(new	NoParamFactory<Buffer>());
+				AddFactory(new	ParamFactory<Sound>());
 				//AddFactory(new	OggBufferFactory());
 				
 				return		true;

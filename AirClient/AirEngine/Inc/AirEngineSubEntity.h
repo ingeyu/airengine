@@ -18,6 +18,7 @@ namespace Air{
 			public	MovableObject
 		{
 		public:
+			static AString	ProductTypeName;
 			struct	Info{
 				AString	strMeshName;
 				AString	strMaterialName;

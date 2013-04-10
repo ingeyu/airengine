@@ -176,6 +176,7 @@
     <ClCompile Include="..\AirEngine\Src\AirEngineParticleEntity.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirEnginePipeline.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirEnginePostComposer.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineScreen.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirEngineScreenEntity.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirEngineShaderShareParam.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirEngineSubEntity.cpp" />
@@ -184,6 +185,7 @@
     <ClCompile Include="..\AirEngine\Src\AirEngineTerrainTitle.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirEngineTerrainWorld.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirEngineTextInstance.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirGameSystem.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirGlobalSetting.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirHelperRenderable.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirPipelineOIT.cpp" />
@@ -263,6 +265,7 @@
     <ClInclude Include="..\AirEngine\Inc\AirEngineParticleEntity.h" />
     <ClInclude Include="..\AirEngine\Inc\AirEnginePipeline.h" />
     <ClInclude Include="..\AirEngine\Inc\AirEnginePostComposer.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineScreen.h" />
     <ClInclude Include="..\AirEngine\Inc\AirEngineScreenEntity.h" />
     <ClInclude Include="..\AirEngine\Inc\AirEngineShaderShareParam.h" />
     <ClInclude Include="..\AirEngine\Inc\AirEngineShareShaderCameraParam.h" />
@@ -277,6 +280,7 @@
     <ClInclude Include="..\AirEngine\Inc\AirEngineTerrainWater.h" />
     <ClInclude Include="..\AirEngine\Inc\AirEngineTerrainWorld.h" />
     <ClInclude Include="..\AirEngine\Inc\AirEngineTextInstance.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirGameSystem.h" />
     <ClInclude Include="..\AirEngine\Inc\AirGlobalSetting.h" />
     <ClInclude Include="..\AirEngine\Inc\AirHelperRenderable.h" />
     <ClInclude Include="..\AirEngine\Inc\AirPipelineOIT.h" />

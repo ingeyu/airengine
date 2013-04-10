@@ -8,7 +8,7 @@ namespace Air{
 	namespace	Engine{
 	
 	
-		ParticleEntity::ParticleEntity( CAString& strName,Info* pInfo ):Common::IProduct(strName){
+		ParticleEntity::ParticleEntity( CAString& strName,Info* pInfo ):TProduct(strName){
 			m_strProductName	=	strName;
 			m_Info	=	*pInfo;
 		}
@@ -16,7 +16,7 @@ namespace Air{
 		U1 ParticleEntity::Create(){
 			//创建顶点声明
 			VertexDeclare::Info	VertexDeclareInfo;
-			VertexDeclare*	pVertexDeclare	=	Render::System::GetSingleton()->CreateProduct<VertexDeclare*>(AString("ParticleVertexDeclare"),AString("VertexDeclare"),&VertexDeclareInfo);
+			VertexDeclare*	pVertexDeclare	=	Render::System::GetSingleton()->CreateProduct<VertexDeclare>(("ParticleVertexDeclare"),&VertexDeclareInfo);
 			if(pVertexDeclare==NULL)
 				return false;
 	
@@ -25,7 +25,7 @@ namespace Air{
 			//创建顶点缓冲
 			VertexBuffer::Info VertexBuffInfo;//(12,720);
 			//VertexBuffInfo.fvf	=	VertexDeclareInfo.m_FVF;
-			VertexBuffer*	pVertexBuff	=	Render::System::GetSingleton()->CreateProduct<VertexBuffer*>(AString("ScreenVertexBuff"),AString("VertexBuff"),&VertexBuffInfo);
+			VertexBuffer*	pVertexBuff	=	Render::System::GetSingleton()->CreateProduct<VertexBuffer>(AString("ScreenVertexBuff"),&VertexBuffInfo);
 			if(pVertexBuff==NULL)
 				return false;
 			//填充顶点
@@ -91,16 +91,6 @@ namespace Air{
 			m_Info.fLife	-=	GetGlobalSetting().m_ShaderParam.m_fTimeDelta;
 		}
 	
-		ParticleEntityFactory::ParticleEntityFactory(){
-			m_strTypeName	=	"ParticleEntity";
-		}
-	
-		IProduct* ParticleEntityFactory::NewProduct( CAString& strName,IFactoryParamList* lstParam /*= NULL*/ ){
-			if(lstParam	==	NULL)
-				return NULL;
-			ParticleEntity::Info*	pInfo	=	(ParticleEntity::Info*)lstParam;
-			ParticleEntity*		pBuff	=	new	ParticleEntity(strName,pInfo);
-			return	pBuff;
-		}
+
 	}
 };

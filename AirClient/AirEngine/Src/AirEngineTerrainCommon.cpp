@@ -27,7 +27,7 @@ namespace Air{
 					index.height	= iY/(Page::Size);
 					return index;
 				}
-	
+				AString IPage::ProductTypeName="IPage";
 				IPage::IPage(AString strName,Info*	pInfo):Common::IProduct(strName){
 					m_Info	=	*pInfo;
 					//AChar	strPageName[MAX_NAME];
@@ -108,23 +108,7 @@ namespace Air{
 	
 					return Float3(0,0,0);
 				}
-				IPageFactory::IPageFactory(){
-					m_strTypeName	=	"TerrainPage";
-	
-				}
-	
-				IProduct* IPageFactory::NewProduct( CAString& strName,IFactoryParamList* lstParam /*= NULL*/ ){
-					if(lstParam==NULL)
-						return NULL;
-	
-					IPage::Info*	pInfo	=	(IPage::Info*)lstParam;
-					IPage*			pBuff	=	NULL;
-	
-					pBuff	=	new	IPage(strName,pInfo);
-	
-					//Insert(pBuff);
-					return pBuff;
-				}
+
 			}
 		
 	};

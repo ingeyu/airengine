@@ -6,7 +6,7 @@
 namespace	Air{
 	namespace	Engine{
 
-
+		AString MeshEntity::ProductTypeName=	"MeshEntity";
 		MeshEntity::MeshEntity( CAString& strName,Info* pInfo ):IProduct(strName)
 		{
 			if(pInfo!=NULL){
@@ -33,7 +33,7 @@ namespace	Air{
 		{
 			if(m_Info.strMeshName.empty())
 				return	false;
-			m_pMesh	=	m_pFactoryMgr->CreateProduct<StaticMesh*>(m_Info.strMeshName,"StaticMesh");
+			m_pMesh	=	m_pFactoryMgr->CreateProduct<StaticMesh>(m_Info.strMeshName);
 			if(m_pMesh==NULL)
 				return	false;
 			if(!m_Info.strMaterial.empty())

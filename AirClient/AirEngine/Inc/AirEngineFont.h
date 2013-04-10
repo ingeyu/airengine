@@ -22,6 +22,7 @@ namespace Air{
 		class	ENGINE_EXPORT	Font	:
 			public	IProduct{
 		public:
+			static AString	ProductTypeName;
 			/**	\brief	创建信息
 			*
 			*	创建信息

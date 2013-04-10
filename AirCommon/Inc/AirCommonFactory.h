@@ -39,18 +39,8 @@ namespace Air{
 		***/
 		class COMMON_EXPORT IBaseFactory	:	public	MemoryObject{
 		public:
-			IBaseFactory();
+			IBaseFactory(const AString& strTypeName);
 			virtual ~IBaseFactory();
-			/**	\brief	设置类型
-			*   
-			*	@remarks 	设置类型
-			*	@see		IBaseFactory
-			*	@return   	void
-			*	@param		AString strTypeName
-			*	@note
-			*
-			**/
-			virtual void SetType(const AString& strTypeName);
 			/**	\brief	获取工厂类型
 			*   
 			*	@remarks 	获取工厂类型
@@ -61,7 +51,7 @@ namespace Air{
 			**/
 			const AString& GetType()const;
 		protected:
-			AString		m_strTypeName;		///<	工厂类型名
+			const	AString&	m_strTypeName;		///<	工厂类型名
 		};
 		/**	\brief 工厂模版
 		*
@@ -75,7 +65,7 @@ namespace Air{
 			typedef stdext::hash_map<AString,IProduct*>::iterator		ProductMapItr;
 			typedef stdext::hash_map<AString,IProduct*>::value_type		ProductMapPair;
 		public:
-			IFactory();
+			IFactory(const AString& strTypeName);
 			virtual ~IFactory();
 			/**	\brief	创建产品
 			*   
@@ -214,7 +204,9 @@ namespace Air{
 		*	工厂管理器模版 管理工厂
 		*
 		***/
-		class COMMON_EXPORT IFactoryManager : public IBaseFactory{
+		class COMMON_EXPORT IFactoryManager : 
+			public MemoryObject
+		{
 		public:
 			IFactoryManager();
 			virtual ~IFactoryManager();
@@ -269,7 +261,10 @@ namespace Air{
 			*
 			**/
 			IProduct* GetProduct(const AString& strName,const AString& strFactoryName)const;
-	
+			template<typename T_Product>
+			T_Product* GetProduct(const AString& strName){
+				return static_cast<T_Product*>(GetProduct(strName,T_Product::ProductTypeName));
+			};
 			/**	\brief	创建产品
 			*   
 			*	@remarks 	创建产品
@@ -282,15 +277,19 @@ namespace Air{
 			*
 			**/
 			template<typename T_Product>
-			T_Product CreateProduct(const AString& strName,const AString& strFactoryName,IFactoryParamList* lstParam = NULL){
+			T_Product* CreateProduct(const AString& strName,const AString& strFactoryName,IFactoryParamList* lstParam = NULL){
 				IProduct*	pProduct	=	CreateProduct(strName,strFactoryName,lstParam);
 				if(pProduct==NULL)
 					return	NULL;
-				T_Product	p	=	dynamic_cast<T_Product>(pProduct);
+				T_Product*	p	=	dynamic_cast<T_Product*>(pProduct);
 				if(	p	==	NULL){
 					pProduct->ReleaseRef();
 				}
 				return p;
+			};
+			template<typename T_Product>
+			T_Product* CreateProduct(const AString& strName,IFactoryParamList* lstParam = NULL){
+				return CreateProduct<T_Product>(strName,T_Product::ProductTypeName,lstParam);
 			};
 			IProduct* CreateProduct(const AString& strName,const AString& strFactoryName,IFactoryParamList* lstParam = NULL);
 	
@@ -381,8 +380,8 @@ namespace Air{
 	class	NoParamFactory	:	
 		public	Common::IFactory{
 	public:
-		NoParamFactory(const AString&	strName){
-			m_strTypeName	=	strName;
+		NoParamFactory():Common::IFactory(T_Product::ProductTypeName){
+
 		};
 		virtual	Common::IProduct*	NewProduct(CAString& strName,Common::IFactoryParamList* lstParam /* = NULL */){
 			return	new T_Product(strName);
@@ -397,8 +396,8 @@ namespace Air{
 	class	ParamFactory	:	
 		public	Common::IFactory{
 	public:
-		ParamFactory(const AString&	strName){
-			m_strTypeName	=	strName;
+		ParamFactory():Common::IFactory(T_Product::ProductTypeName){
+
 		};
 		virtual	Common::IProduct*	NewProduct(CAString& strName,Common::IFactoryParamList* lstParam /* = NULL */){
 			if(lstParam	==	NULL)
@@ -415,8 +414,8 @@ namespace Air{
 	class	OptionParamFactory	:	
 		public	Common::IFactory{
 	public:
-		OptionParamFactory(const AString&	strName){
-			m_strTypeName	=	strName;
+		OptionParamFactory():Common::IFactory(T_Product::ProductTypeName){
+
 		};
 		virtual	Common::IProduct*	NewProduct(CAString& strName,Common::IFactoryParamList* lstParam /* = NULL */){
 			return	new T_Product(strName,(T_Product::Info*)lstParam);
@@ -431,8 +430,8 @@ namespace Air{
 	class	ExtraParamFactory	:	
 		public	Common::IFactory{
 	public:
-		ExtraParamFactory(const AString&	strName){
-			m_strTypeName	=	strName;
+		ExtraParamFactory():Common::IFactory(T_Product::ProductTypeName){
+
 		};
 		virtual	Common::IProduct*	NewProduct(CAString& strName,Common::IFactoryParamList* lstParam /* = NULL */){
 			if(lstParam	==	NULL)
@@ -449,8 +448,8 @@ namespace Air{
 	class	ExtraOptionParamFactory	:	
 		public	Common::IFactory{
 	public:
-		ExtraOptionParamFactory(const AString&	strName){
-			m_strTypeName	=	strName;
+		ExtraOptionParamFactory():Common::IFactory(T_Product::ProductTypeName){
+
 		};
 		virtual	Common::IProduct*	NewProduct(CAString& strName,Common::IFactoryParamList* lstParam /* = NULL */){
 			return	new T_Product(strName,(T_ProductInfo)lstParam);

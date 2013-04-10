@@ -203,15 +203,6 @@ namespace Air{
 				return	true;
 			}
 	
-			ThirdControlFactory::ThirdControlFactory(){
-				m_strTypeName	=	"ThirdControl";
-			}
-	
-			IProduct* ThirdControlFactory::NewProduct( CAString& strName,IFactoryParamList* lstParam /* = NULL */ ){
-				if(lstParam==NULL)
-					return	NULL;
-				return	new	ThirdControl(strName,(FPSControl::Info*)lstParam);
-			}
 		}
 	}
 };

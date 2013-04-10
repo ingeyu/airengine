@@ -6,7 +6,7 @@ namespace Air{
 	namespace	Engine{
 		namespace	UI{
 	
-	
+			AString	Lookfeel::ProductTypeName="Lookfeel";
 			Lookfeel::Lookfeel( CAString& strName):IProduct(strName){
 				//m_strLookfeel	=	*strLookfeel;
 			}

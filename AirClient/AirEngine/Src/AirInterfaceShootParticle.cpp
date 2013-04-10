@@ -4,7 +4,7 @@ namespace Air{
 	
 	namespace	Engine{
 	
-	
+		AString	ShootParticle::ProductTypeName = "ShootParticle";
 		ShootParticle::ShootParticle( CAString& strName,Info* pInfo ):IParticle(strName,pInfo){
 	
 		}
@@ -35,16 +35,6 @@ namespace Air{
 			m_Info.vVelocity	=	vDstPos;
 			//SetVisiable(true);
 		}
-		ShootParticleFactory::ShootParticleFactory(){
-			m_strTypeName	=	"ShootParticle";
-		}
-	
-		IProduct* ShootParticleFactory::NewProduct( CAString& strName,IFactoryParamList* lstParam /* = NULL */ ){
-			if(lstParam==NULL)
-				return NULL;
-			IParticle::Info*	pInfo	=	(IParticle::Info*)lstParam;
-			IParticle*		pBuff	=	new	ShootParticle(strName,pInfo);
-			return	pBuff;
-		}
+
 	}
 };

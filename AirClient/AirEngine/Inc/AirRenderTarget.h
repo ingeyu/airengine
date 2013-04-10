@@ -68,7 +68,6 @@ namespace Air{
 				public	IProduct,
 				public	Common::MutilListenerManager<TargetListener>{
 			public:
-				
 				/**	\brief	单渲染目标
 				*
 				*	单渲染目标
@@ -167,6 +166,7 @@ namespace Air{
 											HWND	extraWindow		=	NULL);
 				};
 			public:
+				static AString ProductTypeName;
 				Target(CAString&	strName,	Info*	pInfo);
 
 				/**	\brief	创建

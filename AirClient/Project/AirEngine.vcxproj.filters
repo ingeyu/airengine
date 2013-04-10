@@ -42,6 +42,9 @@
     <Filter Include="Engine\Renderable">
       <UniqueIdentifier>{92e5cb49-3fd2-499b-a4a4-49cd9c39152f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{b24f0c0d-2780-4f62-847b-3258f6caa4b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\AirEngine\Src\AirEngine.cpp">
@@ -298,6 +301,12 @@
     </ClCompile>
     <ClCompile Include="..\AirEngine\Src\AirPipelineVoxelGen.cpp">
       <Filter>Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirEngineScreen.cpp">
+      <Filter>Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirGameSystem.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -648,6 +657,12 @@
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirPipelineVoxelGen.h">
       <Filter>Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirEngineScreen.h">
+      <Filter>Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirGameSystem.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -17,6 +17,7 @@ namespace Air{
 			public:
 				typedef	Data	FileData;
 			public:
+				static AString ProductTypeName;
 				RarPackage(CAString&	strName);
 	
 				/**	\brief	数据包创建
@@ -75,25 +76,7 @@ namespace Air{
 			public:
 	
 			};
-			/**	\brief	RAR资源包工厂
-			*
-			*	资源包工厂
-			*
-			***/
-			class	RarPackageFactory	:
-				public	IFactory
-			{
-			public:
-				RarPackageFactory(){
-					m_strTypeName	=	"rar";
-				};
-	
-				virtual	IProduct*	NewProduct(CAString& strName,IFactoryParamList* lstParam /* = NULL */){
-					if(strName.empty())
-						return	NULL;
-					return	new	RarPackage(strName);
-				};
-			};
+
 		}
 	
 	};

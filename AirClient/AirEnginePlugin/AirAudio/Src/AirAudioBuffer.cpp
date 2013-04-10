@@ -6,7 +6,7 @@ namespace Air{
 	namespace	Engine{
 		namespace	Audio{
 			
-	
+			AString	Buffer::ProductTypeName="Buffer";
 			Buffer::Buffer( CAString& strName ):IProduct(strName){
 				m_pBuffer		=	NULL;
 				m_uiSize		=	0;
@@ -130,16 +130,6 @@ namespace Air{
 				memcpy(m_pBuffer,&p[uiPos],m_uiSize);
 	
 				return	true;
-			}
-			BufferFactory::BufferFactory(){
-				m_strTypeName	=	"Buffer";
-			}
-	
-			IProduct* BufferFactory::NewProduct( CAString& strName,IFactoryParamList* lstParam /* = NULL */ ){
-				if(strName.empty())
-					return	NULL;
-				Buffer*	pBuff	=	new	Buffer(strName);
-				return	pBuff;
 			}
 		}
 	} 

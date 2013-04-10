@@ -11,7 +11,7 @@ namespace Air{
 	
 	namespace	Engine{
 
-		Material::Material( CAString& strName,Info* pInfo ):IProduct(strName){
+		Material::Material( CAString& strName,Info* pInfo ):TProduct(strName){
 			if(pInfo!=NULL){
 				m_Info	=	*pInfo;
 			}else{
@@ -36,7 +36,7 @@ namespace Air{
 			if(pMTInfo==NULL)
 				return	false;
 
-			m_pTemplate	=	EngineSystem::GetSingleton()->CreateProduct<MaterialTemplate*>(m_Info.strTemplate,"MaterialTemplate",pMTInfo);
+			m_pTemplate	=	EngineSystem::GetSingleton()->CreateProduct<MaterialTemplate>(m_Info.strTemplate,pMTInfo);
 
 			if(m_pTemplate==NULL)
 				return	false;
@@ -52,9 +52,9 @@ namespace Air{
 			MaterialHash	h;
 			h.uiTextureNumer	=	uiSize;
 			for(U32 i=0;i<uiSize;i++){
-				m_vecTexture[i]	=	pRenderSys->CreateProduct<Render::Texture*>(m_Info.vecTextureName[i],"Texture");
+				m_vecTexture[i]	=	pRenderSys->CreateProduct<Render::Texture>(m_Info.vecTextureName[i]);
 				if(m_vecTexture[i]==NULL){
-					m_vecTexture[i]	=	pRenderSys->CreateProduct<Render::Texture*>("..\\Data\\Texture\\TextureCantBeFound.png","Texture");
+					m_vecTexture[i]	=	pRenderSys->CreateProduct<Render::Texture>("..\\Data\\Texture\\TextureCantBeFound.png");
 				}
 				//计算hash
 				h.AddTexture(m_vecTexture[i]);
@@ -68,7 +68,7 @@ namespace Air{
 				Render::Buffer::Info info;
 				info.SetConstantBuffer(m_Info.vecFloatParam.size()*sizeof(Float4));
 				info.InitData		=	&m_Info.vecFloatParam[0];
-				m_pConstantBuffer	=	pRenderSys->CreateProduct<Render::Buffer*>(m_strProductName,"Buffer",&info);
+				m_pConstantBuffer	=	pRenderSys->CreateProduct<Render::Buffer>(m_strProductName,&info);
 				//更新参数
 				if(m_pConstantBuffer!=NULL){
 					m_pConstantBuffer->GetBuffer();
@@ -197,7 +197,7 @@ namespace Air{
 				return;
 			if(strTextureName.empty())
 				return;
-			Texture*	pTexture	=	Render::System::GetSingleton()->CreateProduct<Texture*>(strTextureName,"Texture");
+			Texture*	pTexture	=	Render::System::GetSingleton()->CreateProduct<Texture>(strTextureName);
 			if(pTexture	==	NULL)
 				return;
 			SetTexture(uiIndex,pTexture);

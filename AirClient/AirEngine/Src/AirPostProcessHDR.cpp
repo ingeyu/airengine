@@ -33,31 +33,31 @@ namespace	Air{
 
 				RenderTarget::Info rtinfo;
 				rtinfo.SetSingleTargetScreen(enTFMT_R16G16B16A16_FLOAT,0.5f);
-				m_pRT_Luminance[0]	=	pRenderSys->CreateProduct<RenderTarget*>("HDR_LuminanceHalf","Target",&rtinfo);
+				m_pRT_Luminance[0]	=	pRenderSys->CreateProduct<RenderTarget>("HDR_LuminanceHalf",&rtinfo);
 				rtinfo.SetSingleTarget(81,81,enTFMT_R16G16B16A16_FLOAT);
-				m_pRT_Luminance[1]	=	pRenderSys->CreateProduct<RenderTarget*>("HDR_Luminance81x81","Target",&rtinfo);
+				m_pRT_Luminance[1]	=	pRenderSys->CreateProduct<RenderTarget>("HDR_Luminance81x81",&rtinfo);
 				rtinfo.SetSingleTarget(27,27,enTFMT_R16G16B16A16_FLOAT);
-				m_pRT_Luminance[2]	=	pRenderSys->CreateProduct<RenderTarget*>("HDR_Luminance27x27","Target",&rtinfo);
+				m_pRT_Luminance[2]	=	pRenderSys->CreateProduct<RenderTarget>("HDR_Luminance27x27",&rtinfo);
 				rtinfo.SetSingleTarget(9,9,enTFMT_R16G16B16A16_FLOAT);
-				m_pRT_Luminance[3]	=	pRenderSys->CreateProduct<RenderTarget*>("HDR_Luminance9x9","Target",&rtinfo);
+				m_pRT_Luminance[3]	=	pRenderSys->CreateProduct<RenderTarget>("HDR_Luminance9x9",&rtinfo);
 				rtinfo.SetSingleTarget(3,3,enTFMT_R16G16B16A16_FLOAT);
-				m_pRT_Luminance[4]	=	pRenderSys->CreateProduct<RenderTarget*>("HDR_Luminance3x3","Target",&rtinfo);
+				m_pRT_Luminance[4]	=	pRenderSys->CreateProduct<RenderTarget>("HDR_Luminance3x3",&rtinfo);
 				rtinfo.SetSingleTarget(1,1,enTFMT_R16G16B16A16_FLOAT);
-				m_pRT_Luminance[5]	=	pRenderSys->CreateProduct<RenderTarget*>("HDR_Luminance1","Target",&rtinfo);
+				m_pRT_Luminance[5]	=	pRenderSys->CreateProduct<RenderTarget>("HDR_Luminance1",&rtinfo);
 
 				rtinfo.SetSingleTargetScreen(enTFMT_R16G16B16A16_FLOAT,0.125);
 				
-				m_pRT_Brightness[0]	=	pRenderSys->CreateProduct<RenderTarget*>("HDR_Brightness_0","Target",&rtinfo);
-				m_pRT_Brightness[1]	=	pRenderSys->CreateProduct<RenderTarget*>("HDR_Brightness_1","Target",&rtinfo);
+				m_pRT_Brightness[0]	=	pRenderSys->CreateProduct<RenderTarget>("HDR_Brightness_0",&rtinfo);
+				m_pRT_Brightness[1]	=	pRenderSys->CreateProduct<RenderTarget>("HDR_Brightness_1",&rtinfo);
 				
 
 				EngineSystem* pEngineSys	=	EngineSystem::GetSingleton();
-				m_matColorToLuminance		=	pEngineSys->CreateProduct<Material*>("PostProcess_HDR_ColorToLuminance","Material");
-				m_matDownScaleLuminance		=	pEngineSys->CreateProduct<Material*>("PostProcess_HDR_DownScaleLuminance","Material");
-				m_matBrightness				=	pEngineSys->CreateProduct<Material*>("PostProcess_HDR_Brightness","Material");
-				m_matBrightBlur				=	pEngineSys->CreateProduct<Material*>("PostProcess_HDR_BrightBlur","Material");
-				m_matBloom					=	pEngineSys->CreateProduct<Material*>("PostProcess_HDR_Bloom","Material");
-				m_matFinal					=	pEngineSys->CreateProduct<Material*>("PostProcess_HDR_Final","Material");	
+				m_matColorToLuminance		=	pEngineSys->CreateProduct<Material>("PostProcess_HDR_ColorToLuminance");
+				m_matDownScaleLuminance		=	pEngineSys->CreateProduct<Material>("PostProcess_HDR_DownScaleLuminance");
+				m_matBrightness				=	pEngineSys->CreateProduct<Material>("PostProcess_HDR_Brightness");
+				m_matBrightBlur				=	pEngineSys->CreateProduct<Material>("PostProcess_HDR_BrightBlur");
+				m_matBloom					=	pEngineSys->CreateProduct<Material>("PostProcess_HDR_Bloom");
+				m_matFinal					=	pEngineSys->CreateProduct<Material>("PostProcess_HDR_Final");	
 			}
 
 			void HDR::Release()

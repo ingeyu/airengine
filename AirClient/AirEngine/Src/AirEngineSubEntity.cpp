@@ -10,7 +10,7 @@ namespace Air{
 	namespace	Engine{
 	
 	
-	
+		AString	SubEntity::ProductTypeName="SubEntity";
 		SubEntity::SubEntity( CAString& strName,Info*	pInfo ):Common::IProduct(strName){
 			if(pInfo!=NULL)
 				m_Info	=	*pInfo;
@@ -99,17 +99,6 @@ namespace Air{
 // 			if(p!=NULL)
 // 				p->GetShape(pShape,vScale);
 		}
-		SubEntityFactory::SubEntityFactory(){
-			m_strTypeName	=	"SubEntity";
-		}
-	
-		IProduct* SubEntityFactory::NewProduct( CAString& strName,IFactoryParamList* lstParam /*= NULL*/ ){
-			if(	lstParam	==	NULL)
-				return NULL;
-	
-			SubEntity::Info*	pInfo	=	(SubEntity::Info*)lstParam;
-	
-			return new	SubEntity(strName,pInfo);
-		}
+
 	}
 };

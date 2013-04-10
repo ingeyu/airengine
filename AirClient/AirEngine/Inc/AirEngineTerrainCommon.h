@@ -169,6 +169,7 @@ namespace Air{
 					public	MovableObject,
 					public	Common::IProduct{
 				public:
+					static AString ProductTypeName;
 					struct	Info{
 						ID		uiID;
 						AString	strMapPath;
@@ -221,24 +222,6 @@ namespace Air{
 					Info						m_Info;				///<	页信息
 					//AString 
 	
-				};
-	
-				class	IPageFactory	:
-					public	IFactory
-				{
-				public:
-					IPageFactory();
-					/**	\brief	创建
-					*   
-					*	@remarks 	创建
-					*	@see		BuffFactory
-					*	@return   	IProduct*
-					*	@param		CAString& strName
-					*	@param		IFactoryParamList * lstParam
-					*	@note
-					*
-					**/
-					virtual	IProduct*	NewProduct(CAString& strName,IFactoryParamList* lstParam =	NULL);
 				};
 	
 	

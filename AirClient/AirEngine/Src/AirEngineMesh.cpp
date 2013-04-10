@@ -7,7 +7,7 @@ namespace Air{
 	
 		std::map<AString,Mesh::IParseCallBack*>		Mesh::m_mapParseFunction;
 	
-		Mesh::Mesh( CAString& strName ):IProduct(strName){
+		Mesh::Mesh( CAString& strName ):TProduct(strName){
 	
 		}
 	
@@ -233,13 +233,6 @@ namespace Air{
 			}
 			return true;
 		}
-		MeshFactory::MeshFactory(){
-			m_strTypeName	=	"Mesh";
-		}
-	
-		IProduct* MeshFactory::NewProduct( CAString& strName,IFactoryParamList* lstParam /*= NULL*/ ){
-			Mesh*	pBuff	=	new	Mesh(strName);
-			return	pBuff;
-		}
+
 	}
 };

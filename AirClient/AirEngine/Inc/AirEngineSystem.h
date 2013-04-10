@@ -29,6 +29,7 @@ namespace Air{
 	
 	
 	namespace Engine{
+		class Screen;
 	
 		class ENGINE_EXPORT	EngineSystem	
 			:	public	IFactoryManager,
@@ -150,8 +151,11 @@ namespace Air{
 												Common::ISystem*		pOldSys,
 												Common::ISystem*		pNewSystem);
 
-			inline	Pipeline*		GetPipeline(){
-				return	m_pPipeline;
+			inline	void		SetCurrentScreen(Screen* pScreen){
+				m_pCurrentScreen	=	pScreen;
+			}
+			inline	Screen*		GetCurrentScreen(){
+				return	m_pCurrentScreen;
 			};
 
 		protected:
@@ -196,11 +200,10 @@ namespace Air{
 			**/
 			U1	UnLoadPlugin();
 		private:
-			std::vector<AString>		m_strPluginNameArray;
-			//IFactory*					m_pPluginMgr;
+			std::vector<AString>			m_strPluginNameArray;
 			std::vector<Common::Plugin*>	m_vecPlugin;
-			AString						m_strWindowName;
-			Pipeline*					m_pPipeline;
+			AString							m_strWindowName;
+			Screen*							m_pCurrentScreen;
 		};
 	
 		

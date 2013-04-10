@@ -4,9 +4,8 @@
 namespace	Air{
 	namespace	Engine{
 		namespace	Render{
-
-
-			State::State( CAString& strName,StateInfo*	pInfo ):Common::IProduct(strName){
+			AString	State::ProductTypeName	=	"RenderState";
+			State::State( CAString& strName,StateInfo*	pInfo ):IProduct(strName){
 				if(pInfo!=NULL){
 					m_Info		=	*pInfo;
 					m_bCostom	=	true;

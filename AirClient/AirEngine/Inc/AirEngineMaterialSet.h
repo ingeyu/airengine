@@ -7,7 +7,7 @@ namespace	Air{
 	namespace	Engine{
 
 
-		class	ENGINE_EXPORT	MaterialSet	:	public	IProduct{
+		class	ENGINE_EXPORT	MaterialSet	:	public	TProduct<MaterialSet>{
 		public:
 			MaterialSet(CAString& strName);
 

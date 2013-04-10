@@ -38,7 +38,7 @@ namespace Air{
 		*
 		***/
 		class	ENGINE_EXPORT	Material	:
-			public	IProduct
+			public	TProduct<Material>
 		{
 		public:
 			struct	Info{

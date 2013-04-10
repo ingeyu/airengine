@@ -22,15 +22,50 @@ namespace	Air{
 		NavMesh*	pMesh	=	NULL;
 		extern Character::Manager	g_mgr;
 
-		SceneNode*	pTest	=	NULL;
-		MeshEntity*	pTestEnt	=	NULL;
-		ManualMeshEntity*	pTestManualEnt	=	NULL;
-		ObjectController*	g_pController=NULL;
-
-		Pipeline::Pipeline( CAString& strName):IProduct(strName)
+		Pipeline::Pipeline( CAString& strName):TProduct(strName)
 		{
 			m_pMainWindow	=	NULL;
 			m_pScene		=	NULL;
+			m_pQuad			=	NULL;
+			m_pMainCamera	=	NULL;
+		}
+
+		Air::U1 Pipeline::Create()
+		{
+			m_pMainCamera	=	EngineSystem::GetSingleton()->CreateProduct<Camera>(m_strProductName+"_Camera");
+			if(m_pMainCamera==NULL)
+				return false;
+			RenderSystem*	pRenderSys	=	Render::System::GetSingleton();
+
+			m_pMainWindow	=	pRenderSys->GetMainWindow();
+			m_pMainWindow->AddRef();
+			m_pMainWindow->AddCamera(m_pMainCamera);
+
+
+			m_pQuad			=	new QuadRenderable();
+
+			return true;
+		}
+
+		Air::U1	Pipeline::Destroy(){
+
+			SAFE_RELEASE_REF(	m_pMainWindow	);
+			SAFE_DELETE(		m_pQuad			);
+			SAFE_RELEASE_REF(	m_pMainCamera	);
+			return true;
+		}
+		void	Pipeline::Update(const FrameTime& frameTime)
+		{
+
+		};
+		U1		Pipeline::RenderOneFrame(const FrameTime& frameTime)
+		{
+			m_pMainWindow->Update();
+			return true;
+		};
+		AString	DefaulePipeline::ProductTypeName=typeid(DefaulePipeline).name();
+		DefaulePipeline::DefaulePipeline( CAString& strName):Pipeline(strName)
+		{
 			m_pMRT			=	NULL;
 			m_pQuad			=	NULL;
 			m_pQuadCopy		=	NULL;
@@ -41,10 +76,6 @@ namespace	Air{
 
 			m_pRT_EnvSphere	=	NULL;
 			m_pRT_EnvSAT	=	NULL;
-
-
-
-
 			m_pCombine		=	NULL;
 
 			m_pSky			=	NULL;
@@ -61,33 +92,16 @@ namespace	Air{
 			m_cbFrame.vMainCamPos	=	Float3(0,0,0);
 		}
 
-		Pipeline::~Pipeline()
-		{
-
-		}
-
-		Air::U1 Pipeline::Create()
+		Air::U1 DefaulePipeline::Create()
 		{
 			OIS::KeyListener*	pKey	=	this;
 			OIS::MouseListener*	pMouse	=	this;
 			GetGlobalSetting().m_pInputSystem->Add(pKey);
 			GetGlobalSetting().m_pInputSystem->Add(pMouse);
 
-			m_pScene	=	new	Scene("DefauleScene");
-			if(m_pScene!=NULL){
-				m_pScene->Initialization();
-			}
-
-			RenderSystem*	pRenderSys	=	Render::System::GetSingleton();
 
 
-			m_pMainWindow	=	pRenderSys->GetMainWindow();
-			m_pMainWindow->AddRef();
-			//Viewport*	pVP	=	new Viewport();
 			
-			m_pMainWindow->AddCamera(m_pScene->GetMainCamera());
-
-			m_pQuad			=	new QuadRenderable();
 			//pVP->SetCamera(m_pScene->GetMainCamera());
 
 
@@ -144,8 +158,8 @@ namespace	Air{
 					pMesh	=	new NavMesh("testnav",&navinfo);
 					pMesh->AddRef();
 
-					g_pController	=	new ObjectController;
-					m_pScene->GetRootNode()->attachObject(g_pController);
+					//g_pController	=	new ObjectController;
+					//m_pScene->GetRootNode()->attachObject(g_pController);
 
 					//ManualMeshEntity::Info	info;
 					//info.uiVertexCount	=	890;
@@ -171,7 +185,7 @@ namespace	Air{
 			rtinfo.SetMutilTargetScreen(5,fmtArray,1.0f,true,m_pMainWindow);
 			//rtinfo.vecTextureInfo[0].mipmap	=	3;
 			//rtinfo.vecTextureInfo[0].bAutoMipMap	=	true;
-			m_pMRT	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("MRT","Target",&rtinfo);
+			m_pMRT	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget>("MRT",&rtinfo);
 			rtinfo	=	RenderTarget::Info();
 			
 			m_pMRT->SetClearFlag(true,true,true);
@@ -182,7 +196,7 @@ namespace	Air{
 
 
 			rtinfo.SetSingleTargetScreen(enTFMT_R16G16B16A16_FLOAT,1.0f,true,m_pMainWindow);
-			m_pRT_AO			=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("AO","Target",&rtinfo);
+			m_pRT_AO			=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget>("AO",&rtinfo);
 			m_pRT_AO->SetClearFlag(false,true,false);
 
 
@@ -190,14 +204,14 @@ namespace	Air{
 
 
 			rtinfo.SetSingleTargetScreen(enTFMT_R8G8B8A8_UNORM,1.0f,false);
-			m_pRT_SO	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("SO","Target",&rtinfo);
+			m_pRT_SO	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget>("SO",&rtinfo);
 			m_pRT_SO->SetClearFlag(false,true,false);
 
 			rtinfo.SetSingleTarget(1024,64,enTFMT_R8G8B8A8_UNORM);
-			m_pRT_EnvSphere	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("EnvSphere","Target",&rtinfo);
+			m_pRT_EnvSphere	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget>("EnvSphere",&rtinfo);
 			m_pRT_EnvSphere->SetClearFlag(false,true,false);
 			rtinfo.SetSingleTarget(256,16,enTFMT_R16G16B16A16_FLOAT);
-			m_pRT_EnvSAT	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("EnvSAT","Target",&rtinfo);
+			m_pRT_EnvSAT	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget>("EnvSAT",&rtinfo);
 			m_pRT_EnvSAT->SetClearFlag(false,true,false);
 
 			//m_Tesellation.Init();
@@ -207,21 +221,21 @@ namespace	Air{
 
 
 			
-			m_pQuadCopy		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("QuadCopy","Material");
-			m_pSSAO			=	EngineSystem::GetSingleton()->CreateProduct<Material*>("SSAO","Material");
-			m_pCombine		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("Combine","Material");
-			m_pSky			=	EngineSystem::GetSingleton()->CreateProduct<Material*>("Sky","Material");
-			m_pSSSO			=	EngineSystem::GetSingleton()->CreateProduct<Material*>("SSSO","Material");
+			m_pQuadCopy		=	EngineSystem::GetSingleton()->CreateProduct<Material>("QuadCopy");
+			m_pSSAO			=	EngineSystem::GetSingleton()->CreateProduct<Material>("SSAO");
+			m_pCombine		=	EngineSystem::GetSingleton()->CreateProduct<Material>("Combine");
+			m_pSky			=	EngineSystem::GetSingleton()->CreateProduct<Material>("Sky");
+			m_pSSSO			=	EngineSystem::GetSingleton()->CreateProduct<Material>("SSSO");
 
-			m_pCubeToViewSphere	=	EngineSystem::GetSingleton()->CreateProduct<Material*>("CubeToViewSphere","Material");
-			m_pViewSphereSAT	=	EngineSystem::GetSingleton()->CreateProduct<Material*>("ViewSphereSAT","Material");
-			m_pAmbientLight		=	EngineSystem::GetSingleton()->CreateProduct<Material*>("AmbientLight","Material");
+			m_pCubeToViewSphere	=	EngineSystem::GetSingleton()->CreateProduct<Material>("CubeToViewSphere");
+			m_pViewSphereSAT	=	EngineSystem::GetSingleton()->CreateProduct<Material>("ViewSphereSAT");
+			m_pAmbientLight		=	EngineSystem::GetSingleton()->CreateProduct<Material>("AmbientLight");
 			return	true;
 		}
 
-		Air::U1 Pipeline::Destroy()
+		Air::U1 DefaulePipeline::Destroy()
 		{
-			SAFE_DELETE(g_pController);
+			//SAFE_DELETE(g_pController);
 			m_OIT.Release();
 			m_CSM.Release();
 			m_VoxelGen.Release();
@@ -230,7 +244,7 @@ namespace	Air{
 			SAFE_RELEASE_REF(pMesh);
 
 
-			SAFE_DELETE(m_pQuad);
+
 			SAFE_RELEASE_REF(m_pQuadCopy);
 			SAFE_RELEASE_REF(m_pSSAO);
 
@@ -246,22 +260,13 @@ namespace	Air{
 			SAFE_RELEASE_REF(m_pRT_EnvSphere);
 			SAFE_RELEASE_REF(m_pRT_EnvSAT);
 
-			if(m_pScene!=NULL){
-				m_pScene->Release();
-				delete m_pScene;
-				m_pScene=NULL;
-			}
-
 			SAFE_RELEASE_REF(m_pMRT);
-
-
-			SAFE_RELEASE_REF(m_pMainWindow);
 
 
 			return	true;
 		}
 
-		Air::U1 Pipeline::RenderOneFrame(const FrameTime& frameTime)
+		Air::U1 DefaulePipeline::RenderOneFrame(const FrameTime& frameTime)
 		{
 
 			//pTest->SetPosition(Float3(sin(m_FrameState.fTotalTime)*10,0,cos(m_FrameState.fTotalTime)*10));
@@ -417,43 +422,17 @@ namespace	Air{
 			return	true;
 		}
 
-		U1 Pipeline::SetCurrentScene( Scene* pCurrentScene )
-		{
-			if(pCurrentScene==NULL)
-				return	false;
-			if(pCurrentScene==m_pScene)
-				return	false;
-			if(m_pScene!=NULL){
-				m_pScene->Release();
-				delete	m_pScene;
-				m_pScene	=	NULL;
-			}
-			m_pScene	=	pCurrentScene;
-
-			m_pMainWindow->RemoveAllViewport();
-			Viewport*	pVP	=	new	Viewport();
-			pVP->SetCamera(m_pScene->GetMainCamera());
-			m_pMainWindow->AddViewport(pVP);
-
-			return	true;
-		}
-
-		Scene* Pipeline::GetCurrentScene()
-		{
-			return	m_pScene;
-		}
-
-		bool Pipeline::mouseMoved( const OIS::MouseEvent &arg )
+		bool DefaulePipeline::mouseMoved( const OIS::MouseEvent &arg )
 		{
 			
 			S8*	pMouseArray	=	GetGlobalSetting().m_pInputSystem->m_MouseArray;
 			
 			if(pMouseArray[OIS::MB_Right]){
-				Float3	dir		=	m_pScene->GetMainCamera()->GetDir();
-				Float3	pos		=	m_pScene->GetMainCamera()->GetPosition();
+				Float3	dir		=	GetMainCamera()->GetDir();
+				Float3	pos		=	GetMainCamera()->GetPosition();
 				Float3 vRelativePos;//	=	pos	-	TargetPos;
 
-				Float3	updir	=	m_pScene->GetMainCamera()->GetUpDir();
+				Float3	updir	=	GetMainCamera()->GetUpDir();
 				Float3	right	=	updir.Cross(dir);
 
 				Common::Quaternion	quat(updir,arg.state.X.rel*0.0025f);
@@ -471,49 +450,49 @@ namespace	Air{
 				if(abs(vRelativePos.Dot(updir))	<0.99f){
 
 					//dir	=	-vRelativePos.NormalizeCopy();
-					m_pScene->GetMainCamera()->SetDir(vRelativePos);
+					GetMainCamera()->SetDir(vRelativePos);
 
 					//TargetPos	+=	dir*(arg.state.Z.rel*0.05f);
 					//pos =	vRelativePos + TargetPos;//
 					//m_pScene->GetMainCamera()->SetPosition(pos);
 				}
 			}else	if(pMouseArray[OIS::MB_Middle]){
-				Float3	dir		=	m_pScene->GetMainCamera()->GetDir();
-				Float3	pos		=	m_pScene->GetMainCamera()->GetPosition();
+				Float3	dir		=	GetMainCamera()->GetDir();
+				Float3	pos		=	GetMainCamera()->GetPosition();
 				//Float3 vRelativePos	=	pos	-	TargetPos;
 
-				Float3	updir	=	m_pScene->GetMainCamera()->GetUpDir();
+				Float3	updir	=	GetMainCamera()->GetUpDir();
 				Float3	right	=	updir.Cross(dir);
 				Float3  vRealUp	=	dir.Cross(right);
 
 				Float3	Offset	=	-right*arg.state.X.rel*0.1f	+	vRealUp*arg.state.Y.rel*0.1f;
 				//TargetPos		+=	Offset;
-				m_pScene->GetMainCamera()->SetPosition(pos+Offset);
+				GetMainCamera()->SetPosition(pos+Offset);
 			}
-			Float3	dir		=	m_pScene->GetMainCamera()->GetDir();
-			Float3	pos		=	m_pScene->GetMainCamera()->GetPosition();
-			m_pScene->GetMainCamera()->SetPosition(pos+dir*arg.state.Z.rel*0.1f);
+			Float3	dir		=	GetMainCamera()->GetDir();
+			Float3	pos		=	GetMainCamera()->GetPosition();
+			GetMainCamera()->SetPosition(pos+dir*arg.state.Z.rel*0.1f);
 			
-			if(g_pController!=NULL){
-				Float3 vPorjPos	=	Float3(
-					(float)arg.state.X.abs/(float)m_pMainWindow->GetWidth(),
-					(float)arg.state.Y.abs/(float)m_pMainWindow->GetHeight(),
-					1.0f);
-				vPorjPos.x	=	vPorjPos.x*2-1;
-				vPorjPos.y	=	1-2*vPorjPos.y;
+			//if(g_pController!=NULL){
+			//	Float3 vPorjPos	=	Float3(
+			//		(float)arg.state.X.abs/(float)m_pMainWindow->GetWidth(),
+			//		(float)arg.state.Y.abs/(float)m_pMainWindow->GetHeight(),
+			//		1.0f);
+			//	vPorjPos.x	=	vPorjPos.x*2-1;
+			//	vPorjPos.y	=	1-2*vPorjPos.y;
 
-				Float44 matVP	= m_pScene->GetMainCamera()->GetViewProjMatrix();
-				matVP.Inverse();
-				vPorjPos	=	matVP*vPorjPos;
-				vPorjPos	-=	pos;
-				vPorjPos.Normalize();
+			//	Float44 matVP	= m_pScene->GetMainCamera()->GetViewProjMatrix();
+			//	matVP.Inverse();
+			//	vPorjPos	=	matVP*vPorjPos;
+			//	vPorjPos	-=	pos;
+			//	vPorjPos.Normalize();
 
-				g_pController->ChangeType(pos,vPorjPos);
-			}
+			//	g_pController->ChangeType(pos,vPorjPos);
+			//}
 			return true;
 		}
 		static Float3 vEnd;
-		bool Pipeline::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
+		bool DefaulePipeline::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 		{
 			POINT	p;
 			p.x	=	arg.state.X.abs;
@@ -526,7 +505,7 @@ namespace	Air{
 			size.x	=	r.right		-	r.left;
 			size.y	=	r.bottom	-	r.top;
 
-			Ray	ray	=	m_pScene->GetMainCamera()->BuildRay(p.x/(float)size.x,p.y/(float)size.y);
+			Ray	ray	=	GetMainCamera()->BuildRay(p.x/(float)size.x,p.y/(float)size.y);
 
 			float	fDis	=	9999999.0f;
 
@@ -578,13 +557,13 @@ namespace	Air{
 			return true;
 		}
 
-		bool Pipeline::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
+		bool DefaulePipeline::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 		{
 
 			return true;
 		}
 
-		bool Pipeline::keyPressed( const OIS::KeyEvent &arg )
+		bool DefaulePipeline::keyPressed( const OIS::KeyEvent &arg )
 		{
 			switch(arg.key){
 				case OIS::KC_LEFT:{
@@ -605,7 +584,7 @@ namespace	Air{
 			return true;
 		}
 
-		bool Pipeline::keyReleased( const OIS::KeyEvent &arg )
+		bool DefaulePipeline::keyReleased( const OIS::KeyEvent &arg )
 		{
 			switch(arg.key){
 
@@ -622,7 +601,7 @@ namespace	Air{
 			return true;
 		}
 
-		void Pipeline::Update(const FrameTime& frameTime)
+		void DefaulePipeline::Update(const FrameTime& frameTime)
 		{
 			if(GetGlobalSetting().m_pInputSystem->m_KeyArray[OIS::KC_A]){
 				vMoveDirection.x=	-fVolocity;
@@ -640,7 +619,7 @@ namespace	Air{
 				vMoveDirection.z=	0.0f;
 			}
 
-			Camera*	pCam	=	m_pScene->GetMainCamera();
+			Camera*	pCam	=	GetMainCamera();
 			Float3	vUp	=	pCam->GetUpDir();
 			Float3	vDir	=	pCam->GetDir();
 			Float3	vRight	=	vUp.Cross(vDir);

@@ -9,7 +9,7 @@ namespace Air{
 	
 	
 	
-	
+		AString ScreenEntity::ProductTypeName="ScreenEntity";
 		ScreenEntity::ScreenEntity( CAString& strName,Info*	pInfo):Common::IProduct(strName){
 
 			if(pInfo!=NULL)
@@ -28,7 +28,7 @@ namespace Air{
 			};
 			VertexDeclare::Info	VertexDeclareInfo;
 			VertexDeclareInfo.CopyElement(e,1);
-			VertexDeclare*	pVertexDeclare	=	Render::System::GetSingleton()->CreateProduct<VertexDeclare*>("ScreenVertexDeclare","VertexDeclare",&VertexDeclareInfo);
+			VertexDeclare*	pVertexDeclare	=	Render::System::GetSingleton()->CreateProduct<VertexDeclare>("ScreenVertexDeclare",&VertexDeclareInfo);
 			if(pVertexDeclare==NULL)
 				return false;
 	
@@ -42,7 +42,7 @@ namespace Air{
 			//创建顶点缓冲
 			VertexBuffer::Info VertexBuffInfo;
 			//VertexBuffInfo.pInitData	=	NULL;
-			VertexBuffer*	pVertexBuff	=	Render::System::GetSingleton()->CreateProduct<VertexBuffer*>(AString("ScreenVertexBuff"),AString("VertexBuff"),&VertexBuffInfo);
+			VertexBuffer*	pVertexBuff	=	Render::System::GetSingleton()->CreateProduct<VertexBuffer>(AString("ScreenVertexBuff"),&VertexBuffInfo);
 			if(pVertexBuff==NULL)
 				return false;
 			//填充顶点
@@ -60,7 +60,7 @@ namespace Air{
 			IndexBuffer::Info	IndexBuffInfo;
 			IndexBuffInfo.SetIndexBuffer16(6);
 			IndexBuffInfo.InitData	=	NULL;//indexArray;
-			IndexBuffer*	pIndexBuff	=	Render::System::GetSingleton()->CreateProduct<IndexBuffer*>("ScreenIndexBuff","IndexBuff",&IndexBuffInfo);
+			IndexBuffer*	pIndexBuff	=	Render::System::GetSingleton()->CreateProduct<IndexBuffer>("ScreenIndexBuff",&IndexBuffInfo);
 			if(pIndexBuff==NULL){
 				Destroy();
 				return false;
@@ -150,15 +150,6 @@ namespace Air{
 // 				m_pMaterial->Render(m_DrawBuff);
 // 			}
 		}
-		IProduct* ScreenEntityFactory::NewProduct( CAString& strName,IFactoryParamList* lstParam /*= NULL*/ ){
 
-			ScreenEntity::Info*	pInfo	=	(ScreenEntity::Info*)lstParam;
-			ScreenEntity*		pBuff	=	new	ScreenEntity(strName,pInfo);
-			return	pBuff;
-		}
-	
-		ScreenEntityFactory::ScreenEntityFactory(){
-			m_strTypeName	=	"ScreenEntity";
-		}
 	}
 };

@@ -10,7 +10,7 @@ namespace Air{
 	namespace	Engine{
 	
 		namespace	Resource{
-	
+			
 			Data*	g_TempData	=	NULL;
 			U32		g_TempPos	=	0;
 	
@@ -20,7 +20,7 @@ namespace Air{
 				g_TempPos+=iSize;
 				return 1;
 			};
-	
+			AString RarPackage::ProductTypeName="rar";
 			RarPackage::RarPackage( CAString& strName ):IPackage(strName){
 				//m_Handle	=	NULL;
 	#ifndef	_DEBUG

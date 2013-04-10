@@ -63,28 +63,6 @@ namespace Air{
 				Real			m_fMoveSensitivity;	///<	移动灵敏度
 			};
 	
-			/**	\brief	第三人称控制器
-			*
-			*	第三人称控制器
-			*
-			***/
-			class	ThirdControlFactory	:
-				public	IFactory{
-			public:
-				ThirdControlFactory();
-	
-				/**	\brief	创建
-				*   
-				*	@remarks 	创建
-				*	@see		ThirdControlFactory
-				*	@return   	IProduct*
-				*	@param		AString strName
-				*	@param		IFactoryParamList * lstParam
-				*	@note
-				*
-				**/
-				virtual	IProduct*	NewProduct(CAString& strName,IFactoryParamList* lstParam /* = NULL */);
-			};
 		}
 	
 	};

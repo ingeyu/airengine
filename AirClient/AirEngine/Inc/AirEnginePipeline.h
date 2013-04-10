@@ -22,14 +22,14 @@ namespace	Air{
 		};
 
 		class	ENGINE_EXPORT	Pipeline	:	
-			public	IProduct,
+			public	TProduct<Pipeline>,
 			public	OIS::MouseListener,
 			public	OIS::KeyListener,
-			public	Common::MutilListenerManager<FrameListener>{
+			public	Common::MutilListenerManager<FrameListener>
+		{
 		public:
-
 			Pipeline(CAString&	strName);
-			virtual	~Pipeline();
+			
 
 			virtual	U1		Create();
 			virtual	U1		Destroy();
@@ -37,12 +37,46 @@ namespace	Air{
 			virtual	void	Update(const FrameTime& frameTime);
 			virtual	U1		RenderOneFrame(const FrameTime& frameTime);
 
-			virtual	U1		SetCurrentScene(Scene*	pCurrentScene);
-			Scene*			GetCurrentScene();
 
-			inline	RenderWindow*		GetMainWindow(){
+			//inline function
+		public:
+			inline	QuadRenderable*	GetQuadRenderable(){
+				return	m_pQuad;
+			}
+			inline	void			SetCurrentScene(Scene*	pCurrentScene){
+				m_pScene	=	pCurrentScene;
+			};
+			inline	Scene*			GetCurrentScene(){
+				return	m_pScene;
+			};
+			inline	Camera*			GetMainCamera(){
+				return m_pMainCamera;
+			};
+			inline	RenderWindow*	GetMainWindow(){
 				return	m_pMainWindow;
 			};
+		protected:
+			Scene*			m_pScene;
+			QuadRenderable*	m_pQuad;
+			RenderWindow*	m_pMainWindow;
+			Camera*			m_pMainCamera;
+		};
+		class	ENGINE_EXPORT	DefaulePipeline	:	
+			public	Pipeline
+		{
+		public:
+			static	AString	ProductTypeName;
+		public:
+			DefaulePipeline(CAString&	strName);
+			
+
+			virtual	U1		Create();
+			virtual	U1		Destroy();
+
+			virtual	void	Update(const FrameTime& frameTime);
+			virtual	U1		RenderOneFrame(const FrameTime& frameTime);
+
+
 
 			virtual bool mouseMoved( const OIS::MouseEvent &arg );
 			virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
@@ -53,7 +87,7 @@ namespace	Air{
 		protected:
 			void	BlurRenderTarget(RenderTarget* pDst,RenderTarget* pSrc);
 		protected:
-			RenderWindow*	m_pMainWindow;
+			
 			RenderTarget*	m_pMRT;
 
 			RenderTarget*	m_pRT_AO;
@@ -65,8 +99,7 @@ namespace	Air{
 
 
 
-			Scene*			m_pScene;
-			QuadRenderable*	m_pQuad;
+			
 			Material*		m_pQuadCopy;
 			Material*		m_pSSAO;
 			Material*		m_pSSSO;

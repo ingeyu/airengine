@@ -6,7 +6,7 @@ namespace Air{
 	
 	namespace	Common{
 	
-	
+		AString	NetClient::ProductTypeName="NetClient";
 		NetClient::NetClient( CAString& strName,Info* pInfo )
 			:IProduct(strName){
 			if(pInfo!=NULL)

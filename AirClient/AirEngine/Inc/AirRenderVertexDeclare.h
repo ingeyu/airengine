@@ -24,6 +24,7 @@ namespace Air{
 				class ENGINE_EXPORT	IDeclare
 					:	public	IProduct{
 				public:
+					static	AString	ProductTypeName;
 					/*	定点声明示例
 	
 					类似D3D 所有的枚举都是修改自D3D

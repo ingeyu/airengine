@@ -21,6 +21,7 @@ namespace Air{
 				class	TextureModel	:
 					public	Model{
 				public:
+					static AString ProductTypeName;
 					TextureModel(CAString&	strName,Info* pInfo);
 	
 	

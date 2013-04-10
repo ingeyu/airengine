@@ -6,8 +6,9 @@
 namespace	Air{
 	namespace	Engine{
 
-			class	Shader	:	public	IProduct{
+			class	ENGINE_EXPORT	Shader	:	public	IProduct{
 			public:
+				static AString ProductTypeName;
 				Shader(CAString&	strName):IProduct(strName){};
 				virtual	void*			GetShader()										=	NULL;
 				virtual	void			GetBinaryCode(void*&	pOut,U32&	uiSize)		=	NULL;

@@ -7,7 +7,7 @@
 namespace	Air{
 	namespace	Engine{
 
-
+		AString MaterialTemplate::ProductTypeName="MaterialTemplate";
 		MaterialTemplate::MaterialTemplate( CAString& strName,MaterialTemplateInfo* pInfo )
 			:Common::IProduct(strName){
 			m_pInfo	=	pInfo;

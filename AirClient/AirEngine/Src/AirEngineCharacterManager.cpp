@@ -103,7 +103,7 @@ namespace Air{
 					modelInfo.strResourcePath	=	info.strPath;
 					modelInfo.strSkeleton		=	info.strSkeletonName;
 	
-					m_pModel	=	EngineSystem::GetSingleton()->CreateProduct<Animation::Model*>(strName,AString("Model"),&modelInfo);
+					m_pModel	=	EngineSystem::GetSingleton()->CreateProduct<Animation::Model>(strName,&modelInfo);
 					if(m_pNode!=NULL)
 						m_pNode->attachObject(m_pModel);
 					LoadAnimation(info.strPath	+	"Animation.slk");

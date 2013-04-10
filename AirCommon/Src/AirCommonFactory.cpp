@@ -6,23 +6,19 @@ namespace Air{
 	namespace Common{
 	
 	
-		IBaseFactory::IBaseFactory(){
-			m_strTypeName = ("BaseFactory");
+		IBaseFactory::IBaseFactory(const AString& strTypeName):m_strTypeName(strTypeName){
 		}
 	
 		IBaseFactory::~IBaseFactory(){
-	
+
 		}
-	
-		void IBaseFactory::SetType( const AString& strTypeName ){
-			m_strTypeName = strTypeName;
-		}
+
 	
 		const AString& IBaseFactory::GetType()const{
 			return m_strTypeName;
 		}
 	
-		IFactory::IFactory():IBaseFactory(){
+		IFactory::IFactory(const AString& strTypeName):IBaseFactory(strTypeName){
 			m_pFactoryMgr	= NULL;
 		}
 	
@@ -137,7 +133,7 @@ namespace Air{
 
 		}
 
-		IFactoryManager::IFactoryManager(): IBaseFactory(){
+		IFactoryManager::IFactoryManager(){
 			
 		}
 	

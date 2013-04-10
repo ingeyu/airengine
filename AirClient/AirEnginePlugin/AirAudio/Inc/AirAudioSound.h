@@ -154,24 +154,6 @@ namespace Air{
 				Buffer*		m_pBuffer;
 				Float3		m_vLastPosition;
 			};	
-	
-			class	SoundFactory	:
-				public	IFactory{
-			public:
-				SoundFactory();
-	
-				/**	\brief	创建声音
-				*   
-				*	@remarks 	创建声音
-				*	@see		SoundFactory
-				*	@return   	IProduct*
-				*	@param		AString strName
-				*	@param		IFactoryParamList * lstParam
-				*	@note
-				*
-				**/
-				virtual	IProduct*	NewProduct(CAString& strName,IFactoryParamList* lstParam /* = NULL */);
-			};
 		}
 	
 	};

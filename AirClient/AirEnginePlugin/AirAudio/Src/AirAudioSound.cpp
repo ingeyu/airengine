@@ -37,7 +37,7 @@ namespace Air{
 	// 				strPostfix	==	"ogg"){
 	// 					strType	=	"OggBuffer";
 	// 			}
-				m_pBuffer	=	GetGlobalSetting().m_pAudioSystem->CreateProduct<Buffer*>(m_Info.strName,strType);
+				m_pBuffer	=	GetGlobalSetting().m_pAudioSystem->CreateProduct<Buffer>(m_Info.strName,strType);
 				if(m_pBuffer==NULL)
 					return false;
 				//生成一个源（用于播放）
@@ -227,19 +227,6 @@ namespace Air{
 				}
 	
 			}
-			SoundFactory::SoundFactory(){
-				m_strTypeName	=	"Sound";
-			}
-	
-			IProduct* SoundFactory::NewProduct( CAString& strName,IFactoryParamList* lstParam /* = NULL */ ){
-				if(lstParam==NULL)
-					return NULL;
-				ISound::Info*	pInfo	=	(ISound::Info*)lstParam;
-				Sound*	pBuff	=	new	Sound(Number::Increase(strName),pInfo);
-				return	pBuff;
-			}
-	
-	
 		}
 	}
 };

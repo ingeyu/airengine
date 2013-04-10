@@ -72,7 +72,7 @@ namespace	Air{
 				extraWnd	=	extraWindow;
 
 			}
-
+			AString Target::ProductTypeName="RenderTarget";
 			Target::Target( CAString& strName, Info* pInfo ):IProduct(strName)
 			{
 				if(pInfo!=NULL){
@@ -114,7 +114,7 @@ namespace	Air{
 					if(uTargetCount	>	1){
 						strTargetName	=	m_strProductName+Converter::ToString(i);
 					}
-					m_vecTexture[i]	=	pSys->CreateProduct<Texture*>(strTargetName,"Texture",&m_Info.vecTextureInfo[i]);
+					m_vecTexture[i]	=	pSys->CreateProduct<Texture>(strTargetName,&m_Info.vecTextureInfo[i]);
 				}
 				if(m_Info.extraDepth!=NULL	&&	m_Info.bUseDepth){
 					m_Info.extraDepth->AddRef();

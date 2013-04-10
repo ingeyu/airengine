@@ -11,6 +11,7 @@ namespace	Air{
 			public	Renderable,
 			public	MovableObject{
 		public:
+			static AString	ProductTypeName;
 			struct Info{
 				U32									uiVertexSize;
 				U32									uiVertexCount;

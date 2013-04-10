@@ -129,8 +129,9 @@ namespace Air{
 				}
 	
 				void Page::CreateMaterial( AString strPageName ){
-					m_pMaterial	=	Render::System::GetSingleton()->CreateProduct<Material*>(strPageName+"Page.Material",AString("Material"));
+					m_pMaterial	=	Render::System::GetSingleton()->CreateProduct<Material>(strPageName+"Page.Material");
 				}
+
 	
 				void Page::CreateObject( AString strPageName ){
 					AString	strObjectName	=	strPageName	+	"Page.obj";

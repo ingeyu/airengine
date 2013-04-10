@@ -208,29 +208,7 @@ namespace Air{
 				enumActorState			m_LastState;
 				enumAction				m_Action;
 			};
-	
-			/**	\brief	创建第一人称射击控制器
-			*
-			*	创建第一人称射击控制器
-			*
-			***/
-			class	FPSControlFactory	:
-				public	IFactory{
-			public:
-				FPSControlFactory();
-	
-				/**	\brief	创建控制器
-				*   
-				*	@remarks 	创建控制器
-				*	@see		FPSControlFactory
-				*	@return   	IProduct*
-				*	@param		AString strName
-				*	@param		IFactoryParamList * lstParam
-				*	@note
-				*
-				**/
-				virtual	IProduct*	NewProduct(CAString& strName,IFactoryParamList* lstParam /* = NULL */);
-			};
+
 		}
 	
 	};

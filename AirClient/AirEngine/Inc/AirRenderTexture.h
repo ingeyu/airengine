@@ -14,11 +14,10 @@ namespace	Air{
 			*
 			***/
 			class	ENGINE_EXPORT	Texture
-				:	public	IProduct{
-
-
+				:	public	IProduct
+			{
 			public:
-
+				static AString		ProductTypeName;
 	
 				/**	\brief	Œ∆¿Ì–≈œ¢
 				*

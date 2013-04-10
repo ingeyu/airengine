@@ -18,14 +18,14 @@ namespace	Air{
 				IPackage*	p	=	NULL;
 
 				if(strName.size()	<	4){
-					p	=	m_pSystem->CreateProduct<IPackage*>(strName,AString("Folder"));
+					p	=	m_pSystem->CreateProduct<IPackage>(strName,AString("Folder"));
 
 				}else{
 					AString	strPostfix	=	Converter::ToLowerCase(Common::GetPostfix(strName));
 					if(strPostfix.empty()||	strPostfix[0]=='/'||strPostfix[0]=='\\'){
-						p	=	m_pSystem->CreateProduct<IPackage*>(strName,AString("Folder"));
+						p	=	m_pSystem->CreateProduct<IPackage>(strName,AString("Folder"));
 					}else{
-						p	=	m_pSystem->CreateProduct<IPackage*>(strName,strPostfix);
+						p	=	m_pSystem->CreateProduct<IPackage>(strName,strPostfix);
 					}
 				}
 
