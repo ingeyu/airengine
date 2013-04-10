@@ -63,6 +63,12 @@ namespace	Air{
 			m_pMainWindow->Update();
 			return true;
 		};
+
+		void Pipeline::SetCurrentScene( Scene* pCurrentScene )
+		{
+			m_pScene	=	pCurrentScene;
+		}
+
 		AString	DefaulePipeline::ProductTypeName="DefaulePipeline";
 		DefaulePipeline::DefaulePipeline( CAString& strName):Pipeline(strName)
 		{
@@ -94,6 +100,8 @@ namespace	Air{
 
 		Air::U1 DefaulePipeline::Create()
 		{
+			__super::Create();
+
 			OIS::KeyListener*	pKey	=	this;
 			OIS::MouseListener*	pMouse	=	this;
 			GetGlobalSetting().m_pInputSystem->Add(pKey);
@@ -263,7 +271,7 @@ namespace	Air{
 			SAFE_RELEASE_REF(m_pMRT);
 
 
-			return	true;
+			return	__super::Destroy();
 		}
 
 		Air::U1 DefaulePipeline::RenderOneFrame(const FrameTime& frameTime)
@@ -304,22 +312,12 @@ namespace	Air{
 			CameraSet	setCamera;
 			pSys->FindActiveCamera(setCamera);
 
-			Camera*	pMainCamera	=	NULL;
-			//找出主相机
+			m_pMainCamera->FindMovableObject(m_pScene);
+
 			CameraSet::iterator	i	=	setCamera.begin();
 			for(;i!=setCamera.end();i++){
-				if((*i)->GetType()==enCT_MAIN){
-					pMainCamera	=	(*i);
-					setCamera.erase(i);
-					break;
-				}
-			}
-
-			pMainCamera->FindMovableObject();
-
-			i	=	setCamera.begin();
-			for(;i!=setCamera.end();i++){
-				(*i)->FindMovableObject(pMainCamera->GetCurrentScene(),pMainCamera);
+				if(m_pMainCamera	!=	(*i))
+					(*i)->FindMovableObject(m_pScene,m_pMainCamera);
 			}
 
 			setCamera.clear();
@@ -328,7 +326,7 @@ namespace	Air{
 
 			m_pMRT->SetClearFlag(false,false,false);
 			if(m_pMRT->BeforeUpdate()){
-				Float44 matVPInv	=	m_pScene->GetMainCamera()->GetViewProjMatrix();
+				Float44 matVPInv	=	m_pMainCamera->GetViewProjMatrix();
 				matVPInv.Inverse();
 				m_pSky->GetConstantBuffer()->UpdateData(&matVPInv);
 				m_pSky->RenderOneObject(m_pQuad);

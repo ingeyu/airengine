@@ -1,16 +1,18 @@
 #include "AirGameThirdControl.h"
 #include "AirGameSection.h"
-#include "AirGameGlobal.h"
 #include "OIS.h"
 #include "AirGameSystem.h"
+#include "AirEngineScene.h"
+#include "AirEngineSceneNode.h"
+#include "AirGlobalSetting.h"
 
 using namespace OIS;
 namespace Air{
 	
-	namespace	Engine{
+
 		namespace	Game{
 	
-	
+			AString	ThirdControl::ProductTypeName="ThirdControl";
 			ThirdControl::ThirdControl( AString strName,Info* pInfo )	:
 				FPSControl(strName,pInfo){
 				m_fMinCameraDis	=	3.0f;
@@ -22,8 +24,8 @@ namespace Air{
 			}
 	
 			U1 ThirdControl::Create(){
-				Scene*			pScene	=	m_Info.pSection->GetScene();
-				Audio::IScene*	pAScene	=	m_Info.pSection->GetAudioScene();
+				Engine::Scene*			pScene	=	m_Info.pSection->GetScene();
+				//Audio::IScene*	pAScene	=	m_Info.pSection->GetAudioScene();
 				//Physx::IScene*	pXScene	=	m_Info.pSection->GetPhysxScene();
 	
 				m_pNode				=	pScene->GetRootNode()->CreateChildSceneNode();
@@ -49,7 +51,7 @@ namespace Air{
 				//m_pNode->attachObject(m_pCamera);
 	
 				//添加控制器到关卡中
-				m_Info.pSection->AddControl(this);
+				//m_Info.pSection->AddControl(this);
 // 	
 // 				Physx::IController::Info	info;
 // 				info.initPosition	=	m_Info.vPosition;
@@ -60,11 +62,11 @@ namespace Air{
 			}
 	
 			U1 ThirdControl::Destroy(){
-				Scene*			pScene	=	m_Info.pSection->GetScene();
-				Audio::IScene*	pAScene	=	m_Info.pSection->GetAudioScene();
+				Engine::Scene*			pScene	=	m_Info.pSection->GetScene();
+				//Audio::IScene*	pAScene	=	m_Info.pSection->GetAudioScene();
 			//	Physx::IScene*	pXScene	=	m_Info.pSection->GetPhysxScene();
 				//移除控制器
-				m_Info.pSection->RemoveControl(this);
+				//m_Info.pSection->RemoveControl(this);
 	
 				//GetGlobalSetting().m_pEngine->DestroyProduct(m_pCamera);
 				m_pCamera	=	NULL;
@@ -80,7 +82,7 @@ namespace Air{
 	
 			U1 ThirdControl::OnFrameMove(){
 	
-				static	Real&	fTimeDelta	=	GetGlobalSetting().m_ShaderParam.m_fTimeDelta;
+				static	Real&	fTimeDelta	=	Engine::GetGlobalSetting().m_ShaderParam.m_fTimeDelta;
 				//计算灵敏度
 				Real	fSensitivity		=	fTimeDelta*m_fMoveSensitivity;
 	
@@ -155,8 +157,8 @@ namespace Air{
 			bool ThirdControl::mouseMoved( const OIS::MouseEvent &arg ){
 	
 				if(m_pInputState->m_MouseArray[OIS::MB_Right]){
-					GlobalSetting&		setting	=	GetGlobalSetting();
-					ShaderShareParam&	sParam	=	setting.m_ShaderParam;
+					Engine::GlobalSetting&		setting	=	Engine::GetGlobalSetting();
+					Engine::ShaderShareParam&	sParam	=	setting.m_ShaderParam;
 	
 					Real fXDelta	=	Real(arg.state.X.rel) * 0.9f;
 					Real fYDelta	=	Real(arg.state.Y.rel) * 0.9f;	
@@ -169,7 +171,7 @@ namespace Air{
 	
 				}
 	
-				m_fTargetDis	-=	GetGlobalSetting().m_ShaderParam.m_fEngineTimeDelta*arg.state.Z.rel*0.5f;
+				m_fTargetDis	-=	Engine::GetGlobalSetting().m_ShaderParam.m_fEngineTimeDelta*arg.state.Z.rel*0.5f;
 				if(m_fTargetDis<m_fMinCameraDis)
 					m_fTargetDis	=	m_fMinCameraDis;
 				if(m_fTargetDis>m_fMaxCameraDis)
@@ -204,5 +206,4 @@ namespace Air{
 			}
 	
 		}
-	}
 };

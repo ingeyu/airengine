@@ -202,7 +202,7 @@ namespace Air{
 	
 			void Manager::Destroy(){
 				if(m_pModel!=NULL){
-					EngineSystem::GetSingleton()->DestroyProduct(m_pModel);
+					m_pModel->ReleaseRef();
 					m_pModel	=	NULL;
 					m_lstAnimation.clear();
 					m_lstStateAnimation.clear();

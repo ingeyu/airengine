@@ -95,7 +95,7 @@ namespace Air{
 				U1 Page::UnLoad(){
 	
 					if(m_pMaterial!=NULL)
-	 					Render::System::GetSingleton()->DestroyProduct(m_pMaterial);
+	 					m_pMaterial->ReleaseRef();
 					m_pMaterial	=	NULL;
 	// 				if(m_DrawBuff.m_pVertexBuff!=NULL){
 	// 					Render::System::GetSingleton()->DestroyProduct(m_DrawBuff.m_pVertexBuff);

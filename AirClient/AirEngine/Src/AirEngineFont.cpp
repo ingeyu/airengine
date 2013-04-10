@@ -67,7 +67,7 @@ namespace Air{
 	
 		U1 Font::Destroy(){
 			if(m_pCharTexture!=NULL){
-				Render::System::GetSingleton()->DestroyProduct(m_pCharTexture);
+				m_pCharTexture->ReleaseRef();
 				m_pCharTexture	=	NULL;
 			}
 			if(m_pFace!=NULL){

@@ -6,10 +6,10 @@ namespace Air{
 			
 	
 			Global::Global(){
-				m_pSystem	=	NULL;
-				m_pSection	=	NULL;
-				m_pDataSystem	=	NULL;
-				m_pLoadingSection	=	NULL;
+				//m_pSystem	=	NULL;
+				//m_pSection	=	NULL;
+				//m_pDataSystem	=	NULL;
+				//m_pLoadingSection	=	NULL;
 				//m_pUIFlashSys	=	dynamic_cast<UI::Flash::IISystem*>(GetGlobalSetting().m_pUISystem);
 			}
 	

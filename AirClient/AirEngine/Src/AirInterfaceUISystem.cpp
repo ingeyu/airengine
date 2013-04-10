@@ -107,7 +107,7 @@ namespace Air{
 			}
 	
 			void ISystem::DestroyIWindow( Window::IControl* pWindow ){
-				DestroyProduct(pWindow);
+				pWindow->ReleaseRef();
 			}
 	
 			void ISystem::SetRootWindow( Window::IControl* pWindow ){

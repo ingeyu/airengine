@@ -1,16 +1,17 @@
 #ifndef GAMETHIRDCONTROL_HEAD_FILE
 #define GAMETHIRDCONTROL_HEAD_FILE
 
-#include "AirGameHeader.h"
+
 #include "AirGameFPSControl.h"
 namespace Air{
 	
-	namespace Engine{
+
 	
 		namespace	Game{
-			class	ThirdControl	:
+			class	ENGINE_EXPORT	ThirdControl	:
 				public	FPSControl{
 			public:
+				static AString	ProductTypeName;
 				ThirdControl(AString	strName,Info*	pInfo);
 				/**	\brief	´´½¨
 				*   
@@ -65,6 +66,6 @@ namespace Air{
 	
 		}
 	
-	};
+
 };
 #endif // GAMETHIRDCONTROL_HEAD_FILE

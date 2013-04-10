@@ -6,8 +6,9 @@
 namespace	Air{
 	namespace	Engine{
 		class	Pipeline;
-		class	Screen	:public		IProduct{
+		class	ENGINE_EXPORT	Screen	:public		IProduct{
 		public:
+			static AString ProductTypeName;
 			struct Info 
 			{
 				Info(){

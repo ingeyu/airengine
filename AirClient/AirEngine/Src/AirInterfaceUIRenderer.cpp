@@ -78,7 +78,7 @@ namespace Air{
 // 				}
 	
 				if(m_DrawBuff.m_pVertexDeclare!=NULL){
-					setting.m_pRenderSystem->DestroyProduct(m_DrawBuff.m_pVertexDeclare);
+					m_DrawBuff.m_pVertexDeclare->ReleaseRef();
 					m_DrawBuff.m_pVertexDeclare	=	NULL;
 				}
 	

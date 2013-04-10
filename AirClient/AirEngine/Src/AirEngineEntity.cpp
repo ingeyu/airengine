@@ -41,11 +41,11 @@ namespace Air{
 			m_Info.pParentNode->RemoveChild(m_pNode);
 	
 			if(m_pCollisionObj!=NULL){
-				m_Info.pXScene->DestroyProduct(m_pCollisionObj);
+				m_pCollisionObj->ReleaseRef();
 				m_pCollisionObj	=	NULL;
 			}
 			if(m_pRenderObj!=NULL){
-				EngineSystem::GetSingleton()->DestroyProduct(m_pRenderObj);
+				m_pRenderObj->ReleaseRef();
 				m_pRenderObj=NULL;
 			}
 			if(m_pNode!=NULL){

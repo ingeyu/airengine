@@ -69,12 +69,12 @@ namespace Air{
 		U1 PostComposer::Destroy(){
 	
 			if(m_pMaterial==NULL){
-				Render::System::GetSingleton()->DestroyProduct(m_pMaterial);
+				m_pMaterial->ReleaseRef();
 				m_pMaterial=NULL;
 			}
 		
 			if(m_pTerget==NULL){
-				Render::System::GetSingleton()->DestroyProduct(m_pTerget);
+				m_pTerget->ReleaseRef();
 				m_pTerget=NULL;
 			}
 	

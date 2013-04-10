@@ -77,7 +77,6 @@ namespace Air{
 			IndexBuffInfo.SetIndexBuffer16(6);
 			IndexBuffer*	pIndexBuff	=	Render::System::GetSingleton()->CreateProduct<IndexBuffer>(AString("ScreenIndexBuff"),&IndexBuffInfo);
 			if(pIndexBuff==NULL){
-				Render::System::GetSingleton()->DestroyProduct(pIndexBuff);
 				return false;
 			}
 			//Ìî³äË÷Òı

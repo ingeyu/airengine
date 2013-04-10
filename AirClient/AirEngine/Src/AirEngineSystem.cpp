@@ -44,6 +44,8 @@
 #include "AirEngineMaterial.h"
 #include "AirEngineLight.h"
 
+#include "AirGameSystem.h"
+
 #include <fstream>
 
 namespace Air{
@@ -77,9 +79,6 @@ namespace Air{
 		EngineSystem::EngineSystem(){
 			
 			m_strPluginNameArray.resize(g_uiNumPlugin);
-			//m_strPluginFileName				=	"..\\Data\\Config\\Plugin.ini";
-			
-			m_pCurrentScreen	=	NULL;
 		}
 	
 		EngineSystem::~EngineSystem(){
@@ -97,6 +96,8 @@ namespace Air{
 			//Input::Capture();
 			if(GetGlobalSetting().m_pInputSystem!=NULL)
 				GetGlobalSetting().m_pInputSystem->Capture();
+
+			
 	
 	
 			//渲染界面
@@ -105,9 +106,10 @@ namespace Air{
 				pUISystem->Update();
 			}
 
-			if(m_pCurrentScreen!=NULL){
-				m_pCurrentScreen->RenderOneFrame(frameTime);
-			}
+			GameSystem::GetSingleton()->Update(frameTime);
+
+			GameSystem::GetSingleton()->RenderOneFrame(frameTime);
+			
 		}
 	
 		U1 EngineSystem::Initialization(){
@@ -156,6 +158,11 @@ namespace Air{
 			AddFactory(new	ParamFactory<ManualMeshEntity>());
 			AddFactory(new	NoParamFactory<Camera>());
 			AddFactory(new	ParamFactory<Light>());
+
+
+
+			AddFactory(new NoParamFactory<Scene>());
+			AddFactory(new ExtraParamFactory<Plugin,void>());
 	
 	
 			//加载所有插件
@@ -173,7 +180,10 @@ namespace Air{
 			//启动系统
 			StartAllSystemManager();
 
-			
+			GameSystem::GetSingleton()->Initialization();
+
+			//加载Game
+			CreateProduct<Plugin>("AirGame.dll");
 
 			return true;
 		}
@@ -227,7 +237,13 @@ namespace Air{
 		}
 	
 		U1 EngineSystem::Release(){
-			//ENGINE_LOG_INFO;
+
+
+			//卸载Game
+			DestroyProduct<Plugin>("AirGame.dll");
+
+			GameSystem::GetSingleton()->Release();
+			GameSystem::ReleaseSingleton();
 
 			MaterialParse::ReleaseSingleton();
 
@@ -280,8 +296,7 @@ namespace Air{
 
 
 			for(UInt i=0;i<uiSize;i++){
-				Common::Plugin*	pPlugin	=	AirNew<Common::Plugin>(lstString[i],(void*)NULL);
-				pPlugin->Create();
+				Plugin*	pPlugin	=	CreateProduct<Plugin>(lstString[i]);
 				m_vecPlugin.push_back(pPlugin);
 			}
 
@@ -316,45 +331,10 @@ namespace Air{
 
 			U32	uiSize	=	m_vecPlugin.size();
 			for(int	i	=	uiSize-1;i>=0;i--){
-				m_vecPlugin[i]->Destroy();
-				AirDelete(m_vecPlugin[i]);
+				m_vecPlugin[i]->ReleaseRef();
 			}
 			m_vecPlugin.clear();
-//			ENGINE_LOG_INFO
-			//获取插件工厂
-//  			IFactory*	pPluginFactory	=	GetFactory("Plugin");
-//  			if(pPluginFactory==NULL)
-//  				return false;
-// 			for(SInt	i=g_uiNumPlugin	-	1;i>=0;i--){
-// 				if(m_strPluginNameArray[i].empty())
-// 					continue;
-// 				//卸载插件
-// 				Plugin*	p	=	dynamic_cast<Plugin*>(pPluginFactory->GetProduct(m_strPluginNameArray[i]));
-// 				p->Excute(Plugin::enRelease);
-// 				p->ReleaseRef();
-// 			}
-// 			pPluginFactory->DestroyAllProduct();
-// 	
-// 			delete	m_pPluginMgr;
-// 			m_pPluginMgr	=	NULL;
 			return	true;
-		}
-	
-		Scene* EngineSystem::CreateScene( AString strName ){
-			
-			Scene*	pScene	=	new	Scene(strName);
-	
-			pScene->Initialization();
-	
-			return	pScene;
-		}
-	
-		U1 EngineSystem::DestroyScene( Scene* pScene ){
-			if(pScene!=NULL){
-				pScene->Release();
-				delete	pScene;
-			}
-			return true;
 		}
 	
 		U1 EngineSystem::Stop(){

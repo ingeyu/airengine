@@ -34,6 +34,10 @@
 #include "AirEngineEntity.h"
 #include "AirEngineEntityCloth.h"
 
+#include "AirGameSection.h"
+#include "AirGameSystem.h"
+
+
 
 
 namespace Client{

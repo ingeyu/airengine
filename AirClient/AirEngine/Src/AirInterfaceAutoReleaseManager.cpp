@@ -26,12 +26,7 @@ namespace Air{
 			for(;i!=m_lstProduct.end();i++){
 				IProduct*	p	=	(IProduct*)(*i);
 				if(p!=NULL){
-		//			AString	str	=	p->GetProductName();
-					IFactoryManager*	pFactoryMgr	=	p->GetFactoryManager();
-					pFactoryMgr->DestroyProduct(p);
-					//return;
-	// 				::OutputDebugStringA(str.c_str());
-	// 				::OutputDebugStringA("产品被自动摧毁\n");
+					p->ReleaseRef();
 				}
 			}
 			m_uiProductCount	=	0;
@@ -46,12 +41,7 @@ namespace Air{
 					IProduct*	p	=	(IProduct*)(*i);
 					m_lstProduct.pop_front();
 					if(p!=NULL){
-		//				AString	str	=	p->GetProductName();
-						IFactoryManager*	pFactoryMgr	=	p->GetFactoryManager();
-						pFactoryMgr->DestroyProduct(p);
-						//break;
-	// 					::OutputDebugStringA(str.c_str());
-	// 					::OutputDebugStringA("产品被自动摧毁\n");
+						p->ReleaseRef();
 					}
 					m_uiProductCount--;
 					if(m_uiProductCount<=m_uiCacheSize)

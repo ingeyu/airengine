@@ -97,6 +97,7 @@ namespace Air{
 			*
 			**/
 			virtual bool		Destroy(IProduct* pProduct);
+			virtual bool		Destroy(const AString& strName);
 	
 			/**	\brief	销毁所有产品
 			*   
@@ -304,6 +305,11 @@ namespace Air{
 			**/
 	
 			bool Destroy(IProduct* pProduct);
+			bool DestroyProduct(const AString& strName,const AString& strType);
+			template<typename T>
+			bool DestroyProduct(const AString& strName){
+				return DestroyProduct(strName,T::ProductTypeName);
+			};
 	
 			/**	\brief	摧毁产品
 			*   
@@ -314,27 +320,27 @@ namespace Air{
 			*	@note
 			*
 			**/
-	 		template	<typename	T_Product>
-			bool DestroyProduct(T_Product* pProduct){
-				//这里需要注意的是继承树问题 必须要用dynamic_cast
-				//否则可能会出现异常
-				//如下图的继承树 如果要把A*->B*就需要使用dynamic_cast
-				//------------------------------------------------------
-				//	A     B
-				//	 \   /
-				//    \ /
-				//	   C
-				//     |
-				//     |
-				//     D
-				//------------------------------------------------------
-				
-	 			IProduct*	p	=	dynamic_cast<IProduct*>(pProduct);
-	 			bool	bReturn	= Destroy(p);
-	 			pProduct	=	NULL;
-				
-	 			return bReturn;
-	 		};
+	 	//	template	<typename	T_Product>
+			//bool DestroyProduct(T_Product* pProduct){
+			//	//这里需要注意的是继承树问题 必须要用dynamic_cast
+			//	//否则可能会出现异常
+			//	//如下图的继承树 如果要把A*->B*就需要使用dynamic_cast
+			//	//------------------------------------------------------
+			//	//	A     B
+			//	//	 \   /
+			//	//    \ /
+			//	//	   C
+			//	//     |
+			//	//     |
+			//	//     D
+			//	//------------------------------------------------------
+			//	
+	 	//		IProduct*	p	=	dynamic_cast<IProduct*>(pProduct);
+	 	//		bool	bReturn	= Destroy(p);
+	 	//		pProduct	=	NULL;
+			//	
+	 	//		return bReturn;
+	 	//	};
 	
 			/**	\brief	释放所有已创建的产品
 			*   

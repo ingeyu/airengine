@@ -4,9 +4,13 @@
 #include "AirEngineHeader.h"
 
 namespace	Air{
+	namespace	Engine{
+		class	Screen;
+	};
 	namespace	Game{
-		class	System	:	
-			public	IFactoryManager,
+		class	Section;
+		class	ENGINE_EXPORT	System	:	
+			public	Common::IFactoryManager,
 			public	Singleton<System>
 		{
 		public:
@@ -17,6 +21,13 @@ namespace	Air{
 			virtual	U1	Release();
 
 
+			Section*		GetCurrentSection();
+			void			SetCurrentSection(Section* pSection);
+
+			void		Update(const FrameTime&	fFrameTime);
+			void		RenderOneFrame(const FrameTime&	fFrameTime);
+		public:
+			Section*	m_pSection;
 		};
 	}
 	typedef	Game::System	GameSystem;

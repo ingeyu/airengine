@@ -33,15 +33,15 @@ namespace Air{
 	
 				World::~World(){
 					if(m_Info.pIndexBuff!=NULL){
-						Render::System::GetSingleton()->DestroyProduct(m_Info.pIndexBuff);
+						m_Info.pIndexBuff->ReleaseRef();
 						m_Info.pIndexBuff=NULL;
 					}
 					if(m_Info.pVertexDeclare!=NULL){
-						Render::System::GetSingleton()->DestroyProduct(m_Info.pVertexDeclare);
+						m_Info.pVertexDeclare->ReleaseRef();
 						m_Info.pVertexDeclare=NULL;
 					}
 					if(m_Info.pWaterMaterial!=NULL){
-						Render::System::GetSingleton()->DestroyProduct(m_Info.pWaterMaterial);
+						m_Info.pWaterMaterial->ReleaseRef();
 						m_Info.pWaterMaterial=NULL;
 					}
 				}

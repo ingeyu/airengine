@@ -5,6 +5,7 @@
 #include "AirEngineHeader.h"
 #include "AirGameSystem.h"
 #include "AirGlobalSetting.h"
+#include "AirGameSection.h"
 
 
 
@@ -26,34 +27,24 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 }
 namespace Air{
 	
-	namespace	Engine{
-	
-		Game::System*	pPlugin	=	NULL;
-	
+		Game::Section*	pSection	=	NULL;
 		extern "C" GAME_EXPORT U1 DllInit(void*		pParam)throw(){
-			if(pPlugin==NULL){
-				pPlugin = new Game::System();
-				pPlugin->Initialization();
-				//GetGlobalSetting().m_pGameSystem	=	dynamic_cast<Game::ISystem*>(pPlugin);
-			}
+			pSection	=	GameSystem::GetSingleton()->CreateProduct<Game::Section>("Test");
+			GameSystem::GetSingleton()->SetCurrentSection(pSection);
 			return	true;
 		}
 		extern "C" GAME_EXPORT U1 DllStart(void*		pParam)throw(){
-			if(pPlugin!=NULL)
-				pPlugin->Start();
+			
 			return	true;
 		}
 	
 		extern "C" GAME_EXPORT U1 DllStop(void*		pParam)throw(){
-			if(pPlugin!=NULL){
-				pPlugin->Stop();
-			}
+			
 			return	true;
 		}
 		extern "C" GAME_EXPORT U1 DllRelease(void*	pParam)throw(){
-			pPlugin->Release();
-			SAF_D(pPlugin);
+			GameSystem::GetSingleton()->SetCurrentSection(NULL);
+			pSection->ReleaseRef();
 			return	true;
 		}
-	}
 };

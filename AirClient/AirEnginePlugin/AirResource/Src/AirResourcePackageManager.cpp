@@ -66,7 +66,7 @@ namespace	Air{
 					PackageListItr	i	=	m_lstPackage.begin();
 					for(;i!=m_lstPackage.end();i++){
 						IPackage*	p	=	(IPackage*)(*i);
-						m_pSystem->DestroyProduct(p);
+						p->ReleaseRef();
 						p	=	NULL;
 					}
 					m_lstPackage.clear();

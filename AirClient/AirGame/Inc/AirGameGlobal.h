@@ -11,8 +11,6 @@ namespace Air{
 			namespace	Data{
 				class	ISystem;
 			}
-			class	System;
-			class	Section;
 			/**	\brief	游戏系统全局变量
 			*
 			*	游戏系统全局变量
@@ -22,10 +20,10 @@ namespace Air{
 			public:
 				Global();
 	
-				Data::ISystem*	m_pDataSystem;
-				System*		m_pSystem;
-				Section*		m_pSection;
-				Section*		m_pLoadingSection;
+				//Data::ISystem*	m_pDataSystem;
+				//System*		m_pSystem;
+				//Section*		m_pSection;
+				//Section*		m_pLoadingSection;
 				//UI::Flash::IISystem*	m_pUIFlashSys;
 			};
 	

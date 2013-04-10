@@ -87,27 +87,6 @@ namespace Air{
 			*
 			**/
 			virtual	void	ExecuteOneFrame(const FrameTime& frameTime);
-
-			/**	\brief	创建场景
-			*   
-			*	@remarks 	创建场景
-			*	@see		IEngine
-			*	@return   	Scene*
-			*	@param		AString strName
-			*	@note
-			*
-			**/
-			virtual	Scene*		CreateScene(AString	strName);
-			/**	\brief	摧毁场景
-			*   
-			*	@remarks 	摧毁场景
-			*	@see		IEngine
-			*	@return   	U1
-			*	@param		Scene * pScene
-			*	@note
-			*
-			**/
-			virtual	U1			DestroyScene(Scene*	pScene);
 			/**	\brief	切换系统前
 			*   
 			*	@remarks 	切换系统前
@@ -151,12 +130,6 @@ namespace Air{
 												Common::ISystem*		pOldSys,
 												Common::ISystem*		pNewSystem);
 
-			inline	void		SetCurrentScreen(Screen* pScreen){
-				m_pCurrentScreen	=	pScreen;
-			}
-			inline	Screen*		GetCurrentScreen(){
-				return	m_pCurrentScreen;
-			};
 
 		protected:
 			/**	\brief	创建窗口
@@ -203,7 +176,6 @@ namespace Air{
 			std::vector<AString>			m_strPluginNameArray;
 			std::vector<Common::Plugin*>	m_vecPlugin;
 			AString							m_strWindowName;
-			Screen*							m_pCurrentScreen;
 		};
 	
 		

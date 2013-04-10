@@ -129,12 +129,8 @@ namespace Air{
 			void			AddPhaseFlag(U32	flag);
 			void			RemovePhaseFlag(U32	flag);
 			void			ClearPhaseFlag();
-
-			void			SetCurrentScene(Scene* pScene);
-			Scene*			GetCurrentScene()const;
 			
 		protected:
-			Scene*				m_pScene;			///<	场景指针
 			Buffer*				m_pConstantBuffer;	///<	摄像机的ConstantBuffer
 	
 			U1					m_bReflect;			///<	是否为反射摄像机

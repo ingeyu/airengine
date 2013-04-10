@@ -308,6 +308,18 @@
     <ClCompile Include="..\AirEngine\Src\AirGameSystem.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirGameSection.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirGameControl.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirGameFPSControl.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirGameThirdControl.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\AirEngine\Inc\AirEngine.h">
@@ -662,6 +674,18 @@
       <Filter>Pipeline</Filter>
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirGameSystem.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirGameSection.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirGameThirdControl.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirGameControl.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirGameFPSControl.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>

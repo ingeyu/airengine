@@ -1,12 +1,13 @@
 #include "AirGameControl.h"
+#include "AirGlobalSetting.h"
 namespace Air{
 	
-	namespace	Engine{
+
 		namespace	Game{
 	
 	
 			Control::Control(){
-				m_pInputState			=	GetGlobalSetting().m_pInputSystem;
+				m_pInputState			=	Engine::GetGlobalSetting().m_pInputSystem;
 				m_pActionStateCallback	=	NULL;
 			}
 	
@@ -105,9 +106,9 @@ namespace Air{
 				return	true;
 			}
 	
-			SceneNode* Control::GetControlNode(){
+			Engine::SceneNode* Control::GetControlNode(){
 				return	NULL;
 			}
 		}
-	}
+	
 };

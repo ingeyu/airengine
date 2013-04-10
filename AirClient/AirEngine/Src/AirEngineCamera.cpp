@@ -39,8 +39,6 @@ namespace Air{
 		};
 
 		Camera::Camera(CAString&	strName):TProduct(strName){
-
-			m_pScene			=	NULL;
 			m_bReflect			=	false;
 			m_PhaseFlag			=	0;
 			m_pConstantBuffer	=	NULL;
@@ -153,9 +151,6 @@ namespace Air{
 
 	
 		U1 Camera::Create(){
-			m_pScene	=	static_cast<Scene*>(m_pFactoryMgr);
-
-			
 			return	true;
 		}
 	
@@ -238,8 +233,6 @@ namespace Air{
 				
 				if(pScene!=NULL){
 					pScene->FindMovableObject(this);
-				}else{
-					m_pScene->FindMovableObject(this);
 				}
 			}
 		}
@@ -284,16 +277,5 @@ namespace Air{
 		void Camera::SetPhaseFlag( U32 flag ){
 			m_PhaseFlag	=	flag;
 		}
-
-		void Camera::SetCurrentScene( Scene* pScene )
-		{
-			m_pScene	=	pScene;
-		}
-
-		Scene* Camera::GetCurrentScene() const
-		{
-			return m_pScene;
-		}
-
 	}
 };

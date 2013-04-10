@@ -185,7 +185,11 @@
     <ClCompile Include="..\AirEngine\Src\AirEngineTerrainTitle.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirEngineTerrainWorld.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirEngineTextInstance.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirGameControl.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirGameFPSControl.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirGameSection.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirGameSystem.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirGameThirdControl.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirGlobalSetting.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirHelperRenderable.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirPipelineOIT.cpp" />
@@ -280,7 +284,11 @@
     <ClInclude Include="..\AirEngine\Inc\AirEngineTerrainWater.h" />
     <ClInclude Include="..\AirEngine\Inc\AirEngineTerrainWorld.h" />
     <ClInclude Include="..\AirEngine\Inc\AirEngineTextInstance.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirGameControl.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirGameFPSControl.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirGameSection.h" />
     <ClInclude Include="..\AirEngine\Inc\AirGameSystem.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirGameThirdControl.h" />
     <ClInclude Include="..\AirEngine\Inc\AirGlobalSetting.h" />
     <ClInclude Include="..\AirEngine\Inc\AirHelperRenderable.h" />
     <ClInclude Include="..\AirEngine\Inc\AirPipelineOIT.h" />

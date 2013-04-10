@@ -35,8 +35,8 @@ namespace Air{
 
 
 		
-	
-		Scene::Scene( CAString& strName ){
+		AString Scene::ProductTypeName="Scene";
+		Scene::Scene( CAString& strName ):IProduct(strName){
 			m_pMainCamera				=	NULL;
 			m_bShadowEnable				=	true;
 			m_pSceneTarget				=	NULL;
@@ -54,13 +54,13 @@ namespace Air{
 			
 		}
 	
-		U1 Scene::Initialization(){
+		U1 Scene::Create(){
 	
 			//AddFactory(new	EntityFactory());
 			//AddFactory(new	EntityClothFactory());
 			
 
-			EngineSystem::GetSingleton()->CreateProduct<Material>("NoMaterial");
+			
 
 
 			MeshEntity::Info	info;
@@ -99,7 +99,7 @@ namespace Air{
 			return	true;
 		}
 	
-		U1 Scene::Release(){
+		U1 Scene::Destroy(){
 			//释放渲染队列
 			//SAF_D(m_pRenderQueue);
 			//if()
@@ -107,10 +107,9 @@ namespace Air{
 			//m_Loader.Unload();
 			g_mgr.Destroy();
 
-			if(m_pMainCamera!=NULL){
-				m_pMainCamera->ReleaseRef();
-				m_pMainCamera=NULL;
-			}
+
+			m_pMainCamera=NULL;
+			
 
 			m_pRootNode.RemoveAllChild(true);
 			m_DynamicNode.RemoveAllChild(true);
@@ -118,15 +117,10 @@ namespace Air{
 			m_ParticleNode.RemoveAllChild(true);
 			m_TerrainNode.RemoveAllChild(true);
 
-
-			DestroyAllProduct();
-	
-	
-			
 			return true;
 		}
 	
-		void Scene::Updata(){
+		void Scene::Updata(const FrameTime& fFrameTime){
 			//判断是否需要更新渲染队列
 // 			if(m_pRenderQueue->Begin()){
 // 				//更新一次矩阵
@@ -144,11 +138,7 @@ namespace Air{
 	
 	
 		void Scene::SetMainCamera( Camera* pCamera ){
-// 			if(m_pSceneTarget!=NULL)
-// 				m_pSceneTarget->SetCamera(pCamera);
-// 			if(m_pAlphaSceneTarget!=NULL)
-// 				m_pAlphaSceneTarget->SetCamera(pCamera);
-// 			m_pCamera	=	pCamera;
+			m_pMainCamera	=	pCamera;
 		}
 	
 		Camera* Scene::GetMainCamera(){
@@ -175,19 +165,19 @@ namespace Air{
 		void Scene::DestroyLight( Light* pLight ){
 			if(pLight!=NULL){
 				m_lstLight.remove(pLight);
-				EngineSystem::GetSingleton()->DestroyProduct(pLight);
+				pLight->ReleaseRef();
 			}
 		}
 
 	
-		Camera* Scene::CreateCamera(AString	strName){
+		Camera* Scene::CreateCamera(CAString&	strName){
 			Camera*	pCamera	=	EngineSystem::GetSingleton()->CreateProduct<Camera>(strName);
 
 			return pCamera;
 		}
 	
 		void Scene::DestroyCamera(Camera*	pCamera){
-			DestroyProduct(pCamera);
+			pCamera->ReleaseRef();
 		}
 	
 

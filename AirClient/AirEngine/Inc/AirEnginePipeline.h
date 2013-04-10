@@ -43,9 +43,8 @@ namespace	Air{
 			inline	QuadRenderable*	GetQuadRenderable(){
 				return	m_pQuad;
 			}
-			inline	void			SetCurrentScene(Scene*	pCurrentScene){
-				m_pScene	=	pCurrentScene;
-			};
+			void			SetCurrentScene(Scene*	pCurrentScene);
+				
 			inline	Scene*			GetCurrentScene(){
 				return	m_pScene;
 			};

@@ -245,7 +245,7 @@ namespace Air{
 					//´İ»ÙäÖÈ¾Ä¿±ê
 					if(m_pTarget!=NULL){
 						setting.m_pUISystem->RemoveTarget(m_pTarget);
-						setting.m_pRenderSystem->DestroyProduct(m_pTarget);
+						m_pTarget->ReleaseRef();
 						m_pTarget	=	NULL;
 					}
 					//´İ»Ù²ÄÖÊ

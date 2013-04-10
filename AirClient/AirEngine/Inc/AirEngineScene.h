@@ -25,8 +25,9 @@ namespace Air{
 	
 	
 		class	ENGINE_EXPORT	Scene	:
-			public	IFactoryManager{
+			public	IProduct{
 		public:
+			static AString ProductTypeName;
 			Scene(CAString&	strName);
 	
 			/**	\brief	创建
@@ -37,7 +38,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			virtual	U1			Initialization();
+			virtual	U1			Create();
 			/**	\brief	摧毁
 			*   
 			*	@remarks 	摧毁
@@ -46,7 +47,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			virtual U1			Release();
+			virtual U1			Destroy();
 			/**	\brief	更新
 			*   
 			*	@remarks 	更新
@@ -55,7 +56,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			virtual	void		Updata();
+			virtual	void		Updata(const FrameTime& fFrameTime);
 			/**	\brief	获取根节点
 			*   
 			*	@remarks 	获取根节点
@@ -119,7 +120,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			Camera*				CreateCamera(AString	strName);
+			Camera*				CreateCamera(CAString&	strName);
 			/**	\brief	摧毁摄像机
 			*   
 			*	@remarks 	摧毁摄像机

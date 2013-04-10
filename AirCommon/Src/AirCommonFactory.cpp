@@ -33,7 +33,19 @@ namespace Air{
 			}
 			return true;
 		}
-	
+
+		bool IFactory::Destroy( const AString& strName )
+		{
+			IProduct*	p	=	GetProduct(strName);
+			if(p!=NULL){
+				p->ReleaseRef();
+				p->ReleaseRef();
+				return true;
+			}
+			return false;
+		}
+
+
 		U32 IFactory::GetProductCount()const{
 			return m_mapProduct.size();
 		}
@@ -254,7 +266,17 @@ namespace Air{
 			}
 			return true;
 		}
-	
+
+		bool IFactoryManager::DestroyProduct( const AString& strName,const AString& strType )
+		{
+			IFactory*	pFactory	=	GetFactory(strName);
+			if(pFactory==NULL)
+				return false;
+			
+			return pFactory->Destroy(strName);
+		}
+
+
 	// 	bool IFactoryManager::DestroyProduct( void* pProduct ){
 	// 		IProduct*	p	=	dynamic_cast<IProduct*>(pProduct);
 	// 		Destroy(p);

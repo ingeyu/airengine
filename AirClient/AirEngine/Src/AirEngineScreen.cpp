@@ -5,7 +5,7 @@
 namespace	Air{
 	namespace	Engine{
 
-
+		AString Screen::ProductTypeName	=	"Screen";
 		Screen::Screen( CAString& strName,Info* pInfo ):IProduct(strName)
 		{
 			if(pInfo!=NULL){

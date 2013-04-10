@@ -24,22 +24,7 @@
     <ClCompile Include="..\AirGame\Src\AirGame.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\AirGame\Src\AirGameControl.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirGame\Src\AirGameFPSControl.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="..\AirGame\Src\AirGameGlobal.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirGame\Src\AirGameSection.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirGame\Src\AirGameSystem.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirGame\Src\AirGameThirdControl.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,12 +38,6 @@
     <ClInclude Include="..\AirGame\Inc\AirGameActorProperty.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\AirGame\Inc\AirGameControl.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirGame\Inc\AirGameFPSControl.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="..\AirGame\Inc\AirGameGlobal.h">
       <Filter>Game</Filter>
     </ClInclude>
@@ -66,15 +45,6 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="..\AirGame\Inc\AirGameMap.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirGame\Inc\AirGameSection.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirGame\Inc\AirGameSystem.h">
-      <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirGame\Inc\AirGameThirdControl.h">
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="..\AirGame\Inc\AirInterfaceGameDataInfo.h">

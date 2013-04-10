@@ -103,7 +103,7 @@ namespace Air{
 				m_uiSampleSet	=	0;
 	
 				if(m_pBuffer!=NULL){
-					GetGlobalSetting().m_pAudioSystem->DestroyProduct(m_pBuffer);
+					m_pBuffer->ReleaseRef();
 				}
 				m_pBuffer		=	NULL;
 				m_pObject		=	NULL;
