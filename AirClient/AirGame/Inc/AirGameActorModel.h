@@ -29,7 +29,7 @@ namespace Client{
 
 			virtual	U1		Destroy();
 
-			virtual	void	Updata();
+			virtual	void	Update();
 
 			virtual	void	Render();
 		};

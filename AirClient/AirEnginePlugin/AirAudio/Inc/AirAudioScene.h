@@ -39,7 +39,7 @@ namespace Air{
 				*	@note
 				*
 				**/
-				virtual	void	Updata();
+				virtual	void	Update();
 				/**	\brief	设置摄像机
 				*   
 				*	@remarks 	设置摄像机
@@ -87,7 +87,7 @@ namespace Air{
 				typedef		SoundList::iterator	SoundListItr;
 	
 			protected:
-				virtual	void	UpdataListener(Camera*	pCamera);
+				virtual	void	UpdateListener(Camera*	pCamera);
 			protected:
 				AString		m_strName;
 				Camera*		m_pCamera;

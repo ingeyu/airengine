@@ -71,7 +71,7 @@ namespace Air{
 			return	m_pRenderObj;
 		}
 	
-		void Entity::UpdataMatrix( Float44* pMatrix,Float4*	pQuat,Float3*	pScale ){
+		void Entity::UpdateMatrix( Float44* pMatrix,Float4*	pQuat,Float3*	pScale ){
 			if(m_pNode!=NULL){
 				Physics::ICollision::enumType	type	=	m_pCollisionObj->GetType();
 				switch(type){

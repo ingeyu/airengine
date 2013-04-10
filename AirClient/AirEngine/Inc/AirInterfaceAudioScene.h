@@ -49,7 +49,7 @@ namespace Air{
 				*	@note
 				*
 				**/
-				virtual	void	Updata()	=	NULL;
+				virtual	void	Update()	=	NULL;
 	
 				/**	\brief	²¥·Å
 				*   

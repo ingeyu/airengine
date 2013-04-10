@@ -23,7 +23,7 @@ namespace Air{
 					return	true;
 				}
 	
-				void ISystem::Updata(){
+				void ISystem::Update(){
 	
 				}
 	

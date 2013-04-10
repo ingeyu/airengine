@@ -258,7 +258,7 @@ namespace Air{
 				*	@note
 				*
 				**/
-				virtual	void		UpdataSound()		=	NULL;
+				virtual	void		UpdateSound()		=	NULL;
 			};
 		}
 	

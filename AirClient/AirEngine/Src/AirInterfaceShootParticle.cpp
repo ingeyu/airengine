@@ -17,7 +17,7 @@ namespace Air{
 // 			pTech->SetParam("vDstPosition",	m_Info.vVelocity);
 		}
 	
-		void ShootParticle::Updata(){
+		void ShootParticle::Update(){
 			if(m_bDeath)
 				return;
 	

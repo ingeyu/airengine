@@ -90,7 +90,7 @@ namespace Air{
 				*	@note
 				*
 				**/
-				virtual	void	Updata();
+				virtual	void	Update();
 	
 			protected:
 				Info			m_Info;				///<	创建信息

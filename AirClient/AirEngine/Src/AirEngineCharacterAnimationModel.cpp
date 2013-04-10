@@ -516,7 +516,7 @@ namespace Air{
 					return	m_strCurrentCycleAction;
 				}
 	
-				void Model::Updata(){
+				void Model::Update(){
 					CoreAnimation*	pAnimation	=	m_pAnimation;
 					if(pAnimation){
 						m_CS.Enter();
@@ -525,9 +525,9 @@ namespace Air{
 						pAnimation->getSkeleton()->calculateBoundingBoxes();
 						pAnimation->getSkeleton()->getBoneBoundingBox(&m_BoundingBox.vMin.x,&m_BoundingBox.vMax.x);
 	
-						UpdataAttachObject();
+						UpdateAttachObject();
 					}
-					__super::Updata();
+					__super::Update();
 				}
 	
 				void Model::Render(){
@@ -734,13 +734,13 @@ namespace Air{
 	
 				void Model::RenderAttachObject(){
 	// 				if(m_pAttachObjNode!=NULL){
-	// 					m_pAttachObjNode->UpdataResultMatrix();
-	// 					m_pAttachObjNode->Updata();
+	// 					m_pAttachObjNode->UpdateResultMatrix();
+	// 					m_pAttachObjNode->Update();
 	// 					m_pAttachObjNode->RenderObject();
 	// 				}
 				}
 	
-				void Model::UpdataAttachObject(){
+				void Model::UpdateAttachObject(){
 					CalModel*		pAnim	=	m_pAnimation;
 					CalCoreModel*	pModel	=	pAnim->getCoreModel();
 					std::vector<CalBone*>&	lstBone	=	pAnim->getSkeleton()->getVectorBone();;
@@ -767,7 +767,7 @@ namespace Air{
 	// 					m_pAttachObjNode->SetPosition(m_pParentNode->GetPosition());
 	// 					m_pAttachObjNode->SetQuat(m_pParentNode->GetQuat());
 	// 					m_pAttachObjNode->SetScale(m_pParentNode->GetScale());
-	// 					m_pAttachObjNode->UpdataMatrix(NULL);
+	// 					m_pAttachObjNode->UpdateMatrix(NULL);
 	// 				}
 				}
 	

@@ -235,7 +235,7 @@ namespace Air{
 				*	@note
 				*
 				**/
-				void	UpdataKey(KeyUnion&	k,const ::OIS::KeyCode&	code,U1	bDown,U1	bMouse	=	false);
+				void	UpdateKey(KeyUnion&	k,const ::OIS::KeyCode&	code,U1	bDown,U1	bMouse	=	false);
 			protected:
 				Window::IControl*		m_pRootWindow;
 				Window::IControl*		m_pActiveWindow;

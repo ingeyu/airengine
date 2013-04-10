@@ -132,7 +132,7 @@ namespace Air{
 			Buffer*	pCB	=	GetConstantBuffer();
 			if(pCB	!=	NULL){
 				//更新自动参数
-				UpdataAutoParam();
+				UpdateAutoParam();
 			
 				//SetConstantBuffer
 				pSys->GetDevice()->SetCB(enVS,3,m_pConstantBuffer);
@@ -175,7 +175,7 @@ namespace Air{
 			Buffer*	pCB	=	GetConstantBuffer();
 			if(pCB	!=	NULL){
 				//更新自动参数
-				UpdataAutoParam();
+				UpdateAutoParam();
 				//设置材质的shader参数
 				pSys->GetDevice()->SetCB(3,m_pConstantBuffer);
 			}
@@ -203,7 +203,7 @@ namespace Air{
 			SetTexture(uiIndex,pTexture);
 		}
 
-		void Material::UpdataAutoParam(){
+		void Material::UpdateAutoParam(){
 
 		}
 	}

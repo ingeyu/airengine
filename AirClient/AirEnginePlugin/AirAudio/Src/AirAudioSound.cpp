@@ -143,8 +143,8 @@ namespace Air{
 	
 			}
 	
-			void Sound::Updata(){
-				UpdataSound();
+			void Sound::Update(){
+				UpdateSound();
 			}
 	
 			ISound::enumState Sound::GetState(){
@@ -197,7 +197,7 @@ namespace Air{
 				return	m_Info.iNumRepeat;
 			}
 	
-			void Sound::UpdataSound(){
+			void Sound::UpdateSound(){
 	
 				if(	m_pParentNode	!=	NULL	&&
 					m_Info.type		==	enDynamic)

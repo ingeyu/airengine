@@ -51,7 +51,7 @@ namespace Air{
 					*	@note
 					*
 					**/
-					virtual void			Updata();
+					virtual void			Update();
 					/**	\brief	Ó²¼şäÖÈ¾
 					*   
 					*	@remarks 	Ó²¼şäÖÈ¾

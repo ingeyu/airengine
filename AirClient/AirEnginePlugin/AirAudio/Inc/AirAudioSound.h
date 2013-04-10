@@ -83,7 +83,7 @@ namespace Air{
 				*	@note
 				*
 				**/
-				virtual	void		Updata();
+				virtual	void		Update();
 				/**	\brief	获取当前状态
 				*   
 				*	@remarks 	获取当前状态
@@ -146,7 +146,7 @@ namespace Air{
 				*	@note
 				*
 				**/
-				virtual	void		UpdataSound();
+				virtual	void		UpdateSound();
 			protected:
 				UInt		m_uiSource;
 				UInt		m_uiSampleSet;

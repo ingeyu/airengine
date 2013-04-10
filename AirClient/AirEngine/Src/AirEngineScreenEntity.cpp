@@ -123,7 +123,7 @@ namespace Air{
 		}
 	
 	
-		void ScreenEntity::Updata(){
+		void ScreenEntity::Update(){
 	
 		}
 	

@@ -209,9 +209,9 @@ namespace Air{
 				}
 			}
 	
-			void Manager::Updata( Real fTimeDelta ){
+			void Manager::Update( Real fTimeDelta ){
 				if(m_pModel!=NULL)
-					m_pModel->Updata();
+					m_pModel->Update();
 			}
 	
 			void Manager::Render(){

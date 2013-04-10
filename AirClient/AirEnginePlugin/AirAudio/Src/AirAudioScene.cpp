@@ -14,8 +14,8 @@ namespace Air{
 			}
 	
 	
-			void Scene::Updata(){
-				UpdataListener(m_pCamera);
+			void Scene::Update(){
+				UpdateListener(m_pCamera);
 	
 	// 			ISound*	pDeleteSound	=	NULL;
 	// 
@@ -31,7 +31,7 @@ namespace Air{
 	// 							pDeleteSound	=	pSound;
 	// 							break;
 	// 						}else{
-	// 							pSound->UpdataSound();
+	// 							pSound->UpdateSound();
 	// 						}
 	// 					}
 	// 				}
@@ -59,10 +59,10 @@ namespace Air{
 	
 			void Scene::SetCamera( Camera* pCamera ){
 				m_pCamera	=	pCamera;
-				UpdataListener(m_pCamera);
+				UpdateListener(m_pCamera);
 			}
 	
-			void Scene::UpdataListener( Camera* pCamera ){
+			void Scene::UpdateListener( Camera* pCamera ){
 				if(pCamera!=NULL){
 					Float3	vUp		=	pCamera->GetRealUpDirection();
 					Float3	vDir	=	pCamera->GetRealDirection();

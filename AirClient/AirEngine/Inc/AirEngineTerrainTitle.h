@@ -22,7 +22,7 @@ namespace Air{
 					virtual U1		UnLoad();
 					virtual U1		IsLoad();
 	
-					virtual void	Updata();
+					virtual void	Update();
 					virtual void	Render();
 	
 				protected:

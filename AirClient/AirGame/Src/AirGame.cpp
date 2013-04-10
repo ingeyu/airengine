@@ -29,8 +29,10 @@ namespace Air{
 	
 		Game::Section*	pSection	=	NULL;
 		extern "C" GAME_EXPORT U1 DllInit(void*		pParam)throw(){
-			pSection	=	GameSystem::GetSingleton()->CreateProduct<Game::Section>("Test");
-			GameSystem::GetSingleton()->SetCurrentSection(pSection);
+			if(pSection==NULL){
+				pSection	=	GameSystem::GetSingleton()->CreateProduct<Game::Section>("Test");
+				GameSystem::GetSingleton()->SetCurrentSection(pSection);
+			}
 			return	true;
 		}
 		extern "C" GAME_EXPORT U1 DllStart(void*		pParam)throw(){
@@ -43,8 +45,10 @@ namespace Air{
 			return	true;
 		}
 		extern "C" GAME_EXPORT U1 DllRelease(void*	pParam)throw(){
-			GameSystem::GetSingleton()->SetCurrentSection(NULL);
-			pSection->ReleaseRef();
+			if(pSection!=NULL){
+				GameSystem::GetSingleton()->SetCurrentSection(NULL);
+				pSection->ReleaseRef();
+			}
 			return	true;
 		}
 };

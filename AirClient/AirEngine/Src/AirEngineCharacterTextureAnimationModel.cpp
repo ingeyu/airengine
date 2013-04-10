@@ -32,7 +32,7 @@ namespace Air{
 					return	__super::Destroy();
 				}
 	
-				void TextureModel::Updata(){
+				void TextureModel::Update(){
 					CoreAnimation*	pAnimation	=	(CoreAnimation*)m_pObject;
 					if(pAnimation){
 						pAnimation->update(GetGlobalSetting().m_ShaderParam.m_fEngineTimeDelta*m_fAnimationSpeed);
@@ -66,13 +66,13 @@ namespace Air{
 // 	
 // 						}
 	
-						UpdataAttachObject();
+						UpdateAttachObject();
 					}
 				}
 	
 				void TextureModel::RenderHardWare(){
 					static POINT p =	{0,0};
-					//Render::System::GetSingleton()->UpdataSurface(m_pTempBoneTexture,NULL,m_pBoneTexture,p);
+					//Render::System::GetSingleton()->UpdateSurface(m_pTempBoneTexture,NULL,m_pBoneTexture,p);
 					GetGlobalSetting().m_ShaderParam.m_pBoneTexture	=	m_pBoneTexture;
 					//调用装备的渲染函数来渲染
 					EquipmentMapItr	itr	=	m_mapEquipment.begin();

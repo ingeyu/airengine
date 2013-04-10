@@ -213,7 +213,7 @@ namespace Air{
 					*	@note
 					*
 					**/
-					virtual void	Updata();
+					virtual void	Update();
 	
 					virtual Float3		BrushHeight();
 	
@@ -233,7 +233,7 @@ namespace Air{
 	// 					m_bCastShadow	= true;
 	// 				}
 	// 				virtual ~IObject(){};
-	// 				virtual	void	Updata(Real	fTime){};
+	// 				virtual	void	Update(Real	fTime){};
 	// 				virtual void	Render(Real	fTime){};
 	// 
 	// 				inline	void			SetVisiable(U1	bVisiable){m_bVisiable	= bVisiable;};

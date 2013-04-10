@@ -157,7 +157,7 @@ namespace Air{
 				m_lstListener.remove(pListener);
 		}
 	
-		void INode::Updata(	const	Float44&	ParentGlobalWorldMatrix,
+		void INode::Update(	const	Float44&	ParentGlobalWorldMatrix,
 							const	Float4&		ParentGlobalWorldQuat,
 							const	Float3&		ParentGlobalWorldScale,
 							U1					bParentDirty)
@@ -182,7 +182,7 @@ namespace Air{
 			for(;i!=lstChild.end();i++){
 				Common::INode*	pChild	=	(Common::INode*)(*i);
 				if(pChild!=NULL){
-					pChild->Updata(	m_GlobalWorldMatrix,
+					pChild->Update(	m_GlobalWorldMatrix,
 									m_GlobalWorldQuat,
 									m_GlobalScale,
 									bDirty);
@@ -194,7 +194,7 @@ namespace Air{
 			for(;it!=lstListener.end();it++){
 				INodeListener* pListener = (INodeListener*)(*it);
  				if(pListener!=NULL)
- 					pListener->UpdataMatrix(m_GlobalWorldMatrix,
+ 					pListener->UpdateMatrix(m_GlobalWorldMatrix,
  											m_GlobalWorldQuat,
  											m_GlobalScale,
 											bDirty);
@@ -227,7 +227,7 @@ namespace Air{
 				return	m_matWorld;
 		}
 
-		void INodeListener::UpdataMatrix( const Float44& matWorld, const Float4& pQuat, const Float3& pScale, U1 bParentDirty )
+		void INodeListener::UpdateMatrix( const Float44& matWorld, const Float4& pQuat, const Float3& pScale, U1 bParentDirty )
 		{
 
 		}

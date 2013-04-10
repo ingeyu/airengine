@@ -74,7 +74,7 @@ namespace Air{
 				return		true;
 			}
 	
-			U1 System::Updata(){
+			U1 System::Update(){
 	
 				return		true;
 			}

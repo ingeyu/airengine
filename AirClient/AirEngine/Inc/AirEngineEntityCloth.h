@@ -43,7 +43,7 @@ namespace Air{
 	
 			virtual	const BoundingBox&	GetWorldBoundingBox()const;
 	
-			virtual	void	Updata();
+			virtual	void	Update();
 	
 			virtual	void	Render();
 		protected:

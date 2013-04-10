@@ -16,7 +16,7 @@ namespace Air{
 		public:
 			ShaderShareParam();
 	
-			void UpdataBound( BoundBox& box );
+			void UpdateBound( BoundBox& box );
 			/**	\brief	更新灯光信息
 			*   
 			*	@remarks 	更新灯光信息
@@ -29,7 +29,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			void	UpdataLight(UInt uiLightID,Float4 pos,Float4 diff);
+			void	UpdateLight(UInt uiLightID,Float4 pos,Float4 diff);
 	
 			/**	\brief	渲染物体之前调用此函数 将自己的世界矩阵进行更新
 			*   
@@ -40,7 +40,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			void	UpdataWorldMatrix(Float44*	pMatrix);
+			void	UpdateWorldMatrix(Float44*	pMatrix);
 	
 			//摄像机位置朝向
 			Float3				m_vCurrentPosition;

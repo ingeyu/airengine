@@ -80,7 +80,7 @@ namespace Air{
 			//Render::System::GetSingleton()->SetVertexInstance(NULL,NULL,0);
 		}
 	
-		void InstanceEntity::Updata(){
+		void InstanceEntity::Update(){
 	
 		}
 	}

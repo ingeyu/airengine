@@ -72,7 +72,7 @@ namespace Air{
 					return false;
 				}	
 	
-				void Title::Updata(){
+				void Title::Update(){
 	// 				//是否为当前地形块
 	// 				if(m_ParentInfo->CurrentTitleID.index	==	m_uiID.index){
 	// 					Float3	pos	=	GetGlobalSetting().m_vCurrentPosition;
@@ -92,7 +92,7 @@ namespace Air{
 	// 					for(UInt i=0;i<Size;i++){
 	// 						Page& page	=	m_pPageArray[j*Size + i];
 	// 						if(page.IsLoad()){
-	// 							page.Updata();
+	// 							page.Update();
 	// 						}
 	// 					}
 	// 				}

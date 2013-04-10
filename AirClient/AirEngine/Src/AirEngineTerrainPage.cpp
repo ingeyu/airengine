@@ -36,7 +36,7 @@ namespace Air{
 						*z	=	(Real)(UInt)(m_Height[iX+iY*(Size+1)]);
 					return true;
 				}
-				void Page::Updata(){
+				void Page::Update(){
 	// 				Real fDistance	=	0;
 	// 				Real*	pLodDis	=	GetGlobalSetting().m_LodDistance;
 	// 				//º∆À„LOD

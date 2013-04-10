@@ -116,7 +116,7 @@ namespace Air{
 					*	@note
 					*
 					**/
-					virtual	void	Updata();
+					virtual	void	Update();
 					virtual	void	SetCenter(Float2	vCenter	=	TopLeft);
 					virtual	Float2	GetCenter();
 					virtual	void	SetPosition(Float2&	vPosition);

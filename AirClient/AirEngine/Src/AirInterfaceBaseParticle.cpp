@@ -92,9 +92,9 @@ namespace Air{
 				return	m_bIsDead;
 			}
 	
-			void IBaseObject::Updata(){
+			void IBaseObject::Update(){
 				//¸üÐÂ°üÎ§ºÐ
-				MovableObject::Updata();
+				MovableObject::Update();
 	
 				static	Real&	fCurrentTime	=	GetGlobalSetting().m_ShaderParam.m_fTotalTime;
 				if(m_bInfiniteLife){

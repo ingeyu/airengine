@@ -75,10 +75,10 @@ namespace Air{
 			return	true;
 		}
 	
-		void IParticle::Updata(){
+		void IParticle::Update(){
 			if(m_bDeath)
 				return;
-			__super::Updata();
+			__super::Update();
 	
 			if(m_fTotalTime>m_fLife+m_fCreateTime){
 	 			if(m_pParentNode!=NULL){

@@ -40,7 +40,7 @@ namespace Air{
 					*	@note
 					*
 					**/
-					virtual	void	Updata();
+					virtual	void	Update();
 	
 					/**	\brief	‰÷»æ
 					*   

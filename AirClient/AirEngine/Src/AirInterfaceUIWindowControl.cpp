@@ -51,7 +51,7 @@ namespace Air{
 					m_Message.m_pControl	=	this;
 				}
 	
-				void IControl::Updata(){
+				void IControl::Update(){
 					if(!IsVisiable()	||	!IsEnable())
 						return;
 	
@@ -60,7 +60,7 @@ namespace Air{
 					for(;i!=m_lstWindow.end();i++){
 						IControl*	pWindow	=	(IControl*)(*i);
 						if(pWindow!=NULL){
-							pWindow->Updata();
+							pWindow->Update();
 						}
 					}
 				}

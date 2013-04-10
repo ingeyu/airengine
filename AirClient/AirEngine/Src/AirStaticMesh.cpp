@@ -37,8 +37,7 @@ namespace	Air{
 				vbInfo.InitData			=	pVB;
 				m_DrawBuff.m_pVertexBuffer[0]	=	pSys->CreateProduct<Buffer>(m_strProductName+"VB",&vbInfo);
 
-				Buffer::Info	ibInfo;
-				ibInfo.SetIndexBuffer32(m_uiNumFace*3);
+				Buffer::Info	ibInfo;				ibInfo.SetIndexBuffer32(m_uiNumFace*3);
 				ibInfo.InitData			=	pIB;
 				m_DrawBuff.m_pIndexBuff	=	pSys->CreateProduct<Buffer>(m_strProductName+"IB",&ibInfo);
 

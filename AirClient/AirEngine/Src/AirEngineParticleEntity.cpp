@@ -86,8 +86,8 @@ namespace Air{
 			return true;
 		}
 	
-		void ParticleEntity::Updata(){
-			__super::Updata();
+		void ParticleEntity::Update(){
+			__super::Update();
 			m_Info.fLife	-=	GetGlobalSetting().m_ShaderParam.m_fTimeDelta;
 		}
 	

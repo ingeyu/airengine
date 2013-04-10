@@ -269,7 +269,7 @@ namespace Air{
 
 		bool IFactoryManager::DestroyProduct( const AString& strName,const AString& strType )
 		{
-			IFactory*	pFactory	=	GetFactory(strName);
+			IFactory*	pFactory	=	GetFactory(strType);
 			if(pFactory==NULL)
 				return false;
 			

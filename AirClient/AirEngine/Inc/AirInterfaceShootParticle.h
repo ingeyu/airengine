@@ -22,7 +22,7 @@ namespace Air{
 			**/
 			virtual	void	SetParticleParam();
 	
-			virtual	void	Updata();
+			virtual	void	Update();
 	
 			virtual void	SetPosition(Float3 vSrcPos,Float3 vDstPos);
 	

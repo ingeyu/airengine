@@ -34,7 +34,7 @@ namespace Air{
 // 			AObjectListRItr	i	=	m_lstAlphaObject.rbegin();
 // 			for(;i!=m_lstAlphaObject.rend();i++){
 // 				AlphaObject&	obj	=	(AlphaObject)(*i);
-// 				GetGlobalSetting().m_ShaderParam.UpdataWorldMatrix(&obj.mat);
+// 				GetGlobalSetting().m_ShaderParam.UpdateWorldMatrix(&obj.mat);
 // 				obj.pRenderObj->RenderAlpha();
 // 				//::OutputDebugStringA("äÖÈ¾°ëÍ¸Ã÷ÎïÌå\n");
 // 			}

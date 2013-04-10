@@ -133,6 +133,7 @@ namespace Air{
 			MaterialParse::GetSingleton()->CompileMaterialSet(data.buff,data.size);
 			data.Clear();
 			
+			
 			//AddFactory(new	Common::PluginFactory());
 			AddFactory(new	NoParamFactory<DefaultPipeline>());
 			//AddFactory(new	FontFactory());
@@ -163,8 +164,8 @@ namespace Air{
 
 			AddFactory(new ParamFactory<Screen>());
 			AddFactory(new NoParamFactory<Scene>());
+			
 			AddFactory(new ExtraOptionParamFactory<Plugin,void>());
-	
 	
 			//加载所有插件
  			if(!LoadPlugin())
@@ -254,16 +255,11 @@ namespace Air{
 			//释放所有缓冲区中的物体
 			ReleaseAllAutoObject();
 		
-			
 			DestroyAllProduct();
-	
+
 			//释放所有系统管理器
 			ReleaseAllSystemManager();
 	
-
-
-			
-
 			Render::System::GetSingleton()->Release();
 	
 			//MaterialParse::GetSingleton()->ReleaseSingleton();
@@ -297,7 +293,8 @@ namespace Air{
 
 
 			for(UInt i=0;i<uiSize;i++){
-				Plugin*	pPlugin	=	CreateProduct<Plugin>(lstString[i]);
+				Plugin*	pPlugin	=	new Plugin(lstString[i],0);
+				pPlugin->AddRef();
 				m_vecPlugin.push_back(pPlugin);
 			}
 

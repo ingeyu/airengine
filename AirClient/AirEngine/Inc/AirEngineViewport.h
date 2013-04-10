@@ -45,7 +45,7 @@ namespace	Air{
 			U32		GetAbsHeight();
 
 			U1		Update();
-			U1		UpdataCubeFace(U32	uiIndex);
+			U1		UpdateCubeFace(U32	uiIndex);
 			void	SetCamera(Camera*	pCamera);
 			Camera*	GetCamera();
 			void	SetTarget(RenderTarget*	pTarget);

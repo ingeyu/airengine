@@ -71,7 +71,7 @@ namespace Air{
 			void ISystem::Update(){
 				//窗口更新
 				if(m_pRootWindow!=NULL){
-					m_pRootWindow->Updata();
+					m_pRootWindow->Update();
 				}
 	
 	
@@ -118,7 +118,7 @@ namespace Air{
 			}
 	
 			bool ISystem::keyPressed( const OIS::KeyEvent &arg ){
-				UpdataKey(m_Key,arg.key,true);
+				UpdateKey(m_Key,arg.key,true);
 				ProcessKey(m_Key.Value,true);
 				if(m_pActiveWindow!=NULL)m_pActiveWindow->keyPressed(arg);
 				return	true;
@@ -128,7 +128,7 @@ namespace Air{
 				//这里需要先处理按键
 				ProcessKey(m_Key.Value,false);
 				//再更新按键状态
-				UpdataKey(m_Key,arg.key,false);
+				UpdateKey(m_Key,arg.key,false);
 	
 				if(m_pActiveWindow!=NULL)m_pActiveWindow->keyReleased(arg);
 				return	true;
@@ -224,7 +224,7 @@ namespace Air{
 	
 			}
 	
-			void ISystem::UpdataKey( KeyUnion& k,const OIS::KeyCode& code,U1	bDown,U1	bMouse ){
+			void ISystem::UpdateKey( KeyUnion& k,const OIS::KeyCode& code,U1	bDown,U1	bMouse ){
 				//暂时不对鼠标做快捷键处理
 				if(bMouse){
 	

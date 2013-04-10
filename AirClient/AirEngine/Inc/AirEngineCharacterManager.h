@@ -22,7 +22,7 @@ namespace Air{
 				Animation::Model*	Create(CAString&	strName,CAString&	strType);
 				void	Destroy();
 	
-				void	Updata(Real	fTimeDelta);
+				void	Update(Real	fTimeDelta);
 				void	Render();
 	
 				void	Action(CAString&	strName,Real fBlend	=	0.3f);

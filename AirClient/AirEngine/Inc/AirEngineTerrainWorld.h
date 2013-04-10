@@ -57,7 +57,7 @@ namespace Air{
 	
 					virtual U1	ChangePosition(Real x,Real y );
 	
-					virtual void	Updata();
+					virtual void	Update();
 					virtual	void	Render();
 	
 					virtual U1	GetHeight(Real	x,Real	y,	Real*	z	= NULL);
@@ -85,7 +85,7 @@ namespace Air{
 					*	@note
 					*
 					**/
-					U1	UpdataTitle();
+					U1	UpdateTitle();
 	
 	
 					U1	RenderSky();
@@ -95,7 +95,7 @@ namespace Air{
 					U1	RenderWater();
 					U1	RenderAlphaObject();
 	
-					U1	UpdataIndex();
+					U1	UpdateIndex();
 	
 					MapInfo				m_Info;						///<	µØÍ¼ÐÅÏ¢
 	

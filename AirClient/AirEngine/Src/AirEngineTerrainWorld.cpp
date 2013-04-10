@@ -20,7 +20,7 @@ namespace Air{
 					//创建索引
 // 					IndexBuff::Info indexInfo(64*64*12);
 // 					m_Info.pIndexBuff		=	Client::Render::System::GetSingleton()->Create<IndexBuff*>(AString("TerrainIndex","IndexBuff",&indexInfo);
-// 					UpdataIndex();
+// 					UpdateIndex();
 // 					//创建顶点声明
 // 					VertexDeclare::Info vertexdecInfo;
 // 					m_Info.pVertexDeclare	=	Client::Render::System::GetSingleton()->Create<VertexDeclare*>("XYZ|NOR|TEX1","VertexDeclare",&vertexdecInfo);
@@ -94,7 +94,7 @@ namespace Air{
 					return false;
 				}
 	
-				void World::Updata( ){
+				void World::Update( ){
 	
 					Float3	pos	=	GetGlobalSetting().m_ShaderParam.m_vCurrentPosition;
 					ID index	=	GetTitleIDByPosition(pos.x,pos.z);
@@ -105,7 +105,7 @@ namespace Air{
 	
 					
 	
-					UpdataTitle();
+					UpdateTitle();
 				}
 	
 				void World::Render( ){
@@ -298,27 +298,27 @@ namespace Air{
 					return true;
 				}
 	
-				U1 World::UpdataTitle(){
+				U1 World::UpdateTitle(){
 					
 					UInt	titleCacheSize	=	m_Info.iCacheTitle*2 + 1;
 	
 					//先更新当前地形块
 					//因为需要更新当前地形页的ID
 					Title*	pCurrentTitle	=	m_TitleArray[titleCacheSize*m_Info.iCacheTitle +m_Info.iCacheTitle];
-					SAF_I(pCurrentTitle,Updata());
+					SAF_I(pCurrentTitle,Update());
 	
 					//再更新其他块
 					for(UInt j	= 0;j<titleCacheSize;j++){
 						for(UInt i	= 0;i<titleCacheSize;i++){
 							Title*	pTitle	= m_TitleArray[j*titleCacheSize + i];
 							if(pCurrentTitle!=pTitle && pTitle!=NULL)
-								pTitle->Updata();
+								pTitle->Update();
 						}
 					}
 					return true;
 				}
 	
-				U1 World::UpdataIndex(){
+				U1 World::UpdateIndex(){
 					
 					UInt	uiMaxEdge	=	64;
 					UInt	uiIndex[]	=	{	uiMaxEdge*uiMaxEdge*12,

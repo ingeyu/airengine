@@ -120,14 +120,14 @@ namespace Air{
 			return true;
 		}
 	
-		void Scene::Updata(const FrameTime& fFrameTime){
+		void Scene::Update(const FrameTime& fFrameTime){
 			//判断是否需要更新渲染队列
 // 			if(m_pRenderQueue->Begin()){
 // 				//更新一次矩阵
-// 				//m_pRootNode.Updata(m_pRenderQueue);
+// 				//m_pRootNode.Update(m_pRenderQueue);
 // 				//m_pRenderQueue->End();
 // 			}else{
-// 				m_pRootNode.Updata(NULL);
+// 				m_pRootNode.Update(NULL);
 // 			}
 		}
 	
@@ -217,10 +217,10 @@ namespace Air{
 			static	Float4	quat(0,0,0,1);
 			static	Float3	scale(1,1,1);
 
-			m_pRootNode.Updata(matWorld,quat,scale,false);
-			m_DynamicNode.Updata(matWorld,quat,scale,false);
-			//m_StaticNode.Updata(true)
-			m_ParticleNode.Updata(matWorld,quat,scale,false);
+			m_pRootNode.Update(matWorld,quat,scale,false);
+			m_DynamicNode.Update(matWorld,quat,scale,false);
+			//m_StaticNode.Update(true)
+			m_ParticleNode.Update(matWorld,quat,scale,false);
 			
 		}
 

@@ -68,7 +68,7 @@ namespace Air{
 			void								SetTexture(U32	uiIndex,Texture*	pTexture);
 			void								SetTextureName(U32 uiIndex,CAString&	strTextureName);
 
-			void								UpdataAutoParam();
+			void								UpdateAutoParam();
 
 			inline	TextureVector&				GetTextureArray(){
 				return	m_vecTexture;

@@ -99,7 +99,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			virtual void UpdataMatrix(Float44* pMatrix,Float4*	pQuat,Float3*	pScale);
+			virtual void UpdateMatrix(Float44* pMatrix,Float4*	pQuat,Float3*	pScale);
 		protected:
 			/**	\brief	½âÎöÅäÖÃÎÄ¼ş
 			*   

@@ -70,7 +70,7 @@ namespace	Air{
 			return	true;
 		}
 
-		Air::U1 Viewport::UpdataCubeFace( U32 uiIndex ){
+		Air::U1 Viewport::UpdateCubeFace( U32 uiIndex ){
 			//Render::System::GetSingleton()->SetViewport(this);
 
 			m_pCamera->RenderCubeMap(uiIndex,GetAbsWidth(),GetAbsHeight());

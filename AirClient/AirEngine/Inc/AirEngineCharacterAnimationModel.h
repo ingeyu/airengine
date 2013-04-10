@@ -376,7 +376,7 @@ namespace Air{
 					*	@note
 					*
 					**/
-					virtual void			Updata();
+					virtual void			Update();
 					/**	\brief	‰÷»æ
 					*   
 					*	@remarks 	‰÷»æ
@@ -459,7 +459,7 @@ namespace Air{
 					*	@note
 					*
 					**/
-					void					UpdataAttachObject();
+					void					UpdateAttachObject();
 
 
 					virtual	void			ProcessRenderObject(U32	uiPhaseFlag);

@@ -19,7 +19,7 @@ namespace Air{
 				virtual U1  Stop();
 				virtual	U1	Release();
 				
-				virtual	U1	Updata();
+				virtual	U1	Update();
 	
 				virtual	IScene*	CreateScene(AString	strName);
 				virtual	void	DestroyScene(IScene*	pScene);

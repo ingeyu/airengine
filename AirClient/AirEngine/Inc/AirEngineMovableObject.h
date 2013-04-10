@@ -94,7 +94,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			virtual	void		Updata(	const	Float44&	ParentGlobalWorldMatrix,
+			virtual	void		Update(	const	Float44&	ParentGlobalWorldMatrix,
 										const	Float4&		ParentGlobalWorldQuat,
 										const	Float3&		ParentGlobalWorldScale,
 										U1					bParentDirty);
@@ -107,7 +107,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			virtual	void		Updata();
+			virtual	void		Update();
 	
 			/**	\brief	ªÒ»°◊Ó÷’æÿ’Û
 			*   

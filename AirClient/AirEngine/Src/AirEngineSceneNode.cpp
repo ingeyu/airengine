@@ -44,7 +44,7 @@ namespace Air{
 			m_lstMovableObject.push_back(obj);
 			m_ObjectCS.Leave();
 			//更新obj内部的世界矩阵和 包围盒
-			obj->Updata(m_GlobalWorldMatrix,m_GlobalWorldQuat,m_GlobalScale,true);
+			obj->Update(m_GlobalWorldMatrix,m_GlobalWorldQuat,m_GlobalScale,true);
 	
 		}
 	
@@ -91,7 +91,7 @@ namespace Air{
 			return pSceneNode;
 		}
 	
-		void SceneNode::Updata(	const	Float44&	ParentGlobalWorldMatrix,
+		void SceneNode::Update(	const	Float44&	ParentGlobalWorldMatrix,
 								const	Float4&		ParentGlobalWorldQuat,
 								const	Float3&		ParentGlobalWorldScale,
 								U1					bParentDirty)
@@ -99,7 +99,7 @@ namespace Air{
 	
 			U1	bDirty	=	m_bDirty	||	bParentDirty;
 
-			INode::Updata(	ParentGlobalWorldMatrix,
+			INode::Update(	ParentGlobalWorldMatrix,
 							ParentGlobalWorldQuat,
 							ParentGlobalWorldScale,
 							bParentDirty);
@@ -112,7 +112,7 @@ namespace Air{
 				for(;itr!=lstObject.end();itr++){
 					MovableObject*	pObject	=	(MovableObject*)(*itr);
 					if(pObject!=NULL){
- 						pObject->Updata(m_GlobalWorldMatrix,
+ 						pObject->Update(m_GlobalWorldMatrix,
  										m_GlobalWorldQuat,
  										m_GlobalScale,
 										bDirty);

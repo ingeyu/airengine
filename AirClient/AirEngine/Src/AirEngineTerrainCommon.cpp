@@ -72,7 +72,7 @@ namespace Air{
 					return true;
 				}
 	
-				void IPage::Updata(){
+				void IPage::Update(){
 					
 				}
 	

@@ -58,8 +58,8 @@ namespace Air{
 			return	m_BoundingBox;
 		}
 	
-		void EntityCloth::Updata(){
-			//__super::Updata();
+		void EntityCloth::Update(){
+			//__super::Update();
 	
 			m_BoundingBox	=	m_pCloth->GetWorldBoundingBox();
 	

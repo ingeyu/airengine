@@ -59,7 +59,7 @@ namespace Air{
 			m_LightPosition.resize(50);
 			m_LightDiffuse.resize(50);
 			for(UInt i=0;i<50;i++){
-				UpdataLight(i,Float4(100,100,100,100.0f),Float4(0,0,0,0));
+				UpdateLight(i,Float4(100,100,100,100.0f),Float4(0,0,0,0));
 				//edit	by	infernalhell	FUCK	U
 	// 			m_pShadowTexture[i]				=	NULL;
 	// 			m_pShadowTextureCube[i]			=	NULL;
@@ -72,7 +72,7 @@ namespace Air{
 	
 		}
 	
-		void ShaderShareParam::UpdataBound( BoundBox& box ){
+		void ShaderShareParam::UpdateBound( BoundBox& box ){
 	
 // 			m_vBoundMin	=	box.Center	-	box.Extents;
 // 			m_vBoundMax	=	box.m_vMax;
@@ -81,13 +81,13 @@ namespace Air{
 	
 		}
 	
-		void ShaderShareParam::UpdataLight( UInt uiLightID,Float4 pos,Float4 diff /*= Float4(1,1,1,1)*/ ){
+		void ShaderShareParam::UpdateLight( UInt uiLightID,Float4 pos,Float4 diff /*= Float4(1,1,1,1)*/ ){
 			if(uiLightID < 0)
 				return;
 			m_LightPosition[uiLightID]	=	pos;
 			m_LightDiffuse[uiLightID]	=	diff;
 		}
-		void ShaderShareParam::UpdataWorldMatrix(Float44* pMatrix ){
+		void ShaderShareParam::UpdateWorldMatrix(Float44* pMatrix ){
 			m_matWorld	=	*pMatrix;
 			//这个地方2个矩阵相乘可能会有问题 留下记号
 // 			m_matWorldView		=	m_matWorld		*	m_matView;

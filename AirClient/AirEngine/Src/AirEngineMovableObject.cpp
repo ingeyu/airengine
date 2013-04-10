@@ -38,7 +38,7 @@ namespace Air{
 			
 		}
 	
-		void MovableObject::Updata( const	Float44&	ParentGlobalWorldMatrix,
+		void MovableObject::Update( const	Float44&	ParentGlobalWorldMatrix,
 									const	Float4&		ParentGlobalWorldQuat,
 									const	Float3&		ParentGlobalWorldScale,
 									U1					bParentDirty )
@@ -50,10 +50,10 @@ namespace Air{
 				m_bDirty			=	false;
 			}
 
-			Updata();
+			Update();
 		}
 	
-		void MovableObject::Updata(){
+		void MovableObject::Update(){
 	
 		}
 	
