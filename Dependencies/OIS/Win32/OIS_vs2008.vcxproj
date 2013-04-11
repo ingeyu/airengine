@@ -185,12 +185,14 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <FloatingPointModel>Fast</FloatingPointModel>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CallingConvention>Cdecl</CallingConvention>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
     </ClCompile>
     <Lib>
       <AdditionalDependencies>dxguid.lib;dinput8.lib;%(AdditionalDependencies)</AdditionalDependencies>
