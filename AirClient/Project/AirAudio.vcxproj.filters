@@ -12,9 +12,6 @@
     <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudio.h">
       <Filter>Inc</Filter>
     </ClInclude>
-    <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudioBuffer.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
     <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudioGlobal.h">
       <Filter>Inc</Filter>
     </ClInclude>
@@ -24,21 +21,15 @@
     <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudioOggBuffer.h">
       <Filter>Inc</Filter>
     </ClInclude>
-    <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudioScene.h">
+    <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudioALSound.h">
       <Filter>Inc</Filter>
     </ClInclude>
-    <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudioSound.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudioSystem.h">
+    <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudioALDevice.h">
       <Filter>Inc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\AirEnginePlugin\AirAudio\Src\AirAudio.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirEnginePlugin\AirAudio\Src\AirAudioBuffer.cpp">
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="..\AirEnginePlugin\AirAudio\Src\AirAudioGlobal.cpp">
@@ -47,13 +38,10 @@
     <ClCompile Include="..\AirEnginePlugin\AirAudio\Src\AirAudioOggBuffer.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="..\AirEnginePlugin\AirAudio\Src\AirAudioScene.cpp">
+    <ClCompile Include="..\AirEnginePlugin\AirAudio\Src\AirAudioALSound.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="..\AirEnginePlugin\AirAudio\Src\AirAudioSound.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirEnginePlugin\AirAudio\Src\AirAudioSystem.cpp">
+    <ClCompile Include="..\AirEnginePlugin\AirAudio\Src\AirAudioALDevice.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,6 +1,6 @@
 
 #include "AirAudio.h"
-#include "AirAudioSystem.h"
+#include "AirAudioALDevice.h"
 
 
 BOOL APIENTRY DllMain( HANDLE hModule, 
@@ -22,11 +22,13 @@ namespace Air{
 	
 	namespace	Engine{
 	
-		Audio::ISystem*	pPlugin	=	NULL;
+		Audio::ALDevice*	pDevice=NULL;
 	
 		extern "C" AUDIO_EXPORT U1 DllInit(void*		pParam)throw(){
-			pPlugin	=	new	Audio::System();
-			EngineSystem::GetSingleton()->AddSystem(pPlugin);
+			if(pDevice==NULL){
+				pDevice	=	new Audio::ALDevice("");
+				AudioSystem::GetSingleton()->AddDevice(pDevice);
+			}
 			return	true;
 		}
 		extern "C" AUDIO_EXPORT U1 DllStart(void*		pParam)throw(){
@@ -39,7 +41,10 @@ namespace Air{
 			return	true;
 		}
 		extern "C" AUDIO_EXPORT U1 DllRelease(void*	pParam)throw(){
-			//EngineSystem::GetSingleton()->RemoveSystem(pPlugin);
+			if(pDevice!=NULL){
+				delete pDevice;
+				pDevice=NULL;
+			}
 			return	true;
 		}
 	}

@@ -45,6 +45,7 @@
 #include "AirEngineLight.h"
 
 #include "AirGameSystem.h"
+#include "AirAudioSystem.h"
 
 #include <fstream>
 
@@ -171,7 +172,8 @@ namespace Air{
  			if(!LoadPlugin())
  				return false;
 
-			Render::System::GetSingleton()->Initialization();
+			RenderSystem::GetSingleton()->Initialization();
+			AudioSystem::GetSingleton()->Initialization();
 	
 			//初始化所有系统管理器
 			InitAllSystemManager();
@@ -260,9 +262,9 @@ namespace Air{
 			//释放所有系统管理器
 			ReleaseAllSystemManager();
 	
+			AudioSystem::GetSingleton()->Release();
+			AudioSystem::ReleaseSingleton();
 			Render::System::GetSingleton()->Release();
-	
-			//MaterialParse::GetSingleton()->ReleaseSingleton();
 			Render::System::ReleaseSingleton();
 
 			//最后释放所有插件

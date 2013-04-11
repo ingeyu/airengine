@@ -3,6 +3,7 @@
 
 #include "AirEngineHeader.h"
 #include "AirEngineMovableObject.h"
+
 namespace Air{
 	
 	namespace Engine{
@@ -98,8 +99,8 @@ namespace Air{
 			*	声音
 			*
 			***/
-			class	ISound	:
-				public	TProduct<ISound>,
+			class	ENGINE_EXPORT		Sound	:
+				public	IProduct,
 				public	IProperty,
 				public	MovableObject
 				{
@@ -172,9 +173,8 @@ namespace Air{
 					SceneNode*	pParentNode;	///<	要绑定到的节点
 				};
 			public:
-				ISound(CAString&	strName,Info*	pInfo):TProduct(strName){
-
-				};
+				static AString	ProductTypeName;
+				Sound(CAString&	strName,Info*	pInfo);
 				/**	\brief	获取声音类型
 				*   
 				*	@remarks 	获取声音类型
@@ -183,17 +183,9 @@ namespace Air{
 				*	@note
 				*
 				**/
-				virtual	enumType	GetType()						=	NULL;
-				/**	\brief	声音文件不需要渲染
-				*   
-				*	@remarks 	声音文件不需要渲染
-				*	@see		ISound
-				*	@return   	void
-				*	@note
-				*
-				**/
-				virtual	void		Render(){};
-	
+				enumType	GetType(){
+					return m_Info.type;
+				};
 				/**	\brief	获取当前状态
 				*   
 				*	@remarks 	获取当前状态
@@ -202,7 +194,9 @@ namespace Air{
 				*	@note
 				*
 				**/
-				virtual	enumState	GetState()=	NULL;
+				virtual	enumState	GetState(){
+					return m_State;
+				};
 				/**	\brief	播放
 				*   
 				*	@remarks 	播放
@@ -211,7 +205,7 @@ namespace Air{
 				*	@note
 				*
 				**/
-				virtual	void		Play()=	NULL;
+				virtual	void		Play();
 				/**	\brief	暂停
 				*   
 				*	@remarks 	暂停
@@ -220,7 +214,7 @@ namespace Air{
 				*	@note
 				*
 				**/
-				virtual	void		Pause()=	NULL;
+				virtual	void		Pause();
 				/**	\brief	停止
 				*   
 				*	@remarks 	停止
@@ -229,7 +223,7 @@ namespace Air{
 				*	@note
 				*
 				**/
-				virtual	void		Stop()=	NULL;
+				virtual	void		Stop();
 				/**	\brief	重新开始播放
 				*   
 				*	@remarks 	重新开始播放
@@ -238,7 +232,7 @@ namespace Air{
 				*	@note
 				*
 				**/
-				virtual	void		RePlay()=	NULL;
+				virtual	void		RePlay();
 	
 				/**	\brief	获取剩余次数
 				*   
@@ -248,7 +242,9 @@ namespace Air{
 				*	@note
 				*
 				**/
-				virtual	SInt		GetRepeatCount()	=	NULL;
+				SInt		GetRepeatCount(){
+					return m_Info.iNumRepeat;
+				};
 	
 				/**	\brief	更新声音
 				*   
@@ -258,7 +254,14 @@ namespace Air{
 				*	@note
 				*
 				**/
-				virtual	void		UpdateSound()		=	NULL;
+				void		Update();
+				virtual	void		SetVolume(float	fVolume);
+				virtual	float		GetVolume()const;
+				virtual	void		SetPitch(float	fPitch);
+				virtual	float		GetPitch()const;
+			protected:
+				Info		m_Info;
+				enumState	m_State;
 			};
 		}
 	

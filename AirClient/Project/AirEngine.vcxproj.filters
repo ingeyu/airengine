@@ -18,9 +18,6 @@
     <Filter Include="Material">
       <UniqueIdentifier>{0ddc0a73-9214-4fea-be07-42004e095f7f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Render">
-      <UniqueIdentifier>{39100783-7bc8-413b-bf4f-11f2b04efafd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine">
       <UniqueIdentifier>{73183b8c-a364-480d-bac1-504c6f1688a7}</UniqueIdentifier>
     </Filter>
@@ -44,6 +41,9 @@
     </Filter>
     <Filter Include="Game">
       <UniqueIdentifier>{b24f0c0d-2780-4f62-847b-3258f6caa4b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render">
+      <UniqueIdentifier>{39100783-7bc8-413b-bf4f-11f2b04efafd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -320,6 +320,18 @@
     <ClCompile Include="..\AirEngine\Src\AirGameThirdControl.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirAudioSystem.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirAudioSound.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirAudioDevice.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirAudioBuffer.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\AirEngine\Inc\AirEngine.h">
@@ -571,15 +583,6 @@
     <ClInclude Include="..\AirEngine\Inc\AirInterfaceResourceSystem.h">
       <Filter>Resource</Filter>
     </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceAudioScene.h">
-      <Filter>Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceAudioSound.h">
-      <Filter>Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceAudioSystem.h">
-      <Filter>Audio</Filter>
-    </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirRenderbuffer.h">
       <Filter>Render</Filter>
     </ClInclude>
@@ -687,6 +690,18 @@
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirGameFPSControl.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirAudioSystem.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirAudioSound.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirAudioDevice.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirAudioBuffer.h">
+      <Filter>Audio</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,18 +1,24 @@
 #ifndef AUDIOBUFFER_HEAD_FILE
 #define AUDIOBUFFER_HEAD_FILE
 
-#include "AirAudioHeader.h"
+#include "AirEngineHeader.h"
 namespace Air{
 	
 	namespace Engine{
 	
 		namespace	Audio{
+			enum enumFormat{
+				enF_MONO8		=	0x1100,
+				enF_MONO16		=	0x1101,
+				enF_STEREO8		=	0x1102,
+				enF_STEREO16	=	0x1103
+			};
 			/**	\brief	…˘“Ùª∫≥Â«¯
 			*
 			*	…˘“Ùª∫≥Â«¯
 			*
 			***/
-			class	Buffer	:
+			class	ENGINE_EXPORT	Buffer	:
 				public	IProduct{
 			public:
 				static AString	ProductTypeName;
@@ -68,7 +74,7 @@ namespace Air{
 				*	@note
 				*
 				**/
-				SInt	GetFormat(){
+				enumFormat	GetFormat(){
 					return	m_uiFormat;
 				};
 				/**	\brief	ªÒ»°–Ú¡–
@@ -95,10 +101,10 @@ namespace Air{
 				**/
 				U1		LoadWAVFromMemory(Data*	pData);
 			protected:
-				U8*		m_pBuffer;			///<	“Ù∆µª∫≥Â
-				UInt	m_uiSize;			///<	“Ù∆µª∫≥Â¥Û–°
-				SInt	m_uiFormat;			///<	“Ù∆µ∏Ò Ω
-				SInt	m_uiFreqBuffer;		///<	–Ú¡–
+				U8*			m_pBuffer;			///<	“Ù∆µª∫≥Â
+				UInt		m_uiSize;			///<	“Ù∆µª∫≥Â¥Û–°
+				enumFormat	m_uiFormat;			///<	“Ù∆µ∏Ò Ω
+				SInt		m_uiFreqBuffer;		///<	–Ú¡–
 			};
 		}
 	

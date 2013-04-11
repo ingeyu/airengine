@@ -162,22 +162,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudio.h" />
-    <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudioBuffer.h" />
     <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudioGlobal.h" />
     <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudioHeader.h" />
     <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudioOggBuffer.h" />
-    <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudioScene.h" />
-    <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudioSound.h" />
-    <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudioSystem.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudioALSound.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirAudio\Inc\AirAudioALDevice.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\AirEnginePlugin\AirAudio\Src\AirAudio.cpp" />
-    <ClCompile Include="..\AirEnginePlugin\AirAudio\Src\AirAudioBuffer.cpp" />
     <ClCompile Include="..\AirEnginePlugin\AirAudio\Src\AirAudioGlobal.cpp" />
     <ClCompile Include="..\AirEnginePlugin\AirAudio\Src\AirAudioOggBuffer.cpp" />
-    <ClCompile Include="..\AirEnginePlugin\AirAudio\Src\AirAudioScene.cpp" />
-    <ClCompile Include="..\AirEnginePlugin\AirAudio\Src\AirAudioSound.cpp" />
-    <ClCompile Include="..\AirEnginePlugin\AirAudio\Src\AirAudioSystem.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAudio\Src\AirAudioALSound.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAudio\Src\AirAudioALDevice.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -153,6 +153,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\AirEngine\Src\AirAudioBuffer.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirAudioDevice.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirAudioSound.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirAudioSystem.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirBoxRenderable.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirCascadedShadowMap.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirEngine.cpp" />
@@ -246,6 +250,8 @@
     <ClCompile Include="..\AirEngine\Src\AirStaticMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\AirEngine\Inc\AirAudioBuffer.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirAudioDevice.h" />
     <ClInclude Include="..\AirEngine\Inc\AirBoxRenderable.h" />
     <ClInclude Include="..\AirEngine\Inc\AirCascadedShadowMap.h" />
     <ClInclude Include="..\AirEngine\Inc\AirEngine.h" />
@@ -365,9 +371,8 @@
     <ClInclude Include="..\AirEngine\Inc\AirEngineStreamReader.h" />
     <ClInclude Include="..\AirEngine\Inc\AirInterfaceResourceStream.h" />
     <ClInclude Include="..\AirEngine\Inc\AirInterfaceResourceSystem.h" />
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceAudioScene.h" />
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceAudioSound.h" />
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceAudioSystem.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirAudioSound.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirAudioSystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
