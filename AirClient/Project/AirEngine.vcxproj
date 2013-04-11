@@ -243,8 +243,9 @@
     <ClCompile Include="..\AirEngine\Src\AirEngineSystem.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirEngineViewport.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirEngineStreamReader.cpp" />
-    <ClCompile Include="..\AirEngine\Src\AirInterfaceResourceStream.cpp" />
-    <ClCompile Include="..\AirEngine\Src\AirInterfaceResourceSystem.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirResourcePackage.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirResourceStream.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirResourceSystem.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirSceneLoader.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirScreenSpaceTessellation.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirStaticMesh.cpp" />
@@ -351,6 +352,7 @@
     <ClInclude Include="..\AirEngine\Inc\AirRenderSystem.h" />
     <ClInclude Include="..\AirEngine\Inc\AirRenderTarget.h" />
     <ClInclude Include="..\AirEngine\Inc\AirRenderDevice.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirResourcePackage.h" />
     <ClInclude Include="..\AirEngine\Inc\AirSceneLoader.h" />
     <ClInclude Include="..\AirEngine\Inc\AirScreenSpaceTessellation.h" />
     <ClInclude Include="..\AirEngine\Inc\AirStaticMesh.h" />
@@ -369,8 +371,8 @@
     <ClInclude Include="..\AirEngine\Inc\AirEngineSystem.h" />
     <ClInclude Include="..\AirEngine\Inc\AirEngineViewport.h" />
     <ClInclude Include="..\AirEngine\Inc\AirEngineStreamReader.h" />
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceResourceStream.h" />
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceResourceSystem.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirResourceStream.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirResourceSystem.h" />
     <ClInclude Include="..\AirEngine\Inc\AirAudioSound.h" />
     <ClInclude Include="..\AirEngine\Inc\AirAudioSystem.h" />
   </ItemGroup>

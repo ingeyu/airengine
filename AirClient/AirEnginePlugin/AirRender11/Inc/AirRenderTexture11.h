@@ -60,7 +60,7 @@ namespace Air{
 
 				//MemoryData*					m_pTextureData;
 
-				Resource::IStream*			m_pStream;
+				Resource::Stream*			m_pStream;
 			};
 		}
 	};

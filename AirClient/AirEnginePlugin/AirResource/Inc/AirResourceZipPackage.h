@@ -21,7 +21,7 @@ namespace Air{
 			*
 			***/
 			class ZipPackage :
-				public	IPackage 
+				public	Package 
 			{
 			protected:
 				ZZIP_DIR* mZzipDir;		///<	ZIP资源包指针
@@ -77,11 +77,11 @@ namespace Air{
 				*	@see		ISystem
 				*	@return   	void
 				*	@param		CAString& strPostfix
-				*	@param		IFindFileListener * pListener
+				*	@param		FindFileCallback * pListener
 				*	@note
 				*
 				**/
-				virtual	void		FindWithPostfix(CAString&	strPostfix,IFindFileListener*	pListener);
+				virtual	void		FindWithPostfix(CAString&	strPostfix,FindFileCallback*	pListener);
 			};
 		}
 	};

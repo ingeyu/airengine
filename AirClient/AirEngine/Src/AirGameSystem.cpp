@@ -17,7 +17,7 @@ namespace	Air{
 			AddFactory(new NoParamFactory<Section>());
 
 
-			Engine::EngineSystem::GetSingleton()->CreateProduct<Engine::Material>("NoMaterial");
+			EngineSystem::GetSingleton()->CreateProduct<Engine::Material>("NoMaterial");
 
 			return true;
 		}

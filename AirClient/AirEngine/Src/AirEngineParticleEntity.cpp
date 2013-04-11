@@ -65,20 +65,20 @@ namespace Air{
 			GlobalSetting&	setting	=	GetGlobalSetting();
 	
 // 			if(m_DrawBuff.m_pIndexBuff!=NULL){
-// 				setting.m_pRenderSystem->DestroyProduct(m_DrawBuff.m_pIndexBuff);
+// 				RenderSystem::GetSingleton()->DestroyProduct(m_DrawBuff.m_pIndexBuff);
 // 				m_DrawBuff.m_pIndexBuff=NULL;
 // 			}
 // 			if(m_DrawBuff.m_pVertexBuff!=NULL){
-// 				setting.m_pRenderSystem->DestroyProduct(m_DrawBuff.m_pVertexBuff);
+// 				RenderSystem::GetSingleton()->DestroyProduct(m_DrawBuff.m_pVertexBuff);
 // 				m_DrawBuff.m_pVertexBuff=NULL;
 // 			}
 // 			if(m_DrawBuff.m_pVertexDeclare!=NULL){
-// 				setting.m_pRenderSystem->DestroyProduct(m_DrawBuff.m_pVertexDeclare);
+// 				RenderSystem::GetSingleton()->DestroyProduct(m_DrawBuff.m_pVertexDeclare);
 // 				m_DrawBuff.m_pVertexDeclare=NULL;
 // 			}
 	
 // 			if(m_pMaterial!=NULL){
-// 				setting.m_pRenderSystem->DestroyProduct(m_pMaterial);
+// 				RenderSystem::GetSingleton()->DestroyProduct(m_pMaterial);
 // 				m_pMaterial	=	NULL;
 // 			}
 	

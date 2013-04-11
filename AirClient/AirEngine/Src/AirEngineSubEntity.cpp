@@ -3,7 +3,7 @@
 #include "AirGlobalSetting.h"
 
 #include "AirEngineMesh.h"
-#include "AirInterfaceResourceSystem.h"
+#include "AirResourceSystem.h"
 #include "AirRenderSystem.h"
 namespace Air{
 	
@@ -27,7 +27,7 @@ namespace Air{
 				//m_DrawBuff.m_pXObject		=	Render::System::GetSingleton()->CreateProduct<Client::Render::IXObject*>(strMeshName,AString("XObject"));
 			}else{
 				
-				Data*	pData	=	NULL;//GetGlobalSetting().m_pResourceSystem->Find(strMeshName);
+				Data*	pData	=	NULL;//ResourceSystem::GetSingleton()->Find(strMeshName);
 				if(pData==NULL)
 					return	false;
 	

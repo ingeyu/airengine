@@ -212,12 +212,6 @@
     <ClCompile Include="..\AirEngine\Src\AirEngineStreamReader.cpp">
       <Filter>Resource</Filter>
     </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirInterfaceResourceStream.cpp">
-      <Filter>Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirInterfaceResourceSystem.cpp">
-      <Filter>Resource</Filter>
-    </ClCompile>
     <ClCompile Include="..\AirEngine\Src\AirRenderbuffer.cpp">
       <Filter>Render</Filter>
     </ClCompile>
@@ -331,6 +325,15 @@
     </ClCompile>
     <ClCompile Include="..\AirEngine\Src\AirAudioBuffer.cpp">
       <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirResourceSystem.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirResourceStream.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirResourcePackage.cpp">
+      <Filter>Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -577,12 +580,6 @@
     <ClInclude Include="..\AirEngine\Inc\AirEngineStreamReader.h">
       <Filter>Resource</Filter>
     </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceResourceStream.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceResourceSystem.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirRenderbuffer.h">
       <Filter>Render</Filter>
     </ClInclude>
@@ -702,6 +699,15 @@
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirAudioBuffer.h">
       <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirResourceSystem.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirResourceStream.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirResourcePackage.h">
+      <Filter>Resource</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

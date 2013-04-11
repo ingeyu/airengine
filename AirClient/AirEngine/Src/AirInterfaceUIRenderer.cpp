@@ -36,11 +36,11 @@ namespace Air{
 				//创建声明
 				VertexDeclare::Info	vdeclareInfo;
 				//vdeclareInfo.m_FVF	=	VertexBuff::PT::fvf;
-				m_DrawBuff.m_pVertexDeclare	=	setting.m_pRenderSystem->CreateProduct<VertexDeclare>("XYZ",&vdeclareInfo);
+				m_DrawBuff.m_pVertexDeclare	=	RenderSystem::GetSingleton()->CreateProduct<VertexDeclare>("XYZ",&vdeclareInfo);
 				//创建顶点缓冲区
 				VertexBuffer::Info		vbuffinfo;
 				vbuffinfo.SetVertexBuffer(MAX_WINDOW*6,12);
-				m_DrawBuff.m_pVertexBuffer[0]	=	setting.m_pRenderSystem->CreateProduct<VertexBuffer>("UI",&vbuffinfo);
+				m_DrawBuff.m_pVertexBuffer[0]	=	RenderSystem::GetSingleton()->CreateProduct<VertexBuffer>("UI",&vbuffinfo);
 				//VertexBuff::PT*	pVertex	=	NULL;
 // 				m_DrawBuff.m_pVertexBuff->Lock(LockOpt(0,0,(void**)&pVertex));
 // 				for(UInt	i	=0;i<MAX_WINDOW;i++){
@@ -73,7 +73,7 @@ namespace Air{
 				}
 // 				if(m_pMaterial!=NULL){
 // 					//这个时候 材质工厂已经释放掉了
-// 					setting.m_pRenderSystem->DestroyProduct(m_pMaterial);
+// 					RenderSystem::GetSingleton()->DestroyProduct(m_pMaterial);
 // 					m_pMaterial	=	NULL;
 // 				}
 	

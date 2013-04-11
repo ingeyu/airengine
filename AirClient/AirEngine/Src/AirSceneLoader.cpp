@@ -21,7 +21,7 @@ namespace	Air{
 			//U32	uiSize=0;
 			//Common::File::Load(strSceneName+".material",pData,uiSize);
 			Data data;
-			Resource::ISystem*	pResSys	=	GetGlobalSetting().m_pResourceSystem;
+			ResourceSystem*	pResSys	=	ResourceSystem::GetSingleton();
 			pResSys->Find(strSceneName+".material",data);
 			MaterialParse::GetSingleton()->CompileMaterialSet(data.buff,data.size);//uiSize);
 			pResSys->Find(strSceneName,data);

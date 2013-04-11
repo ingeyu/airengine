@@ -4,9 +4,8 @@
 
 #include "AirResource.h"
 #include "AirResourceSystem.h"
-#include "AirGlobalSetting.h"
-#include "AirEngineSystem.h"
-
+#include "AirResourceRarPackage.h"
+#include "AirResourceZipPackage.h"
 
 BOOL APIENTRY DllMain( HMODULE hModule,
 					  DWORD  ul_reason_for_call,
@@ -32,12 +31,8 @@ namespace Air{
 		Resource::System*	pPlugin	=	NULL;
 	
 		extern "C" RESOURCE_EXPORT U1 DllInit(void*		pParam)throw(){
-			if(pPlugin==NULL){
-				pPlugin	= new Resource::System();
- 				GetGlobalSetting().m_pResourceSystem	=	pPlugin;
-// 				pPlugin->Initialization();
-			}
-			EngineSystem::GetSingleton()->AddSystem(pPlugin);
+			ResourceSystem::GetSingleton()->AddFactory(new NoParamFactory<Resource::ZipPackage>());
+			ResourceSystem::GetSingleton()->AddFactory(new NoParamFactory<Resource::RarPackage>());
 			return	true;
 		}
 		extern "C" RESOURCE_EXPORT U1 DllStart(void*		pParam)throw(){

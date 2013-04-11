@@ -5,7 +5,7 @@
 #include "AirSlkReader.h"
 #include "AirRenderSystem.h"
 #include "AirGlobalSetting.h"
-#include "AirInterfaceResourceSystem.h"
+#include "AirResourceSystem.h"
 namespace Air{
 	
 	namespace	Engine{
@@ -33,7 +33,7 @@ namespace Air{
 						oldInfo.uiRefCount++;
 					}else{
 						Data	pData;
-						GetGlobalSetting().m_pResourceSystem->Find(m_strProductName + strName,pData);
+						ResourceSystem::GetSingleton()->Find(m_strProductName + strName,pData);
 						if(!pData.IsNull())
 							return	-1;
 						//如果不在列表中 则新建载入
@@ -47,7 +47,7 @@ namespace Air{
 					return oldInfo.uiID;
 				}
 				Data	pData;
-				GetGlobalSetting().m_pResourceSystem->Find(m_strProductName + strName,pData);
+				ResourceSystem::GetSingleton()->Find(m_strProductName + strName,pData);
 				if(pData.IsNull())
 					return	-1;
 				//如果不在列表中 则新建载入
@@ -137,7 +137,7 @@ namespace Air{
 					return oldInfo.uiID;
 				}
 				Data	pData;
-				GetGlobalSetting().m_pResourceSystem->Find(m_strProductName + strName,pData);
+				ResourceSystem::GetSingleton()->Find(m_strProductName + strName,pData);
 				if(pData.IsNull())
 					return	-1;
 				//如果不在列表中 则新建载入
@@ -202,7 +202,7 @@ namespace Air{
 	
 				Data	pData;
 				
-				GetGlobalSetting().m_pResourceSystem->Find(m_strProductName + m_strSkeleton,pData);
+				ResourceSystem::GetSingleton()->Find(m_strProductName + m_strSkeleton,pData);
 				if(pData.IsNull())
 					return	false;
 	
@@ -214,7 +214,7 @@ namespace Air{
 				StringVector	lstAnimation;
 	
 				CSlkReader r;
-				GetGlobalSetting().m_pResourceSystem->Find(strConfig,pData);
+				ResourceSystem::GetSingleton()->Find(strConfig,pData);
 				if(pData.IsNull())
 					return	false;
 	

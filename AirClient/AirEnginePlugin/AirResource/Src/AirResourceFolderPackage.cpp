@@ -36,7 +36,7 @@ namespace	Air{
 				Data	data;
 				FindWithFullPath(strName,data);
 				if(	m_pTempListener	!=	NULL){
-						m_pTempListener->OnFindFile(strName,&data);
+					m_pTempListener->OnFindFile(strName,&data);
 				}
 				return	true;
 			}

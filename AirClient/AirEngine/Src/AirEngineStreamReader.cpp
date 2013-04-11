@@ -4,7 +4,7 @@ namespace	Air{
 		
 
 
-		ResourceReader::ResourceReader(  Resource::IStream& stream ):m_Stream(stream){
+		ResourceReader::ResourceReader(  Resource::Stream& stream ):m_Stream(stream){
 			m_Stream.AddRef();
 			if(m_Stream.GetState()	==	Resource::enSS_Loaded){
 				m_pBegin	=	(U8*)m_Stream.GetData();

@@ -18,7 +18,7 @@
 #ifndef AIRENGINESTREAMREADER_HEAD_FILE
 #define AIRENGINESTREAMREADER_HEAD_FILE
 
-#include "AirInterfaceResourceStream.h"
+#include "AirResourceStream.h"
 #include "AirCommonStreamIO.h"
 
 namespace	Air{
@@ -27,7 +27,7 @@ namespace	Air{
 		class	ENGINE_EXPORT	ResourceReader	:
 			public	Common::StreamReader{
 		public:
-			ResourceReader(Resource::IStream&	stream);
+			ResourceReader(Resource::Stream&	stream);
 			~ResourceReader();
 			/**	\brief	≈–∂œStream «∑Ò”––ß
 			*   
@@ -48,7 +48,7 @@ namespace	Air{
 			**/
 			U1		ReInit();
 
-			Resource::IStream&	m_Stream;
+			Resource::Stream&	m_Stream;
 		};
 		
 	

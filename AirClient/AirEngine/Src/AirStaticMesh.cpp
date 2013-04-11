@@ -2,7 +2,7 @@
 #include "AirRenderSystem.h"
 #include "AirEngineMaterial.h"
 #include "AirGlobalSetting.h"
-#include "AirInterfaceResourceSystem.h"
+#include "AirResourceSystem.h"
 
 namespace	Air{
 	namespace	Engine{
@@ -19,7 +19,7 @@ namespace	Air{
 
 		Air::U1 StaticMesh::Create()
 		{
-			Resource::ISystem*	pResSys	=	GetGlobalSetting().m_pResourceSystem;
+			ResourceSystem*	pResSys	=	ResourceSystem::GetSingleton();
 			pResSys->Find(m_strProductName,m_MeshData);
 
 			U8*	pData	=	m_MeshData.buff;

@@ -1,7 +1,7 @@
 #include "AirEngineEntity.h"
 #include "AirGlobalSetting.h"
 #include "AirRenderSystem.h"
-#include "AirInterfaceResourceSystem.h"
+#include "AirResourceSystem.h"
 #include "AirInterfacePhysicsSystem.h"
 #include "AirEngineSubEntity.h"
 #include "AirEngineSystem.h"
@@ -98,7 +98,7 @@ namespace Air{
 				}
 			}else{
 				//从资源包加载
-				Data*	pData	=	NULL;//GetGlobalSetting().m_pResourceSystem->Find(m_Info.strConfigName);
+				Data*	pData	=	NULL;//ResourceSystem::GetSingleton()->Find(m_Info.strConfigName);
 				if(pData==NULL)
 					return	false;
 	

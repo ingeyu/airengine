@@ -30,7 +30,7 @@ namespace Air{
 
 				if(m_Info.format	==	enTFMT_UNKNOWN){
 					Data data;
-					GetGlobalSetting().m_pResourceSystem->Find(m_strProductName,data);
+					ResourceSystem::GetSingleton()->Find(m_strProductName,data);
 
 					if(!data.IsNull()){
 						D3DX11_IMAGE_INFO	imgInfo;

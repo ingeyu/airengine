@@ -1,11 +1,11 @@
-#include "AirInterfaceResourceSystem.h"
-
+#include "AirResourceSystem.h"
+#include "AirResourcePackage.h"
 namespace	Air{
 	namespace	Engine{
 		namespace	Resource{
 			
 
-			ISystem::ISystem(CAString&	strType):Common::ISystem(strType){
+			System::System(){
 				m_uiMaxRecycle	=	100*1024*1024;
 				m_uiRecycleSize	=	0;
 
@@ -13,16 +13,15 @@ namespace	Air{
 				m_uiUnloadLoadIndex	=	0;
 			}
 
-			Air::U1 ISystem::Initialization(){
+			Air::U1 System::Initialization(){
 				//Start();
 
-				AddFactory(new	NoParamFactory<IStream>());
+				AddFactory(new	NoParamFactory<Stream>());
+				AddFactory(new	NoParamFactory<Package>());
 				return	true;
 			}
 
-			Air::U1 ISystem::Release(){
-				//停止线程
-				Stop();
+			Air::U1 System::Release(){
 
 				//清理队列
 // 				m_UnLoadCS.Enter();
@@ -50,6 +49,8 @@ namespace	Air{
 				m_lstLoad[1].clear();
 				m_LoadCS.Enter();
 
+				m_lstPackage.clear();
+
 				//摧毁所有资源
 				DestroyAllProduct();
 				DestroyAllFactory();
@@ -57,27 +58,42 @@ namespace	Air{
 				return	true;
 			}
 
-			Air::U1 ISystem::Start(){
-				StartThread();
+			void System::FindWithPostfix( CAString& strPostfix,FindFileCallback* pCB ){
+				PackageList::iterator	i	=	m_lstPackage.begin();
+				for(;i!=m_lstPackage.end();i++){
+					Package*	p	=	(Package*)(*i);
+					if(p!=NULL){
+						p->FindWithPostfix(strPostfix,pCB);
+					}
+				}
+			}
+
+			Air::U1 System::AddPackage( CAString& strPackageName ){
+				if(strPackageName.empty())
+					return	false;
+
+				Package*	p	=	NULL;
+
+				if(strPackageName.size()	<	4){
+					p	=	CreateProduct<Package>(strPackageName);
+
+				}else{
+					AString	strPostfix	=	Converter::ToLowerCase(Common::GetPostfix(strPackageName));
+					if(strPostfix.empty()||	strPostfix[0]=='/'||strPostfix[0]=='\\'){
+						p	=	CreateProduct<Package>(strPackageName);
+					}else{
+						p	=	CreateProduct<Package>(strPackageName,strPostfix);
+					}
+				}
+
+				if(p!=NULL){
+					m_lstPackage.push_back(p);
+				}
 				return	true;
 			}
 
-			Air::U1 ISystem::Stop(){
-				StopThreadWaitForExit();
-				return	true;
-			}
-
-			void ISystem::FindWithPostfix( CAString& strPostfix,IFindFileListener* pListener ){
-
-			}
-
-			Air::U1 ISystem::AddPackage( CAString& strPackageName ){
-
-				return	false;
-			}
-
-			bool ISystem::RepetitionRun(){
-				IStream*	pFile	=	NULL;
+			bool System::RepetitionRun(){
+				Stream*	pFile	=	NULL;
 
 				Sleep(100);
 
@@ -128,7 +144,7 @@ namespace	Air{
 				return	true;
 			}
 
-			Air::U1 ISystem::LoadBackground( IStream* pFile ){
+			Air::U1 System::LoadBackground( Stream* pFile ){
 				if(pFile==NULL)
 					return	false;
 				//先添加一个引用计数	防止正在加载的过程中 调用卸载
@@ -141,7 +157,7 @@ namespace	Air{
 				return	true;
 			}
 
-			Air::U1 ISystem::PushRecycle( IProduct* p ){
+			Air::U1 System::PushRecycle( IProduct* p ){
 				if(p==NULL)
 					return	false;
 				m_UnLoadCS.Enter();
@@ -151,19 +167,44 @@ namespace	Air{
 				return	true;
 			}
 
-			Air::U32 ISystem::Find( CAString& strFileName,Data& outData ){
+			Air::U32 System::Find( CAString& strFileName,Data& outData ){
+				//转化为小写
+				AString	str	=	strFileName;
+				Converter::ToLowerCase(str);
+
+				PackageList::iterator	i	=	m_lstPackage.begin();
+				for(;i!=m_lstPackage.end();i++){
+					Package*	p	=	(Package*)(*i);
+					if(p!=NULL){
+						U32	uiSize	=	p->Find(str,outData);
+						if(uiSize!=0)
+							return	uiSize;
+
+					}
+				}
+
 				return	0;
 			}
 
-			Air::U32 ISystem::Find( CAString& strFileName ){
+			Air::U32 System::Find( CAString& strFileName ){
+				//PackageList::iterator	i	=	m_lstPackage.begin();
+				//for(;i!=m_lstPackage.end();i++){
+				//	Package*	p	=	(Package*)(*i);
+				//	if(p!=NULL){
+				//		U32	uiSize	=	p->Find(strFileName);
+				//		if(uiSize!=0)
+				//			return	uiSize;
+
+				//	}
+				//}
 				return	0;
 			}
 
-			void ISystem::SetMaxRecycleSize( U32 uiSize ){
+			void System::SetMaxRecycleSize( U32 uiSize ){
 				m_uiMaxRecycle	=	uiSize;
 			}	
 
-			Air::U32 ISystem::GetMaxRecycleSize(){
+			Air::U32 System::GetMaxRecycleSize(){
 				return	m_uiMaxRecycle;
 			}
 		}

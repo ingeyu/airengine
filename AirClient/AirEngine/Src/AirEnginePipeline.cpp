@@ -11,7 +11,7 @@
 #include "AirEngineMaterial.h"
 #include "AirEngineLight.h"
 #include "AirEngineCharacterManager.h"
-#include "AirInterfaceResourceSystem.h"
+#include "AirResourceSystem.h"
 
 
 #include "AirNavMesh.h"
@@ -163,7 +163,7 @@ namespace	Air{
 			//pTest	=	m_pScene->GetRootNode()->CreateChildSceneNode("TestNode");
 			//pTest->attachObject(pEnt);
 					Data data;
-					GetGlobalSetting().m_pResourceSystem->Find("AirMesh/NAV2.ame",data);
+					ResourceSystem::GetSingleton()->Find("AirMesh/NAV2.ame",data);
 					NavMesh::Info navinfo;
 					navinfo.pData	=	data.buff;
 					navinfo.uiSize	=	data.size;

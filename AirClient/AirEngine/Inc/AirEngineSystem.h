@@ -31,16 +31,15 @@ namespace Air{
 	namespace Engine{
 		class Screen;
 	
-		class ENGINE_EXPORT	EngineSystem	
+		class ENGINE_EXPORT	System	
 			:	public	IFactoryManager,
-				public	IPlugin,
 				public	IAlphaObjectManager,
 				public	IAutoReleaseManager,
 				public	Common::SystemManagerGroup,
-				public	Singleton<EngineSystem>{
+				public	Singleton<System>{
 		public:
-			EngineSystem();
-			virtual	~EngineSystem();
+			System();
+			virtual	~System();
 			/**	\brief	初始化
 			*   
 			*	@remarks 	初始化
@@ -173,13 +172,14 @@ namespace Air{
 			**/
 			U1	UnLoadPlugin();
 		private:
-			std::vector<AString>			m_strPluginNameArray;
-			std::vector<Common::Plugin*>	m_vecPlugin;
-			AString							m_strWindowName;
+			STD_VECTOR<AString>			m_strPluginNameArray;
+			STD_VECTOR<Common::Plugin*>	m_vecPlugin;
+			AString						m_strWindowName;
 		};
 	
 		
 	
 	};
+	typedef Engine::System EngineSystem;
 };
 #endif // ENGINESYSTEM_HEAD_FILE

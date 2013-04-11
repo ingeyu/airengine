@@ -4,7 +4,7 @@
 #include "AirGlobalSetting.h"
 #include "AirEngineSceneNode.h"
 #include "AirGlobalSetting.h"
-#include "AirInterfaceResourceSystem.h"
+#include "AirResourceSystem.h"
 #include "AirEngineMaterialParse.h"
 namespace Air{
 	
@@ -30,7 +30,7 @@ namespace Air{
 				CSlkReader r;
 				
 				Data	pData;
-				GetGlobalSetting().m_pResourceSystem->Find(strCharacterConfigName,pData);
+				ResourceSystem::GetSingleton()->Find(strCharacterConfigName,pData);
 				if(pData.IsNull())
 					return	false;
 				if( !r.ReadFromString( (char*)pData.GetBuff(),pData.GetSize()) ){
@@ -81,7 +81,7 @@ namespace Air{
 					info.strPath	=	field->data.szValue;
 					if(!info.strPath.empty()){
 						Data data;
-						GetGlobalSetting().m_pResourceSystem->Find(info.strPath+"Equipment.material",data);
+						ResourceSystem::GetSingleton()->Find(info.strPath+"Equipment.material",data);
 						if(!data.IsNull()){
 							MaterialParse::GetSingleton()->CompileMaterialSet(data.buff,data.size);
 						}
@@ -114,7 +114,7 @@ namespace Air{
 			void Manager::LoadAnimation( CAString& strAnimationName ){
 				CSlkReader r;
 				Data	pData;
-				GetGlobalSetting().m_pResourceSystem->Find(strAnimationName,pData);
+				ResourceSystem::GetSingleton()->Find(strAnimationName,pData);
 				if(pData.IsNull())
 					return;
 				if( !r.ReadFromString( (char*)pData.GetBuff(),pData.GetSize() ) ){
@@ -159,7 +159,7 @@ namespace Air{
 			void Manager::LoadEquipment( CAString& strEquipmentName ){
 				CSlkReader r;
 				Data	pData;
-				GetGlobalSetting().m_pResourceSystem->Find(strEquipmentName,pData);
+				ResourceSystem::GetSingleton()->Find(strEquipmentName,pData);
 				if(pData.IsNull())
 					return;
 				if( !r.ReadFromString( (char*)pData.GetBuff(),pData.GetSize() ) ){

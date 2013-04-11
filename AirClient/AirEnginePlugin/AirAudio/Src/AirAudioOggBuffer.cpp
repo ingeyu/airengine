@@ -122,7 +122,7 @@
 // 			callbacks.seek_func		= OggSeek;
 // 
 // 			MemeryData	mData;
-// 			mData.pData	=	GetGlobalSetting().m_pResourceSystem->Find(m_strProductName);
+// 			mData.pData	=	ResourceSystem::GetSingleton()->Find(m_strProductName);
 // 
 // 			if(mData.pData==NULL)
 // 				return	false;

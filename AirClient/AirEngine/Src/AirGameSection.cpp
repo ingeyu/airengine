@@ -17,10 +17,10 @@ namespace	Air{
 		{
 			Engine::Screen::Info info;
 			info.strPipelineName	=	"DefaultPipeline";
-			m_pScreen	=	Engine::EngineSystem::GetSingleton()->CreateProduct<Engine::Screen>(m_strProductName+"_Screen",&info);
+			m_pScreen	=	EngineSystem::GetSingleton()->CreateProduct<Engine::Screen>(m_strProductName+"_Screen",&info);
 			if(m_pScreen==NULL)
 				return false;
-			m_pScene	=	Engine::EngineSystem::GetSingleton()->CreateProduct<Engine::Scene>(m_strProductName+"_Scene");
+			m_pScene	=	EngineSystem::GetSingleton()->CreateProduct<Engine::Scene>(m_strProductName+"_Scene");
 			if(m_pScene==NULL)
 				return false;
 			m_pScreen->SetCurrentScene(m_pScene);

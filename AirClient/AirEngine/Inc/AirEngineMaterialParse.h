@@ -3,7 +3,7 @@
 
 #include "AirEngineHeader.h"
 #include "AirEngineMaterialCommon.h"
-#include "AirInterfaceResourceSystem.h"
+#include "AirResourceSystem.h"
 #include "AirEngineMaterial.h"
 namespace Air{
 	

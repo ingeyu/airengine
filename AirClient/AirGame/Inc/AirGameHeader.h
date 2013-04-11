@@ -7,7 +7,7 @@
 
 
 #include "AirEngineSystem.h"
-#include "AirInterfaceResourceSystem.h"
+#include "AirResourceSystem.h"
 #include "AirInterfaceInputSystem.h"
 #include "AirRenderTarget.h"
 #include "AirRenderSystem.h"

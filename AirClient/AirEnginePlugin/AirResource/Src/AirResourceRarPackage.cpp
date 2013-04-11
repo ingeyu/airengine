@@ -21,7 +21,7 @@ namespace Air{
 				return 1;
 			};
 			AString RarPackage::ProductTypeName="rar";
-			RarPackage::RarPackage( CAString& strName ):IPackage(strName){
+			RarPackage::RarPackage( CAString& strName ):Package(strName){
 				//m_Handle	=	NULL;
 	#ifndef	_DEBUG
 				OutputDebugStringA(strName.c_str());
@@ -138,7 +138,7 @@ namespace Air{
 			}
 	
 	
-			void RarPackage::FindWithPostfix( CAString& strPostfix,IFindFileListener* pListener ){
+			void RarPackage::FindWithPostfix( CAString& strPostfix,FindFileCallback* pListener ){
 
 				g_TempData	=	new	Data;
 				g_TempPos	=	0;

@@ -1,7 +1,7 @@
 #include "AirEngineMaterial.h"
 #include "AirGlobalSetting.h"
 #include "AirRenderSystem.h"
-#include "AirInterfaceResourceSystem.h"
+#include "AirResourceSystem.h"
 #include "AirEngineSystem.h"
 #include "AirEngineMaterialParse.h"
 #include "AirEngineMaterialTemplate.h"

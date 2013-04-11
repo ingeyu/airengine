@@ -212,7 +212,7 @@ namespace Air{
 					//创建渲染目标
 					Render::Target::Info	info;
 					//info.SetSingleTarget(m_Info.vPositionSize.x,m_Info.vPositionSize.y,Render::F).SetRenderToTexture(m_Info.vPositionSize.x,m_Info.vPositionSize.y);
-					m_pTarget	=	setting.m_pRenderSystem->CreateProduct<Render::Target>(m_strProductName,&info);
+					m_pTarget	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget>(m_strProductName,&info);
 					//设置当前UI空间为渲染对象
 					m_pTarget->SetRenderObject(this);
 					//设置背景颜色为黑色
@@ -223,7 +223,7 @@ namespace Air{
 					setting.m_pUISystem->AddTarget(m_pTarget);
 					//创建材质
 					AString	strCache	=	GetCacheMaterialString(m_strProductName);
-					//m_pMaterial	=	setting.m_pRenderSystem->CreateProduct<Render::IMaterial*>(m_strProductName,AString("Material"),&strCache);
+					//m_pMaterial	=	RenderSystem::GetSingleton()->CreateProduct<Render::IMaterial*>(m_strProductName,AString("Material"),&strCache);
 	
 // 					if(m_pMaterial!=NULL){
 // 						Render::IMaterial::Technique*	pTechnique	=	m_pMaterial->GetCurrentTechnique();
@@ -250,7 +250,7 @@ namespace Air{
 					}
 					//摧毁材质
 // 					if(m_pMaterial!=NULL){
-// 						setting.m_pRenderSystem->DestroyProduct(m_pMaterial);
+// 						RenderSystem::GetSingleton()->DestroyProduct(m_pMaterial);
 // 						m_pMaterial	=	NULL;
 // 					}
 					//设置父窗口为空

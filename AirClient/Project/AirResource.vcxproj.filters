@@ -21,22 +21,10 @@
     <ClInclude Include="..\AirEnginePlugin\AirResource\Inc\Airresource1.h">
       <Filter>Inc</Filter>
     </ClInclude>
-    <ClInclude Include="..\AirEnginePlugin\AirResource\Inc\AirResourceFileStream.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEnginePlugin\AirResource\Inc\AirResourceFolderPackage.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
     <ClInclude Include="..\AirEnginePlugin\AirResource\Inc\AirResourceHeader.h">
       <Filter>Inc</Filter>
     </ClInclude>
-    <ClInclude Include="..\AirEnginePlugin\AirResource\Inc\AirResourcePackageManager.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
     <ClInclude Include="..\AirEnginePlugin\AirResource\Inc\AirResourceRarPackage.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEnginePlugin\AirResource\Inc\AirResourceSystem.h">
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="..\AirEnginePlugin\AirResource\Inc\AirResourceZipPackage.h">
@@ -146,19 +134,7 @@
     <ClCompile Include="..\AirEnginePlugin\AirResource\Src\AirResource.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="..\AirEnginePlugin\AirResource\Src\AirResourceFileStream.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirEnginePlugin\AirResource\Src\AirResourceFolderPackage.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirEnginePlugin\AirResource\Src\AirResourcePackageManager.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
     <ClCompile Include="..\AirEnginePlugin\AirResource\Src\AirResourceRarPackage.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirEnginePlugin\AirResource\Src\AirResourceSystem.cpp">
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="..\AirEnginePlugin\AirResource\Src\AirResourceZipPackage.cpp">

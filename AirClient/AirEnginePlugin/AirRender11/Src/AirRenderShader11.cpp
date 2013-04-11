@@ -2,7 +2,7 @@
 #include "AirRenderDevice11.h"
 #include "D3Dcompiler.h"
 #include "AirGlobalSetting.h"
-#include "AirInterfaceResourceSystem.h"
+#include "AirResourceSystem.h"
 
 #define SHADER_VERSION_EXT "11"
 
@@ -20,7 +20,7 @@ namespace Air{
 				case	D3D_INCLUDE_SYSTEM:{
 					Data data;
 					AString	strFullPath	=	strPath	+	pFileName;
-					U32	uiSize	=	GetGlobalSetting().m_pResourceSystem->Find(strFullPath.c_str(),data);
+					U32	uiSize	=	ResourceSystem::GetSingleton()->Find(strFullPath.c_str(),data);
 					if(!data.IsNull()){
 						*ppData	=	data.buff;
 						*pBytes	=	data.size;
@@ -109,7 +109,7 @@ namespace Air{
 				AString	strProfile	=	strType	+	strShaderType[m_ShaderVersion];
 
 				Data data;
-				GetGlobalSetting().m_pResourceSystem->Find(m_strProductName+ SHADER_VERSION_EXT,data);
+				ResourceSystem::GetSingleton()->Find(m_strProductName+ SHADER_VERSION_EXT,data);
 
 				if(!data.IsNull()){
 					ID3DBlob*	pError	=	NULL;

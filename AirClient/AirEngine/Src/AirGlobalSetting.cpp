@@ -56,15 +56,13 @@ namespace Air{
 		GlobalSetting::GlobalSetting(){
 	
 	
-			m_pEngine			=	NULL;
-			m_pRenderSystem		=	NULL;
+
 			//m_pGameSystem		=	NULL;
 			m_pInputSystem		=	NULL;
 			m_pPhysicsSystem	=	NULL;
 			m_pScriptSystem		=	NULL;
-			m_pAudioSystem		=	NULL;
+
 			m_pNetSystem		=	NULL;
-			m_pResourceSystem	=	NULL;
 			m_pParticleSystem	=	NULL;
 	
 			m_pDefaultFont		=	NULL;

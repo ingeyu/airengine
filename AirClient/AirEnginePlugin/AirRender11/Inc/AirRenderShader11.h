@@ -47,7 +47,7 @@ namespace Air{
 
 			private:
 				void*					m_pDxShader;
-				Resource::IStream*		m_pStream;
+				Resource::Stream*		m_pStream;
 				enumShaderType			m_ShaderType;
 				enumSystemVersion		m_ShaderVersion;
 				ID3DBlob*				m_pBinaryCode;

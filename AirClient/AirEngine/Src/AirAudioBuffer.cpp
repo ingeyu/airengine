@@ -1,6 +1,6 @@
 #include "AirAudioBuffer.h"
 #include "AirGlobalSetting.h"
-#include "AirInterfaceResourceSystem.h"
+#include "AirResourceSystem.h"
 
 
 namespace	WAV{
@@ -81,7 +81,7 @@ namespace Air{
 				S8	Loop	=	0;
 	
 	 			Data	data;
-				GetGlobalSetting().m_pResourceSystem->Find(m_strProductName,data);
+				ResourceSystem::GetSingleton()->Find(m_strProductName,data);
 				if(data.IsNull())
 					return	false;
 	

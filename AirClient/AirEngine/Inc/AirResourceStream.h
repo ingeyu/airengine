@@ -37,11 +37,11 @@ namespace	Air{
 				enSS_Max
 			};
 
-			class	ENGINE_EXPORT	IStream	:
+			class	ENGINE_EXPORT	Stream	:
 				public	Common::IProduct{
 			public:
 				static AString ProductTypeName;
-				IStream(CAString&	strName);
+				Stream(CAString&	strName);
 
 				virtual	U1				Create();
 				virtual	U1				Destroy();
@@ -93,7 +93,7 @@ namespace	Air{
 
 
 		}
-		typedef	std::list<Resource::IStream*>		StreamList;
+		typedef	STD_LIST<Resource::Stream*>		StreamList;
 	};//end of	namespace	Client
 };//end of namespace Air
 #endif // AIRINTERFACERESOURCESTREAM_HEAD_FILE

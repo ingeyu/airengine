@@ -10,7 +10,7 @@ namespace Air{
 	}
 	
 	namespace Engine{
-		class EngineSystem;
+		
 		namespace	Render{
 			class	System;
 			class	ITexture;
@@ -145,19 +145,17 @@ namespace Air{
 			**/
 			U8		GetKey(AString&	str);
 	
-			//引擎指针
-			EngineSystem*				m_pEngine;			///<	引擎指针
+
 	
 			//渲染系统
-			Render::System*			m_pRenderSystem;	///<	渲染系统指针
+
 			Physics::ISystem*			m_pPhysicsSystem;	///<	物理系统指针
 			Input::ISystem*				m_pInputSystem;		///<	输入系统指针
 			Script::ISystem*			m_pScriptSystem;	///<	脚本系统指针
 			UI::ISystem*				m_pUISystem;		///<	界面系统指针
-			Audio::ISystem*				m_pAudioSystem;		///<	声音系统指针
+
 			Net::ISystem*				m_pNetSystem;		///<	网络系统指针
-			//ASIO::ISystem*				m_pNetSystem;		///<	网络系统指针
-			Resource::ISystem*			m_pResourceSystem;	///<	资源系统指针
+
 			Particle::ISystem*			m_pParticleSystem;	///<	粒子系统指针
 	
 	

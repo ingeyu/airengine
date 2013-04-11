@@ -13,7 +13,7 @@ namespace Air{
 			*
 			***/
 			class	RarPackage	:
-				public	IPackage{
+				public	Package{
 			public:
 				typedef	Data	FileData;
 			public:
@@ -61,7 +61,7 @@ namespace Air{
 				*	@note
 				*
 				**/
-				virtual	void		FindWithPostfix(CAString&	strPostfix,IFindFileListener*	pListener);
+				virtual	void		FindWithPostfix(CAString&	strPostfix,FindFileCallback*	pListener);
 	
 				/**	\brief	合并数据
 				*   

@@ -3,44 +3,38 @@
 
 #include "AirEngineHeader.h"
 #include "AirCommonThread.h"
-#include "AirInterfaceResourceStream.h"
+#include "AirResourceStream.h"
+#include "AirResourcePackage.h"
 
 namespace Air{
 	namespace Engine{
 	
 		namespace	Resource{
-			class	IFindFileListener{
-			public:
-				virtual	void	OnFindFile(CAString&	strName,Data*	pData)=	NULL;
-			};
 			/**	\brief	资源管理系统
 			*
 			*	资源管理系统
 			*
 			***/
-			class	ENGINE_EXPORT	ISystem	:
-				public	Common::Thread,
-				public	Common::ISystem
+			class	ENGINE_EXPORT	System	:
+				public	IFactoryManager,
+				public	Singleton<System>
 			{
 			public:	
-				ISystem(CAString&	strType);
+				System();
 
 				virtual	U1		Initialization();
 				virtual	U1		Release();
-
-				virtual	U1		Start();
-				virtual	U1		Stop();
 				/**	\brief	查找后缀名文件
 				*   
 				*	@remarks 	查找后缀名文件
 				*	@see		ISystem
 				*	@return   	void
 				*	@param		AString strPostfix
-				*	@param		IFindFileListener * pListener
+				*	@param		FindFileCallback*	pCB
 				*	@note
 				*
 				**/
-				virtual	void		FindWithPostfix(CAString&	strPostfix,IFindFileListener*	pListener);
+				virtual	void		FindWithPostfix(CAString&	strPostfix,FindFileCallback*	pCB);
 	
 				/**	\brief	添加一个资源包
 				*   
@@ -51,7 +45,7 @@ namespace Air{
 				*	@note
 				*
 				**/
-				virtual	U1			AddPackage(CAString&	strPackageName);
+				U1			AddPackage(CAString&	strPackageName);
 				/**	\brief	判断文件是否存在
 				*   
 				*	@remarks 	判断文件是否存在
@@ -81,7 +75,7 @@ namespace Air{
 				*	@note
 				*
 				**/
-				virtual	U1		LoadBackground(IStream*	pFile);
+				virtual	U1		LoadBackground(Stream*	pFile);
 				/**	\brief	放到回收站
 				*   
 				*	@remarks 	放到回收站
@@ -104,9 +98,12 @@ namespace Air{
 				U32				m_uiUnloadLoadIndex;
 				U32				m_uiRecycleSize;	///<	当前回收站大小
 				U32				m_uiMaxRecycle;		///<	回收站最大限制	大于会摧毁
+
+				PackageList		m_lstPackage;
 			};
 		}
 	
 	};
+	typedef Engine::Resource::System	ResourceSystem;
 };
 #endif // INTERFACERESOURCESYSTEM_HEAD_FILE

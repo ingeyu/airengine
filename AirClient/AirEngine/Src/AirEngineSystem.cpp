@@ -2,7 +2,7 @@
 
 #include "AirGlobalSetting.h"
 #include "AirInterfaceUISystem.h"
-#include "AirInterfaceResourceSystem.h"
+#include "AirResourceSystem.h"
 #include "AirInterfaceNetSystem.h"
 #include "AirSlkReader.h"
 
@@ -77,17 +77,17 @@ namespace Air{
 		};
 	
 	
-		EngineSystem::EngineSystem(){
+		System::System(){
 			
 			m_strPluginNameArray.resize(g_uiNumPlugin);
 		}
 	
-		EngineSystem::~EngineSystem(){
+		System::~System(){
 			//Release();
 			
 		}
 	
-		void EngineSystem::ExecuteOneFrame(const FrameTime& frameTime){
+		void System::ExecuteOneFrame(const FrameTime& frameTime){
 			//PROFILE_FUNCTION
 			//Render::System::GetSingleton()->OnFrameMove(fTime,fElapsedTime,pUserContext);
 			//检测是否需要释放缓冲区中的物体
@@ -113,7 +113,7 @@ namespace Air{
 			
 		}
 	
-		U1 EngineSystem::Initialization(){
+		U1 System::Initialization(){
 			//ENGINE_LOG_INFO;
 			//解析显示参数
 			ParseDisplayParam();
@@ -171,6 +171,8 @@ namespace Air{
 			//加载所有插件
  			if(!LoadPlugin())
  				return false;
+			ResourceSystem::GetSingleton()->Initialization();
+			ResourceSystem::GetSingleton()->AddPackage(GetGlobalSetting().m_EngineParam.strMedia);
 
 			RenderSystem::GetSingleton()->Initialization();
 			AudioSystem::GetSingleton()->Initialization();
@@ -192,7 +194,7 @@ namespace Air{
 			return true;
 		}
 	
-		U1 EngineSystem::Start(){
+		U1 System::Start(){
 			//ENGINE_LOG_INFO;
 
 // 					static	ShaderShareParam&	sParam	=	GetGlobalSetting().m_ShaderParam;
@@ -240,7 +242,7 @@ namespace Air{
 	
 		}
 	
-		U1 EngineSystem::Release(){
+		U1 System::Release(){
 
 
 			//卸载Game
@@ -266,16 +268,19 @@ namespace Air{
 			AudioSystem::ReleaseSingleton();
 			Render::System::GetSingleton()->Release();
 			Render::System::ReleaseSingleton();
-
+			ResourceSystem::GetSingleton()->Release();
+			ResourceSystem::ReleaseSingleton();
 			//最后释放所有插件
 			UnLoadPlugin();
+
+
 			return true;
 	
 		}
 	
 	
 	
-		U1 EngineSystem::LoadPlugin(){
+		U1 System::LoadPlugin(){
 			ENGINE_LOG_INFO
 			EngineParam*	pDst	=	&GetGlobalSetting().m_EngineParam;
 			AString strPluginName	=	"..\\Data\\Config\\Plugin.ini";//GetGlobalSetting().m_EngineParam.strPlugin;
@@ -322,12 +327,12 @@ namespace Air{
 			return	true;
 		}
 
-		Air::U1 EngineSystem::LoadPlugin( CAString& strPluginName ){
+		Air::U1 System::LoadPlugin( CAString& strPluginName ){
 			//CreateProduct(strPluginName,"Plugin");
 			return	true;
 		}
 
-		U1 EngineSystem::UnLoadPlugin(){
+		U1 System::UnLoadPlugin(){
 
 			U32	uiSize	=	m_vecPlugin.size();
 			for(int	i	=	uiSize-1;i>=0;i--){
@@ -337,12 +342,12 @@ namespace Air{
 			return	true;
 		}
 	
-		U1 EngineSystem::Stop(){
+		U1 System::Stop(){
 			//::PostQuitMessage(0);
 			return	true;
 		}
 	
-		U1 EngineSystem::ParseDisplayParam(){
+		U1 System::ParseDisplayParam(){
 			EngineParam*	pSdt	=	&GetGlobalSetting().m_EngineParam;
 			AString strDisplayName	=	GetGlobalSetting().m_EngineParam.strDisplay;
 			File	file(strDisplayName);
@@ -366,19 +371,19 @@ namespace Air{
 	
 		}
 
-		void EngineSystem::BeforeSwitchSystem( Common::ISystemManager* pSystemMgr, Common::ISystem* pOldSys, Common::ISystem* pNewSystem ){
+		void System::BeforeSwitchSystem( Common::ISystemManager* pSystemMgr, Common::ISystem* pOldSys, Common::ISystem* pNewSystem ){
 
 		}
 
-		void EngineSystem::OnSwitchSystem( Common::ISystemManager* pSystemMgr, Common::ISystem* pOldSys, Common::ISystem* pNewSystem ){
+		void System::OnSwitchSystem( Common::ISystemManager* pSystemMgr, Common::ISystem* pOldSys, Common::ISystem* pNewSystem ){
 
 		}
 
-		void EngineSystem::AfterSwitchSystem( Common::ISystemManager* pSystemMgr, Common::ISystem* pOldSys, Common::ISystem* pNewSystem ){
+		void System::AfterSwitchSystem( Common::ISystemManager* pSystemMgr, Common::ISystem* pOldSys, Common::ISystem* pNewSystem ){
 
 		}
 
-		Air::U1 EngineSystem::CreateWin(){
+		Air::U1 System::CreateWin(){
 			HWND& hWindow	=	GetGlobalSetting().m_EngineParam.hWnd;
 			if(hWindow==NULL){
 				U32	uiWidth		=	GetGlobalSetting().m_DisplayParam.iWidth	+	16;
