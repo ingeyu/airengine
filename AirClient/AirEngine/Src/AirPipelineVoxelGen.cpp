@@ -170,21 +170,31 @@ namespace	Air{
 				bVoxel=true;
 			
 				
+				Float3 vCameraPos[3]={Float3(0,0,-64),Float3(0,-64,0),Float3(-64,0,0)};
+				Float3 vCameraDir[3]={Float3(0,0,1),Float3(0,1,0),Float3(1,0,0)};
+				Float3 vCameraUp[3]	={Float3(0,1,0),Float3(1,0,0),Float3(0,1,0)};
 
 
 				m_pRT->SetClearFlag(true,true,true);
 				if(m_pRT->BeforeUpdate()){
-					m_pCamera->Render2D(128,128);
-					void* pRTV[1]={m_pRT->GetRTV()};
-					void* pDSV=NULL;
-					void* pUAV[2]={m_pVoxel->GetUAV(),m_pNodeTree->GetUAV()};
-					U32	clearValue[4]={0};
-					pDevice->ClearUAV(pUAV[1],clearValue);
-					pDevice->SetRTV_DSV_UAV(1,pRTV,pDSV,1,2,pUAV,0);
+						void* pRTV[1]={m_pRT->GetRTV()};
+						void* pDSV=NULL;
+						void* pUAV[2]={m_pVoxel->GetUAV(),m_pNodeTree->GetUAV()};
+						U32	clearValue[4]={0};
+						pDevice->ClearUAV(pUAV[1],clearValue);
+						pDevice->SetRTV_DSV_UAV(1,pRTV,pDSV,1,2,pUAV,0);					
+						
+						for(U32 i=0;i<3;i++){
+						m_pCamera->SetPosition(vCameraPos[i]);
+						m_pCamera->SetDir(vCameraDir[i]);
+						m_pCamera->SetUpDir(vCameraUp[i]);
+						m_pCamera->Render2D(128,128);
 
 
-					if(m_pGenVoxelTree)
-						m_pGenVoxelTree->RenderOneObject(pEnt);
+
+						if(m_pGenVoxelTree)
+							m_pGenVoxelTree->RenderOneObject(pEnt);
+					}
 					m_pRT->AfterUpdate();
 				}
 			}
