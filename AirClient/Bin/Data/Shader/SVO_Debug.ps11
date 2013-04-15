@@ -81,6 +81,8 @@ float4	U32_F32(uint uiColor){
 					((uiColor&0xff000000)>>24)/255.0f
 			);
 }
+#define	MAX_DEPTH	7
+#define VOXEL_BOUND_SIZE	pow(2,MAX_DEPTH-1);
 
 float4 main( VS_OUTPUT Input ):SV_Target0{
 	float2 xy	=	Input.UV*float2(2,-2)+float2(-1,1);
@@ -114,8 +116,8 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 		float3(1,1,1)
 	};
 	int	uiDepth	=	0;
-	float3	vHalfSize	=	64.0f;
-	float3  vMin		=	float3(-64,-64,-64);
+	float3	vHalfSize	=	VOXEL_BOUND_SIZE;
+	float3  vMin		=	-vHalfSize;
 	float	fMaxDis		=	10000;
 	float f=0;
 	if(!RayCastBoundingBox(vCamPos,dir,vMin,vHalfSize,fMaxDis,f)){
@@ -132,14 +134,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 			
 			uint childidx	=	(uiChildOrder>>(i*3))&0x7;
 
-			uint addr		=	(uiOffset[uiDepth]+childidx)*4;
-			uint uiChild	=	voxeloctree.Load(addr);
 
-			//float fCmp=uiChild*1.001f;
-			if(uiChild==0){
-				i++;
-				continue;
-			}
 
 			float3	vNewMin	=	vMin+vOffset[childidx]*vHalfSize;
 			
@@ -152,10 +147,18 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 				continue;
 			}
 
+			uint addr		=	(uiOffset[uiDepth]+childidx)*4;
+			uint uiChild	=	voxeloctree.Load(addr);
+
+			//float fCmp=uiChild*1.001f;
+			if(uiChild==0){
+				i++;
+				continue;
+			}
 		
 	
 
-			if(uiDepth	==	6){
+			if(uiDepth	==	MAX_DEPTH-1){
 				if(fDis	<	fMaxDis){
 					fMaxDis		=	fDis;
 					retColor=uiChild;

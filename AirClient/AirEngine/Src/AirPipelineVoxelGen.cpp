@@ -7,7 +7,13 @@
 
 #define GPU_DEBUG
 
+
+
 namespace	Air{
+	const static U32	VOXEL_DEPTH				=	7;
+	const static float	VOXEL_BOUND_SIZE		=	powf(2.0f,VOXEL_DEPTH);
+	const static float	VOXEL_HALF_BOUND_SIZE	=	powf(2.0f,VOXEL_DEPTH-1);
+
 	namespace	Engine{
 		struct Voxel{
 			Voxel(){
@@ -83,7 +89,7 @@ namespace	Air{
 		Air::U1 VoxelGenerator::Initialize( Render::Window* pMainWindow )
 		{
 			RenderTarget::Info rtinfo;
-			rtinfo.SetSingleTarget(128,128,enTFMT_R8G8B8A8_UNORM);
+			rtinfo.SetSingleTarget(VOXEL_BOUND_SIZE,VOXEL_BOUND_SIZE,enTFMT_R8G8B8A8_UNORM);
 
 			m_pRT		=	RenderSystem::GetSingleton()->CreateProduct<Render::Target>("SVO_Test",&rtinfo);
 
@@ -106,6 +112,8 @@ namespace	Air{
 			//m_pDebugSVO->UpdateData(data.buff);
 
 			m_pCamera	=	EngineSystem::GetSingleton()->CreateProduct<Camera>("SVO_Camera");
+			m_pCamera->SetNear(1);
+			m_pCamera->SetFar(129);
 			m_pCamera->SetDir(0,0,1);
 			m_pCamera->SetWidth(128);
 			m_pCamera->SetHeight(128);
@@ -168,9 +176,10 @@ namespace	Air{
 			static bool bVoxel	=	false;
 			if(!bVoxel){
 				bVoxel=true;
-			
+
+
 				
-				Float3 vCameraPos[3]={Float3(0,0,-64),Float3(0,-64,0),Float3(-64,0,0)};
+				Float3 vCameraPos[3]={Float3(0,0,-VOXEL_HALF_BOUND_SIZE-1),Float3(0,-VOXEL_HALF_BOUND_SIZE-1,0),Float3(-VOXEL_HALF_BOUND_SIZE-1,0,0)};
 				Float3 vCameraDir[3]={Float3(0,0,1),Float3(0,1,0),Float3(1,0,0)};
 				Float3 vCameraUp[3]	={Float3(0,1,0),Float3(1,0,0),Float3(0,1,0)};
 
@@ -183,12 +192,13 @@ namespace	Air{
 						U32	clearValue[4]={0};
 						pDevice->ClearUAV(pUAV[1],clearValue);
 						pDevice->SetRTV_DSV_UAV(1,pRTV,pDSV,1,2,pUAV,0);					
-						
+						m_pCamera->SetFar(VOXEL_BOUND_SIZE+1);
 						for(U32 i=0;i<3;i++){
 						m_pCamera->SetPosition(vCameraPos[i]);
 						m_pCamera->SetDir(vCameraDir[i]);
 						m_pCamera->SetUpDir(vCameraUp[i]);
-						m_pCamera->Render2D(128,128);
+						m_pCamera->SetWidth(VOXEL_BOUND_SIZE);
+						m_pCamera->Render2D(VOXEL_BOUND_SIZE,VOXEL_BOUND_SIZE);
 
 
 

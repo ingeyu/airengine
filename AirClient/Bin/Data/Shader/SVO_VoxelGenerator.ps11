@@ -9,6 +9,7 @@ Texture2D		DiffuseTex		:	register(t0);
 SamplerState	SS_WrapLine2	:	register(s0);
 
 #define	MAX_DEPTH	7
+#define VOXEL_BOUND_SIZE	pow(2,MAX_DEPTH-1)
 
 struct VS_OUTPUT
 {
@@ -35,7 +36,7 @@ PS_OUTPUT main( VS_OUTPUT input )
 	uint4 ucolor = saturate( color ) * 255;
 	uint uiColor	=	(ucolor.b) | (ucolor.g << 8) | (ucolor.r << 16) | (ucolor.a << 24);
 	
-    uint3 VoxelIndex = input.WPos.xyz-float3(-64,-64,-64);
+    uint3 VoxelIndex = (input.WPos.xyz+VOXEL_BOUND_SIZE);//-float3(-64,-64,-64);
 	//uint mask	=	0x80;
 	int	offset	=	0;
 	[loop]
