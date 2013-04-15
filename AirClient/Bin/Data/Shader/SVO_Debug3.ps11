@@ -1,0 +1,212 @@
+//#include "Common.h"
+ByteAddressBuffer	voxeloctree		:	register(t0);
+cbuffer cbPerCamera : register( b1 )
+{
+    matrix  ViewProjection;
+	float4	vCameraDir;
+	float4	vCameraPosition;
+	float4	vCameraUp;
+	float4	vVP_NearFar;
+   
+}
+cbuffer cbPerMaterial	:	register(b3)
+{
+	matrix	matViewProjInv;
+	uint	uiOrder;
+;
+}
+
+#define RAYCAST_OPTIMIZE
+
+
+
+uint	DistanceToChildIndex(float fDis,float3 vStart,float3 vDir){
+	return	dot((fDis*vDir-vStart)>0,uint3(4,2,1));
+};
+uint2 RayCast( float3 vStart,float3 vDir,float3 vMin,float3 vMax,float fMaxDistance)
+{
+	uint2	ret;
+	ret.x	=	0;
+	ret.y	=	0;
+      float3   subMin   =   vMin   -   vStart;
+      float3   subMax   =   vMax   -   vStart;
+
+      float3   invMin   =   subMin/vDir;
+      float3   invMax   =   subMax/vDir;
+      
+      float3   fNear     =   min(invMin,invMax);
+      float3   fFar     =   max(invMin,invMax);
+      
+      float   maxNear      =   max(max(fNear.x,fNear.y),fNear.z);
+      float   minFar      =   min(min(fFar.x,fFar.y),fFar.z);
+      
+      if(maxNear > minFar	||	maxNear	>	fMaxDistance || minFar	<	0.0f){
+         return ret;
+      };
+ 
+      float3   BoxCenter =((vMin+vMax)*0.5-vStart);
+      float3   vCenter   =   BoxCenter/vDir;
+      
+      float3 vNegetive   =  (vCenter>maxNear)*(vCenter<minFar);
+
+      
+      ret.x   = dot(vNegetive,1);
+const static uint	uiMask[4]={
+	0xffffff00,
+	0xffff0000,
+	0xff000000,
+	0x00000000
+};
+
+	  ret.y	=	DistanceToChildIndex(maxNear,BoxCenter,vDir)	|	uiMask[ret.x];
+	  uint idx	=	8;
+
+	  if(ret.x	==	3){
+	        float3 vDis = float3(dot(vCenter.xy,0.5),dot(vCenter.yz,0.5),dot(vCenter.xz,0.5));
+			float2 xy   =   float2(min(min(vDis.x,vDis.y),vDis.z),max(max(vDis.x,vDis.y),vDis.z));
+			ret.y	|=	DistanceToChildIndex(xy.x,BoxCenter,vDir)<<idx;
+			idx+=8;
+			ret.y	|=	DistanceToChildIndex(xy.y,BoxCenter,vDir)<<idx;
+			idx+=8;
+	  }else if(ret.x	==	2){
+			ret.y	|=	DistanceToChildIndex(dot(vNegetive*vCenter,0.5),BoxCenter,vDir)<<idx;
+			idx+=8;
+	  }
+	  
+      if(ret.x	>	0){
+			ret.y	|=	DistanceToChildIndex(minFar,BoxCenter,vDir)<<idx;
+			idx+=8;
+	  }
+      return ret;
+}
+
+
+struct VS_OUTPUT
+{
+    float4 Position     : SV_POSITION; // vertex position
+	float2 UV			: TEXCOORD0;
+};
+
+struct	PS_OUTPUT{
+	float4	Diff			:	SV_Target0;
+};
+
+float4	U32_F32(uint uiColor){
+	return	float4(
+					((uiColor&0x00ff0000)>>16)/255.0f,
+					((uiColor&0x0000ff00)>>8)/255.0f,
+					((uiColor&0x000000ff))/255.0f,
+					((uiColor&0xff000000)>>24)/255.0f
+			);
+}
+#define	MAX_DEPTH	7
+#define VOXEL_BOUND_SIZE	pow(2,MAX_DEPTH-1);
+
+float4 main( VS_OUTPUT Input ):SV_Target0{
+	float2 xy	=	Input.UV*float2(2,-2)+float2(-1,1);
+	float4	wpos	=	mul(matViewProjInv,float4(xy,1,1));
+	wpos/=wpos.w;
+	float3 vStart	=	vCameraPosition.xyz;
+	float3 vDir	=	normalize(wpos.xyz	-	vStart	);
+
+
+
+	//x Stack Child Start Index
+	//y child visiable mask
+	//z Node Offset
+	uint4 Stack[]={
+		uint4(0,0xffffffff,0,0),
+		uint4(0,0xffffffff,0,0),
+		uint4(0,0xffffffff,0,0),
+		uint4(0,0xffffffff,0,0),
+		uint4(0,0xffffffff,0,0),
+		uint4(0,0xffffffff,0,0),
+		uint4(0,0xffffffff,0,0),
+		uint4(0,0xffffffff,0,0),
+		uint4(0,0xffffffff,0,0),
+		uint4(0,0xffffffff,0,0)
+	};
+
+	const static float3 vOffset[8]={
+		float3(0,0,0),
+		float3(0,0,1),
+		float3(0,1,0),
+		float3(0,1,1),
+
+		float3(1,0,0),
+		float3(1,0,1),
+		float3(1,1,0),
+		float3(1,1,1)
+	};
+	uint	uiDepth	=	0;
+	float3	vHalfSize	=	VOXEL_BOUND_SIZE;
+	float3  vMin		=	-vHalfSize;
+	float	fMaxDis		=	10000;
+	uint	retColor	=	0;
+//	[loop]
+	while(true){
+		//First Time Enter This Node,Need Ray_AABB Intersect
+		if(Stack[uiDepth].y	==	0xffffffff){
+
+			float3	vMax	=	vMin+vHalfSize*2;
+			uint2 ret	=	RayCast(vStart,vDir,vMin,vMax,fMaxDis);
+			//Intersect Failed! Return To Parent
+			if(ret.x==0){
+				Stack[uiDepth].x	=	4;
+			}else{
+				Stack[uiDepth].y	=	ret.y;
+			}
+		}
+		
+		//Return To Parent
+		if(Stack[uiDepth].x	>=4	){
+			//Not Found Any Leaf
+			if(uiDepth==0){
+				retColor=0;
+				break;
+			}
+			uiDepth--;
+			vHalfSize*=2.0f;
+			uint childidx	=	(Stack[uiDepth].y>>((Stack[uiDepth].x-1)*8))&0x7;
+			vMin	-=	vOffset[childidx]*vHalfSize;
+			continue;
+		}
+		
+		uint iChildIndex	=	 (Stack[uiDepth].y>>(Stack[uiDepth].x*8))&0x7;
+		
+		//No Child	Return To Parent
+		if(iChildIndex==0xff){
+			Stack[uiDepth].x	=	4;
+			continue;
+		}
+
+		uint addr			=	(Stack[uiDepth].z+iChildIndex)*4;
+		uint uiChildOffset	=	voxeloctree.Load(addr);
+
+		//Child Empty
+		if(uiChildOffset==0){
+			Stack[uiDepth].x++;
+			continue;
+		}
+
+		//It is Leaf
+		if(uiDepth	==	MAX_DEPTH-1){
+			retColor=uiChildOffset;
+			//return U32_F32(retColor);
+			break;
+		}else{
+			Stack[uiDepth].x++;
+			uiDepth++;
+			Stack[uiDepth]	=	uint4(0,0xffffffff,uiChildOffset,0);
+			vHalfSize	/=	2.0f;
+			vMin		+=	vOffset[iChildIndex]*vHalfSize;	
+		
+		}
+
+		
+	}
+	//discard;
+	//return retColor;
+	return U32_F32(retColor);
+//	return float4(1,0,0,0);
+};
