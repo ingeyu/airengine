@@ -894,7 +894,7 @@ void CMainFrame::OnButtonCreate_Object(){
 };		
 void CMainFrame::OnButtonCreate_Actor(){
 	Air::Engine::RenderSystem* pSys = Air::Engine::RenderSystem::GetSingleton();
-	Air::Engine::Shader*	pShader = (Air::Engine::Shader*)pSys->GetProduct("Shader/ShadowMaskAO.ps","Shader");
+	Air::Engine::Shader*	pShader = pSys->GetProduct<Air::Engine::Shader>("Shader/SVO_Debug.ps");
 	if(pShader){
 		pShader->Reload();
 		pShader->ReleaseRef();

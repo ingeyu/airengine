@@ -87,7 +87,7 @@ CRibbonControlsApp theApp;
 // CRibbonControlsApp initialization
 void __stdcall TimerCallback(HWND hWindow,UINT,UINT_PTR,DWORD){
 	Air::GetTimer().AddFrame();
-	Air::Engine::EngineSystem::GetSingleton()->ExecuteOneFrame(Air::GetTimer().m_FrameTime);
+	Air::EngineSystem::GetSingleton()->ExecuteOneFrame(Air::GetTimer().m_FrameTime);
 }
 BOOL CRibbonControlsApp::InitInstance()
 {
@@ -155,7 +155,7 @@ BOOL CRibbonControlsApp::InitInstance()
 	CView* pView = (CView*)pMainFrame->GetActiveView();
 	Air::Engine::GetGlobalSetting().m_EngineParam.hWnd	=	pView->GetSafeHwnd();
 	Air::Engine::GetGlobalSetting().m_EngineParam.InputWnd	=	m_pMainWnd->GetSafeHwnd();
-	Air::Engine::EngineSystem::GetSingleton()->Initialization();
+	Air::EngineSystem::GetSingleton()->Initialization();
 
 	SetTimer(pView->GetSafeHwnd(),100,16,TimerCallback);
 	return TRUE;
@@ -176,8 +176,8 @@ BOOL CRibbonControlsApp::OnIdle( LONG lCount )
 
 int CRibbonControlsApp::ExitInstance()
 {
-	Air::Engine::EngineSystem::GetSingleton()->Release();
-	Air::Engine::EngineSystem::ReleaseSingleton();
+	Air::EngineSystem::GetSingleton()->Release();
+	Air::EngineSystem::ReleaseSingleton();
 	return __super::ExitInstance();
 }
 
