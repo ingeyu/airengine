@@ -29,7 +29,7 @@ namespace Air{
 	
 	
 	namespace Engine{
-		class Screen;
+		
 	
 		class ENGINE_EXPORT	System	
 			:	public	IFactoryManager,

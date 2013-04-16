@@ -1,6 +1,6 @@
 #include "AirGameSection.h"
 #include "AirEngineSystem.h"
-#include "AirEngineScreen.h"
+#include "AirEnginePipeline.h"
 
 namespace	Air{
 	namespace	Game{
@@ -9,34 +9,33 @@ namespace	Air{
 		AString	Section::ProductTypeName	=	"Section";
 		Section::Section( CAString& strName ):Common::IProduct(strName)
 		{
-			m_pScreen	=	NULL;
+			m_pPipeline	=	NULL;
 			m_pScene	=	NULL;
 		}
 
 		Air::U1 Section::Create()
 		{
-			Engine::Screen::Info info;
-			info.strPipelineName	=	"DefaultPipeline";
-			m_pScreen	=	EngineSystem::GetSingleton()->CreateProduct<Engine::Screen>(m_strProductName+"_Screen",&info);
-			if(m_pScreen==NULL)
+
+			m_pPipeline	=	EngineSystem::GetSingleton()->CreateProduct<Engine::DefaultPipeline>(m_strProductName+"_Pipeline");
+			if(m_pPipeline==NULL)
 				return false;
 			m_pScene	=	EngineSystem::GetSingleton()->CreateProduct<Engine::Scene>(m_strProductName+"_Scene");
 			if(m_pScene==NULL)
 				return false;
-			m_pScreen->SetCurrentScene(m_pScene);
+			m_pPipeline->SetCurrentScene(m_pScene);
 			return true;
 		}
 
 		Air::U1 Section::Destroy()
 		{
-			SAFE_RELEASE_REF(m_pScreen);
+			SAFE_RELEASE_REF(m_pPipeline);
 			SAFE_RELEASE_REF(m_pScene);
 			return true;
 		}
 
-		Engine::Screen* Section::GetScreen()
+		Engine::Pipeline* Section::GetPipeline()
 		{
-			return m_pScreen;
+			return m_pPipeline;
 		}
 
 		void Section::Update( const FrameTime& fFrameTime )
@@ -47,6 +46,15 @@ namespace	Air{
 		Engine::Scene* Section::GetScene()
 		{
 			return m_pScene;
+		}
+
+		void Section::RenderOneFrame( const FrameTime& fFrameTime )
+		{
+			if(m_pPipeline!=NULL){
+				m_pPipeline->Update(fFrameTime);
+
+				m_pPipeline->RenderOneFrame(fFrameTime);
+			}
 		}
 
 	}

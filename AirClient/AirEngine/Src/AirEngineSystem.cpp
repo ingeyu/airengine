@@ -33,7 +33,7 @@
 #include "AirInterfaceInputSystem.h"
 
 #include "AirEnginePipeline.h"
-#include "AirEngineScreen.h"
+
 #define USE_PROFILE
 #include "AirCommonProfile.h"
 #include "AirCommonWindow.h"
@@ -163,7 +163,6 @@ namespace Air{
 
 			AddFactory(new NoParamFactory<DefaultPipeline>());
 
-			AddFactory(new ParamFactory<Screen>());
 			AddFactory(new NoParamFactory<Scene>());
 			
 			AddFactory(new ExtraOptionParamFactory<Plugin,void>());

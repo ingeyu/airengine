@@ -114,7 +114,7 @@ namespace	Air{
 			Float3 vCamPos	=	m_pMainCamera->GetPosition();
 			Float3 vCamDir	=	m_pMainCamera->GetDir();
 
-			for(int i=0;i<m_vecCSMCamera.size();i++){
+			for(U32 i=0;i<m_vecCSMCamera.size();i++){
 				Light*	pLight	=	m_vecCSMCamera[i];
 
 				float fScale	=	pow(4.0f,(float)(i+1))*2.0f;

@@ -2,7 +2,7 @@
 #include "AirGameSection.h"
 #include "AirEngineMaterial.h"
 #include "AirEngineSystem.h"
-#include "AirEngineScreen.h"
+
 namespace	Air{
 	namespace	Game{
 
@@ -44,8 +44,7 @@ namespace	Air{
 		{
 			if(m_pSection!=NULL)
 			{
-				if(m_pSection->GetScreen())
-					m_pSection->GetScreen()->RenderOneFrame(fFrameTime);
+				m_pSection->RenderOneFrame(fFrameTime);
 			}
 		}
 

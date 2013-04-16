@@ -19,12 +19,13 @@ namespace	Air{
 			virtual	U1			Create();
 			virtual	U1			Destroy();
 			virtual	void		Update(const FrameTime& fFrameTime);
+			virtual	void		RenderOneFrame(const FrameTime& fFrameTime);
 
-			Engine::Screen*		GetScreen();
+			Engine::Pipeline*	GetPipeline();
 			Engine::Scene*		GetScene();
 		protected:
 
-			Engine::Screen*		m_pScreen;
+			Engine::Pipeline*	m_pPipeline;
 			Engine::Scene*		m_pScene;
 		};
 	}
