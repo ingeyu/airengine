@@ -182,7 +182,7 @@ namespace Air{
 				if(pWindow==NULL)
 					return;
 				if(m_pMainWindow==pWindow){
-					IFactory*	pFactory	=	GetFactory("Target");
+					IFactory*	pFactory	=	GetFactory(Target::ProductTypeName);
 					const IFactory::ProductMap& mapProduct	=	pFactory->GetProductList();
 					IFactory::ProductMap::const_iterator	i	=	mapProduct.begin();
 					for(;i!=mapProduct.end();i++){
