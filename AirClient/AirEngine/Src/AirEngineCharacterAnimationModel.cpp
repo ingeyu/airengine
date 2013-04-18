@@ -753,7 +753,7 @@ namespace Air{
 						const CalQuaternion&	q	=	lstBone[uiIdx]->getRotationAbsolute();
 						const CalVector&		v	=	lstBone[uiIdx]->getTranslationAbsolute();
 						i->second->SetPosition(Float3(v.x,v.z,v.y));
-						i->second->SetQuat(Float4(q.w,q.x,q.z,q.y));
+						i->second->SetQuat(q);
 	
 	// 					const	CalVector&		v	=	pBone->getTranslationAbsolute();
 	// 					*pPos	=	Float3(v.x,v.z,v.y);

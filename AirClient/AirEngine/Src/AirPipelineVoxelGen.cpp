@@ -226,7 +226,7 @@ namespace	Air{
 #endif
 
 #ifdef GPU_DEBUG
-			pDevice->SetVP(0,0,800,600);
+			RenderSystem::GetSingleton()->GetMainWindow()->SetClearFlag(false,false,false);
 			RenderSystem::GetSingleton()->GetMainWindow()->BeforeUpdate();
 			pMainCamera->Render2D();
 

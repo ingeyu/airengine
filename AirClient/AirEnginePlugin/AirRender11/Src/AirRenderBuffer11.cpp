@@ -175,7 +175,10 @@ namespace Air{
 							uavDesc.Buffer.Flags		=	D3D11_BUFFER_UAV_FLAG_COUNTER;
 						}
 
-						pDxDevice->CreateUnorderedAccessView( m_pBuffer, &uavDesc, &m_pBufferUAV );
+						HRESULT	hr	=	pDxDevice->CreateUnorderedAccessView( m_pBuffer, &uavDesc, &m_pBufferUAV );
+						if(hr!=S_OK){
+							return false;
+						}
 					}
 				}
 				return	true;

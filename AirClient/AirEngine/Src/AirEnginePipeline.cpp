@@ -405,7 +405,7 @@ namespace	Air{
 				
 				m_pMainWindow->AfterUpdate(false);
 			}
-			//if(RenderSystem::GetSingleton()->GetDevice()->GetHWVersion() == enRSV_11)
+			if(RenderSystem::GetSingleton()->GetDevice()->GetHWVersion() == enRSV_11)
 				m_VoxelGen.Update(m_pQuad,m_pMainCamera);
 
 			m_pMainWindow->ClearPhaseFlag();
