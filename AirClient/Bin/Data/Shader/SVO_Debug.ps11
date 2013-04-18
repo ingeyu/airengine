@@ -190,7 +190,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 			vMin	-=	vOffset[childidx]*vHalfSize;
 		}
 	}
-	if(retColor<=1){
+	if(retColor==0){
 		discard;
 	}
 	return U32_F32(retColor);
