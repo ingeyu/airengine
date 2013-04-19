@@ -80,8 +80,8 @@ namespace	Air{
 						mdepthinfo.strTemplate		=	"MT_Object_ShadowDepth";
 					}
 					minfo.vecTextureName[0]		=	strPath+pInfo->mapTexture[enMSPT_TexDiffuse];
-					if(minfo.vecTextureName[0].empty()){
-						minfo.vecTextureName[0]	=	"Texture/1x1white.png";
+					if(pInfo->mapTexture[enMSPT_TexDiffuse].empty()){
+						minfo.vecTextureName[0]	=	"../Data/Texture/1x1white.png";
 					}
 
 					Material*	p	=	EngineSystem::GetSingleton()->CreateProduct<Material>(strMSName+"MRT",&minfo);
