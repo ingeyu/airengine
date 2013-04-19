@@ -1,0 +1,272 @@
+[_conferencemesh0_SG]
+diffuse=0.640000 0.600000 0.610000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh1_SG]
+diffuse=0.640000 0.400000 0.130000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh2_SG]
+diffuse=0.740000 0.400000 0.160000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh4_SG]
+diffuse=0.180000 0.060000 0.060000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh5_SG]
+diffuse=0.900000 0.900000 0.900000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh6_SG]
+diffuse=0.070000 0.070000 0.070000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh7_SG]
+diffuse=0.700000 0.700000 0.700000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh8_SG]
+diffuse=0.690000 0.430000 0.170000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh9_SG]
+diffuse=0.710000 0.710000 0.710000
+ambient=0.000000 0.000000 0.000000
+specular=0.710000 0.710000 0.710000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh10_SG]
+diffuse=0.600000 0.600000 0.600000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh11_SG]
+diffuse=0.120000 0.260000 0.150000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh12_SG]
+diffuse=0.430000 0.430000 0.430000
+ambient=0.000000 0.000000 0.000000
+specular=0.430000 0.430000 0.430000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh13_SG]
+diffuse=0.520000 0.450000 0.340000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh15_SG]
+diffuse=0.450000 0.450000 0.450000
+ambient=0.000000 0.000000 0.000000
+specular=0.450000 0.450000 0.450000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh16_SG]
+diffuse=1.000000 1.000000 1.000000
+ambient=0.000000 0.000000 0.000000
+specular=0.500000 0.500000 0.500000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh17_SG]
+diffuse=0.500000 0.500000 0.500000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh18_SG]
+diffuse=0.400000 0.400000 0.400000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh19_SG]
+diffuse=0.880000 0.720000 0.580000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh20_SG]
+diffuse=0.830000 0.700000 0.430000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh21_SG]
+diffuse=0.290000 0.150000 0.130000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh22_SG]
+diffuse=0.080000 0.080000 0.080000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh23_SG]
+diffuse=0.820000 0.090000 0.070000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh24_SG]
+diffuse=0.700000 0.700000 0.700000
+ambient=0.000000 0.000000 0.000000
+specular=0.700000 0.700000 0.700000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh25_SG]
+diffuse=0.600000 0.600000 0.600000
+ambient=0.000000 0.000000 0.000000
+specular=0.600000 0.600000 0.600000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh26_SG]
+diffuse=0.100000 0.100000 0.100000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh27_SG]
+diffuse=0.470000 0.450000 0.430000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh28_SG]
+diffuse=0.640000 0.440000 0.320000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh29_SG]
+diffuse=0.290000 0.150000 0.130000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh30_SG]
+diffuse=0.060000 0.060000 0.060000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh31_SG]
+diffuse=0.980000 0.180000 0.170000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh32_SG]
+diffuse=0.600000 0.600000 0.600000
+ambient=0.000000 0.000000 0.000000
+specular=0.600000 0.600000 0.600000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh33_SG]
+diffuse=0.480000 0.240000 0.120000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh34_SG]
+diffuse=0.050000 0.050000 0.050000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000
+[_conferencemesh35_SG]
+diffuse=0.600000 0.600000 0.600000
+ambient=0.000000 0.000000 0.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.320000
+opacity=1.000000
+specularLevel=1.000000
+selfIllumColor=0.000000 0.000000 0.000000

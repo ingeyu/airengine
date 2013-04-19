@@ -1,0 +1,3330 @@
+[_sponzaleaf]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_thorn.dds
+[_sponzaMaterial__298]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=background.dds
+[_sponza16___Default]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_fabric.dds
+[_sponzabricks]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=spnza_bricks_a.dds
+[_sponzabricks]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=spnza_bricks_a.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzaceiling]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_ceiling_a.dds
+[_sponzacolumn_a]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_a.dds
+[_sponzacolumn_a]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_a.dds
+[_sponzacolumn_a]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_a.dds
+[_sponzacolumn_a]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_a.dds
+[_sponzacolumn_a]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_a.dds
+[_sponzacolumn_a]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_a.dds
+[_sponzacolumn_a]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_a.dds
+[_sponzacolumn_a]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_a.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzafloor]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_floor_a.dds
+[_sponzaceiling]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_ceiling_a.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzabricks]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=spnza_bricks_a.dds
+[_sponzaceiling]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_ceiling_a.dds
+[_sponzabricks]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=spnza_bricks_a.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzaceiling]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_ceiling_a.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzaceiling]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_ceiling_a.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzaceiling]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_ceiling_a.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzaceiling]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_ceiling_a.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzaceiling]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_ceiling_a.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzaceiling]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_ceiling_a.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzaceiling]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_ceiling_a.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzaceiling]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_ceiling_a.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzaceiling]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_ceiling_a.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzabricks]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=spnza_bricks_a.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzabricks]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=spnza_bricks_a.dds
+[_sponzabricks]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=spnza_bricks_a.dds
+[_sponzadetails]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_details.dds
+[_sponzadetails]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_details.dds
+[_sponzadetails]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_details.dds
+[_sponzabricks]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=spnza_bricks_a.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzacolumn_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_c.dds
+[_sponzabricks]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=spnza_bricks_a.dds
+[_sponzafloor]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_floor_a.dds
+[_sponzacolumn_a]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_a.dds
+[_sponzacolumn_a]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_a.dds
+[_sponzacolumn_a]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_a.dds
+[_sponzacolumn_a]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_a.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzaarch]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_arch.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzacolumn_b]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_column_b.dds
+[_sponzaMaterial__47]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=white.dds
+[_sponzabricks]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=spnza_bricks_a.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaleaf]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_thorn.dds
+[_sponzaleaf]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_thorn.dds
+[_sponzaleaf]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_thorn.dds
+[_sponzaleaf]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_thorn.dds
+[_sponzaleaf]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_thorn.dds
+[_sponzaleaf]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_thorn.dds
+[_sponzaleaf]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_thorn.dds
+[_sponzafabric_e]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_fabric_green.dds
+[_sponzafabric_d]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_fabric_blue.dds
+[_sponzafabric_a]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_fabric.dds
+[_sponzafabric_e]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_fabric_green.dds
+[_sponzafabric_d]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_fabric_blue.dds
+[_sponzafabric_e]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_fabric_green.dds
+[_sponzafabric_a]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_fabric.dds
+[_sponzafabric_d]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_fabric_blue.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzaflagpole]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_flagpole.dds
+[_sponzafabric_g]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_curtain_blue.dds
+[_sponzafabric_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_curtain.dds
+[_sponzafabric_f]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_curtain_green.dds
+[_sponzafabric_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_curtain.dds
+[_sponzafabric_f]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_curtain_green.dds
+[_sponzafabric_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_curtain.dds
+[_sponzafabric_g]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_curtain_blue.dds
+[_sponzafabric_f]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_curtain_green.dds
+[_sponzafabric_c]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_curtain.dds
+[_sponzafabric_g]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_curtain_blue.dds
+[_sponzachain]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=chain_texture.dds
+[_sponzachain]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=chain_texture.dds
+[_sponzachain]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=chain_texture.dds
+[_sponzachain]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=chain_texture.dds
+[_sponzavase_hanging]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=vase_hanging.dds
+[_sponzavase_hanging]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=vase_hanging.dds
+[_sponzavase_hanging]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=vase_hanging.dds
+[_sponzavase_hanging]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=vase_hanging.dds
+[_sponzavase_hanging]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=vase_hanging.dds
+[_sponzachain]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=chain_texture.dds
+[_sponzachain]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=chain_texture.dds
+[_sponzachain]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=chain_texture.dds
+[_sponzachain]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=chain_texture.dds
+[_sponzavase_hanging]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=vase_hanging.dds
+[_sponzavase_hanging]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=vase_hanging.dds
+[_sponzavase_hanging]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=vase_hanging.dds
+[_sponzavase_hanging]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=vase_hanging.dds
+[_sponzavase_hanging]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=vase_hanging.dds
+[_sponzachain]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=chain_texture.dds
+[_sponzachain]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=chain_texture.dds
+[_sponzachain]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=chain_texture.dds
+[_sponzachain]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=chain_texture.dds
+[_sponzavase_hanging]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=vase_hanging.dds
+[_sponzavase_hanging]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=vase_hanging.dds
+[_sponzavase_hanging]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=vase_hanging.dds
+[_sponzavase_hanging]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=vase_hanging.dds
+[_sponzavase_hanging]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=vase_hanging.dds
+[_sponzachain]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=chain_texture.dds
+[_sponzachain]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=chain_texture.dds
+[_sponzachain]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=chain_texture.dds
+[_sponzachain]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=chain_texture.dds
+[_sponzavase_hanging]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=vase_hanging.dds
+[_sponzavase_hanging]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=vase_hanging.dds
+[_sponzavase_hanging]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=vase_hanging.dds
+[_sponzavase_hanging]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=vase_hanging.dds
+[_sponzavase_hanging]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=vase_hanging.dds
+[_sponzavase]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=vase.dds
+[_sponzavase]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=vase.dds
+[_sponzavase]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=vase.dds
+[_sponzavase]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=vase.dds
+[_sponzabricks]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=spnza_bricks_a.dds
+[_sponzaroof]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_roof.dds
+[_sponzaroof]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=sponza_roof.dds
+[_sponzabricks]
+diffuse=0.588000 0.588000 0.588000
+ambient=0.588000 0.588000 0.588000
+specular=0.900000 0.900000 0.900000
+glossiness=0.100000
+opacity=1.000000
+specularLevel=0.000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=spnza_bricks_a.dds
