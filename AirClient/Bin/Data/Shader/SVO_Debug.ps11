@@ -81,7 +81,7 @@ float4	U32_F32(uint uiColor){
 					((uiColor&0xff000000)>>24)/255.0f
 			);
 }
-#define	MAX_DEPTH	7
+#define	MAX_DEPTH	9
 #define VOXEL_BOUND_SIZE	pow(2,MAX_DEPTH-1);
 
 float4 main( VS_OUTPUT Input ):SV_Target0{
@@ -124,15 +124,50 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 		discard;
 		return 0;
 	}
+	float aData[8];
+	uint  anIndex[8]={0,1,2,3,4,5,6,7};
+	for(uint i=0;i<8;i++){
+		aData[i]=dot(vOffset[i],dir);	
+	}
+	uint N2=8;
+	    // Bitonic sort
+    for( uint k = 2; k <= N2; k = 2*k )
+    {
+        for( uint j = k>>1; j > 0 ; j = j>>1 ) 
+        {
+            for( uint i = 0; i < N2; i++ ) 
+            {
+                float di = aData[ anIndex[ i ] ];
+                uint ixj = i^j;
+                if ( ( ixj ) > i )
+                {
+                    float dixj = aData[ anIndex[ ixj ] ];
+                    if ( ( i&k ) == 0 && di > dixj )
+                    { 
+                        int temp = anIndex[ i ];
+                        anIndex[ i ] = anIndex[ ixj ];
+                        anIndex[ ixj ] = temp;
+                    }
+                    if ( ( i&k ) != 0 && di < dixj )
+                    {
+                        int temp = anIndex[ i ];
+                        anIndex[ i ] = anIndex[ ixj ];
+                        anIndex[ ixj ] = temp;
+                    }
+                }
+            }
+        }
+    }
+
 	uint	retColor	=	0;
-	uint	uiChildOrder	=	uiOrder;
+	//uint	uiChildOrder	=	uiOrder;
 	[loop]
 	while(true){
 		
 		[loop]
 		for(int i=uiStack[uiDepth];i<8;){
 			
-			uint childidx	=	(uiChildOrder>>(i*3))&0x7;
+			uint childidx	=	anIndex[i];//(uiChildOrder>>(i*3))&0x7;
 
 
 
@@ -159,12 +194,13 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 	
 
 			if(uiDepth	==	MAX_DEPTH-1){
-				if(fDis	<	fMaxDis){
-					fMaxDis		=	fDis;
+				//if(fDis	<	fMaxDis){
+				//	fMaxDis		=	fDis;
 					retColor=uiChild;
-				}
+				//}
 
-				i++;
+				i=8;
+				uiDepth=0;
 				continue;			
 			}else{
 				uiStack[uiDepth]	=	i+1;
@@ -186,7 +222,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 			uiDepth--;
 			vHalfSize*=2.0f;
 			int iIDX	=	(uiStack[uiDepth]-1);
-			uint childidx	=	(uiChildOrder>>(iIDX*3))&0x7;
+			uint childidx	=	anIndex[iIDX];//(uiChildOrder>>(iIDX*3))&0x7;
 			vMin	-=	vOffset[childidx]*vHalfSize;
 		}
 	}

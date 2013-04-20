@@ -8,7 +8,7 @@ Texture2D		DiffuseTex		:	register(t0);
 
 SamplerState	SS_WrapLine2	:	register(s0);
 
-#define	MAX_DEPTH	7
+#define	MAX_DEPTH	9
 #define VOXEL_BOUND_SIZE	pow(2,MAX_DEPTH-1)
 
 struct VS_OUTPUT
