@@ -10,7 +10,7 @@
 
 
 namespace	Air{
-	const static U32	VOXEL_DEPTH				=	7;
+	const static U32	VOXEL_DEPTH				=	9;
 	const static float	VOXEL_BOUND_SIZE		=	powf(2.0f,VOXEL_DEPTH);
 	const static float	VOXEL_HALF_BOUND_SIZE	=	powf(2.0f,VOXEL_DEPTH-1);
 
@@ -162,10 +162,10 @@ namespace	Air{
 				info.strMeshName	=	"AirMesh/Strom/Wolf.AME";
 				pEnt	=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity>(info.strMeshName,&info);;
 				;
-				pEnt->GetWorldMatrix()->SetPosition(-pEnt->GetOrginBoundingBox().GetCenter()*10);
-				pEnt->GetWorldMatrix()->m00	=	10;
-				pEnt->GetWorldMatrix()->m11	=	10;;
-				pEnt->GetWorldMatrix()->m22	=	10;;
+				pEnt->GetWorldMatrix()->SetPosition(-pEnt->GetOrginBoundingBox().GetCenter()*40);
+				pEnt->GetWorldMatrix()->m00	=	40;
+				pEnt->GetWorldMatrix()->m11	=	40;;
+				pEnt->GetWorldMatrix()->m22	=	40;;
 
 			}
 
