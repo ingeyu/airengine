@@ -400,13 +400,13 @@ namespace	Air{
 				//m_pQuadCopy->RenderOneObject(m_pQuad);
 				m_pCombine->RenderOneObject(m_pQuad);
 				//m_pMainWindow->AfterUpdate();
-				if(RenderSystem::GetSingleton()->GetDevice()->GetHWVersion() == enRSV_11)
-					m_OIT.Update(m_pQuad);
+			//	if(RenderSystem::GetSingleton()->GetDevice()->GetHWVersion() == enRSV_11)
+			//		m_OIT.Update(m_pQuad);
 				
 				m_pMainWindow->AfterUpdate(false);
 			}
 			if(RenderSystem::GetSingleton()->GetDevice()->GetHWVersion() == enRSV_11)
-				m_VoxelGen.Update(m_pQuad,m_pMainCamera);
+				m_VoxelGen.Update(m_pQuad,this);
 
 			m_pMainWindow->ClearPhaseFlag();
 			m_pMainWindow->AddPhaseFlag(enPI_Helper);

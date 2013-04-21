@@ -154,6 +154,9 @@ namespace Air{
 			SceneNode*			GetStaticSceneNode();
 			SceneNode*			GetParticleSceneNode();
 			SceneNode*			GetTerrainSceneNode();
+			SceneLoader&		GetLoader(){
+				return m_Loader;
+			};
 		protected:
 
 	

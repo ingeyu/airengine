@@ -9,7 +9,7 @@ namespace	Air{
 	namespace	Engine{
 
 		class MeshEntity;
-
+		typedef STD_VECTOR<MeshEntity*>	MeshEntityVector;
 		class	ENGINE_EXPORT	SceneLoader	:	public	MemoryObject{
 		public:
 
@@ -17,13 +17,18 @@ namespace	Air{
 			SceneLoader();
 
 			void		SetNode(SceneNode*	pParent);
-			
+			SceneNode*	GetNode(){
+				return m_pNode;
+			};
 
 			U1	Load(CAString&	strSceneName);
 			U1	Unload();
-			
-			SceneNode*					m_pParentNode;
-			std::vector<MeshEntity*>	m_vecEntity;
+			MeshEntityVector&	GetAllEntity(){
+				return m_vecEntity;
+			}
+		protected:
+			SceneNode*			m_pNode;
+			MeshEntityVector	m_vecEntity;
 		};
 	}
 }

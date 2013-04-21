@@ -69,7 +69,7 @@ PS_OUTPUT main( VS_OUTPUT input )
 							//oldChildOffset	=	BrickBuffer.Load(address);
 							//i=7;
 							uint uiRet=INVALID_OFFSET;
-							BrickBuffer.InterlockedAdd(1048575,1,uiRet);
+							BrickBuffer.InterlockedAdd(16*1048576-1,1,uiRet);
 						}
 					}	
 				}	

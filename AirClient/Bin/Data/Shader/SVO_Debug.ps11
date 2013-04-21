@@ -12,8 +12,6 @@ cbuffer cbPerCamera : register( b1 )
 cbuffer cbPerMaterial	:	register(b3)
 {
 	matrix	matViewProjInv;
-	uint	uiOrder;
-;
 }
 
 //#define USE_SPHERE_CHECK
@@ -86,7 +84,7 @@ float4	U32_F32(uint uiColor){
 
 float4 main( VS_OUTPUT Input ):SV_Target0{
 	float2 xy	=	Input.UV*float2(2,-2)+float2(-1,1);
-	float4	wpos	=	mul(matViewProjInv,float4(xy,1,1));
+	float4	wpos	=	mul(matViewProjInv,float4(xy,0,1));
 	wpos/=wpos.w;
 	float3 vCamPos	=	vCameraPosition.xyz;
 	float3 dir	=	normalize(wpos.xyz	-	vCamPos	);

@@ -4,6 +4,7 @@
 #include "AirEngineMaterial.h"
 #include "AirMeshEntity.h"
 #include "AirBoxRenderable.h"
+#include "AirEnginePipeline.h"
 
 #define GPU_DEBUG
 
@@ -94,11 +95,11 @@ namespace	Air{
 			m_pRT		=	RenderSystem::GetSingleton()->CreateProduct<Render::Target>("SVO_Test",&rtinfo);
 
 			Render::Buffer::Info info;
-			info.SetStructureBuffer(1048576,sizeof(U32));
+			info.SetStructureBuffer(16*1048576,sizeof(U32));
 			info.SetViewFlag(enVF_SRV|enVF_UAV|enVF_Counter);
 			m_pVoxel	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer>("SVO_Counter",&info);
 			
-			info.SetByteAddressBuffer(1048576,sizeof(U32));
+			info.SetByteAddressBuffer(16*1048576,sizeof(U32));
 			info.SetViewFlag(enVF_SRV|enVF_UAV);
 			m_pNodeTree	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer>("SVO_Octree",&info);
 			
@@ -153,7 +154,7 @@ namespace	Air{
 			return p0->x > p1->x;
 		}
 
-		void VoxelGenerator::Update( Renderable* pRenderable ,Camera* pMainCamera)
+		void VoxelGenerator::Update( Renderable* pRenderable ,Pipeline* pPipeline)
 		{
 			static MeshEntity*	pEnt = NULL;
 			if(pEnt==NULL){
@@ -183,7 +184,10 @@ namespace	Air{
 				Float3 vCameraDir[3]={Float3(0,0,1),Float3(0,1,0),Float3(1,0,0)};
 				Float3 vCameraUp[3]	={Float3(0,1,0),Float3(1,0,0),Float3(0,1,0)};
 
-
+				MeshEntityVector& vecEntity = pPipeline->GetCurrentScene()->GetLoader().GetAllEntity();
+				 ///pPipeline->GetCurrentScene()->GetLoader().GetNode()->SetScale(Float3(10,10,10));
+				
+				//m_pCamera->FindMovableObject()
 				m_pRT->SetClearFlag(true,true,true);
 				if(m_pRT->BeforeUpdate()){
 						void* pRTV[1]={m_pRT->GetRTV()};
@@ -202,11 +206,17 @@ namespace	Air{
 
 
 
-						if(m_pGenVoxelTree)
-							m_pGenVoxelTree->RenderOneObject(pEnt);
+						if(m_pGenVoxelTree){
+							for(U32 i=0;i<vecEntity.size();i++){
+								pDevice->SetSRV(enPS,0,vecEntity[i]->GetMaterial(enPI_MRT)->GetTextureArray()[0]->GetSRV());
+								m_pGenVoxelTree->RenderOneObject(vecEntity[i]);
+							}
+							//m_pGenVoxelTree->RenderOneObject(pEnt);
+						}
 					}
 					m_pRT->AfterUpdate();
 				}
+				 ///pPipeline->GetCurrentScene()->GetLoader().GetNode()->SetScale(Float3(1,1,1));
 			}
 
 #else
@@ -226,45 +236,22 @@ namespace	Air{
 #endif
 
 #ifdef GPU_DEBUG
-			RenderSystem::GetSingleton()->GetMainWindow()->SetClearFlag(false,false,false);
-			RenderSystem::GetSingleton()->GetMainWindow()->BeforeUpdate();
-			pMainCamera->Render2D();
+			pPipeline->GetMainWindow()->SetClearFlag(false,false,false);
+			pPipeline->GetMainWindow()->BeforeUpdate();
+			pPipeline->GetMainCamera()->Render2D(pPipeline->GetMainWindow()->GetWidth(),pPipeline->GetMainWindow()->GetHeight());
 
 			pDevice->SetSRV(enPS,0,m_pNodeTree->GetSRV());
-			struct{
-				Matrix matViewProjInv;
-				U32 uiOrder;
-			}CBMaterial;
-			pMainCamera->GetViewProjMatrix(CBMaterial.matViewProjInv);
-			CBMaterial.matViewProjInv.Inverse();
+			
+			Matrix matViewProjInv;
 
-			Float3 vDir	=	pMainCamera->GetRealDirection();
-			vDir.Normalize();
-			Float3 vTest[8]={
-				Float3(0,0,0),
-				Float3(0,0,1),
-				Float3(0,1,0),
-				Float3(0,1,1),
+			pPipeline->GetMainCamera()->GetViewProjMatrix(matViewProjInv);
+			matViewProjInv.Inverse();
 
-				Float3(1,0,0),
-				Float3(1,0,1),
-				Float3(1,1,0),
-				Float3(1,1,1)
-			};
 
-			for(U32 i=0;i<8;i++){
-				vTest[i].x = vTest[i].Dot(vDir);
-				vTest[i].y	=	i;
-			}
-			std::qsort(vTest,8,sizeof(Float3),OrderSortCompare);
-			CBMaterial.uiOrder=0;
-			for(U32 i=0;i<8;i++){
-				CBMaterial.uiOrder	|=	((U32)(vTest[i].y))<<(i*3);
-			}
-			m_pDebugSVOMaterial->GetConstantBuffer()->UpdateData(&CBMaterial);
+			m_pDebugSVOMaterial->GetConstantBuffer()->UpdateData(&matViewProjInv);
 			m_pDebugSVOMaterial->RenderOneObject(pRenderable);
 
-			RenderSystem::GetSingleton()->GetMainWindow()->AfterUpdate(false);
+			pPipeline->GetMainWindow()->AfterUpdate(false);
 #else
 			U32 iLevel	=	GetTimer().m_FrameTime.fTotalTime;
 			iLevel=iLevel>>1;

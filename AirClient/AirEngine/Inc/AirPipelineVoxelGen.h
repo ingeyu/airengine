@@ -5,13 +5,14 @@
 
 namespace	Air{
 	namespace	Engine{
+		class Pipeline;
 		class	VoxelGenerator	:	public	MemoryObject{
 		public:
 			VoxelGenerator();
 
 			U1		Initialize(Render::Window*	pMainWindow);
 			U1		Release();
-			void	Update(Renderable* pRenderable,Camera* pMainCamera);
+			void	Update(Renderable* pRenderable,Pipeline* pPipeline);
 
 			Render::Buffer*	m_pVoxel;
 			Render::Buffer*	m_pNodeTree;

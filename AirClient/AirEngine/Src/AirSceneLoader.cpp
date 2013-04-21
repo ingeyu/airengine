@@ -10,7 +10,7 @@ namespace	Air{
 
 		SceneLoader::SceneLoader()
 		{
-			m_pParentNode	=	NULL;
+			m_pNode	=	NULL;
 		}
 
 		Air::U1 SceneLoader::Load( CAString& strSceneName )
@@ -94,7 +94,7 @@ namespace	Air{
 
 				}
 
-				m_pParentNode->attachObject(pEnt);
+				m_pNode->attachObject(pEnt);
 				
 				m_vecEntity.push_back(pEnt);
 			}
@@ -104,7 +104,7 @@ namespace	Air{
 
 		Air::U1 SceneLoader::Unload()
 		{
-			std::vector<MeshEntity*>::iterator	i	=	m_vecEntity.begin();
+			MeshEntityVector::iterator	i	=	m_vecEntity.begin();
 			for(;i!=m_vecEntity.end();i++){
 				(*i)->ReleaseRef();
 			}
@@ -114,8 +114,8 @@ namespace	Air{
 
 		void SceneLoader::SetNode( SceneNode* pParent )
 		{
-			m_pParentNode	=	pParent->CreateChildSceneNode();
-			//m_pParentNode->SetScale(Float3(0.1,0.1,0.1));
+			m_pNode	=	pParent->CreateChildSceneNode();
+			//m_pNode->SetScale(Float3(10,10,10));
 		}
 
 	}
