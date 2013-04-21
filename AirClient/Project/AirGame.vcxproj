@@ -102,10 +102,13 @@
       <AdditionalIncludeDirectories>..\AirGame\Inc;..\AirEngine\Inc;..\..\AirCommon\Inc;..\..\Dependencies\OIS\includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;GAME_IMPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AirEngine.lib;AirCommon.lib;%(AdditionalDependencies)</AdditionalDependencies>

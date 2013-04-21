@@ -104,10 +104,13 @@
       <AdditionalIncludeDirectories>..\..\AirCommon\Inc;..\AirEngine\Inc;..\..\Dependencies\OIS\includes;..\..\Dependencies\freetype\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;ENGINE_IMPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AirCommon.lib;AirCharacter.lib;freetype240.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>

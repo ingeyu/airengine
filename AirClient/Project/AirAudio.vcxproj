@@ -111,10 +111,13 @@
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_AFXEXT;AUDIO_IMPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
     </ClCompile>
     <Link>
       <AdditionalDependencies>OpenAL32.lib;AirCommon.lib;AirEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
