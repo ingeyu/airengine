@@ -33,7 +33,6 @@ namespace Air{
 	
 		class ENGINE_EXPORT	System	
 			:	public	IFactoryManager,
-				public	IAlphaObjectManager,
 				public	IAutoReleaseManager,
 				public	Common::SystemManagerGroup,
 				public	Singleton<System>{
