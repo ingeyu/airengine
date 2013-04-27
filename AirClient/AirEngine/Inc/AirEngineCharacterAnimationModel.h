@@ -419,7 +419,8 @@ namespace Air{
 					*
 					**/
 					void					GetBoneMatrix(UInt	uiIndex,Float3*	pPos,Float4*	pQ	=	NULL);
-	
+					Float44*				GetBoneMatrix();
+					U32						GetBoneCount()const;
 					/**	\brief	绑定到骨骼上
 					*   
 					*	@remarks 	绑定到骨骼上
@@ -496,8 +497,10 @@ namespace Air{
 					//ObjectIndexMap			m_mapObjectIndex;
 	
 					CriticalSection			m_CS;
-	
-	
+
+					Float44*				m_BoneMatrix;
+					U32						m_uiBoneCount;
+
 				};
 
 			};

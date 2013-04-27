@@ -202,23 +202,7 @@ namespace Air{
 
 					Float44* Equipment::GetBoneMatrix()
 					{
-						CalSkeleton*	pSkel	=	m_pCoreAnimation->getSkeleton();
-						std::vector<CalBone*>&	lstBone	=	pSkel->getVectorBone();
-						UInt	uiBoneCount	=	lstBone.size();
-						ShaderShareParam&	dParam	=	GetGlobalSetting().m_ShaderParam;
-
-
-						Float44*	pMatrixArray	=	&dParam.m_BoneMatrixArray[0];
-						for(UInt i=0;i<uiBoneCount;i++){
-							CalBone*	pBone	=	lstBone[i];
-							const	CalQuaternion&	q	=	pBone->getRotationBoneSpace();
-							const	CalVector&		v	=	pBone->getTranslationBoneSpace();
-							pMatrixArray[i]	=	Float44(*(Float4*)&q);
-							pMatrixArray[i].Transpose();
-							pMatrixArray[i].SetPosition(*(Float3*)&v);
-							//Render::System::GetSingleton()->MakeBoneMatrix(&pMatrixArray[i],(Float4*)&q,(Float3*)&v);
-						}
-						return	pMatrixArray;
+						return	m_pModel->GetBoneMatrix();
 					}
 
 					Float44* Equipment::GetWorldMatrix()
@@ -261,10 +245,14 @@ namespace Air{
 					AddFlag(enMOF_UPDATE			);
 					AddFlag(enMOF_NEED_FRUSTUM_CULL	);
 
+					m_BoneMatrix	=	0;
+					m_uiBoneCount	=	0;
+
 				}
 	
 				Model::~Model(){
-					
+					if(m_BoneMatrix)
+						delete m_BoneMatrix;
 				}
 	
 				U1 Model::Create(){
@@ -279,15 +267,21 @@ namespace Air{
 					m_pAnimation				=	new	CoreAnimation(pCoreMesh);
 
 					SetBoundBox(Float3(-1000,-2000,-1000),Float3(1000,2000,1000));
-
-	
+					CalSkeleton*	pSkel	=	m_pAnimation->getSkeleton();
+					std::vector<CalBone*>&	lstBone	=	pSkel->getVectorBone();
+					m_uiBoneCount	=	lstBone.size();
+					//ShaderShareParam&	dParam	=	GetGlobalSetting().m_ShaderParam;
+					m_BoneMatrix	=	new Float44[m_uiBoneCount];
 					
 					return true;
 					
 				}
 	
 				U1 Model::Destroy(){
-					//UnLoadHardWareModel();
+					if(m_BoneMatrix!=NULL){
+						delete m_BoneMatrix;
+						m_BoneMatrix	=	NULL;
+					}
 					//摧毁装备列表
 					EquipmentMapItr	iEquip	=	m_mapEquipment.begin();
 					for(;iEquip!=m_mapEquipment.end();iEquip++){
@@ -526,6 +520,21 @@ namespace Air{
 						pAnimation->getSkeleton()->getBoneBoundingBox(&m_BoundingBox.vMin.x,&m_BoundingBox.vMax.x);
 	
 						UpdateAttachObject();
+
+						CalSkeleton*	pSkel	=	m_pAnimation->getSkeleton();
+						std::vector<CalBone*>&	lstBone	=	pSkel->getVectorBone();
+						UInt	uiBoneCount	=	lstBone.size();
+
+						Float44*	pMatrixArray	=	m_BoneMatrix;
+						for(UInt i=0;i<uiBoneCount;i++){
+							CalBone*	pBone	=	lstBone[i];
+							const	CalQuaternion&	q	=	pBone->getRotationBoneSpace();
+							const	CalVector&		v	=	pBone->getTranslationBoneSpace();
+							pMatrixArray[i]	=	Float44(*(Float4*)&q);
+							pMatrixArray[i].Transpose();
+							pMatrixArray[i].SetPosition(*(Float3*)&v);
+							//Render::System::GetSingleton()->MakeBoneMatrix(&pMatrixArray[i],(Float4*)&q,(Float3*)&v);
+						}
 					}
 					__super::Update();
 				}
@@ -674,7 +683,13 @@ namespace Air{
 						*pQ		=	Float4(q.w,q.x,q.z,q.y);
 					}
 				}
-	
+
+				Float44* Model::GetBoneMatrix()
+				{
+					return m_BoneMatrix;
+				}
+
+
 				U1 Model::AttachObject2Bone(AString	strBoneName,MovableObject* pObject ){
 					if(	strBoneName.empty()	||
 						pObject==NULL)
@@ -802,6 +817,11 @@ namespace Air{
 					for(;i!=m_mapEquipment.end();i++){
 						i->second->AddToRenderQueue(uiPhaseFlag);
 					}
+				}
+
+				Air::U32 Model::GetBoneCount()const
+				{
+					return m_uiBoneCount;
 				}
 
 

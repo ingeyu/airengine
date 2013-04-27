@@ -245,6 +245,7 @@ namespace Air{
 
 				virtual	void	CopyBufferTo(Buffer*	pDest)=NULL;
 				virtual	U1		Write(U32	uiOffset,U32	uiSize,const void*	pSourceData)=NULL;
+				virtual	U1		Read(U32 uiOffset,U32	uiSize,void*	pData)=NULL;
 			protected:
 				Info			m_Info;				///<	创建信息
 				U1				m_bDirty;			///<	是否已经改变
