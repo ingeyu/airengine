@@ -42,6 +42,26 @@ bool	RayCastBoundingBox(float3 vStart,float3 vDir,float3 vMin,float3 vMax,in flo
 	return	true;
 };
 
+
+float	RayCastBoundingBox2(float3 vStart,float3 vDir,float3 vMin,float3 vMax)
+
+{
+	
+	float3	fmin		=	vMin	-	vStart;
+	float3	fmax		=	vMax	-	vStart;
+	float3	invMinDir	=	fmin	/	vDir;
+	float3	invMaxDir	=	fmax	/	vDir;
+
+	
+	float3	fNear		=	min(invMinDir,invMaxDir);
+	float3	fFar		=	max(invMinDir,invMaxDir);
+	float	maxNear		=	max(max(fNear.x,fNear.y),fNear.z);
+	float	minFar		=	min(min(fFar.x,fFar.y),fFar.z);
+	if(maxNear	<	0.0f)
+		maxNear	=	0.0f;
+	return	minFar	-	maxNear;
+};
+
 bool RayCastSphere(float3 vStart,float3 vDir,float3 vSphere,float fSize,float fMaxDistance,inout float fOutDistance)
 {
 	float3	vSphere_Eye	=	vSphere   -   vStart;
@@ -118,7 +138,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 	float3  vMin		=	-vHalfSize;
 	float	fMaxDis		=	10000;
 	float f=0;
-	if(!RayCastBoundingBox(vCamPos,dir,vMin,vHalfSize,fMaxDis,f)){
+	if(RayCastBoundingBox2(vCamPos,dir,vMin,vHalfSize)	<	0){
 		discard;
 		return 0;
 	}
@@ -158,6 +178,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
     }
 
 	uint	retColor	=	0;
+	//float4 fColor	=	float4(0,0,0,1.0f);
 	//uint	uiChildOrder	=	uiOrder;
 	[loop]
 	while(true){
@@ -172,9 +193,10 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 			float3	vNewMin	=	vMin+vOffset[childidx]*vHalfSize;
 			
 			
-			float fDis	=	100000.0f;
+			
 			float3	vNewMax	=	vNewMin+vHalfSize;
-			if(!RayCastBoundingBox(vCamPos,dir,vNewMin,vNewMax,fMaxDis,fDis)){
+			float fDis	=	RayCastBoundingBox2(vCamPos,dir,vNewMin,vNewMax);
+			if(fDis<0.0f){
 
 				i++;
 				continue;
@@ -194,6 +216,8 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 			if(uiDepth	==	MAX_DEPTH-1){
 				//if(fDis	<	fMaxDis){
 				//	fMaxDis		=	fDis;
+			//	fAlpha	-=	fDis/1.0f;
+				//if(fAlpha<0)
 					retColor=uiChild;
 				//}
 
