@@ -216,7 +216,14 @@ namespace	Air{
 					}
 					m_pRT->AfterUpdate();
 				}
-				 ///pPipeline->GetCurrentScene()->GetLoader().GetNode()->SetScale(Float3(1,1,1));
+				Render::Buffer::Info bInfo;
+				bInfo.SetSystemMemoryBuffer(16*1048576,sizeof(U32));
+				Render::Buffer*	pSysBuffer	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer>("TempBuffer",&bInfo);
+				m_pNodeTree->CopyBufferTo(pSysBuffer);
+				STD_VECTOR<U32> vecTree;
+				vecTree.resize(16*1048576);
+				pSysBuffer->Read(0,16*1048576*sizeof(U32),&vecTree[0]);
+				///pPipeline->GetCurrentScene()->GetLoader().GetNode()->SetScale(Float3(1,1,1));
 			}
 
 #else

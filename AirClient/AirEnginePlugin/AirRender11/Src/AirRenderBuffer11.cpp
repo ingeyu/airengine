@@ -126,14 +126,15 @@ namespace Air{
 						desc.MiscFlags	|=	D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS;
 						desc.StructureByteStride	=	m_Info.uiElementSize;
 						break;}
+					case enBT_SMB:{
+						desc.Usage			=	D3D11_USAGE_STAGING;
+						desc.CPUAccessFlags	=	D3D11_CPU_ACCESS_WRITE|D3D11_CPU_ACCESS_READ;
+						break;}
 					}
 					desc.ByteWidth	=	m_Info.uiElementCount*m_Info.uiElementSize;
 					if(m_Info.usage	==	enUSAGE_DYNAMIC){
 						desc.Usage			=	D3D11_USAGE_DYNAMIC;
 						desc.CPUAccessFlags	=	D3D11_CPU_ACCESS_WRITE;
-					}else if(m_Info.usage	==	enUSAGE_SYSTEM_MEMORY){
-						desc.Usage			=	D3D11_USAGE_STAGING;
-						desc.CPUAccessFlags	=	D3D11_CPU_ACCESS_WRITE|D3D11_CPU_ACCESS_READ;
 					}
 
 					if(m_Info.InitData!=NULL){
@@ -189,9 +190,7 @@ namespace Air{
 
 			Air::U1 Buffer11::Read( U32 uiOffset,U32 uiSize,void* pData )
 			{
-				if(m_Info.usage	!=	enUSAGE_SYSTEM_MEMORY){
-					return false;
-				}
+
 				DxContext*	pContext	=	(DxContext*)(pDevice->GetContext());
 				ID3D11Resource*	pResource	=	(ID3D11Resource*)GetBuffer();
 				D3D11_MAPPED_SUBRESOURCE res;

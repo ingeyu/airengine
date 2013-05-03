@@ -150,6 +150,12 @@ namespace Air{
 						pCB				=	pCallback;
 						type			=	enBT_BAB;
 					};
+					void	SetSystemMemoryBuffer(U32	uiCount,U32	uiSize){
+						uiElementSize	=	uiSize;
+						uiElementCount	=	uiCount;
+						pCB				=	NULL;
+						type			=	enBT_SMB;
+					};
 					void	SetViewFlag(U32	flag){
 						Flag	=	flag;
 						//Only StructBuffer Surport Counter

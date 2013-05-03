@@ -187,7 +187,8 @@ namespace Air{
 			enBT_IB,	///<	IndexBuffer
 			enBT_CB,	///<	ConstantBuffer
 			enBT_SB,	///<	StructureBuffer	
-			enBT_BAB	///<	ByteAddressBuffer
+			enBT_BAB,	///<	ByteAddressBuffer
+			enBT_SMB	///<	SystemMemoryBuffer	GPU->CPU CPU->GPU
 		};
 		enum	enumConstantBufferType{
 			enCBT_Frame,		///<	Frame,	
