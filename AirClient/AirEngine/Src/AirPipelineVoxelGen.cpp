@@ -153,6 +153,51 @@ namespace	Air{
 			const Float3* p1 = (const Float3*)pSrc1;
 			return p0->x > p1->x;
 		}
+		
+		union Color{
+			struct{
+				U8 chanle[4];
+			};
+			U32 uiValue;
+		};
+		
+		U32		GetColor(STD_VECTOR<U32>& vecTree,STD_VECTOR<U32>& vecColor,U32 uiOffset,U32 uiSelfOffset,U32 uiDepth)
+		{
+			if(uiDepth	==	9){
+				vecColor[uiSelfOffset]	=	uiOffset;
+				return  uiOffset;
+			}
+			if(uiOffset==0&&uiDepth!=0){
+				return 0;
+			}
+			U32* pChild	=	&vecTree[uiOffset];
+			Color	c;c.uiValue=0;
+			Color	cTemp;
+			U32 uiColor[4]={0,0,0,0};
+			U32 uiCount	=	0;
+			for(U32 i=0;i<8;i++){
+				
+				cTemp.uiValue	=	GetColor(vecTree,vecColor,pChild[i],uiOffset+i,uiDepth+1);
+				if(cTemp.uiValue!=0)
+					uiCount++;
+				uiColor[0]	+=	cTemp.chanle[0];
+				uiColor[1]	+=	cTemp.chanle[1];
+				uiColor[2]	+=	cTemp.chanle[2];
+				uiColor[3]	+=	cTemp.chanle[3];
+			}
+			c.chanle[0]	=	uiColor[0]/uiCount;
+			c.chanle[1]	=	uiColor[1]/uiCount;
+			c.chanle[2]	=	uiColor[2]/uiCount;
+			c.chanle[3]	=	uiColor[3]/8;
+			if(uiSelfOffset!=0XFFFFFFFF)
+				vecColor[uiSelfOffset]	=	c.uiValue;
+			return c.uiValue;
+		}
+		void	GenMipmap(STD_VECTOR<U32>& vecTree,STD_VECTOR<U32>& vecColor)
+		{
+
+			GetColor(vecTree,vecColor,0,0xffffffff,0);
+		}
 
 		void VoxelGenerator::Update( Renderable* pRenderable ,Pipeline* pPipeline)
 		{
@@ -221,9 +266,14 @@ namespace	Air{
 				Render::Buffer*	pSysBuffer	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer>("TempBuffer",&bInfo);
 				m_pNodeTree->CopyBufferTo(pSysBuffer);
 				STD_VECTOR<U32> vecTree;
+				STD_VECTOR<U32> vecColor;
+				vecColor.resize(16*1048576);
 				vecTree.resize(16*1048576);
 				pSysBuffer->Read(0,16*1048576*sizeof(U32),&vecTree[0]);
 				///pPipeline->GetCurrentScene()->GetLoader().GetNode()->SetScale(Float3(1,1,1));
+				GenMipmap(vecTree,vecColor);
+				m_pVoxel->UpdateData(&vecColor[0]);
+				pSysBuffer->ReleaseRef();
 			}
 
 #else
@@ -248,7 +298,7 @@ namespace	Air{
 			pPipeline->GetMainCamera()->Render2D(pPipeline->GetMainWindow()->GetWidth(),pPipeline->GetMainWindow()->GetHeight());
 
 			pDevice->SetSRV(enPS,0,m_pNodeTree->GetSRV());
-			
+			pDevice->SetSRV(enPS,1,m_pVoxel->GetSRV());
 			Matrix matViewProjInv;
 
 			pPipeline->GetMainCamera()->GetViewProjMatrix(matViewProjInv);

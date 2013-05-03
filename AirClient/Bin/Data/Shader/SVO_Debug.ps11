@@ -1,5 +1,6 @@
 //#include "Common.h"
-ByteAddressBuffer	voxeloctree		:	register(t0);
+ByteAddressBuffer		voxeloctree		:	register(t0);
+StructuredBuffer<uint>	voxelColor		:	register(t1);		
 cbuffer cbPerCamera : register( b1 )
 {
     matrix  ViewProjection;
@@ -214,12 +215,8 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 	
 
 			if(uiDepth	==	MAX_DEPTH-1){
-				//if(fDis	<	fMaxDis){
-				//	fMaxDis		=	fDis;
-			//	fAlpha	-=	fDis/1.0f;
-				//if(fAlpha<0)
-					retColor=uiChild;
-				//}
+
+				retColor=voxelColor[uiOffset[uiDepth]+childidx];
 
 				i=8;
 				uiDepth=0;
