@@ -164,8 +164,8 @@ namespace	Air{
 		U32		GetColor(STD_VECTOR<U32>& vecTree,STD_VECTOR<U32>& vecColor,U32 uiOffset,U32 uiSelfOffset,U32 uiDepth)
 		{
 			if(uiDepth	==	9){
-				vecColor[uiSelfOffset]	=	uiOffset;
-				return  uiOffset;
+				//vecColor[uiSelfOffset]	=	vecColor[];
+				return  vecColor[uiSelfOffset];
 			}
 			if(uiOffset==0&&uiDepth!=0){
 				return 0;
@@ -264,12 +264,15 @@ namespace	Air{
 				Render::Buffer::Info bInfo;
 				bInfo.SetSystemMemoryBuffer(16*1048576,sizeof(U32));
 				Render::Buffer*	pSysBuffer	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer>("TempBuffer",&bInfo);
-				m_pNodeTree->CopyBufferTo(pSysBuffer);
+				
 				STD_VECTOR<U32> vecTree;
 				STD_VECTOR<U32> vecColor;
 				vecColor.resize(16*1048576);
 				vecTree.resize(16*1048576);
+				m_pNodeTree->CopyBufferTo(pSysBuffer);
 				pSysBuffer->Read(0,16*1048576*sizeof(U32),&vecTree[0]);
+				m_pVoxel->CopyBufferTo(pSysBuffer);
+				pSysBuffer->Read(0,16*1048576*sizeof(U32),&vecColor[0]);
 				///pPipeline->GetCurrentScene()->GetLoader().GetNode()->SetScale(Float3(1,1,1));
 				GenMipmap(vecTree,vecColor);
 				m_pVoxel->UpdateData(&vecColor[0]);

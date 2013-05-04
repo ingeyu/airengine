@@ -36,6 +36,11 @@ PS_OUTPUT main( VS_OUTPUT input )
 	uint4 ucolor = saturate( color ) * 255;
 	uint uiColor	=	(ucolor.b) | (ucolor.g << 8) | (ucolor.r << 16) | (ucolor.a << 24);
 	
+	float	fOffset	=	dot(frac(input.WPos.xyz+VOXEL_BOUND_SIZE)-float3(0.5,0.5,0.5),normalize(input.Normal.xyz));
+	fOffset	+=	0.5;
+	uint4	uiNormal		=	float4(normalize(input.Normal.xyz)*0.5+0.5,fOffset)*255;
+	uint	uiNormalColor	=	(uiNormal.b) | (uiNormal.g << 8) | (uiNormal.r << 16) | (uiNormal.a << 24);
+
     uint3 VoxelIndex = (input.WPos.xyz+VOXEL_BOUND_SIZE);//-float3(-64,-64,-64);
 	//uint mask	=	0x80;
 	int	offset	=	0;
@@ -50,7 +55,8 @@ PS_OUTPUT main( VS_OUTPUT input )
 		if(i==MAX_DEPTH-1){
 			//SVOBuffer[offset+idx]	=		uiColor;
 			uint uiRet=INVALID_OFFSET;
-			BrickBuffer.InterlockedExchange(address,uiColor,uiRet);
+			BrickBuffer.InterlockedExchange(address,uiNormalColor,uiRet);
+			SVOBuffer[offset+idx]	=	uiColor;
 			return Output;			
 		}
 		uint	oldChildOffset	=	INVALID_OFFSET;
