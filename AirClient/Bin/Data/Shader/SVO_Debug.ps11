@@ -115,10 +115,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 		0,0,0,0,0,
 		0,0,0,0,0
 	};
-	uint uiStack[10]={
-		0,0,0,0,0,
-		0,0,0,0,0
-	};
+	uint uiStack=0;
 //	uint uiTestOrder[8]={
 //		1,3,5,7,
 //		0,2,4,6
@@ -184,13 +181,14 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 	uint	retColor	=	0;
 	//float4 fColor	=	float4(0,0,0,1.0f);
 	//uint	uiChildOrder	=	uiOrder;
+	int iter=0;
 	[loop]
 	while(true){
 		
 		[loop]
-		for(int i=uiStack[uiDepth];i<8;){
+		for(;iter<8;){
 			
-			uint childidx	=	(uiOrder>>(i*3))&0x7;
+			uint childidx	=	(uiOrder>>(iter*3))&0x7;
 
 
 
@@ -202,7 +200,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 			float fDis	=	RayCastBoundingBox2(vCamPos,dir,vNewMin,vNewMax);
 			if(fDis<0.0f){
 
-				i++;
+				iter++;
 				continue;
 			}
 
@@ -211,7 +209,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 
 			//float fCmp=uiChild*1.001f;
 			if(uiChild==0){
-				i++;
+				iter++;
 				continue;
 			}
 		
@@ -221,11 +219,12 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 
 				retColor=uiChild;//voxelColor[uiOffset[uiDepth]+childidx];
 
-				i=8;
+				iter=8;
 				uiDepth=0;
 				continue;			
 			}else{
-				uiStack[uiDepth]	=	i+1;
+				uiStack&=0xfffffff8;
+				uiStack|=iter;
 				uiDepth++;
 				
 				
@@ -235,8 +234,8 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 
 				//float3	fInterSect	=	vCamPos+dir*fDis;
 				//uint	uiIndex		=	dot(fInterSect>(vMin+vHalfSize),float3(4,2,1));
-				uiStack[uiDepth]	=	0;//anIndex2[uiIndex];
-				i=0;//anIndex2[uiIndex];
+				uiStack<<=3;//anIndex2[uiIndex];
+				iter=0;//anIndex2[uiIndex];
 				
 				//retColor=0xffffff;
 			
@@ -248,9 +247,11 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 		}else{
 			uiDepth--;
 			vHalfSize*=2.0f;
-			int iIDX	=	(uiStack[uiDepth]-1);
+			uiStack>>=3;
+			int iIDX	=	(uiStack&0x7);
 			uint childidx	=	(uiOrder>>(iIDX*3))&0x7;
 			vMin	-=	vOffset[childidx]*vHalfSize;
+			iter=iIDX+1;
 		}
 	}
 	if(retColor==0){
