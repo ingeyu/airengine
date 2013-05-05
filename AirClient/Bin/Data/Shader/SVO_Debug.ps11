@@ -145,6 +145,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 	}
 	float aData[8];
 	uint  anIndex[8]={0,1,2,3,4,5,6,7};
+	uint  uiOrder=0;
 	for(uint i=0;i<8;i++){
 		aData[i]=dot(vOffset[i],dir);	
 	}
@@ -177,7 +178,9 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
             }
         }
     }
-
+	for(uint n=0;n<8;n++){
+		uiOrder|=(anIndex[n])<<3*n;	
+	}
 	uint	retColor	=	0;
 	//float4 fColor	=	float4(0,0,0,1.0f);
 	//uint	uiChildOrder	=	uiOrder;
@@ -187,7 +190,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 		[loop]
 		for(int i=uiStack[uiDepth];i<8;){
 			
-			uint childidx	=	anIndex[i];//(uiChildOrder>>(i*3))&0x7;
+			uint childidx	=	(uiOrder>>(i*3))&0x7;
 
 
 
@@ -224,11 +227,16 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 			}else{
 				uiStack[uiDepth]	=	i+1;
 				uiDepth++;
-				uiStack[uiDepth]	=	0;
+				
+				
 				uiOffset[uiDepth]	=	uiChild;
 				vHalfSize	/=	2.0f;
 				vMin		=	vNewMin;
-				i=0;
+
+				//float3	fInterSect	=	vCamPos+dir*fDis;
+				//uint	uiIndex		=	dot(fInterSect>(vMin+vHalfSize),float3(4,2,1));
+				uiStack[uiDepth]	=	0;//anIndex2[uiIndex];
+				i=0;//anIndex2[uiIndex];
 				
 				//retColor=0xffffff;
 			
@@ -241,7 +249,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 			uiDepth--;
 			vHalfSize*=2.0f;
 			int iIDX	=	(uiStack[uiDepth]-1);
-			uint childidx	=	anIndex[iIDX];//(uiChildOrder>>(iIDX*3))&0x7;
+			uint childidx	=	(uiOrder>>(iIDX*3))&0x7;
 			vMin	-=	vOffset[childidx]*vHalfSize;
 		}
 	}
@@ -251,3 +259,4 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 	return U32_F32(retColor)*2-1;
 //	return float4(1,0,0,0);
 };
+
