@@ -516,13 +516,15 @@ MaterialTemplate	MT_SVO_Debug
 	{
 		RasterizerState		CullNone
 		DepthStencilState	DisableDepthCompareWrite
-		//BlendState			BS_AddBlending
+		BlendState			BS_AddBlending
 		VertexShader		"Shader/Quad"
 		{
 		}
 		PixelShader			"Shader/SVO_Debug"
 		{
 			Texture	0	2		SS_WarpPoint
+			Texture	1	3		SS_WarpPoint
+			Texture	2	4		SS_WarpPoint
 		}
 	}
 }

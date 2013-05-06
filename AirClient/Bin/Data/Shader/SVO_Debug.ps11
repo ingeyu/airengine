@@ -2,6 +2,8 @@
 ByteAddressBuffer		voxeloctree		:	register(t0);
 StructuredBuffer<uint>	voxelColor		:	register(t1);
 TextureCube				Dir2Order		:	register(t2);		
+Texture2D				Depth			:	register(t3);
+Texture2D				Normal			:	register(t4);
 SamplerState			SS_WarpPoint	:	register(s0);	
 cbuffer cbPerCamera : register( b1 )
 {
@@ -142,11 +144,14 @@ uint	F32_U32(float4 c){
 
 float4 main( VS_OUTPUT Input ):SV_Target0{
 	float2 xy	=	Input.UV*float2(2,-2)+float2(-1,1);
-	float4	wpos	=	mul(matViewProjInv,float4(xy,0,1));
+	
+	float4	wpos	=	mul(matViewProjInv,float4(xy,Depth.Sample(SS_WarpPoint,Input.UV).x,1));
 	wpos/=wpos.w;
 	float3 vCamPos	=	vCameraPosition.xyz;
-	float3 dir	=	normalize(wpos.xyz	-	vCamPos	);
-
+	float3 viewdir	=	normalize(wpos.xyz	-	vCamPos	);
+	float3	normal	=	Normal.Sample(SS_WarpPoint,Input.UV).xyz*2-1;
+	float3  dir		=	normalize(reflect(viewdir,normal));
+	vCamPos			=	wpos.xyz+dir*2;
 
 	uint uiOffset[MAX_DEPTH];
 	uiOffset[0]=0;
@@ -240,7 +245,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 	if(retColor==0){
 		discard;
 	}
-	return U32_F32(retColor);
+	return U32_F32(retColor)*0.25;
 //	return float4(1,0,0,0);
 };
 

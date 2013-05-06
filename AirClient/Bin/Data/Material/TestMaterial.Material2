@@ -160,4 +160,6 @@ Material	SVO_Debug			:	MT_SVO_Debug
 {
 	Matrix
 	Texture	Texture/DIR2ORDER_N.dds
+	Texture	MRT0
+	Texture	MRT1
 }
