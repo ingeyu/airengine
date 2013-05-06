@@ -65,23 +65,12 @@ float	RayCastBoundingBox2(float3 vStart,float3 vDir,float3 vMin,float3 vMax)
 	return	minFar	-	maxNear;
 };
 
-bool RayCastSphere(float3 vStart,float3 vDir,float3 vSphere,float fSize,float fMaxDistance,inout float fOutDistance)
+float RayCastSphere(float3 vStart,float3 vDir,float3 vSphere,float fSize)
 {
 	float3	vSphere_Eye	=	vSphere   -   vStart;
-    float   dis            =   length(vSphere_Eye);
-    if(dis   <=   fSize){
-		fOutDistance   =   0;
-		return   true;
-    }
-    float   dotLen         =   dot(vSphere_Eye,vDir);
-      
-    float   center_to_ray   =   dis*dis-dotLen*dotLen;
-    if(   center_to_ray   <   fSize*fSize){
-		fOutDistance   =   dis-fSize;
-		if(fOutDistance	<	fMaxDistance)
-			return true;
-    };
-    return false;
+	float	fCos		=	dot(normalize(vSphere_Eye),vDir);
+    float   fSphereCos            =   cos(atan(fSize/length(vSphere_Eye)));
+    return fCos-fSphereCos;
 }
 
 uint	CalcOrder(float3 vDir){
@@ -159,10 +148,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 	float3 dir	=	normalize(wpos.xyz	-	vCamPos	);
 
 
-	uint uiOffset[10]={
-		0,0,0,0,0,
-		0,0,0,0,0
-	};
+	uint uiOffset[MAX_DEPTH];
 	uint uiStack=0;
 
 	int	uiDepth	=	0;
@@ -196,7 +182,6 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 			float3	vNewMax	=	vNewMin+vHalfSize;
 			float fDis	=	RayCastBoundingBox2(vCamPos,dir,vNewMin,vNewMax);
 			if(fDis<0.0f){
-
 				iter++;
 				continue;
 			}
@@ -229,7 +214,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 				vHalfSize	/=	2.0f;
 				vMin		=	vNewMin;
 
-				//float3	fInterSect	=	vCamPos+dir*fDis;
+			//	float3	fInterSect	=	vCamPos+dir*fDis;
 				//uint	uiIndex		=	dot(fInterSect>(vMin+vHalfSize),float3(4,2,1));
 				uiStack<<=3;//anIndex2[uiIndex];
 				iter=0;//anIndex2[uiIndex];
