@@ -522,6 +522,7 @@ MaterialTemplate	MT_SVO_Debug
 		}
 		PixelShader			"Shader/SVO_Debug"
 		{
+			Texture	0	2		SS_WarpPoint
 		}
 	}
 }

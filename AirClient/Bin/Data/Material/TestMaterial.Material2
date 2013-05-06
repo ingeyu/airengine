@@ -159,4 +159,5 @@ Material	SVO_Test			:	MT_SVO_Test
 Material	SVO_Debug			:	MT_SVO_Debug
 {
 	Matrix
+	Texture	Texture/DIR2ORDER_N.dds
 }

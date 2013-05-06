@@ -1,6 +1,8 @@
 //#include "Common.h"
 ByteAddressBuffer		voxeloctree		:	register(t0);
-StructuredBuffer<uint>	voxelColor		:	register(t1);		
+StructuredBuffer<uint>	voxelColor		:	register(t1);
+TextureCube				Dir2Order		:	register(t2);		
+SamplerState			SS_WarpPoint	:	register(s0);	
 cbuffer cbPerCamera : register( b1 )
 {
     matrix  ViewProjection;
@@ -82,55 +84,12 @@ bool RayCastSphere(float3 vStart,float3 vDir,float3 vSphere,float fSize,float fM
     return false;
 }
 
-struct VS_OUTPUT
-{
-    float4 Position     : SV_POSITION; // vertex position
-	float2 UV			: TEXCOORD0;
-};
-
-struct	PS_OUTPUT{
-	float4	Diff			:	SV_Target0;
-};
-
-float4	U32_F32(uint uiColor){
-	return	float4(
-					((uiColor&0x00ff0000)>>16)/255.0f,
-					((uiColor&0x0000ff00)>>8)/255.0f,
-					((uiColor&0x000000ff))/255.0f,
-					((uiColor&0xff000000)>>24)/255.0f
-			);
-}
-#define	MAX_DEPTH	9
-#define VOXEL_BOUND_SIZE	pow(2,MAX_DEPTH-1);
-
-float4 main( VS_OUTPUT Input ):SV_Target0{
-	float2 xy	=	Input.UV*float2(2,-2)+float2(-1,1);
-	float4	wpos	=	mul(matViewProjInv,float4(xy,0,1));
-	wpos/=wpos.w;
-	float3 vCamPos	=	vCameraPosition.xyz;
-	float3 dir	=	normalize(wpos.xyz	-	vCamPos	);
-
-
-	uint uiOffset[10]={
-		0,0,0,0,0,
-		0,0,0,0,0
-	};
-	uint uiStack=0;
-
-	int	uiDepth	=	0;
-	float3	vHalfSize	=	VOXEL_BOUND_SIZE;
-	float3  vMin		=	-vHalfSize;
-	float	fMaxDis		=	10000;
-	float f=0;
-	if(RayCastBoundingBox2(vCamPos,dir,vMin,vHalfSize)	<	0){
-		discard;
-		return 0;
-	}
+uint	CalcOrder(float3 vDir){
 	float aData[8];
 	uint  anIndex[8]={0,1,2,3,4,5,6,7};
 	uint  uiOrder=0;
 	for(uint i=0;i<8;i++){
-		aData[i]=dot(float3(i>>2,1&(i>>1),1&i),dir);	
+		aData[i]=dot(float3(i>>2,1&(i>>1),1&i),vDir);	
 	}
 	uint N2=8;
 	    // Bitonic sort
@@ -164,6 +123,58 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 	for(uint n=0;n<8;n++){
 		uiOrder|=(anIndex[n])<<3*n;	
 	}
+	return uiOrder;
+}
+
+struct VS_OUTPUT
+{
+    float4 Position     : SV_POSITION; // vertex position
+	float2 UV			: TEXCOORD0;
+};
+
+struct	PS_OUTPUT{
+	float4	Diff			:	SV_Target0;
+};
+
+float4	U32_F32(uint uiColor){
+	return	float4(
+					((uiColor&0x00ff0000)>>16)/255.0f,
+					((uiColor&0x0000ff00)>>8)/255.0f,
+					((uiColor&0x000000ff))/255.0f,
+					((uiColor&0xff000000)>>24)/255.0f
+			);
+}
+uint	F32_U32(float4 c){
+	uint4 ic=c*255;
+	return	ic.z|ic.y<<8|ic.x<<16|ic.w<<24;
+}
+#define	MAX_DEPTH	9
+#define VOXEL_BOUND_SIZE	pow(2,MAX_DEPTH-1);
+
+float4 main( VS_OUTPUT Input ):SV_Target0{
+	float2 xy	=	Input.UV*float2(2,-2)+float2(-1,1);
+	float4	wpos	=	mul(matViewProjInv,float4(xy,0,1));
+	wpos/=wpos.w;
+	float3 vCamPos	=	vCameraPosition.xyz;
+	float3 dir	=	normalize(wpos.xyz	-	vCamPos	);
+
+
+	uint uiOffset[10]={
+		0,0,0,0,0,
+		0,0,0,0,0
+	};
+	uint uiStack=0;
+
+	int	uiDepth	=	0;
+	float3	vHalfSize	=	VOXEL_BOUND_SIZE;
+	float3  vMin		=	-vHalfSize;
+	if(RayCastBoundingBox2(vCamPos,dir,vMin,vHalfSize)	<	0){
+		discard;
+		return 0;
+	}
+	//return ;
+	uint uiOrder = F32_U32(Dir2Order.SampleLevel(SS_WarpPoint,dir,0));
+	//return U32_F32(uiOrder);
 	uint	retColor	=	0;
 	//float4 fColor	=	float4(0,0,0,1.0f);
 	//uint	uiChildOrder	=	uiOrder;
