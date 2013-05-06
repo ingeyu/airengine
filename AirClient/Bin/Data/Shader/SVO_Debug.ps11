@@ -149,6 +149,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 
 
 	uint uiOffset[MAX_DEPTH];
+	uiOffset[0]=0;
 	uint uiStack=0;
 
 	int	uiDepth	=	0;
