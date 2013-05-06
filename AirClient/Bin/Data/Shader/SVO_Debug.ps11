@@ -116,21 +116,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 		0,0,0,0,0
 	};
 	uint uiStack=0;
-//	uint uiTestOrder[8]={
-//		1,3,5,7,
-//		0,2,4,6
-//	};
-	const static float3 vOffset[8]={
-		float3(0,0,0),
-		float3(0,0,1),
-		float3(0,1,0),
-		float3(0,1,1),
 
-		float3(1,0,0),
-		float3(1,0,1),
-		float3(1,1,0),
-		float3(1,1,1)
-	};
 	int	uiDepth	=	0;
 	float3	vHalfSize	=	VOXEL_BOUND_SIZE;
 	float3  vMin		=	-vHalfSize;
@@ -144,7 +130,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 	uint  anIndex[8]={0,1,2,3,4,5,6,7};
 	uint  uiOrder=0;
 	for(uint i=0;i<8;i++){
-		aData[i]=dot(vOffset[i],dir);	
+		aData[i]=dot(float3(i>>2,1&(i>>1),1&i),dir);	
 	}
 	uint N2=8;
 	    // Bitonic sort
@@ -192,7 +178,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 
 
 
-			float3	vNewMin	=	vMin+vOffset[childidx]*vHalfSize;
+			float3	vNewMin	=	vMin+float3(childidx>>2,1&(childidx>>1),1&childidx)*vHalfSize;
 			
 			
 			
@@ -217,7 +203,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 
 			if(uiDepth	==	MAX_DEPTH-1){
 
-				retColor=uiChild;//voxelColor[uiOffset[uiDepth]+childidx];
+				retColor=voxelColor[uiOffset[uiDepth]+childidx];
 
 				iter=8;
 				uiDepth=0;
@@ -250,14 +236,14 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 			uiStack>>=3;
 			int iIDX	=	(uiStack&0x7);
 			uint childidx	=	(uiOrder>>(iIDX*3))&0x7;
-			vMin	-=	vOffset[childidx]*vHalfSize;
+			vMin	-=	float3(childidx>>2,1&(childidx>>1),1&childidx)*vHalfSize;
 			iter=iIDX+1;
 		}
 	}
 	if(retColor==0){
 		discard;
 	}
-	return U32_F32(retColor)*2-1;
+	return U32_F32(retColor);
 //	return float4(1,0,0,0);
 };
 
