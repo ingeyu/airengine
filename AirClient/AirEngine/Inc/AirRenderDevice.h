@@ -38,6 +38,7 @@ namespace	Air{
 
 				
 				virtual	void		DrawOpt(const DrawOption&	opt);
+				virtual	void		Dispatch(U32 x,U32 y,U32 z);
 
 				void				ResetCounter(){
 					m_uiDrawBatch			=	0;

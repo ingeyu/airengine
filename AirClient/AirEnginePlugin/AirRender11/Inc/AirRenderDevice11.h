@@ -69,6 +69,7 @@ namespace Air{
 				virtual	void		ClearUAV(void* pUAV,U32* uiClear);
 				virtual	void		ClearUAV(void* pUAV,float* fClear);
 				virtual	void		DrawOpt(const DrawOption&	opt);
+				virtual	void		Dispatch(U32 x,U32 y,U32 z);
 			private:
 				DxFactory*		m_pFactory;
 				DxFactory1*		m_pFactory1;

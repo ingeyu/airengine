@@ -606,6 +606,11 @@ namespace Air{
 				m_pContext->OMSetRenderTargetsAndUnorderedAccessViews(uiCount,pRTV11,(ID3D11DepthStencilView*)pDSV,uiUAVStart,uiUAVCount,pUAV11,uiUAVInitCounter);
 			}
 
+			void Device11::Dispatch( U32 x,U32 y,U32 z )
+			{
+				m_pContext->Dispatch(x,y,z);
+			}
+
 		}
 	}
 };

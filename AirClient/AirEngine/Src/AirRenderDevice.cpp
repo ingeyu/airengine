@@ -107,6 +107,11 @@ namespace	Air{
 				m_uiDrawTriangleCount	=	0;
 			}
 
+			void Device::Dispatch( U32 x,U32 y,U32 z )
+			{
+
+			}
+
 		}
 	}
 }
