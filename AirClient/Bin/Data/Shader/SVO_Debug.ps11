@@ -48,7 +48,7 @@ bool	RayCastBoundingBox(float3 vStart,float3 vDir,float3 vMin,float3 vMax,in flo
 };
 
 
-float	RayCastBoundingBox2(float3 vStart,float3 vDir,float3 vMin,float3 vMax)
+float	RayCastBoundingBox2(float3 vStart,float3 vDir,float3 vMin,float3 vMax,out float maxNear)
 
 {
 	
@@ -60,7 +60,7 @@ float	RayCastBoundingBox2(float3 vStart,float3 vDir,float3 vMin,float3 vMax)
 	
 	float3	fNear		=	min(invMinDir,invMaxDir);
 	float3	fFar		=	max(invMinDir,invMaxDir);
-	float	maxNear		=	max(max(fNear.x,fNear.y),fNear.z);
+	maxNear		=	max(max(fNear.x,fNear.y),fNear.z);
 	float	minFar		=	min(min(fFar.x,fFar.y),fFar.z);
 	if(maxNear	<	0.0f)
 		maxNear	=	0.0f;
@@ -144,14 +144,14 @@ uint	F32_U32(float4 c){
 
 float4 main( VS_OUTPUT Input ):SV_Target0{
 	float2 xy	=	Input.UV*float2(2,-2)+float2(-1,1);
-	
-	float4	wpos	=	mul(matViewProjInv,float4(xy,Depth.Sample(SS_WarpPoint,Input.UV).x,1));
+	//Depth.Sample(SS_WarpPoint,Input.UV).x
+	float4	wpos	=	mul(matViewProjInv,float4(xy,1,1));
 	wpos/=wpos.w;
 	float3 vCamPos	=	vCameraPosition.xyz;
-	float3 viewdir	=	normalize(wpos.xyz	-	vCamPos	);
-	float3	normal	=	Normal.Sample(SS_WarpPoint,Input.UV).xyz*2-1;
-	float3  dir		=	normalize(reflect(viewdir,normal));
-	vCamPos			=	wpos.xyz+dir*2;
+	float3 dir	=	normalize(wpos.xyz	-	vCamPos	);
+	//float3	normal	=	Normal.Sample(SS_WarpPoint,Input.UV).xyz*2-1;
+	//float3  dir		=	normalize(reflect(viewdir,normal));
+	//vCamPos			=	wpos.xyz+dir*2;
 
 	uint uiOffset[MAX_DEPTH];
 	uiOffset[0]=0;
@@ -160,12 +160,19 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 	int	uiDepth	=	0;
 	float3	vHalfSize	=	VOXEL_BOUND_SIZE;
 	float3  vMin		=	-vHalfSize;
-	if(RayCastBoundingBox2(vCamPos,dir,vMin,vHalfSize)	<	0){
+	float	fMaxNear		=	-1;
+	if(RayCastBoundingBox2(vCamPos,dir,vMin,vHalfSize,fMaxNear)	<	0){
 		discard;
 		return 0;
 	}
 	//return ;
 	uint uiOrder = F32_U32(Dir2Order.SampleLevel(SS_WarpPoint,dir,0));
+	uint uiOrderToIndex=0;
+	for(uint i=0;i<8;i++){
+		uint uiIdx	=	(uiOrder>>(i*3))&0x7;
+		uiOrderToIndex|=i<<(3*uiIdx);
+	}
+	
 	//return U32_F32(uiOrder);
 	uint	retColor	=	0;
 	//float4 fColor	=	float4(0,0,0,1.0f);
@@ -186,7 +193,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 			
 			
 			float3	vNewMax	=	vNewMin+vHalfSize;
-			float fDis	=	RayCastBoundingBox2(vCamPos,dir,vNewMin,vNewMax);
+			float fDis	=	RayCastBoundingBox2(vCamPos,dir,vNewMin,vNewMax,fMaxNear);
 			if(fDis<0.0f){
 				iter++;
 				continue;
@@ -204,6 +211,8 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 	
 
 			if(uiDepth	==	MAX_DEPTH-1){
+				//float4 vVoxelNormal	=	U32_F32(uiChild);
+				//vVoxelNormal.xyz=vVoxelNormal.xyz*2-1;
 
 				retColor=voxelColor[uiOffset[uiDepth]+childidx];
 
@@ -220,10 +229,10 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 				vHalfSize	/=	2.0f;
 				vMin		=	vNewMin;
 
-			//	float3	fInterSect	=	vCamPos+dir*fDis;
-				//uint	uiIndex		=	dot(fInterSect>(vMin+vHalfSize),float3(4,2,1));
+				float3	fInterSect	=	vCamPos+dir*fMaxNear;
+				uint	uiIndex		=	dot(fInterSect>(vMin+vHalfSize),float3(4,2,1));
 				uiStack<<=3;//anIndex2[uiIndex];
-				iter=0;//anIndex2[uiIndex];
+				iter=(uiOrderToIndex>>(uiIndex*3))&0x7;
 				
 				//retColor=0xffffff;
 			
@@ -245,7 +254,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 	if(retColor==0){
 		discard;
 	}
-	return U32_F32(retColor)*0.25;
+	return U32_F32(retColor);
 //	return float4(1,0,0,0);
 };
 
