@@ -28,7 +28,7 @@ namespace	Air{
 			Material*					m_pMaskMaterial;
 			Material*					m_pBlurX;
 			Material*					m_pBlurY;
-			STD_VECTOR<Light*>			m_vecCSMCamera;
+			STD_VECTOR<Camera*>			m_vecCSMCamera;
 			Float3						m_vLightDirection;
 			QuadRenderable*				m_pQuad;
 		};

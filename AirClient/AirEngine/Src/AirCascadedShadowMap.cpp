@@ -65,10 +65,10 @@ namespace	Air{
 
 			m_vecCSMCamera.resize(uiSplite);
 			AString	strCameraName	=	"CascadedShadowCamera";
-			Light::Info info;
-			info.SetDirection(m_vLightDirection);
+			//Camera::Info info;
+			//info.SetDirection(m_vLightDirection);
 			for(U32 i=0;i<uiSplite;i++){
-				m_vecCSMCamera[i]	=	EngineSystem::GetSingleton()->CreateProduct<Light>(strCameraName+Common::Converter::ToString(i),&info);
+				m_vecCSMCamera[i]	=	EngineSystem::GetSingleton()->CreateProduct<Camera>(strCameraName+Common::Converter::ToString(i));
 				m_vecCSMCamera[i]->SetDir(m_vLightDirection);
 				m_vecCSMCamera[i]->SetOrtho(true);
 				float Scale	=	pow(4.0f,(float)(i+1))*4.0f;
@@ -115,7 +115,7 @@ namespace	Air{
 			Float3 vCamDir	=	m_pMainCamera->GetDir();
 
 			for(U32 i=0;i<m_vecCSMCamera.size();i++){
-				Light*	pLight	=	m_vecCSMCamera[i];
+				Camera*	pLight	=	m_vecCSMCamera[i];
 
 				float fScale	=	pow(4.0f,(float)(i+1))*2.0f;
 				float fScale2	=	fScale*2/256.0f;

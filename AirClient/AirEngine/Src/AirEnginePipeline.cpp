@@ -322,7 +322,7 @@ namespace	Air{
 			CameraSet::iterator	i	=	setCamera.begin();
 			for(;i!=setCamera.end();i++){
 				if(m_pMainCamera	!=	(*i))
-					(*i)->FindMovableObject(m_pScene,m_pMainCamera);
+					(*i)->FindMovableObject(m_pScene,NULL);
 			}
 
 			setCamera.clear();
@@ -405,8 +405,8 @@ namespace	Air{
 				
 				m_pMainWindow->AfterUpdate(false);
 			}
-			if(RenderSystem::GetSingleton()->GetDevice()->GetHWVersion() == enRSV_11)
-				m_VoxelGen.Update(m_pQuad,this);
+			//if(RenderSystem::GetSingleton()->GetDevice()->GetHWVersion() == enRSV_11)
+			//	m_VoxelGen.Update(m_pQuad,this);
 
 			m_pMainWindow->ClearPhaseFlag();
 			m_pMainWindow->AddPhaseFlag(enPI_Helper);
