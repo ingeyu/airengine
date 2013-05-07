@@ -121,6 +121,7 @@ struct VS_OUTPUT
 {
     float4 Position     : SV_POSITION; // vertex position
 	float2 UV			: TEXCOORD0;
+	float4 WorldPos		: TEXCOORD1;
 };
 
 struct	PS_OUTPUT{
@@ -154,18 +155,18 @@ uint2	PositionToIndex(float3 vCamPos,float3 vDir,float2 fNearFar,float3 vMin,flo
 float4 main( VS_OUTPUT Input ):SV_Target0{
 	float2 xy	=	Input.UV*float2(2,-2)+float2(-1,1);
 
-//	float z	=	Depth.Sample(SS_WarpPoint,Input.UV).x;
-//	if(z > 0.9999f){
-//		discard;
-//	}
+	//float z	=	Depth.Sample(SS_WarpPoint,Input.UV).x;
+	//if(z > 0.9999f){
+	//	discard;
+	//}
 	
-	float4	wpos	=	mul(matViewProjInv,float4(xy,1,1));
+	float4	wpos	=	Input.WorldPos;//mul(matViewProjInv,float4(xy,z,1));
 	wpos/=wpos.w;
 	float3 vCamPos	=	vCameraPosition.xyz;
 	float3 dir	=	normalize(wpos.xyz	-	vCamPos	);
-//	float3	normal	=	Normal.Sample(SS_WarpPoint,Input.UV).xyz*2-1;
+	//float3	normal	=	Normal.Sample(SS_WarpPoint,Input.UV).xyz*2-1;
 	//dir		=	normalize(reflect(dir,normal));
-	//vCamPos			=	wpos.xyz+dir*0.1;
+	//vCamPos			=	wpos.xyz+dir*2;
 
 	uint uiOffset[MAX_DEPTH];
 	uiOffset[0]=0;
@@ -204,7 +205,14 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 			
 			uint childidx	=	(uiOrder>>(iter*3))&0x7;
 
+			uint addr		=	(uiOffset[uiDepth]+childidx)*4;
+			uint uiChild	=	voxeloctree.Load(addr);
 
+			//float fCmp=uiChild*1.001f;
+			if(uiChild==0){
+				iter++;
+				continue;
+			}
 
 			float3	vNewMin	=	vMin+float3(childidx>>2,1&(childidx>>1),1&childidx)*vHalfSize;
 			
@@ -217,14 +225,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 				continue;
 			}
 
-			uint addr		=	(uiOffset[uiDepth]+childidx)*4;
-			uint uiChild	=	voxeloctree.Load(addr);
 
-			//float fCmp=uiChild*1.001f;
-			if(uiChild==0){
-				iter++;
-				continue;
-			}
 		
 	
 

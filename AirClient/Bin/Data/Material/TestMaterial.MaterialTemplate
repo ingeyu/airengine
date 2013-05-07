@@ -517,7 +517,7 @@ MaterialTemplate	MT_SVO_Debug
 		RasterizerState		CullNone
 		DepthStencilState	DisableDepthCompareWrite
 		//BlendState			BS_AddBlending
-		VertexShader		"Shader/Quad"
+		VertexShader		"Shader/SVO_Quad"
 		{
 		}
 		PixelShader			"Shader/SVO_Debug"
