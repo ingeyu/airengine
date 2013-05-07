@@ -139,6 +139,14 @@ uint	F32_U32(float4 c){
 	uint4 ic=c*255;
 	return	ic.z|ic.y<<8|ic.x<<16|ic.w<<24;
 }
+uint2	PositionToIndex(float3 vCamPos,float3 vDir,float2 fNearFar,float3 vMin,float3 vHalfSize){
+	float3 vTemp			=	vCamPos-vMin-vHalfSize;
+	float3	fFirstInterSect	=	vDir*fNearFar.x+vTemp;
+	uint	fFirstIndex		=	dot(fFirstInterSect>0,float3(4,2,1));
+	float3  fEndInterSect	=	vDir*fNearFar.y+vTemp;
+	uint	fEndIndex		=	dot(fEndInterSect>0,float3(4,2,1));
+	return uint2(fFirstIndex,fEndIndex);
+}
 #define	MAX_DEPTH	9
 #define VOXEL_BOUND_SIZE	pow(2,MAX_DEPTH-1);
 //#define INTERSECT_NORMAL_PLANE
@@ -162,6 +170,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 	uint uiOffset[MAX_DEPTH];
 	uiOffset[0]=0;
 	uint uiStack=0;
+	uint uiEndStack=0;
 
 	int	uiDepth	=	0;
 	float3	vHalfSize	=	VOXEL_BOUND_SIZE;
@@ -181,15 +190,17 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 	
 	//return U32_F32(uiOrder);
 	uint	retColor	=	0;
-	float3	fFirstInterSect	=	vCamPos+dir*fNearFar.x;
-	uint	fFirstIndex		=	dot(fFirstInterSect>(vMin+vHalfSize),float3(4,2,1));
+	float3 vCenter			=	vMin+vHalfSize;
 
-	int iter=(uiOrderToIndex>>(fFirstIndex*3))&0x7;;
+	uint2	uiHitIndex		=	PositionToIndex(vCamPos,dir,fNearFar,vMin,vHalfSize);
+	int iter		=	(uiOrderToIndex>>(uiHitIndex.x*3))&0x7;
+	int iterSize	=	((uiOrderToIndex>>(uiHitIndex.y*3))&0x7);
+
 	[loop]
 	while(true){
 		
 		[loop]
-		for(;iter<8;){
+		for(;iter<=iterSize;){
 			
 			uint childidx	=	(uiOrder>>(iter*3))&0x7;
 
@@ -247,6 +258,8 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 			}else{
 				uiStack&=0xfffffff8;
 				uiStack|=iter;
+				uiEndStack&=0xfffffff8;
+				uiEndStack|=iterSize;
 				uiDepth++;
 				
 				
@@ -254,13 +267,14 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 				vHalfSize	/=	2.0f;
 				vMin		=	vNewMin;
 
-				float3	fInterSect	=	vCamPos+dir*fNearFar.x;
-				uint	uiIndex		=	dot(fInterSect>(vMin+vHalfSize),float3(4,2,1));
-				uiStack<<=3;//anIndex2[uiIndex];
-				iter=(uiOrderToIndex>>(uiIndex*3))&0x7;
-				
-				//retColor=0xffffff;
-			
+
+				uint2	uiNearFarIndex		=	PositionToIndex(vCamPos,dir,fNearFar,vMin,vHalfSize);;
+				uiStack<<=3;
+				uiEndStack<<=3;
+				iter=(uiOrderToIndex>>(uiNearFarIndex.x*3))&0x7;
+				iterSize=((uiOrderToIndex>>(uiNearFarIndex.y*3))&0x7);
+
+
 				continue;
 			}
 		}
@@ -270,10 +284,12 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 			uiDepth--;
 			vHalfSize*=2.0f;
 			uiStack>>=3;
+			uiEndStack>>=3;
 			int iIDX	=	(uiStack&0x7);
 			uint childidx	=	(uiOrder>>(iIDX*3))&0x7;
 			vMin	-=	float3(childidx>>2,1&(childidx>>1),1&childidx)*vHalfSize;
 			iter=iIDX+1;
+			iterSize=uiEndStack&0x7;
 		}
 	}
 	if(retColor==0){
