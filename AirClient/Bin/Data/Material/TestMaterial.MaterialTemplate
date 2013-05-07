@@ -516,7 +516,7 @@ MaterialTemplate	MT_SVO_Debug
 	{
 		RasterizerState		CullNone
 		DepthStencilState	DisableDepthCompareWrite
-		BlendState			BS_AddBlending
+		//BlendState			BS_AddBlending
 		VertexShader		"Shader/Quad"
 		{
 		}
@@ -528,4 +528,24 @@ MaterialTemplate	MT_SVO_Debug
 		}
 	}
 }
+MaterialTemplate	MT_SVO_FinalGather
+{
+	Phase		Manual
+	Pass
+	{
+		RasterizerState		CullNone
+		DepthStencilState	DisableDepthCompareWrite
+		//BlendState			BS_AddBlending
+		VertexShader		"Shader/Quad"
+		{
+		}
+		PixelShader			"Shader/SVO_FinalGather"
+		{
+			Texture	0	2		SS_WarpPoint
+			Texture	1	3		SS_WarpPoint
+			Texture	2	4		SS_WarpPoint
+		}
+	}
+}
+
 

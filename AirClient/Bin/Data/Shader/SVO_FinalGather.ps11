@@ -141,23 +141,23 @@ uint	F32_U32(float4 c){
 }
 #define	MAX_DEPTH	9
 #define VOXEL_BOUND_SIZE	pow(2,MAX_DEPTH-1);
-//#define INTERSECT_NORMAL_PLANE
+#define INTERSECT_NORMAL_PLANE
 
 float4 main( VS_OUTPUT Input ):SV_Target0{
 	float2 xy	=	Input.UV*float2(2,-2)+float2(-1,1);
 
-//	float z	=	Depth.Sample(SS_WarpPoint,Input.UV).x;
-//	if(z > 0.9999f){
-//		discard;
-//	}
+	float z	=	Depth.Sample(SS_WarpPoint,Input.UV).x;
+	if(z > 0.9999f){
+		discard;
+	}
 	
-	float4	wpos	=	mul(matViewProjInv,float4(xy,1,1));
+	float4	wpos	=	mul(matViewProjInv,float4(xy,z,1));
 	wpos/=wpos.w;
 	float3 vCamPos	=	vCameraPosition.xyz;
 	float3 dir	=	normalize(wpos.xyz	-	vCamPos	);
-//	float3	normal	=	Normal.Sample(SS_WarpPoint,Input.UV).xyz*2-1;
-	//dir		=	normalize(reflect(dir,normal));
-	//vCamPos			=	wpos.xyz+dir*0.1;
+	float3	normal	=	Normal.Sample(SS_WarpPoint,Input.UV).xyz*2-1;
+	dir		=	normalize(reflect(dir,normal));
+	vCamPos			=	wpos.xyz+dir*0.1;
 
 	uint uiOffset[MAX_DEPTH];
 	uiOffset[0]=0;
@@ -181,10 +181,9 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 	
 	//return U32_F32(uiOrder);
 	uint	retColor	=	0;
-	float3	fFirstInterSect	=	vCamPos+dir*fNearFar.x;
-	uint	fFirstIndex		=	dot(fFirstInterSect>(vMin+vHalfSize),float3(4,2,1));
-
-	int iter=(uiOrderToIndex>>(fFirstIndex*3))&0x7;;
+	//float4 fColor	=	float4(0,0,0,1.0f);
+	//uint	uiChildOrder	=	uiOrder;
+	int iter=0;
 	[loop]
 	while(true){
 		
@@ -279,7 +278,7 @@ float4 main( VS_OUTPUT Input ):SV_Target0{
 	if(retColor==0){
 		discard;
 	}
-	return U32_F32(retColor);
+	return U32_F32(retColor)*0.15;
 //	return float4(1,0,0,0);
 };
 

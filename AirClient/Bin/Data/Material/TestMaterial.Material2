@@ -156,7 +156,14 @@ Material	SVO_Test			:	MT_SVO_Test
 {
 	Texture	AirMesh/Strom/wolf.dds
 }
-Material	SVO_Debug			:	MT_SVO_Debug
+Material	SVO_Debug				:	MT_SVO_Debug
+{
+	Matrix
+	Texture	Texture/DIR2ORDER_N.dds
+	Texture	MRT0
+	Texture	MRT1
+}
+Material	SVO_FinalGather			:	MT_SVO_FinalGather
 {
 	Matrix
 	Texture	Texture/DIR2ORDER_N.dds
