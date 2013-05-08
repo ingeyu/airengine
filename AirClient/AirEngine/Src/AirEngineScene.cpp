@@ -86,8 +86,8 @@ namespace Air{
 			g_mgr.SetSceneNode(&m_pRootNode);
 			//AString	strSkele	=	"Mage.CSF";
 			//Character::Resource*	pRes	=	EngineSystem::GetSingleton()->CreateProduct<Character::Resource*>("Character/Mage/","Character",&strSkele);
-			Character::Animation::Model*	pModel	=	g_mgr.Create("1","·¨Ê¦");
-			pModel->SetActionState("Walk.CAF");
+			Character::Animation::Model*	pModel	=	g_mgr.Create("1","»úÇ¹±ø");
+			pModel->SetActionState("Run.CAF");
 
 			//Texture*	pTex	=	Render::System::GetSingleton()->CreateProduct<Texture*>("AirMesh/agrm/ORCHANGINGTARP.dds","Texture");
 			//std::vector<DWORD>	vecData;

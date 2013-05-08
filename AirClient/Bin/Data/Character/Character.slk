@@ -221,9 +221,26 @@ P;E宋体;M220;L11
 P;E宋体;M220;SI;L24
 P;E宋体;M220;SB;L9
 P;E宋体;M220;L10
+P;E宋体;M220;L9
+P;E宋体;M360;SB;L57
+P;E宋体;M300;SB;L57
+P;E宋体;M260;SB;L57
+P;E宋体;M220;SB;L57
+P;E宋体;M220;L18
+P;E宋体;M220;L21
+P;E宋体;M220;L61
+P;E宋体;M220;L63
+P;E宋体;M220;SB;L64
+P;E宋体;M220;SB;L53
+P;E宋体;M220;L53
+P;E宋体;M220;SB;L10
+P;E宋体;M220;L11
+P;E宋体;M220;SI;L24
+P;E宋体;M220;SB;L9
+P;E宋体;M220;L10
 P;E宋体;M180
 F;P0;DG0G8;M270
-B;Y4;X6;D0 0 3 5
+B;Y5;X6;D0 0 4 5
 O;L;F;D;V0;K47;T0;G100 0.001
 F;W1 1 10
 F;W3 3 16
@@ -254,4 +271,10 @@ C;X3;K"Animation.slk"
 C;X4;K"Equipment.slk"
 C;X5;K"Man.CSF"
 C;X6;K"Character/Character_man/"
+C;Y5;X1;K3
+C;X2;K"机枪兵"
+C;X3;K"Animation.slk"
+C;X4;K"Equipment.slk"
+C;X5;K"Marine.CSF"
+C;X6;K"Character/Marine/"
 E

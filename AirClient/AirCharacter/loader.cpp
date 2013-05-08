@@ -475,7 +475,7 @@ CalCoreAnimationPtr CalLoader::loadCoreAnimation(CalDataSource& dataSrc, CalCore
   }
 
   std::vector<CalTransform> poses;
-  std::vector<intptr_t> track_assignments;
+  std::vector<int> track_assignments;
   if (skel)
   {
     track_assignments.resize(skel->getVectorCoreBone().size(), -1);
@@ -1755,7 +1755,7 @@ CalCoreAnimationPtr CalLoader::loadXmlCoreAnimation(const std::string& strFilena
   poses.resize(num_keyframes * trackCount);
 
   // Allocate space for the bone to track mapping
-  std::vector<intptr_t> track_assignments;
+  std::vector<int> track_assignments;
   if (skel)
   {
     track_assignments.resize(skel->getVectorCoreBone().size(), -1);
