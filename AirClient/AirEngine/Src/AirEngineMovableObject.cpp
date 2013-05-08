@@ -10,7 +10,7 @@ namespace Air{
 	
 		MovableObject::MovableObject(){
 			m_pParentNode	=	NULL;
-			
+			m_uiVisiableFrame	=	0;;
 			m_bDirty		=	true;
 			AddFlag(enMOF_VISIABLE);
 		}
@@ -102,6 +102,16 @@ namespace Air{
 		Air::U1 MovableObject::RayCast( const Ray& ray,float* pOutDistance /*= NULL*/ )
 		{
 			return	ray.Intersect(m_WorldBound,pOutDistance);
+		}
+
+		Air::U1 MovableObject::OnCameraCull( Camera* pCamera )
+		{
+			if(!HasFlag(enMOF_VISIABLE))
+				return false;
+			U1	bVisable	=	pCamera->IsVisiable(m_WorldBound);
+			if(bVisable)
+				m_uiVisiableFrame	=	GetTimer().m_FrameTime.uiFrameIndex;
+			return bVisable;
 		}
 
 // 		Buffer* MovableObject::GetObjectConstantBuffer(){

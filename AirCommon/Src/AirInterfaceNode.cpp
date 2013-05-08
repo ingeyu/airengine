@@ -170,7 +170,7 @@ namespace Air{
 			}
 
 			if(bDirty){
-				m_GlobalWorldMatrix	=	ParentGlobalWorldMatrix	*	m_matWorld;
+				m_GlobalWorldMatrix	=	m_matWorld*ParentGlobalWorldMatrix;
 				m_GlobalScale		=	m_vScale	*	ParentGlobalWorldScale;
 				m_GlobalWorldQuat	=	ParentGlobalWorldQuat	*	m_qQuat;
 				m_GlobalWorldMatrix.Decompose(&m_GlobaPosition,NULL,NULL);

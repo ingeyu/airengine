@@ -200,10 +200,11 @@ namespace Air{
 				MovableObjectListItr	i	=	m_lstMovableObject.begin();
 				for(;i!=m_lstMovableObject.end();++i){
 					pObj	=	*i;
-					if(pObj->HasFlag(enMOF_VISIABLE)){
-						if(pCamera->IsVisiable(pObj->GetWorldBoundingBox()))
-							pCamera->AddMovableObject(*i);
-					}
+					if(pObj->OnCameraCull(pCamera)){
+						pCamera->AddMovableObject(pObj);
+					};
+						
+					
 				}
 
 				Common::NodeListItr	itr	=	m_lstChild.begin();

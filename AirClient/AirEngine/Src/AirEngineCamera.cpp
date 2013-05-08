@@ -217,16 +217,22 @@ namespace Air{
 					TVector<MovableObject*>::iterator	i		=	vec.begin();
 					TVector<MovableObject*>::iterator	iEnd	=	vec.end();
 					for(;i!=iEnd;i++){
-						(*i)->ProcessRenderObject(m_PhaseFlag);
+						
+						if(IsVisiable((*i)->GetWorldBoundingBox())){
+							(*i)->ProcessRenderObject(m_PhaseFlag);
+						}
+						
 					}
 				}else{
 					TVector<MovableObject*>&	vec				=	pMainCamera->m_vecShadowMovable;
 					TVector<MovableObject*>::iterator	i		=	vec.begin();
 					TVector<MovableObject*>::iterator	iEnd	=	vec.end();
 					for(;i!=iEnd;i++){
+						
 						if(IsVisiable((*i)->GetWorldBoundingBox())){
 							m_vecShadowMovable.push_back(*i);//(m_PhaseFlag);
 						}
+						
 					}
 				}
 			}else{
@@ -247,7 +253,7 @@ namespace Air{
 		}
 
 		void Camera::AddMovableObject( MovableObject* pObj ){
-			if(m_Type	==	enCT_UNKNOWN){
+			if(m_Type	!=	enCT_MAIN){
 				pObj->ProcessRenderObject(m_PhaseFlag);
 			}else{
 				if(pObj->HasFlag(enMOF_REFLECT)){

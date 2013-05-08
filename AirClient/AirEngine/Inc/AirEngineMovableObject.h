@@ -167,6 +167,8 @@ namespace Air{
 			virtual	void	ProcessRenderObject(U32	uiPhaseFlag);
 
 			virtual	U1		RayCast(const	Ray&	ray,float*	pOutDistance	=	NULL);
+
+			virtual	U1		OnCameraCull(Camera*	pCamera);
 		protected:
 			BoundingBox			m_WorldBound;		///<	世界包围盒
 			Float44				m_WorldMatrix;		///<	世界矩阵
@@ -180,6 +182,7 @@ namespace Air{
 			//Buffer*		m_pObjectCB;	
 
 			RenderableVector	m_vecRenderable;
+			U32					m_uiVisiableFrame;	
 		};
 	};
 };
