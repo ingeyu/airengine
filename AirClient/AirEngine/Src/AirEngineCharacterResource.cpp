@@ -44,6 +44,8 @@ namespace Air{
 							oldInfo.uiRefCount++;
 						}
 					}
+					if(pOutMeshBuff!=NULL)
+						*pOutMeshBuff	=	*(MeshHDBuffer*)oldInfo.pUserData;
 					return oldInfo.uiID;
 				}
 				Data	pData;

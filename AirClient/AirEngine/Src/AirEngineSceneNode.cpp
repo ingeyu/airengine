@@ -39,10 +39,23 @@ namespace Air{
 		void SceneNode::attachObject( MovableObject* obj ){
 			if(obj==NULL)
 				return;
+			if(m_bDirty){
+
+				SceneNode*	pNode	=	GetParentSceneNode();
+				SceneNode*	pRoot	=	NULL;
+				while(pNode!=NULL){
+					pRoot	=	pNode;
+					pNode	=	pNode->GetParentSceneNode();
+				}
+				pRoot->Update(Float44(),Float4(),Float3(1,1,1),false);
+				m_bDirty	=	false;
+			}
+
 			obj->SetParent(this);
 			m_ObjectCS.Enter();
 			m_lstMovableObject.push_back(obj);
 			m_ObjectCS.Leave();
+
 			//更新obj内部的世界矩阵和 包围盒
 			obj->Update(m_GlobalWorldMatrix,m_GlobalWorldQuat,m_GlobalScale,true);
 	

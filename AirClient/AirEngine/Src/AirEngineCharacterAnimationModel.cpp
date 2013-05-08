@@ -514,11 +514,11 @@ namespace Air{
 				void Model::Update(){
 					CoreAnimation*	pAnimation	=	m_pAnimation;
 					if(pAnimation){
-						m_CS.Enter();
+						//m_CS.Enter();
 						pAnimation->update(GetTimer().GetTimeDelta()*m_fAnimationSpeed);
-						m_CS.Leave();
-						pAnimation->getSkeleton()->calculateBoundingBoxes();
-						pAnimation->getSkeleton()->getBoneBoundingBox(&m_BoundingBox.vMin.x,&m_BoundingBox.vMax.x);
+						//m_CS.Leave();
+						//pAnimation->getSkeleton()->calculateBoundingBoxes();
+						//pAnimation->getSkeleton()->getBoneBoundingBox(&m_BoundingBox.vMin.x,&m_BoundingBox.vMax.x);
 	
 						UpdateAttachObject();
 
@@ -535,7 +535,14 @@ namespace Air{
 							pMatrixArray[i].Transpose();
 							pMatrixArray[i].SetPosition(*(Float3*)&v);
 							//Render::System::GetSingleton()->MakeBoneMatrix(&pMatrixArray[i],(Float4*)&q,(Float3*)&v);
+							if(i==0){
+								m_BoundingBox.vMin	=	v;
+								m_BoundingBox.vMax	=	v;
+							}else{
+								m_BoundingBox.Add(v);
+							}
 						}
+						m_bDirty	=	true;
 					}
 					__super::Update();
 				}

@@ -516,7 +516,7 @@ namespace	Air{
 
 			if(id	==	OIS::MB_Middle){
 
-				if(GetCurrentScene()->GetRootNode()->RayCast(ray,&fDis))
+				if(GetCurrentScene()->GetStaticSceneNode()->RayCast(ray,&fDis))
 				//TreeElement* pElement	=	pMesh->RayCast(ray,&fDis);
 				//if(pElement)
 				{

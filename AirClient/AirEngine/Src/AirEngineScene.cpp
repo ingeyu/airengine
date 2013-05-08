@@ -72,7 +72,7 @@ namespace Air{
 			pNode->SetScale(Float3(0.5,0.5,0.5));
 			//pNode->SetPosition(Float3(-8,6.5,0));
 
-			m_Loader.SetNode(&m_pRootNode);
+			m_Loader.SetNode(&m_StaticNode);
 			//"..\\Data\\AirMesh\\jianxia3\\jianxia3.ame.Scene"
 			m_Loader.Load("AirMesh/strom/strom.ame.Scene");
 
@@ -81,11 +81,28 @@ namespace Air{
 			//Character::Resource*	pRes	=	EngineSystem::GetSingleton()->CreateProduct<Character::Resource*>("Character/Mage/","Character",&strSkele);
 			Character::Animation::Model::Info cinfo;
 			cinfo.strTemplate	=	"»úÇ¹±ø";
-			Character::Animation::Model*	pModel	=	EngineSystem::GetSingleton()->CreateProduct<Character::Animation::Model>("1",&cinfo);
-			pMNode = m_pRootNode.CreateChildSceneNode();;//->SetActionState("run.CAF");
-			pMNode->SetScale(Float3(10,10,10));
-			pMNode->SetQuat(Float4(Float3(-1,0,0),1.57));
-			pMNode->attachObject(pModel);
+			pMNode = m_pRootNode.CreateChildSceneNode();;//
+			//pMNode->SetScale(Float3(10,1,10));
+			AString str[]={
+				"run.CAF",
+				"stand.CAF",
+				"wait.CAF",
+				"shoot.CAF"
+			};
+			for(S32 i=0;i<100;i++){
+				AString strName =Common::Converter::ToString(i);
+				Character::Animation::Model*	pModel	=	EngineSystem::GetSingleton()->CreateProduct<Character::Animation::Model>(strName,&cinfo);
+				pModel->SetActionState(str[i&0x3]);
+				SceneNode*	pTemp	=	pMNode->CreateChildSceneNode();
+				pTemp->SetPosition(Float3(i%10,0,i/10)*10);
+				pTemp->SetQuat(Float4(Float3(-1,0,0),1.57));
+				pTemp->SetScale(Float3(10,10,10));
+				pTemp->attachObject(pModel);
+			}
+			
+			
+			
+			
 			//Texture*	pTex	=	Render::System::GetSingleton()->CreateProduct<Texture*>("AirMesh/agrm/ORCHANGINGTARP.dds","Texture");
 			//std::vector<DWORD>	vecData;
 			//vecData.resize(256*256);
