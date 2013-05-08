@@ -34,7 +34,7 @@ namespace Air{
 	
 		
 		namespace	Character{
-	
+			class	ModelTemplate;
 			/**	\brief	 动画相关
 			*
 			*	动画相关
@@ -223,12 +223,8 @@ namespace Air{
 					*
 					***/
 					struct Info{
-						Info(){
-							bHardWare	=	true;
-						};
-						AString	strResourcePath;	///<	资源目录
-						AString	strSkeleton;		///<	骨骼文件名
-						U1		bHardWare;			///<	是否采用硬件渲染
+						AString	strTemplate;	///<	资源目录
+						
 					};
 				public:
 					Model(CAString&	strName,Info* pInfo);
@@ -500,7 +496,7 @@ namespace Air{
 
 					Float44*				m_BoneMatrix;
 					U32						m_uiBoneCount;
-
+					ModelTemplate*			m_pTemplate;
 				};
 
 			};

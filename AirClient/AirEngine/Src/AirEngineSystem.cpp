@@ -12,6 +12,7 @@
 #include "AirEngineCharacterResource.h"
 #include "AirEngineCharacterAnimationModel.h"
 #include "AirEngineCharacterTextureAnimationModel.h"
+#include "AirEngineCharacterTemplate.h"
 #include "AirEngineTerrainCommon.h"
 #include "AirEngineSubEntity.h"
 #include "AirEngineMaterial.h"
@@ -29,7 +30,6 @@
 #include "AirManualMeshEntity.h"
 
 #include "AirCommonIniFile.h"
-#include "AirEngineCharacterManager.h"
 #include "AirInterfaceInputSystem.h"
 
 #include "AirEnginePipeline.h"
@@ -54,7 +54,7 @@ namespace Air{
 	
 	namespace	Engine{
 	
-		Character::Manager	g_CharacterMgr;
+		
 		const	static	UInt	g_uiNumPlugin		=	16;
 		const	static	AString	g_strPluginArray[]	=	{
 			"Resource",
@@ -144,6 +144,7 @@ namespace Air{
 			
 			//AddFactory(new	LightFactory());
 			AddFactory(new	ExtraOptionParamFactory<Character::Resource,AString>());
+			AddFactory(new  ParamFactory<Character::ModelTemplate>());
 			AddFactory(new	ParamFactory<Character::Animation::Model>());
 			//AddFactory(new	Character::Animation::TextureModelFactory());
 			//AddFactory(new	Terrain::IPageFactory());
@@ -166,6 +167,8 @@ namespace Air{
 			AddFactory(new NoParamFactory<Scene>());
 			
 			AddFactory(new ExtraOptionParamFactory<Plugin,void>());
+
+			
 	
 			//加载所有插件
  			if(!LoadPlugin())
@@ -184,6 +187,9 @@ namespace Air{
 	
 			//启动系统
 			StartAllSystemManager();
+
+
+			Character::InitModelTemplate("Character.slk");
 
 			GameSystem::GetSingleton()->Initialization();
 

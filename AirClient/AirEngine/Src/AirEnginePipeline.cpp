@@ -10,7 +10,7 @@
 #include "AirQuadRenderable.h"
 #include "AirEngineMaterial.h"
 #include "AirEngineLight.h"
-#include "AirEngineCharacterManager.h"
+
 #include "AirResourceSystem.h"
 
 
@@ -20,7 +20,7 @@
 namespace	Air{
 	namespace	Engine{
 		NavMesh*	pMesh	=	NULL;
-		extern Character::Manager	g_mgr;
+		extern SceneNode* pMNode;
 
 		AString	Pipeline::ProductTypeName="Pipeline";
 		Pipeline::Pipeline( CAString& strName):IProduct(strName)
@@ -522,7 +522,7 @@ namespace	Air{
 				{
 					Float3	vPos	=	ray.m_vStart+ray.m_vDirection*fDis;
 					vEnd			=	vPos;
-					g_mgr.GetSceneNode()->SetPosition(vPos);
+					pMNode->SetPosition(vPos);
 				}
 				//Ray	ray	=	GetGlobalSetting().GetCursorPostionRay(p);
 				//if(ray.Intersect(pTestEnt->GetWorldBoundingBox())){
@@ -594,10 +594,10 @@ namespace	Air{
 			switch(arg.key){
 
 			case OIS::KC_UP:{
-				g_mgr.NextState();
+				//g_mgr.NextState();
 							}break;
 			case OIS::KC_DOWN:{
-				g_mgr.NextAction();
+				//g_mgr.NextAction();
 							  }break;
 			case OIS::KC_M:{
 				__asm int 3;

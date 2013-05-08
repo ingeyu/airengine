@@ -19,7 +19,7 @@
 #include "AirEngineEntityCloth.h"
 #include "AirStaticMesh.h"
 
-#include "AirEngineCharacterManager.h"
+#include "AirEngineCharacterAnimationModel.h"
 #include "AirMeshEntity.h"
 
 
@@ -29,12 +29,7 @@
 namespace Air{
 	
 	namespace	Engine{
-
-		Character::Manager	g_mgr;
-
-
-
-		
+		SceneNode* pMNode=NULL;
 		AString Scene::ProductTypeName="Scene";
 		Scene::Scene( CAString& strName ):IProduct(strName){
 			m_pMainCamera				=	NULL;
@@ -82,13 +77,15 @@ namespace Air{
 			m_Loader.Load("AirMesh/strom/strom.ame.Scene");
 
 			//m_pRootNode.SetScale(Float3(0.1,0.1,0.1));
-			g_mgr.LoadSLK("Character.slk");
-			g_mgr.SetSceneNode(&m_pRootNode);
 			//AString	strSkele	=	"Mage.CSF";
 			//Character::Resource*	pRes	=	EngineSystem::GetSingleton()->CreateProduct<Character::Resource*>("Character/Mage/","Character",&strSkele);
-			Character::Animation::Model*	pModel	=	g_mgr.Create("1","»úÇ¹±ø");
-			pModel->SetActionState("Run.CAF");
-
+			Character::Animation::Model::Info cinfo;
+			cinfo.strTemplate	=	"»úÇ¹±ø";
+			Character::Animation::Model*	pModel	=	EngineSystem::GetSingleton()->CreateProduct<Character::Animation::Model>("1",&cinfo);
+			pMNode = m_pRootNode.CreateChildSceneNode();;//->SetActionState("run.CAF");
+			pMNode->SetScale(Float3(10,10,10));
+			pMNode->SetQuat(Float4(Float3(-1,0,0),1.57));
+			pMNode->attachObject(pModel);
 			//Texture*	pTex	=	Render::System::GetSingleton()->CreateProduct<Texture*>("AirMesh/agrm/ORCHANGINGTARP.dds","Texture");
 			//std::vector<DWORD>	vecData;
 			//vecData.resize(256*256);
@@ -105,7 +102,7 @@ namespace Air{
 			//if()
 
 			//m_Loader.Unload();
-			g_mgr.Destroy();
+
 
 
 			m_pMainCamera=NULL;

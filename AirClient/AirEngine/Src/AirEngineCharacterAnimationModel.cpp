@@ -6,6 +6,7 @@
 #include "AirRenderSystem.h"
 #include "AirEngineMaterial.h"
 #include "AirEngineMaterialParse.h"
+#include "AirEngineCharacterTemplate.h"
 namespace Air{
 	
 	namespace	Engine{
@@ -247,7 +248,8 @@ namespace Air{
 
 					m_BoneMatrix	=	0;
 					m_uiBoneCount	=	0;
-
+					m_pTemplate		=	NULL;
+					m_pAnimation	=	NULL;
 				}
 	
 				Model::~Model(){
@@ -256,9 +258,13 @@ namespace Air{
 				}
 	
 				U1 Model::Create(){
-					if(m_Info.strResourcePath.empty() || m_Info.strSkeleton.empty())
+					if(m_Info.strTemplate.empty())
 						return false;
-					m_pResource	=	EngineSystem::GetSingleton()->CreateProduct<Resource>(m_Info.strResourcePath,&m_Info.strSkeleton);
+					m_pTemplate	=	EngineSystem::GetSingleton()->GetProduct<ModelTemplate>(m_Info.strTemplate);
+					if(m_pTemplate==NULL)
+						return false;
+					
+					m_pResource	=	EngineSystem::GetSingleton()->CreateProduct<Resource>(m_pTemplate->m_Info.strModelPath,&m_pTemplate->m_Info.strSkeletonName);
 					if(m_pResource==NULL)
 						return false;
 					if(m_pResource->IsNull())
@@ -272,6 +278,15 @@ namespace Air{
 					m_uiBoneCount	=	lstBone.size();
 					//ShaderShareParam&	dParam	=	GetGlobalSetting().m_ShaderParam;
 					m_BoneMatrix	=	new Float44[m_uiBoneCount];
+
+					U32 uiEquipmentCount	=	m_pTemplate->m_vecEquipment.size();
+					for(U32 i=0;i<uiEquipmentCount;i++){
+						AddEquipment(m_pTemplate->m_vecEquipment[i],m_pTemplate->m_vecMaterial[i],(Animation::Equipment::enType)i);
+					}
+					if(!m_pTemplate->m_vecState.empty()){
+						m_strCurrentCycleAction	=	m_pTemplate->m_vecState[0];
+						SetActionState(m_strCurrentCycleAction);
+					}
 					
 					return true;
 					
@@ -301,6 +316,7 @@ namespace Air{
 					SAF_D(m_pAnimation);
 					//再销毁资源
 					SAFE_RELEASE_REF(m_pResource);
+					SAFE_RELEASE_REF(m_pTemplate);
 					return true;
 				}
 	
@@ -353,16 +369,10 @@ namespace Air{
 							return false;
 						UInt*	pEquipmentMesh	=	NULL;
 						//判定是否为硬件渲染
-						if(m_Info.bHardWare){
-							if(!equip->Create(uiMeshID,strName,strMaterial,&meshBuff))
-								return	false;
-						}else{
-							//创建模型
-							if(!equip->Create(uiMeshID,strName,strMaterial,&pEquipmentMesh)){
-								m_pResource->UnLoadMesh(strName);
-								return false;
-							}
-						}
+						
+						if(!equip->Create(uiMeshID,strName,strMaterial,&meshBuff))
+							return	false;
+						
 						m_mapEquipmentMesh.insert(EquipmentMeshMapPair(pEquipmentMesh,equip));
 						return true;
 	
@@ -378,19 +388,10 @@ namespace Air{
 					//新建一个装备
 					pEquip	=	new	Equipment(m_pAnimation,type,this);
 					//判定是否为硬件渲染
-					if(m_Info.bHardWare){
-						if(!pEquip->Create(uiMeshID,strName,strMaterial,&meshBuff))
-							return	false;
-					}else{
-	
-						UInt*	pEquipmentMesh	=	NULL;
-						//创建模型
-						if(!pEquip->Create(uiMeshID,strName,strMaterial,&pEquipmentMesh)){
-							m_pResource->UnLoadMesh(strName);
-							return false;
-						}
-						m_mapEquipmentMesh.insert(EquipmentMeshMapPair(pEquipmentMesh,pEquip));
-					}
+					
+					if(!pEquip->Create(uiMeshID,strName,strMaterial,&meshBuff))
+						return	false;
+					
 					//放入列表中
 					m_mapEquipment.insert(EquipmentMapPair(type,pEquip));
 	
@@ -542,11 +543,9 @@ namespace Air{
 				void Model::Render(){
 
 					//判定是采用软件渲染  还是硬件渲染
-					if(m_Info.bHardWare){
-						RenderHardWare();
-					}else{
-						RenderSoftWare();
-					}
+					
+					RenderHardWare();
+					
 					//m_CS.Leave();
 	
 					RenderAttachObject();

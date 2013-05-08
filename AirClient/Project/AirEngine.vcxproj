@@ -165,7 +165,7 @@
     <ClCompile Include="..\AirEngine\Src\AirEngine.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirEngine3ds.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirEngineCharacterAnimationModel.cpp" />
-    <ClCompile Include="..\AirEngine\Src\AirEngineCharacterManager.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirEngineCharacterTemplate.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirEngineCharacterResource.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirEngineCharacterTextureAnimationModel.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirEngineDataStream.cpp" />
@@ -261,7 +261,7 @@
     <ClInclude Include="..\AirEngine\Inc\AirEngineHeader.h" />
     <ClInclude Include="..\AirEngine\Inc\AirEngine3ds.h" />
     <ClInclude Include="..\AirEngine\Inc\AirEngineCharacterAnimationModel.h" />
-    <ClInclude Include="..\AirEngine\Inc\AirEngineCharacterManager.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirEngineCharacterTemplate.h" />
     <ClInclude Include="..\AirEngine\Inc\AirEngineCharacterResource.h" />
     <ClInclude Include="..\AirEngine\Inc\AirEngineCharacterTextureAnimationModel.h" />
     <ClInclude Include="..\AirEngine\Inc\AirEngineDataStream.h" />

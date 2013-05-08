@@ -30,7 +30,7 @@
 #include "AirInterfaceParticle.h"
 #include "AirEngineFont.h"
 #include "AirEngineTextInstance.h"
-#include "AirEngineCharacterManager.h"
+
 #include "AirEngineEntity.h"
 #include "AirEngineEntityCloth.h"
 
