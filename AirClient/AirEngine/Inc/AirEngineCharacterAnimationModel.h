@@ -497,6 +497,8 @@ namespace Air{
 					Float44*				m_BoneMatrix;
 					U32						m_uiBoneCount;
 					ModelTemplate*			m_pTemplate;
+
+					Action					m_CycleAnimation[3];
 				};
 
 			};

@@ -31,6 +31,7 @@ namespace Air{
 	namespace	Engine{
 		SceneNode* pMNode=NULL;
 		AString Scene::ProductTypeName="Scene";
+		Character::Animation::Model*	pModel=NULL;
 		Scene::Scene( CAString& strName ):IProduct(strName){
 			m_pMainCamera				=	NULL;
 			m_bShadowEnable				=	true;
@@ -59,7 +60,7 @@ namespace Air{
 
 
 			MeshEntity::Info	info;
-			info.strMaterial	=	"OIT_TEST";
+			info.strMaterial	=	"NoMaterial";
 			info.strMeshName	=	"AirMesh/Teapot.AME";
  			MeshEntity*	pMesh	=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity>(info.strMeshName,&info);;
 			//pMesh->SetMaterialName("OIT_TEST");
@@ -83,22 +84,28 @@ namespace Air{
 			cinfo.strTemplate	=	"»úÇ¹±ø";
 			pMNode = m_pRootNode.CreateChildSceneNode();;//
 			//pMNode->SetScale(Float3(10,1,10));
-			AString str[]={
-				"run.CAF",
-				"stand.CAF",
-				"wait.CAF",
-				"shoot.CAF"
-			};
-			for(S32 i=0;i<100;i++){
-				AString strName =Common::Converter::ToString(i);
-				Character::Animation::Model*	pModel	=	EngineSystem::GetSingleton()->CreateProduct<Character::Animation::Model>(strName,&cinfo);
-				pModel->SetActionState(str[i&0x3]);
+			//AString str[]={
+			//	"walk.CAF",
+			//	"stand.CAF",
+			//	"stand1.CAF",
+			//	"attack1.CAF",
+			//	"attack2.CAF",
+			//	"attack3.CAF",
+			//	"dance.CAF",
+			//	"fidget.CAF",
+			//	"standleft.CAF",
+			//	"standright.CAF"
+			//};
+			//for(S32 i=0;i<1;i++){
+				AString strName ="1";//Common::Converter::ToString(i);
+				pModel	=	EngineSystem::GetSingleton()->CreateProduct<Character::Animation::Model>(strName,&cinfo);
+				pModel->SetActionState("walk.CAF");//,"shootup.CAF",0.5,0);
 				SceneNode*	pTemp	=	pMNode->CreateChildSceneNode();
-				pTemp->SetPosition(Float3(i%10,0,i/10)*10);
+				//pTemp->SetPosition(Float3(i%10,0,i/10)*10);
 				pTemp->SetQuat(Float4(Float3(-1,0,0),1.57));
 				pTemp->SetScale(Float3(10,10,10));
 				pTemp->attachObject(pModel);
-			}
+			//}
 			
 			
 			
@@ -235,6 +242,11 @@ namespace Air{
 			m_DynamicNode.Update(matWorld,quat,scale,false);
 			//m_StaticNode.Update(true)
 			m_ParticleNode.Update(matWorld,quat,scale,false);
+
+			int iCount = frameTime.fTotalTime;
+			if((iCount&0x3)==0){
+				//pModel->PlayAction("shootlow.CAF",0.1);
+			}
 			
 		}
 

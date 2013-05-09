@@ -250,6 +250,9 @@ namespace Air{
 					m_uiBoneCount	=	0;
 					m_pTemplate		=	NULL;
 					m_pAnimation	=	NULL;
+					for(int i=0;i<3;i++){
+						m_CycleAnimation[i].m_uiActionID=0xffffffff;
+					}
 				}
 	
 				Model::~Model(){
@@ -441,27 +444,17 @@ namespace Air{
 					if(uiActionID==-1)
 						return false;
 					//查找是否存在于列表中
-					ActionMapItr i	=	m_mapCycleAnimation.find(strCycleActionName.c_str());
-					if(i==m_mapCycleAnimation.end()){
-						Action	act;
-						act.m_strName		=	strCycleActionName;
-						act.m_uiActionID	=	uiActionID;
-						m_mapCycleAnimation.insert(ActionMapPair(strCycleActionName.c_str(),act));
-					}
-					//获取动画操作类
-					CoreAnimation*	pAnimation	=	m_pAnimation;
-	
-					//遍历列表
-					i	=	m_mapCycleAnimation.begin();
-					for(;i!=m_mapCycleAnimation.end();i++){
-						//指定动画开启循环
-						if(i->second.m_uiActionID	==	uiActionID){
-							pAnimation->getMixer()->blendCycle(i->second.m_uiActionID,1.0f,fBlendTime);
-						}else{
-							//非指定动画关闭循环
-							pAnimation->getMixer()->clearCycle(i->second.m_uiActionID,fBlendTime);
+					for(int i=0;i<3;i++){
+						if(m_CycleAnimation[i].m_uiActionID!=uiActionID){
+							m_pAnimation->getMixer()->clearCycle(m_CycleAnimation[i].m_uiActionID,fBlendTime);
 						}
+						m_CycleAnimation[i].m_uiActionID=0xffffffff;
+						m_CycleAnimation[i].m_strName.clear();
 					}
+					m_CycleAnimation[0].m_uiActionID	=	uiActionID;
+					m_CycleAnimation[0].m_strName		=	strCycleActionName;
+
+					m_pAnimation->getMixer()->blendCycle(uiActionID,1.0f,fBlendTime);
 					return true;
 				}
 	
@@ -473,36 +466,22 @@ namespace Air{
 					if(uiActionID0==-1	||	uiActionID1==-1)
 						return false;
 					//查找是否存在于列表中
-					ActionMapItr i	=	m_mapCycleAnimation.find(strState0.c_str());
-					if(i==m_mapCycleAnimation.end()){
-						Action	act;
-						act.m_strName		=	strState0;
-						act.m_uiActionID	=	uiActionID0;
-						m_mapCycleAnimation.insert(ActionMapPair(strState0.c_str(),act));
-					}
-					i	=	m_mapCycleAnimation.find(strState1.c_str());
-					if(i==m_mapCycleAnimation.end()){
-						Action	act;
-						act.m_strName		=	strState1;
-						act.m_uiActionID	=	uiActionID1;
-						m_mapCycleAnimation.insert(ActionMapPair(strState1.c_str(),act));
-					}
-					//获取动画操作类
-					CoreAnimation*	pAnimation	=	(CoreAnimation*)m_pObject;
-	
-					//遍历列表
-					i	=	m_mapCycleAnimation.begin();
-					for(;i!=m_mapCycleAnimation.end();i++){
-						//指定动画开启循环
-						if(i->second.m_uiActionID	==	uiActionID0){
-							pAnimation->getMixer()->blendCycle(i->second.m_uiActionID,fWeight0,fBlendTime);
-						}else	if(i->second.m_uiActionID	==	uiActionID1){
-							pAnimation->getMixer()->blendCycle(i->second.m_uiActionID,1-fWeight0,fBlendTime);
-						}else{
-							//非指定动画关闭循环
-							pAnimation->getMixer()->clearCycle(i->second.m_uiActionID,fBlendTime);
+					for(int i=0;i<3;i++){
+						UInt uiOldID	=	m_CycleAnimation[i].m_uiActionID;
+						if(uiOldID!=uiActionID0	&& uiOldID!=uiActionID1){
+							m_pAnimation->getMixer()->clearCycle(uiOldID,fBlendTime);
 						}
+						m_CycleAnimation[i].m_uiActionID=0xffffffff;
+						m_CycleAnimation[i].m_strName.clear();
 					}
+					m_CycleAnimation[0].m_uiActionID	=	uiActionID0;
+					m_CycleAnimation[0].m_strName		=	strState0;
+
+					m_pAnimation->getMixer()->blendCycle(uiActionID0,fWeight0,fBlendTime);
+					m_CycleAnimation[0].m_uiActionID	=	uiActionID1;
+					m_CycleAnimation[0].m_strName		=	strState1;
+
+					m_pAnimation->getMixer()->blendCycle(uiActionID1,1-fWeight0,fBlendTime);
 					return true;
 				}
 	
