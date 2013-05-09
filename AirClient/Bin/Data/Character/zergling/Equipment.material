@@ -1,0 +1,9 @@
+[zergling]
+diffuse=1.000000 1.000000 1.000000
+ambient=1.000000 1.000000 1.000000
+specular=1.000000 1.000000 1.000000
+glossiness=0.2000000
+opacity=100.000000
+specularLevel=0.5000000
+selfIllumColor=0.000000 0.000000 0.000000
+DiffuseTex=Character/zergling/zergling_diffuse.dds
