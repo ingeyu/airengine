@@ -99,7 +99,7 @@ namespace Air{
 			//for(S32 i=0;i<1;i++){
 				AString strName ="1";//Common::Converter::ToString(i);
 				pModel	=	EngineSystem::GetSingleton()->CreateProduct<Character::Animation::Model>(strName,&cinfo);
-				pModel->SetActionState("walk.CAF");//,"shootup.CAF",0.5,0);
+				pModel->SetActionState("run.CAF");//,"shootup.CAF",0.5,0);
 				SceneNode*	pTemp	=	pMNode->CreateChildSceneNode();
 				//pTemp->SetPosition(Float3(i%10,0,i/10)*10);
 				pTemp->SetQuat(Float4(Float3(-1,0,0),1.57));
@@ -243,10 +243,6 @@ namespace Air{
 			//m_StaticNode.Update(true)
 			m_ParticleNode.Update(matWorld,quat,scale,false);
 
-			int iCount = frameTime.fTotalTime;
-			if((iCount&0x3)==0){
-				//pModel->PlayAction("shootlow.CAF",0.1);
-			}
 			
 		}
 

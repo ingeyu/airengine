@@ -16,12 +16,13 @@
 
 #include "AirNavMesh.h"
 #include "AirHelperRenderable.h"
+#include "AirEngineCharacterAnimationModel.h"
 
 namespace	Air{
 	namespace	Engine{
 		NavMesh*	pMesh	=	NULL;
 		extern SceneNode* pMNode;
-
+		extern Character::Animation::Model*	pModel;
 		AString	Pipeline::ProductTypeName="Pipeline";
 		Pipeline::Pipeline( CAString& strName):IProduct(strName)
 		{
@@ -556,7 +557,8 @@ namespace	Air{
 					//if(!IDX.empty())
 					//	pTestManualEnt->UpdateIB(&IDX[0],IDX.size());
 				}
-
+				if(pModel)
+					pModel->PlayAction("shootlow.CAF",0.1);
 			}
 
 			return true;
