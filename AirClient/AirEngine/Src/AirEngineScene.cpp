@@ -84,28 +84,26 @@ namespace Air{
 			cinfo.strTemplate	=	"»úÇ¹±ø";
 			pMNode = m_pRootNode.CreateChildSceneNode();;//
 			//pMNode->SetScale(Float3(10,1,10));
-			//AString str[]={
-			//	"walk.CAF",
-			//	"stand.CAF",
-			//	"stand1.CAF",
-			//	"attack1.CAF",
-			//	"attack2.CAF",
-			//	"attack3.CAF",
-			//	"dance.CAF",
-			//	"fidget.CAF",
-			//	"standleft.CAF",
-			//	"standright.CAF"
-			//};
-			//for(S32 i=0;i<1;i++){
-				AString strName ="1";//Common::Converter::ToString(i);
+			AString str[]={
+				"runback.CAF",
+				"runback.CAF",
+				"run.CAF",
+				"run.CAF",
+				"runbackleft.CAF",
+				"runbackright.CAF",
+				"runleft.CAF",
+				"runright.CAF"
+			};
+			for(S32 i=0;i<4;i++){
+				AString strName =Common::Converter::ToString(i);
 				pModel	=	EngineSystem::GetSingleton()->CreateProduct<Character::Animation::Model>(strName,&cinfo);
-				pModel->SetActionState("run.CAF");//,"shootup.CAF",0.5,0);
+				pModel->SetActionState(str[i],str[i+4],0.5);//,"shootup.CAF",0.5,0);
 				SceneNode*	pTemp	=	pMNode->CreateChildSceneNode();
-				//pTemp->SetPosition(Float3(i%10,0,i/10)*10);
+				pTemp->SetPosition(Float3(i%10,0,i/10)*10);
 				pTemp->SetQuat(Float4(Float3(-1,0,0),1.57));
 				pTemp->SetScale(Float3(10,10,10));
 				pTemp->attachObject(pModel);
-			//}
+			}
 			
 			
 			
