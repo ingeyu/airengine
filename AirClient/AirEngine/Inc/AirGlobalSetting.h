@@ -34,9 +34,7 @@ namespace Air{
 		namespace	Net{
 			class	ISystem;
 		}
-		namespace	Particle{
-			class	ISystem;
-		}
+
 		namespace	Input{
 			class	ISystem;
 		}
@@ -156,7 +154,7 @@ namespace Air{
 
 			Net::ISystem*				m_pNetSystem;		///<	网络系统指针
 
-			Particle::ISystem*			m_pParticleSystem;	///<	粒子系统指针
+			
 	
 	
 	

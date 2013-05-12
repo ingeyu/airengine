@@ -40,7 +40,7 @@ namespace	Air{
 			m_pMainCamera->SetType(enCT_MAIN);
 			RenderSystem*	pRenderSys	=	Render::System::GetSingleton();
 
-			m_pMainCamera->SetPosition(0,0,-400);
+			m_pMainCamera->SetPosition(0,0,-10);
 			m_pMainCamera->SetDir(0,0,1);
 
 			m_pMainWindow	=	pRenderSys->GetMainWindow();

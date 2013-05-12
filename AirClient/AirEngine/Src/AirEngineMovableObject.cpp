@@ -50,10 +50,10 @@ namespace Air{
 				m_bDirty			=	false;
 			}
 
-			Update();
+			//Update();
 		}
 	
-		void MovableObject::Update(){
+		void MovableObject::Update(const FrameTime& frameTime){
 	
 		}
 	

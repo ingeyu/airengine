@@ -45,6 +45,9 @@
     <Filter Include="Render">
       <UniqueIdentifier>{39100783-7bc8-413b-bf4f-11f2b04efafd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Particle">
+      <UniqueIdentifier>{4b9b7537-8dbc-4ae4-92b3-cdca5177a936}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\AirEngine\Src\AirEngine.cpp">
@@ -331,6 +334,21 @@
     </ClCompile>
     <ClCompile Include="..\AirEngine\Src\AirEngineCharacterTemplate.cpp">
       <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirParticle.cpp">
+      <Filter>Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirParticleAffector.cpp">
+      <Filter>Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirParticleEmitter.cpp">
+      <Filter>Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirParticleRenderable.cpp">
+      <Filter>Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirParticleTemplate.cpp">
+      <Filter>Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -702,6 +720,24 @@
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirEngineCharacterTemplate.h">
       <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirParticle.h">
+      <Filter>Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirParticleAffector.h">
+      <Filter>Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirParticleEmitter.h">
+      <Filter>Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirParticleRenderable.h">
+      <Filter>Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirParticleElement.h">
+      <Filter>Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirParticleTemplate.h">
+      <Filter>Particle</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

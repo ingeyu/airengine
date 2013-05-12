@@ -92,9 +92,9 @@ namespace Air{
 				return	m_bIsDead;
 			}
 	
-			void IBaseObject::Update(){
+			void IBaseObject::Update(const FrameTime& frameTime){
 				//¸üÐÂ°üÎ§ºÐ
-				MovableObject::Update();
+				MovableObject::Update(frameTime);
 	
 				static	Real&	fCurrentTime	=	GetGlobalSetting().m_ShaderParam.m_fTotalTime;
 				if(m_bInfiniteLife){
@@ -108,7 +108,7 @@ namespace Air{
 						GetParentSceneNode()->detachObject(this);
 					}
 	
-					GetGlobalSetting().m_pParticleSystem->DestroyParticle(this);
+					
 				}
 			}
 	

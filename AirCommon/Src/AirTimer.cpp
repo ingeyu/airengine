@@ -29,6 +29,11 @@ namespace	Air{
 		m_LastTime.QuadPart	=	currenttime.QuadPart;
 	}
 
+	Air::U32 Timer::Random()
+	{
+		return (U32)m_LastTime.QuadPart;
+	}
+
 	COMMON_EXPORT	Timer& GetTimer()
 	{
 		static Timer	g_Timer;

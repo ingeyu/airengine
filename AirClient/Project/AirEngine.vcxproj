@@ -198,6 +198,11 @@
     <ClCompile Include="..\AirEngine\Src\AirGameThirdControl.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirGlobalSetting.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirHelperRenderable.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirParticle.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirParticleAffector.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirParticleEmitter.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirParticleRenderable.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirParticleTemplate.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirPipelineOIT.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirPipelineVoxelGen.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirPostProcessHDR.cpp" />
@@ -299,6 +304,12 @@
     <ClInclude Include="..\AirEngine\Inc\AirGameThirdControl.h" />
     <ClInclude Include="..\AirEngine\Inc\AirGlobalSetting.h" />
     <ClInclude Include="..\AirEngine\Inc\AirHelperRenderable.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirParticle.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirParticleAffector.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirParticleElement.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirParticleEmitter.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirParticleRenderable.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirParticleTemplate.h" />
     <ClInclude Include="..\AirEngine\Inc\AirPipelineOIT.h" />
     <ClInclude Include="..\AirEngine\Inc\AirPipelineVoxelGen.h" />
     <ClInclude Include="..\AirEngine\Inc\AirPostProcessHDR.h" />

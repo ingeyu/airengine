@@ -490,11 +490,11 @@ namespace Air{
 					return	m_strCurrentCycleAction;
 				}
 	
-				void Model::Update(){
+				void Model::Update(const FrameTime& frameTime){
 					CoreAnimation*	pAnimation	=	m_pAnimation;
 					if(pAnimation){
 						//m_CS.Enter();
-						pAnimation->update(GetTimer().GetTimeDelta()*m_fAnimationSpeed);
+						pAnimation->update(frameTime.fTimeDelta*m_fAnimationSpeed);
 						//m_CS.Leave();
 						//pAnimation->getSkeleton()->calculateBoundingBoxes();
 						//pAnimation->getSkeleton()->getBoneBoundingBox(&m_BoundingBox.vMin.x,&m_BoundingBox.vMax.x);
@@ -523,7 +523,7 @@ namespace Air{
 						}
 						m_bDirty	=	true;
 					}
-					__super::Update();
+					__super::Update(frameTime);
 				}
 	
 				void Model::Render(){

@@ -53,7 +53,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			virtual void	Update();
+			virtual void	Update(const FrameTime& frameTime);
 	
 			virtual	void	GetShape(Physics::Shape*	pShape,Float3 vScale	=	Float3(1,1,1));
 		protected:

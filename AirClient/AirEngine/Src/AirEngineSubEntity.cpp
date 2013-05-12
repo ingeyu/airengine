@@ -90,8 +90,8 @@ namespace Air{
 			return	true;
 		}
 	
-		void SubEntity::Update(){
-			__super::Update();
+		void SubEntity::Update(const FrameTime& frameTime){
+			__super::Update(frameTime);
 		}
 	
 		void SubEntity::GetShape(Physics::Shape*	pShape,Float3 vScale){

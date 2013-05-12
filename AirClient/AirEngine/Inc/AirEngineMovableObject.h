@@ -107,7 +107,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			virtual	void		Update();
+			virtual	void		Update(const FrameTime& frameTime);
 	
 			/**	\brief	»ñÈ¡×îÖÕ¾ØÕó
 			*   

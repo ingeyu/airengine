@@ -39,7 +39,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			static SInt				Random(SInt	 iMin = 0   ,SInt   iMax = 100);
+			static SInt				RandomI(SInt	 iMin   ,SInt   iMax);
 			/**	\brief	浮点随机
 			*   
 			*	@remarks 	范围默认是0.0f-1.0f
@@ -50,7 +50,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			static Real			Random(Real fMin = 0.0f,Real fMax = 1.0f);
+			static Real				RandomF();
 			/**	\brief	数值自增
 			*   
 			*	@remarks 	从0开始 每次调用自增1	

@@ -63,7 +63,7 @@ namespace Air{
 			m_pScriptSystem		=	NULL;
 
 			m_pNetSystem		=	NULL;
-			m_pParticleSystem	=	NULL;
+			
 	
 			m_pDefaultFont		=	NULL;
 	

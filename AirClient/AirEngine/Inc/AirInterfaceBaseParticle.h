@@ -90,7 +90,7 @@ namespace Air{
 				*	@note
 				*
 				**/
-				virtual	void	Update();
+				virtual	void	Update(const FrameTime& frameTime);
 	
 			protected:
 				Info			m_Info;				///<	创建信息

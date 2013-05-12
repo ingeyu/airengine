@@ -13,7 +13,7 @@
 #include "AirEngineLight.h"
 #include "AirEngineScreenEntity.h"
 #include "AirEnginePostComposer.h"
-#include "AirInterfaceParticle.h"
+
 
 #include "AirEngineEntity.h"
 #include "AirEngineEntityCloth.h"
@@ -59,18 +59,18 @@ namespace Air{
 			
 
 
-			MeshEntity::Info	info;
-			info.strMaterial	=	"NoMaterial";
-			info.strMeshName	=	"AirMesh/Teapot.AME";
- 			MeshEntity*	pMesh	=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity>(info.strMeshName,&info);;
+			//MeshEntity::Info	info;
+			//info.strMaterial	=	"NoMaterial";
+			//info.strMeshName	=	"AirMesh/Teapot.AME";
+ 		//	MeshEntity*	pMesh	=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity>(info.strMeshName,&info);;
 			//pMesh->SetMaterialName("OIT_TEST");
 
 			// 			pMesh->Create();
 // 			//Material*	pMaterial	=	CreateProduct<Material*>("Test2","Material");
 // 			pMesh->SetMaterialName("Test2");
- 			SceneNode* pNode	=	m_pRootNode.CreateChildSceneNode();
-			pNode->attachObject(pMesh);
-			pNode->SetScale(Float3(0.5,0.5,0.5));
+ 			//SceneNode* pNode	=	m_pRootNode.CreateChildSceneNode();
+			//pNode->attachObject(pMesh);
+			//pNode->SetScale(Float3(0.5,0.5,0.5));
 			//pNode->SetPosition(Float3(-8,6.5,0));
 
 			m_Loader.SetNode(&m_StaticNode);
@@ -97,11 +97,11 @@ namespace Air{
 			for(S32 i=0;i<4;i++){
 				AString strName =Common::Converter::ToString(i);
 				pModel	=	EngineSystem::GetSingleton()->CreateProduct<Character::Animation::Model>(strName,&cinfo);
-				pModel->SetActionState(str[i],str[i+4],0.5);//,"shootup.CAF",0.5,0);
+				pModel->SetActionState(str[i],str[i+4],0.75);//,"shootup.CAF",0.5,0);
 				SceneNode*	pTemp	=	pMNode->CreateChildSceneNode();
-				pTemp->SetPosition(Float3(i%10,0,i/10)*10);
+				pTemp->SetPosition(Float3(i%10,0,i/10)*4);
 				pTemp->SetQuat(Float4(Float3(-1,0,0),1.57));
-				pTemp->SetScale(Float3(10,10,10));
+				pTemp->SetScale(Float3(2,2,2));
 				pTemp->attachObject(pModel);
 			}
 			
@@ -203,13 +203,13 @@ namespace Air{
 
 	
 		void Scene::PlayParticle( AString strName,Float3 vPosition,Float3 vNormal ){
-			IParticle::Info info;
-			info.strParticleFile	=	strName;
-			info.vVelocity			=	vNormal;
-			info.vPosition			=	vPosition;
-			IParticle*	pParticle	=	EngineSystem::GetSingleton()->CreateProduct<IParticle>(Number::Increase(""),&info);
-			if(pParticle!=NULL)
-				m_pRootNode.attachObject(pParticle);
+			//IParticle::Info info;
+			//info.strParticleFile	=	strName;
+			//info.vVelocity			=	vNormal;
+			//info.vPosition			=	vPosition;
+			//IParticle*	pParticle	=	EngineSystem::GetSingleton()->CreateProduct<IParticle>(Number::Increase(""),&info);
+			//if(pParticle!=NULL)
+			//	m_pRootNode.attachObject(pParticle);
 		}
 	
 		void Scene::SaveTargetToFile(){

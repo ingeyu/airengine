@@ -18,7 +18,7 @@ namespace	Air{
 		inline	float	GetTimeDelta(){return	m_FrameTime.fTimeDelta;};
 		inline	double	GetTotalTime(){return	m_FrameTime.fTotalTime;};
 		inline	U64		GetFrameIndex(){return	m_FrameTime.uiFrameIndex;};
-
+		U32				Random();
 		double			m_Freq;
 		LARGE_INTEGER	m_LastTime;
 		FrameTime		m_FrameTime;
