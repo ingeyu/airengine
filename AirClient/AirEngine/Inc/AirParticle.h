@@ -13,9 +13,11 @@ namespace	Air{
 			public	IProduct,
 			public	MovableObject{
 		public:
+			static AString ProductTypeName;
 			struct Info{
 				AString strTemplate;
 			};
+
 			Particle(CAString& str,Info* pInfo);
 
 			virtual	U1	Create();
@@ -25,7 +27,7 @@ namespace	Air{
 			inline	U32					GetElementCount()const	{return m_lstElement.size();};
 			inline	PElementList&		GetElementList()		{return m_lstElement;};
 			//Call By Emitter
-			virtual	void		OnElementBorn(ParticleElement* pElementArray,U32 uiCount);
+			virtual	void		OnElementBorn(ParticleElement* pElement);
 		protected:
 			float							m_fBornTime;
 			PElementList					m_lstElement;
@@ -42,6 +44,8 @@ namespace	Air{
 
 			virtual	U1	Initialization();
 			virtual	U1	Release();
+
+			void		Update(const FrameTime& frameTime);
 		};
 	}
 }

@@ -35,7 +35,7 @@ namespace	Air{
 			m_fUpdateTime	+=	frameTime.fTimeDelta;
 
 			while(m_fUpdateTime>m_fFreq){
-				pParticle->OnElementBorn(new ParticleElement(),1);
+				pParticle->OnElementBorn(new ParticleElement());
 				m_fUpdateTime-=m_fFreq;
 			}
 
@@ -64,7 +64,7 @@ namespace	Air{
 				vPos=vPos*2-1;
 				ParticleElement* p=new ParticleElement;
 				p->vPos	=	&(m_vCenter+m_vHalfSize*vPos);
-				pParticle->OnElementBorn(p,1);
+				pParticle->OnElementBorn(p);
 				m_fUpdateTime-=m_fFreq;
 			}
 		}
@@ -89,7 +89,7 @@ namespace	Air{
 				vPos.Normalize();
 				ParticleElement* p=new ParticleElement;
 				p->vPos	=	&(m_vCenter+vPos*m_fRadius*rand()/65535.0f);
-				pParticle->OnElementBorn(p,1);
+				pParticle->OnElementBorn(p);
 				m_fUpdateTime-=m_fFreq;
 			}
 		}

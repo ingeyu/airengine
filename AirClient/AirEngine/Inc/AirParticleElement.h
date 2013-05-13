@@ -17,7 +17,7 @@ namespace	Air{
 			float	m_fBornTime;
 			float	m_fSize;
 		};
-		typedef	STD_LIST<ParticleElement>	PElementList;
+		typedef	STD_LIST<ParticleElement*>	PElementList;
 	}
 }
 #endif // AirParticleElement_h__

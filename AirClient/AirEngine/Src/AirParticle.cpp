@@ -2,8 +2,7 @@
 #include "AirParticleTemplate.h"
 namespace	Air{
 	namespace	Engine{
-
-
+		AString Particle::ProductTypeName="Particle";
 		Particle::Particle( CAString& str,Info* pInfo ):IProduct(str)
 		{
 			m_pTemplate	=	NULL;
@@ -38,6 +37,53 @@ namespace	Air{
 			}
 			if(m_pTemplate!=NULL){
 				m_pTemplate->Update(frameTime,this);
+			}
+		}
+
+		void Particle::OnElementBorn( ParticleElement* pElement)
+		{
+			
+			m_lstElement.push_back(pElement);
+			
+		}
+
+
+		ParticleSystem::ParticleSystem()
+		{
+
+		}
+
+		Air::U1 ParticleSystem::Initialization()
+		{
+
+			return true;
+		}
+
+		Air::U1 ParticleSystem::Release()
+		{
+
+			return true;
+
+		}
+
+		void ParticleSystem::Update( const FrameTime& frameTime )
+		{
+			class UpdateParticle:public Common::TraversalCallback{
+			public:
+				UpdateParticle(const FrameTime& frameTime):t(frameTime){
+
+				};
+				virtual	void	OnTraversal(IProduct* pProduct){
+					Particle* p = (Particle*)pProduct;
+					p->Update(t);
+				}
+				const FrameTime& t;
+			};
+
+			IFactory* pFactory	=	GetFactory(Particle::ProductTypeName);
+			if(pFactory!=NULL){
+				UpdateParticle tempUpdate(frameTime);
+				pFactory->TraversalProduct(&tempUpdate);
 			}
 		}
 

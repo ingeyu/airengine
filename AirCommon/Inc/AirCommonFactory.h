@@ -53,6 +53,10 @@ namespace Air{
 		protected:
 			const	AString&	m_strTypeName;		///<	工厂类型名
 		};
+		class TraversalCallback{
+		public:
+			virtual	void	OnTraversal(IProduct* pProduct)=NULL;
+		};
 		/**	\brief 工厂模版
 		*
 		*	工厂模版 主要用于创建 删除
@@ -195,6 +199,16 @@ namespace Air{
 			*
 			**/
 			void		SetFactoryManager(IFactoryManager* pFactoryMgr);
+			/**	\brief	遍历所有产品
+			*    
+			*	@remarks 	遍历所有产品 函数会加锁
+			*	@see		IFactory
+			*	@return   	void
+			*	@param		IFactoryManager * pFactoryMgr
+			*	@note
+			*
+			**/
+			void		TraversalProduct(TraversalCallback* pCB);
 		protected:
 			ProductMap								m_mapProduct;		///<	产品列表
 			IFactoryManager*						m_pFactoryMgr;		///>	工厂管理器

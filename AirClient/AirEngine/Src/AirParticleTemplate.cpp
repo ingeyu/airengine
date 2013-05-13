@@ -8,7 +8,7 @@
 namespace	Air{
 	namespace	Engine{
 
-
+		AString	ParticleTemplate::ProductTypeName	=	"ParticleTemplate";
 		ParticleTemplate::ParticleTemplate( CAString& strName):IProduct(strName)
 		{
 			m_pAffector=NULL;

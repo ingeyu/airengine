@@ -145,6 +145,18 @@ namespace Air{
 
 		}
 
+		void IFactory::TraversalProduct( TraversalCallback* pCB )
+		{
+			if(pCB==NULL)
+				return;
+			m_CS.Enter();
+			ProductMap::const_iterator itr = m_mapProduct.begin();
+			for(;itr!=m_mapProduct.end();itr++){
+				pCB->OnTraversal(itr->second);
+			}
+			m_CS.Leave();
+		}
+
 		IFactoryManager::IFactoryManager(){
 			
 		}
