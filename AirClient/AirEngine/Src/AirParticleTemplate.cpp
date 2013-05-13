@@ -14,6 +14,7 @@ namespace	Air{
 			m_pAffector=NULL;
 			m_pEmitter=NULL;
 			m_pRenderable=NULL;
+			m_fLife		=	-1.0f;
 		}
 
 		Air::U1 ParticleTemplate::Create()
@@ -24,6 +25,8 @@ namespace	Air{
 				return false;
 			Info*	pInfo	=	(Info*)m_Data.GetBuff();
 			pInfo->ReLocation();
+
+			m_fLife	=	pInfo->fLife;
 
 			m_pEmitter	=	ParticleSystem::GetSingleton()->CreateProduct<ParticleEmitter>(m_strProductName+"_Emitter",pInfo->strEmitter,pInfo->pEmitterInfo);
 			if(m_pEmitter==NULL)

@@ -38,6 +38,7 @@ namespace	Air{
 
 			virtual	void	Update(const FrameTime& frameTime,Particle*	pParticle);
 		public:
+			inline	float				GetLife(){return m_fLife;};
 			inline	ParticleEmitter*	GetEmitter(){return m_pEmitter;};
 			inline	ParticleAffector*	GetAffector(){return m_pAffector;};
 			inline	ParticleRenderable*	GetRenderable(){return m_pRenderable;};
@@ -46,6 +47,7 @@ namespace	Air{
 			ParticleAffector*				m_pAffector;
 			ParticleRenderable*				m_pRenderable;
 			Data							m_Data;
+			float							m_fLife;
 		};
 	}
 }

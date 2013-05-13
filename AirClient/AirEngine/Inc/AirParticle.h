@@ -7,23 +7,16 @@
 namespace	Air{
 	namespace	Engine{
 		
-		class ParticleEmitter;
-		class ParticleRenderable;
-		class ParticleAffector;
-		class ParticleRecycle;
+		class ParticleTemplate;
 
 		class ENGINE_EXPORT	Particle	:	
 			public	IProduct,
 			public	MovableObject{
 		public:
 			struct Info{
-				float	fLife;
-				float	fElementLife;
-				float	fMaxElementCount;
-				Float3	vVelocityDir;
-				float	fVelocityAngle;
+				AString strTemplate;
 			};
-			Particle(CAString& str);
+			Particle(CAString& str,Info* pInfo);
 
 			virtual	U1	Create();
 			virtual	U1	Destroy();
@@ -36,7 +29,8 @@ namespace	Air{
 		protected:
 			float							m_fBornTime;
 			PElementList					m_lstElement;
-
+			ParticleTemplate*				m_pTemplate;
+			AString							m_strTemplate;
 		};
 
 		class ParticleSystem	:	
