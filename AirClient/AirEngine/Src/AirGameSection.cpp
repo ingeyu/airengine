@@ -40,7 +40,7 @@ namespace	Air{
 
 		void Section::Update( const FrameTime& fFrameTime )
 		{
-			m_pScene->Update(fFrameTime);
+			m_pScene->UpdateNode(fFrameTime);
 		}
 
 		Engine::Scene* Section::GetScene()
