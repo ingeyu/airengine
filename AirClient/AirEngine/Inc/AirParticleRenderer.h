@@ -6,13 +6,14 @@
 namespace	Air{
 	namespace	Engine{
 		class	Particle;
-		class	ParticleRenderer	:	
+		class	ENGINE_EXPORT	ParticleRenderer	:	
 			public	IProduct
 		{
 		public:
 			struct Info{
 				AString strTemp;
 			};
+			static	AString	ProductTypeName;
 			ParticleRenderer(CAString& strName,Info* pInfo);
 			virtual	U1	Create();
 			virtual	U1	Destroy();

@@ -10,12 +10,13 @@ namespace	Air{
 		public:
 
 		};
-		class	ParticleAffector	:	public	IProduct{
+		class	ENGINE_EXPORT	ParticleAffector	:	public	IProduct{
 		public:
 			struct Info{
 				U32			uiCount;
 				ForceField* pForceField;
 			};
+			static	AString	ProductTypeName;
 			ParticleAffector(CAString& strName,Info* pInfo);
 			virtual	U1	Create();
 			virtual	U1	Destroy();

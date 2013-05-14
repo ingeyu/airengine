@@ -3,7 +3,7 @@
 namespace	Air{
 	namespace	Engine{
 
-
+		AString	ParticleEmitter::ProductTypeName	=	"Default";
 		ParticleEmitter::ParticleEmitter( CAString& strName,Info* pInfo):IProduct(strName)
 		{
 			if(pInfo!=NULL){
@@ -56,7 +56,7 @@ namespace	Air{
 			}
 		}
 
-
+		AString	BoxEmitter::ProductTypeName="BoxEmitter";
 		BoxEmitter::BoxEmitter( CAString& strName,BoxEmitter::Info* pInfo ):ParticleEmitter(strName,pInfo)
 		{
 			if(pInfo!=NULL){
@@ -83,7 +83,7 @@ namespace	Air{
 			}
 		}
 
-
+		AString	SphereEmitter::ProductTypeName="SphereEmitter";
 		SphereEmitter::SphereEmitter( CAString& strName,SphereEmitter::Info* pInfo ):ParticleEmitter(strName,pInfo)
 		{
 			if(pInfo!=NULL){

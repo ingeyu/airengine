@@ -4,7 +4,7 @@
 namespace	Air{
 	namespace	Engine{
 
-
+		AString ParticleAffector::ProductTypeName	="Default";
 		ParticleAffector::ParticleAffector( CAString& strName,Info* pInfo ):IProduct(strName)
 		{
 

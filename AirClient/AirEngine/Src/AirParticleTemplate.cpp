@@ -67,7 +67,7 @@ namespace	Air{
 
 		Air::U1 ParticleTemplate::CreateFromFile( CAString& strName )
 		{
-
+			return true;
 		}
 
 	}
