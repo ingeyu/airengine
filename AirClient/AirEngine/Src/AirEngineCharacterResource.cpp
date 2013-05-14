@@ -6,6 +6,7 @@
 #include "AirRenderSystem.h"
 #include "AirGlobalSetting.h"
 #include "AirResourceSystem.h"
+#include "AirCSV.h"
 namespace Air{
 	
 	namespace	Engine{
@@ -179,7 +180,7 @@ namespace Air{
 			}
 	
 			U1 Resource::Create(){
-				AString	strConfigFileName	=	m_strProductName + "Animation.slk";
+				AString	strConfigFileName	=	m_strProductName + "Animation.csv";
 	
 				if(!ParseConfig(strConfigFileName)){
 					return false;
@@ -212,47 +213,19 @@ namespace Air{
 					SAF_D(pCoreMesh);
 					return false;
 				}
-	
-				StringVector	lstAnimation;
-	
-				CSlkReader r;
+
 				ResourceSystem::GetSingleton()->Find(strConfig,pData);
 				if(pData.IsNull())
 					return	false;
 	
-				if( !r.ReadFromString((char*)pData.buff,pData.size ) ){
-					return FALSE;
-				}
+				CSV csv;
+				csv.Load(pData.buff,pData.size);
 	
-				int nLine = 2;
-				int iRet;
-	
-				while( CSlkReader::ret_readover != ( iRet = r.GotoNextLine( nLine++ ) ) )
+				for(U32 i=1;i<csv.GetLineCount();i++)
 				{
-					if( CSlkReader::ret_nothisline == iRet )
-						continue;
-	
-					CSlkReader::SField* field;
-		
-					field = r.GetFieldOfLine( 5 );
-					if( !field || field->iFieldType != CSlkReader::field_string )
-						continue;
-					AString	strAnimationName	=	field->data.szValue;
-	
-	
-					lstAnimation.push_back(strAnimationName);
+					LoadAnimation(csv.GetItem(4,i).pStr);
 				}	
-	
-				if(lstAnimation.empty()){
-					SAF_D(pCoreMesh);
-					return false;
-				}
-	
-				for(U32	i=0;i<lstAnimation.size();i++){
-					LoadAnimation(lstAnimation[i]);
-				}
-	
-				
+
 				return true;
 			}
 	

@@ -6,6 +6,7 @@
 #include "AirGlobalSetting.h"
 #include "AirResourceSystem.h"
 #include "AirEngineMaterialParse.h"
+#include "AirCSV.h"
 namespace Air{
 	
 	namespace	Engine{
@@ -27,80 +28,34 @@ namespace Air{
 
 				CSlkReader r;
 				Data	pData;
-				ResourceSystem::GetSingleton()->Find(m_Info.strModelPath + "Animation.slk",pData);
+				ResourceSystem::GetSingleton()->Find(m_Info.strModelPath + "Animation.csv",pData);
 				if(pData.IsNull())
 					return false;
-				if( !r.ReadFromString( (char*)pData.GetBuff(),pData.GetSize() ) ){
-					return false;
+				CSV csv;
+				csv.Load(pData.buff,pData.size);
+
+
+				for(U32 i=1;i<csv.m_uiLineCount;i++)
+				{
+					AString strFileName	=	csv.GetItem(4,i).pStr;
+					m_vecState.push_back(strFileName);
 				}
 
-				int nLine = 2;
-				int iRet;
 
-				while( CSlkReader::ret_readover != ( iRet = r.GotoNextLine( nLine++ ) ) )
+				ResourceSystem::GetSingleton()->Find(m_Info.strModelPath + "Equipment.csv",pData);
+				if(pData.IsNull())
+					return false;
+				csv.Clear();
+				csv.Load(pData.buff,pData.size);
+				
+				for(U32 i=1;i<csv.GetLineCount();i++)
 				{
-					if( CSlkReader::ret_nothisline == iRet )
-						continue;
-
-					CSlkReader::SField* field;
 					
-					UInt	i	=	4;
-
-					field = r.GetFieldOfLine( i++ );
-					if( !field || field->iFieldType != CSlkReader::field_string )
-						continue;
-					//info.strName	=	field->data.szValue;
-
-					field = r.GetFieldOfLine( i++ );
-					if( !field || field->iFieldType != CSlkReader::field_string )
-						continue;
-					AString strFileName	=	field->data.szValue;
-
-					field = r.GetFieldOfLine( i++ );
-					if( !field || field->iFieldType != CSlkReader::field_int )
-						continue;
-
-					U1 bLoop	=	(field->data.iValue == 1);
-					if(bLoop)
-						m_vecState.push_back(strFileName);
-					else
-						m_vecAction.push_back(strFileName);
-				}
-
-
-				ResourceSystem::GetSingleton()->Find(m_Info.strModelPath + "Equipment.slk",pData);
-				if(pData.IsNull())
-					return false;
-				if( !r.ReadFromString( (char*)pData.GetBuff(),pData.GetSize() ) ){
-					return false;
-				}
-				nLine = 2;
-				while( CSlkReader::ret_readover != ( iRet = r.GotoNextLine( nLine++ ) ) )
-				{
-					if( CSlkReader::ret_nothisline == iRet )
-						continue;
-
-					CSlkReader::SField* field;
-					UInt	i	=	2;
-
-					field = r.GetFieldOfLine( i++ );
-					if( !field || field->iFieldType != CSlkReader::field_string )
-						continue;
-
-					field = r.GetFieldOfLine( i++ );
-					if( !field || field->iFieldType != CSlkReader::field_string )
-						continue;
-					AString strFileName	=	field->data.szValue;
-
-					field = r.GetFieldOfLine( i++ );
-					if( !field || field->iFieldType != CSlkReader::field_string )
-						continue;
-					AString strMaterialName	=	field->data.szValue;
+					AString strFileName	=	csv.GetItem(2,i).pStr;
+					AString strMaterialName	=	csv.GetItem(3,i).pStr;
 
 					m_vecEquipment.push_back(strFileName);
 					m_vecMaterial.push_back(strMaterialName);
-					//if(m_pModel!=NULL)
-					//	m_pModel->AddEquipment(info.strFileName,info.strMaterialName,info.strPart);
 				}
 				
 
@@ -126,56 +81,24 @@ namespace Air{
 				ResourceSystem::GetSingleton()->Find(strCharacterConfigName,pData);
 				if(pData.IsNull())
 					return	false;
-				if( !r.ReadFromString( (char*)pData.GetBuff(),pData.GetSize()) ){
-					//assert(false);
-					return FALSE;
-				}
 
-				int nLine = 2;
-				int iRet;
+				CSV csv;
+				csv.Load(pData.buff,pData.size);
 
-				while( CSlkReader::ret_readover != ( iRet = r.GotoNextLine( nLine++ ) ) )
-				{
-					if( CSlkReader::ret_nothisline == iRet )
-						continue;
+				U32 uiLine	=	csv.GetLineCount();
 
-					CSlkReader::SField* field;
+				for(U32 i=1;i<uiLine;i++){
+
 					ModelTemplate::Info	info;
-					UInt	i	=	1;
-					//id
-					field	=	r.GetFieldOfLine(i++);
-					if(!field || field->iFieldType != CSlkReader::field_int)
-						continue;
-					//info.uiID	=	field->data.iValue;
-					//名字
-					field = r.GetFieldOfLine( i++ );
-					if( !field || field->iFieldType != CSlkReader::field_string )
-						continue;
-					AString	strName	=	field->data.szValue;
-					//动画文件
-					field = r.GetFieldOfLine( i++ );
-					if( !field || field->iFieldType != CSlkReader::field_string )
-						continue;
-					//info.strAnimationFileName	=	field->data.szValue;
-					//装备文件
-					field = r.GetFieldOfLine( i++ );
-					if( !field || field->iFieldType != CSlkReader::field_string )
-						continue;
-					//info.strEquipmentFileName	=	field->data.szValue;
-					//骨骼名
-					field = r.GetFieldOfLine( i++ );
-					if( !field || field->iFieldType != CSlkReader::field_string )
-						continue;
-					info.strSkeletonName	=	field->data.szValue;
-					//路径
-					field = r.GetFieldOfLine( i++ );
-					if( !field || field->iFieldType != CSlkReader::field_string )
-						continue;
-					info.strModelPath	=	field->data.szValue;
+	
+					AString	strName			=	csv.GetItem(1,i).pStr;
+					info.strSkeletonName	=	csv.GetItem(4,i).pStr;
+					info.strModelPath		=	csv.GetItem(5,i).pStr;;
 
-					ResourceSystem::GetSingleton()->Find(info.strModelPath +"Equipment.material",pData);
+					Data tempData;
+					ResourceSystem::GetSingleton()->Find(info.strModelPath +"Equipment.material",tempData);
 					if(!pData.IsNull()){
-						MaterialParse::GetSingleton()->CompileMaterialSet(pData.buff,pData.size);
+						MaterialParse::GetSingleton()->CompileMaterialSet(tempData.buff,tempData.size);
 					}
 
 					EngineSystem::GetSingleton()->CreateProduct<ModelTemplate>(strName,&info);

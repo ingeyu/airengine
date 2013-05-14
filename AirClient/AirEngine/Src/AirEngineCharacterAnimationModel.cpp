@@ -491,6 +491,11 @@ namespace Air{
 				}
 	
 				void Model::Update(const FrameTime& frameTime){
+
+					//当前帧不可见
+					if(frameTime.uiFrameIndex	!=	m_uiVisiableFrame)
+						return;
+
 					CoreAnimation*	pAnimation	=	m_pAnimation;
 					if(pAnimation){
 						//m_CS.Enter();

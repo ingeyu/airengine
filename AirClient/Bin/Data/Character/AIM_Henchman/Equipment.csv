@@ -1,0 +1,6 @@
+装备ID,装备部位,装备名称,装备材质
+0,Chest,Mage_Body.CMF,Character\Mage\Mage_Body.Material
+1,Mantle,Mage_Dress.CMF,Character\Mage\Mage_Dress.Material
+2,Hair,Mage_Hair.CMF,Character\Mage\Mage_Hair.Material
+3,Face,Mage_Eye.CMF,Character\Mage\Mage_Eye.Material
+4,Shoulder,Mage_Bag.CMF,Character\Mage\Mage_Bag.Material

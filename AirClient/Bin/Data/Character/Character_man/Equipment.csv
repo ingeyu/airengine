@@ -1,0 +1,5 @@
+装备ID,装备部位,装备名称,装备材质
+0,Hair,head.CMF,Character\Character_man\head.Material
+1,Face,bag.CMF,Character\Character_man\bag.Material
+2,Chest,body.CMF,Character\Character_man\body.Material
+3,Hand,gun.CMF,Character\Character_man\gun.Material

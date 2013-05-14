@@ -1,0 +1,6 @@
+角色配置ID,角色名称,角色动画配置文件,角色装备配置文件,角色骨骼文件,角色文件目录
+0,法师,Animation.slk,Equipment.slk,Mage.CSF,Character/Mage/
+1,机器人,Animation.slk,Equipment.slk,Robot.CSF,Character/Character_robot/
+2,人类,Animation.slk,Equipment.slk,Man.CSF,Character/Character_man/
+3,机枪兵,Animation.slk,Equipment.slk,Marine.CSF,Character/Marine/
+4,狗,Animation.slk,Equipment.slk,zergling.CSF,Character/zergling/

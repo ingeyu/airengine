@@ -1,0 +1,4 @@
+装备ID,装备部位,装备名称,装备材质
+1,Face,Body_u.CMF,Character\Character_robot\Body_u.Material
+2,Chest,Body_l.CMF,Character\Character_robot\Body_l.Material
+3,Hand,Gun.CMF,Character\Character_robot\Gun.Material

@@ -140,14 +140,17 @@ namespace Air{
 		}
 	
 		void Scene::Update(const FrameTime& fFrameTime){
-			//判断是否需要更新渲染队列
-// 			if(m_pRenderQueue->Begin()){
-// 				//更新一次矩阵
-// 				//m_pRootNode.Update(m_pRenderQueue);
-// 				//m_pRenderQueue->End();
-// 			}else{
-// 				m_pRootNode.Update(NULL);
-// 			}
+			static	Matrix	matWorld(	1,0,0,0,
+				0,1,0,0,
+				0,0,1,0,
+				0,0,0,1);
+			static	Float4	quat(0,0,0,1);
+			static	Float3	scale(1,1,1);
+
+			m_pRootNode.Update(matWorld,quat,scale,false);
+			m_DynamicNode.Update(matWorld,quat,scale,false);
+			//m_StaticNode.Update(true)
+			m_ParticleNode.Update(matWorld,quat,scale,false);
 		}
 	
 	
@@ -226,22 +229,6 @@ namespace Air{
 			m_StaticNode.FindMovableObject(pCamera);
 			m_ParticleNode.FindMovableObject(pCamera);
 			m_TerrainNode.FindMovableObject(pCamera);
-		}
-
-		void Scene::UpdateSceneTree(const FrameTime& frameTime){
-			static	Matrix	matWorld(	1,0,0,0,
-										0,1,0,0,
-										0,0,1,0,
-										0,0,0,1);
-			static	Float4	quat(0,0,0,1);
-			static	Float3	scale(1,1,1);
-
-			m_pRootNode.Update(matWorld,quat,scale,false);
-			m_DynamicNode.Update(matWorld,quat,scale,false);
-			//m_StaticNode.Update(true)
-			m_ParticleNode.Update(matWorld,quat,scale,false);
-
-			
 		}
 
 		SceneNode* Scene::GetDynamicSceneNode(){

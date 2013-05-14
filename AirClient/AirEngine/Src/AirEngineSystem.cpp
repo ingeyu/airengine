@@ -189,7 +189,7 @@ namespace Air{
 			StartAllSystemManager();
 
 
-			Character::InitModelTemplate("Character.slk");
+			Character::InitModelTemplate("Character.csv");
 
 			GameSystem::GetSingleton()->Initialization();
 

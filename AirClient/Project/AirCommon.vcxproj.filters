@@ -216,6 +216,9 @@
     <ClCompile Include="..\..\AirCommon\Src\AirCommonData.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirCSV.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\AirCommon\Inc\Airarg_parser.h">
@@ -468,6 +471,9 @@
       <Filter>Src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\AirCommon\Inc\AirDump.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirCSV.h">
       <Filter>Inc</Filter>
     </ClInclude>
   </ItemGroup>

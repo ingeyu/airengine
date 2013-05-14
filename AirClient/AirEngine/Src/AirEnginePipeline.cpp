@@ -299,9 +299,9 @@ namespace	Air{
 
 			m_CSM.UpdateCamera(m_pMainCamera);
 
-			if(m_pScene!=NULL){
-				m_pScene->UpdateSceneTree(frameTime);
-			}
+			//if(m_pScene!=NULL){
+			//	m_pScene->UpdateSceneTree(frameTime);
+			//}
 
 			RenderSystem*	pSys	=	Render::System::GetSingleton();
 			//清理渲染队列中的物体
@@ -327,6 +327,22 @@ namespace	Air{
 			}
 
 			setCamera.clear();
+			class ModelUpdate : public Common::TraversalCallback
+			{
+			public:
+				ModelUpdate(const FrameTime& frameTime):t(frameTime){};
+				virtual	void	OnTraversal(IProduct* pProduct){
+					Character::Animation::Model* p	=	(Character::Animation::Model*)pProduct;
+					p->Update(t);
+				}
+
+				const FrameTime& t;
+			};
+			ModelUpdate modelupdate(frameTime);
+			EngineSystem::GetSingleton()->GetFactory(Character::Animation::Model::ProductTypeName)->TraversalProduct(&modelupdate);
+
+
+
 			m_pMRT->SetClearFlag(true,true,true);
 			m_pMRT->Update();
 

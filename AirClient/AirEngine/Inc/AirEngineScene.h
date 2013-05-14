@@ -145,8 +145,6 @@ namespace Air{
 	
 			void				SaveTargetToFile();
 
-
-			void				UpdateSceneTree(const FrameTime& frameTime);
 			void				FindMovableObject(Camera*	pCamera);
 
 
