@@ -17,6 +17,9 @@ namespace	Air{
 			virtual	U1	Create();
 			virtual	U1	Destroy();
 			virtual	void	OnParticleRender(Render::Device* pDevice,Particle* pParticle);
+		protected:
+			Render::Draw::Buff	m_DrawBuffer;
+			Render::Buffer*		m_pInstanceBuffer;
 		};
 	}
 }

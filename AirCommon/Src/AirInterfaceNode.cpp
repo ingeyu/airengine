@@ -183,7 +183,7 @@ namespace Air{
 			if(m_bDirty){
 				m_matWorld	=	Matrix(m_vPos,m_vScale,m_qQuat);
 				m_bDirty	=	false;
-			}
+				}
 
 			if(bDirty){
 				m_GlobalWorldMatrix	=	m_matWorld*ParentGlobalWorldMatrix;
