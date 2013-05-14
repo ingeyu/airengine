@@ -344,10 +344,10 @@
     <ClCompile Include="..\AirEngine\Src\AirParticleEmitter.cpp">
       <Filter>Particle</Filter>
     </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirParticleRenderable.cpp">
+    <ClCompile Include="..\AirEngine\Src\AirParticleTemplate.cpp">
       <Filter>Particle</Filter>
     </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirParticleTemplate.cpp">
+    <ClCompile Include="..\AirEngine\Src\AirParticleRenderer.cpp">
       <Filter>Particle</Filter>
     </ClCompile>
   </ItemGroup>
@@ -730,13 +730,13 @@
     <ClInclude Include="..\AirEngine\Inc\AirParticleEmitter.h">
       <Filter>Particle</Filter>
     </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirParticleRenderable.h">
-      <Filter>Particle</Filter>
-    </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirParticleElement.h">
       <Filter>Particle</Filter>
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirParticleTemplate.h">
+      <Filter>Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirParticleRenderer.h">
       <Filter>Particle</Filter>
     </ClInclude>
   </ItemGroup>

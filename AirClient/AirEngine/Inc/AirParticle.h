@@ -11,7 +11,8 @@ namespace	Air{
 
 		class ENGINE_EXPORT	Particle	:	
 			public	IProduct,
-			public	MovableObject{
+			public	MovableObject,
+			public	Renderable{
 		public:
 			static AString ProductTypeName;
 			struct Info{
@@ -23,11 +24,12 @@ namespace	Air{
 			virtual	U1	Create();
 			virtual	U1	Destroy();
 			virtual	void				Update(const FrameTime& frameTime);
+
+			virtual	void				OnRender(Render::Device* pDevice);
 			
 			inline	U32					GetElementCount()const	{return m_lstElement.size();};
 			inline	PElementList&		GetElementList()		{return m_lstElement;};
-			//Call By Emitter
-			virtual	void		OnElementBorn(ParticleElement* pElement);
+			
 		protected:
 			float							m_fBornTime;
 			PElementList					m_lstElement;

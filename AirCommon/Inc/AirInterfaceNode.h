@@ -169,6 +169,7 @@ namespace Air{
 			*
 			**/
 			void		SetPosition(const	Float3& vPos);
+			void		SetPosition(float x,float y,float z);
 			/**	\brief	获取相对四元数
 			*   
 			*	@remarks 	即物体的旋转方向 相对于父节点的旋转向量
@@ -207,7 +208,7 @@ namespace Air{
 			*
 			**/
 			void		SetScale(const	Float3& vScale);
-	
+			void		SetScale(float fScale);
 			/**	\brief	获取全局位置
 			*   
 			*	@remarks 	获取全局位置

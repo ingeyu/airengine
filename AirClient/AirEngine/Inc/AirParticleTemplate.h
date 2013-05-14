@@ -8,7 +8,7 @@ namespace	Air{
 		class	Particle;
 		class	ParticleAffector;
 		class	ParticleEmitter;
-		class	ParticleRenderable;
+		class	ParticleRenderer;
 		class	ENGINE_EXPORT	ParticleTemplate	:	public	IProduct
 		{
 		public:
@@ -26,6 +26,7 @@ namespace	Air{
 				AChar*	strEmitter;
 				AChar*	strAffector;
 				AChar*	strRender;
+				AChar*	strMaterial;
 				void*	pEmitterInfo;
 				void*	pAffectorInfo;
 				void*	pRenderInfo;
@@ -41,11 +42,13 @@ namespace	Air{
 			inline	float				GetLife(){return m_fLife;};
 			inline	ParticleEmitter*	GetEmitter(){return m_pEmitter;};
 			inline	ParticleAffector*	GetAffector(){return m_pAffector;};
-			inline	ParticleRenderable*	GetRenderable(){return m_pRenderable;};
+			inline	ParticleRenderer*	GetRenderer(){return m_pRenderer;};
+			inline	Material*			GetMaterial(){return m_pMaterial;};
 		protected:
 			ParticleEmitter*				m_pEmitter;
 			ParticleAffector*				m_pAffector;
-			ParticleRenderable*				m_pRenderable;
+			ParticleRenderer*				m_pRenderer;
+			Material*						m_pMaterial;
 			Data							m_Data;
 			float							m_fLife;
 		};

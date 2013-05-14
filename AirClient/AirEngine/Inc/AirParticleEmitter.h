@@ -2,7 +2,7 @@
 #define AirParticleEmitter_h__
 
 #include "AirEngineHeader.h"
-
+#include "AirParticleElement.h"
 namespace	Air{
 	namespace	Engine{
 		class	Particle;
@@ -11,14 +11,17 @@ namespace	Air{
 		public:
 			struct Info{
 				float		fFreq;
+				float		fElementLife;
 			};
 			ParticleEmitter(CAString& strName,Info* pInfo);
 			virtual	U1		Create();
 			virtual	U1		Destroy();
 			virtual	void	Update(const FrameTime& frameTime,Particle* pParticle);
+			virtual	void	ElementBorn(const FrameTime& frameTime,PElementList& lst);
 		protected:
 			float			m_fFreq;
 			float			m_fUpdateTime;
+			float			m_fElementLife;
 		};
 
 		class	BoxEmitter	:	public ParticleEmitter
@@ -29,7 +32,7 @@ namespace	Air{
 				Float3	vHalfSize;
 			};
 			BoxEmitter(CAString& strName,BoxEmitter::Info* pInfo);
-			virtual	void	Update(const FrameTime& frameTime,Particle* pParticle);
+			virtual	void	ElementBorn(const FrameTime& frameTime,PElementList& lst);
 		protected:
 			Float3	m_vCenter;
 			Float3	m_vHalfSize;
@@ -42,7 +45,7 @@ namespace	Air{
 				float	fRadius;
 			};
 			SphereEmitter(CAString& strName,SphereEmitter::Info* pInfo);
-			virtual	void	Update(const FrameTime& frameTime,Particle* pParticle);
+			virtual	void	ElementBorn(const FrameTime& frameTime,PElementList& lst);
 		protected:
 			Float3	m_vCenter;
 			float	m_fRadius;

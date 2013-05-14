@@ -1,5 +1,6 @@
 #include "AirParticle.h"
 #include "AirParticleTemplate.h"
+#include "AirParticleRenderer.h"
 namespace	Air{
 	namespace	Engine{
 		AString Particle::ProductTypeName="Particle";
@@ -17,6 +18,7 @@ namespace	Air{
 			m_pTemplate	=	ParticleSystem::GetSingleton()->CreateProduct<ParticleTemplate>(m_strTemplate);
 			if(m_pTemplate==NULL)
 				return false;
+			SetMaterial(m_pTemplate->GetMaterial());
 			return true;
 		}
 
@@ -40,13 +42,12 @@ namespace	Air{
 			}
 		}
 
-		void Particle::OnElementBorn( ParticleElement* pElement)
+		void Particle::OnRender( Render::Device* pDevice )
 		{
-			
-			m_lstElement.push_back(pElement);
-			
+			ParticleRenderer* pRenderer	=	m_pTemplate->GetRenderer();
+			if(pRenderer!=NULL)
+				pRenderer->OnParticleRender(pDevice,this);
 		}
-
 
 		ParticleSystem::ParticleSystem()
 		{

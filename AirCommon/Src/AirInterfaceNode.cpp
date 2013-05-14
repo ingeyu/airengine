@@ -106,7 +106,16 @@ namespace Air{
 			m_vPos = vPos;
 			m_bDirty	= true;
 		}
-	
+
+		void INode::SetPosition( float x,float y,float z )
+		{
+			m_vPos.x	=	x;
+			m_vPos.y	=	y;
+			m_vPos.z	=	z;
+			m_bDirty	=	true;
+		}
+
+
 		const	Float4& INode::GetQuat()const{
 			return m_qQuat;
 		}
@@ -124,7 +133,14 @@ namespace Air{
 			m_vScale = vScale;
 			m_bDirty	= true;
 		}
-	
+
+		void INode::SetScale( float fScale )
+		{
+			m_vScale.x	=	m_vScale.y	=	m_vScale.z	=	fScale;
+			m_bDirty	= true;
+		}
+
+
 		const	Float3& INode::GetGlobalPosition()const{
 			return	m_GlobaPosition;
 		}

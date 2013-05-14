@@ -13,10 +13,12 @@ namespace	Air{
 		class	ParticleAffector	:	public	IProduct{
 		public:
 			struct Info{
-				Particle*	pParticle;
-				Float3		vForce;
+				U32			uiCount;
+				ForceField* pForceField;
 			};
 			ParticleAffector(CAString& strName,Info* pInfo);
+			virtual	U1	Create();
+			virtual	U1	Destroy();
 			virtual	void	Update(const FrameTime& frameTime,Particle* pParticle);
 		};
 	}

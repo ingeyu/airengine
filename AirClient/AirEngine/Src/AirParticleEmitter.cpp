@@ -9,8 +9,9 @@ namespace	Air{
 			if(pInfo!=NULL){
 
 				m_fFreq			=	pInfo->fFreq;
+				m_fElementLife	=	pInfo->fElementLife;
 			}else{
-
+				m_fElementLife	=	-1.0f;
 				m_fFreq			=	-1.0f;
 			}
 			m_fUpdateTime		=	0.0f;
@@ -32,14 +33,27 @@ namespace	Air{
 		void ParticleEmitter::Update( const FrameTime& frameTime ,Particle* pParticle)
 		{
 
-			m_fUpdateTime	+=	frameTime.fTimeDelta;
+			
 
-			while(m_fUpdateTime>m_fFreq){
-				pParticle->OnElementBorn(new ParticleElement());
-				m_fUpdateTime-=m_fFreq;
+			PElementList& lst	=	pParticle->GetElementList();
+			for(PElementList::iterator i = lst.begin();i!=lst.end();i++){
+				if((*i)->m_fBornTime	+	m_fElementLife	>	frameTime.fTotalTime){
+					delete (*i);
+					i = lst.erase(i);
+				}
 			}
+			m_fUpdateTime	+=	frameTime.fTimeDelta;
+			ElementBorn(frameTime,lst);
 
 			
+		}
+
+		void ParticleEmitter::ElementBorn( const FrameTime& frameTime,PElementList& lst )
+		{
+			while(m_fUpdateTime>m_fFreq){
+				lst.push_back(new ParticleElement());
+				m_fUpdateTime-=m_fFreq;
+			}
 		}
 
 
@@ -51,9 +65,9 @@ namespace	Air{
 			}
 		}
 
-		void BoxEmitter::Update( const FrameTime& frameTime ,Particle* pParticle)
+		void	BoxEmitter::ElementBorn(const FrameTime& frameTime,PElementList& lst)
 		{
-			m_fUpdateTime	+=	frameTime.fTimeDelta;
+			
 			Float3 vPos(0,0,0);
 			Float3 vVelocity;
 			while(m_fUpdateTime>m_fFreq){
@@ -64,7 +78,7 @@ namespace	Air{
 				vPos=vPos*2-1;
 				ParticleElement* p=new ParticleElement;
 				p->vPos	=	&(m_vCenter+m_vHalfSize*vPos);
-				pParticle->OnElementBorn(p);
+				lst.push_back(p);
 				m_fUpdateTime-=m_fFreq;
 			}
 		}
@@ -78,9 +92,9 @@ namespace	Air{
 			}
 		}
 
-		void SphereEmitter::Update( const FrameTime& frameTime,Particle* pParticle )
+		void	SphereEmitter::ElementBorn(const FrameTime& frameTime,PElementList& lst)
 		{
-			m_fUpdateTime	+=	frameTime.fTimeDelta;
+
 			Float3 vPos(0,0,0);
 			Float3 vVelocity;
 			while(m_fUpdateTime>m_fFreq){
@@ -89,7 +103,7 @@ namespace	Air{
 				vPos.Normalize();
 				ParticleElement* p=new ParticleElement;
 				p->vPos	=	&(m_vCenter+vPos*m_fRadius*rand()/65535.0f);
-				pParticle->OnElementBorn(p);
+				lst.push_back(p);
 				m_fUpdateTime-=m_fFreq;
 			}
 		}
