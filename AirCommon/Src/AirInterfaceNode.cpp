@@ -238,7 +238,7 @@ namespace Air{
 	
 		Float44 INode::GetGlobalMatrixImmediately(){
 			if(m_pParentNode!=NULL){
-				return	m_pParentNode->GetGlobalMatrixImmediately()*m_matWorld;
+				return	m_matWorld*m_pParentNode->GetGlobalMatrixImmediately();
 			}else
 				return	m_matWorld;
 		}
