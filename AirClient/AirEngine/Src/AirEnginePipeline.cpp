@@ -327,21 +327,8 @@ namespace	Air{
 			}
 
 			setCamera.clear();
-			class ModelUpdate : public Common::TraversalCallback
-			{
-			public:
-				ModelUpdate(const FrameTime& frameTime):t(frameTime){};
-				virtual	void	OnTraversal(IProduct* pProduct){
-					Character::Animation::Model* p	=	(Character::Animation::Model*)pProduct;
-					p->Update(t);
-				}
 
-				const FrameTime& t;
-			};
-			ModelUpdate modelupdate(frameTime);
-			EngineSystem::GetSingleton()->GetFactory(Character::Animation::Model::ProductTypeName)->TraversalProduct(&modelupdate);
-
-
+			m_pScene->UpdateMovableObject(frameTime);
 
 			m_pMRT->SetClearFlag(true,true,true);
 			m_pMRT->Update();

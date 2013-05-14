@@ -56,7 +56,8 @@ namespace Air{
 			*	@note
 			*
 			**/
-			virtual	void		Update(const FrameTime& fFrameTime);
+			virtual	void		UpdateNode(const FrameTime& fFrameTime);
+			virtual	void		UpdateMovableObject(const FrameTime& fFrameTime);
 			/**	\brief	获取根节点
 			*   
 			*	@remarks 	获取根节点

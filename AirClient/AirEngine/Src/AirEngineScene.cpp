@@ -139,7 +139,7 @@ namespace Air{
 			return true;
 		}
 	
-		void Scene::Update(const FrameTime& fFrameTime){
+		void Scene::UpdateNode(const FrameTime& fFrameTime){
 			static	Matrix	matWorld(	1,0,0,0,
 				0,1,0,0,
 				0,0,1,0,
@@ -247,5 +247,24 @@ namespace Air{
 
 			return	&m_TerrainNode;
 		}
+
+		void Scene::UpdateMovableObject( const FrameTime& fFrameTime )
+		{
+			class ModelUpdate : public Common::TraversalCallback
+			{
+			public:
+				ModelUpdate(const FrameTime& frameTime):t(frameTime){};
+				virtual	void	OnTraversal(IProduct* pProduct){
+					Character::Animation::Model* p	=	(Character::Animation::Model*)pProduct;
+					p->Update(t);
+				}
+
+				const FrameTime& t;
+			};
+			ModelUpdate modelupdate(fFrameTime);
+			EngineSystem::GetSingleton()->GetFactory(Character::Animation::Model::ProductTypeName)->TraversalProduct(&modelupdate);
+
+		}
+
 	}
 };
