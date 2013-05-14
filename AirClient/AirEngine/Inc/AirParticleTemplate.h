@@ -31,7 +31,6 @@ namespace	Air{
 				void*	pAffectorInfo;
 				void*	pRenderInfo;
 				float	fLife;
-				float	fElementLife;
 			};
 			ParticleTemplate(CAString&	strName);
 			virtual	U1	Create();
@@ -39,6 +38,7 @@ namespace	Air{
 
 			virtual	void	Update(const FrameTime& frameTime,Particle*	pParticle);
 		public:
+			virtual	U1					CreateFromFile(CAString& strName);
 			inline	float				GetLife(){return m_fLife;};
 			inline	ParticleEmitter*	GetEmitter(){return m_pEmitter;};
 			inline	ParticleAffector*	GetAffector(){return m_pAffector;};

@@ -24,8 +24,10 @@ namespace	Air{
 		{
 
 			ResourceSystem::GetSingleton()->Find(m_strProductName+".pt",m_Data);
-			if(m_Data.IsNull())
-				return false;
+			if(m_Data.IsNull()){
+				return CreateFromFile(m_strProductName+".pta");
+			}
+				
 			Info*	pInfo	=	(Info*)m_Data.GetBuff();
 			pInfo->ReLocation();
 
@@ -61,6 +63,11 @@ namespace	Air{
 				return;
 			m_pEmitter->Update(frameTime,pParticle);
 			m_pAffector->Update(frameTime,pParticle);
+		}
+
+		Air::U1 ParticleTemplate::CreateFromFile( CAString& strName )
+		{
+
 		}
 
 	}
