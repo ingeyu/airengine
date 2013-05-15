@@ -17,13 +17,6 @@ namespace	Air{
 			m_BoundingBox.vMin	=	Float3(-100,-100,-100);
 			m_BoundingBox.vMax	=	Float3(100,100,100);
 
-			AddFlag(enMOF_DEFAULT			);
-			AddFlag(enMOF_REFLECT			);
-			AddFlag(enMOF_CASTSHADOW		);
-			AddFlag(enMOF_VISIABLE			);
-			AddFlag(enMOF_DYNAMIC			);
-			AddFlag(enMOF_UPDATE			);
-			AddFlag(enMOF_NEED_FRUSTUM_CULL	);
 		}
 
 		Air::U1 Particle::Create()

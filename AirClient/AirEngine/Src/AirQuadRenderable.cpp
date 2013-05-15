@@ -6,6 +6,7 @@ namespace	Air{
 
 		QuadRenderable::QuadRenderable()
 		{
+			m_bNeedWorldMatrix	=	false;
 			static Float2 quad[]={
 				Float2(-1,1),
 				Float2(1,1),

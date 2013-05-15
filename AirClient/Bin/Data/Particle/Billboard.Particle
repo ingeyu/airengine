@@ -4,10 +4,10 @@ ParticleTemplate	Billboard
 	Material	Particle_Billboard
 	Emitter		DefaultEmitter
 	{
-		Freq			0.5
-		ElementLife		1
-		VelocityDir		0 0 0
-		VelocityAngle	0.2
+		Freq			0.2
+		ElementLife		2
+		VelocityDir		0 5 0
+		VelocityAngle	1.2
 	}
 	Affector	DefaultAffector	
 	{

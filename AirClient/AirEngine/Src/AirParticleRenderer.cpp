@@ -16,24 +16,30 @@ namespace	Air{
 				Float2(-1,1),
 				Float2(1,1),
 				Float2(-1,-1),
-
-				Float2(-1,-1),
-				Float2(1,1),
 				Float2(1,-1)
 			};
 
 			Render::System*	pSys	=	RenderSystem::GetSingleton();
 			Buffer::Info	vbInfo;
-			vbInfo.SetVertexBuffer(6,8);
+			vbInfo.SetVertexBuffer(4,8);
 			vbInfo.InitData			=	quad;
-			m_DrawBuffer.m_pVertexBuffer[0]	=	pSys->CreateProduct<Buffer>("QuadVB",&vbInfo);
+			m_DrawBuffer.m_pVertexBuffer[0]	=	pSys->CreateProduct<Buffer>("ParticleQuadVB",&vbInfo);
+			vbInfo.SetIndexBuffer16(6);
+			U16 uiIndex[]={
+				0,1,2,
+				2,1,3
+			};
+			vbInfo.InitData	=	uiIndex;
+			m_DrawBuffer.m_pIndexBuff		=	pSys->CreateProduct<Buffer>("ParticleQuadIB",&vbInfo);
+
 			Render::Vertex::IDeclare::Info	vdInfo;
 			vdInfo.SetDeclP2();
 			m_DrawBuffer.m_pVertexDeclare	=	pSys->CreateProduct<Render::Vertex::IDeclare>("QuadVD",&vdInfo);
 
-			m_DrawBuffer.m_DrawOption.m_DrawFuncType	=	Render::Draw::FUNC_TYPE_DP_I;
+			m_DrawBuffer.m_DrawOption.m_DrawFuncType	=	Render::Draw::FUNC_TYPE_DIP_I;
 			m_DrawBuffer.m_DrawOption.m_DrawType		=	Render::Draw::enPT_TRIANGLELIST;
-			m_DrawBuffer.m_DrawOption.m_uiVertexCount	=	6;
+			m_DrawBuffer.m_DrawOption.m_uiVertexCount	=	4;
+			m_DrawBuffer.m_DrawOption.m_uiIndexCount	=	6;
 			m_DrawBuffer.m_DrawOption.m_uiInstanceCount	=	1;
 			vbInfo.SetStructureBuffer(1024,sizeof(Float4));
 			vbInfo.SetViewFlag(enVF_SRV);
@@ -46,6 +52,7 @@ namespace	Air{
 			SAFE_RELEASE_REF(m_DrawBuffer.m_pVertexBuffer[0]);
 			SAFE_RELEASE_REF(m_DrawBuffer.m_pVertexDeclare);
 			SAFE_RELEASE_REF(m_pInstanceBuffer);
+			SAFE_RELEASE_REF(m_DrawBuffer.m_pIndexBuff	);
 			return true;
 		}
 

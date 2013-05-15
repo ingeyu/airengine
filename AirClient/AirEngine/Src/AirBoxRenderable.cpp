@@ -67,7 +67,6 @@ namespace	Air{
 
 		BoxRenderable::BoxRenderable()
 		{
-			SetNeedWorldMatrix(true);
 			m_DrawBuff	=	BoxMesh::AddRef()->m_DrawBuff;
 		}
 

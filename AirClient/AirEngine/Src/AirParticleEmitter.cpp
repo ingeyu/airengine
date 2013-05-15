@@ -68,7 +68,7 @@ namespace	Air{
 				Common::Number::RandomF(),
 				Common::Number::RandomF());
 			v=v.Normalize()*Common::Number::RandomF()*sin(m_pInfo->fVelocityAngle)+m_pInfo->vVelocityDir;//.Normalize();
-			v.Normalize();
+			//v.Normalize();
 			vVelocity=v;
 		}
 
