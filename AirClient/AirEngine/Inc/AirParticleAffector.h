@@ -17,6 +17,7 @@ namespace	Air{
 				ForceField* pForceField;
 			};
 			static	AString	ProductTypeName;
+			static	void*	ScriptParser(StringVector& vecWord,U32& i);
 			ParticleAffector(CAString& strName,Info* pInfo);
 			virtual	U1	Create();
 			virtual	U1	Destroy();

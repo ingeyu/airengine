@@ -92,5 +92,16 @@ namespace	Air{
 			pDevice->DrawOpt(m_DrawBuffer.m_DrawOption);
 		}
 
+		void* ParticleRenderer::ScriptParser( StringVector& vecWord,U32& i )
+		{
+			while(true){
+				AString& strTemp2	=	vecWord[i++];
+				if(strTemp2=="}"){
+					break;
+				}
+			}
+			return NULL;
+		}
+
 	}
 }

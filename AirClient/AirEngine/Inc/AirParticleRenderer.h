@@ -14,6 +14,7 @@ namespace	Air{
 				AString strTemp;
 			};
 			static	AString	ProductTypeName;
+			static	void*	ScriptParser(StringVector& vecWord,U32& i);
 			ParticleRenderer(CAString& strName,Info* pInfo);
 			virtual	U1	Create();
 			virtual	U1	Destroy();

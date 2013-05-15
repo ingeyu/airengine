@@ -13,6 +13,7 @@ namespace	Air{
 		{
 		public:
 			static	AString	ProductTypeName;
+			static	void*	ScriptParser(StringVector& vecWord,U32& i);
 			struct Info 
 			{
 				void	Relative2Abs(){

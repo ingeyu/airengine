@@ -97,12 +97,20 @@ namespace	Air{
 			AddFactory(new OptionParamFactory<ParticleRenderer>());
 			AddFactory(new NoParamFactory<ParticleTemplate>());
 			AddFactory(new ParamFactory<Particle>());
+
+			AddScriptParser<ParticleEmitter>();
+			AddScriptParser<BoxEmitter>();
+			AddScriptParser<ParticleTemplate>();
+			AddScriptParser<ParticleAffector>();
+			AddScriptParser<ParticleRenderer>();
+			
 			
 			return true;
 		}
 
 		Air::U1 ParticleSystem::Release()
 		{
+			m_mapParser.clear();
 			m_mapTemplateInfo.clear();
 			m_TemplateData.Clear();
 			return true;
@@ -159,65 +167,11 @@ namespace	Air{
 					AString& str = vecWord[i++];
 					if(str == "ParticleTemplate"){
 						AString& strName	=	vecWord[i++];
-						ParticleTemplate::Info* pInfo	=	(ParticleTemplate::Info*)PTAlloc(sizeof(ParticleTemplate::Info));
-						m_mapTemplateInfo[strName]	=	pInfo;
-						while(true){
-							AString& strPT = vecWord[i++];
-							if(strPT=="}"){
-								break;
-							}else if(strPT=="Life"){
-								pInfo->fLife	=	Common::Parse::ParseFloat(vecWord,i);
-								continue;
-							}else if(strPT=="Material"){
-								AString& strTemp	=	vecWord[i++];
-								pInfo->strMaterial	=	(AChar*)PTAlloc(strTemp.c_str(),strTemp.size()+1);
-								
-							}else if(strPT=="Emitter"){
-								AString& strTemp	=	vecWord[i++];
-
-								pInfo->strEmitter	=	(AChar*)PTAlloc(strTemp.c_str(),strTemp.size()+1);
-								ParticleEmitter::Info* pEInfo = (ParticleEmitter::Info*)PTAlloc(sizeof(ParticleEmitter::Info));
-								pInfo->pEmitterInfo		=	pEInfo;
-								
-								while(true){
-									AString& strTemp2	=	vecWord[i++];
-									if(strTemp2=="}"){
-										break;
-									}else if(strTemp2	==	"Freq"){
-										pEInfo->fFreq	=	Common::Parse::ParseFloat(vecWord,i);
-									}else if(strTemp2	==	"ElementLife"){
-										pEInfo->fElementLife	=	Common::Parse::ParseFloat(vecWord,i);
-									}else if(strTemp2	==	"VelocityDir"){
-										pEInfo->vVelocityDir.x	=	Common::Parse::ParseFloat(vecWord,i);
-										pEInfo->vVelocityDir.y	=	Common::Parse::ParseFloat(vecWord,i);
-										pEInfo->vVelocityDir.z	=	Common::Parse::ParseFloat(vecWord,i);
-									}else if(strTemp2	==	"VelocityAngle"){
-										pEInfo->fVelocityAngle	=	Common::Parse::ParseFloat(vecWord,i);
-									}
-								}
-							}else if(strPT=="Affector"){
-								AString& strTemp	=	vecWord[i++];
-								pInfo->strAffector		=	(AChar*)PTAlloc(strTemp.c_str(),strTemp.size()+1);
-								pInfo->pAffectorInfo	=	NULL;
-								while(true){
-									AString& strTemp2	=	vecWord[i++];
-									if(strTemp2=="}"){
-										break;
-									}
-								}
-							}else if(strPT=="Renderer"){
-								AString& strTemp	=	vecWord[i++];
-								pInfo->strRender	=	(AChar*)(AChar*)PTAlloc(strTemp.c_str(),strTemp.size()+1);
-								pInfo->pRenderInfo	=	NULL;
-								while(true){
-									AString& strTemp2	=	vecWord[i++];
-									if(strTemp2=="}"){
-										break;
-									}
-								}
-							}
-
+						ParticleScriptParser pParser = GetScriptParser(str);
+						if(pParser!=NULL){
+							m_mapTemplateInfo[strName]	=	(*pParser)(vecWord,i);
 						}
+						
 					}
 				}
 
@@ -245,6 +199,30 @@ namespace	Air{
 			if(i==m_mapTemplateInfo.end())
 				return NULL;
 			return i->second;
+		}
+
+		U1 ParticleSystem::AddScriptParser( CAString& strName,ParticleScriptParser pParser )
+		{
+			if(pParser==NULL)
+				return	false;
+			if(strName.empty())
+				return false;
+			STD_HASHMAP<AString,ParticleScriptParser>::iterator i = m_mapParser.find(strName);
+			if(i!=m_mapParser.end()){
+				i->second=pParser;
+			}else{
+				m_mapParser[strName]	=	pParser;
+			}
+			return true;
+		}
+
+		Air::Engine::ParticleScriptParser ParticleSystem::GetScriptParser( CAString& strName )
+		{
+			STD_HASHMAP<AString,ParticleScriptParser>::iterator i = m_mapParser.find(strName);
+			if(i!=m_mapParser.end()){
+				return i->second;
+			}
+			return NULL;
 		}
 
 	}

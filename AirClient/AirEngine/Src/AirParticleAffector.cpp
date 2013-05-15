@@ -28,5 +28,16 @@ namespace	Air{
 			return true;
 		}
 
+		void* ParticleAffector::ScriptParser( StringVector& vecWord,U32& i )
+		{
+			while(true){
+				AString& strTemp2	=	vecWord[i++];
+				if(strTemp2=="}"){
+					break;
+				}
+			}
+			return NULL;
+		}
+
 	}
 }

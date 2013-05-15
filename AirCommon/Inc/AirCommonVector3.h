@@ -86,6 +86,9 @@ namespace	Air{
 			inline	Vector3		operator	+	(const	Vector3&	v)const{
 				return	Vector3(x+v.x,y+v.y,z+v.z);
 			};
+			inline	Vector3		operator	+	(float	f)const{
+				return	Vector3(x+f,y+f,z+f);
+			};
 			inline	Vector3		operator	+	(CXMVECTOR	v)const{
 				return	Vector3(x+v.m128_f32[0],y+v.m128_f32[1],z+v.m128_f32[2]);
 			};
@@ -95,11 +98,20 @@ namespace	Air{
 				z	+=	v.z;
 				return	*this;
 			};
+			inline	Vector3&	operator	+=	(float	f){
+				x	+=	f;
+				y	+=	f;
+				z	+=	f;
+				return	*this;
+			};
 			inline	Vector3		operator	-	(const	Vector3&	v)const{
 				return	Vector3(x-v.x,y-v.y,z-v.z);
 			};
 			inline	Vector3		operator	-	()const{
 				return	Vector3(-x,-y,-z);
+			};
+			inline	Vector3		operator	-	(float f)const{
+				return	Vector3(x-f,y-f,z-f);
 			};
 			inline	Vector3		operator	-	(CXMVECTOR	v)const{
 				return	Vector3(x-v.m128_f32[0],y-v.m128_f32[1],z-v.m128_f32[2]);
@@ -108,6 +120,12 @@ namespace	Air{
 				x	-=	v.x;
 				y	-=	v.y;
 				z	-=	v.z;
+				return	*this;
+			};
+			inline	Vector3&	operator	-=	(float f){
+				x	-=	f;
+				y	-=	f;
+				z	-=	f;
 				return	*this;
 			};
 			inline	Vector3		operator	*	(float	f)const{

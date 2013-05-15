@@ -44,6 +44,8 @@ namespace	Air{
 			Info*							m_pInfo;
 		};
 
+		typedef void*	(*ParticleScriptParser)(StringVector&	vecScript,U32& i);
+
 		class ENGINE_EXPORT	ParticleSystem	:	
 			public	IFactoryManager,
 			public Singleton<ParticleSystem>
@@ -60,13 +62,21 @@ namespace	Air{
 			U1		Compile(Data&		data);
 			U1		Compile(U8*	pData,U32 uiSize);
 			void*	GetTemplateInfo(CAString&	strName);
-		protected:
+
+			U1						AddScriptParser(CAString& strName,ParticleScriptParser pParser);
+			template<typename T>
+			U1						AddScriptParser(){
+				return AddScriptParser(T::ProductTypeName,T::ScriptParser);
+			};
+			ParticleScriptParser	GetScriptParser(CAString& strName);
+		public:
 			void*	PTAlloc(U32 uiSize);
 			void*	PTAlloc(const void* pData,U32 uiSize);
 		protected:
-			STD_HASHMAP<AString,void*>	m_mapTemplateInfo;
-			Data						m_TemplateData;
-			U32							m_uiDataUsed;
+			STD_HASHMAP<AString,void*>					m_mapTemplateInfo;
+			Data										m_TemplateData;
+			U32											m_uiDataUsed;
+			STD_HASHMAP<AString,ParticleScriptParser>	m_mapParser;
 		};
 	}
 }

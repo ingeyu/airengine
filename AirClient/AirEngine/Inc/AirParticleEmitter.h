@@ -16,6 +16,7 @@ namespace	Air{
 				float		fVelocityAngle;
 			};
 			static	AString	ProductTypeName;
+			static	void*	ScriptParser(StringVector& vecWord,U32& i);
 			ParticleEmitter(CAString& strName,Info* pInfo);
 			virtual	U1		Create();
 			virtual	U1		Destroy();
@@ -23,9 +24,9 @@ namespace	Air{
 			virtual	void	ElementBorn(const FrameTime& frameTime,PElementList& lst);
 		protected:
 			virtual	ParticleElement*	NewElement(double dTotalTime);
-			virtual	void			RandomVelocity(Float3& vVelocity);
-			virtual	void			RandomPosition(Float3& vPos);
-			virtual	void			RandomSize(float& fSize);
+			virtual	void				RandomVelocity(Float3& vVelocity);
+			virtual	void				RandomPosition(Float3& vPos);
+			virtual	void				RandomSize(float& fSize);
 		protected:
 			float			m_fUpdateTime;
 			Info*			m_pInfo;
@@ -39,8 +40,10 @@ namespace	Air{
 				Float3	vHalfSize;
 			};
 			static	AString	ProductTypeName;
+			static	void*	ScriptParser(StringVector& vecWord,U32& i);
 			BoxEmitter(CAString& strName,BoxEmitter::Info* pInfo);
-			virtual	void	ElementBorn(const FrameTime& frameTime,PElementList& lst);
+			//virtual	void	ElementBorn(const FrameTime& frameTime,PElementList& lst);
+			virtual	void				RandomPosition(Float3& vPos);
 		protected:
 			Float3	m_vCenter;
 			Float3	m_vHalfSize;

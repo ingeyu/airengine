@@ -61,6 +61,49 @@ namespace	Air{
 			m_pAffector->Update(frameTime,pParticle);
 		}
 
+		void* ParticleTemplate::ScriptParser( StringVector& vecWord,U32& i )
+		{
+			ParticleTemplate::Info* pInfo	=	(ParticleTemplate::Info*)ParticleSystem::GetSingleton()->PTAlloc(sizeof(ParticleTemplate::Info));
+			while(true){
+				AString& strPT = vecWord[i++];
+				if(strPT=="}"){
+					break;
+				}else if(strPT=="Life"){
+					pInfo->fLife	=	Common::Parse::ParseFloat(vecWord,i);
+					continue;
+				}else if(strPT=="Material"){
+					AString& strTemp	=	vecWord[i++];
+					pInfo->strMaterial	=	(AChar*)ParticleSystem::GetSingleton()->PTAlloc(strTemp.c_str(),strTemp.size()+1);
+
+				}else if(strPT=="Emitter"){
+					AString& strTemp	=	vecWord[i++];
+					pInfo->strEmitter	=	(AChar*)ParticleSystem::GetSingleton()->PTAlloc(strTemp.c_str(),strTemp.size()+1);
+					ParticleScriptParser pParser = ParticleSystem::GetSingleton()->GetScriptParser(strTemp);
+					if(pParser!=NULL){
+						pInfo->pEmitterInfo		=	(*pParser)(vecWord,i);
+					}
+
+				}else if(strPT=="Affector"){
+					AString& strTemp	=	vecWord[i++];
+					pInfo->strAffector		=	(AChar*)ParticleSystem::GetSingleton()->PTAlloc(strTemp.c_str(),strTemp.size()+1);
+					ParticleScriptParser pParser = ParticleSystem::GetSingleton()->GetScriptParser(strTemp);
+					if(pParser!=NULL){
+						pInfo->pAffectorInfo		=	(*pParser)(vecWord,i);
+					}
+				}else if(strPT=="Renderer"){
+					AString& strTemp	=	vecWord[i++];
+					pInfo->strRender	=	(AChar*)ParticleSystem::GetSingleton()->PTAlloc(strTemp.c_str(),strTemp.size()+1);
+					ParticleScriptParser pParser = ParticleSystem::GetSingleton()->GetScriptParser(strTemp);
+					if(pParser!=NULL){
+						pInfo->pRenderInfo		=	(*pParser)(vecWord,i);
+					}
+
+				}
+
+			}
+			return pInfo;
+		}
+
 
 
 	}

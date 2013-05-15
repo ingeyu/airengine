@@ -1,5 +1,6 @@
 #include "AirParticleEmitter.h"
 #include "AirParticle.h"
+#include "AirCommonParse.h"
 namespace	Air{
 	namespace	Engine{
 
@@ -64,10 +65,10 @@ namespace	Air{
 		{
 			float fLength = m_pInfo->vVelocityDir.Length();
 			Float3 v(
-				Common::Number::RandomF(),
-				Common::Number::RandomF(),
-				Common::Number::RandomF());
-			v=v.Normalize()*Common::Number::RandomF()*sin(m_pInfo->fVelocityAngle)+m_pInfo->vVelocityDir;//.Normalize();
+				Common::Number::RandomF()*2-1,
+				Common::Number::RandomF()*2-1,
+				Common::Number::RandomF()*2-1);
+			v=v.Normalize()*Common::Number::RandomF()*m_pInfo->fVelocityAngle+m_pInfo->vVelocityDir;//.Normalize();
 			//v.Normalize();
 			vVelocity=v;
 		}
@@ -87,6 +88,30 @@ namespace	Air{
 			return new ParticleElement(dTotalTime);
 		}
 
+		void* ParticleEmitter::ScriptParser( StringVector& vecWord,U32& i )
+		{
+
+			ParticleEmitter::Info* pEInfo = (ParticleEmitter::Info*)ParticleSystem::GetSingleton()->PTAlloc(sizeof(ParticleEmitter::Info));
+
+			while(true){
+				AString& strTemp2	=	vecWord[i++];
+				if(strTemp2=="}"){
+					break;
+				}else if(strTemp2	==	"Freq"){
+					pEInfo->fFreq	=	Common::Parse::ParseFloat(vecWord,i);
+				}else if(strTemp2	==	"ElementLife"){
+					pEInfo->fElementLife	=	Common::Parse::ParseFloat(vecWord,i);
+				}else if(strTemp2	==	"VelocityDir"){
+					pEInfo->vVelocityDir.x	=	Common::Parse::ParseFloat(vecWord,i);
+					pEInfo->vVelocityDir.y	=	Common::Parse::ParseFloat(vecWord,i);
+					pEInfo->vVelocityDir.z	=	Common::Parse::ParseFloat(vecWord,i);
+				}else if(strTemp2	==	"VelocityAngle"){
+					pEInfo->fVelocityAngle	=	Common::Parse::ParseFloat(vecWord,i);
+				}
+			}
+			return pEInfo;
+		}
+
 		AString	BoxEmitter::ProductTypeName="BoxEmitter";
 		BoxEmitter::BoxEmitter( CAString& strName,BoxEmitter::Info* pInfo ):ParticleEmitter(strName,pInfo)
 		{
@@ -96,22 +121,63 @@ namespace	Air{
 			}
 		}
 
-		void	BoxEmitter::ElementBorn(const FrameTime& frameTime,PElementList& lst)
+		//void	BoxEmitter::ElementBorn(const FrameTime& frameTime,PElementList& lst)
+		//{
+		//	
+		//	Float3 vPos(0,0,0);
+		//	Float3 vVelocity;
+		//	while(m_fUpdateTime>m_pInfo->fFreq){
+		//		vPos	=	Float3(
+		//			Common::Number::RandomF(),
+		//			Common::Number::RandomF(),
+		//			Common::Number::RandomF())/65535.0f;
+		//		vPos=vPos*2-1;
+		//		ParticleElement* p=new ParticleElement;
+		//		p->vPos	=	&(m_vCenter+m_vHalfSize*vPos);
+		//		lst.push_back(p);
+		//		m_fUpdateTime-=m_pInfo->fFreq;
+		//	}
+		//}
+
+		void* BoxEmitter::ScriptParser( StringVector& vecWord,U32& i )
 		{
-			
-			Float3 vPos(0,0,0);
-			Float3 vVelocity;
-			while(m_fUpdateTime>m_pInfo->fFreq){
-				vPos	=	Float3(
-					Common::Number::RandomF(),
-					Common::Number::RandomF(),
-					Common::Number::RandomF())/65535.0f;
-				vPos=vPos*2-1;
-				ParticleElement* p=new ParticleElement;
-				p->vPos	=	&(m_vCenter+m_vHalfSize*vPos);
-				lst.push_back(p);
-				m_fUpdateTime-=m_pInfo->fFreq;
+			BoxEmitter::Info* pEInfo = (BoxEmitter::Info*)ParticleSystem::GetSingleton()->PTAlloc(sizeof(BoxEmitter::Info));
+
+			while(true){
+				AString& strTemp2	=	vecWord[i++];
+				if(strTemp2=="}"){
+					break;
+				}else if(strTemp2=="{"){
+					continue;
+				}else if(strTemp2	==	"Freq"){
+					pEInfo->fFreq	=	Common::Parse::ParseFloat(vecWord,i);
+				}else if(strTemp2	==	"ElementLife"){
+					pEInfo->fElementLife	=	Common::Parse::ParseFloat(vecWord,i);
+				}else if(strTemp2	==	"VelocityDir"){
+					pEInfo->vVelocityDir.x	=	Common::Parse::ParseFloat(vecWord,i);
+					pEInfo->vVelocityDir.y	=	Common::Parse::ParseFloat(vecWord,i);
+					pEInfo->vVelocityDir.z	=	Common::Parse::ParseFloat(vecWord,i);
+				}else if(strTemp2	==	"VelocityAngle"){
+					pEInfo->fVelocityAngle	=	Common::Parse::ParseFloat(vecWord,i);
+				}else if(strTemp2	==	"Center"){
+					pEInfo->vCenter.x	=	Common::Parse::ParseFloat(vecWord,i);
+					pEInfo->vCenter.y	=	Common::Parse::ParseFloat(vecWord,i);
+					pEInfo->vCenter.z	=	Common::Parse::ParseFloat(vecWord,i);
+				}else if(strTemp2	==	"vHalfSize"){
+					pEInfo->vHalfSize.x	=	Common::Parse::ParseFloat(vecWord,i);
+					pEInfo->vHalfSize.y	=	Common::Parse::ParseFloat(vecWord,i);
+					pEInfo->vHalfSize.z	=	Common::Parse::ParseFloat(vecWord,i);
+				}
 			}
+			return pEInfo;
+		}
+
+		void BoxEmitter::RandomPosition( Float3& vPos )
+		{
+			vPos	=	Float3(
+				Common::Number::RandomF(),
+				Common::Number::RandomF(),
+				Common::Number::RandomF());
 		}
 
 		AString	SphereEmitter::ProductTypeName="SphereEmitter";
