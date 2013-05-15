@@ -99,7 +99,7 @@ namespace Air{
 				"runleft.CAF",
 				"runright.CAF"
 			};
-			for(S32 i=0;i<4;i++){
+			for(S32 i=0;i<1;i++){
 				AString strName =Common::Converter::ToString(i);
 				pModel	=	EngineSystem::GetSingleton()->CreateProduct<Character::Animation::Model>(strName,&cinfo);
 				pModel->SetActionState(str[i],str[i+4],0.75);//,"shootup.CAF",0.5,0);

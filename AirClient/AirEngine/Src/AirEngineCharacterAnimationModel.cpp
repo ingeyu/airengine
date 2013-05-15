@@ -680,59 +680,26 @@ namespace Air{
 				}
 
 
-				U1 Model::AttachObject2Bone(AString	strBoneName,MovableObject* pObject ){
-					if(	strBoneName.empty()	||
-						pObject==NULL)
+				U1 Model::attachObject(AString	strBoneName,MovableObject* pObject ){
+					if(	strBoneName.empty()	|| pObject==NULL)
 						return	false;
-	
-					BoneNodeMapItr	i	=	m_mapBoneNode.find(strBoneName.c_str());
-					//判断是否已存在列表中
-					if(i!=m_mapBoneNode.end()){
-						SceneNode*	pNode	=	i->second;
-						if(pNode!=NULL){
-							pNode->attachObject(pObject);
-							m_mapBoneNode[strBoneName.c_str()]	=	pNode;
-						}
-						m_mapAttachObjects[pObject]				=	pNode;
-					}else{
-						//获取骨骼索引
-						CalModel*		pAnim	=	(CalModel*)m_pObject;
-						UInt	uiBoneIdx	=	pAnim->getCoreModel()->getBoneId(strBoneName);
-						//获取骨骼变换
-						Float3	v;
-						Float4	q;
-						GetBoneMatrix(uiBoneIdx,&v,&q);
-						//创建节点
-						SceneNode*	pNode	=	GetParentSceneNode()->CreateChildSceneNode();
-						pNode->SetName(strBoneName);
-						pNode->SetPosition(v);
-						pNode->SetQuat(q);
-						//绑定物体
-						pNode->attachObject(pObject);
-						//添加到列表
-						m_mapBoneNode[strBoneName.c_str()]	=	pNode;
-						m_mapAttachObjects[pObject]			=	pNode;
-					}
+					detachObject(pObject);
+
+					AttachObject aobj;
+					aobj.uiBoneIndex	=	m_pAnimation->getCoreModel()->getBoneId(strBoneName);
+					aobj.pObject		=	pObject;
+					
+					m_vecAttachObject.push_back(aobj);
 	
 					return	true;
 				}
 	
 				U1 Model::detachObject( MovableObject* pObject ){
-					if(pObject==NULL)
-						return	true;
-	
-					AttachObjectMapItr	i	=	m_mapAttachObjects.find(pObject);
-					if(i!=m_mapAttachObjects.end()){
-						SceneNode*	pNode	=	i->second;
-						if(pNode!=NULL){
-							pNode->detachObject(pObject);
-							if(	pNode->GetObjectList().empty()	&&
-								pNode->GetChildNodeList().empty()){
-								Common::INode*	pParent	=	pNode->GetParentSceneNode();
-								pParent->RemoveChild(pNode,true);
-							}
+					STD_LIST<AttachObject>::iterator	i	=	m_vecAttachObject.begin();
+					for(;i!=m_vecAttachObject.end();i++){
+						if((*i).pObject	==	pObject){
+							i = m_vecAttachObject.erase(i);
 						}
-						m_mapAttachObjects.erase(i);
 					}
 					return	true;
 				}

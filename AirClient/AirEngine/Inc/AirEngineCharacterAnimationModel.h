@@ -427,7 +427,7 @@ namespace Air{
 					*	@note
 					*
 					**/
-					U1						AttachObject2Bone(AString	strBoneName,MovableObject*	pObject);
+					U1						attachObject(AString	strBoneName,MovableObject*	pObject);
 					SceneNode*				GetBoneSceneNode(AString	strBoneName);
 					/**	\brief	移除绑定
 					*   
@@ -476,22 +476,6 @@ namespace Air{
 	
 					Real					m_fAnimationSpeed;		///<	动画速度
 	
-	
-					typedef	std::map<MovableObject*,SceneNode*>	AttachObjectMap;
-	// 				typedef	std::map<UInt,AttachObject>	AttachObjectMap;
-	 				typedef	AttachObjectMap::iterator	AttachObjectMapItr;
-	 				typedef	AttachObjectMap::value_type	AttachObjectMapPair;
-	// 				typedef	std::map<MovableObject*,UInt>	ObjectIndexMap;
-	
-					typedef	std::map<AString,SceneNode*>			BoneNodeMap;
-					typedef	BoneNodeMap::iterator					BoneNodeMapItr;
-					typedef	BoneNodeMap::value_type					BoneNodeMapPair;
-					
-	
-					AttachObjectMap			m_mapAttachObjects;
-					BoneNodeMap				m_mapBoneNode;
-					//ObjectIndexMap			m_mapObjectIndex;
-	
 					CriticalSection			m_CS;
 
 					Float44*				m_BoneMatrix;
@@ -499,6 +483,11 @@ namespace Air{
 					ModelTemplate*			m_pTemplate;
 
 					Action					m_CycleAnimation[3];
+					struct AttachObject{
+						U32				uiBoneIndex;
+						MovableObject*	pObject;
+					};
+					STD_LIST<AttachObject>	m_vecAttachObject;
 				};
 
 			};
