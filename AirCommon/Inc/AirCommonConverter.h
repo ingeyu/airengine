@@ -79,6 +79,7 @@ namespace Air{
 			static	S64			ToS64(const	AString&	str);
 			static	Real		ToFloat(const	AString&	str);
 			static	double		ToDouble(const	AString&	str);
+			static	U32			ToHex(const	AString&	str);
 
 			static	void		ParseString(const	AString&	str,Float2&	v);
 			static	void		ParseString(const	AString&	str,Float3&	v);
@@ -89,6 +90,8 @@ namespace Air{
 			static	AString		ToUpperCase(const	AString&	str);
 			static	void		ToLowerCase(AString&	str);
 			static	void		ToUpperCase(AString&	str);
+			static	U1			IsNumber(CAString& str);
+			static	U1			IsHexNumber(CAString& str);
 
 			static	U1			SplitFilePath(		const	AString&	str,
 													AString*			strPath		=	NULL,

@@ -1,17 +1,21 @@
 ParticleTemplate	Billboard
 {
-	Life	10
-	Emitter		Default
+	Life		-1
+	Material	Particle_Billboard
+	Emitter		DefaultEmitter
 	{
-		ElementLife	5
-		Freq		10
+		Freq			0.5
+		ElementLife		1
+		VelocityDir		0 0 0
+		VelocityAngle	0.2
 	}
-	Affector	Default
+	Affector	DefaultAffector	
 	{
 		
 	}
-	Renderer	Default
+	Renderer	DefaultRenderer	
 	{
 		
 	}
+
 }

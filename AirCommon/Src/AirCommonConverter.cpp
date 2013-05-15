@@ -358,5 +358,42 @@ namespace Air{
 			}
 		}
 
+		Air::U1 Converter::IsNumber( CAString& str )
+		{
+			U32 uiCount=str.size();
+			for(U32 i=0;i<uiCount;i++){
+				if(str[i]<'0'||str[i]>'9'){
+					return false;
+				}
+			}
+			return true;
+		}
+
+		Air::U1 Converter::IsHexNumber( CAString& str )
+		{
+			U32 uiCount=str.size();
+			for(U32 i=0;i<uiCount;i++){
+				if(	(str[i]>='0'&&str[i]<='9')	||
+					(str[i]>='a'&&str[i]<='f')	||
+					(str[i]>='A'&&str[i]<='F')
+					)
+				{
+					continue;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+
+		Air::U32 Converter::ToHex( const AString& str )
+		{
+			U32 uiHex=0;
+			sscanf_s(str.c_str(),"%x",&uiHex);
+			return uiHex;
+		}
+
 	};
 };

@@ -4,7 +4,7 @@
 namespace	Air{
 	namespace	Engine{
 
-		AString	ParticleRenderer::ProductTypeName	=	"Default";
+		AString	ParticleRenderer::ProductTypeName	=	"DefaultRenderer";
 		ParticleRenderer::ParticleRenderer(CAString& strName,Info* pInfo):IProduct(strName)
 		{
 

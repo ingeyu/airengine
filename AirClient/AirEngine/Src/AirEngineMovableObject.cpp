@@ -12,7 +12,14 @@ namespace Air{
 			m_pParentNode	=	NULL;
 			m_uiVisiableFrame	=	0;;
 			m_bDirty		=	true;
-			AddFlag(enMOF_VISIABLE);
+
+			AddFlag(enMOF_DEFAULT			);
+			AddFlag(enMOF_REFLECT			);
+			AddFlag(enMOF_CASTSHADOW		);
+			AddFlag(enMOF_VISIABLE			);
+			AddFlag(enMOF_DYNAMIC			);
+			AddFlag(enMOF_UPDATE			);
+			AddFlag(enMOF_NEED_FRUSTUM_CULL	);
 		}
 	
 		MovableObject::~MovableObject(){

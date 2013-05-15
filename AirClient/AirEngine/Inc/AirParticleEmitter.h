@@ -12,6 +12,8 @@ namespace	Air{
 			struct Info{
 				float		fFreq;
 				float		fElementLife;
+				Float3		vVelocityDir;
+				float		fVelocityAngle;
 			};
 			static	AString	ProductTypeName;
 			ParticleEmitter(CAString& strName,Info* pInfo);
@@ -20,9 +22,13 @@ namespace	Air{
 			virtual	void	Update(const FrameTime& frameTime,Particle* pParticle);
 			virtual	void	ElementBorn(const FrameTime& frameTime,PElementList& lst);
 		protected:
-			float			m_fFreq;
+			virtual	ParticleElement*	NewElement(double dTotalTime);
+			virtual	void			RandomVelocity(Float3& vVelocity);
+			virtual	void			RandomPosition(Float3& vPos);
+			virtual	void			RandomSize(float& fSize);
+		protected:
 			float			m_fUpdateTime;
-			float			m_fElementLife;
+			Info*			m_pInfo;
 		};
 
 		class	ENGINE_EXPORT	BoxEmitter	:	public ParticleEmitter

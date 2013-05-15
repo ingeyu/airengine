@@ -46,6 +46,7 @@
 
 #include "AirGameSystem.h"
 #include "AirAudioSystem.h"
+#include "AirParticle.h"
 
 #include <fstream>
 
@@ -109,6 +110,8 @@ namespace Air{
 
 			GameSystem::GetSingleton()->Update(frameTime);
 
+			ParticleSystem::GetSingleton()->Update(frameTime);
+
 			GameSystem::GetSingleton()->RenderOneFrame(frameTime);
 			
 		}
@@ -133,6 +136,7 @@ namespace Air{
 			Common::File::Load("..\\Data\\AirMesh\\Material #1.material",data);
 			MaterialParse::GetSingleton()->CompileMaterialSet(data.buff,data.size);
 			data.Clear();
+
 			
 			
 			//AddFactory(new	Common::PluginFactory());
@@ -178,7 +182,12 @@ namespace Air{
 
 			RenderSystem::GetSingleton()->Initialization();
 			AudioSystem::GetSingleton()->Initialization();
-	
+			ParticleSystem::GetSingleton()->Initialization();
+
+			Common::File::Load("..\\Data\\Particle\\Billboard.Particle",data);
+			ParticleSystem::GetSingleton()->Compile(data);
+			data.Clear();
+
 			//初始化所有系统管理器
 			InitAllSystemManager();
 
@@ -268,7 +277,7 @@ namespace Air{
 
 			//释放所有系统管理器
 			ReleaseAllSystemManager();
-	
+			ParticleSystem::GetSingleton()->Release();
 			AudioSystem::GetSingleton()->Release();
 			AudioSystem::ReleaseSingleton();
 			Render::System::GetSingleton()->Release();

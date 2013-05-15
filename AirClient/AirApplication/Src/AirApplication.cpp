@@ -142,7 +142,7 @@ U1	ParseCommandLine(LPTSTR	strCommandLine){
 	return	true;
 };
 
-
+#include "AirCommonParse.h"
 //--------------------------------------------------------------------------------------
 // Entry point to the program. Initializes everything and goes into a message processing 
 // loop. Idle time is used to render the scene.
@@ -153,6 +153,13 @@ extern "C" int WINAPI
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF|_CRTDBG_LEAK_CHECK_DF);
 	Air::Dump_Init();
+	//AString str = "0Xffffffff";
+	//StringVector vec;
+	//U32 index = 0;
+	//Air::Common::Parse::StringToWord((U8*)&str[0],str.size()+1,vec,true);
+
+	//int f=Air::Common::Parse::ParseInt(vec,index);
+
 
 	//检测是否在虚拟机里
 	//if(IsInsideVPC()||IsInsideVMWare())

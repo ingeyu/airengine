@@ -282,53 +282,10 @@ namespace	Air{
 
 		Air::U1 DefaultPipeline::RenderOneFrame(const FrameTime& frameTime)
 		{
-
-			//pTest->SetPosition(Float3(sin(m_FrameState.fTotalTime)*10,0,cos(m_FrameState.fTotalTime)*10));
-			//Float4	vQuat	=	Float4(Float3(0,1,0),m_FrameState.fTotalTime);
-			//pTest->SetQuat(vQuat);
-			Render::Device*	pDevice	=	Render::System::GetSingleton()->GetDevice();//
-			pDevice->ResetCounter();
-
-
-
-
 			ListenerList::iterator	itr	=	m_lstListener.begin();
 			for(;itr!=m_lstListener.end();itr++){
 				(*itr)->OnBeforeRenderFrame(frameTime);
 			}
-
-			m_CSM.UpdateCamera(m_pMainCamera);
-
-			//if(m_pScene!=NULL){
-			//	m_pScene->UpdateSceneTree(frameTime);
-			//}
-
-			RenderSystem*	pSys	=	Render::System::GetSingleton();
-			//清理渲染队列中的物体
-			pSys->ClearRenderObject();
-
-			m_pMainWindow->ClearPhaseFlag();
-			m_pMainWindow->AddPhaseFlag(enPI_Alpha);
-			m_pMainWindow->AddPhaseFlag(enPI_Helper);
-			m_pMainWindow->AddPhaseFlag(enPI_UI);
-			m_pMainWindow->AddPhaseFlag(enPI_Overlay);
-
-
-			//查找所有摄像机
-			CameraSet	setCamera;
-			pSys->FindActiveCamera(setCamera);
-
-			m_pMainCamera->FindMovableObject(m_pScene);
-
-			CameraSet::iterator	i	=	setCamera.begin();
-			for(;i!=setCamera.end();i++){
-				if(m_pMainCamera	!=	(*i))
-					(*i)->FindMovableObject(m_pScene,NULL);
-			}
-
-			setCamera.clear();
-
-			m_pScene->UpdateMovableObject(frameTime);
 
 			m_pMRT->SetClearFlag(true,true,true);
 			m_pMRT->Update();
@@ -409,10 +366,11 @@ namespace	Air{
 				
 				m_pMainWindow->AfterUpdate(false);
 			}
-			if(RenderSystem::GetSingleton()->GetDevice()->GetHWVersion() == enRSV_11)
-				m_VoxelGen.Update(m_pQuad,this);
+			//if(RenderSystem::GetSingleton()->GetDevice()->GetHWVersion() == enRSV_11)
+			//	m_VoxelGen.Update(m_pQuad,this);
 
 			m_pMainWindow->ClearPhaseFlag();
+			m_pMainWindow->AddPhaseFlag(enPI_Alpha);
 			m_pMainWindow->AddPhaseFlag(enPI_Helper);
 			m_pMainWindow->AddPhaseFlag(enPI_UI);
 			m_pMainWindow->AddPhaseFlag(enPI_Overlay);
@@ -648,6 +606,44 @@ namespace	Air{
 			m_cbFrame.vMainCamPos	=	pCam->GetPosition();
 
 			RenderSystem::GetSingleton()->SetCBFrame(m_cbFrame);
+
+
+			//pTest->SetPosition(Float3(sin(m_FrameState.fTotalTime)*10,0,cos(m_FrameState.fTotalTime)*10));
+			//Float4	vQuat	=	Float4(Float3(0,1,0),m_FrameState.fTotalTime);
+			//pTest->SetQuat(vQuat);
+			Render::Device*	pDevice	=	Render::System::GetSingleton()->GetDevice();//
+			pDevice->ResetCounter();
+
+			m_CSM.UpdateCamera(m_pMainCamera);
+
+			//if(m_pScene!=NULL){
+			//	m_pScene->UpdateSceneTree(frameTime);
+			//}
+
+			RenderSystem*	pSys	=	Render::System::GetSingleton();
+			//清理渲染队列中的物体
+			pSys->ClearRenderObject();
+
+			m_pMainWindow->ClearPhaseFlag();
+			m_pMainWindow->AddPhaseFlag(enPI_Alpha);
+			m_pMainWindow->AddPhaseFlag(enPI_Helper);
+			m_pMainWindow->AddPhaseFlag(enPI_UI);
+			m_pMainWindow->AddPhaseFlag(enPI_Overlay);
+
+
+			//查找所有摄像机
+			CameraSet	setCamera;
+			pSys->FindActiveCamera(setCamera);
+
+			m_pMainCamera->FindMovableObject(m_pScene);
+
+			CameraSet::iterator	i	=	setCamera.begin();
+			for(;i!=setCamera.end();i++){
+				if(m_pMainCamera	!=	(*i))
+					(*i)->FindMovableObject(m_pScene,NULL);
+			}
+
+			setCamera.clear();
 		}
 
 

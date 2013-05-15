@@ -160,8 +160,6 @@ namespace	Air{
 			U1							m_bNeedWorldMatrix;		///<	是否需要世界矩阵	//默认需要传递世界矩阵
 			Material*					m_pMaterial[32];		///<	材质
 			DrawBuff					m_DrawBuff;				///<	渲染缓冲
-			Buffer*						m_pObjectCB;			///<	由MovableObject->Renderable传递而来
-			Buffer*						m_pBoneCB;
 		};
 
 		typedef	TVector<Renderable*>	RenderableVector;

@@ -15,10 +15,7 @@ namespace	Air{
 				m_pMaterial[i]	=	NULL;
 			}
 
-			m_pObjectCB	=	NULL;
-			m_pBoneCB	=	NULL;
-
-			m_bNeedWorldMatrix	=	false;
+			m_bNeedWorldMatrix	=	true;
 		}
 
 		Renderable::~Renderable(){
@@ -28,10 +25,6 @@ namespace	Air{
 
 				m_pMaterial[i]=NULL;
 			}
-
-			SAFE_RELEASE_REF(m_pBoneCB);
-
-			SAFE_RELEASE_REF(m_pObjectCB);
 		}
 
 		Air::U1 Renderable::HasSkeleton(){

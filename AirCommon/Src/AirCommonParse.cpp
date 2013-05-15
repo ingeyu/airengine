@@ -1,6 +1,6 @@
 #include "AirCommonParse.h"
 #include "AirCommonConverter.h"
-
+#include "AirCommonString.h"
 namespace Air{
 	
 	namespace	Common{
@@ -280,5 +280,63 @@ namespace Air{
 
 			return	true;
 		}
+
+		float Parse::ParseFloat( StringVector& vecWord,U32& i )
+		{
+			AChar str[32];
+			U32		uiLength=0;
+			if(vecWord[i]	==	"-"){
+				str[uiLength]=vecWord[i][0];
+				i++;
+				uiLength++;
+			}
+			if(Common::Converter::IsNumber(vecWord[i])){
+				memcpy(&str[uiLength],vecWord[i].c_str(),vecWord[i].size());
+				uiLength+=vecWord[i].size();
+				i++;
+			}
+			if(vecWord[i]	==	"."){
+				str[uiLength]=vecWord[i][0];
+				i++;
+				uiLength++;
+				if(Common::Converter::IsNumber(vecWord[i])){
+					memcpy(&str[uiLength],vecWord[i].c_str(),vecWord[i].size());
+					uiLength+=vecWord[i].size();
+					i++;
+				}
+			}
+			str[uiLength]=0;
+			return Converter::ToFloat(str);
+		}
+
+		Air::S32 Parse::ParseInt( StringVector& vecWord,U32& i )
+		{
+			if(Common::StartWith(vecWord[i],"0x")){
+				if(Common::Converter::IsHexNumber(&vecWord[i][2]))
+				{
+					return Common::Converter::ToHex(&vecWord[i++][2]);
+				}
+			}else	if(Common::Converter::IsHexNumber(vecWord[i]))
+			{
+				return Common::Converter::ToHex(vecWord[i++]);
+			}
+
+			AChar str[32];
+			U32		uiLength=0;
+			if(vecWord[i]	==	"-"){
+				str[uiLength]=vecWord[i][0];
+				i++;
+				uiLength++;
+			}
+			if(Common::Converter::IsNumber(vecWord[i])){
+				memcpy(&str[uiLength],vecWord[i].c_str(),vecWord[i].size());
+				uiLength+=vecWord[i].size();
+				i++;
+				return Common::Converter::ToS32(str);
+			}else{
+				return 0;
+			}
+		}
+
 	}
 };

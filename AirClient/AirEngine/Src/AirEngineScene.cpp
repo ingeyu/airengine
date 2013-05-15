@@ -21,6 +21,7 @@
 
 #include "AirEngineCharacterAnimationModel.h"
 #include "AirMeshEntity.h"
+#include "AirParticle.h"
 
 
 
@@ -83,7 +84,11 @@ namespace Air{
 			Character::Animation::Model::Info cinfo;
 			cinfo.strTemplate	=	"»úÇ¹±ø";
 			pMNode = m_pRootNode.CreateChildSceneNode();;//
+			Particle::Info parInfo;
+			parInfo.strTemplate	=	"Billboard";
+			Particle* p=ParticleSystem::GetSingleton()->CreateProduct<Particle>("123",&parInfo);
 			//pMNode->SetScale(Float3(10,1,10));
+			pMNode->attachObject(p);
 			AString str[]={
 				"runback.CAF",
 				"runback.CAF",

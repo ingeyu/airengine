@@ -32,14 +32,7 @@ namespace Air{
 			*
 			**/
 			Real	ParseReal(StringVector& vecWord,U32& i){
-				Real	f	=	0.0f;
-				if(vecWord[i+1]	==	"."){
-					f	=	Converter::ToFloat(vecWord[i]	+	vecWord[i+1]	+	vecWord[i+2]);
-					i	+=	3;
-				}else{
-					f	=	Converter::ToFloat(vecWord[i++]);
-				}
-				return	f;
+				return	Common::Parse::ParseFloat(vecWord,i);
 			};
 	
 			AString	String2String(const AString&	str){
@@ -592,7 +585,7 @@ namespace Air{
 // 						pInfo->vValue.x	=	Converter::ToFloat(vecWord[i++]);
 // 						break;}
 // 					case	MATERIAL_PARAM_FLOAT:{
-// 						pInfo->vValue.x	=	ParseReal(vecWord,i);
+// 						pInfo->vValue.x	=	Parse::ParseFloat(vecWord,i);
 // 						break;}
 // 					case	MATERIAL_PARAM_VECTOR:{
 // 						pInfo->vValue.x	=	ParseReal(vecWord,i);

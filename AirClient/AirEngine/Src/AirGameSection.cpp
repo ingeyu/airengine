@@ -41,6 +41,8 @@ namespace	Air{
 		void Section::Update( const FrameTime& fFrameTime )
 		{
 			m_pScene->UpdateNode(fFrameTime);
+			m_pPipeline->Update(fFrameTime);
+			m_pScene->UpdateMovableObject(fFrameTime);
 		}
 
 		Engine::Scene* Section::GetScene()
@@ -51,8 +53,6 @@ namespace	Air{
 		void Section::RenderOneFrame( const FrameTime& fFrameTime )
 		{
 			if(m_pPipeline!=NULL){
-				m_pPipeline->Update(fFrameTime);
-
 				m_pPipeline->RenderOneFrame(fFrameTime);
 			}
 		}

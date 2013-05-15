@@ -29,7 +29,8 @@ namespace Air{
 			**/
 			static	U1	StringToWord(U8*	pData,U32	uiSize,StringVector&	vecWord,U1	bLowerCase	=	false,AString*	pError	=	NULL);
 			static	U1	StringToWordScript(U8*	pData,U32	uiSize,StringVector&	vecWord,U1	bLowerCase	=	false,AString*	pError	=	NULL);
-
+			static	float	ParseFloat(StringVector&	vecWord,U32& i);
+			static	S32		ParseInt(StringVector&	vecWord,U32& i);
 		};
 		
 	
