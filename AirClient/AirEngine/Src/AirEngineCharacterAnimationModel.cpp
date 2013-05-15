@@ -504,7 +504,7 @@ namespace Air{
 						//pAnimation->getSkeleton()->calculateBoundingBoxes();
 						//pAnimation->getSkeleton()->getBoneBoundingBox(&m_BoundingBox.vMin.x,&m_BoundingBox.vMax.x);
 	
-						UpdateAttachObject();
+						UpdateAttachObject(frameTime);
 
 						CalSkeleton*	pSkel	=	m_pAnimation->getSkeleton();
 						std::vector<CalBone*>&	lstBone	=	pSkel->getVectorBone();
@@ -530,7 +530,32 @@ namespace Air{
 					}
 					__super::Update(frameTime);
 				}
-	
+
+				void Model::Update( const Float44& ParentGlobalWorldMatrix, const Float4& ParentGlobalWorldQuat, const Float3& ParentGlobalWorldScale, U1 bParentDirty )
+				{
+					__super::Update(ParentGlobalWorldMatrix,ParentGlobalWorldQuat,ParentGlobalWorldScale,bParentDirty);
+		
+					CalCoreModel*			pModel	=	m_pAnimation->getCoreModel();
+					std::vector<CalBone*>&	lstBone	=	m_pAnimation->getSkeleton()->getVectorBone();;
+					//更新骨骼节点
+					STD_LIST<AttachObject>::iterator	i	=	m_lstAttachObject.begin();
+					for(;i!=m_lstAttachObject.end();i++){
+						//m_mapAttachObjects.erase(i);
+
+						AttachObject& aobj	=	(*i);
+						const CalQuaternion&	q	=	lstBone[aobj.uiBoneIndex]->getRotationAbsolute();
+						const CalVector&		v	=	lstBone[aobj.uiBoneIndex]->getTranslationAbsolute();
+						Float44 matWorld;
+
+						matWorld	=	Float44(*(Float4*)&q);
+						matWorld.Transpose();
+						matWorld.SetPosition(*(Float3*)&v);
+
+						aobj.pObject->Update(matWorld*ParentGlobalWorldMatrix,ParentGlobalWorldQuat*Float4(q),ParentGlobalWorldScale,bParentDirty);
+					}
+				}
+
+
 				void Model::Render(){
 
 					//判定是采用软件渲染  还是硬件渲染
@@ -689,16 +714,16 @@ namespace Air{
 					aobj.uiBoneIndex	=	m_pAnimation->getCoreModel()->getBoneId(strBoneName);
 					aobj.pObject		=	pObject;
 					
-					m_vecAttachObject.push_back(aobj);
+					m_lstAttachObject.push_back(aobj);
 	
 					return	true;
 				}
 	
 				U1 Model::detachObject( MovableObject* pObject ){
-					STD_LIST<AttachObject>::iterator	i	=	m_vecAttachObject.begin();
-					for(;i!=m_vecAttachObject.end();i++){
+					STD_LIST<AttachObject>::iterator	i	=	m_lstAttachObject.begin();
+					for(;i!=m_lstAttachObject.end();i++){
 						if((*i).pObject	==	pObject){
-							i = m_vecAttachObject.erase(i);
+							i = m_lstAttachObject.erase(i);
 						}
 					}
 					return	true;
@@ -712,61 +737,18 @@ namespace Air{
 	// 				}
 				}
 	
-				void Model::UpdateAttachObject(){
-					CalModel*		pAnim	=	m_pAnimation;
-					CalCoreModel*	pModel	=	pAnim->getCoreModel();
-					std::vector<CalBone*>&	lstBone	=	pAnim->getSkeleton()->getVectorBone();;
+				void Model::UpdateAttachObject(const FrameTime& frameTime){
+
+					CalCoreModel*			pModel	=	m_pAnimation->getCoreModel();
+					std::vector<CalBone*>&	lstBone	=	m_pAnimation->getSkeleton()->getVectorBone();;
 					//更新骨骼节点
-					BoneNodeMapItr	i	=	m_mapBoneNode.begin();
-					for(;i!=m_mapBoneNode.end();i++){
-						//m_mapAttachObjects.erase(i);
-	
-						UInt	uiIdx		=	pModel->getBoneId(i->first.c_str());
-						const CalQuaternion&	q	=	lstBone[uiIdx]->getRotationAbsolute();
-						const CalVector&		v	=	lstBone[uiIdx]->getTranslationAbsolute();
-						i->second->SetPosition(Float3(v.x,v.z,v.y));
-						i->second->SetQuat(q);
-	
-	// 					const	CalVector&		v	=	pBone->getTranslationAbsolute();
-	// 					*pPos	=	Float3(v.x,v.z,v.y);
-	// 				}
-	// 				if(pQ!=NULL){
-	// 					const	CalFloat4&	q	=	pBone->getRotationAbsolute();
-	// 					*pQ		=	Float4(q.w,q.x,q.z,q.y);
-	 				}
-					//更新骨骼绑定根节点
-	// 				if(m_pParentNode!=NULL){
-	// 					m_pAttachObjNode->SetPosition(m_pParentNode->GetPosition());
-	// 					m_pAttachObjNode->SetQuat(m_pParentNode->GetQuat());
-	// 					m_pAttachObjNode->SetScale(m_pParentNode->GetScale());
-	// 					m_pAttachObjNode->UpdateMatrix(NULL);
-	// 				}
-				}
-	
-				SceneNode* Model::GetBoneSceneNode( AString strBoneName ){
-					BoneNodeMapItr	i	=	m_mapBoneNode.find(strBoneName.c_str());
-					//判断是否已存在列表中
-					if(i!=m_mapBoneNode.end()){
-						return	i->second;
-					}else{
-						//获取骨骼索引
-						CalModel*		pAnim	=	(CalModel*)m_pObject;
-						UInt	uiBoneIdx	=	pAnim->getCoreModel()->getBoneId(strBoneName);
-						//获取骨骼变换
-						Float3	v;
-						Float4	q;
-						GetBoneMatrix(uiBoneIdx,&v,&q);
-						//创建节点
-						SceneNode*	pNode	=	GetParentSceneNode()->CreateChildSceneNode();
-						pNode->SetName(strBoneName);
-						pNode->SetPosition(v);
-						pNode->SetQuat(q);
-						//添加到列表
-						m_mapBoneNode[strBoneName.c_str()]	=	pNode;
-	
-						return	pNode;
+					STD_LIST<AttachObject>::iterator	i	=	m_lstAttachObject.begin();
+					for(;i!=m_lstAttachObject.end();i++){
+						AttachObject& aobj	=	(*i);
+						aobj.pObject->Update(frameTime);
 					}
 				}
+
 
 				void Model::ProcessRenderObject( U32 uiPhaseFlag )
 				{

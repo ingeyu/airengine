@@ -372,7 +372,11 @@ namespace Air{
 					*	@note
 					*
 					**/
-					virtual void			Update(const FrameTime& frameTime);
+					virtual void			Update(	const FrameTime& frameTime);
+					virtual	void			Update(	const	Float44&	ParentGlobalWorldMatrix,
+													const	Float4&		ParentGlobalWorldQuat,
+													const	Float3&		ParentGlobalWorldScale,
+													U1					bParentDirty );
 					/**	\brief	äÖÈ¾
 					*   
 					*	@remarks 	äÖÈ¾
@@ -428,7 +432,6 @@ namespace Air{
 					*
 					**/
 					U1						attachObject(AString	strBoneName,MovableObject*	pObject);
-					SceneNode*				GetBoneSceneNode(AString	strBoneName);
 					/**	\brief	ÒÆ³ý°ó¶¨
 					*   
 					*	@remarks 	ÒÆ³ý°ó¶¨
@@ -456,7 +459,7 @@ namespace Air{
 					*	@note
 					*
 					**/
-					void					UpdateAttachObject();
+					void					UpdateAttachObject(const FrameTime& frameTime);
 
 
 					virtual	void			ProcessRenderObject(U32	uiPhaseFlag);
@@ -487,7 +490,7 @@ namespace Air{
 						U32				uiBoneIndex;
 						MovableObject*	pObject;
 					};
-					STD_LIST<AttachObject>	m_vecAttachObject;
+					STD_LIST<AttachObject>	m_lstAttachObject;
 				};
 
 			};
