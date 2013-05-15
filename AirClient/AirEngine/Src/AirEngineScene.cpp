@@ -33,6 +33,7 @@ namespace Air{
 		SceneNode* pMNode=NULL;
 		AString Scene::ProductTypeName="Scene";
 		Character::Animation::Model*	pModel=NULL;
+		Particle* pTestParticle=NULL;
 		Scene::Scene( CAString& strName ):IProduct(strName){
 			m_pMainCamera				=	NULL;
 			m_bShadowEnable				=	true;
@@ -86,7 +87,7 @@ namespace Air{
 			pMNode = m_pRootNode.CreateChildSceneNode();;//
 			Particle::Info parInfo;
 			parInfo.strTemplate	=	"Billboard";
-			Particle* p=ParticleSystem::GetSingleton()->CreateProduct<Particle>("123",&parInfo);
+			pTestParticle=ParticleSystem::GetSingleton()->CreateProduct<Particle>("123",&parInfo);
 			//pMNode->SetScale(Float3(10,1,10));
 			//pMNode->attachObject(p);
 			AString str[]={
@@ -110,7 +111,7 @@ namespace Air{
 				pTemp->SetScale(Float3(2,2,2));
 				pTemp->attachObject(pModel);
 			//}
-			pModel->attachObject("Ref_Weapon",p);
+			pModel->attachObject("Ref_Weapon",pTestParticle);
 			
 			
 			

@@ -17,12 +17,17 @@
 #include "AirNavMesh.h"
 #include "AirHelperRenderable.h"
 #include "AirEngineCharacterAnimationModel.h"
+#include "AirParticle.h"
+#include "AirParticleTemplate.h"
+#include "AirParticleEmitter.h"
 
 namespace	Air{
 	namespace	Engine{
 		NavMesh*	pMesh	=	NULL;
 		extern SceneNode* pMNode;
 		extern Character::Animation::Model*	pModel;
+
+		extern Particle* pTestParticle;
 		AString	Pipeline::ProductTypeName="Pipeline";
 		Pipeline::Pipeline( CAString& strName):IProduct(strName)
 		{
@@ -518,8 +523,10 @@ namespace	Air{
 					//if(!IDX.empty())
 					//	pTestManualEnt->UpdateIB(&IDX[0],IDX.size());
 				}
-				if(pModel)
+				if(pModel){
 					pModel->PlayAction("shootlow.CAF",0.1);
+					pTestParticle->GetTemplate()->GetEmitter()->SetEnable(true);
+				}
 			}
 
 			return true;
@@ -527,7 +534,9 @@ namespace	Air{
 
 		bool DefaultPipeline::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 		{
-
+			if(id == OIS::MB_Left){
+				pTestParticle->GetTemplate()->GetEmitter()->SetEnable(false);
+			}
 			return true;
 		}
 
