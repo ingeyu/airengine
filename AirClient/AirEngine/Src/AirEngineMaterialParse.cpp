@@ -52,6 +52,7 @@ namespace Air{
 				m_mapParam["VectorArray"]			=	enVectorArray;
 				m_mapParam["MatrixArray"]			=	enMatrixArray;
 				m_mapParam["UseSkin"]				=	enUseSkin;
+				m_mapParam["TextureInfoVector"]		=	enTextureInfoVector;
 
 				m_mapParam["MaterialTemplate"]		=	enMaterialTemplate;
 				m_mapParam["Phase"]					=	enPhase;
@@ -1085,6 +1086,15 @@ namespace Air{
 					case	enUseSkin:{
 						pInfo->bUseSkin		=	Common::Converter::ToU1(vecWord[i++]);
 						break;}
+					case enTextureInfoVector:{
+						Common::IntVec4 v;
+						v.x	=	enTextureInfoVector;
+						v.y	=	pInfo->vecFloatParam.size();
+						v.z	=	Common::Converter::ToU32(vecWord[i++]);
+						v.w	=	0;
+						pInfo->vecAutoParam.push_back(v);
+						pInfo->vecFloatParam.push_back(Float4());
+						break; }
 					default:
 						break;
 					}

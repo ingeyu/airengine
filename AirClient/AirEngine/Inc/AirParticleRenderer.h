@@ -25,6 +25,16 @@ namespace	Air{
 			Render::Draw::Buff	m_DrawBuffer;
 			Render::Buffer*		m_pInstanceBuffer;
 		};
+		class ENGINE_EXPORT	DirectionRenderer	:	public ParticleRenderer
+		{
+		public:
+			static	AString	ProductTypeName;
+			static	void*	ScriptParser(StringVector& vecWord,U32& i);
+			DirectionRenderer(CAString& strName,Info* pInfo);
+			virtual	void	OnParticleRender(Render::Device* pDevice,Particle* pParticle);
+		protected:
+
+		};
 	}
 }
 

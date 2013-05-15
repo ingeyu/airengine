@@ -1,0 +1,36 @@
+#include "Common.h"
+
+struct VS_INPUT
+{
+    float2 Position     : POSITION; // vertex position 
+	uint   idx			: SV_InstanceID;
+};
+
+struct VS_OUTPUT
+{
+    float4 Position     : SV_POSITION; // vertex position
+	float2 UV			: TEXCOORD0;
+	uint   idx			: TEXCOORD1;
+};
+
+
+
+StructuredBuffer<float4>	ParticlePos		:	register(t0);
+
+VS_OUTPUT main( VS_INPUT input )
+{
+    VS_OUTPUT Output;
+
+	float3	vCameraRight	=	normalize(cross(vCameraUp.xyz,vCameraDir.xyz));
+	float3 Up				=	normalize(cross(vCameraDir,vCameraRight));
+
+	float3 objPos	=	vCameraRight*input.Position.x+Up*input.Position.y	+	ParticlePos[input.idx].xyz;
+
+	float4 wpos		=	mul( World,float4(objPos,1));
+    // Transform the position from object space to homogeneous projection space
+    Output.Position =	mul( ViewProjection ,wpos);
+	Output.UV		=	input.Position.xy*float2(0.5,-0.5)+0.5;
+	Output.idx		=	input.idx;
+    
+    return Output;    
+}

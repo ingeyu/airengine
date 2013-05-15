@@ -172,5 +172,10 @@ Material	SVO_FinalGather			:	MT_SVO_FinalGather
 }
 Material	Particle_Billboard	:	MT_Particle_Billboard
 {
-	Texture	Particle/flaretrail.png
+	Texture	Particle/flare.png
+}
+Material	Particle_Direction	:	MT_Particle_Direction
+{
+	TextureInfoVector	0
+	Texture	Particle/firestreak7.dds
 }

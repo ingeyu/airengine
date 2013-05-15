@@ -49,6 +49,7 @@ namespace Air{
 				AString			strTemplate;
 				VectorArray		vecFloatParam;
 				StringVector	vecTextureName;
+				Int4Vector		vecAutoParam;
 				U1				bUseSkin;
 				U32				uiPriority;	///<	0~7ÓÅÏÈ¼¶
 			};

@@ -314,6 +314,7 @@ namespace Air{
 					enVectorArray,
 					enMatrixArray,
 					enUseSkin,
+					enTextureInfoVector,
 				enMaterialTemplate,
 					enPhase,
 					enPriority,

@@ -565,3 +565,21 @@ MaterialTemplate	MT_Particle_Billboard
 	}
 }
 
+MaterialTemplate	MT_Particle_Direction
+{
+	Phase		Alpha
+	Pass
+	{
+		RasterizerState		CullNone
+		DepthStencilState	EnableDepthNoWrite_LessEqual
+		BlendState			BS_AddBlending
+		VertexShader	 	"Shader/QuadParticleDirection"
+		{
+		}
+		PixelShader			"Shader/QuadCopy"
+		{
+			Texture	0	0		SS_WarpLine2
+		}
+	}
+}
+

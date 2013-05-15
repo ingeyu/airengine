@@ -95,15 +95,17 @@ namespace	Air{
 			AddFactory(new ParamFactory<SphereEmitter>());
 			AddFactory(new OptionParamFactory<ParticleAffector>());
 			AddFactory(new OptionParamFactory<ParticleRenderer>());
+			AddFactory(new OptionParamFactory<DirectionRenderer>());
 			AddFactory(new NoParamFactory<ParticleTemplate>());
 			AddFactory(new ParamFactory<Particle>());
 
 			AddScriptParser<ParticleEmitter>();
 			AddScriptParser<BoxEmitter>();
+			AddScriptParser<SphereEmitter>();
 			AddScriptParser<ParticleTemplate>();
 			AddScriptParser<ParticleAffector>();
 			AddScriptParser<ParticleRenderer>();
-			
+			AddScriptParser<DirectionRenderer>();
 			
 			return true;
 		}

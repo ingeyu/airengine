@@ -33,10 +33,10 @@ namespace	Air{
 
 			virtual	Matrix*				GetWorldMatrix();
 			virtual	void				OnRender(Render::Device* pDevice);
-			
+		public:
 			inline	U32					GetElementCount()const	{return m_lstElement.size();};
 			inline	PElementList&		GetElementList()		{return m_lstElement;};
-			
+			inline	ParticleTemplate*	GetTemplate()			{return m_pTemplate;};
 		protected:
 			float							m_fBornTime;
 			PElementList					m_lstElement;

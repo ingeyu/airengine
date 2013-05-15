@@ -205,6 +205,29 @@ namespace Air{
 
 		void Material::UpdateAutoParam(){
 
+			for(U32 i=0;i<m_Info.vecAutoParam.size();i++){
+				Common::IntVec4& v	=	m_Info.vecAutoParam[i];
+				switch(v.x){
+					case Render::enTextureInfoVector:{
+						if(v.w	==	0){
+							if(v.z<m_vecTexture.size()){
+								Texture* pTex	=	m_vecTexture[v.z];
+								if(pTex!=NULL){
+									m_Info.vecFloatParam[v.y]	=	
+										Float4(	
+										pTex->GetWidth(),
+										pTex->GetHeight(),
+										pTex->GetDepth(),
+										pTex->GetMipmapCount()
+										);
+								}
+							}
+							m_pConstantBuffer->UpdateData(&m_Info.vecFloatParam[0]);
+							v.w	=	1;
+						}
+					break;}
+				}
+			}
 		}
 	}
 };

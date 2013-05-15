@@ -1,7 +1,7 @@
 ParticleTemplate	Billboard
 {
 	Life		-1
-	Material	Particle_Billboard
+	Material	Particle_Direction
 	Emitter		DefaultEmitter
 	{
 		Freq			0.1
@@ -15,7 +15,7 @@ ParticleTemplate	Billboard
 	{
 		
 	}
-	Renderer	DefaultRenderer	
+	Renderer	DirectionRenderer	
 	{
 		
 	}

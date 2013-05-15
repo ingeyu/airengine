@@ -113,5 +113,57 @@ namespace	Air{
 			pDevice->DrawOpt(m_DrawBuffer.m_DrawOption);
 		}
 
+		AString	DirectionRenderer::ProductTypeName	=	"DirectionRenderer";
+		void* DirectionRenderer::ScriptParser( StringVector& vecWord,U32& i )
+		{
+			return ParticleRenderer::ScriptParser(vecWord,i);
+		}
+
+		DirectionRenderer::DirectionRenderer( CAString& strName,Info* pInfo ):ParticleRenderer(strName,pInfo)
+		{
+
+		}
+
+		void DirectionRenderer::OnParticleRender( Render::Device* pDevice,Particle* pParticle )
+		{
+			PElementList& lst = pParticle->GetElementList();
+			m_DrawBuffer.m_DrawOption.m_uiInstanceCount	=	lst.size();
+			if(m_DrawBuffer.m_DrawOption.m_uiInstanceCount==0)
+				return;
+
+			pDevice->SetVD(m_DrawBuffer.m_pVertexDeclare);
+			Buffer*	pVB=	NULL;
+			for(int i=0;i<4;i++){
+				pVB	=	m_DrawBuffer.m_pVertexBuffer[i];
+				if(pVB==NULL)
+					break;
+				else
+					pDevice->SetVB(i,pVB);
+			}
+			//如果IB为空 则不设置
+			//if(m_DrawBuff.m_pIndexBuff!=NULL)
+			pDevice->SetIB(m_DrawBuffer.m_pIndexBuff);
+			pDevice->SetSRV(enVS,0,m_pInstanceBuffer->GetSRV());
+
+			static Float4 vBuffer[1024];
+			PElementList::iterator itr = lst.begin();
+			U32 i=0;
+			for(;itr!=lst.end();itr++){
+				Float3& vp			= (*itr)->vPos;
+				Float3& velocity	=	(*itr)->vVelocity;
+				if(i==1024){
+					m_pInstanceBuffer->UpdateData(vBuffer);
+					__Draw(pDevice,i/2);
+					i=0;
+				}
+				vBuffer[i++]	=	Float4(vp.x,vp.y,vp.z,(*itr)->m_fSize);
+				vBuffer[i++]	=	Float4(velocity.x,velocity.y,velocity.z,(*itr)->m_fBornTime);
+			}
+
+			m_pInstanceBuffer->UpdateData(vBuffer);
+			__Draw(pDevice,i/2);
+		}
+
+
 	}
 }

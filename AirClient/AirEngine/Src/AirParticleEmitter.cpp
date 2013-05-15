@@ -117,30 +117,7 @@ namespace	Air{
 		AString	BoxEmitter::ProductTypeName="BoxEmitter";
 		BoxEmitter::BoxEmitter( CAString& strName,BoxEmitter::Info* pInfo ):ParticleEmitter(strName,pInfo)
 		{
-			if(pInfo!=NULL){
-				m_vCenter	=	pInfo->vCenter;
-				m_vHalfSize	=	pInfo->vHalfSize;
-			}
 		}
-
-		//void	BoxEmitter::ElementBorn(const FrameTime& frameTime,PElementList& lst)
-		//{
-		//	
-		//	Float3 vPos(0,0,0);
-		//	Float3 vVelocity;
-		//	while(m_fUpdateTime>m_pInfo->fFreq){
-		//		vPos	=	Float3(
-		//			Common::Number::RandomF(),
-		//			Common::Number::RandomF(),
-		//			Common::Number::RandomF())/65535.0f;
-		//		vPos=vPos*2-1;
-		//		ParticleElement* p=new ParticleElement;
-		//		p->vPos	=	&(m_vCenter+m_vHalfSize*vPos);
-		//		lst.push_back(p);
-		//		m_fUpdateTime-=m_pInfo->fFreq;
-		//	}
-		//}
-
 		void* BoxEmitter::ScriptParser( StringVector& vecWord,U32& i )
 		{
 			BoxEmitter::Info* pEInfo = (BoxEmitter::Info*)ParticleSystem::GetSingleton()->PTAlloc(sizeof(BoxEmitter::Info));
@@ -188,26 +165,50 @@ namespace	Air{
 		AString	SphereEmitter::ProductTypeName="SphereEmitter";
 		SphereEmitter::SphereEmitter( CAString& strName,SphereEmitter::Info* pInfo ):ParticleEmitter(strName,pInfo)
 		{
-			if(pInfo!=NULL){
-				m_vCenter	=	pInfo->vCenter;
-				m_fRadius	=	pInfo->fRadius;
-			}
 		}
 
-		void	SphereEmitter::ElementBorn(const FrameTime& frameTime,PElementList& lst)
+
+		void SphereEmitter::RandomPosition( Float3& vPos )
+		{
+			Float3 v	=	Float3(
+				Common::Number::RandomF(),
+				Common::Number::RandomF(),
+				Common::Number::RandomF());
+			v=v*2-1;
+			SphereEmitter::Info*	pInfo	=	(SphereEmitter::Info*)m_pInfo;
+			vPos	=	pInfo->vCenter+v.Normalize()*pInfo->fRadius*Common::Number::RandomF();
+		}
+
+		void* SphereEmitter::ScriptParser( StringVector& vecWord,U32& i )
 		{
 
-			Float3 vPos(0,0,0);
-			Float3 vVelocity;
-			while(m_fUpdateTime>m_pInfo->fFreq){
-				vPos	=	Float3(rand(),rand(),rand())/65535.0f;
-				vPos=vPos*2-1;
-				vPos.Normalize();
-				ParticleElement* p=new ParticleElement;
-				p->vPos	=	&(m_vCenter+vPos*m_fRadius*rand()/65535.0f);
-				lst.push_back(p);
-				m_fUpdateTime-=m_pInfo->fFreq;
+			SphereEmitter::Info* pEInfo = (SphereEmitter::Info*)ParticleSystem::GetSingleton()->PTAlloc(sizeof(SphereEmitter::Info));
+
+			while(true){
+				AString& strTemp2	=	vecWord[i++];
+				if(strTemp2=="}"){
+					break;
+				}else if(strTemp2=="{"){
+					continue;
+				}else if(strTemp2	==	"Freq"){
+					pEInfo->fFreq	=	Common::Parse::ParseFloat(vecWord,i);
+				}else if(strTemp2	==	"ElementLife"){
+					pEInfo->fElementLife	=	Common::Parse::ParseFloat(vecWord,i);
+				}else if(strTemp2	==	"VelocityDir"){
+					pEInfo->vVelocityDir.x	=	Common::Parse::ParseFloat(vecWord,i);
+					pEInfo->vVelocityDir.y	=	Common::Parse::ParseFloat(vecWord,i);
+					pEInfo->vVelocityDir.z	=	Common::Parse::ParseFloat(vecWord,i);
+				}else if(strTemp2	==	"VelocityAngle"){
+					pEInfo->fVelocityAngle	=	Common::Parse::ParseFloat(vecWord,i);
+				}else if(strTemp2	==	"Center"){
+					pEInfo->vCenter.x	=	Common::Parse::ParseFloat(vecWord,i);
+					pEInfo->vCenter.y	=	Common::Parse::ParseFloat(vecWord,i);
+					pEInfo->vCenter.z	=	Common::Parse::ParseFloat(vecWord,i);
+				}else if(strTemp2	==	"Radius"){
+					pEInfo->fRadius	=	Common::Parse::ParseFloat(vecWord,i);
+				}
 			}
+			return pEInfo;
 		}
 
 

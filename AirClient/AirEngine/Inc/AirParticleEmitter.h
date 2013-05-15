@@ -46,11 +46,8 @@ namespace	Air{
 			static	AString	ProductTypeName;
 			static	void*	ScriptParser(StringVector& vecWord,U32& i);
 			BoxEmitter(CAString& strName,BoxEmitter::Info* pInfo);
-			//virtual	void	ElementBorn(const FrameTime& frameTime,PElementList& lst);
 			virtual	void				RandomPosition(Float3& vPos);
-		protected:
-			Float3	m_vCenter;
-			Float3	m_vHalfSize;
+
 		};
 
 		class ENGINE_EXPORT	SphereEmitter	:	public ParticleEmitter{
@@ -60,11 +57,10 @@ namespace	Air{
 				float	fRadius;
 			};
 			static	AString	ProductTypeName;
+			static	void*	ScriptParser(StringVector& vecWord,U32& i);
 			SphereEmitter(CAString& strName,SphereEmitter::Info* pInfo);
-			virtual	void	ElementBorn(const FrameTime& frameTime,PElementList& lst);
-		protected:
-			Float3	m_vCenter;
-			float	m_fRadius;
+			virtual	void	RandomPosition(Float3& vPos);
+
 		};
 
 	}
