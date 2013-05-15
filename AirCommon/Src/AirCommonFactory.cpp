@@ -53,7 +53,7 @@ namespace Air{
 		IProduct* IFactory::GetProduct( const AString& strName ){
 			IProduct*	pProduct	=	NULL;
 			m_CS.Enter();
-			ProductMap::const_iterator itr = m_mapProduct.find(strName.c_str());
+			ProductMap::const_iterator itr = m_mapProduct.find(strName);
 			if(itr!=m_mapProduct.end())
 				pProduct	= itr->second;
 			if(pProduct!=NULL)
@@ -71,7 +71,7 @@ namespace Air{
 		bool IFactory::Erase(const AString& strName ){
 			bool bRet	=	true;
 			m_CS.Enter();
-			ProductMapItr itr = m_mapProduct.find(strName.c_str());
+			ProductMapItr itr = m_mapProduct.find(strName);
 			if(itr!=m_mapProduct.end()){
 				if(itr->second->GetRefCount()==0){
 					m_mapProduct.erase(itr);
@@ -93,7 +93,7 @@ namespace Air{
 			if(pProduct==NULL)
 				return;
 			m_CS.Enter();
-			m_mapProduct[pProduct->GetProductName().c_str()]	=	pProduct;
+			m_mapProduct[pProduct->GetProductName()]	=	pProduct;
 			m_CS.Leave();
 		}
 	
@@ -135,7 +135,7 @@ namespace Air{
 				if(pProduct!=NULL){
 					pProduct->SetFactory(this);
 					pProduct->SetFactoryManager(m_pFactoryMgr);
-					m_mapProduct[strName.c_str()]	=	pProduct;
+					m_mapProduct[strName]	=	pProduct;
 				}
 			}
 			if(pProduct!=NULL)
@@ -176,7 +176,7 @@ namespace Air{
 				m_lstFactory.push_back(pFactory);
 			}else{
 				m_lstFactory.push_back(pFactory);
-				m_mapFactory.insert(FactoryMapPair(pFactory->GetType().c_str(),pFactory));
+				m_mapFactory.insert(FactoryMapPair(pFactory->GetType(),pFactory));
 			}
 			pFactory->SetFactoryManager(this);
 		}
@@ -196,7 +196,7 @@ namespace Air{
 		}
 	
 		void IFactoryManager::RemoveFactory( const AString& strFactoryName ){
-			FactoryMapItr i = m_mapFactory.find(strFactoryName.c_str());
+			FactoryMapItr i = m_mapFactory.find(strFactoryName);
 			if(i!=m_mapFactory.end()){
 				IFactory*	pFactory	=	i->second;
 				m_lstFactory.remove(pFactory);
@@ -223,7 +223,7 @@ namespace Air{
 		}
 	
 		IFactory* IFactoryManager::GetFactory( const AString& strFactoryName )const{
-			FactoryMap::const_iterator i = m_mapFactory.find(strFactoryName.c_str());
+			FactoryMap::const_iterator i = m_mapFactory.find(strFactoryName);
 			if(i!=m_mapFactory.end()){
 				IFactory* pFactory = i->second;//dynamic_cast<IFactory<T_Product>*>(i->second);
 				return pFactory;

@@ -33,7 +33,7 @@ namespace	Air{
 
 			Air::U32 Package::IsExist( CAString& strName )
 			{
-				FileInfoMap::iterator	i	=	m_mapFileInfo.find(strName.c_str());
+				FileInfoMap::iterator	i	=	m_mapFileInfo.find(strName);
 				if(i!=m_mapFileInfo.end()){
 					return	i->second.uncompressedSize;
 				}else{

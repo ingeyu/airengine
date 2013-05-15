@@ -20,6 +20,8 @@ namespace	Air{
 			virtual	U1	Destroy();
 			virtual	void	OnParticleRender(Render::Device* pDevice,Particle* pParticle);
 		protected:
+			void			__Draw(Render::Device* pDevice,U32 uiCount);
+		protected:
 			Render::Draw::Buff	m_DrawBuffer;
 			Render::Buffer*		m_pInstanceBuffer;
 		};

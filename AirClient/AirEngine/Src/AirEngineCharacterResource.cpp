@@ -77,7 +77,7 @@ namespace Air{
 				info.uiRefCount++;
 				info.pUserData	=	pMeshBuff;
 				//插入列表中
-				m_mapMeshInfo.insert(InfoMapPair(strFullName.c_str(),info));
+				m_mapMeshInfo.insert(InfoMapPair(strFullName,info));
 				//返回
 				return uiID;
 			}
@@ -88,7 +88,7 @@ namespace Air{
 					return false;
 				AString strFullName	=	m_strProductName	+	strName;
 				//从列表中查找
-				InfoMapItr	i	=	m_mapMeshInfo.find(strFullName.c_str());
+				InfoMapItr	i	=	m_mapMeshInfo.find(strFullName);
 				//如果没有找到 返回
 				if(i==m_mapMeshInfo.end()){
 					return true;
@@ -154,7 +154,7 @@ namespace Air{
 				Info	info(strName,uiID);
 				info.uiRefCount++;
 				//插入列表中
-				m_mapAnimationInfo.insert(InfoMapPair(strName.c_str(),info));
+				m_mapAnimationInfo.insert(InfoMapPair(strName,info));
 				//返回
 				return uiID;
 			}
@@ -162,7 +162,7 @@ namespace Air{
 			U1 Resource::UnLoadAnimation( CAString& strName ){
 				if(IsNull())
 					return false;
-				InfoMapItr	i	=	m_mapAnimationInfo.find(strName.c_str());
+				InfoMapItr	i	=	m_mapAnimationInfo.find(strName);
 				if(i==m_mapAnimationInfo.end()){
 					return true;
 				}
@@ -200,7 +200,7 @@ namespace Air{
 			U1 Resource::ParseConfig(CAString&	strConfig){
 	
 	
-				CoreMesh*	pCoreMesh	=	new	CoreMesh(m_strProductName.c_str());
+				CoreMesh*	pCoreMesh	=	new	CoreMesh(m_strProductName);
 				m_pObject				=	(UInt*)pCoreMesh;
 	
 				Data	pData;
@@ -230,7 +230,7 @@ namespace Air{
 			}
 	
 			SInt Resource::GetAnimationID( CAString& strName ){
-				InfoMapItr	i	=	m_mapAnimationInfo.find(strName.c_str());
+				InfoMapItr	i	=	m_mapAnimationInfo.find(strName);
 				if(i==m_mapAnimationInfo.end()){
 					return -1;
 				}

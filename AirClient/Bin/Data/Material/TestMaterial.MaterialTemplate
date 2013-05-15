@@ -553,9 +553,9 @@ MaterialTemplate	MT_Particle_Billboard
 	Pass
 	{
 		RasterizerState		CullNone
-		DepthStencilState	DisableDepthCompareWrite
+		DepthStencilState	EnableDepthNoWrite_LessEqual
 		BlendState			BS_AddBlending
-		VertexShader		"Shader/QuadParticle"
+		VertexShader	 	"Shader/QuadParticle"
 		{
 		}
 		PixelShader			"Shader/QuadCopy"

@@ -63,18 +63,6 @@ namespace	Air{
 			if(m_DrawBuffer.m_DrawOption.m_uiInstanceCount==0)
 				return;
 
-			static Float4 vBuffer[1024];
-			PElementList::iterator itr = lst.begin();
-			U32 i=0;
-			for(;itr!=lst.end();itr++){
-				Float3& vp = (*itr)->vPos;
-
-				vBuffer[i++]	=	Float4(vp.x,vp.y,vp.z,(*itr)->m_fSize);
-			}
-			m_pInstanceBuffer->UpdateData(vBuffer);
-
-
-
 			pDevice->SetVD(m_DrawBuffer.m_pVertexDeclare);
 			Buffer*	pVB=	NULL;
 			for(int i=0;i<4;i++){
@@ -89,7 +77,21 @@ namespace	Air{
 			pDevice->SetIB(m_DrawBuffer.m_pIndexBuff);
 			pDevice->SetSRV(enVS,0,m_pInstanceBuffer->GetSRV());
 
-			pDevice->DrawOpt(m_DrawBuffer.m_DrawOption);
+			static Float4 vBuffer[1024];
+			PElementList::iterator itr = lst.begin();
+			U32 i=0;
+			for(;itr!=lst.end();itr++){
+				Float3& vp = (*itr)->vPos;
+				if(i==1024){
+					m_pInstanceBuffer->UpdateData(vBuffer);
+					__Draw(pDevice,1024);
+					i=0;
+				}
+				vBuffer[i++]	=	Float4(vp.x,vp.y,vp.z,(*itr)->m_fSize);
+			}
+			
+			m_pInstanceBuffer->UpdateData(vBuffer);
+			__Draw(pDevice,i);
 		}
 
 		void* ParticleRenderer::ScriptParser( StringVector& vecWord,U32& i )
@@ -101,6 +103,14 @@ namespace	Air{
 				}
 			}
 			return NULL;
+		}
+
+		void ParticleRenderer::__Draw( Render::Device* pDevice,U32 uiCount )
+		{
+
+
+			m_DrawBuffer.m_DrawOption.m_uiInstanceCount	=	uiCount;
+			pDevice->DrawOpt(m_DrawBuffer.m_DrawOption);
 		}
 
 	}

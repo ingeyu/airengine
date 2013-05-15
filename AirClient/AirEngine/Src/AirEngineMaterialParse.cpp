@@ -377,7 +377,7 @@ namespace Air{
 							SAF_D(pInfo);
 							return;
 						}else{
-							m_mapMaterialTemplateInfo[pInfo->strName.c_str()]	=	pInfo;
+							m_mapMaterialTemplateInfo[pInfo->strName]	=	pInfo;
 						}
 					}
 				}
@@ -428,7 +428,7 @@ namespace Air{
 						i++;
 						break;
 					}
-					enumMaterial	m	=	(enumMaterial)m_mapParam[str.c_str()];
+					enumMaterial	m	=	(enumMaterial)m_mapParam[str];
 					i++;
 					//如果是无效字符	直接跳过
 					if(m	==	enUnKnown){
@@ -638,7 +638,7 @@ namespace Air{
 							if(!ParseState(vecWord,i,pState)){
 								SAF_D(pState);
 							}else{
-								m_mapPassState[strName.c_str()]	=	pState;
+								m_mapPassState[strName]	=	pState;
 							}
 	
 							break;}
@@ -663,10 +663,10 @@ namespace Air{
 					switch(m){
 						//SamplerState
 						case	enTextureFilter:{
-							pInfo->ss.Filter	=	(enumTextureFilter)m_mapTextureFilter[vecWord[i].c_str()];
+							pInfo->ss.Filter	=	(enumTextureFilter)m_mapTextureFilter[vecWord[i]];
 							break;}
 						case	enTextureAddress:{
-							pInfo->ss.AddressU	=	(enumTextureAddress)m_mapTextureAddress[vecWord[i].c_str()];
+							pInfo->ss.AddressU	=	(enumTextureAddress)m_mapTextureAddress[vecWord[i]];
 							pInfo->ss.AddressV	=	pInfo->ss.AddressU;
 							pInfo->ss.AddressW	=	pInfo->ss.AddressU;
 							break;}
@@ -679,10 +679,10 @@ namespace Air{
 							break;}
 						//Render	State
 						case	enFillMode:{
-							pInfo->rs.FillMode	=	(enumFillMode)m_mapFillMode[vecWord[i].c_str()];
+							pInfo->rs.FillMode	=	(enumFillMode)m_mapFillMode[vecWord[i]];
 							break;}
 						case	enCullMode:{
-							pInfo->rs.CullMode	=	(enumCullMode)m_mapCullMode[vecWord[i].c_str()];
+							pInfo->rs.CullMode	=	(enumCullMode)m_mapCullMode[vecWord[i]];
 							break;}
 						case	enDepthBias:{
 							pInfo->rs.DepthBias	=	Converter::ToS32(vecWord[i]);
@@ -716,22 +716,22 @@ namespace Air{
 							pInfo->bs.Blend[0].BlendEnable	=	Converter::ToU1(vecWord[i]);
 							break;}
 						case	enSrcBlend:{
-							pInfo->bs.Blend[0].SrcBlend	=	(enumBlend)m_mapBlend[vecWord[i].c_str()];
+							pInfo->bs.Blend[0].SrcBlend	=	(enumBlend)m_mapBlend[vecWord[i]];
 							break;}
 						case	enDestBlend:{
-							pInfo->bs.Blend[0].DestBlend	=	(enumBlend)m_mapBlend[vecWord[i].c_str()];
+							pInfo->bs.Blend[0].DestBlend	=	(enumBlend)m_mapBlend[vecWord[i]];
 							break;}
 						case	enBlendOP:{
-							pInfo->bs.Blend[0].BlendOp	=	(enumBlendOP)m_mapBlendOP[vecWord[i].c_str()];
+							pInfo->bs.Blend[0].BlendOp	=	(enumBlendOP)m_mapBlendOP[vecWord[i]];
 							break;}
 						case	enSrcBlendAlpha:{
-							pInfo->bs.Blend[0].SrcBlendAlpha	=	(enumBlend)m_mapBlend[vecWord[i].c_str()];
+							pInfo->bs.Blend[0].SrcBlendAlpha	=	(enumBlend)m_mapBlend[vecWord[i]];
 							break;}
 						case	enDestBlendAlpha:{
-							pInfo->bs.Blend[0].DestBlendAlpha	=	(enumBlend)m_mapBlend[vecWord[i].c_str()];
+							pInfo->bs.Blend[0].DestBlendAlpha	=	(enumBlend)m_mapBlend[vecWord[i]];
 							break;}
 						case	enBlendOpAlpha:{
-							pInfo->bs.Blend[0].BlendOpAlpha	=	(enumBlendOP)m_mapBlendOP[vecWord[i].c_str()];
+							pInfo->bs.Blend[0].BlendOpAlpha	=	(enumBlendOP)m_mapBlendOP[vecWord[i]];
 							break;}
 						case	enRenderTargetWriteMask:{
 							pInfo->bs.Blend[0].RenderTargetWriteMask	=	Converter::ToS32(vecWord[i]);
@@ -744,7 +744,7 @@ namespace Air{
 							pInfo->ds.DepthWriteMask	=	(enumDepthWriteMask)m_mapDepthWriteMask[vecWord[i]];
 							break;}
 						case	enDepthFunc:{
-							pInfo->ds.DepthFunc	=	(enumCompare)m_mapCompare[vecWord[i].c_str()];
+							pInfo->ds.DepthFunc	=	(enumCompare)m_mapCompare[vecWord[i]];
 							break;}
 						case	enStencilEnable:{
 							pInfo->ds.StencilEnable	=	Converter::ToU1(vecWord[i]);

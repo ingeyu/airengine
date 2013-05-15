@@ -172,5 +172,5 @@ Material	SVO_FinalGather			:	MT_SVO_FinalGather
 }
 Material	Particle_Billboard	:	MT_Particle_Billboard
 {
-	Texture	Particle/headfemale.png
+	Texture	Particle/flaretrail.png
 }

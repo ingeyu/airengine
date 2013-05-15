@@ -22,6 +22,9 @@ namespace	Air{
 			virtual	U1		Destroy();
 			virtual	void	Update(const FrameTime& frameTime,Particle* pParticle);
 			virtual	void	ElementBorn(const FrameTime& frameTime,PElementList& lst);
+		public:
+			inline	U1				IsEnable(){return m_bEnable;};
+			inline	void			SetEnable(U1 bEnable){m_bEnable = bEnable;};
 		protected:
 			virtual	ParticleElement*	NewElement(double dTotalTime);
 			virtual	void				RandomVelocity(Float3& vVelocity);
@@ -30,6 +33,7 @@ namespace	Air{
 		protected:
 			float			m_fUpdateTime;
 			Info*			m_pInfo;
+			U1				m_bEnable;
 		};
 
 		class	ENGINE_EXPORT	BoxEmitter	:	public ParticleEmitter

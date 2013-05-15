@@ -7,8 +7,9 @@ namespace	Air{
 		AString	ParticleEmitter::ProductTypeName	=	"DefaultEmitter";
 		ParticleEmitter::ParticleEmitter( CAString& strName,Info* pInfo):IProduct(strName)
 		{
-			m_pInfo	=	pInfo;
+			m_pInfo				=	pInfo;
 			m_fUpdateTime		=	0.0f;
+			m_bEnable			=	true;
 		}
 
 		Air::U1 ParticleEmitter::Create()
@@ -43,10 +44,10 @@ namespace	Air{
 					break;
 				}
 			}
-			m_fUpdateTime	+=	frameTime.fTimeDelta;
-			ElementBorn(frameTime,lst);
-
-			
+			if(m_bEnable){
+				m_fUpdateTime	+=	frameTime.fTimeDelta;
+				ElementBorn(frameTime,lst);
+			}
 		}
 
 		void ParticleEmitter::ElementBorn( const FrameTime& frameTime,PElementList& lst )
@@ -65,9 +66,10 @@ namespace	Air{
 		{
 			float fLength = m_pInfo->vVelocityDir.Length();
 			Float3 v(
-				Common::Number::RandomF()*2-1,
-				Common::Number::RandomF()*2-1,
-				Common::Number::RandomF()*2-1);
+				Common::Number::RandomF(),
+				Common::Number::RandomF(),
+				Common::Number::RandomF());
+			v=v*2-1;
 			v=v.Normalize()*Common::Number::RandomF()*m_pInfo->fVelocityAngle+m_pInfo->vVelocityDir;//.Normalize();
 			//v.Normalize();
 			vVelocity=v;
@@ -163,7 +165,7 @@ namespace	Air{
 					pEInfo->vCenter.x	=	Common::Parse::ParseFloat(vecWord,i);
 					pEInfo->vCenter.y	=	Common::Parse::ParseFloat(vecWord,i);
 					pEInfo->vCenter.z	=	Common::Parse::ParseFloat(vecWord,i);
-				}else if(strTemp2	==	"vHalfSize"){
+				}else if(strTemp2	==	"HalfSize"){
 					pEInfo->vHalfSize.x	=	Common::Parse::ParseFloat(vecWord,i);
 					pEInfo->vHalfSize.y	=	Common::Parse::ParseFloat(vecWord,i);
 					pEInfo->vHalfSize.z	=	Common::Parse::ParseFloat(vecWord,i);
@@ -174,10 +176,13 @@ namespace	Air{
 
 		void BoxEmitter::RandomPosition( Float3& vPos )
 		{
-			vPos	=	Float3(
+			Float3 v	=	Float3(
 				Common::Number::RandomF(),
 				Common::Number::RandomF(),
 				Common::Number::RandomF());
+			v=v*2-1;
+			BoxEmitter::Info*	pInfo	=	(BoxEmitter::Info*)m_pInfo;
+			vPos	=	pInfo->vCenter	+	pInfo->vHalfSize*v;
 		}
 
 		AString	SphereEmitter::ProductTypeName="SphereEmitter";
