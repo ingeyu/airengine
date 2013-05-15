@@ -46,16 +46,19 @@ namespace	Air{
 			}
 			if(m_bEnable){
 				m_fUpdateTime	+=	frameTime.fTimeDelta;
-				ElementBorn(frameTime,lst);
+				ElementBorn(frameTime,lst,pParticle);
 			}
 		}
 
-		void ParticleEmitter::ElementBorn( const FrameTime& frameTime,PElementList& lst )
+		void ParticleEmitter::ElementBorn( const FrameTime& frameTime,PElementList& lst ,Particle* pParticle)
 		{
 			while(m_fUpdateTime>m_pInfo->fFreq){
 				ParticleElement* p = NewElement(frameTime.fTotalTime);
 				RandomPosition(p->vPos);
+				p->vPos	=	(*pParticle->GetWorldMatrix())*p->vPos;
 				RandomVelocity(p->vVelocity);
+				Float3 vZeroPoint	=	(*pParticle->GetWorldMatrix())*Float3(0,0,0);
+				p->vVelocity	=	(*pParticle->GetWorldMatrix())*p->vVelocity	-	vZeroPoint;
 				RandomSize(p->m_fSize);
 				lst.push_back(p);
 				m_fUpdateTime-=m_pInfo->fFreq;

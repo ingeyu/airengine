@@ -551,7 +551,7 @@ namespace Air{
 						matWorld.Transpose();
 						matWorld.SetPosition(*(Float3*)&v);
 
-						aobj.pObject->Update(matWorld*ParentGlobalWorldMatrix,ParentGlobalWorldQuat*Float4(q),ParentGlobalWorldScale,bParentDirty);
+						aobj.pObject->Update(matWorld*ParentGlobalWorldMatrix,ParentGlobalWorldQuat*Float4(q),ParentGlobalWorldScale,true);
 					}
 				}
 
@@ -705,7 +705,7 @@ namespace Air{
 				}
 
 
-				U1 Model::attachObject(AString	strBoneName,MovableObject* pObject ){
+				U1 Model::attachObject(CAString&	strBoneName,MovableObject* pObject ){
 					if(	strBoneName.empty()	|| pObject==NULL)
 						return	false;
 					detachObject(pObject);
@@ -724,9 +724,10 @@ namespace Air{
 					for(;i!=m_lstAttachObject.end();i++){
 						if((*i).pObject	==	pObject){
 							i = m_lstAttachObject.erase(i);
+							return true;
 						}
 					}
-					return	true;
+					return	false;
 				}
 	
 				void Model::RenderAttachObject(){
@@ -756,11 +757,26 @@ namespace Air{
 					for(;i!=m_mapEquipment.end();i++){
 						i->second->AddToRenderQueue(uiPhaseFlag);
 					}
+					STD_LIST<AttachObject>::iterator	itr	=	m_lstAttachObject.begin();
+					for(;itr!=m_lstAttachObject.end();itr++){
+						(*itr).pObject->ProcessRenderObject(uiPhaseFlag);
+					}
 				}
 
 				Air::U32 Model::GetBoneCount()const
 				{
 					return m_uiBoneCount;
+				}
+
+				Air::U1 Model::OnCameraCull( Camera* pCamera )
+				{
+					
+					STD_LIST<AttachObject>::iterator	i	=	m_lstAttachObject.begin();
+					for(;i!=m_lstAttachObject.end();i++){
+						AttachObject& aobj	=	(*i);
+						aobj.pObject->OnCameraCull(pCamera);
+					}
+					return __super::OnCameraCull(pCamera);
 				}
 
 

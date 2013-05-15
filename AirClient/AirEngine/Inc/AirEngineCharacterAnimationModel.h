@@ -431,7 +431,7 @@ namespace Air{
 					*	@note
 					*
 					**/
-					U1						attachObject(AString	strBoneName,MovableObject*	pObject);
+					U1						attachObject(CAString&	strBoneName,MovableObject*	pObject);
 					/**	\brief	移除绑定
 					*   
 					*	@remarks 	移除绑定
@@ -463,6 +463,8 @@ namespace Air{
 
 
 					virtual	void			ProcessRenderObject(U32	uiPhaseFlag);
+
+					virtual	U1				OnCameraCull(Camera*	pCamera);
 				protected:
 					CoreAnimation*			m_pAnimation;
 					Resource*				m_pResource;			///<	资源

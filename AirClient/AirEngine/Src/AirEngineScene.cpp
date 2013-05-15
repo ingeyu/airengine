@@ -88,7 +88,7 @@ namespace Air{
 			parInfo.strTemplate	=	"Billboard";
 			Particle* p=ParticleSystem::GetSingleton()->CreateProduct<Particle>("123",&parInfo);
 			//pMNode->SetScale(Float3(10,1,10));
-			pMNode->attachObject(p);
+			//pMNode->attachObject(p);
 			AString str[]={
 				"runback.CAF",
 				"runback.CAF",
@@ -99,7 +99,8 @@ namespace Air{
 				"runleft.CAF",
 				"runright.CAF"
 			};
-			for(S32 i=0;i<1;i++){
+			//for(S32 i=0;i<1;i++){
+			U32 i=0;
 				AString strName =Common::Converter::ToString(i);
 				pModel	=	EngineSystem::GetSingleton()->CreateProduct<Character::Animation::Model>(strName,&cinfo);
 				pModel->SetActionState(str[i],str[i+4],0.75);//,"shootup.CAF",0.5,0);
@@ -108,8 +109,8 @@ namespace Air{
 				pTemp->SetQuat(Float4(Float3(-1,0,0),1.57));
 				pTemp->SetScale(Float3(2,2,2));
 				pTemp->attachObject(pModel);
-			}
-			
+			//}
+			pModel->attachObject("Ref_Weapon",p);
 			
 			
 			
