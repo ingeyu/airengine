@@ -36,6 +36,46 @@ namespace	Air{
 			Common::Converter::SplitFilePath(strSceneName,&strPath,&strScene);
 
 
+
+
+			
+
+			//m_pParentNode->SetScale(Float3(0.01,0.01,0.01));
+
+			U32	uiMeshCount	=	pVec.size();
+			for(U32 i=0;i<uiMeshCount;i++){
+
+	
+				MeshEntity*	pEnt = AddEntity(strPath+pVec[i]);
+				m_pNode->attachObject(pEnt);
+				m_lstEntity.push_back(pEnt);
+			}
+
+			return	true;
+		}
+
+		Air::U1 SceneLoader::Unload()
+		{
+			MeshEntityList::iterator	i	=	m_lstEntity.begin();
+			for(;i!=m_lstEntity.end();i++){
+				(*i)->ReleaseRef();
+			}
+			m_lstEntity.clear();
+			m_pNode->RemoveAllChild(true);
+			return	true;
+		}
+
+		void SceneLoader::SetNode( SceneNode* pParent )
+		{
+			m_pNode	=	pParent->CreateChildSceneNode();
+			//m_pNode->SetScale(3);
+		}
+
+		MeshEntity* SceneLoader::AddEntity( CAString& strName,U1 bCreateChild )
+		{
+			AString	strPath;
+			Common::Converter::SplitFilePath(strName,&strPath);
+
 			Material::Info	minfo;
 			minfo.strTemplate	=	"MT_Object";
 			minfo.bUseSkin		=	false;
@@ -47,75 +87,61 @@ namespace	Air{
 			minfo.vecFloatParam[2]	=	Float4(0.1,0.1,0.1,0.1);
 			minfo.vecFloatParam[3]	=	Float4(0,0,0,0);
 
-			
+			MeshEntity::Info	info;
+			info.strMeshName	=	strName;
+			info.strMaterial	=	"NoMaterial";
 
-			//m_pParentNode->SetScale(Float3(0.01,0.01,0.01));
+			static U32 iCount=0;
 
-			U32	uiMeshCount	=	pVec.size();
-			for(U32 i=0;i<uiMeshCount;i++){
+			MeshEntity*	pEnt	=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity>(strName+Common::Converter::ToString(iCount++),&info);
 
-				MeshEntity::Info	info;
-				info.strMeshName	=	strPath+pVec[i];
-				info.strMaterial	=	"NoMaterial";
+			AString	strMSName	=	pEnt->GetMesh()->GetMaterialName();
 
-				MeshEntity*	pEnt	=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity>(pVec[i]+Common::Converter::ToString(i),&info);
+			MaterialSetInfo*	pInfo	=	MaterialParse::GetSingleton()->GetMaterialSetInfo(strMSName);
+			if(pInfo!=NULL){
 
-				AString	strMSName	=	pEnt->GetMesh()->GetMaterialName();
+				minfo.vecFloatParam[0]	=	pInfo->diffuse_opacity;
+				minfo.vecFloatParam[2]	=	pInfo->specular_glossiness;
+				minfo.vecFloatParam[3]	=	pInfo->selfIllumColor_fresnel;
+				Material::Info	mdepthinfo;
 
-				MaterialSetInfo*	pInfo	=	MaterialParse::GetSingleton()->GetMaterialSetInfo(strMSName);
-				if(pInfo!=NULL){
-
-					minfo.vecFloatParam[0]	=	pInfo->diffuse_opacity;
-					minfo.vecFloatParam[2]	=	pInfo->specular_glossiness;
-					minfo.vecFloatParam[3]	=	pInfo->selfIllumColor_fresnel;
-					Material::Info	mdepthinfo;
-
-					if(!pInfo->mapTexture[enMSPT_TexOpacity].empty()){
-						minfo.vecFloatParam[1].w	=	0.5;
-						mdepthinfo.strTemplate		=	"MT_Object_ShadowDepth_AlphaTest";
-						mdepthinfo.vecTextureName.resize(1);
-						mdepthinfo.vecTextureName[0]	=	strPath+pInfo->mapTexture[enMSPT_TexDiffuse];
-					}else{
-						minfo.vecFloatParam[1].w	=	0.0;
-						mdepthinfo.strTemplate		=	"MT_Object_ShadowDepth";
-					}
-					minfo.vecTextureName[0]		=	strPath+pInfo->mapTexture[enMSPT_TexDiffuse];
-					if(pInfo->mapTexture[enMSPT_TexDiffuse].empty()){
-						minfo.vecTextureName[0]	=	"../Data/Texture/1x1white.png";
-					}
-
-					Material*	p	=	EngineSystem::GetSingleton()->CreateProduct<Material>(strMSName+"MRT",&minfo);
-					pEnt->SetMaterial(p);
-					p->ReleaseRef();
-
-					p	=	EngineSystem::GetSingleton()->CreateProduct<Material>(strMSName+"ShadowDepth",&mdepthinfo);
-					pEnt->SetMaterial(p);
-					p->ReleaseRef();
-
+				if(!pInfo->mapTexture[enMSPT_TexOpacity].empty()){
+					minfo.vecFloatParam[1].w	=	0.5;
+					mdepthinfo.strTemplate		=	"MT_Object_ShadowDepth_AlphaTest";
+					mdepthinfo.vecTextureName.resize(1);
+					mdepthinfo.vecTextureName[0]	=	strPath+pInfo->mapTexture[enMSPT_TexDiffuse];
+				}else{
+					minfo.vecFloatParam[1].w	=	0.0;
+					mdepthinfo.strTemplate		=	"MT_Object_ShadowDepth";
+				}
+				minfo.vecTextureName[0]		=	strPath+pInfo->mapTexture[enMSPT_TexDiffuse];
+				if(pInfo->mapTexture[enMSPT_TexDiffuse].empty()){
+					minfo.vecTextureName[0]	=	"../Data/Texture/1x1white.png";
 				}
 
-				m_pNode->attachObject(pEnt);
-				
-				m_vecEntity.push_back(pEnt);
+				Material*	p	=	EngineSystem::GetSingleton()->CreateProduct<Material>(strMSName+"MRT",&minfo);
+				pEnt->SetMaterial(p);
+				p->ReleaseRef();
+
+				p	=	EngineSystem::GetSingleton()->CreateProduct<Material>(strMSName+"ShadowDepth",&mdepthinfo);
+				pEnt->SetMaterial(p);
+				p->ReleaseRef();
+
 			}
 
-			return	true;
+			//m_pNode->attachObject(pEnt);
+
+			return pEnt;
 		}
 
-		Air::U1 SceneLoader::Unload()
+		void SceneLoader::RemoveEntity( MeshEntity* pEnt )
 		{
-			MeshEntityVector::iterator	i	=	m_vecEntity.begin();
-			for(;i!=m_vecEntity.end();i++){
-				(*i)->ReleaseRef();
+			if(pEnt->GetParentSceneNode()!=m_pNode){
+				m_pNode->RemoveChild(pEnt->GetParentSceneNode(),true);
 			}
-			m_vecEntity.clear();
-			return	true;
-		}
-
-		void SceneLoader::SetNode( SceneNode* pParent )
-		{
-			m_pNode	=	pParent->CreateChildSceneNode();
-			m_pNode->SetScale(3);
+			
+			m_lstEntity.remove(pEnt);
+			SAFE_RELEASE_REF(pEnt);
 		}
 
 	}

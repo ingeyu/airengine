@@ -133,7 +133,7 @@ namespace Air{
  			Common::File::Load("..\\Data\\Material\\TestMaterial.Material2",data);
  			MaterialParse::GetSingleton()->CompileMaterial(data.buff,data.size);
  			data.Clear();
-			Common::File::Load("..\\Data\\AirMesh\\Material #1.material",data);
+			Common::File::Load("..\\Data\\AirMesh\\SceneBuilding\\Building.material",data);
 			MaterialParse::GetSingleton()->CompileMaterialSet(data.buff,data.size);
 			data.Clear();
 

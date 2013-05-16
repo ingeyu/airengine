@@ -9,7 +9,7 @@ namespace	Air{
 	namespace	Engine{
 
 		class MeshEntity;
-		typedef STD_VECTOR<MeshEntity*>	MeshEntityVector;
+		typedef STD_LIST<MeshEntity*>	MeshEntityList;
 		class	ENGINE_EXPORT	SceneLoader	:	public	MemoryObject{
 		public:
 
@@ -23,12 +23,15 @@ namespace	Air{
 
 			U1	Load(CAString&	strSceneName);
 			U1	Unload();
-			MeshEntityVector&	GetAllEntity(){
-				return m_vecEntity;
+			MeshEntityList&	GetAllEntity(){
+				return m_lstEntity;
 			}
+
+			MeshEntity*			AddEntity(CAString& strName,U1 bCreateNode	=	false );
+			void				RemoveEntity(MeshEntity* pEnt);
 		protected:
 			SceneNode*			m_pNode;
-			MeshEntityVector	m_vecEntity;
+			MeshEntityList	m_lstEntity;
 		};
 	}
 }

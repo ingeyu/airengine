@@ -65,6 +65,11 @@
 #include "AirGlobalSetting.h"
 #include "AirRenderSystem.h"
 #include "AirRenderWindow.h"
+#include "AirGameSystem.h"
+#include "AirGameSection.h"
+#include "AirEngineScene.h"
+#include "AirSceneLoader.h"
+#include "AirMeshEntity.h"
  
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.

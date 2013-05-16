@@ -230,7 +230,7 @@ namespace	Air{
 				Float3 vCameraDir[3]={Float3(0,0,1),Float3(0,1,0),Float3(1,0,0)};
 				Float3 vCameraUp[3]	={Float3(0,1,0),Float3(1,0,0),Float3(0,1,0)};
 
-				MeshEntityVector& vecEntity = pPipeline->GetCurrentScene()->GetLoader().GetAllEntity();
+				MeshEntityList& lstEntity = pPipeline->GetCurrentScene()->GetLoader().GetAllEntity();
 				 ///pPipeline->GetCurrentScene()->GetLoader().GetNode()->SetScale(Float3(10,10,10));
 				
 				//m_pCamera->FindMovableObject()
@@ -253,9 +253,10 @@ namespace	Air{
 
 
 						if(m_pGenVoxelTree){
-							for(U32 i=0;i<vecEntity.size();i++){
-								pDevice->SetSRV(enPS,0,vecEntity[i]->GetMaterial(enPI_MRT)->GetTextureArray()[0]->GetSRV());
-								m_pGenVoxelTree->RenderOneObject(vecEntity[i]);
+							MeshEntityList::iterator i = lstEntity.begin();
+							for(;i!=lstEntity.end();i++){
+								pDevice->SetSRV(enPS,0,(*i)->GetMaterial(enPI_MRT)->GetTextureArray()[0]->GetSRV());
+								m_pGenVoxelTree->RenderOneObject((*i));
 							}
 							//m_pGenVoxelTree->RenderOneObject(pEnt);
 						}

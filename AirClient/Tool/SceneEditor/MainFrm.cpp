@@ -890,7 +890,38 @@ void CMainFrame::OnUpdateScaleButton(CCmdUI* pCmdUI){
 }
 
 void CMainFrame::OnButtonCreate_Object(){
+	CFileDialog dlg( 
+		TRUE, 
+		_T(".ame"),
+		NULL,
+		OFN_HIDEREADONLY | OFN_ALLOWMULTISELECT | OFN_FILEMUSTEXIST,
+		_T("Air Mesh Files (*.ame)|*.ame|All Files (*.*)|*.*||"),
+		this );
+	char strPath[256];
+	GetCurrentDirectory(256,strPath);
+	int iLength = strlen(strPath);
+	char* pEnd = strstr(strPath,"\\Bin");
+	pEnd+=4;
+	strcpy(pEnd,"\\Data\\AirMesh\\");
+	// Set the directory where the file open dialog will start from.
+	dlg.m_ofn.lpstrInitialDir = strPath;//_T("C:\\WINNT");
+	int iPos = pEnd-strPath-2;
+	
 
+	// Set the title for the file open dialog.
+	dlg.m_ofn.lpstrTitle = _T("User Defined File Open Dialog");
+	INT_PTR ret = dlg.DoModal();
+	if(ret==IDOK){
+		Air::AString str = dlg.GetPathName().GetString();
+		str[iPos]='.';
+		str[iPos+1]='.';
+		str = &str[iPos];
+		OutputDebugStringA(str.c_str());
+
+		Air::Engine::SceneLoader& loader	=	Air::GameSystem::GetSingleton()->GetCurrentSection()->GetScene()->GetLoader();
+		Air::Engine::MeshEntity* pEnt =		loader.AddEntity(str);
+		loader.GetNode()->attachObject(pEnt);
+	}
 };		
 void CMainFrame::OnButtonCreate_Actor(){
 	Air::Engine::RenderSystem* pSys = Air::Engine::RenderSystem::GetSingleton();
@@ -902,6 +933,8 @@ void CMainFrame::OnButtonCreate_Actor(){
 };		
 void CMainFrame::OnButtonCreate_Building(){
 
+
+	
 };		
 void CMainFrame::OnButtonCreate_Point_light(){
 
