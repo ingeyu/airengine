@@ -316,11 +316,8 @@
     <ClInclude Include="..\AirEngine\Inc\AirInterfaceAlphaObjectManager.h" />
     <ClInclude Include="..\AirEngine\Inc\AirInterfaceAutoReleaseManager.h" />
     <ClInclude Include="..\AirEngine\Inc\AirInterfaceBaseParticle.h" />
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceGameSystem.h" />
     <ClInclude Include="..\AirEngine\Inc\AirInterfaceInputSystem.h" />
     <ClInclude Include="..\AirEngine\Inc\AirInterfaceNetSystem.h" />
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceParticle.h" />
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceParticleSystem.h" />
     <ClInclude Include="..\AirEngine\Inc\AirInterfacePhysicsCloth.h" />
     <ClInclude Include="..\AirEngine\Inc\AirInterfacePhysicsCollision.h" />
     <ClInclude Include="..\AirEngine\Inc\AirInterfacePhysicsController.h" />

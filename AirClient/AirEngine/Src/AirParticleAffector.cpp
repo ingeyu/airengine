@@ -3,6 +3,58 @@
 
 namespace	Air{
 	namespace	Engine{
+		extern STD_VECTOR<U32> vecTree;
+#define	MAX_DEPTH	9
+#define VOXEL_BOUND_SIZE	pow(2.0f,MAX_DEPTH-1);
+
+
+
+		U1 CollisionDetection(const Float3& vPos,Float3& vVelocity){
+			if(vecTree.empty())
+				return false;
+
+			U32 uiMaxDepth	=	MAX_DEPTH;
+			float	uiMaxVoxelBoundSize	=	VOXEL_BOUND_SIZE;
+			BoundingBox	bound;
+			bound.vMin=Float3(-uiMaxVoxelBoundSize,-uiMaxVoxelBoundSize,-uiMaxVoxelBoundSize);
+			bound.vMax=Float3(uiMaxVoxelBoundSize,uiMaxVoxelBoundSize,uiMaxVoxelBoundSize);
+
+			if(!bound.IsInclude(vPos)){
+				return false;
+			}
+
+			Float3 VoxelIndex = vPos-bound.vMin;
+			Common::IntVec3 vIndex(VoxelIndex.x,VoxelIndex.y,VoxelIndex.z);
+			U32 offset	=	0;
+			for(int i=0;i<MAX_DEPTH;i++){
+				U32 uiSHR	=	(MAX_DEPTH-1-i);
+				Common::IntVec3	maskValue(vIndex.x>>uiSHR,vIndex.y>>uiSHR,vIndex.z>>uiSHR);//mask;
+				maskValue	=	Common::IntVec3(maskValue.x&1,maskValue.y&1,maskValue.z&1);
+
+				U32 idx	=	(maskValue.x<<2)+(maskValue.y<<1)+maskValue.z;
+
+				U32	address			=	(offset+idx);
+
+				U32& uiValue	=	vecTree[address];
+				if(uiValue==0){
+					return false;
+				}else if(i==(MAX_DEPTH-1)){
+					Float3 vNormal = Float3(((uiValue&0x00ff0000)>>16)/255.0f,
+											((uiValue&0x0000ff00)>>8)/255.0f,
+											((uiValue&0x000000ff))/255.0f);
+					vNormal	=	vNormal*2-1;
+					Float3 vDir	=	vVelocity;
+					vDir.Normalize();
+					Float3 vReflect	=	vNormal*2*vNormal.Dot(-vDir)+vDir;
+					vVelocity	=	vReflect*vVelocity.Length();
+					return true;
+				}else{
+					offset	=	uiValue;
+				}
+			}
+
+			return true;
+		}
 
 		AString ParticleAffector::ProductTypeName	="DefaultAffector";
 		ParticleAffector::ParticleAffector( CAString& strName,Info* pInfo ):IProduct(strName)
@@ -15,6 +67,7 @@ namespace	Air{
 			PElementList& lst = pParticle->GetElementList();
 			for(PElementList::iterator i = lst.begin();i!=lst.end();i++){
 				(*i)->vPos += (*i)->vVelocity*frameTime.fTimeDelta;
+				CollisionDetection((*i)->vPos,(*i)->vVelocity);
 			}
 		}
 

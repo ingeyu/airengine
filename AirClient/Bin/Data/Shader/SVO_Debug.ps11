@@ -155,18 +155,18 @@ uint2	PositionToIndex(float3 vCamPos,float3 vDir,float2 fNearFar,float3 vMin,flo
 float4 main( VS_OUTPUT Input ):SV_Target0{
 	float2 xy	=	Input.UV*float2(2,-2)+float2(-1,1);
 
-	//float z	=	Depth.Sample(SS_WarpPoint,Input.UV).x;
-	//if(z > 0.9999f){
-	//	discard;
-	//}
+	float z	=	Depth.Sample(SS_WarpPoint,Input.UV).x;
+	if(z > 0.9999f){
+		discard;
+	}
 	
-	float4	wpos	=	Input.WorldPos;//mul(matViewProjInv,float4(xy,z,1));
+	float4	wpos	=	mul(matViewProjInv,float4(xy,z,1));
 	wpos/=wpos.w;
 	float3 vCamPos	=	vCameraPosition.xyz;
 	float3 dir	=	normalize(wpos.xyz	-	vCamPos	);
-	//float3	normal	=	Normal.Sample(SS_WarpPoint,Input.UV).xyz*2-1;
-	//dir		=	normalize(reflect(dir,normal));
-	//vCamPos			=	wpos.xyz+dir*2;
+	float3	normal	=	Normal.Sample(SS_WarpPoint,Input.UV).xyz*2-1;
+	dir		=	normalize(reflect(dir,normal));
+	vCamPos			=	wpos.xyz+dir*2;
 
 	uint uiOffset[MAX_DEPTH];
 	uiOffset[0]=0;

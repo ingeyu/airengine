@@ -371,8 +371,8 @@ namespace	Air{
 				
 				m_pMainWindow->AfterUpdate(false);
 			}
-			//if(RenderSystem::GetSingleton()->GetDevice()->GetHWVersion() == enRSV_11)
-			//	m_VoxelGen.Update(m_pQuad,this);
+			if(RenderSystem::GetSingleton()->GetDevice()->GetHWVersion() == enRSV_11)
+				m_VoxelGen.Update(m_pQuad,this);
 
 			m_pMainWindow->ClearPhaseFlag();
 			m_pMainWindow->AddPhaseFlag(enPI_Alpha);

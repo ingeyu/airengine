@@ -377,35 +377,6 @@ namespace Air{
 													const	Float4&		ParentGlobalWorldQuat,
 													const	Float3&		ParentGlobalWorldScale,
 													U1					bParentDirty );
-					/**	\brief	渲染
-					*   
-					*	@remarks 	渲染
-					*	@see		Model
-					*	@return   	void
-					*	@note
-					*
-					**/
-					virtual void			Render();
-	
-					/**	\brief	软件渲染
-					*   
-					*	@remarks 	软件渲染
-					*	@see		Model
-					*	@return   	void
-					*	@note
-					*
-					**/
-					virtual	void			RenderSoftWare();
-					/**	\brief	硬件渲染
-					*   
-					*	@remarks 	硬件渲染
-					*	@see		Model
-					*	@return   	void
-					*	@note
-					*
-					**/
-					virtual	void			RenderHardWare();
-	
 	
 					/**	\brief	获取骨骼矩阵
 					*   
@@ -442,15 +413,6 @@ namespace Air{
 					*
 					**/
 					U1						detachObject(MovableObject*	pObject);
-					/**	\brief	渲染绑定物体
-					*   
-					*	@remarks 	渲染绑定物体
-					*	@see		Model
-					*	@return   	void
-					*	@note
-					*
-					**/
-					void					RenderAttachObject();
 					/**	\brief	更新绑定物体
 					*   
 					*	@remarks 	更新绑定物体

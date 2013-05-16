@@ -16,6 +16,7 @@ namespace	Air{
 	const static float	VOXEL_HALF_BOUND_SIZE	=	powf(2.0f,VOXEL_DEPTH-1);
 
 	namespace	Engine{
+		STD_VECTOR<U32> vecTree;
 		struct Voxel{
 			Voxel(){
 				uiMask		=	0;
@@ -265,7 +266,7 @@ namespace	Air{
 				bInfo.SetSystemMemoryBuffer(16*1048576,sizeof(U32));
 				Render::Buffer*	pSysBuffer	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer>("TempBuffer",&bInfo);
 				
-				STD_VECTOR<U32> vecTree;
+				
 				STD_VECTOR<U32> vecColor;
 				vecColor.resize(16*1048576);
 				vecTree.resize(16*1048576);
@@ -296,20 +297,20 @@ namespace	Air{
 #endif
 
 #ifdef GPU_DEBUG
-			pPipeline->GetMainWindow()->SetClearFlag(false,false,false);
-			pPipeline->GetMainWindow()->BeforeUpdate();
-			pPipeline->GetMainCamera()->Render2D(pPipeline->GetMainWindow()->GetWidth(),pPipeline->GetMainWindow()->GetHeight());
+			//pPipeline->GetMainWindow()->SetClearFlag(false,false,false);
+			//pPipeline->GetMainWindow()->BeforeUpdate();
+			//pPipeline->GetMainCamera()->Render2D(pPipeline->GetMainWindow()->GetWidth(),pPipeline->GetMainWindow()->GetHeight());
 
-			pDevice->SetSRV(enPS,0,m_pNodeTree->GetSRV());
-			pDevice->SetSRV(enPS,1,m_pVoxel->GetSRV());
-			Matrix matViewProjInv;
+			//pDevice->SetSRV(enPS,0,m_pNodeTree->GetSRV());
+			//pDevice->SetSRV(enPS,1,m_pVoxel->GetSRV());
+			//Matrix matViewProjInv;
 
-			pPipeline->GetMainCamera()->GetViewProjMatrix(matViewProjInv);
-			matViewProjInv.Inverse();
+			//pPipeline->GetMainCamera()->GetViewProjMatrix(matViewProjInv);
+			//matViewProjInv.Inverse();
 
 
-			m_pDebugSVOMaterial->GetConstantBuffer()->UpdateData(&matViewProjInv);
-			m_pDebugSVOMaterial->RenderOneObject(pRenderable);
+			//m_pDebugSVOMaterial->GetConstantBuffer()->UpdateData(&matViewProjInv);
+			//m_pDebugSVOMaterial->RenderOneObject(pRenderable);
 
 			pPipeline->GetMainWindow()->AfterUpdate(false);
 #else

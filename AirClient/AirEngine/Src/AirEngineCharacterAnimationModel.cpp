@@ -554,19 +554,6 @@ namespace Air{
 						aobj.pObject->Update(matWorld*ParentGlobalWorldMatrix,ParentGlobalWorldQuat*Float4(q),ParentGlobalWorldScale,true);
 					}
 				}
-
-
-				void Model::Render(){
-
-					//判定是采用软件渲染  还是硬件渲染
-					
-					RenderHardWare();
-					
-					//m_CS.Leave();
-	
-					RenderAttachObject();
-					
-				}
 	
 				Real Model::GetAnimationSpeed(){
 					return	m_fAnimationSpeed;
@@ -582,106 +569,6 @@ namespace Air{
 					if(m_fAnimationSpeed+fSpeedOffset<0.0f)
 						return;
 					m_fAnimationSpeed	+=	fSpeedOffset;
-				}
-	
-				void Model::RenderSoftWare(){
-					CoreAnimation*	pAnimation	=	(CoreAnimation*)m_pObject;
-					// get the renderer of the model
-					CalRenderer *pCalRenderer;
-					pCalRenderer = pAnimation->getRenderer();
-	
-					//开始渲染整个角色
-					if(!pCalRenderer->beginRendering()) return;
-	
-					UInt iVertexPos	=	0,iFacePos	= 0;
-					//获取装备数量
-					UInt meshCount	= pCalRenderer->getMeshCount();
-	
-					// render all meshes of the model
-					for(UInt	i = 0; i < meshCount; i++){
-						// get the number of submeshes
-						//int submeshCount = pCalRenderer->getSubmeshCount(i);
-						// render all submeshes of the mesh
-						//for(UInt	j = 0; j < submeshCount; j++){
-						// select mesh and submesh for further data access
-						CalSubmesh*	pSubMesh	=	pCalRenderer->selectMeshSubmesh(i, 0);
-						if(pSubMesh)
-						{
-							//调用装备的渲染函数来渲染
-							EquipmentMeshMapItr	itr	=	m_mapEquipmentMesh.find((UInt*)pSubMesh);
-							if(itr!=m_mapEquipmentMesh.end()){
-								Equipment*	pEquip	=	itr->second;
-	
-								if(pEquip!=NULL){
-									if(pEquip->IsNull())
-										continue;
-// 									m_DrawBuff.m_DrawOption.m_uiVertexCount	=	pCalRenderer->getVertexCount();
-// 									m_DrawBuff.m_DrawOption.m_uiFaceCount	=	pCalRenderer->getFaceCount();
-									//pCalRenderer->getf
-	
-// 									VertexBuff::PNTData* pVertex	=	NULL;
-// 	
-// 									m_DrawBuff.m_pVertexBuff->Lock(Client::Render::LockOption(0,m_DrawBuff.m_DrawOption.m_uiVertexCount*32,(void**)&pVertex,LOCK_DISCARD));
-// 									int iNumVertex	=	pCalRenderer->getVerticesNormalsAndTexCoords(&pVertex->fArray[0]);
-// 									m_DrawBuff.m_pVertexBuff->Unlock();
-// 	
-// 									CalIndex*	pIndex	=	NULL;
-// 									m_DrawBuff.m_pIndexBuff->Lock(Client::Render::LockOption(0,m_DrawBuff.m_DrawOption.m_uiFaceCount*6,(void**)&pIndex,LOCK_DISCARD));
-// 									int iNumFace	=	pCalRenderer->getFaces(pIndex);
-// 									m_DrawBuff.m_pIndexBuff->Unlock();
-	
-// 									m_DrawBuff.m_DrawOption.m_uiVertexCount	=	iNumVertex;
-// 									m_DrawBuff.m_DrawOption.m_uiFaceCount	=	iNumFace;
-									//m_DrawBuff.m_pVertexBuff->UpdateData(&data);
-	
-									// 									m_DrawBuff.m_DrawOption.m_uiBaseVertexIndex	=	iVertexPos;
-									// 									m_DrawBuff.m_DrawOption.m_uiStartIndex		=	iFacePos*3;
-	
-									//pEquip->Render(m_DrawBuff);
-	
-									// 									iVertexPos+=iNumVertex;
-									// 									iFacePos+=iNumFace;
-								}
-	
-							}
-						}
-	
-						//}
-	
-					}
-	
-	
-					pCalRenderer->endRendering();
-				}
-	
-				void Model::RenderHardWare(){
-					//更新整个骨骼矩阵到着色语言共享参数区
-					m_CS.Enter();
-	
-	 				CoreAnimation*	pAnimation	=	(CoreAnimation*)m_pObject;
-	 				CalSkeleton*	pSkel	=	pAnimation->getSkeleton();
-	 				std::vector<CalBone*>&	lstBone	=	pSkel->getVectorBone();
-	 				UInt	uiBoneCount	=	lstBone.size();
-					ShaderShareParam&	dParam	=	GetGlobalSetting().m_ShaderParam;
-	
-	
-					Float44*	pMatrixArray	=	&dParam.m_BoneMatrixArray[0];
-					for(UInt i=0;i<uiBoneCount;i++){
-						CalBone*	pBone	=	lstBone[i];
-						const	CalQuaternion&	q	=	pBone->getRotationBoneSpace();
-						const	CalVector&		v	=	pBone->getTranslationBoneSpace();
-						//Render::System::GetSingleton()->MakeBoneMatrix(&pMatrixArray[i],(Float4*)&q,(Float3*)&v);
-					}
-	
-					m_CS.Leave();
-					//调用装备的渲染函数来渲染
-					EquipmentMapItr	itr	=	m_mapEquipment.begin();
-					for(;itr!=m_mapEquipment.end();itr++){
-						Equipment*	pEquip	=	itr->second;
-						if(pEquip==NULL)
-							continue;
-						//pEquip->Render(pEquip->m_pHareWareRenderBuff);
-					}
 				}
 	
 				void Model::GetBoneMatrix( UInt uiIndex,Float3* pPos,Float4* pQ /*= NULL*/ ){
@@ -728,14 +615,6 @@ namespace Air{
 						}
 					}
 					return	false;
-				}
-	
-				void Model::RenderAttachObject(){
-	// 				if(m_pAttachObjNode!=NULL){
-	// 					m_pAttachObjNode->UpdateResultMatrix();
-	// 					m_pAttachObjNode->Update();
-	// 					m_pAttachObjNode->RenderObject();
-	// 				}
 				}
 	
 				void Model::UpdateAttachObject(const FrameTime& frameTime){

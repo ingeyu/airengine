@@ -48,6 +48,9 @@
     <Filter Include="Particle">
       <UniqueIdentifier>{4b9b7537-8dbc-4ae4-92b3-cdca5177a936}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{7c1dc1f0-6d86-4472-930f-9739ba701be2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\AirEngine\Src\AirEngine.cpp">
@@ -129,42 +132,6 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="..\AirEngine\Src\AirInterfaceShootParticle.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIElement.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIEvent.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIFlashLayout.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIFlashSystem.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIImage.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIKeyProcess.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirInterfaceUILookfeel.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIRenderer.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirInterfaceUISystem.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIWindowControl.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIWindowLayout.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIWindowState.cpp">
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="..\AirEngine\Src\AirEngineMaterial.cpp">
@@ -350,6 +317,42 @@
     <ClCompile Include="..\AirEngine\Src\AirParticleRenderer.cpp">
       <Filter>Particle</Filter>
     </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIElement.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIWindowState.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIEvent.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIFlashLayout.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIFlashSystem.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIImage.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIKeyProcess.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUILookfeel.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIRenderer.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUISystem.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIWindowControl.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirInterfaceUIWindowLayout.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\AirEngine\Inc\AirEngine.h">
@@ -445,19 +448,10 @@
     <ClInclude Include="..\AirEngine\Inc\AirInterfaceBaseParticle.h">
       <Filter>Inc</Filter>
     </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceGameSystem.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirInterfaceInputSystem.h">
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirInterfaceNetSystem.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceParticle.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceParticleSystem.h">
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirInterfacePhysicsCloth.h">
@@ -494,51 +488,6 @@
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirInterfaceShootParticle.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUICommon.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIElement.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIEvent.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIFlashLayout.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIFlashSystem.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIImage.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIKeyProcess.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUILookfeel.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIRenderer.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIStaticText.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUISystem.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIText.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIWindowControl.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIWindowLayout.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIWindowState.h">
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirInterfaceUserData.h">
@@ -738,6 +687,51 @@
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirParticleRenderer.h">
       <Filter>Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUICommon.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIElement.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIEvent.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIFlashLayout.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIFlashSystem.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIImage.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIKeyProcess.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUILookfeel.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIRenderer.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIStaticText.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUISystem.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIText.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIWindowControl.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIWindowLayout.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIWindowState.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
