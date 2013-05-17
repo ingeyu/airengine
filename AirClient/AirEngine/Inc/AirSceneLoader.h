@@ -6,6 +6,11 @@
 
 
 namespace	Air{
+	struct	Transform{
+		Float3	pos;
+		Float4	rot;
+		Float3	scale;
+	};
 	namespace	Engine{
 
 		class MeshEntity;
@@ -27,7 +32,7 @@ namespace	Air{
 				return m_lstEntity;
 			}
 
-			MeshEntity*			AddEntity(CAString& strName,U1 bCreateNode	=	false );
+			MeshEntity*			AddEntity(CAString& strName,Transform* ptrans=NULL );
 			void				RemoveEntity(MeshEntity* pEnt);
 		protected:
 			SceneNode*			m_pNode;

@@ -83,8 +83,9 @@ namespace Air{
 			*	@note
 			*
 			**/
-			virtual SceneNode* CreateChildSceneNode(CAString&	strName	=	"");
-	
+			virtual SceneNode* CreateChildSceneNode(const	Float3&	pos	=	Float3(0,0,0),
+													const	Float4&	rot	=	Float4(0,0,0,1),
+													const	Float3&	scale	=	Float3(1,1,1));
 			/**	\brief	绑定物体
 			*   
 			*	@remarks	绑定物体

@@ -47,8 +47,8 @@ namespace	Air{
 
 	
 				MeshEntity*	pEnt = AddEntity(strPath+pVec[i]);
-				m_pNode->attachObject(pEnt);
-				m_lstEntity.push_back(pEnt);
+				
+				
 			}
 
 			return	true;
@@ -71,7 +71,7 @@ namespace	Air{
 			//m_pNode->SetScale(3);
 		}
 
-		MeshEntity* SceneLoader::AddEntity( CAString& strName,U1 bCreateChild )
+		MeshEntity* SceneLoader::AddEntity( CAString& strName,Transform* ptrans )
 		{
 			AString	strPath;
 			Common::Converter::SplitFilePath(strName,&strPath);
@@ -128,9 +128,15 @@ namespace	Air{
 				p->ReleaseRef();
 
 			}
-
-			//m_pNode->attachObject(pEnt);
-
+			
+			SceneNode* pNode	=	NULL;
+			if(ptrans!=NULL){
+				pNode	=	m_pNode->CreateChildSceneNode(ptrans->pos,ptrans->rot,ptrans->scale);
+			}else{
+				pNode	=	m_pNode->CreateChildSceneNode();
+			}
+			pNode->attachObject(pEnt);
+			m_lstEntity.push_back(pEnt);
 			return pEnt;
 		}
 

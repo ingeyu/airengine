@@ -99,8 +99,17 @@ namespace Air{
 			return lst;
 		}
 	
-		SceneNode* SceneNode::CreateChildSceneNode(CAString&	strName){
-			SceneNode* pSceneNode = static_cast<SceneNode*>(CreateChild(strName));
+		SceneNode* SceneNode::CreateChildSceneNode(
+			const	Float3&	pos,
+			const	Float4&	rot,
+			const	Float3&	scale
+			)
+		{
+			SceneNode* pSceneNode = static_cast<SceneNode*>(CreateChild(""));
+			pSceneNode->SetPosition(pos);
+			pSceneNode->SetQuat(rot);
+			pSceneNode->SetScale(scale);
+			pSceneNode->Update(m_GlobalWorldMatrix,m_GlobalWorldQuat,m_GlobalScale,true);
 			return pSceneNode;
 		}
 	

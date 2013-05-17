@@ -117,7 +117,7 @@ BOOL CRibbonControlsApp::InitInstance()
 	SetCurrentDirectoryA(strPath.c_str());
 
 	__ParseCommandLine(NULL);
-
+	g_Param.EditorMode	=	1;
 	memcpy(&Air::Engine::GetGlobalSetting().m_EngineParam,&g_Param,sizeof(g_Param));
 
 	// Change the registry key under which our settings are stored.

@@ -51,6 +51,7 @@ namespace Air{
 				hParentWnd	=	NULL;
 				hWnd		=	NULL;
 				InputWnd	=	NULL;
+				EditorMode	=	0;
 				ZeroMemory(strPlugin,128);
 				ZeroMemory(strGamePlugin,128);
 				ZeroMemory(strMedia,128);
@@ -60,6 +61,7 @@ namespace Air{
 			HWND	hParentWnd;
 			HWND	hWnd;
 			HWND	InputWnd;
+			U32		EditorMode;
 			AChar	strPlugin[128];
 			AChar	strGamePlugin[128];
 			AChar	strMedia[128];
