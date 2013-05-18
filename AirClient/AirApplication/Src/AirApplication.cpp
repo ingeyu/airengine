@@ -108,10 +108,10 @@ struct	EngineParam{
 };
 
 
-static	AChar						g_EngineVersion[]	=	"Air";
-Common::Plugin*						g_pEngine			=	NULL;
+static	AChar						g_EngineVersion[]		=	"Air";
+Common::Plugin*						g_pEngine				=	NULL;
 EngineParam							g_Param;
-AString								g_EngineLibraryName	=	"AirEngine.dll";
+static	AChar						g_EngineLibraryName[]	=	"AirEngine.dll";
 
 
 U1	ParseCommandLine(LPTSTR	strCommandLine){
@@ -133,7 +133,7 @@ U1	ParseCommandLine(LPTSTR	strCommandLine){
 
 	
 
-	g_EngineLibraryName	=	cfg.Get("Config","Library");
+	//g_EngineLibraryName	=	cfg.Get("Config","Library");
 	AString	str;
 	str	=	cfg.Get("Config","Plugin");		strcpy_s(g_Param.strPlugin,128,str.c_str());
 	str	=	cfg.Get("Config","GamePlugin");	strcpy_s(g_Param.strGamePlugin,128,str.c_str());
@@ -154,6 +154,7 @@ extern "C" int WINAPI
 	LPTSTR lpCmdLine, int nCmdShow) 
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF|_CRTDBG_LEAK_CHECK_DF);
+	//
 	Air::Dump_Init();
 	//AString str = "0Xffffffff";
 	//StringVector vec;
@@ -166,37 +167,35 @@ extern "C" int WINAPI
 	//检测是否在虚拟机里
 	//if(IsInsideVPC()||IsInsideVMWare())
 	//	return	-2;
-	char strModuleName[1024];
-	GetModuleFileNameA(hInstance,strModuleName,1024);
-
-	Air::AString	strPath,strName,strExe;
-	
-	Air::Common::Converter::SplitFilePath(strModuleName,&strPath,&strName,&strExe);
-
-	SetCurrentDirectoryA(strPath.c_str());
-
+	{
+		char strModuleName[1024];
+		GetModuleFileNameA(hInstance,strModuleName,1024);
+		Air::AString	strPath,strName,strExe;
+		Air::Common::Converter::SplitFilePath(strModuleName,&strPath,&strName,&strExe);
+		SetCurrentDirectoryA(strPath.c_str());
+	}
 	//Common::LogTitle("Application",g_EngineVersion);
 	//static_assert(__is_empty(Air::Common::Plugin),"dasdiaspodiasdo");
 
 
 	if(ParseCommandLine(lpCmdLine))
 	{
-		Common::Plugin	plugin(g_EngineLibraryName,&g_Param);
+		//Common::Plugin	plugin(g_EngineLibraryName,&g_Param);
 		//Common::Plugin	plugin("AirRender11.dll",&g_Param);
-		plugin.Create();
+		//plugin.Create();
 
 
 		//开始执行引擎的循环
-		plugin.Excute(Common::Plugin::enStart);
+		//plugin.Excute(Common::Plugin::enStart);
 
 		//卸载引擎
 		//plugin.Excute(Common::Plugin::enStop);
 		
 
-		plugin.Destroy();
+		//plugin.Destroy();
 
 	
 	}
-	//_CrtDumpMemoryLeaks();
+	_CrtDumpMemoryLeaks();
 	return 0;
 }

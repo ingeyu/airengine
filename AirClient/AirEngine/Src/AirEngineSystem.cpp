@@ -266,7 +266,8 @@ namespace Air{
 
 			GameSystem::GetSingleton()->Release();
 			GameSystem::ReleaseSingleton();
-
+			ParticleSystem::GetSingleton()->Release();
+			ParticleSystem::ReleaseSingleton();
 			MaterialParse::ReleaseSingleton();
 
 			//停止系统
@@ -279,7 +280,7 @@ namespace Air{
 
 			//释放所有系统管理器
 			ReleaseAllSystemManager();
-			ParticleSystem::GetSingleton()->Release();
+
 			AudioSystem::GetSingleton()->Release();
 			AudioSystem::ReleaseSingleton();
 			Render::System::GetSingleton()->Release();
@@ -289,7 +290,7 @@ namespace Air{
 			//最后释放所有插件
 			UnLoadPlugin();
 
-
+			Common::Log::ReleaseSingleton();
 			return true;
 	
 		}

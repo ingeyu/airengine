@@ -72,6 +72,8 @@ namespace	Air{
 			AString								m_strDelaySceneName;
 			U1									m_bInit;
 			Engine::enumMouseRayCastType		m_MoveType;
+			Float2								m_MoveDir;
+			Float3								m_OldPos;
 		};
 
 

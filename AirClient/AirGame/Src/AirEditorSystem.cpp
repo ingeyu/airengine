@@ -69,8 +69,33 @@ namespace	Air{
 								 }break;
 				case enCM_Move:{
 					if(m_bIsControl){
+						if(m_MoveType!=Engine::eMRCT_None&&!m_lstSelectObj.empty()){
 
+							Engine::Camera* pCam	=	GameSystem::GetSingleton()->GetCurrentSection()->GetScene()->GetMainCamera();
+							Float3 vRight	=	pCam->GetRealRightDirection();
+							Float3 vUp		=	pCam->GetRealUpDirection();
+
+							Float3 vRealDir	=	vRight*(arg.state.X.abs	-	m_MoveDir.x)+vUp*(m_MoveDir.y-arg.state.Y.abs);
+							Engine::MeshEntity* pMesh  = *(m_lstSelectObj.begin());
+
+							Float3 v = m_OldPos;
+							v[m_MoveType-1]+=vRealDir[m_MoveType-1]*0.1;
+							pMesh->GetParentSceneNode()->SetPosition(v);
+							Float44 mat;
+							Float3 scale;
+							Float4 q;
+							pMesh->GetParentSceneNode()->Update(mat,q,scale,false);
+							m_pObjController->SetPosition(v);
+							m_pObjController->SetSelectObjectBoundingBox(pMesh->GetWorldBoundingBox());
+						}
 					}else{
+						//m_MoveType	=	m_pObjController->ChangeType(ray.m_vStart,ray.m_vDirection);
+						//Engine::Scene* pScene	=	GameSystem::GetSingleton()->GetCurrentSection()->GetScene();
+						//Float44 matVPInv = pScene->GetMainCamera()->GetViewMatrix();
+						////matVPInv.Inverse();
+						//Float3 vProjPos = matVPInv*m_pObjController->GetParentSceneNode()->GetPosition();
+						//Float2 vUV	=	Float2(vProjPos.x,vProjPos.y)*Float2(2,-2)+Float2(-1,1);
+
 						m_MoveType	=	m_pObjController->ChangeType(ray.m_vStart,ray.m_vDirection);
 					}
 					break;}
@@ -116,7 +141,16 @@ namespace	Air{
 				case enCM_Move:
 				case enCM_Rotate:
 				case enCM_Scale:{
-					//m_bIsControl	=	true;
+					if(m_MoveType!=Engine::eMRCT_None){
+						m_bIsControl	=	true;
+						m_MoveDir		=	Float2(arg.state.X.abs,arg.state.Y.abs);
+						Engine::MeshEntityList::iterator i = m_lstSelectObj.begin();
+						if(i!=m_lstSelectObj.end()){
+							
+							m_OldPos	=	(*i)->GetParentSceneNode()->GetPosition();
+							Float3 vPositive	=	m_OldPos+Float3(10,10,10);
+						}
+					}
 					break;}
 				case enCM_Create:{
 					
@@ -150,12 +184,12 @@ namespace	Air{
 								Engine::SceneNode* pNode = m_pRayCastMesh->GetParentSceneNode();
 								if(pNode!=NULL){
 									const Float3 vObjPos = pNode->GetGlobalPosition();
-									float fDis = pScene->GetMainCamera()->GetPosition().Distance(vObjPos);
-									m_pObjController->SetPosition(pNode->GetGlobalPosition(),fDis*0.05);
+	
+									m_pObjController->SetPosition(pNode->GetGlobalPosition());
 								}
 								m_pObjController->SetSelectObjectBoundingBox( m_pRayCastMesh->GetWorldBoundingBox());
 							}else {
-								m_pObjController->SetPosition(Float3(0,0,0),1);
+								m_pObjController->SetPosition(Float3(0,0,0));
 								m_pObjController->SetSelectObjectBoundingBox(BoundingBox(-1,-1,-1,1,1,1));
 							}
 						}
@@ -165,14 +199,12 @@ namespace	Air{
 					case enCM_SelectList:{
 
 						break;}
-					case enCM_Move:{
-						m_bIsControl	=	false;
-						break;}
-					case enCM_Rotate:{
-						m_bIsControl	=	false;
-						break;}
+					case enCM_Move:
+					case enCM_Rotate:
 					case enCM_Scale:{
 						m_bIsControl	=	false;
+						m_MoveType		=	Engine::eMRCT_None;
+						m_MoveDir		=	Float2(arg.state.X.abs,arg.state.Y.abs);
 						break;}
 					case enCM_Create:{
 						Ray ray = BuildRay(arg.state.X.abs,arg.state.Y.abs);
@@ -213,7 +245,7 @@ namespace	Air{
 				}
 				m_lstSelectObj.clear();
 				if(m_pObjController!=NULL){
-					m_pObjController->SetPosition(Float3(0,0,0),1);
+					m_pObjController->SetPosition(Float3(0,0,0));
 					m_pObjController->SetSelectObjectBoundingBox(BoundingBox(-1,-1,-1,1,1,1));
 					if(m_pRayCastMesh==NULL){
 						m_pObjController->SetRayCastObjectBoundingBox(BoundingBox(-1,-1,-1,1,1,1));

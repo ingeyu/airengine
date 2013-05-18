@@ -148,8 +148,8 @@ namespace Air{
 	
 			return true;
 		}
-		bool IniFile::ParseLine(AString strLine){
-			static AString strCurrSort;
+		bool IniFile::ParseLine(CAString& strLine){
+			
 			if(strLine.empty())
 				return false;
 			char type= strLine[0];
@@ -175,7 +175,7 @@ namespace Air{
 			}
 			return true;
 		}
-		AString IniFile::ParseSort(AString strSort){
+		AString IniFile::ParseSort(CAString& strSort){
 			unsigned int size = strSort.size();
 	
 			char* str = new char[size - 1];

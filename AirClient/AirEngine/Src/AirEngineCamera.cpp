@@ -189,20 +189,13 @@ namespace Air{
 		}
 	
 		Float3 Camera::GetRealRightDirection(){
-			Float3	vDir	=	GetRealDirection();
-			Float3	vUp		=	GetRealUpDirection();
-			return	vUp.Cross(vDir);
+			return	m_vUp.Cross(m_vDirection);
 		}
 	
 		Float3 Camera::GetRealUpDirection(){
-	// 		if(m_pParentNode!=NULL){
-	// 			Float44	m	=	m_WorldMatrix;
-	// 			m.setTrans(Float3::ZERO);
-	// 			return	m*m_vUpDirection;
-	// 		}else
-			{
-				return	m_vUp;
-			}
+
+			return	m_vDirection.Cross(GetRealRightDirection());
+			
 		}
 
 

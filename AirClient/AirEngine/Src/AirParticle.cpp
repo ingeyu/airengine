@@ -39,7 +39,7 @@ namespace	Air{
 
 		Air::U1 Particle::Destroy()
 		{
-			PElementList::iterator i = m_lstElement.end();
+			PElementList::iterator i = m_lstElement.begin();
 			for(;i!=m_lstElement.end();i++){
 				delete (*i);
 			}
@@ -130,9 +130,12 @@ namespace	Air{
 
 		Air::U1 ParticleSystem::Release()
 		{
+			DestroyAllProduct();
+			DestroyAllFactory();
 			m_mapParser.clear();
 			m_mapTemplateInfo.clear();
 			m_TemplateData.Clear();
+			
 			return true;
 
 		}

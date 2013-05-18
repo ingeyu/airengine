@@ -182,7 +182,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			bool ParseLine(AString strLine);
+			bool ParseLine(CAString& strLine);
 			/**	\brief	解析主分类
 			*   
 			*	@remarks 	解析分类名   标示符 [Sort]  []
@@ -192,7 +192,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			AString ParseSort(AString strSort);
+			AString ParseSort(CAString& strSort);
 			/**	\brief	解析配置信息
 			*   
 			*	@remarks 	解析具体的信息  标示符 Name=Value  =
@@ -271,6 +271,7 @@ namespace Air{
 	#endif
 			AString						m_strFileName;			///<	配置文件名
 			SortList					m_lstSort;				///<	信息主分类
+			AString						strCurrSort;
 		};
 	
 	
