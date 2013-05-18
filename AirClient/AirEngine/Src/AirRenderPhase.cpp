@@ -104,7 +104,13 @@ namespace	Air{
 			}
 
 			Air::U1 Phase::RemoveMaterialTemplate( MaterialTemplate* pTemplate ){
-
+				if(pTemplate==NULL)
+					return	false;
+				U64	uiHash				=	pTemplate->GetHash();
+				MaterialTemplateMap::iterator	i	=	m_mapMaterialTemplate.find(uiHash);
+				if(i!=m_mapMaterialTemplate.end()){
+					m_mapMaterialTemplate.erase(i);
+				}
 				return	true;
 			}
 

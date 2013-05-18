@@ -70,6 +70,7 @@
 #include "AirEngineScene.h"
 #include "AirSceneLoader.h"
 #include "AirMeshEntity.h"
+#include "AirEditorSystem.h"
  
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.

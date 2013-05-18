@@ -87,7 +87,7 @@ namespace	Air{
 					__Draw(pDevice,1024);
 					i=0;
 				}
-				vBuffer[i++]	=	Float4(vp.x,vp.y,vp.z,(*itr)->m_fSize);
+				vBuffer[i++]	=	Float4(vp.x,vp.y,vp.z,(*itr)->fSize);
 			}
 			
 			m_pInstanceBuffer->UpdateData(vBuffer);
@@ -156,8 +156,8 @@ namespace	Air{
 					__Draw(pDevice,i/2);
 					i=0;
 				}
-				vBuffer[i++]	=	Float4(vp.x,vp.y,vp.z,(*itr)->m_fSize);
-				vBuffer[i++]	=	Float4(velocity.x,velocity.y,velocity.z,(*itr)->m_fBornTime);
+				vBuffer[i++]	=	Float4(vp.x,vp.y,vp.z,(*itr)->fSize);
+				vBuffer[i++]	=	Float4(velocity.x,velocity.y,velocity.z,(*itr)->fBornTime);
 			}
 
 			m_pInstanceBuffer->UpdateData(vBuffer);

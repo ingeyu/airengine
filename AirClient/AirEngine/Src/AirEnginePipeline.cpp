@@ -77,7 +77,13 @@ namespace	Air{
 
 		void Pipeline::SetCurrentScene( Scene* pCurrentScene )
 		{
+			if(m_pScene!=NULL){
+				m_pScene->SetMainCamera(NULL);
+			}
 			m_pScene	=	pCurrentScene;
+			if(m_pScene!=NULL){
+				m_pScene->SetMainCamera(m_pMainCamera);
+			}
 		}
 
 		AString	DefaultPipeline::ProductTypeName="DefaultPipeline";
@@ -481,24 +487,7 @@ namespace	Air{
 
 			float	fDis	=	9999999.0f;
 
-			if(id	==	OIS::MB_Middle){
-
-				if(GetCurrentScene()->GetStaticSceneNode()->RayCast(ray,&fDis))
-				//TreeElement* pElement	=	pMesh->RayCast(ray,&fDis);
-				//if(pElement)
-				{
-					Float3	vPos	=	ray.m_vStart+ray.m_vDirection*fDis;
-					vEnd			=	vPos;
-					pMNode->SetPosition(vPos);
-				}
-				//Ray	ray	=	GetGlobalSetting().GetCursorPostionRay(p);
-				//if(ray.Intersect(pTestEnt->GetWorldBoundingBox())){
-
-				//	OutputDebugStringA("OK\n");
-				//}else{
-				//	OutputDebugStringA("ERROR\n");
-				//}
-			}else if(id == OIS::MB_Left){
+			if(id == OIS::MB_Left){
 				TreeElement* pElement	=	NULL;//pMesh->RayCast(ray,&fDis);
 				if(pElement)
 				{

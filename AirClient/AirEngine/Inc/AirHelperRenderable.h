@@ -44,6 +44,7 @@ namespace	Air{
 			inline enumMouseRayCastType	GetType()const{
 				return m_RayCastType;
 			};
+			void					SetPosition(const Float3& vPos,float fScale);
 		protected:
 			MoveRenderable*			m_pMove;
 			RotateRenderable*		m_pRotate;

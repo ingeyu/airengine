@@ -220,7 +220,7 @@ namespace	Air{
 
 			Render::Device* pDevice	=	RenderSystem::GetSingleton()->GetDevice();
 #if 1
-			static bool bVoxel	=	false;
+			static bool bVoxel	=	true;
 			if(!bVoxel){
 				bVoxel=true;
 

@@ -47,7 +47,7 @@
 #include "AirGameSystem.h"
 #include "AirAudioSystem.h"
 #include "AirParticle.h"
-#include "AirEditorSystem.h"
+
 
 #include <fstream>
 
@@ -206,9 +206,7 @@ namespace Air{
 			//º”‘ÿGame
 			CreateProduct<Plugin>("AirGame.dll");
 
-			if(GetGlobalSetting().m_EngineParam.EditorMode==1){
-				EditorSystem::GetSingleton()->Initialization();
-			}
+
 
 			return true;
 		}
@@ -263,10 +261,6 @@ namespace Air{
 	
 		U1 System::Release(){
 
-			if(GetGlobalSetting().m_EngineParam.EditorMode==1){
-				EditorSystem::GetSingleton()->Release();
-				EditorSystem::ReleaseSingleton();
-			}
 			//–∂‘ÿGame
 			DestroyProduct<Plugin>("AirGame.dll");
 

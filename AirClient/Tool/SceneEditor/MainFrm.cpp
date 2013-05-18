@@ -864,11 +864,15 @@ void CMainFrame::OnUpdateToggleButton(CCmdUI* pCmdUI)
 
 void CMainFrame::OnSelectButton(){
 	m_EditMode	=	eEM_Select;
+	Air::EditorSystem::GetSingleton()->SetControlMode(Air::Editor::enCM_Select);
 };
 void CMainFrame::OnUpdateSelectButton(CCmdUI* pCmdUI){
 	pCmdUI->SetCheck(m_EditMode==eEM_Select);
 };
-void CMainFrame::OnSelectListButton(){};
+void CMainFrame::OnSelectListButton(){
+	//Air::EditorSystem::GetSingleton()->SetControlMode(Air::Editor::enCM_Rotate);
+	Air::EditorSystem::GetSingleton()->SetControlMode(Air::Editor::enCM_Select);
+};
 void CMainFrame::OnUpdateSelectListButton(CCmdUI* pCmdUI){};
 void CMainFrame::OnMoveButton(){
 	m_EditMode	=	eEM_Move;
@@ -878,12 +882,14 @@ void CMainFrame::OnUpdateMoveButton(CCmdUI* pCmdUI){
 };
 void CMainFrame::OnRotateButton(){
 	m_EditMode	=	eEM_Rotate;
+	Air::EditorSystem::GetSingleton()->SetControlMode(Air::Editor::enCM_Rotate);
 };
 void CMainFrame::OnUpdateRotateButton(CCmdUI* pCmdUI){
 	pCmdUI->SetCheck(m_EditMode==eEM_Rotate);
 };
 void CMainFrame::OnScaleButton(){
 	m_EditMode	=	eEM_Scale;
+	Air::EditorSystem::GetSingleton()->SetControlMode(Air::Editor::enCM_Scale);
 };
 void CMainFrame::OnUpdateScaleButton(CCmdUI* pCmdUI){
 	pCmdUI->SetCheck(m_EditMode==eEM_Scale);
@@ -918,18 +924,16 @@ void CMainFrame::OnButtonCreate_Object(){
 		str = &str[iPos];
 		OutputDebugStringA(str.c_str());
 
-		Air::Engine::SceneLoader& loader	=	Air::GameSystem::GetSingleton()->GetCurrentSection()->GetScene()->GetLoader();
-		Air::Engine::MeshEntity* pEnt =		loader.AddEntity(str);
-		loader.GetNode()->attachObject(pEnt);
+// 		Air::Engine::SceneLoader& loader	=	Air::GameSystem::GetSingleton()->GetCurrentSection()->GetScene()->GetLoader();
+// 		Air::Engine::MeshEntity* pEnt =		loader.AddEntity(str);
+// 		loader.GetNode()->attachObject(pEnt);
+		Air::EditorSystem::GetSingleton()->SetCreateName(str);
 	}
+	Air::EditorSystem::GetSingleton()->SetCreateType(Air::Editor::enCT_Object);
+	Air::EditorSystem::GetSingleton()->SetControlMode(Air::Editor::enCM_Create);
 };		
 void CMainFrame::OnButtonCreate_Actor(){
-	Air::Engine::RenderSystem* pSys = Air::Engine::RenderSystem::GetSingleton();
-	Air::Engine::Shader*	pShader = pSys->GetProduct<Air::Engine::Shader>("Shader/SVO_Debug.ps");
-	if(pShader){
-		pShader->Reload();
-		pShader->ReleaseRef();
-	}
+
 };		
 void CMainFrame::OnButtonCreate_Building(){
 

@@ -77,7 +77,7 @@ namespace Air{
 
 			m_Loader.SetNode(&m_StaticNode);
 			//"..\\Data\\AirMesh\\jianxia3\\jianxia3.ame.Scene"
-			m_Loader.Load("AirMesh/strom/strom.ame.Scene");
+			//m_Loader.Load("AirMesh/strom/strom.ame.Scene");
 
 			//m_pRootNode.SetScale(Float3(0.1,0.1,0.1));
 			//AString	strSkele	=	"Mage.CSF";
@@ -104,7 +104,7 @@ namespace Air{
 			U32 i=0;
 				AString strName =Common::Converter::ToString(i);
 				pModel	=	EngineSystem::GetSingleton()->CreateProduct<Character::Animation::Model>(strName,&cinfo);
-				pModel->SetActionState(str[i],str[i+4],0.75);//,"shootup.CAF",0.5,0);
+				pModel->SetActionState("run.CAF");//str[i],str[i+4],0.999);//,"shootup.CAF",0.5,0);
 				SceneNode*	pTemp	=	pMNode->CreateChildSceneNode();
 				pTemp->SetPosition(Float3(i%10,0,i/10)*4);
 				pTemp->SetQuat(Float4(Float3(-1,0,0),1.57));

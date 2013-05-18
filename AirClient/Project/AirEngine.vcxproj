@@ -162,7 +162,6 @@
     <ClCompile Include="..\AirEngine\Src\AirAudioSystem.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirBoxRenderable.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirCascadedShadowMap.cpp" />
-    <ClCompile Include="..\AirEngine\Src\AirEditorSystem.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirEngine.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirEngine3ds.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirEngineCharacterAnimationModel.cpp" />
@@ -263,7 +262,6 @@
     <ClInclude Include="..\AirEngine\Inc\AirAudioDevice.h" />
     <ClInclude Include="..\AirEngine\Inc\AirBoxRenderable.h" />
     <ClInclude Include="..\AirEngine\Inc\AirCascadedShadowMap.h" />
-    <ClInclude Include="..\AirEngine\Inc\AirEditorSystem.h" />
     <ClInclude Include="..\AirEngine\Inc\AirEngine.h" />
     <ClInclude Include="..\AirEngine\Inc\AirEngineHeader.h" />
     <ClInclude Include="..\AirEngine\Inc\AirEngine3ds.h" />

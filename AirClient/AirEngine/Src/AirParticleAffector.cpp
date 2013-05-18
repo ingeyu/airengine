@@ -53,7 +53,7 @@ namespace	Air{
 				}
 			}
 
-			return true;
+			return false;
 		}
 
 		AString ParticleAffector::ProductTypeName	="DefaultAffector";
@@ -65,9 +65,14 @@ namespace	Air{
 		void ParticleAffector::Update( const FrameTime& frameTime,Particle* pParticle )
 		{
 			PElementList& lst = pParticle->GetElementList();
+			Float3 p;
 			for(PElementList::iterator i = lst.begin();i!=lst.end();i++){
-				(*i)->vPos += (*i)->vVelocity*frameTime.fTimeDelta;
-				CollisionDetection((*i)->vPos,(*i)->vVelocity);
+				p = (*i)->vPos;
+				(*i)->vPos	+= (*i)->vVelocity*frameTime.fTimeDelta;
+				if(CollisionDetection((*i)->vPos,(*i)->vVelocity)){
+					p+=(*i)->vVelocity*frameTime.fTimeDelta;
+					(*i)->vPos=p;
+				}
 			}
 		}
 

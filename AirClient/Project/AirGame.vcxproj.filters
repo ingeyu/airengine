@@ -19,6 +19,9 @@
     <Filter Include="GameInterface">
       <UniqueIdentifier>{3074d53f-388e-482a-bd7d-a2fc9f2c7db2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor">
+      <UniqueIdentifier>{23a511e6-0c75-4fdb-9d01-7e1b85767300}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\AirGame\Src\AirGame.cpp">
@@ -26,6 +29,9 @@
     </ClCompile>
     <ClCompile Include="..\AirGame\Src\AirGameGlobal.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirGame\Src\AirEditorSystem.cpp">
+      <Filter>Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +58,9 @@
     </ClInclude>
     <ClInclude Include="..\AirGame\Inc\AirInterfaceGameDataSystem.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirGame\Inc\AirEditorSystem.h">
+      <Filter>Editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

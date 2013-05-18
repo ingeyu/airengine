@@ -33,6 +33,8 @@ namespace	Air{
 
 			virtual	Matrix*				GetWorldMatrix();
 			virtual	void				OnRender(Render::Device* pDevice);
+			virtual	void				AddElement(const Float3& vPos,const Float3& vVelocity,float fSize);
+			virtual	void				AddElement(ParticleElement* pElement);
 		public:
 			inline	U32					GetElementCount()const	{return m_lstElement.size();};
 			inline	PElementList&		GetElementList()		{return m_lstElement;};

@@ -14,6 +14,7 @@ namespace	Air{
 				float		fElementLife;
 				Float3		vVelocityDir;
 				float		fVelocityAngle;
+				U32			bEnable;
 			};
 			static	AString	ProductTypeName;
 			static	void*	ScriptParser(StringVector& vecWord,U32& i);

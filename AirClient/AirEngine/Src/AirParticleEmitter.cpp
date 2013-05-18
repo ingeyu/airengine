@@ -17,6 +17,8 @@ namespace	Air{
 			if(m_pInfo==NULL){
 				return false;
 			}
+
+			m_bEnable	=	m_pInfo->bEnable;
 			
 			if(	m_pInfo->fFreq	<	0.000001f)
 				return false;
@@ -37,7 +39,7 @@ namespace	Air{
 			PElementList& lst	=	pParticle->GetElementList();
 			PElementList::iterator i = lst.begin();
 			for(;i!=lst.end();){
-				if((*i)->m_fBornTime	+	m_pInfo->fElementLife	<	frameTime.fTotalTime){
+				if((*i)->fBornTime	+	m_pInfo->fElementLife	<	frameTime.fTotalTime){
 					delete (*i);
 					i = lst.erase(i);
 				}else{
@@ -59,7 +61,7 @@ namespace	Air{
 				RandomVelocity(p->vVelocity);
 				Float3 vZeroPoint	=	(*pParticle->GetWorldMatrix())*Float3(0,0,0);
 				p->vVelocity	=	(*pParticle->GetWorldMatrix())*p->vVelocity	-	vZeroPoint;
-				RandomSize(p->m_fSize);
+				RandomSize(p->fSize);
 				lst.push_back(p);
 				m_fUpdateTime-=m_pInfo->fFreq;
 			}
@@ -112,10 +114,13 @@ namespace	Air{
 					pEInfo->vVelocityDir.z	=	Common::Parse::ParseFloat(vecWord,i);
 				}else if(strTemp2	==	"VelocityAngle"){
 					pEInfo->fVelocityAngle	=	Common::Parse::ParseFloat(vecWord,i);
+				}else if(strTemp2	==	"Enable"){
+					pEInfo->bEnable			=	Common::Converter::ToU1(vecWord[i++]);
 				}
 			}
 			return pEInfo;
 		}
+
 
 		AString	BoxEmitter::ProductTypeName="BoxEmitter";
 		BoxEmitter::BoxEmitter( CAString& strName,BoxEmitter::Info* pInfo ):ParticleEmitter(strName,pInfo)

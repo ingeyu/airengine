@@ -6,6 +6,6 @@
 
 #pragma comment(lib,"AirCommon")
 #pragma comment(lib,"AirEngine")
-
+#pragma comment(lib,"AirGame")
 
 

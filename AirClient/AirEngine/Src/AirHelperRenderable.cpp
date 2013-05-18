@@ -1,6 +1,7 @@
 #include "AirHelperRenderable.h"
 #include "AirRenderSystem.h"
 #include "AirEngineMaterial.h"
+#include "AirEngineSceneNode.h"
 
 namespace	Air{
 	namespace	Engine{
@@ -229,7 +230,7 @@ namespace	Air{
 
 		Air::Engine::enumMouseRayCastType ObjectController::ChangeType( const Float3& vStart,const Float3& vDir )
 		{
-			if(m_BoundingBox.RayCast(vStart,vDir)){
+			if(m_WorldBound.RayCast(vStart,vDir)){
 				switch(m_ControlMode){
 					case eMCM_Select:{
 
@@ -315,6 +316,19 @@ namespace	Air{
 		{
 			m_ControlMode	=	mode;
 			return m_ControlMode;
+		}
+
+		void ObjectController::SetPosition( const Float3& vPos ,float fScale)
+		{
+			SceneNode* pNode	=	GetParentSceneNode();
+			if(pNode!=NULL){
+				pNode->SetPosition(vPos);
+				pNode->SetScale(fScale);
+				static Float44 matWorld;
+				static Float4  rot;
+				static Float3  scale;
+				pNode->Update(matWorld,rot,scale,false);
+			}
 		}
 
 	}

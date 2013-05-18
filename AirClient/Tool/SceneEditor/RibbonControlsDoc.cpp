@@ -78,6 +78,20 @@ void CRibbonControlsDoc::Dump(CDumpContext& dc) const
 {
 	CDocument::Dump(dc);
 }
+
+BOOL CRibbonControlsDoc::OnOpenDocument( LPCTSTR lpszPathName )
+{
+	
+	Air::EditorSystem::GetSingleton()->LoadScene(Air::EditorSystem::AbsPath2Relatve(lpszPathName));
+	return CDocument::OnOpenDocument(lpszPathName);
+}
+
+BOOL CRibbonControlsDoc::OnSaveDocument( LPCTSTR lpszPathName )
+{
+	Air::EditorSystem::GetSingleton()->SaveScene(Air::EditorSystem::AbsPath2Relatve(lpszPathName));
+	return CDocument::OnSaveDocument(lpszPathName);
+}
+
 #endif //_DEBUG
 
 /////////////////////////////////////////////////////////////////////////////

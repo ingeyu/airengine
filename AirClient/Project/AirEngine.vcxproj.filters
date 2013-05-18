@@ -51,9 +51,6 @@
     <Filter Include="UI">
       <UniqueIdentifier>{7c1dc1f0-6d86-4472-930f-9739ba701be2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Editor">
-      <UniqueIdentifier>{444230b8-5801-4a6d-b610-ace4ac061626}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\AirEngine\Src\AirEngine.cpp">
@@ -355,9 +352,6 @@
     </ClCompile>
     <ClCompile Include="..\AirEngine\Src\AirInterfaceUIWindowLayout.cpp">
       <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirEditorSystem.cpp">
-      <Filter>Editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -738,9 +732,6 @@
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIWindowState.h">
       <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirEditorSystem.h">
-      <Filter>Editor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

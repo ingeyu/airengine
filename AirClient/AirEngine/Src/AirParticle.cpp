@@ -81,6 +81,24 @@ namespace	Air{
 			AddToRenderQueue(uiPhaseFlag);
 		}
 
+		void Particle::AddElement( const Float3& vPos,const Float3& vVelocity,float fSize )
+		{
+			ParticleElement* pElement	=	new ParticleElement;
+			
+			pElement->vPos			=	vPos;
+			pElement->vVelocity		=	vVelocity;
+			pElement->fSize		=	fSize;
+			AddElement(pElement);
+		}
+
+		void Particle::AddElement( ParticleElement* pElement )
+		{
+			if(pElement==NULL)
+				return;
+			pElement->fBornTime	=	GetTimer().m_FrameTime.fTotalTime;
+			m_lstElement.push_back(pElement);
+		}
+
 		ParticleSystem::ParticleSystem()
 		{
 			m_uiDataUsed	=	0;

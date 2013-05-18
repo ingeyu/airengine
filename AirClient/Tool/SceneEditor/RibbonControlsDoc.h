@@ -27,6 +27,8 @@ public:
 	//{{AFX_VIRTUAL(CRibbonControlsDoc)
 	public:
 	virtual BOOL OnNewDocument();
+	virtual BOOL OnOpenDocument(LPCTSTR lpszPathName);
+	virtual BOOL OnSaveDocument(LPCTSTR lpszPathName);
 	virtual void Serialize(CArchive& ar);
 	//}}AFX_VIRTUAL
 

@@ -6,7 +6,7 @@
 #include "AirGameSystem.h"
 #include "AirGlobalSetting.h"
 #include "AirGameSection.h"
-
+#include "AirEditorSystem.h"
 
 
 
@@ -33,6 +33,9 @@ namespace Air{
 				pSection	=	GameSystem::GetSingleton()->CreateProduct<Game::Section>("Test");
 				GameSystem::GetSingleton()->SetCurrentSection(pSection);
 			}
+			if(Engine::GetGlobalSetting().m_EngineParam.EditorMode==1){
+				EditorSystem::GetSingleton()->Initialization();
+			}
 			return	true;
 		}
 		extern "C" GAME_EXPORT U1 DllStart(void*		pParam)throw(){
@@ -45,6 +48,10 @@ namespace Air{
 			return	true;
 		}
 		extern "C" GAME_EXPORT U1 DllRelease(void*	pParam)throw(){
+			if(Engine::GetGlobalSetting().m_EngineParam.EditorMode==1){
+				EditorSystem::GetSingleton()->Release();
+				EditorSystem::ReleaseSingleton();
+			}
 			if(pSection!=NULL){
 				GameSystem::GetSingleton()->SetCurrentSection(NULL);
 				pSection->ReleaseRef();

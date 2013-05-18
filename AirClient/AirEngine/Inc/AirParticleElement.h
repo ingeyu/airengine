@@ -9,17 +9,17 @@ namespace	Air{
 		{
 		public:
 			ParticleElement(){
-				m_fBornTime	=	0.0f;
-				m_fSize		=	1.0f;
+				fBornTime	=	0.0f;
+				fSize		=	1.0f;
 			}; 
 			ParticleElement(float fTime){
-				m_fBornTime	=	fTime;
-				m_fSize		=	1.0f;
+				fBornTime	=	fTime;
+				fSize		=	1.0f;
 			}; 
 			Float3	vPos;
 			Float3	vVelocity;
-			float	m_fBornTime;
-			float	m_fSize;
+			float	fBornTime;
+			float	fSize;
 		};
 		typedef	STD_LIST<ParticleElement*>	PElementList;
 	}
