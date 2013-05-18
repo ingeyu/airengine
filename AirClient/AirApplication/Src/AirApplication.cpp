@@ -180,22 +180,22 @@ extern "C" int WINAPI
 
 	if(ParseCommandLine(lpCmdLine))
 	{
-		//Common::Plugin	plugin(g_EngineLibraryName,&g_Param);
+		Common::Plugin	plugin(g_EngineLibraryName,&g_Param);
 		//Common::Plugin	plugin("AirRender11.dll",&g_Param);
-		//plugin.Create();
+		plugin.Create();
 
 
 		//开始执行引擎的循环
-		//plugin.Excute(Common::Plugin::enStart);
+		plugin.Excute(Common::Plugin::enStart);
 
 		//卸载引擎
-		//plugin.Excute(Common::Plugin::enStop);
+		plugin.Excute(Common::Plugin::enStop);
 		
 
-		//plugin.Destroy();
+		plugin.Destroy();
 
 	
 	}
-	_CrtDumpMemoryLeaks();
+	//_CrtDumpMemoryLeaks();
 	return 0;
 }
