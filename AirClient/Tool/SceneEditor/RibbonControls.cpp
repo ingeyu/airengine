@@ -27,7 +27,7 @@ BEGIN_MESSAGE_MAP(CRibbonControlsApp, CWinApp)
 	//}}AFX_MSG_MAP
 	// Standard file based document commands
 	ON_COMMAND(ID_FILE_NEW, CWinApp::OnFileNew)
-	ON_COMMAND(ID_FILE_OPEN, CWinApp::OnFileOpen)
+	ON_COMMAND(ID_FILE_OPEN, CRibbonControlsApp::OnFileOpen)
 	// Standard print setup command
 	ON_COMMAND(ID_FILE_PRINT_SETUP, CWinApp::OnFilePrintSetup)
 END_MESSAGE_MAP()
@@ -158,6 +158,8 @@ BOOL CRibbonControlsApp::InitInstance()
 	Air::EngineSystem::GetSingleton()->Initialization();
 
 	SetTimer(pView->GetSafeHwnd(),100,16,TimerCallback);
+
+
 	return TRUE;
 }
 
@@ -179,6 +181,43 @@ int CRibbonControlsApp::ExitInstance()
 	Air::EngineSystem::GetSingleton()->Release();
 	Air::EngineSystem::ReleaseSingleton();
 	return __super::ExitInstance();
+}
+AFX_STATIC int AFX_CDECL GetStructSize()
+{
+	OSVERSIONINFO ovi;
+	::ZeroMemory(&ovi, sizeof(OSVERSIONINFO));
+	ovi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+	::GetVersionEx(&ovi);
+
+	// Windows 2000 or newer OS, we can use newer file open dialog.
+	if ((ovi.dwPlatformId >= VER_PLATFORM_WIN32_NT) && (ovi.dwMajorVersion >= 5))
+		return sizeof(OPENFILENAME) + 12;
+
+	// Use standard file open dialog.
+	return sizeof(OPENFILENAME);
+}
+void CRibbonControlsApp::OnFileOpen() 
+{
+	CString csFilter	=	"Air Scene File(*.Scene)|*.Scene|All Files (*.*)|*.*||";
+
+
+	DWORD dwOpenFlags = 
+		OFN_HIDEREADONLY | 
+		OFN_PATHMUSTEXIST |
+		OFN_FILEMUSTEXIST |
+		OFN_ENABLESIZING;
+
+	CFileDialog dlg(TRUE, NULL, NULL, dwOpenFlags, csFilter, NULL);
+	dlg.m_ofn.lStructSize		= GetStructSize();
+	dlg.m_ofn.nFilterIndex		= 0;
+	dlg.m_ofn.lpstrInitialDir	= NULL;
+
+	if (dlg.DoModal() == IDOK)
+	{
+		OpenDocumentFile(dlg.GetPathName());
+		//m_nFilterIndex = dlg.m_ofn.nFilterIndex;
+		//m_csInitialDir = dlg.m_ofn.lpstrInitialDir;
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////

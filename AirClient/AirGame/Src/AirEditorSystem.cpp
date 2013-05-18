@@ -13,10 +13,13 @@ namespace	Air{
 			m_pRayCastMesh	=	NULL;
 			m_bIsControl	=	FALSE;
 			m_bLoading		=	false;
+			m_bInit			=	false;
 		}
 
 		Air::U1 System::Initialization()
 		{
+			if(m_bInit)
+				return false;
 			OIS::KeyListener*	pKey	=	this;
 			OIS::MouseListener*	pMouse	=	this;
 			Engine::GetGlobalSetting().m_pInputSystem->Add(pKey);
@@ -27,16 +30,25 @@ namespace	Air{
 
 			m_pObjController	=	new Engine::ObjectController();
 			pScene->GetDynamicSceneNode()->CreateChildSceneNode()->attachObject(m_pObjController);
-
+			
+			m_bInit	=	true;
+			if(!m_strDelaySceneName.empty()){
+				LoadScene(m_strDelaySceneName);
+				m_strDelaySceneName.clear();
+			}
 			return true;
 		}
 
 		Air::U1 System::Release()
 		{
+			if(!m_bInit)
+				return false;
+			SAFE_DELETE(m_pObjController);
 			OIS::KeyListener*	pKey	=	this;
 			OIS::MouseListener*	pMouse	=	this;
 			Engine::GetGlobalSetting().m_pInputSystem->Remove(pKey);
 			Engine::GetGlobalSetting().m_pInputSystem->Remove(pMouse);
+			m_bInit	=	false;
 			return true;
 		}
 
@@ -180,9 +192,13 @@ namespace	Air{
 
 		void System::AddObject( CAString& strName,const Float3& vPos )
 		{
+			if(m_strCreateObjectName.empty())
+				return;
 			Engine::SceneLoader& loader	=	GameSystem::GetSingleton()->GetCurrentSection()->GetScene()->GetLoader();
 			Transform trans;
 			trans.pos	=	vPos;
+			trans.rot	=	Float4(0,0,0,1);
+			trans.scale	=	Float3(1,1,1);
 			loader.AddEntity(strName,&trans);
 		}
 
@@ -212,6 +228,10 @@ namespace	Air{
 
 		void System::LoadScene( CAString& strName )
 		{
+			if(!m_bInit){
+				m_strDelaySceneName	=	strName;
+				return;
+			}
 			m_bLoading	=	true;
 			m_lstSelectObj.clear();
 			m_pRayCastMesh=NULL;

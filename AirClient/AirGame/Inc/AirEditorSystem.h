@@ -42,12 +42,14 @@ namespace	Air{
 			virtual bool keyPressed( const OIS::KeyEvent &arg );
 			virtual bool keyReleased( const OIS::KeyEvent &arg );	
 		public:
+			
 			void			LoadScene(CAString& strName);
 			void			SaveScene(CAString& strName);
 			U32				GetMeshEntity(Engine::MeshEntity** pObjectArray	=	NULL);
 			U32				GetMeshEntityName(AString* pStringArray=NULL);
 			void			AddObject(CAString& strName,const Float3& vPos);
 		public:
+			inline	U1				IsInit(){return m_bInit;};
 			inline	enumControlMode	GetControlMode(){return m_CM;};
 			inline	enumCreateType	GetCreateType(){return m_CT;};
 			inline	void			SetControlMode(enumControlMode m){m_CM	=	m;};
@@ -66,6 +68,8 @@ namespace	Air{
 			U1							m_bIsControl;
 			Engine::ObjectController*	m_pObjController;
 			U1							m_bLoading;
+			AString						m_strDelaySceneName;
+			U1							m_bInit;
 		};
 	}
 	typedef	Editor::System	EditorSystem;

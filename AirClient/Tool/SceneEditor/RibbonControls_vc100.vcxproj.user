@@ -6,5 +6,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LocalDebuggerWorkingDirectory>..\..\Bin\$(Configuration)\</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommandArguments>E:\AirEngine\AirClient\Bin\Data\AirMesh\Strom\Strom.AME.Scene</LocalDebuggerCommandArguments>
   </PropertyGroup>
 </Project>

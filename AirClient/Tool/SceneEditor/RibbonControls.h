@@ -32,6 +32,8 @@ public:
 	virtual int ExitInstance();
 	//}}AFX_VIRTUAL
 	virtual BOOL OnIdle(LONG lCount);
+
+	virtual	void	OnFileOpen();
 // Implementation
 	//{{AFX_MSG(CRibbonControlsApp)
 	afx_msg void OnAppAbout();
