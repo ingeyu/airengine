@@ -271,5 +271,45 @@ namespace Air{
 			return	bHit;
 		}
 
+		Air::U1 SceneNode::RayCastBoundingBox( const Ray& ray,MovableObject*& pOutObject,float* pOutDistance /*= NULL*/ )
+		{
+			U1	bHit	=	false;
+			float	fLastDistance	=	999999.0f;
+
+
+			MovableObject*	pObj	=	NULL;
+			MovableObjectListItr	i	=	m_lstMovableObject.begin();
+			for(;i!=m_lstMovableObject.end();++i){
+				pObj	=	*i;
+				if(pObj->HasFlag(enMOF_VISIABLE)){
+					float	fMaxDistance	=	9999999.0f;
+					if(pObj->GetWorldBoundingBox().RayCast(ray,&fMaxDistance)){
+						if(fMaxDistance<fLastDistance){
+							fLastDistance	=	fMaxDistance;
+							pOutObject		=	pObj;
+						}
+						bHit	=	true;
+					};
+				}
+			}
+
+			Common::NodeListItr	itr	=	m_lstChild.begin();
+			for(;itr!=m_lstChild.end();itr++){
+				float	fMaxDistance	=	9999999.0f;
+				if((static_cast<SceneNode*>(*itr))->RayCastBoundingBox(ray,pOutObject,&fMaxDistance)){
+					if(fMaxDistance<fLastDistance){
+						fLastDistance	=	fMaxDistance;
+					}
+					bHit	=	true;
+				};
+			}
+			if(pOutDistance!=NULL){
+				if(fLastDistance	<	*pOutDistance){
+					*pOutDistance	=	fLastDistance;
+				}
+			}
+			return	bHit;
+		}
+
 	}	
 };

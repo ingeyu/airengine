@@ -876,6 +876,7 @@ void CMainFrame::OnSelectListButton(){
 void CMainFrame::OnUpdateSelectListButton(CCmdUI* pCmdUI){};
 void CMainFrame::OnMoveButton(){
 	m_EditMode	=	eEM_Move;
+	Air::EditorSystem::GetSingleton()->SetControlMode(Air::Editor::enCM_Move);
 };
 void CMainFrame::OnUpdateMoveButton(CCmdUI* pCmdUI){
 	pCmdUI->SetCheck(m_EditMode==eEM_Move);

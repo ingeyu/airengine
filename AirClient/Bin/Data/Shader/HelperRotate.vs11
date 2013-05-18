@@ -1,8 +1,8 @@
 cbuffer cbPerCamera : register( b1 )
 {
     matrix  ViewProjection;
-	float4	vCameraPosition;
 	float4	vCameraDir;
+	float4	vCameraPosition;
 	float4	vCameraUp;
 	float4	vVP_NearFar;
    
@@ -44,8 +44,9 @@ VS_OUTPUT main( VS_INPUT input )
 			color	=	float4(0,0,1,1);
 		}break;
 	}
+	float fDis = length(World._m03_m13_m23-vCameraPosition.xyz);
 
-	float4	worldpos	=	mul(World,float4(input.Position.xyz,1));
+	float4	worldpos	=	float4(World._m03_m13_m23+input.Position.xyz*fDis*0.1,1);
     // Transform the position from object space to homogeneous projection space
     Output.Position	=	mul( ViewProjection ,float4(worldpos.xyz,1));
 	Output.Color	=	color*type;	

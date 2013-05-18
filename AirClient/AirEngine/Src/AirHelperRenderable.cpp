@@ -2,6 +2,7 @@
 #include "AirRenderSystem.h"
 #include "AirEngineMaterial.h"
 #include "AirEngineSceneNode.h"
+#include "AirBoxRenderable.h"
 
 namespace	Air{
 	namespace	Engine{
@@ -48,24 +49,24 @@ namespace	Air{
 		{
 
 
-			Float3 line[]={
-				Float3(0,0,0),
-				Float3(1,0,0),
-				Float3(0,0,0),
-				Float3(0,1,0),
-				Float3(0,0,0),
-				Float3(0,0,1),
+			Float4 line[]={
+				Float4(0,0,0,0),
+				Float4(1,0,0,0),
+				Float4(0,0,0,1),
+				Float4(0,1,0,1),
+				Float4(0,0,0,2),
+				Float4(0,0,1,2),
 			};
 
 			Render::System*	pSys	=	Render::System::GetSingleton();
 			Buffer::Info	vbInfo;
-			vbInfo.SetVertexBuffer(6,12);
+			vbInfo.SetVertexBuffer(6,16);
 			vbInfo.InitData			=	line;
 			m_DrawBuff.m_pVertexBuffer[0]	=	pSys->CreateProduct<Buffer>("MoveVB",&vbInfo);
 
 			Render::Vertex::IDeclare::Info	vdInfo;
-			vdInfo.SetDeclP3();
-			m_DrawBuff.m_pVertexDeclare	=	pSys->CreateProduct<Render::Vertex::IDeclare>("BoxVD",&vdInfo);
+			vdInfo.SetDeclP4();
+			m_DrawBuff.m_pVertexDeclare	=	pSys->CreateProduct<Render::Vertex::IDeclare>("MoveVD",&vdInfo);
 
 
 			m_DrawBuff.m_DrawOption.m_DrawFuncType	=	Render::Draw::FUNC_TYPE_DP;
@@ -175,7 +176,7 @@ namespace	Air{
 					pCB->GetBuffer();
 					Float4 v(1,1,1,1);
 					if(m_pControl->GetType()	!=	eMRCT_None){
-						v*=0.5f;
+						v*=0.25f;
 						v[m_pControl->GetType()-1] =	1.0f;
 					}
 					
@@ -194,7 +195,11 @@ namespace	Air{
 			m_pRotate	=	new	RotateRenderable(this);
 			m_pRotate->SetMaterialName("Rotate");
 			m_pRotate->SetNeedWorldMatrix(true);
-			m_ControlMode	=	eMCM_Move;
+			m_pSelectBox	=	new Engine::BoxRenderable();
+			m_pRayCastBox	=	new BoxRenderable();
+			m_pSelectBox->SetMaterialName("WorldHelperWireFrame");
+			m_pRayCastBox->SetMaterialName("RedHelperWireFrame");
+			m_ControlMode	=	eMCM_Select;
 			m_RayCastType	=	eMRCT_None;
 
 			m_BoundingBox.vMin	=	Float3(-1,-1,-1);
@@ -217,20 +222,33 @@ namespace	Air{
 					m_pMove->AddToRenderQueue(uiPhaseFlag);
 								}break;
 				default:{
-
+					m_pRayCastBox->AddToRenderQueue(uiPhaseFlag);
 						}break;
 			}
+			m_pSelectBox->AddToRenderQueue(uiPhaseFlag);
+			
 		}
 
 		ObjectController::~ObjectController()
 		{
+			SAFE_DELETE(m_pRayCastBox);
+			SAFE_DELETE(m_pSelectBox);
 			SAFE_DELETE(m_pMove);
 			SAFE_DELETE(m_pRotate);
 		}
 
 		Air::Engine::enumMouseRayCastType ObjectController::ChangeType( const Float3& vStart,const Float3& vDir )
 		{
-			if(m_WorldBound.RayCast(vStart,vDir)){
+			Float44 matWorldInv	=	m_WorldMatrix;
+			matWorldInv.Inverse();
+			Float3 vNewStart	= matWorldInv*vStart;
+			Float3 vNewDir		=	matWorldInv*(vStart+vDir)	-	vNewStart;
+			vNewDir.Normalize();
+
+			float	fDistance	=	vStart.Distance(m_WorldMatrix.GetPosition())*0.1;
+
+			//if(m_WorldBound.RayCast(vStart,vDir))
+			{
 				switch(m_ControlMode){
 					case eMCM_Select:{
 
@@ -238,17 +256,17 @@ namespace	Air{
 					case eMCM_Move:
 					case eMCM_Scale:{
 						BoundingBox AXIS[3];
-						AXIS[0].vMin	=	Float3(0,-0.05,-0.05);
-						AXIS[0].vMax	=	Float3(1,0.05,0.05);
+						AXIS[0].vMin	=	Float3(0,-0.05,-0.05)*fDistance;
+						AXIS[0].vMax	=	Float3(1,0.05,0.05)*fDistance;
 
-						AXIS[1].vMin	=	Float3(-0.05,0,-0.05);
-						AXIS[1].vMax	=	Float3(0.05,1,0.05);
+						AXIS[1].vMin	=	Float3(-0.05,0,-0.05)*fDistance;
+						AXIS[1].vMax	=	Float3(0.05,1,0.05)*fDistance;
 
-						AXIS[2].vMin	=	Float3(-0.05,-0.05,0);
-						AXIS[2].vMax	=	Float3(0.05,0.05,1);
+						AXIS[2].vMin	=	Float3(-0.05,-0.05,0)*fDistance;
+						AXIS[2].vMax	=	Float3(0.05,0.05,1)*fDistance;
 
 						for(int i=0;i<3;i++){
-							if(AXIS[i].RayCast(vStart,vDir)){
+							if(AXIS[i].RayCast(vNewStart,vNewDir)){
 								m_RayCastType	=	enumMouseRayCastType(i+1);
 #if 0
 								char str[64];
@@ -264,21 +282,21 @@ namespace	Air{
 								}break;
 					case eMCM_Rotate:{
 						BoundingBox AXIS[3];
-						AXIS[0].vMin	=	Float3(-0.01,-1,-1);
-						AXIS[0].vMax	=	Float3(0.01,1,1);
+						AXIS[0].vMin	=	Float3(-0.01,-1,-1)*fDistance;
+						AXIS[0].vMax	=	Float3(0.01,1,1)*fDistance;
 
-						AXIS[1].vMin	=	Float3(-1,-0.01,-1);
-						AXIS[1].vMax	=	Float3(1,0.01,1);
+						AXIS[1].vMin	=	Float3(-1,-0.01,-1)*fDistance;
+						AXIS[1].vMax	=	Float3(1,0.01,1)*fDistance;
 
-						AXIS[2].vMin	=	Float3(-1,-1,-0.01);
-						AXIS[2].vMax	=	Float3(1,1,0.01);
+						AXIS[2].vMin	=	Float3(-1,-1,-0.01)*fDistance;
+						AXIS[2].vMax	=	Float3(1,1,0.01)*fDistance;
 
 						float fDis[3]={10000,10000,10000};
 						bool bHit	=	false;
 						for(int i=0;i<3;i++){
-							if(AXIS[i].RayCast(vStart,vDir,&fDis[i],NULL)){
-								Float3 hitPos	=	vDir*fDis[i]+vStart;
-								float dis	=	hitPos.Distance(Float3(0,0,0));
+							if(AXIS[i].RayCast(vNewStart,vNewDir,&fDis[i],NULL)){
+								Float3 hitPos	=	vNewDir*fDis[i]+vNewStart;
+								float dis	=	(hitPos.Distance(Float3(0,0,0)))/fDistance;
 								if(dis < 1.0	&& dis > 0.8f){
 									bHit	=	true;
 								}else{
@@ -305,8 +323,6 @@ namespace	Air{
 						}
 								 }break;
 				}
-			}else{
-				m_RayCastType	=	eMRCT_None;
 			}
 
 			return m_RayCastType;
@@ -323,11 +339,29 @@ namespace	Air{
 			SceneNode* pNode	=	GetParentSceneNode();
 			if(pNode!=NULL){
 				pNode->SetPosition(vPos);
-				pNode->SetScale(fScale);
+				//pNode->SetScale(fScale);
 				static Float44 matWorld;
 				static Float4  rot;
 				static Float3  scale;
 				pNode->Update(matWorld,rot,scale,false);
+			}
+		}
+
+		void ObjectController::SetSelectObjectBoundingBox( const BoundingBox& bound )
+		{
+			if(m_pSelectBox!=NULL){
+				Float3 vPos =	bound.GetCenter();
+				Float3 vScale = bound.GetHalfSize();
+				m_pSelectBox->m_WorldMatrix	=	Float44(vPos,vScale,Float4(0,0,0,1));
+			}
+		}
+
+		void ObjectController::SetRayCastObjectBoundingBox( const BoundingBox& bound )
+		{
+			if(m_pRayCastBox!=NULL){
+				Float3 vPos =	bound.GetCenter();
+				Float3 vScale = bound.GetHalfSize();
+				m_pRayCastBox->m_WorldMatrix	=	Float44(vPos,vScale,Float4(0,0,0,1));
 			}
 		}
 

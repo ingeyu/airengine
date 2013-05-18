@@ -16,6 +16,7 @@ namespace	Air{
 			eMCM_Rotate,
 			eMCM_Scale
 		};
+		class BoxRenderable;
 		class	ObjectController;
 		class	MoveRenderable	:	public Renderable{
 		public:
@@ -45,9 +46,13 @@ namespace	Air{
 				return m_RayCastType;
 			};
 			void					SetPosition(const Float3& vPos,float fScale);
+			void					SetSelectObjectBoundingBox(const BoundingBox& bound);
+			void					SetRayCastObjectBoundingBox(const BoundingBox& bound);
 		protected:
 			MoveRenderable*			m_pMove;
 			RotateRenderable*		m_pRotate;
+			BoxRenderable*			m_pSelectBox;
+			BoxRenderable*			m_pRayCastBox;
 			enumMouseControlMode	m_ControlMode;
 			enumMouseRayCastType	m_RayCastType;
 		};

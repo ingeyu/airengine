@@ -25,6 +25,7 @@ opacity=1.000000
 specularLevel=0.000000
 selfIllumColor=0.000000 0.000000 0.000000
 DiffuseTex=belshirtreea_diffuse.dds
+opacitytex=belshirtreea_diffuse.dds
 [Korhal Building]
 diffuse=0.588000 0.588000 0.588000
 ambient=0.588000 0.588000 0.588000
@@ -97,6 +98,7 @@ opacity=1.000000
 specularLevel=0.000000
 selfIllumColor=0.000000 0.000000 0.000000
 DiffuseTex=aiurplants_diffuse.dds
+opacitytex=aiurplants_diffuse.dds
 [rocks]
 diffuse=0.588000 0.588000 0.588000
 ambient=0.588000 0.588000 0.588000
@@ -142,6 +144,7 @@ opacity=1.000000
 specularLevel=0.000000
 selfIllumColor=0.000000 0.000000 0.000000
 DiffuseTex=auirtreea_diffuse.dds
+opacitytex=auirtreea_diffuse.dds
 [Shadow]
 diffuse=0.588000 0.588000 0.588000
 ambient=0.588000 0.588000 0.588000
@@ -151,15 +154,7 @@ opacity=1.000000
 specularLevel=0.000000
 selfIllumColor=0.000000 0.000000 0.000000
 DiffuseTex=auirtreea_diffuse.dds
-[Shadow]
-diffuse=0.588000 0.588000 0.588000
-ambient=0.588000 0.588000 0.588000
-specular=0.900000 0.900000 0.900000
-glossiness=0.100000
-opacity=1.000000
-specularLevel=0.000000
-selfIllumColor=0.000000 0.000000 0.000000
-DiffuseTex=auirtreea_diffuse.dds
+opacitytex=auirtreea_diffuse.dds
 [Tree Leaves B]
 diffuse=0.588000 0.588000 0.588000
 ambient=0.588000 0.588000 0.588000
@@ -169,6 +164,7 @@ opacity=1.000000
 specularLevel=0.000000
 selfIllumColor=0.000000 0.000000 0.000000
 DiffuseTex=auirtreeb_diffuse.dds
+opacitytex=auirtreea_diffuse.dds
 [Wall01]
 diffuse=0.588000 0.588000 0.588000
 ambient=0.588000 0.588000 0.588000

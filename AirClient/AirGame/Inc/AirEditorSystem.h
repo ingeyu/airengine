@@ -52,25 +52,30 @@ namespace	Air{
 			inline	U1				IsInit(){return m_bInit;};
 			inline	enumControlMode	GetControlMode(){return m_CM;};
 			inline	enumCreateType	GetCreateType(){return m_CT;};
-			inline	void			SetControlMode(enumControlMode m){m_CM	=	m;};
+					void			SetControlMode(enumControlMode m);
 			inline	void			SetCreateType(enumCreateType t){m_CT	=	t;};
 			inline	void			SetCreateName(CAString& strName){m_strCreateObjectName	=	strName;};
 			static	AString			AbsPath2Relatve(const AChar*	strPath);
 		protected:
-			void					UpdateRayCastPoint(const OIS::MouseEvent &arg);
+			Ray						BuildRay(S32 x,S32 y);
+			void					UpdateRayCastPoint(const Ray& ray);
 		protected:
-			enumControlMode				m_CM;
-			enumCreateType				m_CT;
-			Float3						m_vRayCastPoint;
-			AString						m_strCreateObjectName;
-			Engine::MeshEntity*			m_pRayCastMesh;
-			Engine::MeshEntityList		m_lstSelectObj;
-			U1							m_bIsControl;
-			Engine::ObjectController*	m_pObjController;
-			U1							m_bLoading;
-			AString						m_strDelaySceneName;
-			U1							m_bInit;
+			enumControlMode						m_CM;
+			enumCreateType						m_CT;
+			Float3								m_vRayCastPoint;
+			AString								m_strCreateObjectName;
+			Engine::MeshEntity*					m_pRayCastMesh;
+			Engine::MeshEntityList				m_lstSelectObj;
+			U1									m_bIsControl;
+			Engine::ObjectController*			m_pObjController;
+			U1									m_bLoading;
+			AString								m_strDelaySceneName;
+			U1									m_bInit;
+			Engine::enumMouseRayCastType		m_MoveType;
 		};
+
+
+
 	}
 	typedef	Editor::System	EditorSystem;
 }

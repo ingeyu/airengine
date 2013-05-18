@@ -14,6 +14,7 @@ namespace	Air{
 			m_bIsControl	=	FALSE;
 			m_bLoading		=	false;
 			m_bInit			=	false;
+			m_MoveType		=	Engine::eMRCT_None;
 		}
 
 		Air::U1 System::Initialization()
@@ -57,25 +58,43 @@ namespace	Air{
 			if(m_bLoading){
 				return true;
 			}
-			if(m_bIsControl){
-				//Update Control Object
-				switch(m_CM){
-					case enCM_Move:{
 
-					break;}
-					case enCM_Rotate:{
+			Ray	ray	=	BuildRay(arg.state.X.abs,arg.state.Y.abs);
 
-					break;}
-					case enCM_Scale:{
 
+			switch(m_CM){
+				case enCM_Select:{
+					m_bIsControl	=	false;
+					UpdateRayCastPoint(ray);
+								 }break;
+				case enCM_Move:{
+					if(m_bIsControl){
+
+					}else{
+						m_MoveType	=	m_pObjController->ChangeType(ray.m_vStart,ray.m_vDirection);
+					}
 					break;}
-					default:{
+				case enCM_Rotate:{
+					if(m_bIsControl){
+
+					}else{
+						m_MoveType	=	m_pObjController->ChangeType(ray.m_vStart,ray.m_vDirection);
+					}
 					break;}
-				}
-				return true;
-			}else{
-				UpdateRayCastPoint(arg);
+				case enCM_Scale:{
+					if(m_bIsControl){
+
+					}else{
+						m_MoveType	=	m_pObjController->ChangeType(ray.m_vStart,ray.m_vDirection);
+					}
+					break;}
+				default:{
+					m_bIsControl	=	false;
+					UpdateRayCastPoint(ray);
+					break;}
 			}
+				
+			
 			
 			return true;
 		}
@@ -97,7 +116,7 @@ namespace	Air{
 				case enCM_Move:
 				case enCM_Rotate:
 				case enCM_Scale:{
-					m_bIsControl	=	true;
+					//m_bIsControl	=	true;
 					break;}
 				case enCM_Create:{
 					
@@ -116,16 +135,31 @@ namespace	Air{
 				Engine::Scene* pScene	=	GameSystem::GetSingleton()->GetCurrentSection()->GetScene();
 				switch(m_CM){
 					case enCM_Select:{
-						m_lstSelectObj.clear();
-						if(m_pRayCastMesh!=NULL){
-							m_lstSelectObj.push_back(m_pRayCastMesh);
-							Engine::SceneNode* pNode = m_pRayCastMesh->GetParentSceneNode();
-							if(pNode!=NULL){
-								const Float3 vObjPos = pNode->GetGlobalPosition();
-								float fDis = pScene->GetMainCamera()->GetPosition().Distance(vObjPos);
-								m_pObjController->SetPosition(pNode->GetGlobalPosition(),fDis*0.05);
+						Ray ray = BuildRay(arg.state.X.abs,arg.state.Y.abs);
+						Engine::MovableObject* pObj=NULL;
+						if(pScene->GetStaticSceneNode()->RayCast(ray,pObj)){
+							m_pRayCastMesh	=	dynamic_cast<Engine::MeshEntity*>(pObj);
+							S8*	pKey = Engine::GetGlobalSetting().m_pInputSystem->m_KeyArray;
+							if(	pKey[OIS::KC_LCONTROL]	==	0	&&
+								pKey[OIS::KC_RCONTROL]	==	0)
+							{
+								m_lstSelectObj.clear();
+							}
+							if(m_pRayCastMesh!=NULL){
+								m_lstSelectObj.push_back(m_pRayCastMesh);
+								Engine::SceneNode* pNode = m_pRayCastMesh->GetParentSceneNode();
+								if(pNode!=NULL){
+									const Float3 vObjPos = pNode->GetGlobalPosition();
+									float fDis = pScene->GetMainCamera()->GetPosition().Distance(vObjPos);
+									m_pObjController->SetPosition(pNode->GetGlobalPosition(),fDis*0.05);
+								}
+								m_pObjController->SetSelectObjectBoundingBox( m_pRayCastMesh->GetWorldBoundingBox());
+							}else {
+								m_pObjController->SetPosition(Float3(0,0,0),1);
+								m_pObjController->SetSelectObjectBoundingBox(BoundingBox(-1,-1,-1,1,1,1));
 							}
 						}
+						
 
 						break;}
 					case enCM_SelectList:{
@@ -141,7 +175,14 @@ namespace	Air{
 						m_bIsControl	=	false;
 						break;}
 					case enCM_Create:{
-						AddObject(m_strCreateObjectName,m_vRayCastPoint);
+						Ray ray = BuildRay(arg.state.X.abs,arg.state.Y.abs);
+						Engine::MovableObject* pObj=NULL;
+						float fDis=999999.0f;
+						if(pScene->GetStaticSceneNode()->RayCast(ray,pObj,&fDis)){
+							m_vRayCastPoint	=	ray.m_vStart	+	ray.m_vDirection*fDis;
+							AddObject(m_strCreateObjectName,m_vRayCastPoint);
+						}
+						
 						break;}
 				}
 			}
@@ -160,6 +201,24 @@ namespace	Air{
 		{
 			if(m_bLoading){
 				return true;
+			}
+			if(arg.key	==	OIS::KC_DELETE){
+				Engine::SceneLoader& loader	=	GameSystem::GetSingleton()->GetCurrentSection()->GetScene()->GetLoader();
+				Engine::MeshEntityList::iterator	i	=	m_lstSelectObj.begin();
+				for(;i!=m_lstSelectObj.end();i++){
+					if((*i)==m_pRayCastMesh){
+						m_pRayCastMesh=NULL;
+					}
+					loader.RemoveEntity(*i);
+				}
+				m_lstSelectObj.clear();
+				if(m_pObjController!=NULL){
+					m_pObjController->SetPosition(Float3(0,0,0),1);
+					m_pObjController->SetSelectObjectBoundingBox(BoundingBox(-1,-1,-1,1,1,1));
+					if(m_pRayCastMesh==NULL){
+						m_pObjController->SetRayCastObjectBoundingBox(BoundingBox(-1,-1,-1,1,1,1));
+					}
+				}
 			}
 			return true;
 		}
@@ -202,27 +261,17 @@ namespace	Air{
 			loader.AddEntity(strName,&trans);
 		}
 
-		void System::UpdateRayCastPoint(const OIS::MouseEvent &arg)
+		void System::UpdateRayCastPoint(const Ray& ray)
 		{
 			Engine::Scene* pScene	=	GameSystem::GetSingleton()->GetCurrentSection()->GetScene();
-			POINT	p;
-			p.x	=	arg.state.X.abs;
-			p.y	=	arg.state.Y.abs;
-
-			RECT	r;
-			GetClientRect(Engine::GetGlobalSetting().m_EngineParam.hWnd,&r);
-
-			POINT	size;
-			size.x	=	r.right		-	r.left;
-			size.y	=	r.bottom	-	r.top;
-
-			Ray	ray	=	pScene->GetMainCamera()->BuildRay(p.x/(float)size.x,p.y/(float)size.y);
-
 			float	fDis	=	9999999.0f;
 			Engine::MovableObject* pObj = NULL;
-			if(pScene->GetStaticSceneNode()->RayCast(ray,pObj,&fDis)){
+			if(pScene->GetStaticSceneNode()->RayCastBoundingBox(ray,pObj,&fDis)){
 				m_vRayCastPoint	=	ray.m_vStart+ray.m_vDirection*fDis;
 				m_pRayCastMesh	=	dynamic_cast<Engine::MeshEntity*>(pObj);
+				if(m_pRayCastMesh!=NULL&&m_pObjController!=NULL){
+					m_pObjController->SetRayCastObjectBoundingBox(m_pRayCastMesh->GetWorldBoundingBox());
+				}
 			}
 		}
 
@@ -254,6 +303,47 @@ namespace	Air{
 			p[0]='.';
 			p[1]='.';
 			return p;
+		}
+		void System::SetControlMode( enumControlMode m )
+		{
+			m_CM	=	m;
+			if(m_pObjController!=NULL){
+				switch(m){
+					case enCM_Select:{
+						m_pObjController->ChangeMode(Engine::eMCM_Select);
+									 }break;
+					case enCM_Move:{
+						m_pObjController->ChangeMode(Engine::eMCM_Move);
+									 }break;
+					case enCM_Rotate:{
+						m_pObjController->ChangeMode(Engine::eMCM_Rotate);
+									 }break;
+					case enCM_Scale:{
+						m_pObjController->ChangeMode(Engine::eMCM_Scale);
+									 }break;
+					default:{
+						m_pObjController->ChangeMode(Engine::eMCM_Select);
+							}break;
+				}
+				
+			}
+		}
+
+		Air::Ray System::BuildRay( S32 x,S32 y )
+		{
+			Engine::Scene* pScene	=	GameSystem::GetSingleton()->GetCurrentSection()->GetScene();
+			POINT	p;
+			p.x	=	x;//arg.state.X.abs;
+			p.y	=	y;//arg.state.Y.abs;
+
+			RECT	r;
+			GetClientRect(Engine::GetGlobalSetting().m_EngineParam.hWnd,&r);
+
+			POINT	size;
+			size.x	=	r.right		-	r.left;
+			size.y	=	r.bottom	-	r.top;
+
+			return pScene->GetMainCamera()->BuildRay(p.x/(float)size.x,p.y/(float)size.y);
 		}
 
 	}

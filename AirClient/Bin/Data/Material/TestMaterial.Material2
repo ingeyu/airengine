@@ -73,6 +73,10 @@ Material	WorldHelperWireFrame	:	MT_WorldHelperWireFrame
 {
 	Vector	1 1 1 1
 }
+Material	RedHelperWireFrame	:	MT_WorldHelperWireFrame
+{
+	Vector	1 0 0 1
+}
 
 Material	ShadowMask	:	MT_ShadowMask
 {
