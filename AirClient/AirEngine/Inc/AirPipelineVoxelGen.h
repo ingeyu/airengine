@@ -13,6 +13,7 @@ namespace	Air{
 			U1		Initialize(Render::Window*	pMainWindow);
 			U1		Release();
 			void	Update(Renderable* pRenderable,Pipeline* pPipeline);
+			void	Build(Pipeline* pPipeline);
 
 			Render::Buffer*	m_pVoxel;
 			Render::Buffer*	m_pNodeTree;

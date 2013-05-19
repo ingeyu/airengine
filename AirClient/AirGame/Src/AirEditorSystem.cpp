@@ -318,8 +318,7 @@ namespace	Air{
 			m_lstSelectObj.clear();
 			m_pRayCastMesh=NULL;
 			m_CM		=	enCM_Select;
-			Engine::SceneLoader& loader	=	GameSystem::GetSingleton()->GetCurrentSection()->GetScene()->GetLoader();
-			loader.Load(strName);
+			GameSystem::GetSingleton()->GetCurrentSection()->LoadScene(strName);
 			m_bEnableInput	=	true;
 		}
 
@@ -327,8 +326,7 @@ namespace	Air{
 		{
 			m_bEnableInput	=	false;
 
-			Engine::SceneLoader& loader	=	GameSystem::GetSingleton()->GetCurrentSection()->GetScene()->GetLoader();
-			loader.Save(strName);
+			GameSystem::GetSingleton()->GetCurrentSection()->SaveScene(strName);
 			m_bEnableInput	=	true;
 		}
 

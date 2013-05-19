@@ -86,6 +86,11 @@ namespace	Air{
 			}
 		}
 
+		void Pipeline::BuildSVO()
+		{
+
+		}
+
 		AString	DefaultPipeline::ProductTypeName="DefaultPipeline";
 		DefaultPipeline::DefaultPipeline( CAString& strName):Pipeline(strName)
 		{
@@ -516,6 +521,13 @@ namespace	Air{
 					pModel->PlayAction("shootlow.CAF",0.1);
 					pTestParticle->GetTemplate()->GetEmitter()->SetEnable(true);
 				}
+			}else if(id == OIS::MB_Middle){
+				MovableObject* pObj=NULL;
+				float fDis = 1000000;
+				if(m_pScene->GetStaticSceneNode()->RayCast(ray,pObj,&fDis)){
+					Float3	vPos	=	ray.m_vStart+ray.m_vDirection*fDis;
+					pModel->GetParentSceneNode()->SetPosition(vPos);
+				}
 			}
 
 			return true;
@@ -642,6 +654,12 @@ namespace	Air{
 			}
 
 			setCamera.clear();
+		}
+
+		void DefaultPipeline::BuildSVO()
+		{
+			if(RenderSystem::GetSingleton()->GetDevice()->GetHWVersion() == enRSV_11)
+				m_VoxelGen.Build(this);
 		}
 
 

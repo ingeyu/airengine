@@ -57,5 +57,16 @@ namespace	Air{
 			}
 		}
 
+		void Section::LoadScene( CAString& strName )
+		{
+			m_pScene->GetLoader().Load(strName);
+			m_pPipeline->BuildSVO();
+		}
+
+		void Section::SaveScene( CAString& strName )
+		{
+			m_pScene->GetLoader().Save(strName);
+		}
+
 	}
 }

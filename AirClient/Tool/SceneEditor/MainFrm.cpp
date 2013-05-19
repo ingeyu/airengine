@@ -897,6 +897,7 @@ void CMainFrame::OnUpdateScaleButton(CCmdUI* pCmdUI){
 }
 
 void CMainFrame::OnButtonCreate_Object(){
+	Air::EditorSystem::GetSingleton()->EnableInput(false);
 	CFileDialog dlg( 
 		TRUE, 
 		_T(".ame"),
@@ -919,19 +920,13 @@ void CMainFrame::OnButtonCreate_Object(){
 	dlg.m_ofn.lpstrTitle = _T("User Defined File Open Dialog");
 	INT_PTR ret = dlg.DoModal();
 	if(ret==IDOK){
-		Air::AString str = dlg.GetPathName().GetString();
-		str[iPos]='.';
-		str[iPos+1]='.';
-		str = &str[iPos];
-		OutputDebugStringA(str.c_str());
 
-// 		Air::Engine::SceneLoader& loader	=	Air::GameSystem::GetSingleton()->GetCurrentSection()->GetScene()->GetLoader();
-// 		Air::Engine::MeshEntity* pEnt =		loader.AddEntity(str);
-// 		loader.GetNode()->attachObject(pEnt);
-		Air::EditorSystem::GetSingleton()->SetCreateName(str);
+		OutputDebugStringA(dlg.GetPathName().GetString());
+		Air::EditorSystem::GetSingleton()->SetCreateName(Air::EditorSystem::AbsPath2Relatve(dlg.GetPathName().GetString()));
 	}
 	Air::EditorSystem::GetSingleton()->SetCreateType(Air::Editor::enCT_Object);
 	Air::EditorSystem::GetSingleton()->SetControlMode(Air::Editor::enCM_Create);
+	Air::EditorSystem::GetSingleton()->EnableInput(true);
 };		
 void CMainFrame::OnButtonCreate_Actor(){
 

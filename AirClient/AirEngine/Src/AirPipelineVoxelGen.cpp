@@ -186,10 +186,14 @@ namespace	Air{
 				uiColor[2]	+=	cTemp.chanle[2];
 				uiColor[3]	+=	cTemp.chanle[3];
 			}
-			c.chanle[0]	=	uiColor[0]/uiCount;
-			c.chanle[1]	=	uiColor[1]/uiCount;
-			c.chanle[2]	=	uiColor[2]/uiCount;
-			c.chanle[3]	=	uiColor[3]/8;
+			if(uiCount!=0){
+				c.chanle[0]	=	uiColor[0]/uiCount;
+				c.chanle[1]	=	uiColor[1]/uiCount;
+				c.chanle[2]	=	uiColor[2]/uiCount;
+				c.chanle[3]	=	uiColor[3]/8;
+			}else{
+				c.uiValue	=	0;
+			}
 			if(uiSelfOffset!=0XFFFFFFFF)
 				vecColor[uiSelfOffset]	=	c.uiValue;
 			return c.uiValue;
@@ -220,66 +224,7 @@ namespace	Air{
 
 			Render::Device* pDevice	=	RenderSystem::GetSingleton()->GetDevice();
 #if 1
-			static bool bVoxel	=	true;
-			if(!bVoxel){
-				bVoxel=true;
 
-
-				
-				Float3 vCameraPos[3]={Float3(0,0,-VOXEL_HALF_BOUND_SIZE-1),Float3(0,-VOXEL_HALF_BOUND_SIZE-1,0),Float3(-VOXEL_HALF_BOUND_SIZE-1,0,0)};
-				Float3 vCameraDir[3]={Float3(0,0,1),Float3(0,1,0),Float3(1,0,0)};
-				Float3 vCameraUp[3]	={Float3(0,1,0),Float3(1,0,0),Float3(0,1,0)};
-
-				MeshEntityList& lstEntity = pPipeline->GetCurrentScene()->GetLoader().GetAllEntity();
-				 ///pPipeline->GetCurrentScene()->GetLoader().GetNode()->SetScale(Float3(10,10,10));
-				
-				//m_pCamera->FindMovableObject()
-				m_pRT->SetClearFlag(true,true,true);
-				if(m_pRT->BeforeUpdate()){
-						void* pRTV[1]={m_pRT->GetRTV()};
-						void* pDSV=NULL;
-						void* pUAV[2]={m_pVoxel->GetUAV(),m_pNodeTree->GetUAV()};
-						U32	clearValue[4]={0};
-						pDevice->ClearUAV(pUAV[1],clearValue);
-						pDevice->SetRTV_DSV_UAV(1,pRTV,pDSV,1,2,pUAV,0);					
-						m_pCamera->SetFar(VOXEL_BOUND_SIZE+1);
-						for(U32 i=0;i<3;i++){
-						m_pCamera->SetPosition(vCameraPos[i]);
-						m_pCamera->SetDir(vCameraDir[i]);
-						m_pCamera->SetUpDir(vCameraUp[i]);
-						m_pCamera->SetWidth(VOXEL_BOUND_SIZE);
-						m_pCamera->Render2D(VOXEL_BOUND_SIZE,VOXEL_BOUND_SIZE);
-
-
-
-						if(m_pGenVoxelTree){
-							MeshEntityList::iterator i = lstEntity.begin();
-							for(;i!=lstEntity.end();i++){
-								pDevice->SetSRV(enPS,0,(*i)->GetMaterial(enPI_MRT)->GetTextureArray()[0]->GetSRV());
-								m_pGenVoxelTree->RenderOneObject((*i));
-							}
-							//m_pGenVoxelTree->RenderOneObject(pEnt);
-						}
-					}
-					m_pRT->AfterUpdate();
-				}
-				Render::Buffer::Info bInfo;
-				bInfo.SetSystemMemoryBuffer(16*1048576,sizeof(U32));
-				Render::Buffer*	pSysBuffer	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer>("TempBuffer",&bInfo);
-				
-				
-				STD_VECTOR<U32> vecColor;
-				vecColor.resize(16*1048576);
-				vecTree.resize(16*1048576);
-				m_pNodeTree->CopyBufferTo(pSysBuffer);
-				pSysBuffer->Read(0,16*1048576*sizeof(U32),&vecTree[0]);
-				m_pVoxel->CopyBufferTo(pSysBuffer);
-				pSysBuffer->Read(0,16*1048576*sizeof(U32),&vecColor[0]);
-				///pPipeline->GetCurrentScene()->GetLoader().GetNode()->SetScale(Float3(1,1,1));
-				GenMipmap(vecTree,vecColor);
-				m_pVoxel->UpdateData(&vecColor[0]);
-				pSysBuffer->ReleaseRef();
-			}
 
 #else
 			Render::Device* pDevice	=	RenderSystem::GetSingleton()->GetDevice();
@@ -376,6 +321,66 @@ namespace	Air{
 				}
 			}
 #endif
+		}
+
+		void VoxelGenerator::Build(Pipeline* pPipeline)
+		{
+			Render::Device* pDevice	=	RenderSystem::GetSingleton()->GetDevice();
+
+				Float3 vCameraPos[3]={Float3(0,0,-VOXEL_HALF_BOUND_SIZE-1),Float3(0,-VOXEL_HALF_BOUND_SIZE-1,0),Float3(-VOXEL_HALF_BOUND_SIZE-1,0,0)};
+				Float3 vCameraDir[3]={Float3(0,0,1),Float3(0,1,0),Float3(1,0,0)};
+				Float3 vCameraUp[3]	={Float3(0,1,0),Float3(1,0,0),Float3(0,1,0)};
+
+				MeshEntityList& lstEntity = pPipeline->GetCurrentScene()->GetLoader().GetAllEntity();
+				///pPipeline->GetCurrentScene()->GetLoader().GetNode()->SetScale(Float3(10,10,10));
+
+				//m_pCamera->FindMovableObject()
+				m_pRT->SetClearFlag(true,true,true);
+				if(m_pRT->BeforeUpdate()){
+					void* pRTV[1]={m_pRT->GetRTV()};
+					void* pDSV=NULL;
+					void* pUAV[2]={m_pVoxel->GetUAV(),m_pNodeTree->GetUAV()};
+					U32	clearValue[4]={0};
+					pDevice->ClearUAV(pUAV[1],clearValue);
+					pDevice->SetRTV_DSV_UAV(1,pRTV,pDSV,1,2,pUAV,0);					
+					m_pCamera->SetFar(VOXEL_BOUND_SIZE+1);
+					for(U32 i=0;i<3;i++){
+						m_pCamera->SetPosition(vCameraPos[i]);
+						m_pCamera->SetDir(vCameraDir[i]);
+						m_pCamera->SetUpDir(vCameraUp[i]);
+						m_pCamera->SetWidth(VOXEL_BOUND_SIZE);
+						m_pCamera->Render2D(VOXEL_BOUND_SIZE,VOXEL_BOUND_SIZE);
+
+
+
+						if(m_pGenVoxelTree){
+							MeshEntityList::iterator i = lstEntity.begin();
+							for(;i!=lstEntity.end();i++){
+								pDevice->SetSRV(enPS,0,(*i)->GetMaterial(enPI_MRT)->GetTextureArray()[0]->GetSRV());
+								m_pGenVoxelTree->RenderOneObject((*i));
+							}
+							//m_pGenVoxelTree->RenderOneObject(pEnt);
+						}
+					}
+					m_pRT->AfterUpdate();
+				}
+				Render::Buffer::Info bInfo;
+				bInfo.SetSystemMemoryBuffer(16*1048576,sizeof(U32));
+				Render::Buffer*	pSysBuffer	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer>("TempBuffer",&bInfo);
+
+
+				STD_VECTOR<U32> vecColor;
+				vecColor.resize(16*1048576);
+				vecTree.resize(16*1048576);
+				m_pNodeTree->CopyBufferTo(pSysBuffer);
+				pSysBuffer->Read(0,16*1048576*sizeof(U32),&vecTree[0]);
+				m_pVoxel->CopyBufferTo(pSysBuffer);
+				pSysBuffer->Read(0,16*1048576*sizeof(U32),&vecColor[0]);
+				///pPipeline->GetCurrentScene()->GetLoader().GetNode()->SetScale(Float3(1,1,1));
+				GenMipmap(vecTree,vecColor);
+				m_pVoxel->UpdateData(&vecColor[0]);
+				pSysBuffer->ReleaseRef();
+			
 		}
 
 	}

@@ -23,6 +23,9 @@ namespace	Air{
 
 			Engine::Pipeline*	GetPipeline();
 			Engine::Scene*		GetScene();
+
+			virtual	void		LoadScene(CAString& strName);
+			virtual	void		SaveScene(CAString& strName);
 		protected:
 
 			Engine::Pipeline*	m_pPipeline;

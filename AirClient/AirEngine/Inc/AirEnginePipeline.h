@@ -38,7 +38,7 @@ namespace	Air{
 			virtual	void	Update(const FrameTime& frameTime);
 			virtual	U1		RenderOneFrame(const FrameTime& frameTime);
 
-
+			virtual	void			BuildSVO();
 			//inline function
 		public:
 			inline	QuadRenderable*	GetQuadRenderable(){
@@ -76,7 +76,7 @@ namespace	Air{
 			virtual	void	Update(const FrameTime& frameTime);
 			virtual	U1		RenderOneFrame(const FrameTime& frameTime);
 
-
+			virtual	void	BuildSVO();
 
 			virtual bool mouseMoved( const OIS::MouseEvent &arg );
 			virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
