@@ -20,7 +20,8 @@ namespace	Air{
 
 			Data data;
 			ResourceSystem*	pResSys	=	ResourceSystem::GetSingleton();
-
+			pResSys->Find(strSceneName+".material",data);
+			MaterialParse::GetSingleton()->CompileMaterialSet(data.buff,data.size);//uiSize);
 			pResSys->Find(strSceneName,data);
 
 			IniFile	file;
