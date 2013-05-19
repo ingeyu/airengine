@@ -95,12 +95,6 @@ namespace Air{
 					info.strSkeletonName	=	csv.GetItem(4,i).pStr;
 					info.strModelPath		=	csv.GetItem(5,i).pStr;;
 
-					Data tempData;
-					ResourceSystem::GetSingleton()->Find(info.strModelPath +"Equipment.material",tempData);
-					if(!pData.IsNull()){
-						MaterialParse::GetSingleton()->CompileMaterialSet(tempData.buff,tempData.size);
-					}
-
 					EngineSystem::GetSingleton()->CreateProduct<ModelTemplate>(strName,&info);
 				}
 				return true;

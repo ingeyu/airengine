@@ -17,13 +17,10 @@ namespace	Air{
 		{
 			Unload();
 
-			//U8*	pData=NULL;
-			//U32	uiSize=0;
-			//Common::File::Load(strSceneName+".material",pData,uiSize);
+
 			Data data;
 			ResourceSystem*	pResSys	=	ResourceSystem::GetSingleton();
-			pResSys->Find(strSceneName+".material",data);
-			MaterialParse::GetSingleton()->CompileMaterialSet(data.buff,data.size);//uiSize);
+
 			pResSys->Find(strSceneName,data);
 
 			IniFile	file;

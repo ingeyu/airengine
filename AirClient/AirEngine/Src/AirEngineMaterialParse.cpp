@@ -1122,6 +1122,12 @@ namespace Air{
 				for(;itr!=sortMap.end();itr++){
 					SortMap&	sortMapItem	=	itr->second;
 
+					MaterialSetInfoMap::iterator	iter	=	m_mapMaterialSetInfo.find(itr->first);
+					if(iter!=m_mapMaterialSetInfo.end()){
+						OutputDebugStringA(itr->first.c_str());
+						OutputDebugStringA(" Has Exist!\n");
+					}
+
 					MaterialSetInfo&	info	=	m_mapMaterialSetInfo[itr->first];
 
 					info.mapTexture.clear();

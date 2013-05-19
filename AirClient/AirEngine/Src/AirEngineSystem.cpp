@@ -184,7 +184,10 @@ namespace Air{
 			public:
 				virtual	U1	OnFindFile(CAString&	strName,Data*	pData)
 				{
+					OutputDebugStringA(strName.c_str());
+					OutputDebugStringA("\n--Compile Begin!---\n");
 					MaterialParse::GetSingleton()->CompileMaterialSet(pData->buff,pData->size);
+					OutputDebugStringA("---Compile End!---\n");
 					return true;
 				};
 			}mscb;
