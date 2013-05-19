@@ -56,6 +56,8 @@ namespace	Air{
 			inline	void			SetCreateType(enumCreateType t){m_CT	=	t;};
 			inline	void			SetCreateName(CAString& strName){m_strCreateObjectName	=	strName;};
 			static	AString			AbsPath2Relatve(const AChar*	strPath);
+			inline	void			EnableInput(U1 bEnable){m_bEnableInput	=	bEnable;};
+			inline	U1				GetEnableInput(){return m_bEnableInput;};
 		protected:
 			Ray						BuildRay(S32 x,S32 y);
 			void					UpdateRayCastPoint(const Ray& ray);
@@ -68,7 +70,7 @@ namespace	Air{
 			Engine::MeshEntityList				m_lstSelectObj;
 			U1									m_bIsControl;
 			Engine::ObjectController*			m_pObjController;
-			U1									m_bLoading;
+			U1									m_bEnableInput;					
 			AString								m_strDelaySceneName;
 			U1									m_bInit;
 			Engine::enumMouseRayCastType		m_MoveType;

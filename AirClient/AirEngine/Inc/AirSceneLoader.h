@@ -27,6 +27,8 @@ namespace	Air{
 			};
 
 			U1	Load(CAString&	strSceneName);
+			U1	Load2(CAString&	strSceneName);
+			U1	Save(CAString&	strSceneName);
 			U1	Unload();
 			MeshEntityList&	GetAllEntity(){
 				return m_lstEntity;
@@ -34,6 +36,7 @@ namespace	Air{
 
 			MeshEntity*			AddEntity(CAString& strName,Transform* ptrans=NULL );
 			void				RemoveEntity(MeshEntity* pEnt);
+			void				AddObject(CAString& strName,CAString& strType,Transform& trans,AChar* pInfo);
 		protected:
 			SceneNode*			m_pNode;
 			MeshEntityList	m_lstEntity;

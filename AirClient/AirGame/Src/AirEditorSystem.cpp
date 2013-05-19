@@ -12,7 +12,7 @@ namespace	Air{
 			m_CT			=	enCT_Object;
 			m_pRayCastMesh	=	NULL;
 			m_bIsControl	=	FALSE;
-			m_bLoading		=	false;
+			m_bEnableInput	=	false;
 			m_bInit			=	false;
 			m_MoveType		=	Engine::eMRCT_None;
 		}
@@ -37,6 +37,7 @@ namespace	Air{
 				LoadScene(m_strDelaySceneName);
 				m_strDelaySceneName.clear();
 			}
+			EnableInput(true);
 			return true;
 		}
 
@@ -55,7 +56,7 @@ namespace	Air{
 
 		bool System::mouseMoved( const OIS::MouseEvent &arg )
 		{
-			if(m_bLoading){
+			if(!m_bEnableInput){
 				return true;
 			}
 
@@ -126,7 +127,7 @@ namespace	Air{
 
 		bool System::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 		{
-			if(m_bLoading){
+			if(!m_bEnableInput){
 				return true;
 			}
 			if(id==OIS::MB_Left){
@@ -162,7 +163,7 @@ namespace	Air{
 
 		bool System::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 		{
-			if(m_bLoading){
+			if(!m_bEnableInput){
 				return true;
 			}
 			if(id==OIS::MB_Left){
@@ -223,7 +224,7 @@ namespace	Air{
 
 		bool System::keyPressed( const OIS::KeyEvent &arg )
 		{
-			if(m_bLoading){
+			if(!m_bEnableInput){
 				return true;
 			}
 			return true;
@@ -231,7 +232,7 @@ namespace	Air{
 
 		bool System::keyReleased( const OIS::KeyEvent &arg )
 		{
-			if(m_bLoading){
+			if(!m_bEnableInput){
 				return true;
 			}
 			if(arg.key	==	OIS::KC_DELETE){
@@ -313,27 +314,29 @@ namespace	Air{
 				m_strDelaySceneName	=	strName;
 				return;
 			}
-			m_bLoading	=	true;
+			m_bEnableInput	=	false;
 			m_lstSelectObj.clear();
 			m_pRayCastMesh=NULL;
 			m_CM		=	enCM_Select;
 			Engine::SceneLoader& loader	=	GameSystem::GetSingleton()->GetCurrentSection()->GetScene()->GetLoader();
 			loader.Load(strName);
-			m_bLoading	=	false;
+			m_bEnableInput	=	true;
 		}
 
 		void System::SaveScene( CAString& strName )
 		{
+			m_bEnableInput	=	false;
 
+			Engine::SceneLoader& loader	=	GameSystem::GetSingleton()->GetCurrentSection()->GetScene()->GetLoader();
+			loader.Save(strName);
+			m_bEnableInput	=	true;
 		}
 
 		Air::AString System::AbsPath2Relatve( const AChar* strPath )
 		{
 			Air::AString	strSceneName	=	strPath;
-			char* p = (char*)strstr(strSceneName.c_str(),"\\Data");
-			p-=2;
-			p[0]='.';
-			p[1]='.';
+			char* p = (char*)strstr(strSceneName.c_str(),"\\Data\\");
+			p+=6;
 			return p;
 		}
 		void System::SetControlMode( enumControlMode m )

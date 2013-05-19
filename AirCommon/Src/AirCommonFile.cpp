@@ -120,7 +120,7 @@ namespace Air{
 			FILE*	pFile	=	fopen(strName.c_str(),"w");
 			if(pFile==NULL)
 				return	false;
-			fwrite(strContent.c_str(),strContent.size(),1,pFile);
+			fprintf(pFile,strContent.c_str());
 			fclose(pFile);
 			return	true;
 		}

@@ -88,8 +88,9 @@ BOOL CRibbonControlsDoc::OnOpenDocument( LPCTSTR lpszPathName )
 
 BOOL CRibbonControlsDoc::OnSaveDocument( LPCTSTR lpszPathName )
 {
-	Air::EditorSystem::GetSingleton()->SaveScene(Air::EditorSystem::AbsPath2Relatve(lpszPathName));
-	return CDocument::OnSaveDocument(lpszPathName);
+	CDocument::OnSaveDocument(lpszPathName);
+	Air::EditorSystem::GetSingleton()->SaveScene(lpszPathName);
+	return true;
 }
 
 #endif //_DEBUG
