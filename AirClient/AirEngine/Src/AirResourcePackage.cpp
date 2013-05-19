@@ -10,8 +10,11 @@ namespace	Air{
 					pCallBack	=	pCB;
 					pPackage	=	pPkg;
 				}
+				virtual	AString	GetPostfix(){return strPostfix;};
 				virtual	U1	OnFindFile(CAString&	strName){
-					if(!Common::EndWith(strName,strPostfix))
+					AString lowerstr	=	strName;
+					Common::Converter::ToLowerCase(lowerstr);
+					if(!Common::EndWith(lowerstr,strPostfix))
 						return	false;
 					Data	data;
 					pPackage->FindWithFullPath(strName,data);

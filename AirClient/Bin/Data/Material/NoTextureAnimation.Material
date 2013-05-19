@@ -1,8 +1,0 @@
-[Material]
-FX=Fx\HardWareAnimation.fx
-VeryHigh=NoTexture
-[VeryHigh]
-ViewProj=ViewProjMatrix
-World=WorldMatrix
-BoneMatrixArray=BoneMatrixArray
-

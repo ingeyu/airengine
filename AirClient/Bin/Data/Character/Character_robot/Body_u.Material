@@ -1,9 +1,0 @@
-[Material]
-FX=Fx\HWA_VTF.fx
-VeryHigh=AlphaTechnique
-[VeryHigh]
-viewProjectionMatrix=WorldViewProjMatrix
-World=WorldMatrix
-Bone=BoneTexture
-Diff=Character\Character_robot\robot1.dds:Texture
-

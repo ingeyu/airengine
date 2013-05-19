@@ -287,6 +287,7 @@ namespace Air{
 			***/
 			class	TraversalCallBack{
 			public:
+				virtual	AString	GetPostfix(){return "*.*";};
 				/**	\brief	当查找到文件之后
 				*   
 				*	@remarks 	当查找到文件之后

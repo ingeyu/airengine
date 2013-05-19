@@ -1,5 +1,0 @@
-[Material]
-FX=Fx\Screen.fx
-VeryHigh=VeryHighTechnique
-[VeryHigh]
-InputTexture=TexturePostComposer

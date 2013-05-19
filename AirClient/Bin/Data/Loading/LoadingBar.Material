@@ -1,9 +1,0 @@
-[Material]
-FX=Fx\Screen.fx
-VeryHigh=Loading
-AlphaBlend=True
-[VeryHigh]
-fTotalTime=TotalTime
-vPercent=0.5,1,1,1:Vector
-vPositionSize=0,-0.5,0.6,0.03:Vector
-InputTexture=Loading\LoadingBar.png:Texture

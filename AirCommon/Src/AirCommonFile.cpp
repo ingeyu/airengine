@@ -241,7 +241,7 @@ namespace Air{
 				WIN32_FIND_DATAA FindFileData;
 
 				strcpy(szFind,strPath.c_str());
-				strcat(szFind,"\\*.*");
+				strcat(szFind,"*.*");
 
 				HANDLE hFind=::FindFirstFileA(szFind,&FindFileData);
 				if(INVALID_HANDLE_VALUE == hFind)
@@ -251,22 +251,22 @@ namespace Air{
 				{
 					if(FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 					{
-						if(FindFileData.cFileName[0]!='.')
+						if(strcmp(FindFileData.cFileName,".")!=0&&strcmp(FindFileData.cFileName,"..")!=0&&strcmp(FindFileData.cFileName,".svn")!=0)
 						{
 							AChar szFile[MAX_PATH];
 							strcpy(szFile,strPath.c_str());
-							strcat(szFile,"\\");
 							strcat(szFile,FindFileData.cFileName);
+							strcat(szFile,"/");
 							if(pCB!=NULL){
-								pCB->OnFindDirectory(AString(szFile));
+								pCB->OnFindDirectory(szFile);
 							}
-							FolderTraversal(AString(szFile),pCB);
+							FolderTraversal(szFile,pCB);
 						}
 					}
 					else
 					{
 						if(pCB!=NULL){
-							pCB->OnFindDirectory(AString(FindFileData.cFileName));
+							pCB->OnFindFile(strPath+FindFileData.cFileName);
 						}
 					}
 					if(!FindNextFileA(hFind,&FindFileData))

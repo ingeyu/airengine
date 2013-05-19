@@ -124,22 +124,7 @@ namespace Air{
 			//创建窗口
 			CreateWin();
 
- 			Data	data;
- 			Common::File::Load("..\\Data\\Material\\TestState.State",data);
- 			MaterialParse::GetSingleton()->CompileState(data.buff,data.size);
- 			data.Clear();
- 			Common::File::Load("..\\Data\\Material\\TestMaterial.MaterialTemplate",data);
- 			MaterialParse::GetSingleton()->CompileMaterialTemplate(data.buff,data.size);
- 			data.Clear();
- 			Common::File::Load("..\\Data\\Material\\TestMaterial.Material2",data);
- 			MaterialParse::GetSingleton()->CompileMaterial(data.buff,data.size);
- 			data.Clear();
-			Common::File::Load("..\\Data\\AirMesh\\SceneBuilding\\Building.material",data);
-			MaterialParse::GetSingleton()->CompileMaterialSet(data.buff,data.size);
-			data.Clear();
 
-			
-			
 			//AddFactory(new	Common::PluginFactory());
 			AddFactory(new	NoParamFactory<DefaultPipeline>());
 			//AddFactory(new	FontFactory());
@@ -185,9 +170,36 @@ namespace Air{
 			AudioSystem::GetSingleton()->Initialization();
 			ParticleSystem::GetSingleton()->Initialization();
 
-			Common::File::Load("..\\Data\\Particle\\Billboard.Particle",data);
-			ParticleSystem::GetSingleton()->Compile(data);
+
+			Data	data;
+			ResourceSystem::GetSingleton()->Find("..\\Data\\Material\\TestState.State",data);
+			MaterialParse::GetSingleton()->CompileState(data.buff,data.size);
+			ResourceSystem::GetSingleton()->Find("..\\Data\\Material\\TestMaterial.MaterialTemplate",data);
+			MaterialParse::GetSingleton()->CompileMaterialTemplate(data.buff,data.size);
+			ResourceSystem::GetSingleton()->Find("..\\Data\\Material\\TestMaterial.Material2",data);
+			MaterialParse::GetSingleton()->CompileMaterial(data.buff,data.size);
 			data.Clear();
+			class MaterialSetCB	:	public	Resource::FindFileCallback
+			{
+			public:
+				virtual	U1	OnFindFile(CAString&	strName,Data*	pData)
+				{
+					MaterialParse::GetSingleton()->CompileMaterialSet(pData->buff,pData->size);
+					return true;
+				};
+			}mscb;
+			class ParticleCB	:	public	Resource::FindFileCallback
+			{
+			public:
+				virtual	U1	OnFindFile(CAString&	strName,Data*	pData)
+				{
+					ParticleSystem::GetSingleton()->Compile(*pData);
+					return true;
+				};
+			}pcb;
+
+			ResourceSystem::GetSingleton()->FindWithPostfix(".material",&mscb);
+			ResourceSystem::GetSingleton()->FindWithPostfix(".particle",&pcb);
 
 			//初始化所有系统管理器
 			InitAllSystemManager();
