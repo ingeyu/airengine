@@ -461,5 +461,6 @@ namespace Air{
 		}
 	
 	};
+	typedef Engine::Character::Animation::Model	AnimationModel;
 };
 #endif // ENGINECHARACTERAIMATION_HEAD_FILE

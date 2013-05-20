@@ -82,36 +82,36 @@ namespace Air{
 			//m_pRootNode.SetScale(Float3(0.1,0.1,0.1));
 			//AString	strSkele	=	"Mage.CSF";
 			//Character::Resource*	pRes	=	EngineSystem::GetSingleton()->CreateProduct<Character::Resource*>("Character/Mage/","Character",&strSkele);
-			Character::Animation::Model::Info cinfo;
-			cinfo.strTemplate	=	"»úÇ¹±ø";
-			pMNode = m_pRootNode.CreateChildSceneNode();;//
-			Particle::Info parInfo;
-			parInfo.strTemplate	=	"Billboard";
-			pTestParticle=ParticleSystem::GetSingleton()->CreateProduct<Particle>("123",&parInfo);
-			//pMNode->SetScale(Float3(10,1,10));
-			//pMNode->attachObject(p);
-			AString str[]={
-				"runback.CAF",
-				"runback.CAF",
-				"run.CAF",
-				"run.CAF",
-				"runbackleft.CAF",
-				"runbackright.CAF",
-				"runleft.CAF",
-				"runright.CAF"
-			};
-			//for(S32 i=0;i<1;i++){
-			U32 i=0;
-				AString strName =Common::Converter::ToString(i);
-				pModel	=	EngineSystem::GetSingleton()->CreateProduct<Character::Animation::Model>(strName,&cinfo);
-				pModel->SetActionState("run.CAF");//str[i],str[i+4],0.999);//,"shootup.CAF",0.5,0);
-				SceneNode*	pTemp	=	pMNode->CreateChildSceneNode();
-				pTemp->SetPosition(Float3(i%10,0,i/10)*4);
-				pTemp->SetQuat(Float4(Float3(-1,0,0),1.57));
-				pTemp->SetScale(Float3(2,2,2));
-				pTemp->attachObject(pModel);
-			//}
-			pModel->attachObject("Ref_Weapon",pTestParticle);
+			//Character::Animation::Model::Info cinfo;
+			//cinfo.strTemplate	=	"»úÇ¹±ø";
+			//pMNode = m_pRootNode.CreateChildSceneNode();;//
+			//Particle::Info parInfo;
+			//parInfo.strTemplate	=	"Billboard";
+			//pTestParticle=ParticleSystem::GetSingleton()->CreateProduct<Particle>("123",&parInfo);
+			////pMNode->SetScale(Float3(10,1,10));
+			////pMNode->attachObject(p);
+			//AString str[]={
+			//	"runback.CAF",
+			//	"runback.CAF",
+			//	"run.CAF",
+			//	"run.CAF",
+			//	"runbackleft.CAF",
+			//	"runbackright.CAF",
+			//	"runleft.CAF",
+			//	"runright.CAF"
+			//};
+			////for(S32 i=0;i<1;i++){
+			//U32 i=0;
+			//	AString strName =Common::Converter::ToString(i);
+			//	pModel	=	EngineSystem::GetSingleton()->CreateProduct<Character::Animation::Model>(strName,&cinfo);
+			//	pModel->SetActionState("run.CAF");//str[i],str[i+4],0.999);//,"shootup.CAF",0.5,0);
+			//	SceneNode*	pTemp	=	pMNode->CreateChildSceneNode();
+			//	pTemp->SetPosition(Float3(i%10,0,i/10)*4);
+			//	pTemp->SetQuat(Float4(Float3(-1,0,0),1.57));
+			//	pTemp->SetScale(Float3(2,2,2));
+			//	pTemp->attachObject(pModel);
+			////}
+			//pModel->attachObject("Ref_Weapon",pTestParticle);
 			
 			
 			

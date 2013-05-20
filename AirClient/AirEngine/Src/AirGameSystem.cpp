@@ -2,6 +2,8 @@
 #include "AirGameSection.h"
 #include "AirEngineMaterial.h"
 #include "AirEngineSystem.h"
+#include "AirGameFPSControl.h"
+#include "AirGameThirdControl.h"
 
 namespace	Air{
 	namespace	Game{
@@ -14,6 +16,8 @@ namespace	Air{
 
 		Air::U1 System::Initialization()
 		{
+			AddFactory(new ParamFactory<FPSControl>());
+			AddFactory(new ParamFactory<ThirdControl>());
 			AddFactory(new NoParamFactory<Section>());
 
 

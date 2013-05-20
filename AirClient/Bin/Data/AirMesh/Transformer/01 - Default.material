@@ -1,8 +1,0 @@
-[01 - Default]
-diffuse=0.588235 0.588235 0.588235
-ambient=0.588235 0.588235 0.588235
-specular=0.900000 0.900000 0.900000
-glossiness=0.100000
-opacity=1.000000
-specularLevel=0.000000
-selfIllumColor=0.000000 0.000000 0.000000

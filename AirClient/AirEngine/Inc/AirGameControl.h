@@ -11,19 +11,26 @@ namespace Air{
 		*	状态
 		*
 		***/
+		enum	enumMoveState{
+			enMS_NoMove			=	0,
+			enMS_Left			=	1,
+			enMS_Right			=	2,
+			enMS_Run			=	4,
+			enMS_Back			=	8,
+			enMS_RunLeft		=	enMS_Run	|enMS_Left,
+			enMS_RunRight		=	enMS_Run	|enMS_Right,
+			enMS_BackLeft		=	enMS_Back	|enMS_Left,
+			enMS_BackRight		=	enMS_Back	|enMS_Right,
+		};
 		enum	enumActorState{
-			enStand,
-			enWalk,
-			enIdle,
-			enLeft,
-			enRight,
-			enRun,
-			enBack,
-			enJump,
-			enJumping,
-			enDieing,
-			enDeath,
-			enCasting
+			enAS_Stand,
+			enAS_Walk,
+			enAS_Idle,
+			enAS_Jump,
+			enAS_Jumping,
+			enAS_Dieing,
+			enAS_Death,
+			enAS_Casting
 		};
 		/**	\brief	动作
 		*
@@ -31,14 +38,17 @@ namespace Air{
 		*
 		***/
 		enum	enumAction{
-			enNone,
-			enAttack,
-			enMagicAttack1,
-			enMagicAttack2,
-			enMagicAttack3,
-			enMagicAttack4,
-			enMagicAttack5,
-			enHealth,
+			enA_None,
+			enA_LAttack,
+			enA_MAttack,
+			enA_RAttack,
+			enA_SpaceAction,
+			enA_MagicAttack1,
+			enA_MagicAttack2,
+			enA_MagicAttack3,
+			enA_MagicAttack4,
+			enA_MagicAttack5,
+			enA_Health,
 		};
 	
 		enum	enumGameState{
@@ -53,7 +63,7 @@ namespace Air{
 		***/
 		class	IActionState{
 		public:
-			virtual	void	OnActorState(enumActorState	state)	=	NULL;
+			virtual	void	OnActorState(enumActorState	state,enumMoveState mstate)	=	NULL;
 			virtual	void	OnAction(enumAction	action)	=	NULL;
 			virtual	void	OnGameState(enumGameState	state)	=	NULL;
 		};
@@ -64,11 +74,12 @@ namespace Air{
 		*
 		***/
 		class	ENGINE_EXPORT	Control	:
+			public	Common::IProduct,
 			public	::OIS::KeyListener,
 			public	::OIS::MouseListener,
 			public	::OIS::JoyStickListener{
 		public:
-			Control();
+			Control(CAString& strName);
 			/**	\brief	键盘按下事件
 			*   
 			*	@remarks 	键盘按下事件
@@ -165,7 +176,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			virtual	U1		OnFrameMove();
+			virtual	U1		Update(const FrameTime& frameTime);
 	
 			/**	\brief	启用键盘消息处理
 			*   

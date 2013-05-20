@@ -169,36 +169,6 @@ namespace Air{
 			//m_ReflectPlane	=	Plane(normal,fDistance);
 		}
 	
-		Float3 Camera::GetRealDirection(){
-	// 		if(m_pParentNode!=NULL){
-	// 			//m_pParentNode
-	// 			return	m_WorldMatrix*m_vDirection	-	m_WorldMatrix.getTrans();
-	// 		}else
-			{
-				return	m_vDirection;
-			}
-		}
-	
-		Float3 Camera::GetRealPosition(){
-	 		if(m_pParentNode!=NULL){
-	 			return	m_pParentNode->GetGlobalPosition();
-			}else
-			{
-				return	m_vPosition;
-			}
-		}
-	
-		Float3 Camera::GetRealRightDirection(){
-			return	m_vUp.Cross(m_vDirection);
-		}
-	
-		Float3 Camera::GetRealUpDirection(){
-
-			return	m_vDirection.Cross(GetRealRightDirection());
-			
-		}
-
-
 		void Camera::FindMovableObject( Scene* pScene,Camera* pMainCamera /*= NULL*/ ){
 			BuildPlane();
 			//m_vecMainMovable.clear();

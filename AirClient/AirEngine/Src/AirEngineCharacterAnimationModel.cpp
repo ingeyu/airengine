@@ -445,9 +445,9 @@ namespace Air{
 						return false;
 					//查找是否存在于列表中
 					for(int i=0;i<3;i++){
-						if(m_CycleAnimation[i].m_uiActionID!=uiActionID){
+						//if(m_CycleAnimation[i].m_uiActionID!=uiActionID){
 							m_pAnimation->getMixer()->clearCycle(m_CycleAnimation[i].m_uiActionID,fBlendTime);
-						}
+						//}
 						m_CycleAnimation[i].m_uiActionID=0xffffffff;
 						m_CycleAnimation[i].m_strName.clear();
 					}
@@ -468,9 +468,9 @@ namespace Air{
 					//查找是否存在于列表中
 					for(int i=0;i<3;i++){
 						UInt uiOldID	=	m_CycleAnimation[i].m_uiActionID;
-						if(uiOldID!=uiActionID0	&& uiOldID!=uiActionID1){
+						//if(uiOldID!=uiActionID0	&& uiOldID!=uiActionID1){
 							m_pAnimation->getMixer()->clearCycle(uiOldID,fBlendTime);
-						}
+						//}
 						m_CycleAnimation[i].m_uiActionID=0xffffffff;
 						m_CycleAnimation[i].m_strName.clear();
 					}
@@ -478,8 +478,8 @@ namespace Air{
 					m_CycleAnimation[0].m_strName		=	strState0;
 
 					m_pAnimation->getMixer()->blendCycle(uiActionID0,fWeight0,fBlendTime);
-					m_CycleAnimation[0].m_uiActionID	=	uiActionID1;
-					m_CycleAnimation[0].m_strName		=	strState1;
+					m_CycleAnimation[1].m_uiActionID	=	uiActionID1;
+					m_CycleAnimation[1].m_strName		=	strState1;
 
 					m_pAnimation->getMixer()->blendCycle(uiActionID1,1-fWeight0,fBlendTime);
 					return true;

@@ -13,7 +13,7 @@ namespace Air{
 	namespace	Game{
 	
 		AString	FPSControl::ProductTypeName	=	"FPSControl";
-		FPSControl::FPSControl( AString strName,Info* pInfo ):IProduct(strName){
+		FPSControl::FPSControl( CAString& strName,Info* pInfo ):Control(strName){
 			m_Info		=	*pInfo;
 			m_pNode		=	NULL;
 	
@@ -23,13 +23,13 @@ namespace Air{
 			m_fCurrentUDAngle	=	0.0f;
 	
 		//	m_pController	=	NULL;
-			m_State		=	enStand;
-			m_Action	=	enNone;
-			m_LastState	=	enDeath;
+			m_State			=	enAS_Stand;
+			m_Action		=	enA_None;
+			m_LastState		=	enAS_Death;
+			m_LastMoveState	=	(enumMoveState)0;
+			m_MoveState		=	(enumMoveState)0;
 	
-			m_pLRNode	=	NULL;
-			m_pCameraUDNode	=	NULL;
-			m_pCameraNode	=	NULL;
+
 		}
 	
 		U1 FPSControl::Create(){
@@ -40,24 +40,8 @@ namespace Air{
 			m_pNode				=	pScene->GetRootNode()->CreateChildSceneNode();
 			m_pNode->SetPosition(m_Info.vPosition);
 	
-			m_pLRNode			=	m_pNode->CreateChildSceneNode();
-			m_pCameraUDNode		=	m_pLRNode->CreateChildSceneNode();
-			m_pCameraNode		=	m_pCameraUDNode->CreateChildSceneNode();
-	
-				
-			m_pCamera	=	m_Info.pCamera;
-			m_pNode->attachObject(m_pCamera);
-			//m_pNode->SetPosition(m_pCamera->GetPosition());
-// 			if(m_pCamera!=NULL)
-// 				m_pCamera->SetPosition(m_Info.vPosition);
-	
-			//添加控制器到关卡中
-//			m_Info.pSection->AddControl(this);
-	
-// 				Physx::IController::Info	info;
-// 				info.initPosition	=	m_Info.vPosition;
-// 				info.size			=	Vector3(0.5,1.7,0.5);
-// 				m_pController	=	pXScene->Create<Physx::IController*>(m_strProductName,"Controller",&info);
+
+
 	
 	
 			return	true;
@@ -65,24 +49,9 @@ namespace Air{
 	
 		U1 FPSControl::Destroy(){
 			Engine::Scene*			pScene	=	m_Info.pSection->GetScene();
-			//Audio::IScene*	pAScene	=	m_Info.pSection->GetAudioScene();
-			//Physx::IScene*	pXScene	=	m_Info.pSection->GetPhysxScene();
-			//移除控制器
-			//m_Info.pSection->RemoveControl(this);
+
 	
-			//GetGlobalSetting().m_pEngine->DestroyProduct(m_pCamera);
-			m_pCamera	=	NULL;
-			pScene->GetRootNode()->RemoveChild(m_pNode,true);
-			m_pNode	=	NULL;
-	
-// 				if(m_pController!=NULL){
-// 					pXScene->DestroyProduct(m_pController);
-// 					m_pController	=	NULL;
-// 				}
-	
-			m_pLRNode	=	NULL;
-			m_pCameraUDNode	=	NULL;
-			m_pCameraNode	=	NULL;
+
 			return	true;
 		}
 	
@@ -145,15 +114,15 @@ namespace Air{
 			return	m_pCamera;
 		}
 	
-		U1 FPSControl::OnFrameMove(){
+		U1 FPSControl::Update(const FrameTime& frameTime){
 			static	Real	fFireTime	=	0.0f;
-			Real	fTimeDelta			=	Engine::GetGlobalSetting().m_ShaderParam.m_fTimeDelta;
+			Real	fTimeDelta			=	frameTime.fTimeDelta;
 			if(m_pInputState->m_MouseArray[OIS::MB_Left])
 				fFireTime+=fTimeDelta;
 	
-			m_Action	=	enNone;
+			m_Action	=	enA_None;
 			if(fFireTime>0.1f){
-				m_Action	=	enAttack;
+				m_Action	=	enA_LAttack;
 				if(m_pActionStateCallback!=NULL)
 					m_pActionStateCallback->OnAction(m_Action);
 	
@@ -174,33 +143,47 @@ namespace Air{
 			m_fCurrentLRAngle	+=	(m_fLRAngle	-	m_fCurrentLRAngle)*fSensitivity;
 			m_fCurrentUDAngle	+=	(m_fUDAngle	-	m_fCurrentUDAngle)*fSensitivity;
 			Float4	qY	=	Float4(Float3(0,1,0),m_fCurrentLRAngle);
-			m_pLRNode->SetQuat(qY);
+
 			Float4	qX	=	Float4(Float3(1,0,0),m_fCurrentUDAngle);
-			m_pCameraUDNode->SetQuat(qX);
+
 	
-			m_LastState	=	m_State;
-			m_State		=	enStand;	
+			m_LastState		=	m_State;
+			m_LastMoveState	=	m_MoveState;
+			m_State		=	enAS_Stand;	
 	
 			Float4	vMove	=	Float4(0,0,0,0);
+			int iFB	=0;int iLR=0;
 			if(m_pInputState->m_KeyArray[KC_W]==1){
 				vMove.x	=	5.0f;
-				m_State	=	enRun;
+				iFB	=	1;
 			}
 			if(m_pInputState->m_KeyArray[KC_S]==1){
 				vMove.y	=	-2.0f;
-				m_State	=	enBack;
+				iFB	-=	1;
 			}
 			if(m_pInputState->m_KeyArray[KC_A]==1){
 				vMove.z	=	3.0f;
-				m_State	=	enRun;
+				iLR=-1;
 			}
 			if(m_pInputState->m_KeyArray[KC_D]==1){
 				vMove.z	=	-3.0f;
-				m_State	=	enRun;
+				iLR+=1;
+			}
+			
+			if(iFB==1){
+				m_MoveState	|=	enMS_Run;
+			}else if(iFB==-1){
+				m_MoveState	|=	enMS_Back;
+			}
+
+			if(iLR==1){
+				m_MoveState	|=	enMS_Right;
+			}else if(iLR==-1){
+				m_MoveState	|=	enMS_Left;
 			}
 	
 			if(IsStateChange()	||	m_pActionStateCallback!=NULL){
-				m_pActionStateCallback->OnActorState(m_State);
+				m_pActionStateCallback->OnActorState(m_State,(enumMoveState)m_MoveState);
 			}
 	
 			Float3	vPos	=	m_pNode->GetPosition();
@@ -227,7 +210,7 @@ namespace Air{
 		}
 	
 		Engine::SceneNode* FPSControl::GetControlNode(){
-			return	m_pLRNode;
+			return	m_pNode;
 		}
 	
 		void FPSControl::SetPosition( Float3 vPosition ){

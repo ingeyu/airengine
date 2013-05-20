@@ -7,6 +7,7 @@
 #include "AirGlobalSetting.h"
 #include "AirGameSection.h"
 #include "AirEditorSystem.h"
+#include "AirGameDefaultSection.h"
 
 
 
@@ -30,6 +31,7 @@ namespace Air{
 		Game::Section*	pSection	=	NULL;
 		extern "C" GAME_EXPORT U1 DllInit(void*		pParam)throw(){
 			if(pSection==NULL){
+				GameSystem::GetSingleton()->AddFactory(new NoParamFactory<Game::DefaultSection>());
 				pSection	=	GameSystem::GetSingleton()->CreateProduct<Game::Section>("Test");
 				GameSystem::GetSingleton()->SetCurrentSection(pSection);
 			}
@@ -54,10 +56,12 @@ namespace Air{
 				EditorSystem::GetSingleton()->Release();
 				EditorSystem::ReleaseSingleton();
 			}
+
 			if(pSection!=NULL){
 				GameSystem::GetSingleton()->SetCurrentSection(NULL);
 				pSection->ReleaseRef();
 			}
+			GameSystem::GetSingleton()->RemoveFactory(Game::DefaultSection::ProductTypeName);
 			return	true;
 		}
 };

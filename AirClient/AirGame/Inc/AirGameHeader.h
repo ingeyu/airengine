@@ -1,5 +1,6 @@
 #ifndef GAMEHEADER_HEAD_FILE
 #define GAMEHEADER_HEAD_FILE
+#include "AirGame.h"
 #include "AirEngineHeader.h"
 
 #include "AirGlobalSetting.h"
@@ -34,6 +35,7 @@
 #include "AirEngineEntity.h"
 #include "AirEngineEntityCloth.h"
 
+#include "AirEngineCharacterAnimationModel.h"
 #include "AirGameSection.h"
 #include "AirGameSystem.h"
 

@@ -33,6 +33,9 @@
     <ClCompile Include="..\AirGame\Src\AirEditorSystem.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
+    <ClCompile Include="..\AirGame\Src\AirGameDefaultSection.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\AirGame\Inc\AirGame.h">
@@ -61,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="..\AirGame\Inc\AirEditorSystem.h">
       <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirGame\Inc\AirGameDefaultSection.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

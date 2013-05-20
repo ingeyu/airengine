@@ -124,10 +124,10 @@ namespace	Air{
 		{
 			__super::Create();
 
-			OIS::KeyListener*	pKey	=	this;
-			OIS::MouseListener*	pMouse	=	this;
-			GetGlobalSetting().m_pInputSystem->Add(pKey);
-			GetGlobalSetting().m_pInputSystem->Add(pMouse);
+			//OIS::KeyListener*	pKey	=	this;
+			//OIS::MouseListener*	pMouse	=	this;
+			//GetGlobalSetting().m_pInputSystem->Add(pKey);
+			//GetGlobalSetting().m_pInputSystem->Add(pMouse);
 
 
 

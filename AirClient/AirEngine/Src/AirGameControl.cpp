@@ -6,7 +6,7 @@ namespace Air{
 		namespace	Game{
 	
 	
-			Control::Control(){
+			Control::Control(CAString& strName):Common::IProduct(strName){
 				m_pInputState			=	Engine::GetGlobalSetting().m_pInputSystem;
 				m_pActionStateCallback	=	NULL;
 			}
@@ -97,11 +97,11 @@ namespace Air{
 				m_lstControl.remove(pControl);
 			}
 	
-			U1 Control::OnFrameMove(){
+			U1 Control::Update(const FrameTime& frameTime){
 				ControlListItr	i	=	m_lstControl.begin();
 				for(;i!=m_lstControl.end();i++){
 					Control*	p	=	(Control*)(*i);
-					p->OnFrameMove();
+					p->Update(frameTime);
 				}
 				return	true;
 			}

@@ -111,8 +111,8 @@ namespace	Air{
 				m_vecCSMCamera[i]->SetDir(m_vLightDirection);
 			}
 
-			Float3 vCamPos	=	m_pMainCamera->GetPosition();
-			Float3 vCamDir	=	m_pMainCamera->GetDir();
+			Float3 vCamPos	=	m_pMainCamera->GetRealPosition();
+			Float3 vCamDir	=	m_pMainCamera->GetRealDirection();
 
 			for(U32 i=0;i<m_vecCSMCamera.size();i++){
 				Camera*	pLight	=	m_vecCSMCamera[i];

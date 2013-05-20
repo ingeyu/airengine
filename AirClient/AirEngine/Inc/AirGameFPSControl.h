@@ -16,7 +16,6 @@ namespace Air{
 		*
 		***/
 		class	ENGINE_EXPORT	FPSControl	:
-			public	Common::IProduct,
 			public	Control
 			{
 		public:
@@ -33,16 +32,17 @@ namespace Air{
 					vVelocity		=	3.0f;
 					vCameraHeight	=	1.8f;
 					pCamera			=	NULL;
+					bAllowRotate	=	true;
 				};
-				Section*	pSection;		///<	关卡名字
-				Float3		vPosition;		///<	初始位置
-				Real		vVelocity;		///<	移动速度
-				Real		vCameraHeight;	///<	摄像机高度
+				Section*			pSection;		///<	关卡名字
+				Float3				vPosition;		///<	初始位置
+				Real				vVelocity;		///<	移动速度
+				Real				vCameraHeight;	///<	摄像机高度
 				Engine::Camera*		pCamera;
-					
+				U1					bAllowRotate;
 			};
 		public:
-			FPSControl(AString	strName,Info*	pInfo);
+			FPSControl(CAString&	strName,Info*	pInfo);
 			/**	\brief	创建
 			*   
 			*	@remarks 	创建
@@ -167,7 +167,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			virtual	U1		OnFrameMove();
+			virtual	U1		Update(const FrameTime& frameTime);
 	
 			/**	\brief	获取控制节点
 			*   
@@ -190,7 +190,7 @@ namespace Air{
 			virtual	void		SetPosition(Float3	vPosition);
 	
 			inline	U1			IsStateChange(){
-				return	(m_State!=m_LastState);
+				return	(m_State!=m_LastState	||	m_MoveState!=m_LastMoveState);
 			};
 	
 		protected:
@@ -198,16 +198,16 @@ namespace Air{
 			Section*				m_pSection;
 			Engine::Camera*			m_pCamera;				///<	控制摄像机
 			Engine::SceneNode*		m_pNode;				///<	控制器基本节点
-			Engine::SceneNode*		m_pLRNode;				///<	左右旋转控制节点
-			Engine::SceneNode*		m_pCameraUDNode;		///<	镜头上下摇动控制节点
-			Engine::SceneNode*		m_pCameraNode;			///<	摄像机节点
+
 			Real					m_fLRAngle;				///<	左右旋转角度
 			Real					m_fUDAngle;				///<	上下旋转角度
 			Real					m_fCurrentLRAngle;		///<	当前左右旋转角度
 			Real					m_fCurrentUDAngle;		///<	上下旋转角度
 			//Physics::IController*		m_pController;			///<	物理模块的控制器
-			enumActorState			m_State;			
+			enumActorState			m_State;
+			U32						m_MoveState;
 			enumActorState			m_LastState;
+			U32						m_LastMoveState;
 			enumAction				m_Action;
 		};
 

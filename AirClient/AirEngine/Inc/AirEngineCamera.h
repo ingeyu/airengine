@@ -73,10 +73,7 @@ namespace Air{
 			void				RenderCubeMap( DWORD dwFace,SInt uiWidth	=	-1,SInt uiHeight	=	-1);
 
 	
-			Float3		GetRealDirection();
-			Float3		GetRealPosition();
-			Float3		GetRealRightDirection();
-			Float3		GetRealUpDirection();
+
 	
 			/**	\brief	是否为反射摄像机
 			*   

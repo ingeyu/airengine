@@ -2,6 +2,7 @@
 #define AirGameSection_h__
 
 #include "AirEngineHeader.h"
+#include "AirGameControl.h"
 
 namespace	Air{
 	namespace	Engine{
@@ -9,8 +10,10 @@ namespace	Air{
 		class Scene;
 	}
 	namespace	Game{
+
 		class	ENGINE_EXPORT	Section	:	
-			public	Common::IProduct
+			public	Common::IProduct,
+			public	IActionState
 		{
 		public:
 			static	AString	ProductTypeName;
@@ -23,13 +26,20 @@ namespace	Air{
 
 			Engine::Pipeline*	GetPipeline();
 			Engine::Scene*		GetScene();
+			Control*			GetControl();
 
 			virtual	void		LoadScene(CAString& strName);
 			virtual	void		SaveScene(CAString& strName);
+			virtual	Control*	OnCreateControl();		
+
+			virtual	void	OnActorState(enumActorState	state,enumMoveState mstate){};
+			virtual	void	OnAction(enumAction	action){};
+			virtual	void	OnGameState(enumGameState	state){};
 		protected:
 
 			Engine::Pipeline*	m_pPipeline;
 			Engine::Scene*		m_pScene;
+			Control*			m_pControl;
 		};
 	}
 }

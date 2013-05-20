@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClCompile Include="..\AirGame\Src\AirEditorSystem.cpp" />
     <ClCompile Include="..\AirGame\Src\AirGame.cpp" />
+    <ClCompile Include="..\AirGame\Src\AirGameDefaultSection.cpp" />
     <ClCompile Include="..\AirGame\Src\AirGameGlobal.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +162,7 @@
     <ClInclude Include="..\AirGame\Inc\AirGame.h" />
     <ClInclude Include="..\AirGame\Inc\AirGameActorModel.h" />
     <ClInclude Include="..\AirGame\Inc\AirGameActorProperty.h" />
+    <ClInclude Include="..\AirGame\Inc\AirGameDefaultSection.h" />
     <ClInclude Include="..\AirGame\Inc\AirGameGlobal.h" />
     <ClInclude Include="..\AirGame\Inc\AirGameHeader.h" />
     <ClInclude Include="..\AirGame\Inc\AirGameMap.h" />

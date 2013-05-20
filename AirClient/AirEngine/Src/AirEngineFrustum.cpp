@@ -278,6 +278,8 @@ namespace	Air{
 		}
 
 		void Frustum::BuildPlane(){
+
+
 			Float3 dir,nc,fc,X,Y,Z;
 
 			Z = Float3(-m_vDirection.x,-m_vDirection.y,-m_vDirection.z);
@@ -321,24 +323,12 @@ namespace	Air{
 		void Frustum::Update(	const	Float44&	ParentGlobalWorldMatrix,
 								const	Float4&		ParentGlobalWorldQuat,
 								const	Float3&		ParentGlobalWorldScale,
-								U1					bParentDirty ){
-			Float3	vPos	=	m_vPosition;
-			Float3	vDir	=	m_vDirection;
-			Float3	vUpDir	=	m_vUp;
-			if(m_pParentNode!=NULL){
-				vPos	=	ParentGlobalWorldMatrix.GetPosition();
-				vDir	=	ParentGlobalWorldQuat*m_vDirection;
-				vUpDir	=	ParentGlobalWorldQuat*m_vUp;
-			}
-			m_matView.ViewTL(vPos,vDir,vUpDir);
-			if(!m_bOrtho)
-				m_matProj.ProjectFL(m_fAngle,m_fAspect,m_fNear,m_fFar);
-			else
-				m_matProj.OrthographicL(m_fWidth,m_fWidth/m_fAspect,m_fNear,m_fFar);
-
-			BuildPlaneFromViewProj();
-
-			m_bDirty	=	false;
+								U1					bParentDirty )
+		{
+			__super::Update(ParentGlobalWorldMatrix,ParentGlobalWorldQuat,ParentGlobalWorldScale,bParentDirty);
+			if(bParentDirty)
+				m_bDirty	=	true;
+			ReBuild();
 
 		}
 
@@ -394,14 +384,10 @@ namespace	Air{
 
 		void Frustum::ReBuild(){
 
-			Float3	vPos	=	m_vPosition;
-			Float3	vDir	=	m_vDirection;
-			Float3	vUpDir	=	m_vUp;
-			if(m_pParentNode!=NULL){
-				vPos	=	m_pParentNode->GetGlobalPosition();
-				vDir	=	m_pParentNode->GetGlobalQuat()*m_vDirection;
-				vUpDir	=	m_pParentNode->GetGlobalQuat()*m_vUp;
-			}
+			Float3	vPos	=	GetRealPosition();
+			Float3	vDir	=	GetRealDirection().Normalize();
+			Float3	vUpDir	=	GetRealUpDirection().Normalize();
+
 			m_matView.ViewTL(vPos,vDir,vUpDir);
 			if(!m_bOrtho)
 				m_matProj.ProjectFL(m_fAngle,m_fAspect,m_fNear,m_fFar);
@@ -410,7 +396,7 @@ namespace	Air{
 
 			m_matViewProj	=	m_matView*m_matProj;
 			
-			//BuildPlaneFromViewProj();
+			BuildPlaneFromViewProj();
 
 			m_bDirty	=	false;
 		}
@@ -486,6 +472,44 @@ namespace	Air{
 			m_bOrtho	=	bOrtho;
 			m_bDirty	=	true;
 		}
+
+		Float3 Frustum::GetRealDirection(){
+			if(m_pParentNode!=NULL){
+				Float3& vPos	=	m_WorldMatrix.GetPosition();
+				return	(m_WorldMatrix*(vPos+m_vDirection)	-	vPos).Normalize();
+			}
+			else
+			{
+				return	m_vDirection;
+			}
+		}
+
+		Float3 Frustum::GetRealPosition(){
+			if(m_pParentNode!=NULL){
+				return	m_WorldMatrix.GetPosition();
+			}
+			else
+			{
+				return	m_vPosition;
+			}
+		}
+
+		Float3 Frustum::GetRealRightDirection(){
+			if(m_pParentNode!=NULL){
+				Float3& vPos	=	m_WorldMatrix.GetPosition();
+				Float3& vRealUp	=	(m_WorldMatrix*(vPos+m_vUp)	-	vPos).Normalize();
+				return	vRealUp.Cross(GetRealDirection());
+			}
+			else
+			{
+				return	m_vUp.Cross(GetRealDirection());
+			}
+		}
+
+		Float3 Frustum::GetRealUpDirection(){
+			return	GetRealDirection().Cross(GetRealRightDirection());
+		};
+
 
 	}
 }

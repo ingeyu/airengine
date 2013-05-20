@@ -80,6 +80,11 @@ namespace	Air{
 									U1					bParentDirty);
 
 			Ray		BuildRay(Real	x,Real	y);
+
+			Float3		GetRealDirection();
+			Float3		GetRealPosition();
+			Float3		GetRealRightDirection();
+			Float3		GetRealUpDirection();
 		protected:
 			void	BuildPlane();
 			void	BuildPlaneFromViewProj();

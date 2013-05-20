@@ -12,7 +12,7 @@ namespace Air{
 				public	FPSControl{
 			public:
 				static AString	ProductTypeName;
-				ThirdControl(AString	strName,Info*	pInfo);
+				ThirdControl(CAString&	strName,Info*	pInfo);
 				/**	\brief	创建
 				*   
 				*	@remarks 	创建
@@ -51,7 +51,7 @@ namespace Air{
 				*	@note
 				*
 				**/
-				virtual	U1		OnFrameMove();
+				virtual	U1		Update(const FrameTime& frameTime);
 	
 				virtual	U1		keyReleased( const OIS::KeyEvent &arg );
 	
@@ -61,6 +61,7 @@ namespace Air{
 				Real			m_fTargetDis;
 	
 				Float3			m_vTargetPosition;	///<	目标位置
+				Float3			m_vMoveDirection;
 				Real			m_fMoveSensitivity;	///<	移动灵敏度
 			};
 	
