@@ -76,6 +76,7 @@ namespace	Air{
 			Engine::enumMouseRayCastType		m_MoveType;
 			Float2								m_MoveDir;
 			Float3								m_OldPos;
+			Float4								m_OldQuat;
 		};
 
 

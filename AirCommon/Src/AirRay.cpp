@@ -60,7 +60,7 @@ namespace	Air{
 		return	Common::IntersectRayTriangle(m_vStart.ToXM(),m_vDirection.ToXM(),v0.ToXM(),v1.ToXM(),v2.ToXM(),pDistance);
 	}
 
-	bool Ray::Intersect( const Common::Plane& obj ) const
+	bool Ray::Intersect( const Common::Plane& obj ,float* pfDis) const
 	{
 		float	fDot	=	obj.m_vNormal.Dot(m_vDirection);
 		if(	fDot	==	0.0f)
@@ -72,8 +72,10 @@ namespace	Air{
 		float	t		=	fDis/fDot;
 		if(t<0)
 			return	false;
-
-		Float3	vHitPosition	=	m_vDirection*t+m_vStart;
+		if(pfDis!=NULL){
+			*pfDis	=	fDis;
+		}
+		//Float3	vHitPosition	=	m_vDirection*t+m_vStart;
 		return	true;
 	}
 

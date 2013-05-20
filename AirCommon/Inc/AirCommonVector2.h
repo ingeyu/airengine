@@ -116,6 +116,16 @@ namespace	Air{
 				y	/=	v.y;
 				return	*this;
 			};
+			inline	float		Length()const{
+				return sqrt(x*x+y*y);
+			};
+			inline	Vector2&	Normalize(){
+				float f	=	Length();
+				if(f!=0){
+					*this	/=	f;
+				}
+				return *this;
+			};
 			inline	XMVECTOR	ToXM(){
 				return	XMLoadFloat2((XMFLOAT2*)this);
 			};

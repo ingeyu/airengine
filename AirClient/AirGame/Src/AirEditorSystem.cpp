@@ -83,7 +83,7 @@ namespace	Air{
 							v[m_MoveType-1]+=vRealDir[m_MoveType-1]*0.1;
 							pMesh->GetParentSceneNode()->SetPosition(v);
 							Float44 mat;
-							Float3 scale;
+							Float3 scale(1,1,1);
 							Float4 q;
 							pMesh->GetParentSceneNode()->Update(mat,q,scale,false);
 							m_pObjController->SetPosition(v);
@@ -102,7 +102,24 @@ namespace	Air{
 					break;}
 				case enCM_Rotate:{
 					if(m_bIsControl){
+						if(m_MoveType!=Engine::eMRCT_None&&!m_lstSelectObj.empty()){
+							Engine::MeshEntity* pMesh  = *(m_lstSelectObj.begin());
+							Float2 dir = Float2(arg.state.X.abs,arg.state.Y.abs)	-	m_MoveDir;
 
+							float fAngle	=	dir.y;
+							if(m_MoveType==Engine::eMRCT_Y){
+								 fAngle	=	dir.x;
+							}
+							Float3 vAxis;
+							vAxis[m_MoveType-1]	=	1;
+							Float4 q(vAxis,fAngle*0.1);
+							
+							pMesh->GetParentSceneNode()->SetQuat(m_OldQuat*q);
+							Float44 mat;
+							Float3 scale(1,1,1);
+							q =	Float4(0,0,0,1);
+							pMesh->GetParentSceneNode()->Update(mat,q,scale,false);
+						}
 					}else{
 						m_MoveType	=	m_pObjController->ChangeType(ray.m_vStart,ray.m_vDirection);
 					}
@@ -116,7 +133,7 @@ namespace	Air{
 					break;}
 				default:{
 					m_bIsControl	=	false;
-					UpdateRayCastPoint(ray);
+					//UpdateRayCastPoint(ray);
 					break;}
 			}
 				
@@ -140,7 +157,6 @@ namespace	Air{
 
 					break;}
 				case enCM_Move:
-				case enCM_Rotate:
 				case enCM_Scale:{
 					if(m_MoveType!=Engine::eMRCT_None){
 						m_bIsControl	=	true;
@@ -153,6 +169,16 @@ namespace	Air{
 						}
 					}
 					break;}
+				case enCM_Rotate:{
+					if(m_MoveType!=Engine::eMRCT_None){
+						m_bIsControl	=	true;
+						m_MoveDir		=	Float2(arg.state.X.abs,arg.state.Y.abs);
+						Engine::MeshEntityList::iterator i = m_lstSelectObj.begin();
+						if(i!=m_lstSelectObj.end()){
+							m_OldQuat	=	(*i)->GetParentSceneNode()->GetQuat();
+						}
+					}
+								 }break;
 				case enCM_Create:{
 					
 					break;}
@@ -299,7 +325,7 @@ namespace	Air{
 			Engine::Scene* pScene	=	GameSystem::GetSingleton()->GetCurrentSection()->GetScene();
 			float	fDis	=	9999999.0f;
 			Engine::MovableObject* pObj = NULL;
-			if(pScene->GetStaticSceneNode()->RayCastBoundingBox(ray,pObj,&fDis)){
+			if(pScene->GetStaticSceneNode()->RayCast(ray,pObj,&fDis)){
 				m_vRayCastPoint	=	ray.m_vStart+ray.m_vDirection*fDis;
 				m_pRayCastMesh	=	dynamic_cast<Engine::MeshEntity*>(pObj);
 				if(m_pRayCastMesh!=NULL&&m_pObjController!=NULL){

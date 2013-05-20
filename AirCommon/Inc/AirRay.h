@@ -25,7 +25,7 @@ namespace	Air{
 			bool			Intersect(const Sphere&	obj)const;
 			bool			Intersect(const BoundingBox&	obj,float*	pNear	=	NULL)const;
 			bool			Intersect(const Float3&	v0,const Float3&	v1,const Float3&	v2,float* pDistance =NULL)const;
-			bool			Intersect(const Common::Plane&	obj)const;
+			bool			Intersect(const Common::Plane&	obj ,float* pfDis	=	NULL)const;
 		
 			Float3	m_vStart;
 			Float3	m_vDirection;
