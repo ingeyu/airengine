@@ -80,6 +80,17 @@ enum enumEditMode{
 	eEM_Move,
 	eEM_Rotate,
 	eEM_Scale,
+	eEM_CreateObject,
+	eEM_CreateActor,
+	eEM_CreateBuilding,
+	eEM_CreatePoint,
+	eEM_CreateSpotLight,
+	eEM_CreateSun,
+	eEM_CreateWater,
+	eEM_CreateCloud,
+	eEM_CreateTree,
+	eEM_CreateGrass
+
 };
 
 #endif // !defined(AFX_STDAFX_H__23C8E86C_3840_4B7C_A839_1C49BC7BAEF3__INCLUDED_)

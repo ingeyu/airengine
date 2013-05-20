@@ -6,8 +6,7 @@
 #include "GalleryItems.h"
 
 #include "MainFrm.h"
-#include "d3d9.h"
-#pragma comment(lib,"d3d9")
+
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -54,6 +53,17 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_CREATE_CLOUD			,OnButtonCreate_Cloud		  )
 	ON_COMMAND(ID_CREATE_TREE			,OnButtonCreate_Tree		  )
 	ON_COMMAND(ID_CREATE_GRASS			,OnButtonCreate_Grass		  )
+
+	ON_UPDATE_COMMAND_UI(ID_CREATE_OBJECT			,OnUpdate_Object		  )
+	ON_UPDATE_COMMAND_UI(ID_CREATE_ACTOR			,OnUpdate_Actor		  )
+	ON_UPDATE_COMMAND_UI(ID_CREATE_BUILDING			,OnUpdate_Building	  )
+	ON_UPDATE_COMMAND_UI(ID_CREATE_POINT_LIGHT		,OnUpdate_Point_light	  )
+	ON_UPDATE_COMMAND_UI(ID_CREATE_SPOT_LIGHT		,OnUpdate_Spot_light	  )
+	ON_UPDATE_COMMAND_UI(ID_CREATE_SUN_LIGHT		,OnUpdate_Sun_light	  )
+	ON_UPDATE_COMMAND_UI(ID_CREATE_WATER			,OnUpdate_Water		  )
+	ON_UPDATE_COMMAND_UI(ID_CREATE_CLOUD			,OnUpdate_Cloud		  )
+	ON_UPDATE_COMMAND_UI(ID_CREATE_TREE				,OnUpdate_Tree		  )
+	ON_UPDATE_COMMAND_UI(ID_CREATE_GRASS			,OnUpdate_Grass		  )
 
 	ON_UPDATE_COMMAND_UI_RANGE(ID_BUTTON_LARGESIMPLEBUTTON, ID_BUTTON_SMALLSPLITPOPUPBUTTON, OnEnableButton)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_POPUP_OPTION1, ID_POPUP_OPTION3, OnEnableButton)
@@ -897,6 +907,7 @@ void CMainFrame::OnUpdateScaleButton(CCmdUI* pCmdUI){
 }
 
 void CMainFrame::OnButtonCreate_Object(){
+	m_EditMode	=	eEM_CreateObject;
 	Air::EditorSystem::GetSingleton()->EnableInput(false);
 	CFileDialog dlg( 
 		TRUE, 
@@ -929,33 +940,84 @@ void CMainFrame::OnButtonCreate_Object(){
 	Air::EditorSystem::GetSingleton()->EnableInput(true);
 };		
 void CMainFrame::OnButtonCreate_Actor(){
-
+	m_EditMode	=	eEM_CreateActor;
+	Air::EditorSystem::GetSingleton()->EnableInput(false);
+	Air::EditorSystem::GetSingleton()->SetCreateName("นท");
+	Air::EditorSystem::GetSingleton()->EnableInput(true);
+	Air::EditorSystem::GetSingleton()->SetCreateType(Air::Editor::enCT_Actor);
+	Air::EditorSystem::GetSingleton()->SetControlMode(Air::Editor::enCM_Create);
 };		
 void CMainFrame::OnButtonCreate_Building(){
-
-
+	m_EditMode	=	eEM_CreateBuilding;
+	Air::EditorSystem::GetSingleton()->SetCreateType(Air::Editor::enCT_Building);
+	Air::EditorSystem::GetSingleton()->SetControlMode(Air::Editor::enCM_Create);
 	
 };		
 void CMainFrame::OnButtonCreate_Point_light(){
-
+	m_EditMode	=	eEM_CreatePoint;
+	Air::EditorSystem::GetSingleton()->SetCreateType(Air::Editor::enCT_Actor);
+	Air::EditorSystem::GetSingleton()->SetControlMode(Air::Editor::enCM_Create);
 };	
 void CMainFrame::OnButtonCreate_Spot_light(){
-
+	m_EditMode	=	eEM_CreateSpotLight;
+	Air::EditorSystem::GetSingleton()->SetCreateType(Air::Editor::enCT_Actor);
+	Air::EditorSystem::GetSingleton()->SetControlMode(Air::Editor::enCM_Create);
 };	
 void CMainFrame::OnButtonCreate_Sun_light(){
-
+	m_EditMode	=	eEM_CreateSun;
+	Air::EditorSystem::GetSingleton()->SetCreateType(Air::Editor::enCT_Actor);
+	Air::EditorSystem::GetSingleton()->SetControlMode(Air::Editor::enCM_Create);
 };	
 void CMainFrame::OnButtonCreate_Water(){
-
+	m_EditMode	=	eEM_CreateWater;
+	Air::EditorSystem::GetSingleton()->SetCreateType(Air::Editor::enCT_Actor);
+	Air::EditorSystem::GetSingleton()->SetControlMode(Air::Editor::enCM_Create);
 };		
 void CMainFrame::OnButtonCreate_Cloud(){
-
+	m_EditMode	=	eEM_CreateCloud;
+	Air::EditorSystem::GetSingleton()->SetCreateType(Air::Editor::enCT_Actor);
+	Air::EditorSystem::GetSingleton()->SetControlMode(Air::Editor::enCM_Create);
 };		
 void CMainFrame::OnButtonCreate_Tree(){
-
+	m_EditMode	=	eEM_CreateTree;
+	Air::EditorSystem::GetSingleton()->SetCreateType(Air::Editor::enCT_Actor);
+	Air::EditorSystem::GetSingleton()->SetControlMode(Air::Editor::enCM_Create);
 };			
 void CMainFrame::OnButtonCreate_Grass(){
+	m_EditMode	=	eEM_CreateGrass;
+	Air::EditorSystem::GetSingleton()->SetCreateType(Air::Editor::enCT_Actor);
+	Air::EditorSystem::GetSingleton()->SetControlMode(Air::Editor::enCM_Create);
+};		
 
+void CMainFrame::OnUpdate_Object(CCmdUI* pCmdUI){
+	pCmdUI->SetCheck(m_EditMode==eEM_CreateObject);
+};		
+void CMainFrame::OnUpdate_Actor(CCmdUI* pCmdUI){
+	pCmdUI->SetCheck(m_EditMode==eEM_CreateActor);
+};		
+void CMainFrame::OnUpdate_Building(CCmdUI* pCmdUI){
+	pCmdUI->SetCheck(m_EditMode==eEM_CreateBuilding);
+};		
+void CMainFrame::OnUpdate_Point_light(CCmdUI* pCmdUI){
+	pCmdUI->SetCheck(m_EditMode==eEM_CreatePoint);
+};	
+void CMainFrame::OnUpdate_Spot_light(CCmdUI* pCmdUI){
+	pCmdUI->SetCheck(m_EditMode==eEM_CreateSpotLight);
+};	
+void CMainFrame::OnUpdate_Sun_light(CCmdUI* pCmdUI){
+	pCmdUI->SetCheck(m_EditMode==eEM_CreateSun);
+};	
+void CMainFrame::OnUpdate_Water(CCmdUI* pCmdUI){
+	pCmdUI->SetCheck(m_EditMode==eEM_CreateWater);
+};		
+void CMainFrame::OnUpdate_Cloud(CCmdUI* pCmdUI){
+	pCmdUI->SetCheck(m_EditMode==eEM_CreateCloud);
+};		
+void CMainFrame::OnUpdate_Tree(CCmdUI* pCmdUI){
+	pCmdUI->SetCheck(m_EditMode==eEM_CreateTree);
+};			
+void CMainFrame::OnUpdate_Grass(CCmdUI* pCmdUI){
+	pCmdUI->SetCheck(m_EditMode==eEM_CreateGrass);
 };		
 
 void CMainFrame::OnOptionsRighttoleft() 

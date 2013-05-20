@@ -85,6 +85,17 @@ protected:
 	afx_msg void OnButtonCreate_Cloud();			
 	afx_msg void OnButtonCreate_Tree();			
 	afx_msg void OnButtonCreate_Grass();			
+
+	afx_msg void OnUpdate_Object(CCmdUI* pCmdUI);		
+	afx_msg void OnUpdate_Actor(CCmdUI* pCmdUI);				
+	afx_msg void OnUpdate_Building(CCmdUI* pCmdUI);			
+	afx_msg void OnUpdate_Point_light(CCmdUI* pCmdUI);	
+	afx_msg void OnUpdate_Spot_light(CCmdUI* pCmdUI);	
+	afx_msg void OnUpdate_Sun_light(CCmdUI* pCmdUI);		
+	afx_msg void OnUpdate_Water(CCmdUI* pCmdUI);		
+	afx_msg void OnUpdate_Cloud(CCmdUI* pCmdUI);			
+	afx_msg void OnUpdate_Tree(CCmdUI* pCmdUI);			
+	afx_msg void OnUpdate_Grass(CCmdUI* pCmdUI);		
 	
 	afx_msg void OnOptionsRighttoleft();
 	afx_msg void OnUpdateOptionsRighttoleft(CCmdUI* pCmdUI);

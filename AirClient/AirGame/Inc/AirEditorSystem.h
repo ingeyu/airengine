@@ -48,6 +48,7 @@ namespace	Air{
 			U32				GetMeshEntity(Engine::MeshEntity** pObjectArray	=	NULL);
 			U32				GetMeshEntityName(AString* pStringArray=NULL);
 			void			AddObject(CAString& strName,const Float3& vPos);
+			void			AddActor(CAString& strName,const Float3& vPos);
 		public:
 			inline	U1				IsInit(){return m_bInit;};
 			inline	enumControlMode	GetControlMode(){return m_CM;};

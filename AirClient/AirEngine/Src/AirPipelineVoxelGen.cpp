@@ -243,20 +243,20 @@ namespace	Air{
 #endif
 
 #ifdef GPU_DEBUG
-			//pPipeline->GetMainWindow()->SetClearFlag(false,false,false);
-			//pPipeline->GetMainWindow()->BeforeUpdate();
-			//pPipeline->GetMainCamera()->Render2D(pPipeline->GetMainWindow()->GetWidth(),pPipeline->GetMainWindow()->GetHeight());
+			pPipeline->GetMainWindow()->SetClearFlag(false,false,false);
+			pPipeline->GetMainWindow()->BeforeUpdate();
+			pPipeline->GetMainCamera()->Render2D(pPipeline->GetMainWindow()->GetWidth(),pPipeline->GetMainWindow()->GetHeight());
 
-			//pDevice->SetSRV(enPS,0,m_pNodeTree->GetSRV());
-			//pDevice->SetSRV(enPS,1,m_pVoxel->GetSRV());
-			//Matrix matViewProjInv;
+			pDevice->SetSRV(enPS,0,m_pNodeTree->GetSRV());
+			pDevice->SetSRV(enPS,1,m_pVoxel->GetSRV());
+			Matrix matViewProjInv;
 
-			//pPipeline->GetMainCamera()->GetViewProjMatrix(matViewProjInv);
-			//matViewProjInv.Inverse();
+			pPipeline->GetMainCamera()->GetViewProjMatrix(matViewProjInv);
+			matViewProjInv.Inverse();
 
 
-			//m_pDebugSVOMaterial->GetConstantBuffer()->UpdateData(&matViewProjInv);
-			//m_pDebugSVOMaterial->RenderOneObject(pRenderable);
+			m_pDebugSVOMaterial->GetConstantBuffer()->UpdateData(&matViewProjInv);
+			m_pDebugSVOMaterial->RenderOneObject(pRenderable);
 
 			pPipeline->GetMainWindow()->AfterUpdate(false);
 #else

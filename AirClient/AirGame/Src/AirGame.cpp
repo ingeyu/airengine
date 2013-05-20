@@ -35,6 +35,8 @@ namespace Air{
 			}
 			if(Engine::GetGlobalSetting().m_EngineParam.EditorMode==1){
 				EditorSystem::GetSingleton()->Initialization();
+			}else{
+				pSection->LoadScene("AirMesh/Scene/Test.Scene2");
 			}
 			return	true;
 		}

@@ -275,7 +275,7 @@ namespace Air{
 					CoreMesh*	pCoreMesh		=	m_pResource->GetObjectT<CoreMesh*>();
 					m_pAnimation				=	new	CoreAnimation(pCoreMesh);
 
-					SetBoundBox(Float3(-1000,-2000,-1000),Float3(1000,2000,1000));
+					SetBoundBox(Float3(-1,0,-1),Float3(1,2,1));
 					CalSkeleton*	pSkel	=	m_pAnimation->getSkeleton();
 					std::vector<CalBone*>&	lstBone	=	pSkel->getVectorBone();
 					m_uiBoneCount	=	lstBone.size();
@@ -519,12 +519,12 @@ namespace Air{
 							pMatrixArray[i].Transpose();
 							pMatrixArray[i].SetPosition(*(Float3*)&v);
 							//Render::System::GetSingleton()->MakeBoneMatrix(&pMatrixArray[i],(Float4*)&q,(Float3*)&v);
-							if(i==0){
-								m_BoundingBox.vMin	=	v;
-								m_BoundingBox.vMax	=	v;
-							}else{
-								m_BoundingBox.Add(v);
-							}
+							//if(i==0){
+							//	m_BoundingBox.vMin	=	v;
+							//	m_BoundingBox.vMax	=	v;
+							//}else{
+							//	m_BoundingBox.Add(v);
+							//}
 						}
 						m_bDirty	=	true;
 					}

@@ -9,7 +9,7 @@
 namespace	Air{
 	namespace	Engine{
 
-
+		static U32 iCount=0;
 		SceneLoader::SceneLoader()
 		{
 			m_pNode	=	NULL;
@@ -91,7 +91,7 @@ namespace	Air{
 			info.strMeshName	=	strName;
 			info.strMaterial	=	"NoMaterial";
 
-			static U32 iCount=0;
+			
 
 			MeshEntity*	pEnt	=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity>(Common::Converter::ToString(iCount++),&info);
 
@@ -221,14 +221,13 @@ namespace	Air{
 			return true;
 		}
 
-		void SceneLoader::AddObject( CAString& strName,CAString& strType,Transform& trans,AChar* pInfo )
+		void SceneLoader::AddObject( CAString& strName,CAString& strType,Transform& trans,void* pInfo )
 		{
 			MeshEntity::Info meinfo;
-			void*	pCreateInfo	=	NULL;
+
 			if(strType	==	"MeshEntity"){
-				meinfo.strMeshName	=	pInfo;
-				pCreateInfo	=	&meinfo;
-				MeshEntity* pMesh = AddEntity(pInfo,&trans);
+
+				MeshEntity* pMesh = AddEntity((AChar*)pInfo,&trans);
 			}else{
 				IProduct* pProduct	=	EngineSystem::GetSingleton()->CreateProduct(strName,strType,pInfo);
 				if(pProduct!=NULL){

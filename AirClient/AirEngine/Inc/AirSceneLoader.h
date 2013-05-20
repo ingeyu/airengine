@@ -36,7 +36,7 @@ namespace	Air{
 
 			MeshEntity*			AddEntity(CAString& strName,Transform* ptrans=NULL );
 			void				RemoveEntity(MeshEntity* pEnt);
-			void				AddObject(CAString& strName,CAString& strType,Transform& trans,AChar* pInfo);
+			void				AddObject(CAString& strName,CAString& strType,Transform& trans,void* pInfo);
 		protected:
 			SceneNode*			m_pNode;
 			MeshEntityList	m_lstEntity;

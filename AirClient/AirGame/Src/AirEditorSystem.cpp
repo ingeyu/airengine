@@ -2,6 +2,8 @@
 #include "AirGlobalSetting.h"
 #include "AirInterfaceInputSystem.h"
 #include "AirMeshEntity.h"
+#include "AirEngineCharacterAnimationModel.h"
+#include "AirCommonConverter.h"
 namespace	Air{
 	namespace	Editor{
 
@@ -266,9 +268,16 @@ namespace	Air{
 						float fDis=999999.0f;
 						if(pScene->GetStaticSceneNode()->RayCast(ray,pObj,&fDis)){
 							m_vRayCastPoint	=	ray.m_vStart	+	ray.m_vDirection*fDis;
-							AddObject(m_strCreateObjectName,m_vRayCastPoint);
+							switch(m_CT){
+								case enCT_Object:{
+									AddObject(m_strCreateObjectName,m_vRayCastPoint);
+									}break;
+								case enCT_Actor:{
+									AddActor(m_strCreateObjectName,m_vRayCastPoint);
+									}break;
+							}
 						}
-						
+									 
 						break;}
 				}
 			}
@@ -430,6 +439,21 @@ namespace	Air{
 			size.y	=	r.bottom	-	r.top;
 
 			return pScene->GetMainCamera()->BuildRay(p.x/(float)size.x,p.y/(float)size.y);
+		}
+
+		void System::AddActor( CAString& strName,const Float3& vPos )
+		{
+			if(m_strCreateObjectName.empty())
+				return;
+			Engine::SceneLoader& loader	=	GameSystem::GetSingleton()->GetCurrentSection()->GetScene()->GetLoader();
+			Transform trans;
+			trans.pos	=	vPos;
+			trans.rot	=	Float4(Float3(-1,0,0),1.57);
+			trans.scale	=	Float3(1,1,1);
+			static U32 iName  =0;
+			Engine::Character::Animation::Model::Info info;
+			info.strTemplate	=	strName;
+			loader.AddObject(Common::Converter::ToString(iName++),"CharacterModel",trans,(AChar*)&info);
 		}
 
 	}
