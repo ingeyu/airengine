@@ -126,7 +126,25 @@ namespace	Air{
 					break;}
 				case enCM_Scale:{
 					if(m_bIsControl){
+						if(m_MoveType!=Engine::eMRCT_None&&!m_lstSelectObj.empty()){
 
+							Engine::Camera* pCam	=	GameSystem::GetSingleton()->GetCurrentSection()->GetScene()->GetMainCamera();
+							Float3 vRight	=	pCam->GetRealRightDirection();
+							Float3 vUp		=	pCam->GetRealUpDirection();
+
+							Float3 vRealDir	=	vRight*(arg.state.X.abs	-	m_MoveDir.x)+vUp*(m_MoveDir.y-arg.state.Y.abs);
+							Engine::MeshEntity* pMesh  = *(m_lstSelectObj.begin());
+
+							Float3 v = m_OldPos;
+							v[m_MoveType-1]+=vRealDir[m_MoveType-1]*0.1;
+							pMesh->GetParentSceneNode()->SetScale(v);
+							Float44 mat;
+							Float3 scale(1,1,1);
+							Float4 q;
+							pMesh->GetParentSceneNode()->Update(mat,q,scale,false);
+							//m_pObjController->SetPosition(v);
+							m_pObjController->SetSelectObjectBoundingBox(pMesh->GetWorldBoundingBox());
+						}
 					}else{
 						m_MoveType	=	m_pObjController->ChangeType(ray.m_vStart,ray.m_vDirection);
 					}
@@ -156,16 +174,25 @@ namespace	Air{
 				case enCM_SelectList:{
 
 					break;}
-				case enCM_Move:
+				case enCM_Move:{
+					if(m_MoveType!=Engine::eMRCT_None){
+						m_bIsControl	=	true;
+						m_MoveDir		=	Float2(arg.state.X.abs,arg.state.Y.abs);
+						Engine::MeshEntityList::iterator i = m_lstSelectObj.begin();
+						if(i!=m_lstSelectObj.end()){
+
+							m_OldPos	=	(*i)->GetParentSceneNode()->GetPosition();
+							Float3 vPositive	=	m_OldPos+Float3(10,10,10);
+						}
+					}
+					break;}
 				case enCM_Scale:{
 					if(m_MoveType!=Engine::eMRCT_None){
 						m_bIsControl	=	true;
 						m_MoveDir		=	Float2(arg.state.X.abs,arg.state.Y.abs);
 						Engine::MeshEntityList::iterator i = m_lstSelectObj.begin();
 						if(i!=m_lstSelectObj.end()){
-							
-							m_OldPos	=	(*i)->GetParentSceneNode()->GetPosition();
-							Float3 vPositive	=	m_OldPos+Float3(10,10,10);
+							m_OldPos	=	(*i)->GetParentSceneNode()->GetScale();
 						}
 					}
 					break;}

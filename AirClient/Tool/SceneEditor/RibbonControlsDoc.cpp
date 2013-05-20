@@ -78,7 +78,7 @@ void CRibbonControlsDoc::Dump(CDumpContext& dc) const
 {
 	CDocument::Dump(dc);
 }
-
+#endif //_DEBUG
 BOOL CRibbonControlsDoc::OnOpenDocument( LPCTSTR lpszPathName )
 {
 	
@@ -93,7 +93,7 @@ BOOL CRibbonControlsDoc::OnSaveDocument( LPCTSTR lpszPathName )
 	return true;
 }
 
-#endif //_DEBUG
+
 
 /////////////////////////////////////////////////////////////////////////////
 // CRibbonControlsDoc commands

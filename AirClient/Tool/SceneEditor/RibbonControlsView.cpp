@@ -99,7 +99,7 @@ CRibbonControlsDoc* CRibbonControlsView::GetDocument() // non-debug version is i
 	return (CRibbonControlsDoc*)m_pDocument;
 }
 
-
+#endif //_DEBUG
 
 LRESULT CRibbonControlsView::OnSize( WPARAM w,LPARAM l )
 {
@@ -128,7 +128,7 @@ LRESULT CRibbonControlsView::OnSize( WPARAM w,LPARAM l )
 	return S_OK;
 }
 
-#endif //_DEBUG
+
 
 /////////////////////////////////////////////////////////////////////////////
 // CRibbonControlsView message handlers
