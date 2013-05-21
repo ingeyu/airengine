@@ -23,8 +23,6 @@ namespace	Air{
 
 		class	ENGINE_EXPORT	Pipeline	:	
 			public	IProduct,
-			public	OIS::MouseListener,
-			public	OIS::KeyListener,
 			public	Common::MutilListenerManager<FrameListener>
 		{
 		public:
@@ -78,12 +76,7 @@ namespace	Air{
 
 			virtual	void	BuildSVO();
 
-			virtual bool mouseMoved( const OIS::MouseEvent &arg );
-			virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
-			virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 
-			virtual bool keyPressed( const OIS::KeyEvent &arg );
-			virtual bool keyReleased( const OIS::KeyEvent &arg );
 		protected:
 			void	BlurRenderTarget(RenderTarget* pDst,RenderTarget* pSrc);
 		protected:

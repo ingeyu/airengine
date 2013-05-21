@@ -8,8 +8,14 @@ Texture2D		DiffuseTex		:	register(t0);
 
 SamplerState	SS_WrapLine2	:	register(s0);
 
-#define	MAX_DEPTH	9
-#define VOXEL_BOUND_SIZE	pow(2,MAX_DEPTH-1)
+
+
+cbuffer cbPerMaterial	:	register(b3)
+{
+	float4	svoparam;
+}
+
+
 
 struct VS_OUTPUT
 {
@@ -30,18 +36,22 @@ struct	PS_OUTPUT{
 
 PS_OUTPUT main( VS_OUTPUT input )
 {
+	int		MAX_DEPTH			=	svoparam.x;
+	float	VOXEL_BOUND_SIZE	=	svoparam.z;
+	float	fScale				=	svoparam.w;
+
 	float4 color	=		DiffuseTex.Sample(SS_WrapLine2,input.TextureUV).xyzw;
 	PS_OUTPUT	Output;
 	Output.Diff	=	color;
 	uint4 ucolor = saturate( color ) * 255;
 	uint uiColor	=	(ucolor.b) | (ucolor.g << 8) | (ucolor.r << 16) | (ucolor.a << 24);
 	
-	float	fOffset	=	dot(frac(input.WPos.xyz+VOXEL_BOUND_SIZE)-float3(0.5,0.5,0.5),normalize(input.Normal.xyz));
+	float	fOffset	=	dot(frac(input.WPos.xyz*fScale+VOXEL_BOUND_SIZE)-float3(0.5,0.5,0.5),normalize(input.Normal.xyz));
 	fOffset/=0.866025f;
 	uint4	uiNormal		=	(float4(normalize(input.Normal.xyz),fOffset)*0.5+0.5)*255;
 	uint	uiNormalColor	=	(uiNormal.z) | (uiNormal.y << 8) | (uiNormal.x << 16) | (uiNormal.w << 24);
 
-    uint3 VoxelIndex = (input.WPos.xyz+VOXEL_BOUND_SIZE);//-float3(-64,-64,-64);
+    uint3 VoxelIndex = (input.WPos.xyz*fScale+VOXEL_BOUND_SIZE);//-float3(-64,-64,-64);
 	//uint mask	=	0x80;
 	int	offset	=	0;
 	[loop]

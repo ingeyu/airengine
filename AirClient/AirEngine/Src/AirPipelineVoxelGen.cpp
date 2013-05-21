@@ -11,10 +11,6 @@
 
 
 namespace	Air{
-	const static U32	VOXEL_DEPTH				=	9;
-	const static float	VOXEL_BOUND_SIZE		=	powf(2.0f,VOXEL_DEPTH);
-	const static float	VOXEL_HALF_BOUND_SIZE	=	powf(2.0f,VOXEL_DEPTH-1);
-
 	namespace	Engine{
 		STD_VECTOR<U32> vecTree;
 		struct Voxel{
@@ -86,12 +82,13 @@ namespace	Air{
 			m_pDebugSVO			=	NULL;
 			m_pDebugSVORenderable=NULL;
 			m_pDebugSVOMaterial=NULL;
+			SetParam(9,4);
 		}
 
 		Air::U1 VoxelGenerator::Initialize( Render::Window* pMainWindow )
 		{
 			RenderTarget::Info rtinfo;
-			rtinfo.SetSingleTarget(VOXEL_BOUND_SIZE,VOXEL_BOUND_SIZE,enTFMT_R8G8B8A8_UNORM);
+			rtinfo.SetSingleTarget(m_SVOParam.y,m_SVOParam.y,enTFMT_R8G8B8A8_UNORM);
 
 			m_pRT		=	RenderSystem::GetSingleton()->CreateProduct<Render::Target>("SVO_Test",&rtinfo);
 
@@ -206,21 +203,6 @@ namespace	Air{
 
 		void VoxelGenerator::Update( Renderable* pRenderable ,Pipeline* pPipeline)
 		{
-			static MeshEntity*	pEnt = NULL;
-			if(pEnt==NULL){
-				MeshEntity::Info	info;
-				info.strMaterial	=	"SVO_Test";
-				info.strMeshName	=	"AirMesh/Strom/Wolf.AME";
-				pEnt	=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity>(info.strMeshName,&info);;
-				;
-				pEnt->GetWorldMatrix()->SetPosition(-pEnt->GetOrginBoundingBox().GetCenter()*40);
-				pEnt->GetWorldMatrix()->m00	=	40;
-				pEnt->GetWorldMatrix()->m11	=	40;;
-				pEnt->GetWorldMatrix()->m22	=	40;;
-
-			}
-
-			
 
 			Render::Device* pDevice	=	RenderSystem::GetSingleton()->GetDevice();
 #if 1
@@ -254,8 +236,10 @@ namespace	Air{
 			pPipeline->GetMainCamera()->GetViewProjMatrix(matViewProjInv);
 			matViewProjInv.Inverse();
 
-
-			m_pDebugSVOMaterial->GetConstantBuffer()->UpdateData(&matViewProjInv);
+			Float4 v[5];
+			memcpy(v,&matViewProjInv,sizeof(Matrix));
+			v[4]	=	m_SVOParam;
+			m_pDebugSVOMaterial->GetConstantBuffer()->UpdateData(v);
 			m_pDebugSVOMaterial->RenderOneObject(pRenderable);
 
 			pPipeline->GetMainWindow()->AfterUpdate(false);
@@ -327,12 +311,14 @@ namespace	Air{
 		{
 			Render::Device* pDevice	=	RenderSystem::GetSingleton()->GetDevice();
 
-				Float3 vCameraPos[3]={Float3(0,0,-VOXEL_HALF_BOUND_SIZE-1),Float3(0,-VOXEL_HALF_BOUND_SIZE-1,0),Float3(-VOXEL_HALF_BOUND_SIZE-1,0,0)};
+				float fEdge	=	-m_SVOParam.z/m_SVOParam.w;
+
+				Float3 vCameraPos[3]={Float3(0,0,fEdge-1),Float3(0,fEdge-1,0),Float3(fEdge-1,0,0)};
 				Float3 vCameraDir[3]={Float3(0,0,1),Float3(0,1,0),Float3(1,0,0)};
 				Float3 vCameraUp[3]	={Float3(0,1,0),Float3(1,0,0),Float3(0,1,0)};
 
 				MeshEntityList& lstEntity = pPipeline->GetCurrentScene()->GetLoader().GetAllEntity();
-				///pPipeline->GetCurrentScene()->GetLoader().GetNode()->SetScale(Float3(10,10,10));
+				m_pGenVoxelTree->GetConstantBuffer()->UpdateData(&m_SVOParam);
 
 				//m_pCamera->FindMovableObject()
 				m_pRT->SetClearFlag(true,true,true);
@@ -343,13 +329,15 @@ namespace	Air{
 					U32	clearValue[4]={0};
 					pDevice->ClearUAV(pUAV[1],clearValue);
 					pDevice->SetRTV_DSV_UAV(1,pRTV,pDSV,1,2,pUAV,0);					
-					m_pCamera->SetFar(VOXEL_BOUND_SIZE+1);
+					m_pCamera->SetFar(m_SVOParam.y/m_SVOParam.w+1);
 					for(U32 i=0;i<3;i++){
 						m_pCamera->SetPosition(vCameraPos[i]);
 						m_pCamera->SetDir(vCameraDir[i]);
 						m_pCamera->SetUpDir(vCameraUp[i]);
-						m_pCamera->SetWidth(VOXEL_BOUND_SIZE);
-						m_pCamera->Render2D(VOXEL_BOUND_SIZE,VOXEL_BOUND_SIZE);
+						//512/8
+						m_pCamera->SetWidth(m_SVOParam.y/m_SVOParam.w);
+						//ViewPort 512 512
+						m_pCamera->Render2D(m_SVOParam.y,m_SVOParam.y);
 
 
 
@@ -381,6 +369,14 @@ namespace	Air{
 				m_pVoxel->UpdateData(&vecColor[0]);
 				pSysBuffer->ReleaseRef();
 			
+		}
+
+		void VoxelGenerator::SetParam( U32 uiDepth,float fScale )
+		{
+			m_SVOParam.x	=	uiDepth;
+			m_SVOParam.y	=	pow(2.0f,m_SVOParam.x);
+			m_SVOParam.z	=	pow(2.0f,m_SVOParam.x -1);
+			m_SVOParam.w	=	fScale;
 		}
 
 	}

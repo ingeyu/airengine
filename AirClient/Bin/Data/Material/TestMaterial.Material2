@@ -150,10 +150,11 @@ Material	OIT_SortRender	:	MT_OIT_SortRender
 }
 Material	SVO_Build_NoSkin	:	MT_SVO_Build_NoSkin
 {
-	//Texture	AirMesh/Strom/wolf.dds
+	Vector	9 512 256 8
 }
 Material	SVO_Build_Skin		:	MT_SVO_Build_Skin
 {
+	Vector	9 512 256 8
 }
 
 Material	SVO_Test			:	MT_SVO_Test
@@ -163,6 +164,7 @@ Material	SVO_Test			:	MT_SVO_Test
 Material	SVO_Debug				:	MT_SVO_Debug
 {
 	Matrix
+	Vector	9 512 256 8
 	Texture	Texture/DIR2ORDER_N.dds
 	Texture	MRT0
 	Texture	MRT1

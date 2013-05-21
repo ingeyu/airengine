@@ -45,6 +45,9 @@ namespace	Air{
 					vNormal	=	vNormal*2-1;
 					Float3 vDir	=	vVelocity;
 					vDir.Normalize();
+					if(vNormal.Dot(vDir)>0){
+						vNormal	*=-1;
+					}
 					Float3 vReflect	=	vNormal*2*vNormal.Dot(-vDir)+vDir;
 					vVelocity	=	vReflect*vVelocity.Length();
 					return true;
@@ -69,7 +72,7 @@ namespace	Air{
 			for(PElementList::iterator i = lst.begin();i!=lst.end();i++){
 				p = (*i)->vPos;
 				(*i)->vPos	+= (*i)->vVelocity*frameTime.fTimeDelta;
-				if(CollisionDetection((*i)->vPos,(*i)->vVelocity)){
+				if(CollisionDetection((*i)->vPos*4,(*i)->vVelocity)){
 					p+=(*i)->vVelocity*frameTime.fTimeDelta;
 					(*i)->vPos=p;
 				}
