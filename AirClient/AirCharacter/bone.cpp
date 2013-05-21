@@ -26,6 +26,7 @@
 CalBone::CalBone(CalCoreBone* coreBone)
   : m_pSkeleton(0)
 {
+	m_bExtraRotate	=	false;
   assert(coreBone);
   m_pCoreBone = coreBone;
   clearState();
@@ -107,6 +108,9 @@ void CalBone::calculateState()
 
     m_rotationAbsolute = m_rotation;
     m_rotationAbsolute *= pParent->getRotationAbsolute();
+  }
+  if(m_bExtraRotate){
+	  m_rotationAbsolute*=m_ExtraQuat;
   }
 
   // calculate the bone space transformation
@@ -459,6 +463,26 @@ CalBoundingBox & CalBone::getBoundingBox()
 {
    return m_boundingBox;
 }
+
+void CalBone::EnableExtraRotate( const CalQuaternion& rot )
+{
+	m_bExtraRotate	=	true;
+	m_ExtraQuat		=	rot;
+}
+
+void CalBone::DisableExtraRotate()
+{
+	m_bExtraRotate	=	false;
+
+}
+
+bool CalBone::HasExtraRotate()
+{
+	return m_bExtraRotate;
+}
+
+
+
 
 
 //****************************************************************************//

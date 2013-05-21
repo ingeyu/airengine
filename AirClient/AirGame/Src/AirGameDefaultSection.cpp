@@ -55,32 +55,39 @@ namespace	Air{
 		{
 			if(mstate	==	enMS_NoMove){
 				m_pModel->SetActionState("stand.CAF");
+				m_vMoveDir	=	Float3(0,0,0);
 			}else{
 				switch(mstate){
 					case	enMS_Left		:{
-						m_pModel->SetActionState("runleft.CAF");
+						m_vMoveDir	=	Float3(-1,0,0);
 											 }break;
 					case	enMS_Right		:{
-						m_pModel->SetActionState("runright.CAF");
+						m_vMoveDir	=	Float3(1,0,0);
 											 }break;
 					case	enMS_Run		:{
-						m_pModel->SetActionState("run.CAF");
+						m_vMoveDir	=	Float3(0,0,1);
 											 }break;
 					case	enMS_Back		:{
-						m_pModel->SetActionState("runback.CAF");
+						m_vMoveDir	=	Float3(0,0,-1);
 											 }break;
 					case	enMS_RunLeft	:{
-						m_pModel->SetActionState("runleft.CAF","run.CAF");
+						m_vMoveDir	=	Float3(-1,0,1).Normalize();
 											 }break;
 					case	enMS_RunRight	:{
-						m_pModel->SetActionState("runright.CAF","run.CAF");
+						m_vMoveDir	=	Float3(1,0,1).Normalize();
 											 }break;
 					case	enMS_BackLeft	:{
-						m_pModel->SetActionState("runbackleft.CAF","runback.CAF");
+						m_vMoveDir	=	Float3(-1,0,-1).Normalize();
 											 }break;
 					case	enMS_BackRight	:{
-						m_pModel->SetActionState("runbackright.CAF","runback.CAF");
+						m_vMoveDir	=	Float3(1,0,-1).Normalize();
 											 }break;
+				}
+				float fRun	=	m_vMoveDir.Dot(m_vFaceDir);
+				if(fRun	>	0){
+					m_pModel->SetActionState("run.CAF");
+				}else{
+					m_pModel->SetActionState("runback.CAF");
 				}
 			}
 		}
@@ -151,14 +158,36 @@ namespace	Air{
 
 			{
 				Float3 Pos	=	ray.m_vStart	+	ray.m_vDirection*ray.m_vStart.y/abs(ray.m_vDirection.y);
-				Float3 vDir	=	Pos	-	m_pControl->GetControlNode()->GetPosition()*Float3(1,0,1);
-				vDir.Normalize();
-				float fDot =	acos(vDir.Dot(Float3(0,0,1)));
+				m_vFaceDir	=	Pos	-	m_pControl->GetControlNode()->GetPosition()*Float3(1,0,1);
+				m_vFaceDir.Normalize();
+				float fDot =	acos(m_vFaceDir.Dot(Float3(0,0,1)));
 				//Float3 vAxis	=	Float3(0,0,1).Cross(vDir).Normalize();
-				if(vDir.x < 0){
+
+				if(m_vFaceDir.x < 0){
 					fDot*=-1;
 				}
 				m_pControl->GetControlNode()->SetQuat(Float4(Float3(0,1,0),fDot));
+				static U32 uiIndex	=	m_pModel->GetBoneIndex("BoneWaist");
+				if(m_vMoveDir.Length()	<	0.5){
+					m_pModel->DisableBoneExtraRotate(uiIndex);
+				}else{
+
+					Float3 vNewMoveDir	=	m_vMoveDir;
+					
+					float fRun	=	vNewMoveDir.Dot(m_vFaceDir);
+					if(fRun	<0){
+						vNewMoveDir*=-1;//m_pModel->EnableBoneExtraRotate(uiIndex,Float4(Float3(0,0,-1),fFootDot));
+					}
+
+					float	fFootAngle	=	acos(vNewMoveDir.Dot(m_vFaceDir));
+					if(fFootAngle	< 0.00001f){
+						m_pModel->EnableBoneExtraRotate(uiIndex,Float4(Float3(0,0,1),0));
+					}else{
+						Float3 vAxis		=	m_vFaceDir.Cross(vNewMoveDir).Normalize();
+						m_pModel->EnableBoneExtraRotate(uiIndex,Float4(Float3(0,0,vAxis.y),-fFootAngle));
+					}
+	
+				}
 				
 			}
 		}

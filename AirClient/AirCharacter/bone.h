@@ -51,6 +51,9 @@ public:
   void calculateBoundingBox();
   CalBoundingBox & getBoundingBox();
 
+  void				EnableExtraRotate(const CalQuaternion& rot);
+  void				DisableExtraRotate();
+  bool				HasExtraRotate();
 private:
   CalCoreBone *m_pCoreBone;
   CalSkeleton *m_pSkeleton;
@@ -64,6 +67,9 @@ private:
   CalQuaternion m_rotationBoneSpace;
   CalMatrix m_transformMatrix;  
   CalBoundingBox m_boundingBox;
+
+  bool				m_bExtraRotate;
+  CalQuaternion		m_ExtraQuat;
 };
 
 #endif

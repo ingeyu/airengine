@@ -24,6 +24,8 @@ namespace	Air{
 			AnimationModel*		m_pModel;
 			Engine::Particle*	m_pParticle;
 			float				m_fShootTime;
+			Float3				m_vMoveDir;
+			Float3				m_vFaceDir;
 		};
 		class	GAME_EXPORT	EditorSection	:public	Section{
 		public:

@@ -572,8 +572,8 @@ namespace Air{
 				}
 	
 				void Model::GetBoneMatrix( UInt uiIndex,Float3* pPos,Float4* pQ /*= NULL*/ ){
-					CalModel*	pAnim	=	(CalModel*)m_pObject;
-					CalBone*	pBone	=	pAnim->getSkeleton()->getBone(uiIndex);
+					
+					CalBone*	pBone	=	m_pAnimation->getSkeleton()->getBone(uiIndex);
 					
 					
 					if(pPos!=NULL){
@@ -656,6 +656,33 @@ namespace Air{
 						aobj.pObject->OnCameraCull(pCamera);
 					}
 					return __super::OnCameraCull(pCamera);
+				}
+
+				void Model::EnableBoneExtraRotate( U32 uiIndex,const Float4& rot )
+				{
+					CalBone*	pBone	=	m_pAnimation->getSkeleton()->getBone(uiIndex);
+
+
+					pBone->EnableExtraRotate(CalQuaternion(rot.x,rot.y,rot.z,rot.w));
+				}
+
+				void Model::DisableBoneExtraRotate( U32 uiIndex )
+				{
+					CalBone*	pBone	=	m_pAnimation->getSkeleton()->getBone(uiIndex);
+
+
+					pBone->DisableExtraRotate();
+				}
+
+				U1 Model::HasBoneExtraRotate( U32 uiIndex )
+				{
+					CalBone*	pBone	=	m_pAnimation->getSkeleton()->getBone(uiIndex);
+					return pBone->HasExtraRotate();
+				}
+
+				Air::U32 Model::GetBoneIndex( CAString& strName )
+				{
+					return m_pAnimation->getSkeleton()->getCoreSkeleton()->getCoreBoneId(strName);
 				}
 
 
