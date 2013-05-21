@@ -41,7 +41,7 @@ namespace Air{
 			m_pNode->SetPosition(m_Info.vPosition);
 	
 
-
+			m_Info.pCamera->SetPosition(m_Info.vPosition);
 	
 	
 			return	true;
@@ -70,17 +70,28 @@ namespace Air{
 		bool FPSControl::mouseMoved( const OIS::MouseEvent &arg ){
 	
 			if(m_pInputState->m_MouseArray[OIS::MB_Right]){
-				Engine::GlobalSetting&		setting	=	Engine::GetGlobalSetting();
-				Engine::ShaderShareParam&	sParam	=	setting.m_ShaderParam;
-	
-				Real fXDelta	=	Real(arg.state.X.rel) * 0.9f;
-				Real fYDelta	=	Real(arg.state.Y.rel) * 0.9f;	
-	
-				m_fLRAngle	+=	fXDelta*sParam.m_fEngineTimeDelta;
-				m_fUDAngle	+=	fYDelta*sParam.m_fEngineTimeDelta;
-	
-				if(m_fUDAngle	>=	1.57f)m_fUDAngle	=	1.56f;
-				if(m_fUDAngle	<=	-1.57f)m_fUDAngle	=	-1.56f;
+				Float3	dir		=	m_Info.pCamera->GetDir();
+				Float3	pos		=	m_Info.pCamera->GetPosition();
+				Float3 vRelativePos;//	=	pos	-	TargetPos;
+
+				Float3	updir	=	m_Info.pCamera->GetUpDir();
+				Float3	right	=	updir.Cross(dir);
+
+				Common::Quaternion	quat(updir,arg.state.X.rel*0.0025f);
+
+
+				Common::Quaternion	quat2(right,arg.state.Y.rel*0.0025f);
+
+
+
+				vRelativePos	=	quat2*dir;
+
+
+				vRelativePos	=	quat*vRelativePos;
+
+				if(abs(vRelativePos.Dot(updir))	<0.99f){
+					m_Info.pCamera->SetDir(vRelativePos);
+				}
 			}
 			return	true;
 		}
@@ -133,11 +144,6 @@ namespace Air{
 	
 						//计算灵敏度
 			Real	fSensitivity		=	fTimeDelta;
-	
-			//更新根节点位置
-			Float3	vCurrentPos	;//=	//m_pController->GetPosition();
-			m_pNode->SetPosition(vCurrentPos);
-	
 	
 			//更新摄像机方向
 			m_fCurrentLRAngle	+=	(m_fLRAngle	-	m_fCurrentLRAngle)*fSensitivity;
@@ -195,17 +201,11 @@ namespace Air{
 			Float3	vMoveDir	=	vDir*(vMove.x+vMove.y)	-	vRight*(vMove.z+vMove.w);
 			vMoveDir.y=0.0f;
 			vMoveDir.Normalize();
-	 		//Vector3	vDelta	=	m_Info.vVelocity*vMoveDir*GetGlobalSetting().m_fTimeDelta;
-// 			m_pCamera->SetPosition(vPos+vDelta);
-// 			m_pCamera->SetLookAt(vLook+vDelta);
-// 			m_pNode->SetPosition(m_pCamera->GetPosition());
+
 	
-			//m_pNode->SetPosition(vPos+vDelta);
-// 			AChar	str[MAX_NAME];
-// 			sprintf_s(str,"%f,%f,%f---%f,%f,%f\n",vPos.x,vPos.y,vPos.z,vDelta.x,vDelta.y,vDelta.z);
-// 			::OutputDebugStringA(str);
-	
-			//m_pController->Move(m_Info.vVelocity*vMoveDir);
+			m_pNode->SetPosition(vPos+vMoveDir*fTimeDelta*m_Info.vVelocity);
+			m_Info.pCamera->SetPosition(m_pNode->GetPosition());
+
 			return true;
 		}
 	
@@ -214,9 +214,6 @@ namespace Air{
 		}
 	
 		void FPSControl::SetPosition( Float3 vPosition ){
-// 				if(m_pController!=NULL){
-// 					m_pController->SetPosition(vPosition);
-// 				}
 			if(m_pNode!=NULL){
 				m_pNode->SetPosition(vPosition);
 			}

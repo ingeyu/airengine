@@ -1,10 +1,7 @@
 #ifndef AirEditorSystem_h__
 #define AirEditorSystem_h__
 
-#include "AirGame.h"
-#include "AirGameHeader.h"
-#include "AirHelperRenderable.h"
-#include "OIS.h"
+#include "AirEditorHeader.h"
 
 namespace	Air{
 

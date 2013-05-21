@@ -306,6 +306,7 @@ namespace Air{
 	
 			IActionState*	m_pActionStateCallback;
 		};
+
 	}
 	
 
