@@ -6,6 +6,7 @@ ParticleTemplate	Billboard
 	{
 		Freq			0.1
 		ElementLife		2
+		ElementSize		0.5
 		VelocityDir		0 -5 0
 		VelocityAngle		0.2
 		//Center		0 0 0

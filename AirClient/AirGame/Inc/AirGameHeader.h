@@ -18,7 +18,7 @@
 #include "AirInterfaceNetSystem.h"
 #include "AirInterfaceUISystem.h"
 #include "AirInterfaceUIFlashSystem.h"
-#include "AirInterfaceParticleSystem.h"
+
 // #include "AirInterfaceRenderMaterialParse.h"
 
 #include "AirEngineCamera.h"
@@ -28,7 +28,7 @@
 #include "AirEngineScene.h"
 #include "AirEngineTerrainWorld.h"
 #include "AirEngineScreenEntity.h"
-#include "AirInterfaceParticle.h"
+
 #include "AirEngineFont.h"
 #include "AirEngineTextInstance.h"
 
@@ -41,6 +41,7 @@
 #include "AirGameFPSControl.h"
 #include "AirGameThirdControl.h"
 #include "AirGameFreeControl.h"
+#include "AirParticle.h"
 
 
 

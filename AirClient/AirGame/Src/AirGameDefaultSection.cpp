@@ -8,6 +8,7 @@ namespace	Air{
 		DefaultSection::DefaultSection( CAString& strName ):Section(strName)
 		{
 			m_pModel	=	NULL;
+			m_pParticle	=		NULL;
 		}
 
 		Air::U1 DefaultSection::Create()
@@ -21,14 +22,26 @@ namespace	Air{
 				m_pControl->GetControlNode()->CreateChildSceneNode(Float3(0,0,0),Float4(Float3(-1,0,0),1.57))->attachObject(m_pModel);
 				m_pModel->SetActionState("stand.CAF");
 			}
+
+			Engine::Particle::Info parInfo;
+			parInfo.strTemplate	=	"Billboard";
+			m_pParticle=Engine::ParticleSystem::GetSingleton()->CreateProduct<Engine::Particle>("123",&parInfo);
+			m_pParticle->EnableEmitter(false);
+			m_pModel->attachObject("Ref_Weapon",m_pParticle);
 			
 			m_pControl->RegisterKeyCallback(OIS::KC_ESCAPE,this,ConverertFunction(&DefaultSection::OnESC));
-			m_pControl->RegisterMouseCallback(OIS::MB_Left,this,ConverertFunction(&DefaultSection::OnFire));
+			m_pControl->RegisterMouseCallback(OIS::MB_Left,this,ConverertFunction(&DefaultSection::OnFireStart),enKET_MouseDown);
+			m_pControl->RegisterMouseCallback(OIS::MB_Left,this,ConverertFunction(&DefaultSection::OnFireEnd),enKET_MouseUp);
 			return true;
 		}
 
 		Air::U1 DefaultSection::Destroy()
 		{
+			if(m_pParticle!=NULL){
+				if(m_pModel!=NULL)
+					m_pModel->detachObject(m_pParticle);
+				SAFE_RELEASE_REF(m_pParticle);
+			}
 			if(m_pModel!=NULL){
 				m_pModel->GetParentSceneNode()->detachObject(m_pModel);
 				m_pControl->GetControlNode()->RemoveChild(m_pModel->GetParentSceneNode(),TRUE);
@@ -88,9 +101,16 @@ namespace	Air{
 			
 		}
 
-		void	__stdcall DefaultSection::OnFire( const Key& k )
+		void	__stdcall DefaultSection::OnFireEnd( const Key& k )
+		{
+			
+			m_pParticle->EnableEmitter(false);
+		}
+
+		void	__stdcall DefaultSection::OnFireStart( const Key& k )
 		{
 			m_pModel->PlayAction("shootlow.CAF",0.05);
+			m_pParticle->EnableEmitter(true);
 		}
 
 		AString	EditorSection::ProductTypeName="EditorSection";

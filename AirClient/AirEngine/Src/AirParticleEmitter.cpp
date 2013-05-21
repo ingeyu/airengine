@@ -88,6 +88,7 @@ namespace	Air{
 		void ParticleEmitter::RandomSize( float& fSize )
 		{
 			//fSize Default 1.0f
+			fSize	=	m_pInfo->fElementSize;
 		}
 
 		ParticleElement* ParticleEmitter::NewElement( double dTotalTime )
@@ -108,7 +109,11 @@ namespace	Air{
 					pEInfo->fFreq	=	Common::Parse::ParseFloat(vecWord,i);
 				}else if(strTemp2	==	"ElementLife"){
 					pEInfo->fElementLife	=	Common::Parse::ParseFloat(vecWord,i);
-				}else if(strTemp2	==	"VelocityDir"){
+				}
+				else if(strTemp2	==	"ElementSize"){
+					pEInfo->fElementSize	=	Common::Parse::ParseFloat(vecWord,i);
+				}
+				else if(strTemp2	==	"VelocityDir"){
 					pEInfo->vVelocityDir.x	=	Common::Parse::ParseFloat(vecWord,i);
 					pEInfo->vVelocityDir.y	=	Common::Parse::ParseFloat(vecWord,i);
 					pEInfo->vVelocityDir.z	=	Common::Parse::ParseFloat(vecWord,i);
@@ -140,6 +145,8 @@ namespace	Air{
 					pEInfo->fFreq	=	Common::Parse::ParseFloat(vecWord,i);
 				}else if(strTemp2	==	"ElementLife"){
 					pEInfo->fElementLife	=	Common::Parse::ParseFloat(vecWord,i);
+				}else if(strTemp2	==	"ElementSize"){
+					pEInfo->fElementSize	=	Common::Parse::ParseFloat(vecWord,i);
 				}else if(strTemp2	==	"VelocityDir"){
 					pEInfo->vVelocityDir.x	=	Common::Parse::ParseFloat(vecWord,i);
 					pEInfo->vVelocityDir.y	=	Common::Parse::ParseFloat(vecWord,i);
@@ -202,6 +209,8 @@ namespace	Air{
 					pEInfo->fFreq	=	Common::Parse::ParseFloat(vecWord,i);
 				}else if(strTemp2	==	"ElementLife"){
 					pEInfo->fElementLife	=	Common::Parse::ParseFloat(vecWord,i);
+				}else if(strTemp2	==	"ElementSize"){
+					pEInfo->fElementSize	=	Common::Parse::ParseFloat(vecWord,i);
 				}else if(strTemp2	==	"VelocityDir"){
 					pEInfo->vVelocityDir.x	=	Common::Parse::ParseFloat(vecWord,i);
 					pEInfo->vVelocityDir.y	=	Common::Parse::ParseFloat(vecWord,i);

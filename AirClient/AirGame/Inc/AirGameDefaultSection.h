@@ -17,8 +17,10 @@ namespace	Air{
 			virtual	void	OnGameState(enumGameState	state);
 
 			void	__stdcall	OnESC(const Key& k);
-			void	__stdcall	OnFire(const Key& k);
-			AnimationModel*	m_pModel;
+			void	__stdcall	OnFireStart(const Key& k);
+			void	__stdcall	OnFireEnd(const Key& k);
+			AnimationModel*		m_pModel;
+			Engine::Particle*	m_pParticle;
 		};
 		class	GAME_EXPORT	EditorSection	:public	Section{
 		public:

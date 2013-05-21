@@ -99,6 +99,16 @@ namespace	Air{
 			m_lstElement.push_back(pElement);
 		}
 
+		void Particle::EnableEmitter( U1 bEnable )
+		{
+			m_pTemplate->GetEmitter()->SetEnable(bEnable);
+		}
+
+		Air::U1 Particle::IsEmitterEnable()
+		{
+			return m_pTemplate->GetEmitter()->IsEnable();
+		}
+
 		ParticleSystem::ParticleSystem()
 		{
 			m_uiDataUsed	=	0;

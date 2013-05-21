@@ -12,6 +12,7 @@ namespace	Air{
 			struct Info{
 				float		fFreq;
 				float		fElementLife;
+				float		fElementSize;
 				Float3		vVelocityDir;
 				float		fVelocityAngle;
 				U32			bEnable;

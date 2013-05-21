@@ -57,7 +57,7 @@ namespace Air{
 	
 		bool FPSControl::keyPressed( const OIS::KeyEvent &arg ){
 	
-			return	true;
+			return	Control::keyPressed(arg);;
 		}
 	
 		bool FPSControl::keyReleased( const OIS::KeyEvent &arg ){
@@ -99,7 +99,7 @@ namespace Air{
 	
 		bool FPSControl::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id ){
 	
-			return	true;
+			return	Control::mousePressed(arg,id);
 		}
 	
 		bool FPSControl::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id ){

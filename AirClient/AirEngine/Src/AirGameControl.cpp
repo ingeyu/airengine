@@ -55,6 +55,22 @@ namespace Air{
 			}
 	
 			bool Control::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id ){
+				S8* pKeyArray	=	m_pInputState->m_KeyArray;
+				Key k;
+				k.control	=	pKeyArray[OIS::KC_LCONTROL]|pKeyArray[OIS::KC_RCONTROL];
+				k.alt		=	pKeyArray[OIS::KC_LMENU]|pKeyArray[OIS::KC_RMENU];
+				k.shift		=	pKeyArray[OIS::KC_LSHIFT]|pKeyArray[OIS::KC_RSHIFT];
+				k.evt		=	enKET_MouseDown;
+				k.mouse		=	id;
+				k.key		=	0;
+				k.pObject	=	0;
+				k.pCB		=	0;
+				KeyCallBackMap::iterator	itr	=	m_mapKeyCallback.find(k.uiKeyValue);
+				if(itr!=m_mapKeyCallback.end()){
+					Key& key	=	itr->second;
+					(*key.pCB)(key.pObject,key);
+				}
+
 				ControlListItr	i	=	m_lstControl.begin();
 				for(;i!=m_lstControl.end();i++){
 					Control*	p	=	(Control*)(*i);

@@ -16,8 +16,8 @@ namespace Air{
 			ThirdControl::ThirdControl( CAString& strName,Info* pInfo )	:
 				FPSControl(strName,pInfo){
 				m_fMinCameraDis	=	3.0f;
-				m_fMaxCameraDis	=	40.0f;
-				m_fCurrentDis	=	20.0f;
+				m_fMaxCameraDis	=	20.0f;
+				m_fCurrentDis	=	10.0f;
 				m_fTargetDis	=	m_fCurrentDis;
 				m_vTargetPosition	=	m_Info.vPosition;
 				m_fMoveSensitivity	=	3.0f;
