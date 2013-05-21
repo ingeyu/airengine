@@ -38,6 +38,9 @@
 #include "AirEngineCharacterAnimationModel.h"
 #include "AirGameSection.h"
 #include "AirGameSystem.h"
+#include "AirGameFPSControl.h"
+#include "AirGameThirdControl.h"
+#include "AirGameFreeControl.h"
 
 
 

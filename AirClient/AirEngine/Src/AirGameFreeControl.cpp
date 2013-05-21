@@ -1,7 +1,7 @@
-#include "AirEditorFreeControl.h"
-
+#include "AirGameFreeControl.h"
+#include "AirEngineCamera.h"
 namespace	Air{
-	namespace	Editor{
+	namespace	Game{
 
 		AString FreeControl::ProductTypeName="FreeControl";
 		FreeControl::FreeControl( CAString& strName,Info* pInfo ):Game::FPSControl(strName,pInfo)

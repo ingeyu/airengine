@@ -353,6 +353,9 @@
     <ClCompile Include="..\AirEngine\Src\AirInterfaceUIWindowLayout.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirGameFreeControl.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\AirEngine\Inc\AirEngine.h">
@@ -732,6 +735,9 @@
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirInterfaceUIWindowState.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirGameFreeControl.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

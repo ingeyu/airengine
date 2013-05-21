@@ -1,9 +1,10 @@
 #include "AirGameDefaultSection.h"
+#include "AirGameFreeControl.h"
 
 namespace	Air{
 	namespace	Game{
 
-
+		AString	DefaultSection::ProductTypeName="DefaultSection";
 		DefaultSection::DefaultSection( CAString& strName ):Section(strName)
 		{
 			m_pModel	=	NULL;
@@ -22,6 +23,7 @@ namespace	Air{
 			}
 			
 			m_pControl->RegisterKeyCallback(OIS::KC_ESCAPE,this,ConverertFunction(&DefaultSection::OnESC));
+			m_pControl->RegisterMouseCallback(OIS::MB_Left,this,ConverertFunction(&DefaultSection::OnFire));
 			return true;
 		}
 
@@ -84,6 +86,39 @@ namespace	Air{
 
 				OutputDebugStringA("esc\n");
 			
+		}
+
+		void	__stdcall DefaultSection::OnFire( const Key& k )
+		{
+			m_pModel->PlayAction("shootlow.CAF",0.05);
+		}
+
+		AString	EditorSection::ProductTypeName="EditorSection";
+		Control* EditorSection::OnCreateControl()
+		{
+			FreeControl::Info info;
+			info.bAllowRotate	=	false;
+			info.pSection		=	this;
+			info.pCamera		=	m_pScene->GetMainCamera();
+			return GameSystem::GetSingleton()->CreateProduct<FreeControl>(m_strProductName+"_FreeControl",&info);
+		}
+
+		Air::U1 EditorSection::Create()
+		{
+			 __super::Create();
+
+			 return	true;
+		}
+
+		Air::U1 EditorSection::Destroy()
+		{
+
+			return __super::Destroy();
+		}
+
+		EditorSection::EditorSection( CAString& strName ):Section(strName)
+		{
+
 		}
 
 	}

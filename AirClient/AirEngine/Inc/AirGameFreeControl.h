@@ -1,11 +1,11 @@
 #ifndef AirEditorFreeControl_h__
 #define AirEditorFreeControl_h__
 
-#include "AirEditorHeader.h"
+#include "AirGameFPSControl.h"
 
 namespace	Air{
-	namespace	Editor{
-		class	GAME_EXPORT	FreeControl	:	public	Game::FPSControl
+	namespace	Game{
+		class	ENGINE_EXPORT	FreeControl	:	public	FPSControl
 		{
 		public:
 			static AString ProductTypeName;

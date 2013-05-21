@@ -4,6 +4,7 @@
 #include "AirEngineSystem.h"
 #include "AirGameFPSControl.h"
 #include "AirGameThirdControl.h"
+#include "AirGameFreeControl.h"
 
 namespace	Air{
 	namespace	Game{
@@ -18,6 +19,7 @@ namespace	Air{
 		{
 			AddFactory(new ParamFactory<FPSControl>());
 			AddFactory(new ParamFactory<ThirdControl>());
+			AddFactory(new ParamFactory<FreeControl>());
 			AddFactory(new NoParamFactory<Section>());
 
 

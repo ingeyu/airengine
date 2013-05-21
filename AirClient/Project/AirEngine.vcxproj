@@ -193,6 +193,7 @@
     <ClCompile Include="..\AirEngine\Src\AirEngineTextInstance.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirGameControl.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirGameFPSControl.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirGameFreeControl.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirGameSection.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirGameSystem.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirGameThirdControl.cpp" />
@@ -299,6 +300,7 @@
     <ClInclude Include="..\AirEngine\Inc\AirEngineTextInstance.h" />
     <ClInclude Include="..\AirEngine\Inc\AirGameControl.h" />
     <ClInclude Include="..\AirEngine\Inc\AirGameFPSControl.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirGameFreeControl.h" />
     <ClInclude Include="..\AirEngine\Inc\AirGameSection.h" />
     <ClInclude Include="..\AirEngine\Inc\AirGameSystem.h" />
     <ClInclude Include="..\AirEngine\Inc\AirGameThirdControl.h" />
