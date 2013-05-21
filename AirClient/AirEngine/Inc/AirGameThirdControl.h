@@ -54,7 +54,7 @@ namespace Air{
 				virtual	U1		Update(const FrameTime& frameTime);
 	
 				virtual	U1		keyReleased( const OIS::KeyEvent &arg );
-	
+			protected:
 				Real			m_fMinCameraDis;
 				Real			m_fMaxCameraDis;
 				Real			m_fCurrentDis;
@@ -63,6 +63,7 @@ namespace Air{
 				Float3			m_vTargetPosition;	///<	目标位置
 				Float3			m_vMoveDirection;
 				Real			m_fMoveSensitivity;	///<	移动灵敏度
+
 			};
 	
 		}

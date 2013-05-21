@@ -135,6 +135,32 @@ namespace	Air{
 					m_pModel->PlayAction("shootlow.CAF",0.0);
 				}
 			}
+			
+			POINT	p;
+			p.x	=	Engine::GetGlobalSetting().m_pInputSystem->m_iX;
+			p.y	=	Engine::GetGlobalSetting().m_pInputSystem->m_iY;//arg.state.Y.abs;
+
+			RECT	r;
+			GetClientRect(Engine::GetGlobalSetting().m_EngineParam.hWnd,&r);
+
+			POINT	size;
+			size.x	=	r.right		-	r.left;
+			size.y	=	r.bottom	-	r.top;
+
+			Ray	ray	=	m_pScene->GetMainCamera()->BuildRay(p.x/(float)size.x,p.y/(float)size.y);
+
+			{
+				Float3 Pos	=	ray.m_vStart	+	ray.m_vDirection*ray.m_vStart.y/abs(ray.m_vDirection.y);
+				Float3 vDir	=	Pos	-	m_pControl->GetControlNode()->GetPosition()*Float3(1,0,1);
+				vDir.Normalize();
+				float fDot =	acos(vDir.Dot(Float3(0,0,1)));
+				//Float3 vAxis	=	Float3(0,0,1).Cross(vDir).Normalize();
+				if(vDir.x < 0){
+					fDot*=-1;
+				}
+				m_pControl->GetControlNode()->SetQuat(Float4(Float3(0,1,0),fDot));
+				
+			}
 		}
 
 		AString	EditorSection::ProductTypeName="EditorSection";

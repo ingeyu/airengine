@@ -340,6 +340,8 @@ namespace Air{
 			void			RegisterKeyCallback(OIS::KeyCode		key,const void* pObject,KeyCallback pCB,enumKeyEventType evt=enKET_KeyUp,U1 bControl=false,U1 bAlt=false,U1 bShift=false);
 			void			RegisterKeyCallback(const Key& k);
 			void			UnRegisterKeyCallback(U32 key);
+
+			Ray				GetMouseRay(S32 x,S32 y);
 		protected:
 			Engine::Input::State*	m_pInputState;			///<	¼üÅÌ×´Ì¬
 			U1						m_bEnableKeyboard;		///<	ÊÇ·ñÆôÓÃ¼üÅÌÏûÏ¢

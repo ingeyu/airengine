@@ -157,6 +157,8 @@ namespace Air{
 					m_fTargetDis	=	m_fMinCameraDis;
 				if(m_fTargetDis>m_fMaxCameraDis)
 					m_fTargetDis	=	m_fMaxCameraDis;
+
+				
 				return	true;
 			}
 	

@@ -1,5 +1,8 @@
 #include "AirGameControl.h"
 #include "AirGlobalSetting.h"
+#include "AirGameSystem.h"
+#include "AirGameSection.h"
+#include "AirEngineScene.h"
 namespace Air{
 	
 
@@ -200,6 +203,23 @@ namespace Air{
 				if(i!=m_mapKeyCallback.end()){
 					m_mapKeyCallback.erase(i);
 				}
+			}
+
+			Air::Ray Control::GetMouseRay( S32 x,S32 y )
+			{
+				Engine::Scene* pScene	=	GameSystem::GetSingleton()->GetCurrentSection()->GetScene();
+				POINT	p;
+				p.x	=	x;//arg.state.X.abs;
+				p.y	=	y;//arg.state.Y.abs;
+
+				RECT	r;
+				GetClientRect(Engine::GetGlobalSetting().m_EngineParam.hWnd,&r);
+
+				POINT	size;
+				size.x	=	r.right		-	r.left;
+				size.y	=	r.bottom	-	r.top;
+
+				return pScene->GetMainCamera()->BuildRay(p.x/(float)size.x,p.y/(float)size.y);
 			}
 
 		}
