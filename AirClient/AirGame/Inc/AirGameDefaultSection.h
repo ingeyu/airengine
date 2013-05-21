@@ -15,7 +15,7 @@ namespace	Air{
 			virtual	void	OnActorState(enumActorState	state,enumMoveState mstate);
 			virtual	void	OnAction(enumAction	action);
 			virtual	void	OnGameState(enumGameState	state);
-
+			virtual	void		Update(const FrameTime& fFrameTime);
 			virtual	Control*	OnCreateControl();
 
 			void	__stdcall	OnESC(const Key& k);
@@ -23,6 +23,7 @@ namespace	Air{
 			void	__stdcall	OnFireEnd(const Key& k);
 			AnimationModel*		m_pModel;
 			Engine::Particle*	m_pParticle;
+			float				m_fShootTime;
 		};
 		class	GAME_EXPORT	EditorSection	:public	Section{
 		public:

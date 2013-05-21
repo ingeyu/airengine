@@ -9,6 +9,7 @@ namespace	Air{
 		{
 			m_pModel	=	NULL;
 			m_pParticle	=		NULL;
+			m_fShootTime	=	0.0f;
 		}
 
 		Air::U1 DefaultSection::Create()
@@ -111,6 +112,7 @@ namespace	Air{
 		{
 			m_pModel->PlayAction("shootlow.CAF",0.05);
 			m_pParticle->EnableEmitter(true);
+			m_fShootTime	=	0.0f;
 		}
 
 		Control* DefaultSection::OnCreateControl()
@@ -121,6 +123,18 @@ namespace	Air{
 			info.pCamera		=	m_pScene->GetMainCamera();
 			info.vPosition		=	Float3(0,-0.15,0);
 			return GameSystem::GetSingleton()->CreateProduct<ThirdControl>(m_strProductName+"_ThirdControl",&info);
+		}
+
+		void DefaultSection::Update( const FrameTime& fFrameTime )
+		{
+			__super::Update(fFrameTime);
+			if(m_pParticle->IsEmitterEnable()){
+				m_fShootTime+=fFrameTime.fTimeDelta;
+				if(m_fShootTime>0.5f){
+					m_fShootTime-=0.5f;
+					m_pModel->PlayAction("shootlow.CAF",0.0);
+				}
+			}
 		}
 
 		AString	EditorSection::ProductTypeName="EditorSection";
