@@ -85,6 +85,7 @@ IDR_MAINFRAME           PNG     MOVEABLE PURE   "res\\ApplicationIcons.png"
 ID_GALLERY_STYLES       PNG     MOVEABLE PURE   "res\\GalleryStyles.png"
 ID_GROUP_INLINE         PNG     MOVEABLE PURE   "res\\GroupGalleries.png"
 ID_BUTTON_BITMAP        PNG     MOVEABLE PURE   "res\\Windows.png"
+ID_GROUP_SVO			PNG     DISCARDABLE     "res\\SVO.png"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -350,6 +351,9 @@ BEGIN
     ID_GROUP_CREATE			"Create"
     ID_BUTTON_CHECKBOX1     "Checkbox 1"
     ID_BUTTON_CHECKBOX2     "Checkbox 2"
+	ID_GROUP_SVO			"SparseVoxelOctree"
+	ID_SVO_BUILD			"\nBuildSVO"
+	ID_SVO_SHOW				"\nShowSVO"
 END
 
 STRINGTABLE PRELOAD DISCARDABLE 

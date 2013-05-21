@@ -83,6 +83,7 @@ namespace	Air{
 			m_pDebugSVORenderable=NULL;
 			m_pDebugSVOMaterial=NULL;
 			SetParam(9,4);
+			m_bDebugSVO			=	false;
 		}
 
 		Air::U1 VoxelGenerator::Initialize( Render::Window* pMainWindow )
@@ -203,6 +204,8 @@ namespace	Air{
 
 		void VoxelGenerator::Update( Renderable* pRenderable ,Pipeline* pPipeline)
 		{
+			if(!m_bDebugSVO)
+				return;
 
 			Render::Device* pDevice	=	RenderSystem::GetSingleton()->GetDevice();
 #if 1
@@ -377,6 +380,11 @@ namespace	Air{
 			m_SVOParam.y	=	pow(2.0f,m_SVOParam.x);
 			m_SVOParam.z	=	pow(2.0f,m_SVOParam.x -1);
 			m_SVOParam.w	=	fScale;
+		}
+
+		void VoxelGenerator::ShowSVO( U1 bShow )
+		{
+			m_bDebugSVO	=	bShow;
 		}
 
 	}

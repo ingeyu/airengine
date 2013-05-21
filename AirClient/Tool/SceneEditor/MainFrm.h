@@ -95,8 +95,13 @@ protected:
 	afx_msg void OnUpdate_Water(CCmdUI* pCmdUI);		
 	afx_msg void OnUpdate_Cloud(CCmdUI* pCmdUI);			
 	afx_msg void OnUpdate_Tree(CCmdUI* pCmdUI);			
-	afx_msg void OnUpdate_Grass(CCmdUI* pCmdUI);		
-	
+	afx_msg void OnUpdate_Grass(CCmdUI* pCmdUI);
+
+	afx_msg void OnButtonSVOBuild();		
+	afx_msg void OnButtonSVOShow();
+	afx_msg void OnUpdateSVOBuild(CCmdUI* pCmdUI);		
+	afx_msg void OnUpdateSVOShow(CCmdUI* pCmdUI);
+
 	afx_msg void OnOptionsRighttoleft();
 	afx_msg void OnUpdateOptionsRighttoleft(CCmdUI* pCmdUI);
 	afx_msg void OnOptionsStyle(UINT nStyle);

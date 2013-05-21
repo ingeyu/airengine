@@ -37,6 +37,7 @@ namespace	Air{
 			virtual	U1		RenderOneFrame(const FrameTime& frameTime);
 
 			virtual	void			BuildSVO();
+			virtual	void			ShowSVO(U1	bShow);
 			//inline function
 		public:
 			inline	QuadRenderable*	GetQuadRenderable(){
@@ -75,7 +76,7 @@ namespace	Air{
 			virtual	U1		RenderOneFrame(const FrameTime& frameTime);
 
 			virtual	void	BuildSVO();
-
+			virtual	void	ShowSVO(U1	bShow);
 
 		protected:
 			void	BlurRenderTarget(RenderTarget* pDst,RenderTarget* pSrc);

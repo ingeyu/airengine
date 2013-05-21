@@ -56,6 +56,9 @@ namespace	Air{
 			static	AString			AbsPath2Relatve(const AChar*	strPath);
 			inline	void			EnableInput(U1 bEnable){m_bEnableInput	=	bEnable;};
 			inline	U1				GetEnableInput(){return m_bEnableInput;};
+
+			void					BuildSVO();
+			void					ShowSVO(U1	bShow);
 		protected:
 			Ray						BuildRay(S32 x,S32 y);
 			void					UpdateRayCastPoint(const Ray& ray);

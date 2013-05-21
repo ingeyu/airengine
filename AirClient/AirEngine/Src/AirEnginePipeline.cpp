@@ -91,6 +91,11 @@ namespace	Air{
 
 		}
 
+		void Pipeline::ShowSVO( U1 bShow )
+		{
+
+		}
+
 		AString	DefaultPipeline::ProductTypeName="DefaultPipeline";
 		DefaultPipeline::DefaultPipeline( CAString& strName):Pipeline(strName)
 		{
@@ -487,6 +492,11 @@ namespace	Air{
 		{
 			if(RenderSystem::GetSingleton()->GetDevice()->GetHWVersion() == enRSV_11)
 				m_VoxelGen.Build(this);
+		}
+
+		void DefaultPipeline::ShowSVO( U1 bShow )
+		{
+			m_VoxelGen.ShowSVO(bShow);
 		}
 
 

@@ -4,6 +4,7 @@
 #include "AirMeshEntity.h"
 #include "AirEngineCharacterAnimationModel.h"
 #include "AirCommonConverter.h"
+#include "AirEnginePipeline.h"
 namespace	Air{
 	namespace	Editor{
 
@@ -454,6 +455,16 @@ namespace	Air{
 			Engine::Character::Animation::Model::Info info;
 			info.strTemplate	=	strName;
 			loader.AddObject(Common::Converter::ToString(iName++),"CharacterModel",trans,(AChar*)&info);
+		}
+
+		void System::BuildSVO()
+		{
+			GameSystem::GetSingleton()->GetCurrentSection()->GetPipeline()->BuildSVO();
+		}
+
+		void System::ShowSVO( U1 bShow )
+		{
+			GameSystem::GetSingleton()->GetCurrentSection()->GetPipeline()->ShowSVO(bShow);
 		}
 
 	}

@@ -93,6 +93,10 @@
 #define ID_OBJECT_ROTATE				60003
 #define ID_OBJECT_SCALE					60004
 
+#define ID_GROUP_SVO					50100
+#define ID_SVO_BUILD					50101
+#define ID_SVO_SHOW						50102
+
 
 
 #define ID_PANE_PROPERTY_WINDOW			70000

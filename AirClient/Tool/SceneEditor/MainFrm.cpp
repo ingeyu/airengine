@@ -65,6 +65,11 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_CREATE_TREE				,OnUpdate_Tree		  )
 	ON_UPDATE_COMMAND_UI(ID_CREATE_GRASS			,OnUpdate_Grass		  )
 
+	ON_COMMAND(ID_SVO_BUILD							,OnButtonSVOBuild			)
+	ON_COMMAND(ID_SVO_SHOW							,OnButtonSVOShow			)
+	ON_UPDATE_COMMAND_UI(ID_SVO_BUILD				,OnUpdateSVOBuild			)
+	ON_UPDATE_COMMAND_UI(ID_SVO_SHOW				,OnUpdateSVOShow			)
+
 	ON_UPDATE_COMMAND_UI_RANGE(ID_BUTTON_LARGESIMPLEBUTTON, ID_BUTTON_SMALLSPLITPOPUPBUTTON, OnEnableButton)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_POPUP_OPTION1, ID_POPUP_OPTION3, OnEnableButton)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_EDITOR_EDIT, ID_EDITOR_COMBO, OnEnableButton)
@@ -363,6 +368,25 @@ BOOL CMainFrame::CreateRibbonBar()
 		pGroup->SetControlsCentering(TRUE);
 
 		pGroup->LoadToolBar(IDR_MAINFRAME);
+	}
+
+	if (pTabHome)
+	{
+
+		CXTPRibbonGroup* pGroup = pTabHome->AddGroup(ID_GROUP_SVO);
+
+		CXTPControl* pControl;
+
+		pControl = pGroup->Add(xtpControlButton, ID_SVO_BUILD);
+		pControl->SetStyle(xtpButtonIconAndCaptionBelow);
+		pControl = pGroup->Add(xtpControlButton, ID_SVO_SHOW);
+		pControl->SetStyle(xtpButtonIconAndCaptionBelow);
+
+		UINT nIDs[] = {
+			ID_SVO_BUILD		,
+			ID_SVO_SHOW			
+		};
+		pCommandBars->GetImageManager()->SetIcons(ID_GROUP_SVO, nIDs, 2, CSize(32, 32), xtpImageNormal);
 	}
 
 	CXTPRibbonTab* pTabEditors = pRibbonBar->AddTab(ID_TAB_EDITORS);
@@ -1186,5 +1210,27 @@ BOOL CMainFrame::CreatePane()
 
 	}
 	return	TRUE;
+}
+
+void CMainFrame::OnButtonSVOBuild()
+{
+	Air::EditorSystem::GetSingleton()->BuildSVO();
+}
+
+static bool bShowSVO = false;
+void CMainFrame::OnButtonSVOShow()
+{
+	bShowSVO	=	!bShowSVO;
+	Air::EditorSystem::GetSingleton()->ShowSVO(bShowSVO);
+}
+
+void CMainFrame::OnUpdateSVOBuild( CCmdUI* pCmdUI )
+{
+	//pCmdUI->SetCheck(false);
+}
+
+void CMainFrame::OnUpdateSVOShow( CCmdUI* pCmdUI )
+{
+	pCmdUI->SetCheck(bShowSVO);
 }
 

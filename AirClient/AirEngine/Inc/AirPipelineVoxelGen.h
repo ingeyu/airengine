@@ -16,6 +16,7 @@ namespace	Air{
 			void	Build(Pipeline* pPipeline);
 
 			void	SetParam(U32 uiDepth,float fScale);
+			void	ShowSVO(U1 bShow);
 		protected:
 			Render::Buffer*	m_pVoxel;
 			Render::Buffer*	m_pNodeTree;
@@ -29,6 +30,7 @@ namespace	Air{
 			Material*		m_pDebugSVOMaterial;
 
 			Float4			m_SVOParam;//x Depth y Bound z HalfBound w Scale
+			U1				m_bDebugSVO;
 		};
 	}
 }
