@@ -35,6 +35,8 @@ namespace	Air{
 			virtual	void	OnActorState(enumActorState	state,enumMoveState mstate){};
 			virtual	void	OnAction(enumAction	action){};
 			virtual	void	OnGameState(enumGameState	state){};
+
+			
 		protected:
 
 			Engine::Pipeline*	m_pPipeline;

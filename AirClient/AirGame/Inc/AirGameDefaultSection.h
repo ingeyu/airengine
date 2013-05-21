@@ -14,6 +14,8 @@ namespace	Air{
 			virtual	void	OnActorState(enumActorState	state,enumMoveState mstate);
 			virtual	void	OnAction(enumAction	action);
 			virtual	void	OnGameState(enumGameState	state);
+
+			void	__stdcall	OnESC(const Key& k);
 			AnimationModel*	m_pModel;
 		};
 	}

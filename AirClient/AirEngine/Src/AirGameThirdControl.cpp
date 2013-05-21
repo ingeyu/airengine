@@ -158,9 +158,7 @@ namespace Air{
 			}
 	
 			bool ThirdControl::keyReleased( const OIS::KeyEvent &arg ){
-				if(arg.key	==	OIS::KC_ESCAPE){
-					m_pActionStateCallback->OnGameState(enExit);
-				}
+				Control::keyReleased(arg);
 				using namespace OIS;
 				if(m_pActionStateCallback!=NULL){
 					enumAction	act	=	enA_None;

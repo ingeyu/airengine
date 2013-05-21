@@ -61,6 +61,7 @@ namespace Air{
 		}
 	
 		bool FPSControl::keyReleased( const OIS::KeyEvent &arg ){
+			Control::keyReleased(arg);
 			if(arg.key	==	OIS::KC_ESCAPE){
 				m_pActionStateCallback->OnGameState(enExit);
 			}
@@ -102,7 +103,7 @@ namespace Air{
 		}
 	
 		bool FPSControl::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id ){
-	
+			Control::mouseReleased(arg,id);
 			return	true;
 		}
 	

@@ -21,6 +21,22 @@ namespace Air{
 			}
 	
 			bool Control::keyReleased( const OIS::KeyEvent &arg ){
+				S8* pKeyArray	=	m_pInputState->m_KeyArray;
+				Key k;
+				k.control	=	pKeyArray[OIS::KC_LCONTROL]|pKeyArray[OIS::KC_RCONTROL];
+				k.alt		=	pKeyArray[OIS::KC_LMENU]|pKeyArray[OIS::KC_RMENU];
+				k.shift		=	pKeyArray[OIS::KC_LSHIFT]|pKeyArray[OIS::KC_RSHIFT];
+				k.evt		=	enKET_KeyUp;
+				k.mouse		=	0xff;
+				k.key		=	arg.key;
+				k.pObject	=	0;
+				k.pCB		=	0;
+				KeyCallBackMap::iterator	itr	=	m_mapKeyCallback.find(k.uiKeyValue);
+				if(itr!=m_mapKeyCallback.end()){
+					Key& key	=	itr->second;
+					(*key.pCB)(key.pObject,key);
+				}
+
 				ControlListItr	i	=	m_lstControl.begin();
 				for(;i!=m_lstControl.end();i++){
 					Control*	p	=	(Control*)(*i);
@@ -48,6 +64,22 @@ namespace Air{
 			}
 	
 			bool Control::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id ){
+				S8* pKeyArray	=	m_pInputState->m_KeyArray;
+				Key k;
+				k.control	=	pKeyArray[OIS::KC_LCONTROL]|pKeyArray[OIS::KC_RCONTROL];
+				k.alt		=	pKeyArray[OIS::KC_LMENU]|pKeyArray[OIS::KC_RMENU];
+				k.shift		=	pKeyArray[OIS::KC_LSHIFT]|pKeyArray[OIS::KC_RSHIFT];
+				k.evt		=	enKET_MouseUp;
+				k.mouse		=	id;
+				k.key		=	0;
+				k.pObject	=	0;
+				k.pCB		=	0;
+				KeyCallBackMap::iterator	itr	=	m_mapKeyCallback.find(k.uiKeyValue);
+				if(itr!=m_mapKeyCallback.end()){
+					Key& key	=	itr->second;
+					(*key.pCB)(key.pObject,key);
+				}
+
 				ControlListItr	i	=	m_lstControl.begin();
 				for(;i!=m_lstControl.end();i++){
 					Control*	p	=	(Control*)(*i);
@@ -109,6 +141,51 @@ namespace Air{
 			Engine::SceneNode* Control::GetControlNode(){
 				return	NULL;
 			}
+
+			void Control::RegisterMouseCallback( OIS::MouseButtonID mouse,const void* pObject,KeyCallback pCB,enumKeyEventType evt/*=enKET_MouseUp*/,U1 bControl/*=false*/,U1 bAlt/*=false*/,U1 bShift/*=false*/ )
+			{
+				Key k;
+				k.control	=	bControl;
+				k.alt		=	bAlt;
+				k.shift		=	bShift;
+				k.evt		=	evt;
+				k.mouse		=	mouse;
+				k.key		=	0;
+				k.pObject	=	(void*)pObject;
+				k.pCB		=	(KeyCallback)pCB;
+				RegisterKeyCallback(k);
+			}
+
+			void Control::RegisterKeyCallback( OIS::KeyCode key,const void* pObject,KeyCallback pCB,enumKeyEventType evt/*=enKET_KeyUp*/,U1 bControl/*=false*/,U1 bAlt/*=false*/,U1 bShift/*=false*/ )
+			{
+				Key k;
+				k.control	=	bControl;
+				k.alt		=	bAlt;
+				k.shift		=	bShift;
+				k.evt		=	evt;
+				k.mouse		=	0xff;
+				k.key		=	key;
+				k.pObject	=	(void*)pObject;
+				k.pCB		=	(KeyCallback)pCB;
+				RegisterKeyCallback(k);
+			}
+
+			void Control::RegisterKeyCallback( const Key& k )
+			{
+				if(k.pObject	==	NULL	||	k.pCB	==	NULL){
+					return;
+				}
+				m_mapKeyCallback[k.uiKeyValue]	=	k;
+			}
+
+			void Control::UnRegisterKeyCallback( U32 key )
+			{
+				KeyCallBackMap::iterator i = m_mapKeyCallback.find(key);
+				if(i!=m_mapKeyCallback.end()){
+					m_mapKeyCallback.erase(i);
+				}
+			}
+
 		}
 	
 };

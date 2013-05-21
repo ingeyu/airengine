@@ -20,6 +20,8 @@ namespace	Air{
 				m_pControl->GetControlNode()->CreateChildSceneNode(Float3(0,0,0),Float4(Float3(-1,0,0),1.57))->attachObject(m_pModel);
 				m_pModel->SetActionState("stand.CAF");
 			}
+			
+			m_pControl->RegisterKeyCallback(OIS::KC_ESCAPE,this,ConverertFunction(&DefaultSection::OnESC));
 			return true;
 		}
 
@@ -75,6 +77,13 @@ namespace	Air{
 		void DefaultSection::OnGameState( enumGameState state )
 		{
 
+		}
+
+		void	__stdcall DefaultSection::OnESC( const Key& k )
+		{
+
+				OutputDebugStringA("esc\n");
+			
 		}
 
 	}

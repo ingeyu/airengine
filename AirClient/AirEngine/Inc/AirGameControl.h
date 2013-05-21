@@ -56,6 +56,49 @@ namespace Air{
 			enGame,
 			enExit
 		};
+
+		enum	enumKeyEventType{
+			enKET_MouseDown,
+			enKET_MouseUp,
+			enKET_MouseMove,
+			enKET_KeyDown,
+			enKET_KeyUp,
+		};
+		enum	enumKeyHelpType{
+			enKHT_Control,
+			enKHT_Alt,
+			enKHT_Shift
+		};
+
+		struct Key;
+		typedef 	void	(__stdcall *KeyCallback)(void*	pThis,const Key& k);
+		template <typename T>
+		inline KeyCallback	ConverertFunction(T t){
+#ifdef WIN32
+			U32* pp =	(U32*)&t;	
+#else
+			U64* pp	=	(U64*)&t;	
+#endif
+			KeyCallback* ppCB	=	(KeyCallback*)pp;
+			return *ppCB;
+		};
+		struct Key{
+			union{
+				struct{
+					U32 control	:	1;
+					U32	alt		:	1;
+					U32	shift	:	1;
+					U32	evt		:	8;
+					U32	mouse	:	8;
+					U32	key		:	8;
+					
+				};
+				U32 uiKeyValue;
+			};
+			void*			pObject;
+			KeyCallback		pCB;
+		};
+		typedef STD_HASHMAP<U32,Key>	KeyCallBackMap;
 		/**	\brief	动作状态回调
 		*
 		*	动作状态回调
@@ -293,7 +336,10 @@ namespace Air{
 			inline	void	SetCallback(IActionState*	pCallback){
 				m_pActionStateCallback	=	pCallback;
 			}
-	
+			void			RegisterMouseCallback(OIS::MouseButtonID	mouse,const void* pObject,KeyCallback pCB,enumKeyEventType evt=enKET_MouseUp,U1 bControl=false,U1 bAlt=false,U1 bShift=false);
+			void			RegisterKeyCallback(OIS::KeyCode		key,const void* pObject,KeyCallback pCB,enumKeyEventType evt=enKET_KeyUp,U1 bControl=false,U1 bAlt=false,U1 bShift=false);
+			void			RegisterKeyCallback(const Key& k);
+			void			UnRegisterKeyCallback(U32 key);
 		protected:
 			Engine::Input::State*	m_pInputState;			///<	键盘状态
 			U1						m_bEnableKeyboard;		///<	是否启用键盘消息
@@ -305,6 +351,7 @@ namespace Air{
 			ControlList		m_lstControl;
 	
 			IActionState*	m_pActionStateCallback;
+			KeyCallBackMap			m_mapKeyCallback;
 		};
 
 	}
