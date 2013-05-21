@@ -6,6 +6,9 @@ namespace	Air{
 
 	Timer::Timer()
 	{
+		HANDLE	hThread	=	GetCurrentThread();
+		SetThreadAffinityMask(hThread,0x00000001);
+
 		LARGE_INTEGER	FREQ;
 		QueryPerformanceFrequency(&FREQ);
 		m_Freq	=	(double)FREQ.QuadPart	/	(double)1000000;
@@ -18,6 +21,7 @@ namespace	Air{
 
 	void Timer::AddFrame()
 	{
+		
 		LARGE_INTEGER	currenttime;
 		QueryPerformanceCounter(&currenttime);
 

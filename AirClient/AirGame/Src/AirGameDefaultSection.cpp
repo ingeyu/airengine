@@ -113,6 +113,16 @@ namespace	Air{
 			m_pParticle->EnableEmitter(true);
 		}
 
+		Control* DefaultSection::OnCreateControl()
+		{
+			ThirdControl::Info info;
+			info.bAllowRotate	=	false;
+			info.pSection		=	this;
+			info.pCamera		=	m_pScene->GetMainCamera();
+			info.vPosition		=	Float3(0,-0.15,0);
+			return GameSystem::GetSingleton()->CreateProduct<ThirdControl>(m_strProductName+"_ThirdControl",&info);
+		}
+
 		AString	EditorSection::ProductTypeName="EditorSection";
 		Control* EditorSection::OnCreateControl()
 		{
@@ -120,6 +130,7 @@ namespace	Air{
 			info.bAllowRotate	=	false;
 			info.pSection		=	this;
 			info.pCamera		=	m_pScene->GetMainCamera();
+			
 			return GameSystem::GetSingleton()->CreateProduct<FreeControl>(m_strProductName+"_FreeControl",&info);
 		}
 

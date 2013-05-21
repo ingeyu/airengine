@@ -16,6 +16,8 @@ namespace	Air{
 			virtual	void	OnAction(enumAction	action);
 			virtual	void	OnGameState(enumGameState	state);
 
+			virtual	Control*	OnCreateControl();
+
 			void	__stdcall	OnESC(const Key& k);
 			void	__stdcall	OnFireStart(const Key& k);
 			void	__stdcall	OnFireEnd(const Key& k);

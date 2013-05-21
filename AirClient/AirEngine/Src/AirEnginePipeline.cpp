@@ -581,32 +581,32 @@ namespace	Air{
 
 		void DefaultPipeline::Update(const FrameTime& frameTime)
 		{
-			if(GetGlobalSetting().m_pInputSystem->m_KeyArray[OIS::KC_A]){
-				vMoveDirection.x=	-fVolocity;
-			}else if(GetGlobalSetting().m_pInputSystem->m_KeyArray[OIS::KC_D]){
-				vMoveDirection.x=	fVolocity;
-			}else{
-				vMoveDirection.x=	0.0f;
-			}
+			//if(GetGlobalSetting().m_pInputSystem->m_KeyArray[OIS::KC_A]){
+			//	vMoveDirection.x=	-fVolocity;
+			//}else if(GetGlobalSetting().m_pInputSystem->m_KeyArray[OIS::KC_D]){
+			//	vMoveDirection.x=	fVolocity;
+			//}else{
+			//	vMoveDirection.x=	0.0f;
+			//}
 
-			if(GetGlobalSetting().m_pInputSystem->m_KeyArray[OIS::KC_S]){
-				vMoveDirection.z=	-fVolocity;
-			}else if(GetGlobalSetting().m_pInputSystem->m_KeyArray[OIS::KC_W]){
-				vMoveDirection.z=	fVolocity;
-			}else{
-				vMoveDirection.z=	0.0f;
-			}
+			//if(GetGlobalSetting().m_pInputSystem->m_KeyArray[OIS::KC_S]){
+			//	vMoveDirection.z=	-fVolocity;
+			//}else if(GetGlobalSetting().m_pInputSystem->m_KeyArray[OIS::KC_W]){
+			//	vMoveDirection.z=	fVolocity;
+			//}else{
+			//	vMoveDirection.z=	0.0f;
+			//}
 
 			Camera*	pCam	=	GetMainCamera();
-			Float3	vUp	=	pCam->GetUpDir();
-			Float3	vDir	=	pCam->GetDir();
-			Float3	vRight	=	vUp.Cross(vDir);
-			vUp				=	vDir.Cross(vRight);
-			Float3	x	=	vRight*vMoveDirection.x*frameTime.fTimeDelta;
-			Float3	y	=	vUp*vMoveDirection.y*frameTime.fTimeDelta;
-			Float3	z	=	vDir*vMoveDirection.z*frameTime.fTimeDelta;
+			//Float3	vUp	=	pCam->GetUpDir();
+			//Float3	vDir	=	pCam->GetDir();
+			//Float3	vRight	=	vUp.Cross(vDir);
+			//vUp				=	vDir.Cross(vRight);
+			//Float3	x	=	vRight*vMoveDirection.x*frameTime.fTimeDelta;
+			//Float3	y	=	vUp*vMoveDirection.y*frameTime.fTimeDelta;
+			//Float3	z	=	vDir*vMoveDirection.z*frameTime.fTimeDelta;
 
-			pCam->SetPosition(pCam->GetPosition()+x+y+z);
+			//pCam->SetPosition(pCam->GetPosition()+x+y+z);
 
 			m_cbFrame.vTime.x	=	frameTime.fTimeDelta;
 			m_cbFrame.vTime.y	=	frameTime.fTotalTime;

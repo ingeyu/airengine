@@ -20,7 +20,7 @@ namespace Air{
 				m_fCurrentDis	=	10.0f;
 				m_fTargetDis	=	m_fCurrentDis;
 				m_vTargetPosition	=	m_Info.vPosition;
-				m_fMoveSensitivity	=	3.0f;
+				m_fMoveSensitivity	=	2.0f;
 			}
 	
 			U1 ThirdControl::Create(){
@@ -60,8 +60,10 @@ namespace Air{
 				//计算灵敏度
 				Real	fSensitivity		=	fTimeDelta*m_fMoveSensitivity;
 	
-				Float3	vDir	=	m_pCamera->GetRealDirection();
-				Float3	vRight	=	m_pCamera->GetRealRightDirection();
+				Float3	vDir	=	m_pCamera->GetDir();
+				//vDir.y = 0;
+				//vDir.Normalize();
+				Float3	vRight	=	Float3(0,1,0).Cross(vDir).Normalize();
 	
 	
 				//更新摄像机距离
@@ -120,23 +122,24 @@ namespace Air{
 				}
 	
 	
-				vDir.Normalize();
-				vRight.Normalize();
-				Float3	vMoveDir	=	vDir*(vMove.x+vMove.y)	+	vRight*(vMove.z+vMove.w);
+				//Float3 vNormalivDir.Normalize();
+				//vRight.Normalize();
+				Float3	vMoveDir	=	Float3(0,0,1)*(vMove.x+vMove.y)	+	vRight*(vMove.z+vMove.w);
 				vMoveDir.y=0.0f;
 				vMoveDir.Normalize();
 
 				Float3	vCurrentPos	=	m_pNode->GetPosition();
 				vCurrentPos			+=	vMoveDir*fSensitivity;
 				m_pNode->SetPosition(vCurrentPos);
-				m_pCamera->SetPosition(vCurrentPos+Float3(0,1.5,0)	-vDir*m_fCurrentDis);
+				Float3 v = Float3(0,1.5,0)	-vDir*m_fCurrentDis;
+				m_pCamera->SetPosition(vCurrentPos+v);
 					
 					return true;
 			}
 			bool ThirdControl::mouseMoved( const OIS::MouseEvent &arg ){
-	
+				float fTimeDelta =	GetTimer().m_FrameTime.fTimeDelta;
 				if(m_Info.bAllowRotate	&&	m_pInputState->m_MouseArray[OIS::MB_Right]){
-					float fTimeDelta =	GetTimer().m_FrameTime.fTimeDelta;
+					
 	
 					Real fXDelta	=	Real(arg.state.X.rel) * 0.9f;
 					Real fYDelta	=	Real(arg.state.Y.rel) * 0.9f;	
@@ -149,7 +152,7 @@ namespace Air{
 	
 				}
 	
-				m_fTargetDis	-=	GetTimer().m_FrameTime.fTimeDelta*arg.state.Z.rel*0.5f;
+				m_fTargetDis	-=	GetTimer().m_FrameTime.fTimeDelta*arg.state.Z.rel*fTimeDelta*10;
 				if(m_fTargetDis<m_fMinCameraDis)
 					m_fTargetDis	=	m_fMinCameraDis;
 				if(m_fTargetDis>m_fMaxCameraDis)
