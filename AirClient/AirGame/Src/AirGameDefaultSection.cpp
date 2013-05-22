@@ -10,6 +10,7 @@ namespace	Air{
 			m_pModel	=	NULL;
 			m_pParticle	=		NULL;
 			m_fShootTime	=	0.0f;
+			
 		}
 
 		Air::U1 DefaultSection::Create()

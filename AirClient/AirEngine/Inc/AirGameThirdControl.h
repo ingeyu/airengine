@@ -63,7 +63,7 @@ namespace Air{
 				Float3			m_vTargetPosition;	///<	目标位置
 				Float3			m_vMoveDirection;
 				Real			m_fMoveSensitivity;	///<	移动灵敏度
-
+				float			m_fGravity;
 			};
 	
 		}

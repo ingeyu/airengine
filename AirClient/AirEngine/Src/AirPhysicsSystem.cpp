@@ -54,7 +54,8 @@ namespace	Air{
 			BoxShape shape;
 			
 			shape.m_vHalfSize		=	Float3(0.5,1,0.5)*fRadius;
-			Float3 vDir = v+m_vGravity*fTimeDelta*5;
+			
+			Float3 vDir = v;
 			Float3 vPos = p+Float3(0,0.5,0)+vDir*fTimeDelta;
 			shape.m_vPosition	=	vPos;
 			Float3 vNormal;
@@ -65,9 +66,11 @@ namespace	Air{
 				//vNormal.y=0;
 				p+=(vCorrect+vNormal)*fTimeDelta;
 				//p+=	vDir*fTimeDelta;
+				v.y = 0;
 				return true;
 			}else{
 				p+=	vDir*fTimeDelta;
+				v.y+=m_vGravity.y*fTimeDelta;
 				return false;
 			}
 		}
