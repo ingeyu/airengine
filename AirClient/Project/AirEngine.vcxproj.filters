@@ -51,6 +51,9 @@
     <Filter Include="UI">
       <UniqueIdentifier>{7c1dc1f0-6d86-4472-930f-9739ba701be2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{69fd3bfe-95ec-42af-bc02-d227fc2d2bc8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\AirEngine\Src\AirEngine.cpp">
@@ -123,15 +126,6 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="..\AirEngine\Src\AirInterfaceAutoReleaseManager.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirInterfaceBaseParticle.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirInterfaceParticle.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\AirEngine\Src\AirInterfaceShootParticle.cpp">
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="..\AirEngine\Src\AirEngineMaterial.cpp">
@@ -356,6 +350,18 @@
     <ClCompile Include="..\AirEngine\Src\AirGameFreeControl.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirPhysicsSystem.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirPhysicsTrigger.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirPhysicsObject.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirPhysicsSVO.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\AirEngine\Inc\AirEngine.h">
@@ -455,24 +461,6 @@
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirInterfaceNetSystem.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfacePhysicsCloth.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfacePhysicsCollision.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfacePhysicsController.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfacePhysicsScene.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfacePhysicsShape.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\AirEngine\Inc\AirInterfacePhysicsSystem.h">
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirInterfaceScriptFile.h">
@@ -738,6 +726,21 @@
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirGameFreeControl.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirPhysicsSystem.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirPhysicsTrigger.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirPhysicsShape.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirPhysicsObject.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirPhysicsSVO.h">
+      <Filter>Physics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

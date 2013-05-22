@@ -3,7 +3,7 @@
 #include "AirGlobalSetting.h"
 #include "AirEngineSystem.h"
 #include "AirRenderSystem.h"
-#include "AirInterfacePhysicsSystem.h"
+//#include "AirInterfacePhysicsSystem.h"
 namespace Air{
 	
 	namespace	Engine{
@@ -12,7 +12,7 @@ namespace Air{
 		EntityCloth::EntityCloth( CAString& strName,Info* pInfo ):TProduct(strName){
 			if(pInfo!=NULL)
 				m_Info	=	*pInfo;
-			m_pCloth	=	NULL;
+			//m_pCloth	=	NULL;
 		}
 	
 		U1 EntityCloth::Create(){
@@ -61,7 +61,7 @@ namespace Air{
 		void EntityCloth::Update(){
 			//__super::Update();
 	
-			m_BoundingBox	=	m_pCloth->GetWorldBoundingBox();
+		//	m_BoundingBox	=	m_pCloth->GetWorldBoundingBox();
 	
 			SBuff*	pV	=	NULL;
 			
@@ -80,7 +80,7 @@ namespace Air{
 		}
 	
 		U1 EntityCloth::CreatePhysxMesh(){
-			Physics::Shape&	shape	=	m_Info.clothInfo.shape;
+			//Physics::Shape&	shape	=	m_Info.clothInfo.shape;
 	
 // 			if(!m_Info.strMeshName.empty()){
 // 				Render::IXObject*	pXObject	=	Render::System::GetSingleton()->CreateProduct<Render::IXObject*>(m_Info.strMeshName,AString("XObject"));
@@ -99,20 +99,20 @@ namespace Air{
 		}
 	
 		U1 EntityCloth::CreateRenderMesh(){
-			Physics::Shape&	shape	=	m_Info.clothInfo.shape;
+			//Physics::Shape&	shape	=	m_Info.clothInfo.shape;
 	
-			UInt	uiNumVertex	=	shape.m_VertexArray.size();
-			UInt	uiNumIndex	=	shape.m_FaceArray.size();
-			SBuff*	pVertexData	=	new	SBuff[uiNumVertex*3];
-			m_pCloth->GetVertexBuff(pVertexData);
-			UInt*	pIndexData				=	&shape.m_FaceArray[0];
+//			UInt	uiNumVertex	=	shape.m_VertexArray.size();
+//			UInt	uiNumIndex	=	shape.m_FaceArray.size();
+//			SBuff*	pVertexData	=	new	SBuff[uiNumVertex*3];
+			//m_pCloth->GetVertexBuff(pVertexData);
+//			UInt*	pIndexData				=	&shape.m_FaceArray[0];
 			VertexBuffer::Info	vInfo;//(Render::,uiNumVertex*3);
 			
 			//vInfo.size			=	uiNumVertex;
 			//vInfo.pInitData		=	NULL;//pVertexData;
 			//m_DrawBuff.m_pVertexBuff	=	Render::System::GetSingleton()->CreateProduct<VertexBuff*>(m_strProductName,AString("VertexBuff"),&vInfo);
 	
-			SAF_DA(pVertexData);
+//			SAF_DA(pVertexData);
 	
 			VertexDeclare::Info	dInfo;
 			dInfo.SetDeclPNTT();

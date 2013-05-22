@@ -94,11 +94,11 @@ namespace Air{
 			__super::Update(frameTime);
 		}
 	
-		void SubEntity::GetShape(Physics::Shape*	pShape,Float3 vScale){
-// 			Render::IXObject*	p	=	m_DrawBuff.m_pXObject;
-// 			if(p!=NULL)
-// 				p->GetShape(pShape,vScale);
-		}
+//		void SubEntity::GetShape(Physics::Shape*	pShape,Float3 vScale){
+//// 			Render::IXObject*	p	=	m_DrawBuff.m_pXObject;
+//// 			if(p!=NULL)
+//// 				p->GetShape(pShape,vScale);
+//		}
 
 	}
 };

@@ -12,7 +12,7 @@
 #include "AirInterfaceInputSystem.h"
 #include "AirRenderTarget.h"
 #include "AirRenderSystem.h"
-#include "AirInterfacePhysicsSystem.h"
+//#include "AirPhysicsSystem.h"
 #include "AirAudioSystem.h"
 #include "AirInterfaceGameSystem.h"
 #include "AirInterfaceNetSystem.h"

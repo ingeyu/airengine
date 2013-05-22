@@ -3,7 +3,6 @@
 
 #include "AirEngineHeader.h"
 #include "AirEngineMovableObject.h"
-#include "AirInterfacePhysicsShape.h"
 #include "AirInterfaceUserData.h"
 
 namespace Air{
@@ -55,7 +54,7 @@ namespace Air{
 			**/
 			virtual void	Update(const FrameTime& frameTime);
 	
-			virtual	void	GetShape(Physics::Shape*	pShape,Float3 vScale	=	Float3(1,1,1));
+			///virtual	void	GetShape(Physics::Shape*	pShape,Float3 vScale	=	Float3(1,1,1));
 		protected:
 			Info			m_Info;
 		};

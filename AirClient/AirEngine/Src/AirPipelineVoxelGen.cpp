@@ -5,6 +5,7 @@
 #include "AirMeshEntity.h"
 #include "AirBoxRenderable.h"
 #include "AirEnginePipeline.h"
+#include "AirPhysicsSystem.h"
 
 #define GPU_DEBUG
 
@@ -13,6 +14,7 @@
 namespace	Air{
 	namespace	Engine{
 		STD_VECTOR<U32> vecTree;
+		STD_VECTOR<U32> vecColor;
 		struct Voxel{
 			Voxel(){
 				uiMask		=	0;
@@ -82,7 +84,7 @@ namespace	Air{
 			m_pDebugSVO			=	NULL;
 			m_pDebugSVORenderable=NULL;
 			m_pDebugSVOMaterial=NULL;
-			SetParam(9,4);
+			SetParam(10,8);
 			m_bDebugSVO			=	false;
 		}
 
@@ -360,7 +362,7 @@ namespace	Air{
 				Render::Buffer*	pSysBuffer	=	RenderSystem::GetSingleton()->CreateProduct<Render::Buffer>("TempBuffer",&bInfo);
 
 
-				STD_VECTOR<U32> vecColor;
+				
 				vecColor.resize(16*1048576);
 				vecTree.resize(16*1048576);
 				m_pNodeTree->CopyBufferTo(pSysBuffer);
@@ -371,15 +373,27 @@ namespace	Air{
 				GenMipmap(vecTree,vecColor);
 				m_pVoxel->UpdateData(&vecColor[0]);
 				pSysBuffer->ReleaseRef();
+
+				PhysicsSystem::GetSingleton()->UpdateSVO(vecTree,m_SVOParam.x,m_SVOParam.w);
 			
 		}
 
 		void VoxelGenerator::SetParam( U32 uiDepth,float fScale )
 		{
+			U32 uiOldDepth	=	m_SVOParam.x;
 			m_SVOParam.x	=	uiDepth;
 			m_SVOParam.y	=	pow(2.0f,m_SVOParam.x);
 			m_SVOParam.z	=	pow(2.0f,m_SVOParam.x -1);
 			m_SVOParam.w	=	fScale;
+
+			if(uiOldDepth!=uiDepth){
+				SAFE_RELEASE_REF(m_pRT);
+				RenderTarget::Info rtinfo;
+				rtinfo.SetSingleTarget(m_SVOParam.y,m_SVOParam.y,enTFMT_R8G8B8A8_UNORM);
+
+				m_pRT		=	RenderSystem::GetSingleton()->CreateProduct<Render::Target>("SVO_Test",&rtinfo);
+
+			}
 		}
 
 		void VoxelGenerator::ShowSVO( U1 bShow )

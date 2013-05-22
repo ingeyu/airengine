@@ -6,11 +6,7 @@
 namespace Air{
 	
 	namespace Engine{
-		namespace	Physics{
-			class	ICollision;
-			class	IScene;
-			class	ITriggerCallback;
-		}
+
 		class	SubEntity;
 	
 		/**	\brief	引擎基本物体类
@@ -25,14 +21,12 @@ namespace Air{
 			struct Info{
 				Info(){
 					pParentNode	=	NULL;
-					pXScene		=	NULL;
-					pCallback	=	NULL;
+
+
 				};
 				AString						strConfigName;		///<	配置文件名
 				AString						strConfigMemery;	///<	配置内容
 				SceneNode*					pParentNode;		///<	父节点
-				Physics::IScene*				pXScene;			///<	场景指针
-				Physics::ITriggerCallback*	pCallback;			///<	触发器回调
 			};
 	
 		public:
@@ -76,7 +70,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			virtual	Physics::ICollision*	GetCollision();
+			//virtual	Physics::ICollision*	GetCollision();
 	
 			/**	\brief	获取渲染模型
 			*   
@@ -113,7 +107,6 @@ namespace Air{
 	
 		protected:
 			SubEntity*		m_pRenderObj;			///<	渲染物体
-			Physics::ICollision*	m_pCollisionObj;		///<	碰撞模型
 			SceneNode*			m_pNode;				///<	节点
 			Info				m_Info;					///<	创建信息
 		};

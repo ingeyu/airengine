@@ -1,12 +1,13 @@
 #include "AirParticleAffector.h"
 #include "AirParticle.h"
-
+#include "AirPhysicsSystem.h"
 namespace	Air{
 	namespace	Engine{
+		/*
 		extern STD_VECTOR<U32> vecTree;
-#define	MAX_DEPTH	9
+#define	MAX_DEPTH	10
 #define VOXEL_BOUND_SIZE	pow(2.0f,MAX_DEPTH-1);
-
+#define SCALE				8
 
 
 		U1 CollisionDetection(const Float3& vPos,Float3& vVelocity){
@@ -58,7 +59,7 @@ namespace	Air{
 
 			return false;
 		}
-
+		*/
 		AString ParticleAffector::ProductTypeName	="DefaultAffector";
 		ParticleAffector::ParticleAffector( CAString& strName,Info* pInfo ):IProduct(strName)
 		{
@@ -67,12 +68,13 @@ namespace	Air{
 
 		void ParticleAffector::Update( const FrameTime& frameTime,Particle* pParticle )
 		{
+			PhysicsSystem* pPhysicsSys	=	PhysicsSystem::GetSingleton();
 			PElementList& lst = pParticle->GetElementList();
 			Float3 p;
 			for(PElementList::iterator i = lst.begin();i!=lst.end();i++){
 				p = (*i)->vPos;
 				(*i)->vPos	+= (*i)->vVelocity*frameTime.fTimeDelta;
-				if(CollisionDetection((*i)->vPos*4,(*i)->vVelocity)){
+				if(pPhysicsSys->CollisionDetect((*i)->vPos,(*i)->vVelocity)){
 					p+=(*i)->vVelocity*frameTime.fTimeDelta;
 					(*i)->vPos=p;
 				}

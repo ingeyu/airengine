@@ -74,7 +74,7 @@ namespace Air{
 		typedef 	void	(__stdcall *KeyCallback)(void*	pThis,const Key& k);
 		template <typename T>
 		inline KeyCallback	ConverertFunction(T t){
-#ifdef WIN32
+#ifdef _X86_
 			U32* pp =	(U32*)&t;	
 #else
 			U64* pp	=	(U64*)&t;	

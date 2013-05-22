@@ -5,7 +5,7 @@
 #include "AirEngineHeader.h"
 #include "AirEngineSceneNode.h"
 #include "AirEngineLight.h"
-#include "AirInterfaceParticle.h"
+
 #include "AirSceneLoader.h"
 namespace Air{
 	

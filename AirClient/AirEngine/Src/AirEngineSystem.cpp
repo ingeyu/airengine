@@ -22,7 +22,7 @@
 #include "AirEngineScreenEntity.h"
 #include "AirEnginePostComposer.h"
 #include "AirEngineParticleEntity.h"
-#include "AirInterfaceShootParticle.h"
+//#include "AirInterfaceShootParticle.h"
 #include "AirEngineFont.h"
 #include "AirEngineTextInstance.h"
 #include "AirStaticMesh.h"
@@ -47,6 +47,7 @@
 #include "AirGameSystem.h"
 #include "AirAudioSystem.h"
 #include "AirParticle.h"
+#include "AirPhysicsSystem.h"
 
 
 #include <fstream>
@@ -166,6 +167,7 @@ namespace Air{
 			ResourceSystem::GetSingleton()->Initialization();
 			ResourceSystem::GetSingleton()->AddPackage(GetGlobalSetting().m_EngineParam.strMedia);
 
+			PhysicsSystem::GetSingleton()->Initialization();
 			RenderSystem::GetSingleton()->Initialization();
 			AudioSystem::GetSingleton()->Initialization();
 			ParticleSystem::GetSingleton()->Initialization();
@@ -300,6 +302,8 @@ namespace Air{
 			AudioSystem::ReleaseSingleton();
 			Render::System::GetSingleton()->Release();
 			Render::System::ReleaseSingleton();
+			PhysicsSystem::GetSingleton()->Release();
+			PhysicsSystem::ReleaseSingleton();
 			ResourceSystem::GetSingleton()->Release();
 			ResourceSystem::ReleaseSingleton();
 			//最后释放所有插件

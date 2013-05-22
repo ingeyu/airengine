@@ -2,7 +2,7 @@
 #define ENGINEENTITYCLOTH_HEAD_FILE
 
 #include "AirEngineHeader.h"
-#include "AirInterfacePhysicsCloth.h"
+//#include "AirInterfacePhysicsCloth.h"
 #include "AirEngineMovableObject.h"
 namespace Air{
 	
@@ -27,12 +27,12 @@ namespace Air{
 			***/
 			struct	Info{
 				Info(){
-					pXScene	=	NULL;
+				//	pXScene	=	NULL;
 				};
 				AString				strMeshName;
 				AString				strMaterialName;
-				Physics::IScene*		pXScene;			///<	场景指针
-				Physics::ICloth::Info	clothInfo;		
+				//Physics::IScene*		pXScene;			///<	场景指针
+				//Physics::ICloth::Info	clothInfo;		
 			};
 		public:
 			EntityCloth(CAString&	strName,Info*	pInfo);
@@ -50,7 +50,7 @@ namespace Air{
 			U1		CreatePhysxMesh();
 			U1		CreateRenderMesh();
 		protected:
-			Physics::ICloth*		m_pCloth;
+			//Physics::ICloth*		m_pCloth;
 			Info				m_Info;
 		};
 
