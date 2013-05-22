@@ -26,7 +26,7 @@ namespace	Air{
 			return true;
 		}
 
-		void SVO::Updata( const STD_VECTOR<U32>& svoData ,U32 uiDepth,float fScale)
+		void SVO::Update( const STD_VECTOR<U32>& svoData ,U32 uiDepth,float fScale)
 		{
 			m_uiDepth	=	uiDepth;
 			m_fScale	=	fScale;
@@ -37,7 +37,7 @@ namespace	Air{
 			m_SVO				=	svoData;
 		}
 
-		U1	SVO::IsIntersect(PointShape* shape,const BoundingBox& box){
+		U1	SVO::IsIntersect( PointShape* shape,const BoundingBox& box){
 
 			switch(shape->m_Type){
 			case	enPST_Point:{
@@ -47,8 +47,8 @@ namespace	Air{
 
 								   }break;
 			case	enPST_Box:{
-				Float3& vCenter		= shape->m_vPosition;
-				Float3& vHalfSize	=	((BoxShape*)shape)->m_vHalfSize;
+				const Float3& vCenter		= shape->m_vPosition;
+				const Float3& vHalfSize	=	((BoxShape*)shape)->m_vHalfSize;
 				BoundingBox bIntersect=	box;
 				bIntersect.Intersect(BoundingBox(vCenter-vHalfSize,vCenter+vHalfSize));
 				if(	bIntersect.vMin.x < bIntersect.vMax.x &&
@@ -59,7 +59,7 @@ namespace	Air{
 				}
 							  }break;
 			case	enPST_Sphere:{
-				Float3& vCenter		= shape->m_vPosition;
+				const Float3& vCenter		= shape->m_vPosition;
 				float  fRadius	=	((SphereShape*)shape)->fRadius;
 				if(	box.vMin.x	-	vCenter.x	>	fRadius	||
 					box.vMin.y	-	vCenter.y	>	fRadius	||
@@ -75,7 +75,7 @@ namespace	Air{
 				}
 								 }break;
 			case	enPST_Cylinder:{
-				Float3& vCenter		= shape->m_vPosition;
+				const Float3& vCenter		= shape->m_vPosition;
 				float  fRadius	=	((CylinderShape*)shape)->fRadius;
 				float  fHeight	=	((CylinderShape*)shape)->fHeight;
 				if(	box.vMin.x	-	vCenter.x	>	fRadius	||
@@ -98,7 +98,7 @@ namespace	Air{
 			return false;
 		}
 
-		Air::U1 SVO::CollisionDetect( PointShape* shape,Float3* pV/*=NULL*/ )
+		Air::U1 SVO::CollisionDetect( const Float3& p,Float3* pV/*=NULL*/ )
 		{
 			if(m_uiDepth==0	||	m_SVO.empty()){
 				return false;
@@ -107,11 +107,11 @@ namespace	Air{
 				U32&			uiMaxDepth	=	m_uiDepth;
 				BoundingBox&	bound		=	m_BoundingBox;
 
-				if(!IsIntersect(shape,bound)){
+				if(!bound.IsInclude(p)){
 					return false;
 				}
 
-				Float3 VoxelIndex = shape->m_vPosition*m_fScale-bound.vMin;
+				Float3 VoxelIndex = p*m_fScale-bound.vMin;
 				Common::IntVec3 vIndex(VoxelIndex.x,VoxelIndex.y,VoxelIndex.z);
 				U32 offset	=	0;
 				for(int i=0;i<uiMaxDepth;i++){
@@ -148,6 +148,148 @@ namespace	Air{
 
 				return false;
 			//}
+		}
+
+		Air::U1 SVO::CollisionDetect( PointShape*  p,Float3* pNormal )
+		{
+
+			if(m_uiDepth==0	||	m_SVO.empty()){
+				return false;
+			}
+
+			U32&			uiMaxDepth	=	m_uiDepth;
+			
+			ScaleShape(p);
+			/*CylinderShape	scaleShape	=	p;
+			scaleShape.m_vPosition	*=m_fScale;
+			scaleShape.fRadius		*=m_fScale;
+			scaleShape.fHeight		*=m_fScale;*/
+			if(!IsIntersect(p,m_BoundingBox)){
+				return false;
+			}
+
+
+			Float3 vMin			=	m_BoundingBox.vMin;
+			Float3 vHalfSize	=	m_vHalfSize;
+			BoundingBox	tempBound;
+
+			U32 i=0;
+			U32 j=0;
+			U32 uiStack=0;
+			U32	uiOffsetStack[10]={0};
+
+			
+
+			Float3 vRetNormal;
+			float fWeight	=	-1.0f;
+			
+			for(;;){
+
+				for(;j<8;){
+					U32 addr		=	uiOffsetStack[i]+j;
+					U32& uiValue	=	m_SVO[addr];
+					if(uiValue==0){
+						j++;
+						continue;
+					}
+					
+					tempBound.vMin	=	vMin+Float3(j>>2,1&(j>>1),1&j)*vHalfSize;
+					tempBound.vMax	=	tempBound.vMin+vHalfSize;
+
+					if(!IsIntersect(p,tempBound)){
+						j++;
+						continue;
+					}
+
+					if(i	==	uiMaxDepth-1){
+						
+						if(pNormal!=NULL){
+							Float3 vNormal = Float3(((uiValue&0x00ff0000)>>16)/255.0f,
+													((uiValue&0x0000ff00)>>8)/255.0f,
+													((uiValue&0x000000ff))/255.0f);
+							vNormal	=	vNormal*2-1;
+							
+							if(fWeight	<	0){
+								vRetNormal	=	vNormal;
+								fWeight=1.0f;
+							}else{
+								vRetNormal+=vNormal;
+								fWeight+=1.0f;
+							}
+							j++;
+						}else{
+							return true;
+						}
+						
+					}else{
+						uiStack&=0xfffffff8;
+						uiStack|=j;
+						i++;
+						uiOffsetStack[i]	=	uiValue;
+						vMin		=	tempBound.vMin;
+						vHalfSize	*=	0.5;
+						j=0;
+						uiStack<<=3;
+					}
+				}
+				if(i!=0){
+					i--;
+					vHalfSize	*=	2;
+					uiStack>>=3;
+					j	=	(uiStack&7);
+					vMin	-=	Float3(j>>2,1&(j>>1),1&j)*vHalfSize;
+					j++;
+				}else{
+					break;
+				}
+			}
+			if(pNormal==NULL){
+				return false;
+			}
+			if(fWeight<0){
+				return false;
+			}
+
+			vRetNormal/=fWeight;
+			vRetNormal.Normalize();
+			*pNormal	=	vRetNormal;
+				
+			return true;
+			
+		}
+
+		void SVO::ScaleShape( PointShape* shape )
+		{
+			shape->m_vPosition*=m_fScale;
+			switch(shape->m_Type){
+			case	enPST_Point:{
+				;
+								}break;
+			case	enPST_Triangle:{
+
+								   }break;
+			case	enPST_Box:{
+				
+				Float3& v = ((BoxShape*)shape)->m_vHalfSize;
+				v*=m_fScale;
+							  }break;
+			case	enPST_Sphere:{
+				
+				float&  fRadius	=	((SphereShape*)shape)->fRadius;
+				fRadius*=m_fScale;
+								 }break;
+			case	enPST_Cylinder:{
+
+				float&  fRadius	=	((CylinderShape*)shape)->fRadius;
+				float&  fHeight	=	((CylinderShape*)shape)->fHeight;
+				fRadius*=m_fScale;
+				fHeight*=m_fScale;
+				
+								   }break;
+			case	enPST_Plane:{
+
+								}break;
+			}
 		}
 
 	}

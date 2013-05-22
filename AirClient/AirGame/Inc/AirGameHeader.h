@@ -42,6 +42,7 @@
 #include "AirGameThirdControl.h"
 #include "AirGameFreeControl.h"
 #include "AirParticle.h"
+#include "AirPhysicsSystem.h"
 
 
 

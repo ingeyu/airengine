@@ -7,6 +7,7 @@ namespace	Air{
 		System::System()
 		{
 			m_pSVO	=	NULL;
+			m_vGravity	=	Float3(0,-9.8,0);
 		}
 
 		Air::U1 System::Initialization()
@@ -29,15 +30,43 @@ namespace	Air{
 
 		Air::U1 System::CollisionDetect( const Float3& p,Float3& v )
 		{
-			PointShape shape;
-			shape.m_vPosition	=	p;
-			
-			return m_pSVO->CollisionDetect(&shape,&v);
+			return m_pSVO->CollisionDetect(p,&v);
 		}
 
 		void System::UpdateSVO( const STD_VECTOR<U32>& svoData,U32 uiDepth,float fScale )
 		{
-			m_pSVO->Updata(svoData,uiDepth,fScale);
+			m_pSVO->Update(svoData,uiDepth,fScale);
+		}
+
+		Air::U1 System::Simulation( Float3& p,Float3& v,U1 bGravity /*= false*/ )
+		{
+			if(!bGravity){
+				return CollisionDetect(p,v);
+			}else{
+				//static 
+			}
+			return false;
+		}
+
+		Air::U1 System::Silumation( Float3& p,float fRadius,float fHeight,Float3& v,U1 bGravity /*= false*/ )
+		{
+			static float& fTimeDelta	=	GetTimer().m_FrameTime.fTimeDelta;
+			BoxShape shape;
+			
+			shape.m_vHalfSize		=	Float3(1,2,1)*fRadius;
+			Float3 vDir = v+m_vGravity*fTimeDelta*5;
+			Float3 vPos = p+vDir*fTimeDelta;
+			shape.m_vPosition	=	vPos;
+			Float3 vNormal;
+			if(m_pSVO->CollisionDetect(&shape,&vNormal)){
+				
+				p+=(v+vNormal).Normalize()*fTimeDelta;
+				//p+=	vDir*fTimeDelta;
+				return true;
+			}else{
+				p+=	vDir*fTimeDelta;
+				return false;
+			}
 		}
 
 	}
