@@ -161,6 +161,7 @@ namespace	Air{
 			
 			ScaleShape(p);
 			Float3 vCenter = p->m_vPosition;
+			vCenter.y -= ((BoxShape*)p)->m_vHalfSize.y*0.5;
 			BoundingBox box(vCenter-((BoxShape*)p)->m_vHalfSize,vCenter+((BoxShape*)p)->m_vHalfSize);
 			
 			//if(p->m_Type==enPST_Box){
@@ -218,18 +219,25 @@ namespace	Air{
 								fWeight	=	1.0f;
 							}
 #else
-							Float3 vNormal = (vCenter - tempBound.GetCenter()).Normalize();
+							BoundingBox bIntersect = box.Intersect(tempBound);
+							Float3 vSize	=	bIntersect.vMax	-	bIntersect.vMin;
+
+							Float3 vNormal = (vCenter - tempBound.GetCenter());
+							if(vNormal.y<0){
+								vNormal.y=0;
+							}
+							vNormal.Normalize();
 							//Float3 vNormal = Float3(((uiValue&0x00ff0000)>>16)/255.0f,
 							//	((uiValue&0x0000ff00)>>8)/255.0f,
 							//	((uiValue&0x000000ff))/255.0f);
 							//vNormal	=	vNormal*2-1;
 
 							if(fWeight	<	0){
-								vRetNormal	=	vNormal;
-								fWeight=1;
+								vRetNormal	=	vNormal;//*vSize.Length();
+								fWeight=1;//vSize.Length();
 							}else{
-								vRetNormal+=vNormal;
-								fWeight+=1;
+								vRetNormal+=vNormal;//*vSize.Length();
+								fWeight+=1;//vSize.Length();
 							}
 #endif
 							j++;
@@ -268,6 +276,7 @@ namespace	Air{
 
 			//bAllIntersect.
 			vRetNormal/=fWeight;
+			vRetNormal.Normalize();
 
 			*pNormal	=	vRetNormal;
 				
