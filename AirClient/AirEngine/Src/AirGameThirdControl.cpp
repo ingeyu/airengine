@@ -130,13 +130,13 @@ namespace Air{
 				vMoveDir.Normalize();
 
 				Float3	vCurrentPos	=	m_pNode->GetPosition();
-				vCurrentPos			+=	vMoveDir*fSensitivity;
-				//Float3 vNewVelocity	=	vMoveDir*m_fMoveSensitivity;
+				//vCurrentPos			+=	vMoveDir*fSensitivity;
+				Float3 vNewVelocity	=	vMoveDir*m_fMoveSensitivity;
 
-				//PhysicsSystem::GetSingleton()->Silumation(vCurrentPos,0.5,1,vNewVelocity);
-				//if(vCurrentPos.y<-1){
-				//	vCurrentPos.y=1;
-				//}
+				PhysicsSystem::GetSingleton()->Silumation(vCurrentPos,0.5,1,vNewVelocity);
+				if(vCurrentPos.y<-1){
+					vCurrentPos.y=1;
+				}
 				m_pNode->SetPosition(vCurrentPos);
 				Float3 v = Float3(0,1.5,0)	-vDir*m_fCurrentDis;
 				m_pCamera->SetPosition(vCurrentPos+v);

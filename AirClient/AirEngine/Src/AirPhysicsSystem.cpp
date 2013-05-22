@@ -53,14 +53,17 @@ namespace	Air{
 			static float& fTimeDelta	=	GetTimer().m_FrameTime.fTimeDelta;
 			BoxShape shape;
 			
-			shape.m_vHalfSize		=	Float3(1,2,1)*fRadius;
+			shape.m_vHalfSize		=	Float3(0.5,1,0.5)*fRadius;
 			Float3 vDir = v+m_vGravity*fTimeDelta*5;
-			Float3 vPos = p+vDir*fTimeDelta;
+			Float3 vPos = p+Float3(0,0.5,0)+vDir*fTimeDelta;
 			shape.m_vPosition	=	vPos;
 			Float3 vNormal;
 			if(m_pSVO->CollisionDetect(&shape,&vNormal)){
-				
-				p+=(v+vNormal).Normalize()*fTimeDelta;
+				Float3 vCross	=	vDir.Cross(vNormal).Normalize();
+				Float3 vMove	=	vNormal.Cross(vCross).Normalize();
+				Float3 vCorrect	=	vMove*(vDir.Dot(vMove));
+				//vNormal.y=0;
+				p+=(vCorrect+vNormal)*fTimeDelta;
 				//p+=	vDir*fTimeDelta;
 				return true;
 			}else{

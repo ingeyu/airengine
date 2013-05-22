@@ -128,7 +128,7 @@ namespace	Air{
 			info.bAllowRotate	=	false;
 			info.pSection		=	this;
 			info.pCamera		=	m_pScene->GetMainCamera();
-			info.vPosition		=	Float3(0,-0.15,0);
+			info.vPosition		=	Float3(0,0,0);
 			return GameSystem::GetSingleton()->CreateProduct<ThirdControl>(m_strProductName+"_ThirdControl",&info);
 		}
 
