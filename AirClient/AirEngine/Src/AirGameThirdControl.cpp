@@ -136,14 +136,17 @@ namespace Air{
 				Float3 vNewVelocity	=	vMoveDir*m_fMoveSensitivity;
 				vNewVelocity.y	=	m_fGravity;
 				PhysicsSystem::GetSingleton()->Silumation(vCurrentPos,0.5,1,vNewVelocity);
+				m_fGravity		=	vNewVelocity.y;
 				if(vCurrentPos.y<-1){
 					vCurrentPos.y=1;
+					m_fGravity		=	0;
 				}
-				m_fGravity		=	vNewVelocity.y;
+				
 				//vCurrentPos=(vOldPos+vCurrentPos)*0.5;
 				m_pNode->SetPosition(vCurrentPos);
 				Float3 v = Float3(0,1.5,0)	-vDir*m_fCurrentDis;
-				m_pCamera->SetPosition((vOldPos+vCurrentPos)*0.5+v);
+				vCurrentPos.y=0;
+				m_pCamera->SetPosition(vCurrentPos+v);
 				
 					
 					return true;

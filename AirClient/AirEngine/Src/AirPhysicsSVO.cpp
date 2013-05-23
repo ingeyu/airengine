@@ -150,7 +150,7 @@ namespace	Air{
 			//}
 		}
 
-		Air::U1 SVO::CollisionDetect( PointShape*  p,Float3* pNormal )
+		Air::U1 SVO::CollisionDetect( PointShape*  pMove,PointShape* pGravity,Float3* pNormal ,Float3* pCorrect)
 		{
 
 			if(m_uiDepth==0	||	m_SVO.empty()){
@@ -159,15 +159,14 @@ namespace	Air{
 
 			U32&			uiMaxDepth	=	m_uiDepth;
 			
-			ScaleShape(p);
-			Float3 vCenter = p->m_vPosition;
-			vCenter.y -= ((BoxShape*)p)->m_vHalfSize.y*0.5;
-			BoundingBox box(vCenter-((BoxShape*)p)->m_vHalfSize,vCenter+((BoxShape*)p)->m_vHalfSize);
-			
-			//if(p->m_Type==enPST_Box){
-			//	vCenter+=((BoxShape*)p)->m_vHalfSize;
-			//}
-			if(!IsIntersect(p,m_BoundingBox)){
+			ScaleShape(pMove);
+			ScaleShape(pGravity);
+
+			Float3 vCenter = pMove->m_vPosition;
+			//BoundingBox boxMove(vCenter-((BoxShape*)pMove)->m_vHalfSize,vCenter+((BoxShape*)pMove)->m_vHalfSize);
+			BoundingBox boxGravity(vCenter-((BoxShape*)pGravity)->m_vHalfSize,vCenter+((BoxShape*)pGravity)->m_vHalfSize);
+
+			if(!IsIntersect(pMove,m_BoundingBox)&&!IsIntersect(pGravity,m_BoundingBox)){
 				return false;
 			}
 
@@ -185,7 +184,11 @@ namespace	Air{
 
 			Float3 vRetNormal;
 			float fWeight	=	-1.0f;
-			BoundingBox	bAllIntersect;
+
+			float& fGravity	=	pCorrect->y;
+			fGravity		=	boxGravity.vMin.y;
+
+			U1		bRet	=	false;
 
 			for(;;){
 
@@ -200,7 +203,10 @@ namespace	Air{
 					tempBound.vMin	=	vMin+Float3(j>>2,1&(j>>1),1&j)*vHalfSize;
 					tempBound.vMax	=	tempBound.vMin+vHalfSize;
 
-					if(!IsIntersect(p,tempBound)){
+					U1	bHitMove	=	IsIntersect(pMove,tempBound);
+					U1	bHitGravity	=	IsIntersect(pGravity,tempBound);
+
+					if(!bHitMove&&!bHitGravity){
 						j++;
 						continue;
 					}
@@ -210,34 +216,27 @@ namespace	Air{
 						if(pNormal!=NULL){
 
 #if 0
-							BoundingBox bIntersect = box.Intersect(tempBound);
-							if(fWeight<0){
-								bAllIntersect	=	bIntersect;
-								fWeight	=	1.0f;
-							}else{
-								bAllIntersect.Add(bIntersect);
-								fWeight	=	1.0f;
-							}
 #else
-							BoundingBox bIntersect = box.Intersect(tempBound);
-							Float3 vSize	=	bIntersect.vMax	-	bIntersect.vMin;
-
-							Float3 vNormal = (vCenter - tempBound.GetCenter());
-							if(vNormal.y<0){
-								vNormal.y=0;
+							if(bHitGravity){
+								float f	=	tempBound.vMax.y;
+								if(f > fGravity){
+									fGravity	=	f;
+									bRet		=	true;
+								}
 							}
-							vNormal.Normalize();
-							//Float3 vNormal = Float3(((uiValue&0x00ff0000)>>16)/255.0f,
-							//	((uiValue&0x0000ff00)>>8)/255.0f,
-							//	((uiValue&0x000000ff))/255.0f);
-							//vNormal	=	vNormal*2-1;
 
-							if(fWeight	<	0){
-								vRetNormal	=	vNormal;//*vSize.Length();
-								fWeight=1;//vSize.Length();
-							}else{
-								vRetNormal+=vNormal;//*vSize.Length();
-								fWeight+=1;//vSize.Length();
+							if(bHitMove){
+								bRet	=	true;
+								Float3 vNormal = (vCenter - tempBound.GetCenter());
+								vNormal.y=0;
+								//vNormal.Normalize();
+								if(fWeight	<	0){
+									vRetNormal	=	vNormal;//*vSize.Length();
+									fWeight=1;//vSize.Length();
+								}else{
+									vRetNormal+=vNormal;//*vSize.Length();
+									fWeight+=1;//vSize.Length();
+								}
 							}
 #endif
 							j++;
@@ -270,17 +269,14 @@ namespace	Air{
 			if(pNormal==NULL){
 				return false;
 			}
-			if(fWeight<0){
-				return false;
+			fGravity/=m_fScale;
+			if(fWeight>0){
+				vRetNormal/=fWeight;
+				vRetNormal.Normalize();
 			}
-
-			//bAllIntersect.
-			vRetNormal/=fWeight;
-			vRetNormal.Normalize();
-
 			*pNormal	=	vRetNormal;
 				
-			return true;
+			return bRet;
 			
 		}
 

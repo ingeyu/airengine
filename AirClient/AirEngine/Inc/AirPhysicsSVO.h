@@ -13,7 +13,7 @@ namespace	Air{
 			virtual	U1	Destroy();
 			void		Update(const STD_VECTOR<U32>& svoData,U32 uiDepth,float fScale);
 			U1			CollisionDetect(const Float3& p,Float3* pV=NULL);
-			U1			CollisionDetect( PointShape* p,Float3* pNormal=NULL);
+			U1			CollisionDetect( PointShape* pMove,PointShape* pGravity,Float3* pNormal=NULL,Float3* pCorrect=NULL);
 		public:
 			U1			IsIntersect( PointShape* shape,const BoundingBox& box);
 			void		ScaleShape(PointShape* shape);
