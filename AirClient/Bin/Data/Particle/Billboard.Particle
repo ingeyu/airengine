@@ -22,3 +22,28 @@ ParticleTemplate	Billboard
 	}
 
 }
+
+ParticleTemplate	BigFire
+{
+	Life		-1
+	Material	BigFire
+	Emitter		DefaultEmitter
+	{
+		Freq			0.5
+		ElementLife		2
+		ElementSize		0.5
+		VelocityDir		0 -10 0
+		VelocityAngle		0.2
+		//Center		0 0 0
+		//HalfSize		100 100 100
+	}
+	Affector	DefaultAffector	
+	{
+		
+	}
+	Renderer	DirectionRenderer	
+	{
+		
+	}
+
+}

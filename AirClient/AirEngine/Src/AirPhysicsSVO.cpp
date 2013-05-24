@@ -11,6 +11,7 @@ namespace	Air{
 			m_BoundingBox.vMax	=	Float3(0,0,0);
 			m_vHalfSize			=	Float3(0,0,0);
 			m_fScale			=	1.0f;
+			m_SVO				=	NULL;
 		}
 
 		Air::U1 SVO::Create()
@@ -20,13 +21,13 @@ namespace	Air{
 
 		Air::U1 SVO::Destroy()
 		{
-			m_SVO.clear();
+			m_SVO=NULL;
 			m_uiDepth	=	0;
 			m_fScale	=	1.0f;
 			return true;
 		}
 
-		void SVO::Update( const STD_VECTOR<U32>& svoData ,U32 uiDepth,float fScale)
+		void SVO::Update( U32* svoData ,U32 uiDepth,float fScale)
 		{
 			m_uiDepth	=	uiDepth;
 			m_fScale	=	fScale;
@@ -100,7 +101,7 @@ namespace	Air{
 
 		Air::U1 SVO::CollisionDetect( const Float3& p,Float3* pV/*=NULL*/ )
 		{
-			if(m_uiDepth==0	||	m_SVO.empty()){
+			if(m_uiDepth==0	||	m_SVO==NULL){
 				return false;
 			}
 
@@ -153,7 +154,7 @@ namespace	Air{
 		Air::U1 SVO::CollisionDetect( PointShape*  pMove,PointShape* pGravity,Float3* pNormal ,Float3* pCorrect)
 		{
 
-			if(m_uiDepth==0	||	m_SVO.empty()){
+			if(m_uiDepth==0	||	m_SVO==NULL){
 				return false;
 			}
 

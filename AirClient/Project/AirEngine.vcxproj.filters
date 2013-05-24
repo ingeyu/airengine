@@ -362,6 +362,9 @@
     <ClCompile Include="..\AirEngine\Src\AirPhysicsSVO.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirAISystem.cpp">
+      <Filter>AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\AirEngine\Inc\AirEngine.h">
@@ -741,6 +744,9 @@
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirPhysicsSVO.h">
       <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirAISystem.h">
+      <Filter>AI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

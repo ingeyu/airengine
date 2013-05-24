@@ -185,3 +185,8 @@ Material	Particle_Direction	:	MT_Particle_Direction
 	TextureInfoVector	0
 	Texture	Particle/firestreak7.dds
 }
+Material	BigFire	:	MT_Particle_Direction
+{
+	TextureInfoVector	0
+	Texture	Particle/plasma_bolt1_blue.dds
+}

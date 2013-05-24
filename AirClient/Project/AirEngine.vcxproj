@@ -156,6 +156,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\AirEngine\Src\AirAISystem.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirAudioBuffer.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirAudioDevice.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirAudioSound.cpp" />
@@ -260,6 +261,7 @@
     <ClCompile Include="..\AirEngine\Src\AirStaticMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\AirEngine\Inc\AirAISystem.h" />
     <ClInclude Include="..\AirEngine\Inc\AirAudioBuffer.h" />
     <ClInclude Include="..\AirEngine\Inc\AirAudioDevice.h" />
     <ClInclude Include="..\AirEngine\Inc\AirBoxRenderable.h" />

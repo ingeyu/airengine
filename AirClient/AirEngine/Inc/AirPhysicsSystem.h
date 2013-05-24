@@ -17,7 +17,7 @@ namespace	Air{
 			virtual	U1		Release();
 			
 			void			Update(const FrameTime& frameTime);
-			void			UpdateSVO(const STD_VECTOR<U32>& svoData,U32 uiDepth,float fScale);
+			void			UpdateSVO(U32* svoData,U32 uiDepth,float fScale);
 			U1				CollisionDetect(const Float3& p,Float3& v);
 			U1				Simulation(Float3& p,Float3& v,U1 bGravity	=	false);
 			U1				Silumation(Float3& p,float fRadius,float fHeight,Float3& v,U1 bGravity	=	false);

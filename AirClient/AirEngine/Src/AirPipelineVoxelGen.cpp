@@ -374,7 +374,7 @@ namespace	Air{
 				m_pVoxel->UpdateData(&vecColor[0]);
 				pSysBuffer->ReleaseRef();
 
-				PhysicsSystem::GetSingleton()->UpdateSVO(vecTree,m_SVOParam.x,m_SVOParam.w);
+				PhysicsSystem::GetSingleton()->UpdateSVO(&vecTree[0],m_SVOParam.x,m_SVOParam.w);
 			
 		}
 

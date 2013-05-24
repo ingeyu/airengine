@@ -10,6 +10,7 @@ namespace	Air{
 			m_pModel	=	NULL;
 			m_pParticle	=		NULL;
 			m_fShootTime	=	0.0f;
+			m_pBigParticle	=	NULL;
 			
 		}
 
@@ -30,10 +31,21 @@ namespace	Air{
 			m_pParticle=Engine::ParticleSystem::GetSingleton()->CreateProduct<Engine::Particle>("123",&parInfo);
 			m_pParticle->EnableEmitter(false);
 			m_pModel->attachObject("Ref_Weapon",m_pParticle);
+
+
+			parInfo;
+			parInfo.strTemplate	=	"BigFire";
+			m_pBigParticle=Engine::ParticleSystem::GetSingleton()->CreateProduct<Engine::Particle>("BigFire",&parInfo);
+			m_pBigParticle->EnableEmitter(false);
+			m_pModel->attachObject("Ref_Weapon",m_pBigParticle);
+
+			
 			
 			m_pControl->RegisterKeyCallback(OIS::KC_ESCAPE,this,ConverertFunction(&DefaultSection::OnESC));
 			m_pControl->RegisterMouseCallback(OIS::MB_Left,this,ConverertFunction(&DefaultSection::OnFireStart),enKET_MouseDown);
 			m_pControl->RegisterMouseCallback(OIS::MB_Left,this,ConverertFunction(&DefaultSection::OnFireEnd),enKET_MouseUp);
+			m_pControl->RegisterMouseCallback(OIS::MB_Right,this,ConverertFunction(&DefaultSection::OnBigFireStart),enKET_MouseDown);
+			m_pControl->RegisterMouseCallback(OIS::MB_Right,this,ConverertFunction(&DefaultSection::OnBigFireEnd),enKET_MouseUp);
 			return true;
 		}
 
@@ -43,6 +55,11 @@ namespace	Air{
 				if(m_pModel!=NULL)
 					m_pModel->detachObject(m_pParticle);
 				SAFE_RELEASE_REF(m_pParticle);
+			}
+			if(m_pBigParticle){
+				if(m_pModel!=NULL)
+					m_pModel->detachObject(m_pBigParticle);
+				SAFE_RELEASE_REF(m_pBigParticle);
 			}
 			if(m_pModel!=NULL){
 				m_pModel->GetParentSceneNode()->detachObject(m_pModel);
@@ -136,7 +153,7 @@ namespace	Air{
 		void DefaultSection::Update( const FrameTime& fFrameTime )
 		{
 			__super::Update(fFrameTime);
-			if(m_pParticle->IsEmitterEnable()){
+			if(m_pParticle->IsEmitterEnable()||m_pBigParticle->IsEmitterEnable()){
 				m_fShootTime+=fFrameTime.fTimeDelta;
 				if(m_fShootTime>0.5f){
 					m_fShootTime-=0.5f;
@@ -191,6 +208,19 @@ namespace	Air{
 				}
 				
 			}
+		}
+
+		void	__stdcall DefaultSection::OnBigFireEnd( const Key& k )
+		{
+			m_pBigParticle->EnableEmitter(false);
+		}
+
+		void	__stdcall DefaultSection::OnBigFireStart( const Key& k )
+		{
+			m_pModel->PlayAction("shootlow.CAF",0.05);
+			m_pBigParticle->EnableEmitter(true);
+			m_pParticle->EnableEmitter(false);
+			m_fShootTime	=	0.0f;
 		}
 
 		AString	EditorSection::ProductTypeName="EditorSection";

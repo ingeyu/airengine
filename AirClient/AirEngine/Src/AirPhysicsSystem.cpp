@@ -33,7 +33,7 @@ namespace	Air{
 			return m_pSVO->CollisionDetect(p,&v);
 		}
 
-		void System::UpdateSVO( const STD_VECTOR<U32>& svoData,U32 uiDepth,float fScale )
+		void System::UpdateSVO( U32* svoData,U32 uiDepth,float fScale )
 		{
 			m_pSVO->Update(svoData,uiDepth,fScale);
 		}

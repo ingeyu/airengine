@@ -21,8 +21,11 @@ namespace	Air{
 			void	__stdcall	OnESC(const Key& k);
 			void	__stdcall	OnFireStart(const Key& k);
 			void	__stdcall	OnFireEnd(const Key& k);
+			void	__stdcall	OnBigFireStart(const Key& k);
+			void	__stdcall	OnBigFireEnd(const Key& k);
 			AnimationModel*		m_pModel;
 			Engine::Particle*	m_pParticle;
+			Engine::Particle*	m_pBigParticle;
 			float				m_fShootTime;
 			Float3				m_vMoveDir;
 			Float3				m_vFaceDir;
