@@ -123,6 +123,8 @@ namespace Air{
 			*
 			**/
 			Ray		GetCursorPostionRay(SInt x	=	-1,SInt y = -1);
+			//0,1
+			Float2	GetMousePos();
 	
 			/**	\brief	获取按键的字符串
 			*   

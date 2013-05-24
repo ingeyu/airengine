@@ -76,30 +76,30 @@ namespace	Air{
 				m_vMoveDir	=	Float3(0,0,0);
 			}else{
 				switch(mstate){
-					case	enMS_Left		:{
-						m_vMoveDir	=	Float3(-1,0,0);
-											 }break;
-					case	enMS_Right		:{
-						m_vMoveDir	=	Float3(1,0,0);
-											 }break;
-					case	enMS_Run		:{
-						m_vMoveDir	=	Float3(0,0,1);
-											 }break;
-					case	enMS_Back		:{
-						m_vMoveDir	=	Float3(0,0,-1);
-											 }break;
-					case	enMS_RunLeft	:{
-						m_vMoveDir	=	Float3(-1,0,1).Normalize();
-											 }break;
-					case	enMS_RunRight	:{
-						m_vMoveDir	=	Float3(1,0,1).Normalize();
-											 }break;
-					case	enMS_BackLeft	:{
-						m_vMoveDir	=	Float3(-1,0,-1).Normalize();
-											 }break;
-					case	enMS_BackRight	:{
-						m_vMoveDir	=	Float3(1,0,-1).Normalize();
-											 }break;
+				case	enMS_Left		:{
+					m_vMoveDir	=	Float3(-1,0,0);
+										 }break;
+				case	enMS_Right		:{
+					m_vMoveDir	=	Float3(1,0,0);
+										 }break;
+				case	enMS_Run		:{
+					m_vMoveDir	=	Float3(0,0,1);
+										 }break;
+				case	enMS_Back		:{
+					m_vMoveDir	=	Float3(0,0,-1);
+										 }break;
+				case	enMS_RunLeft	:{
+					m_vMoveDir	=	Float3(-1,0,1).Normalize();
+										 }break;
+				case	enMS_RunRight	:{
+					m_vMoveDir	=	Float3(1,0,1).Normalize();
+										 }break;
+				case	enMS_BackLeft	:{
+					m_vMoveDir	=	Float3(-1,0,-1).Normalize();
+										 }break;
+				case	enMS_BackRight	:{
+					m_vMoveDir	=	Float3(1,0,-1).Normalize();
+										 }break;
 				}
 				float fRun	=	m_vMoveDir.Dot(m_vFaceDir);
 				if(fRun	>	0){

@@ -106,6 +106,11 @@ namespace	Air{
 			return m_pControl;
 		}
 
+		Engine::SceneNode* Section::GetActorNode()
+		{
+			return m_pScene->GetDynamicSceneNode();
+		}
+
 
 
 	}

@@ -5,6 +5,7 @@
 #include "AirGameFPSControl.h"
 #include "AirGameThirdControl.h"
 #include "AirGameFreeControl.h"
+#include "AirGameActor.h"
 
 namespace	Air{
 	namespace	Game{
@@ -17,6 +18,7 @@ namespace	Air{
 
 		Air::U1 System::Initialization()
 		{
+			AddFactory(new ParamFactory<Actor>());
 			AddFactory(new ParamFactory<FPSControl>());
 			AddFactory(new ParamFactory<ThirdControl>());
 			AddFactory(new ParamFactory<FreeControl>());

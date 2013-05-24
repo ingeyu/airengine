@@ -69,17 +69,23 @@ namespace	Air{
 
 		void ParticleAffector::Update( const FrameTime& frameTime,Particle* pParticle )
 		{
+			const	ParticleCB&	cb	=	pParticle->GetCallback();
+
 			PhysicsSystem* pPhysicsSys	=	PhysicsSystem::GetSingleton();
 			PElementList& lst = pParticle->GetElementList();
 			Float3 p;
 			for(PElementList::iterator i = lst.begin();i!=lst.end();i++){
-				p = (*i)->vPos;
-				(*i)->vPos	+= (*i)->vVelocity*frameTime.fTimeDelta;
+				ParticleElement* e = (*i);
+				p = e->vPos;
+				e->vPos	+= e->vVelocity*frameTime.fTimeDelta;
 				if(m_pInfo->bEnableCollision==0)
 					continue;
-				if(pPhysicsSys->CollisionDetect((*i)->vPos,(*i)->vVelocity)){
-					p+=(*i)->vVelocity*frameTime.fTimeDelta;
-					(*i)->vPos=p;
+				if(pPhysicsSys->CollisionDetect(e->vPos,e->vVelocity)){
+					p+=e->vVelocity*frameTime.fTimeDelta;
+					e->vPos=p;
+					if(cb.pCB!=NULL){
+						(*cb.pCB)(cb.pObject,*e,pParticle,enEHT_DynamicObject,NULL);
+					}
 				}
 			}
 		}

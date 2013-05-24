@@ -2,6 +2,7 @@
 //#include "asm_math.h"
 
 #include "AirRenderSystem.h"
+#include "AirInterfaceInputSystem.h"
 
 namespace Air{
 	
@@ -203,6 +204,23 @@ namespace Air{
 				return	0;
 			}
 		}
+
+		Air::Float2 GlobalSetting::GetMousePos()
+		{
+			POINT	p;
+			p.x	=	m_pInputSystem->m_iX;
+			p.y	=	m_pInputSystem->m_iY;//arg.state.Y.abs;
+
+			RECT	r;
+			GetClientRect(m_EngineParam.hWnd,&r);
+
+			POINT	size;
+			size.x	=	r.right		-	r.left;
+			size.y	=	r.bottom	-	r.top;
+
+			return Float2(p.x/(float)size.x,p.y/(float)size.y);
+		}
+
 		//--------------------------------------------------------------------------------------
 		// Given a ray origin (orig) and direction (dir), and three vertices of a triangle, this
 		// function returns TRUE and the interpolated texture coordinates if the ray intersects 

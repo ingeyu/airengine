@@ -6,9 +6,29 @@
 
 namespace	Air{
 	namespace	Engine{
-		
+		class Particle;
 		class ParticleTemplate;
+		enum enumElementHitType{
+			enEHT_StaticObject,
+			enEHT_DynamicObject,
 
+		};
+		typedef	void	(__stdcall	*ElementHitCallback)(
+			void*					pThis,
+			const ParticleElement&	element,
+			Particle*				pParticle,
+			enumElementHitType		hitType,
+			void*					pObject
+			);
+		struct ParticleCB{
+			ParticleCB(){
+				pObject	=	NULL;
+				pCB		=	NULL;
+			};
+			void*					pObject;
+			ElementHitCallback		pCB;
+
+		};
 		class ENGINE_EXPORT	Particle	:	
 			public	IProduct,
 			public	MovableObject,
@@ -26,8 +46,8 @@ namespace	Air{
 
 			Particle(CAString& str,Info* pInfo);
 
-			virtual	U1	Create();
-			virtual	U1	Destroy();
+			virtual	U1					Create();
+			virtual	U1					Destroy();
 			virtual	void				Update(const FrameTime& frameTime);
 			virtual	void				ProcessRenderObject(U32	uiPhaseFlag);
 
@@ -41,11 +61,14 @@ namespace	Air{
 			inline	U32					GetElementCount()const	{return m_lstElement.size();};
 			inline	PElementList&		GetElementList()		{return m_lstElement;};
 			inline	ParticleTemplate*	GetTemplate()			{return m_pTemplate;};
+			inline	void				SetCallback(const ParticleCB& cb){m_CB=cb;};
+			inline	const ParticleCB&	GetCallback()const		{return m_CB;};
 		protected:
 			float							m_fBornTime;
 			PElementList					m_lstElement;
 			ParticleTemplate*				m_pTemplate;
 			Info*							m_pInfo;
+			ParticleCB						m_CB;
 		};
 
 		typedef void*	(*ParticleScriptParser)(StringVector&	vecScript,U32& i);

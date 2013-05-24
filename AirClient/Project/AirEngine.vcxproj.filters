@@ -368,6 +368,12 @@
     <ClCompile Include="..\AirEngine\Src\AirPipelineDefferredLight.cpp">
       <Filter>Pipeline</Filter>
     </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirGameActor.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirGameSkill.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\AirEngine\Inc\AirEngine.h">
@@ -753,6 +759,12 @@
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirPipelineDefferredLight.h">
       <Filter>Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirGameActor.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirGameSkill.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

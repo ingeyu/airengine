@@ -27,6 +27,7 @@ namespace	Air{
 			Engine::Pipeline*	GetPipeline();
 			Engine::Scene*		GetScene();
 			Control*			GetControl();
+			Engine::SceneNode*	GetActorNode();
 
 			virtual	void		LoadScene(CAString& strName);
 			virtual	void		SaveScene(CAString& strName);
