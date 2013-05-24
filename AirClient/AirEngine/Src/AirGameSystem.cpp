@@ -57,6 +57,11 @@ namespace	Air{
 		void System::SetCurrentSection( Section* pSection )
 		{
 			m_pSection	=	pSection;
+			if(m_pSection!=NULL){
+				EngineSystem::GetSingleton()->SetCurrentPipeline(m_pSection->GetPipeline());
+			}else{
+				EngineSystem::GetSingleton()->SetCurrentPipeline(NULL);
+			}
 		}
 
 	}

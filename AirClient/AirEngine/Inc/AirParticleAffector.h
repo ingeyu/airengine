@@ -15,6 +15,7 @@ namespace	Air{
 			struct Info{
 				U32			uiCount;
 				ForceField* pForceField;
+				U32			bEnableCollision;
 			};
 			static	AString	ProductTypeName;
 			static	void*	ScriptParser(StringVector& vecWord,U32& i);
@@ -22,6 +23,7 @@ namespace	Air{
 			virtual	U1	Create();
 			virtual	U1	Destroy();
 			virtual	void	Update(const FrameTime& frameTime,Particle* pParticle);
+			Info*			m_pInfo;
 		};
 	}
 }

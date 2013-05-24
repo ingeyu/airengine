@@ -209,6 +209,7 @@
     <ClCompile Include="..\AirEngine\Src\AirPhysicsSVO.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirPhysicsSystem.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirPhysicsTrigger.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirPipelineDefferredLight.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirPipelineOIT.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirPipelineVoxelGen.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirPostProcessHDR.cpp" />
@@ -320,6 +321,7 @@
     <ClInclude Include="..\AirEngine\Inc\AirPhysicsSVO.h" />
     <ClInclude Include="..\AirEngine\Inc\AirPhysicsSystem.h" />
     <ClInclude Include="..\AirEngine\Inc\AirPhysicsTrigger.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirPipelineDefferredLight.h" />
     <ClInclude Include="..\AirEngine\Inc\AirPipelineOIT.h" />
     <ClInclude Include="..\AirEngine\Inc\AirPipelineVoxelGen.h" />
     <ClInclude Include="..\AirEngine\Inc\AirPostProcessHDR.h" />

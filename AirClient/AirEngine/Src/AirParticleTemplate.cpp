@@ -64,6 +64,8 @@ namespace	Air{
 		void* ParticleTemplate::ScriptParser( StringVector& vecWord,U32& i )
 		{
 			ParticleTemplate::Info* pInfo	=	(ParticleTemplate::Info*)ParticleSystem::GetSingleton()->PTAlloc(sizeof(ParticleTemplate::Info));
+			pInfo->bEnablePointLight	=	false;
+			pInfo->fPointLightColor		=	Float4(1,1,1,1);
 			while(true){
 				AString& strPT = vecWord[i++];
 				if(strPT=="}"){
@@ -98,6 +100,13 @@ namespace	Air{
 						pInfo->pRenderInfo		=	(*pParser)(vecWord,i);
 					}
 
+				}else if(strPT=="EnablePointLight"){
+					pInfo->bEnablePointLight		=	Common::Converter::ToU1(vecWord[i++]);
+				}else if(strPT=="PointLightColor"){
+					pInfo->fPointLightColor.x		=	Common::Parse::ParseFloat(vecWord,i);
+					pInfo->fPointLightColor.y		=	Common::Parse::ParseFloat(vecWord,i);
+					pInfo->fPointLightColor.z		=	Common::Parse::ParseFloat(vecWord,i);
+					pInfo->fPointLightColor.w		=	Common::Parse::ParseFloat(vecWord,i);
 				}
 
 			}

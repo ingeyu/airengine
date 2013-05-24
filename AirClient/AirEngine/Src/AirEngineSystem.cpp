@@ -83,6 +83,7 @@ namespace Air{
 		System::System(){
 			
 			m_strPluginNameArray.resize(g_uiNumPlugin);
+			m_pCurrentPipeline		=	NULL;
 		}
 	
 		System::~System(){
@@ -433,5 +434,16 @@ namespace Air{
 			}
 			return	true;
 		}
+
+		Pipeline* System::GetCurrentPipeline()
+		{
+			return m_pCurrentPipeline;
+		}
+
+		void System::SetCurrentPipeline( Pipeline* pPipeline )
+		{
+			m_pCurrentPipeline	=	pPipeline;
+		}
+
 	}
 };

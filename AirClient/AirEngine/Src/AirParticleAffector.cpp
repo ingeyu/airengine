@@ -1,6 +1,7 @@
 #include "AirParticleAffector.h"
 #include "AirParticle.h"
 #include "AirPhysicsSystem.h"
+#include "AirCommonParse.h"
 namespace	Air{
 	namespace	Engine{
 		/*
@@ -63,7 +64,7 @@ namespace	Air{
 		AString ParticleAffector::ProductTypeName	="DefaultAffector";
 		ParticleAffector::ParticleAffector( CAString& strName,Info* pInfo ):IProduct(strName)
 		{
-
+			m_pInfo	=	pInfo;
 		}
 
 		void ParticleAffector::Update( const FrameTime& frameTime,Particle* pParticle )
@@ -74,6 +75,8 @@ namespace	Air{
 			for(PElementList::iterator i = lst.begin();i!=lst.end();i++){
 				p = (*i)->vPos;
 				(*i)->vPos	+= (*i)->vVelocity*frameTime.fTimeDelta;
+				if(m_pInfo->bEnableCollision==0)
+					continue;
 				if(pPhysicsSys->CollisionDetect((*i)->vPos,(*i)->vVelocity)){
 					p+=(*i)->vVelocity*frameTime.fTimeDelta;
 					(*i)->vPos=p;
@@ -93,13 +96,19 @@ namespace	Air{
 
 		void* ParticleAffector::ScriptParser( StringVector& vecWord,U32& i )
 		{
+			ParticleAffector::Info* pEInfo	=	(ParticleAffector::Info*)ParticleSystem::GetSingleton()->PTAlloc(sizeof(ParticleAffector::Info));
+			pEInfo->bEnableCollision		=	false;
+			pEInfo->uiCount					=	0;
+			pEInfo->pForceField				=	NULL;
 			while(true){
 				AString& strTemp2	=	vecWord[i++];
 				if(strTemp2=="}"){
 					break;
+				}else if(strTemp2	==	"CollisionDetect"){
+					pEInfo->bEnableCollision	=	Common::Converter::ToU1(vecWord[i++]);
 				}
 			}
-			return NULL;
+			return pEInfo;
 		}
 
 	}

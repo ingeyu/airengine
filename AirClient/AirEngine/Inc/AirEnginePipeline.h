@@ -7,6 +7,7 @@
 #include "AirInterfaceInputSystem.h"
 #include "AirPipelineOIT.h"
 #include "AirPipelineVoxelGen.h"
+#include "AirPipelineDefferredLight.h"
 
 namespace	Air{
 	namespace	Engine{
@@ -38,6 +39,7 @@ namespace	Air{
 
 			virtual	void			BuildSVO();
 			virtual	void			ShowSVO(U1	bShow);
+			virtual	void			AddPointLight(const Float3& pos,float fSize,const Float3& vColor);
 			//inline function
 		public:
 			inline	QuadRenderable*	GetQuadRenderable(){
@@ -77,7 +79,7 @@ namespace	Air{
 
 			virtual	void	BuildSVO();
 			virtual	void	ShowSVO(U1	bShow);
-
+			virtual	void	AddPointLight(const Float3& pos,float fSize,const Float3& vColor);
 		protected:
 			void	BlurRenderTarget(RenderTarget* pDst,RenderTarget* pSrc);
 		protected:
@@ -113,7 +115,7 @@ namespace	Air{
 			CascadedShadowMap		m_CSM;
 			OIT						m_OIT;
 			VoxelGenerator			m_VoxelGen;
-
+			DefferredLight			m_DL;
 			Render::CBFrame		m_cbFrame;
 		};
 	}

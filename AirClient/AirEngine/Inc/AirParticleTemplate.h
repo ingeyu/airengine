@@ -42,6 +42,8 @@ namespace	Air{
 				void*	pAffectorInfo;
 				void*	pRenderInfo;
 				float	fLife;
+				Float4	fPointLightColor;
+				U32		bEnablePointLight;
 			};
 			ParticleTemplate(CAString&	strName);
 			virtual	U1	Create();
@@ -51,6 +53,7 @@ namespace	Air{
 		public:
 			
 			inline	float				GetLife(){return m_pInfo->fLife;};
+			inline	const	Float4&		GetLightColor(){return m_pInfo->fPointLightColor;};
 			inline	ParticleEmitter*	GetEmitter(){return m_pEmitter;};
 			inline	ParticleAffector*	GetAffector(){return m_pAffector;};
 			inline	ParticleRenderer*	GetRenderer(){return m_pRenderer;};

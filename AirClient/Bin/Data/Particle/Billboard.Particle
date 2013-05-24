@@ -2,6 +2,8 @@ ParticleTemplate	Billboard
 {
 	Life		-1
 	Material	Particle_Direction
+	EnablePointLight	true
+	PointLightColor		2 1 0.2 0.75
 	Emitter		DefaultEmitter
 	{
 		Freq			0.1
@@ -14,7 +16,7 @@ ParticleTemplate	Billboard
 	}
 	Affector	DefaultAffector	
 	{
-		
+		CollisionDetect	1
 	}
 	Renderer	DirectionRenderer	
 	{
@@ -26,7 +28,9 @@ ParticleTemplate	Billboard
 ParticleTemplate	BigFire
 {
 	Life		-1
-	Material	BigFire
+	Material	BigFire	
+	EnablePointLight	true
+	PointLightColor		0.1 0.5 2 1.5
 	Emitter		DefaultEmitter
 	{
 		Freq			0.5
@@ -39,7 +43,7 @@ ParticleTemplate	BigFire
 	}
 	Affector	DefaultAffector	
 	{
-		
+		CollisionDetect	true
 	}
 	Renderer	DirectionRenderer	
 	{

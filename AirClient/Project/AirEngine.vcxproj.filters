@@ -365,6 +365,9 @@
     <ClCompile Include="..\AirEngine\Src\AirAISystem.cpp">
       <Filter>AI</Filter>
     </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirPipelineDefferredLight.cpp">
+      <Filter>Pipeline</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\AirEngine\Inc\AirEngine.h">
@@ -747,6 +750,9 @@
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirAISystem.h">
       <Filter>AI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirPipelineDefferredLight.h">
+      <Filter>Pipeline</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

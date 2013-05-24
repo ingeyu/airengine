@@ -129,6 +129,8 @@ namespace Air{
 												Common::ISystem*		pNewSystem);
 
 
+			Pipeline*		GetCurrentPipeline();
+			void			SetCurrentPipeline(Pipeline* pPipeline);
 		protected:
 			/**	\brief	´´½¨´°¿Ú
 			*   
@@ -174,6 +176,7 @@ namespace Air{
 			STD_VECTOR<AString>			m_strPluginNameArray;
 			STD_VECTOR<Common::Plugin*>	m_vecPlugin;
 			AString						m_strWindowName;
+			Pipeline*					m_pCurrentPipeline;
 		};
 	
 		

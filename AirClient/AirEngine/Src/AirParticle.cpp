@@ -5,6 +5,9 @@
 #include "AirParticleEmitter.h"
 #include "AirParticleAffector.h"
 #include "AirParticleRenderer.h"
+#include "AirEngineSystem.h"
+#include "AirEnginePipeline.h"
+
 namespace	Air{
 	namespace	Engine{
 		AString Particle::ProductTypeName="Particle";
@@ -79,6 +82,14 @@ namespace	Air{
 		void Particle::ProcessRenderObject( U32 uiPhaseFlag )
 		{
 			AddToRenderQueue(uiPhaseFlag);
+			if(uiPhaseFlag &(1<<enPI_DeferredLight)){
+				PElementList::iterator	i	=	m_lstElement.begin();
+				const Float4& vColor	=	m_pTemplate->GetLightColor();
+				for(;i!=m_lstElement.end();i++){
+					ParticleElement* e = (*i);
+					EngineSystem::GetSingleton()->GetCurrentPipeline()->AddPointLight(e->vPos,vColor.w,vColor);
+				}
+			}
 		}
 
 		void Particle::AddElement( const Float3& vPos,const Float3& vVelocity,float fSize )

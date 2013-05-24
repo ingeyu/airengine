@@ -96,6 +96,11 @@ namespace	Air{
 
 		}
 
+		void Pipeline::AddPointLight( const Float3& pos,float fSize,const Float3& vColor )
+		{
+
+		}
+
 		AString	DefaultPipeline::ProductTypeName="DefaultPipeline";
 		DefaultPipeline::DefaultPipeline( CAString& strName):Pipeline(strName)
 		{
@@ -253,7 +258,7 @@ namespace	Air{
 			m_CSM.Init(m_pMainCamera,3);
 			m_OIT.Initialize(m_pMainWindow);
 			m_VoxelGen.Initialize(m_pMainWindow);
-
+			m_DL.Initialization(this);
 
 			
 			m_pQuadCopy		=	EngineSystem::GetSingleton()->CreateProduct<Material>("QuadCopy");
@@ -274,6 +279,7 @@ namespace	Air{
 			m_OIT.Release();
 			m_CSM.Release();
 			m_VoxelGen.Release();
+			m_DL.Release();
 			//m_Tesellation.Release();
 
 			SAFE_RELEASE_REF(pMesh);
@@ -371,7 +377,8 @@ namespace	Air{
 				m_pRT_SO->AfterUpdate();
 			}
 			*/
-
+			//DefferredLighting
+			m_DL.Update(frameTime);
 			
 
 			//SSAO
@@ -497,6 +504,11 @@ namespace	Air{
 		void DefaultPipeline::ShowSVO( U1 bShow )
 		{
 			m_VoxelGen.ShowSVO(bShow);
+		}
+
+		void DefaultPipeline::AddPointLight( const Float3& pos,float fSize,const Float3& vColor )
+		{
+			m_DL.AddPointLight(pos,fSize,vColor);
 		}
 
 
