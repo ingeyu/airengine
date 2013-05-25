@@ -4,11 +4,14 @@
 #include "AirEngineHeader.h"
 
 namespace	Air{
+	namespace	Engine{
+		class	Particle;
+	};
 	namespace	Game{
 		enum enumSkillCastType{
 			enSCT_Immediately,
 			enSCT_TimeDelay,
-			enSCT_TimeFreq,
+			enSCT_HoldOn,
 		};
 		enum enumSkillTargetType{
 			enSTT_None,
@@ -38,6 +41,12 @@ namespace	Air{
 			enSDRT_Sphere,
 			enSDRT_Cone,
 			enSDRT_Line,
+			enSDRT_Parabola,			//Å×ÎïÏß
+		};
+		enum enumSkillState{
+			enSS_Ready,
+			enSS_Casting,
+			enSS_CoolDown,
 		};
 		class	Skill;
 		class	ENGINE_EXPORT	SkillTemplate	:	public	Common::IProduct{
@@ -49,6 +58,7 @@ namespace	Air{
 				enumSkillTargetType	targetType;
 				enumSkillBindType	bindType;
 				enumSkillDamageType	damageType;
+				float				sct_castTime;
 				Float3				stt_targetPos_Dir;
 				float				stt_angle;
 				float				sdt_DelayTime;
@@ -61,8 +71,10 @@ namespace	Air{
 			virtual	U1		Create();
 			virtual	U1		Destroy();
 			virtual	void	Update(const FrameTime& frameTime,Skill* pSkill);
-			inline	float	GetCoolDownTime(){return m_pInfo->cooldownTime;}
-
+		public:
+			inline	float				GetCoolDownTime(){return m_pInfo->cooldownTime;}
+			inline	enumSkillCastType	GetCastType(){return m_pInfo->castType;};
+			inline	float				GetCastTime(){return m_pInfo->sct_castTime;};
 			Info*	m_pInfo;
 		};
 		class	Actor;
@@ -70,16 +82,29 @@ namespace	Air{
 		public:
 			static AString	ProductTypeName;
 			struct Info{
-				enumSkillCastType	castType;
-				enumSkillTargetType	targetType;
+				AString	strTemplate;
 			};
 			Skill(CAString&	strName,Info* pInfo);
-			virtual	U1	Create();
-			virtual	U1	Destroy();
+			virtual	U1		Create();
+			virtual	U1		Destroy();
 			virtual	void	Update(const FrameTime& frameTime,Actor* pActor);
-
-			float		m_fCurrentDown;
+			virtual	void	Cast(Actor* pActor);
+			virtual	void	StopCast(Actor* pActor);
+		public:
+			inline	enumSkillState	GetState(){return m_State;};
+			inline	float			GetLeftCoolDownTime(){return m_fCurrentCoolDown;};
+			inline	float			GetCoolDownTime(){return m_pTemplate->GetCoolDownTime();};
+			inline	float			GetLeftCastTime(){return m_fCurrentCastTime;};
+			inline	float			GetCastTime(){return m_pTemplate->GetCastTime();};
+		protected:
+			float				m_fCurrentCoolDown;
+			float				m_fCurrentCastTime;
+			enumSkillState		m_State;
+			SkillTemplate*		m_pTemplate;
+			Info				m_Info;
+			Engine::Particle*	m_pParticle;
 		};
 	}
+	typedef	STD_VECTOR<Game::Skill*>	SkillVector;
 }
 #endif // AirGameSkill_h__

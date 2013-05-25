@@ -6,6 +6,7 @@
 
 namespace	Air{
 	namespace	Engine{
+		
 		class Particle;
 		class ParticleTemplate;
 		enum enumElementHitType{
@@ -63,12 +64,15 @@ namespace	Air{
 			inline	ParticleTemplate*	GetTemplate()			{return m_pTemplate;};
 			inline	void				SetCallback(const ParticleCB& cb){m_CB=cb;};
 			inline	const ParticleCB&	GetCallback()const		{return m_CB;};
+			inline	U32					GetCollisionMask(){return m_uiCollisionMask;};
+			inline	void				SetCollisionMask(U32 uiMask){m_uiCollisionMask	=	uiMask;}
 		protected:
 			float							m_fBornTime;
 			PElementList					m_lstElement;
 			ParticleTemplate*				m_pTemplate;
 			Info*							m_pInfo;
 			ParticleCB						m_CB;
+			U32								m_uiCollisionMask;
 		};
 
 		typedef void*	(*ParticleScriptParser)(StringVector&	vecScript,U32& i);
@@ -104,6 +108,7 @@ namespace	Air{
 			Data										m_TemplateData;
 			U32											m_uiDataUsed;
 			STD_HASHMAP<AString,ParticleScriptParser>	m_mapParser;
+			
 		};
 	}
 }

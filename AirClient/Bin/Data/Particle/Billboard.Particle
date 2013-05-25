@@ -28,7 +28,7 @@ ParticleTemplate	Billboard
 ParticleTemplate	BigFire
 {
 	Life		-1
-	Material	BigFire	
+	Material	BigFire
 	EnablePointLight	true
 	PointLightColor		0.1 0.5 2 1.5
 	Emitter		DefaultEmitter
@@ -46,6 +46,34 @@ ParticleTemplate	BigFire
 		CollisionDetect	true
 	}
 	Renderer	DirectionRenderer	
+	{
+		
+	}
+
+}
+ParticleTemplate	ForceFieldTest
+{
+	Life		-1
+	Material	Particle_Billboard
+	EnablePointLight	false
+	PointLightColor		0.1 0.5 2 1.5
+	Emitter		DefaultEmitter
+	{
+		Freq			0.1
+		ElementLife		3
+		ElementSize		0.1
+		VelocityDir		0 0 0.2
+		VelocityAngle		1
+	}
+	Affector	DefaultAffector	
+	{
+		CollisionDetect	true
+		DirectionForce	0 -1.8 0
+		//RotateForce 0 0 0 0 1 0 1
+		//PointForce	0 4 0 5
+		//RotateVelocity	0 0 0 0 1 0 2
+	}
+	Renderer	DefaultRenderer	
 	{
 		
 	}

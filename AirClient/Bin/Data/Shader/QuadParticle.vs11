@@ -20,13 +20,15 @@ StructuredBuffer<float4>	ParticlePos		:	register(t0);
 VS_OUTPUT main( VS_INPUT input )
 {
     VS_OUTPUT Output;
+	float4	pos		=	ParticlePos[input.idx];
+	float2	xy		=	pos.w*input.Position.xy;
 
 	float3	vCameraRight	=	normalize(cross(vCameraUp.xyz,vCameraDir.xyz));
 	float3 Up				=	normalize(cross(vCameraDir,vCameraRight));
 
-	float3 objPos	=	vCameraRight*input.Position.x+Up*input.Position.y	+	ParticlePos[input.idx].xyz;
+	float3 objPos	=	vCameraRight*xy.x+Up*xy.y	+	pos.xyz;
 
-	float4 wpos		=	mul( World,float4(objPos,1));
+	float4 wpos		=	float4(objPos,1);
     // Transform the position from object space to homogeneous projection space
     Output.Position =	mul( ViewProjection ,wpos);
 	Output.UV		=	input.Position.xy*float2(0.5,-0.5)+0.5;

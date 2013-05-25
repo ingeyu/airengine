@@ -3,6 +3,7 @@
 
 namespace	Air{
 	namespace	Game{
+		Engine::Particle* pTest=NULL;
 
 		AString	DefaultSection::ProductTypeName="DefaultSection";
 		DefaultSection::DefaultSection( CAString& strName ):Section(strName)
@@ -30,16 +31,20 @@ namespace	Air{
 			parInfo.strTemplate	=	"Billboard";
 			m_pParticle=Engine::ParticleSystem::GetSingleton()->CreateProduct<Engine::Particle>("123",&parInfo);
 			m_pParticle->EnableEmitter(false);
+			//m_pParticle->SetCollisionMask(enPCM_Gravity);
 			m_pModel->attachObject("Ref_Weapon",m_pParticle);
 
 
-			parInfo;
+			
 			parInfo.strTemplate	=	"BigFire";
 			m_pBigParticle=Engine::ParticleSystem::GetSingleton()->CreateProduct<Engine::Particle>("BigFire",&parInfo);
 			m_pBigParticle->EnableEmitter(false);
+			//m_pBigParticle->SetCollisionMask(enPCM_Gravity);
 			m_pModel->attachObject("Ref_Weapon",m_pBigParticle);
 
-			
+			parInfo.strTemplate	=	"ForceFieldTest";
+			pTest	=	Engine::ParticleSystem::GetSingleton()->CreateProduct<Engine::Particle>("test",&parInfo);
+			m_pModel->GetParentSceneNode()->attachObject(pTest);
 			
 			m_pControl->RegisterKeyCallback(OIS::KC_ESCAPE,this,ConverertFunction(&DefaultSection::OnESC));
 			m_pControl->RegisterMouseCallback(OIS::MB_Left,this,ConverertFunction(&DefaultSection::OnFireStart),enKET_MouseDown);

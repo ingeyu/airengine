@@ -16,6 +16,8 @@ namespace	Air{
 			m_vFaceDir	=	Float3(0,0,1);
 			m_pNode		=	NULL;
 			m_uiLowBodyBoneIndex	=	0;
+			m_pTarget				=	NULL;
+			m_vecSkill.resize(12);
 		}
 
 		Air::U1 Actor::Create()
@@ -31,6 +33,12 @@ namespace	Air{
 
 		Air::U1 Actor::Destroy()
 		{
+			U32 uiSkillCount	=	m_vecSkill.size();
+			for(U32 i=0;i<uiSkillCount;i++){
+				SAFE_RELEASE_REF(m_vecSkill[i]);
+			}
+			m_vecSkill.clear();
+
 			SAFE_RELEASE_REF(m_pModel);
 			if(m_pNode!=NULL){
 				m_pNode->GetParentSceneNode()->RemoveChild(m_pNode,true);
@@ -42,46 +50,45 @@ namespace	Air{
 
 		void Actor::Update( const FrameTime& frameTime )
 		{
-			//Float2 vMousePos	=	Engine::GetGlobalSetting().GetMousePos();
+			float fDot =	acos(m_vFaceDir.Dot(Float3(0,0,1)));
+			//Float3 vAxis	=	Float3(0,0,1).Cross(vDir).Normalize();
 
-			//Ray	ray	=	GameSystem::GetSingleton()->GetCurrentSection()->GetScene()->GetMainCamera()->BuildRay(vMousePos.x,vMousePos.y);
-
-			//{
-			//	Float3 Pos	=	ray.m_vStart	+	ray.m_vDirection*ray.m_vStart.y/abs(ray.m_vDirection.y);
-			//	m_vFaceDir	=	Pos	-	GetPosition()*Float3(1,0,1);
-			//	m_vFaceDir.Normalize();
-				float fDot =	acos(m_vFaceDir.Dot(Float3(0,0,1)));
-				//Float3 vAxis	=	Float3(0,0,1).Cross(vDir).Normalize();
-
-				if(m_vFaceDir.x < 0){
-					fDot*=-1;
-				}
-				m_pNode->SetQuat(Float4(Float3(0,1,0),fDot));
+			if(m_vFaceDir.x < 0){
+				fDot*=-1;
+			}
+			m_pNode->SetQuat(Float4(Float3(0,1,0),fDot));
 				
-				if(m_uiLowBodyBoneIndex!=0xffffffff){
-					if(m_vMoveDir.Length()	<	0.5){
-						m_pModel->DisableBoneExtraRotate(m_uiLowBodyBoneIndex);
-					}else{
+			if(m_uiLowBodyBoneIndex!=0xffffffff){
+				if(m_vMoveDir.Length()	<	0.5){
+					m_pModel->DisableBoneExtraRotate(m_uiLowBodyBoneIndex);
+				}else{
 
-						Float3 vNewMoveDir	=	m_vMoveDir;
+					Float3 vNewMoveDir	=	m_vMoveDir;
 
-						float fRun	=	vNewMoveDir.Dot(m_vFaceDir);
-						if(fRun	<0){
-							vNewMoveDir*=-1;//m_pModel->EnableBoneExtraRotate(uiIndex,Float4(Float3(0,0,-1),fFootDot));
-						}
-
-						float	fFootAngle	=	acos(vNewMoveDir.Dot(m_vFaceDir));
-						if(fFootAngle	< 0.00001f){
-							m_pModel->EnableBoneExtraRotate(m_uiLowBodyBoneIndex,Float4(Float3(0,0,1),0));
-						}else{
-							Float3 vAxis		=	m_vFaceDir.Cross(vNewMoveDir).Normalize();
-							m_pModel->EnableBoneExtraRotate(m_uiLowBodyBoneIndex,Float4(Float3(0,0,vAxis.y),-fFootAngle));
-						}
-
+					float fRun	=	vNewMoveDir.Dot(m_vFaceDir);
+					if(fRun	<0){
+						vNewMoveDir*=-1;//m_pModel->EnableBoneExtraRotate(uiIndex,Float4(Float3(0,0,-1),fFootDot));
 					}
-				}
 
-			//}
+					float	fFootAngle	=	acos(vNewMoveDir.Dot(m_vFaceDir));
+					if(fFootAngle	< 0.00001f){
+						m_pModel->EnableBoneExtraRotate(m_uiLowBodyBoneIndex,Float4(Float3(0,0,1),0));
+					}else{
+						Float3 vAxis		=	m_vFaceDir.Cross(vNewMoveDir).Normalize();
+						m_pModel->EnableBoneExtraRotate(m_uiLowBodyBoneIndex,Float4(Float3(0,0,vAxis.y),-fFootAngle));
+					}
+
+				}
+			}
+
+			//UpdateSkill
+			U32 uiSkillCount	=	m_vecSkill.size();
+			for(U32 i=0;i<uiSkillCount;i++){
+				Skill* pSkill	=	m_vecSkill[i];
+				if(pSkill!=NULL){
+					pSkill->Update(frameTime,this);
+				}
+			}
 		}
 
 		const	Float3& Actor::GetPosition()
@@ -150,6 +157,46 @@ namespace	Air{
 			m_pModel->SetActionState("stand.CAF");
 			m_uiLowBodyBoneIndex	=	m_pModel->GetBoneIndex("BoneWaist");
 			m_pNode->attachObject(m_pModel);
+		}
+
+		void Actor::SetSkill( U32 uiIndex,Skill* pSkill )
+		{
+			if(uiIndex>=m_vecSkill.size())
+				return;
+			Skill* pOldSkill	=	m_vecSkill[uiIndex];
+			SAFE_RELEASE_REF(pOldSkill);
+			if(pSkill!=NULL){
+				pSkill->AddRef();
+			}
+			m_vecSkill[uiIndex]	=	pSkill;
+		}
+
+		void Actor::CastSkill( U32 uiIndex )
+		{
+			if(uiIndex	>=	m_vecSkill.size())
+				return;
+			Skill* pSkill	=	m_vecSkill[uiIndex];
+			if(pSkill==NULL)
+				return;
+			//技能没有冷却
+			if(pSkill->GetLeftCoolDownTime()>0){
+				return;
+			}
+			pSkill->Cast(this);
+		}
+
+		void Actor::StopCastSkill( U32 uiIndex )
+		{
+			if(uiIndex	>=	m_vecSkill.size())
+				return;
+			Skill* pSkill	=	m_vecSkill[uiIndex];
+			if(pSkill==NULL)
+				return;
+			//技能没有冷却
+			if(pSkill->GetLeftCoolDownTime()>0){
+				return;
+			}
+			pSkill->StopCast(this);
 		}
 
 	}

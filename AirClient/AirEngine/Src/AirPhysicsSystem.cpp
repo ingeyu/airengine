@@ -28,24 +28,18 @@ namespace	Air{
 
 		}
 
-		Air::U1 System::CollisionDetect( const Float3& p,Float3& v )
+		Air::U1 System::CollisionDetect( const Float3& p,Float3& v ,U32 uiMask)
 		{
+			static float& fTimeDelta	=	GetTimer().m_FrameTime.fTimeDelta;
+			if(uiMask&enPCM_Gravity){
+				v.y +=	m_vGravity.y*fTimeDelta;
+			}
 			return m_pSVO->CollisionDetect(p,&v);
 		}
 
 		void System::UpdateSVO( U32* svoData,U32 uiDepth,float fScale )
 		{
 			m_pSVO->Update(svoData,uiDepth,fScale);
-		}
-
-		Air::U1 System::Simulation( Float3& p,Float3& v,U1 bGravity /*= false*/ )
-		{
-			if(!bGravity){
-				return CollisionDetect(p,v);
-			}else{
-				//static 
-			}
-			return false;
 		}
 
 		Air::U1 System::Silumation( Float3& p,float fRadius,float fHeight,Float3& v,U1 bGravity /*= false*/ )

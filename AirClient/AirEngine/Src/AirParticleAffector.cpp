@@ -70,6 +70,7 @@ namespace	Air{
 		void ParticleAffector::Update( const FrameTime& frameTime,Particle* pParticle )
 		{
 			const	ParticleCB&	cb	=	pParticle->GetCallback();
+			U32		uiMask			=	pParticle->GetCollisionMask();
 
 			PhysicsSystem* pPhysicsSys	=	PhysicsSystem::GetSingleton();
 			PElementList& lst = pParticle->GetElementList();
@@ -77,15 +78,16 @@ namespace	Air{
 			for(PElementList::iterator i = lst.begin();i!=lst.end();i++){
 				ParticleElement* e = (*i);
 				p = e->vPos;
-				e->vPos	+= e->vVelocity*frameTime.fTimeDelta;
+				UpdateVelocityPosition(frameTime,e);
+
 				if(m_pInfo->bEnableCollision==0)
 					continue;
-				if(pPhysicsSys->CollisionDetect(e->vPos,e->vVelocity)){
-					p+=e->vVelocity*frameTime.fTimeDelta;
-					e->vPos=p;
+				if(pPhysicsSys->CollisionDetect(e->vPos,e->vVelocity,uiMask)){
 					if(cb.pCB!=NULL){
 						(*cb.pCB)(cb.pObject,*e,pParticle,enEHT_DynamicObject,NULL);
-					}
+					}					
+					p+=e->vVelocity*frameTime.fTimeDelta;
+					e->vPos=p;
 				}
 			}
 		}
@@ -105,16 +107,120 @@ namespace	Air{
 			ParticleAffector::Info* pEInfo	=	(ParticleAffector::Info*)ParticleSystem::GetSingleton()->PTAlloc(sizeof(ParticleAffector::Info));
 			pEInfo->bEnableCollision		=	false;
 			pEInfo->uiCount					=	0;
-			pEInfo->pForceField				=	NULL;
 			while(true){
 				AString& strTemp2	=	vecWord[i++];
 				if(strTemp2=="}"){
 					break;
 				}else if(strTemp2	==	"CollisionDetect"){
 					pEInfo->bEnableCollision	=	Common::Converter::ToU1(vecWord[i++]);
+				}else if(strTemp2	==	"PointForce"){
+					ForceField& field		=	pEInfo->forceField[pEInfo->uiCount];
+					pEInfo->uiCount++;
+					field.type				=	enFFT_PointForce;
+					field.vPosition.x	=	Common::Parse::ParseFloat(vecWord,i);
+					field.vPosition.y	=	Common::Parse::ParseFloat(vecWord,i);
+					field.vPosition.z	=	Common::Parse::ParseFloat(vecWord,i);
+					field.vForce_Velocity.x	=	Common::Parse::ParseFloat(vecWord,i);
+
+
+
 				}
+				else if(strTemp2	==	"DirectionForce"){
+					ForceField& field		=	pEInfo->forceField[pEInfo->uiCount];
+					pEInfo->uiCount++;
+					field.type				=	enFFT_DirectionForce;
+					field.vForce_Velocity.x	=	Common::Parse::ParseFloat(vecWord,i);
+					field.vForce_Velocity.y	=	Common::Parse::ParseFloat(vecWord,i);
+					field.vForce_Velocity.z	=	Common::Parse::ParseFloat(vecWord,i);
+				}
+				else if(strTemp2	==	"DirectionVelocity"){
+					ForceField& field		=	pEInfo->forceField[pEInfo->uiCount];
+					pEInfo->uiCount++;
+					field.type				=	enFFT_DirectionVelocity;
+					field.vForce_Velocity.x	=	Common::Parse::ParseFloat(vecWord,i);
+					field.vForce_Velocity.y	=	Common::Parse::ParseFloat(vecWord,i);
+					field.vForce_Velocity.z	=	Common::Parse::ParseFloat(vecWord,i);
+				}
+				else if(strTemp2	==	"RotateForce"){
+					ForceField& field		=	pEInfo->forceField[pEInfo->uiCount];
+					pEInfo->uiCount++;
+					field.type				=	enFFT_RotateForce;
+					field.vPosition.x	=	Common::Parse::ParseFloat(vecWord,i);
+					field.vPosition.y	=	Common::Parse::ParseFloat(vecWord,i);
+					field.vPosition.z	=	Common::Parse::ParseFloat(vecWord,i);
+					field.vAxis.x	=	Common::Parse::ParseFloat(vecWord,i);
+					field.vAxis.y	=	Common::Parse::ParseFloat(vecWord,i);
+					field.vAxis.z	=	Common::Parse::ParseFloat(vecWord,i);
+					//field.vAxis.Normalize();
+					field.vForce_Velocity.x	=	Common::Parse::ParseFloat(vecWord,i);
+
+				}
+				else if(strTemp2	==	"RotateVelocity"){
+					ForceField& field		=	pEInfo->forceField[pEInfo->uiCount];
+					pEInfo->uiCount++;
+					field.type				=	enFFT_RotateVelocity;
+					field.vPosition.x	=	Common::Parse::ParseFloat(vecWord,i);
+					field.vPosition.y	=	Common::Parse::ParseFloat(vecWord,i);
+					field.vPosition.z	=	Common::Parse::ParseFloat(vecWord,i);
+					field.vAxis.x	=	Common::Parse::ParseFloat(vecWord,i);
+					field.vAxis.y	=	Common::Parse::ParseFloat(vecWord,i);
+					field.vAxis.z	=	Common::Parse::ParseFloat(vecWord,i);
+					//field.vAxis.Normalize();
+					field.vForce_Velocity.x	=	Common::Parse::ParseFloat(vecWord,i);
+
+				}
+				
 			}
 			return pEInfo;
+		}
+
+		void ParticleAffector::UpdateVelocityPosition( const FrameTime& frameTime,ParticleElement* pElement )
+		{
+			Float3 vTempVelocity;
+			U32 uiForceFieldCount	=	m_pInfo->uiCount;
+			for(U32 i=0;i<uiForceFieldCount&&i<4;i++){
+				ForceField& p	=	m_pInfo->forceField[i];
+				switch(p.type){
+					case	enFFT_PointForce		 :{
+						Float3 v	=	p.vPosition	-	pElement->vPos;
+						float fLength	=	v.Length();
+						v.Normalize();
+						Float3 vForce	=	(v*p.vForce_Velocity.x/fLength);
+						pElement->vVelocity	+=	vForce*frameTime.fTimeDelta;
+						;
+													  }break;
+					case	enFFT_DirectionForce	 :{
+						pElement->vVelocity	+=	p.vForce_Velocity*frameTime.fTimeDelta;
+						
+													  }break;
+					case	enFFT_DirectionVelocity	 :{
+						vTempVelocity+=p.vForce_Velocity;
+													  }break;
+					case	enFFT_RotateForce		 :{
+						Float3 v = pElement->vPos	-	p.vPosition;
+						Float3 vPos		=	p.vAxis*v.Dot(p.vAxis)+p.vPosition;
+						Float3 vDir	=	(vPos-pElement->vPos);
+						float fLength	=	vDir.Length();
+						vDir.Normalize();
+						
+						Float3 vForce	=	(vDir*p.vForce_Velocity.x/fLength);
+						pElement->vVelocity	+=	vForce*frameTime.fTimeDelta;
+						
+													  }break;
+					case	enFFT_RotateVelocity	 :{
+						Float3 v = pElement->vPos	-	p.vPosition;
+						Float3 vPos		=	p.vAxis*v.Dot(p.vAxis)+p.vPosition;
+						Float3 vDir	=	vPos	-	pElement->vPos;
+						
+						vDir.Normalize();
+						Float3 vVelocity	=	p.vAxis.Cross(vDir)*p.vForce_Velocity.x;
+						vTempVelocity+=	vVelocity;
+													  }break;
+				}
+
+				
+			}
+			pElement->vPos	+= (pElement->vVelocity+vTempVelocity)*frameTime.fTimeDelta;
 		}
 
 	}

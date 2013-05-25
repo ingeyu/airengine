@@ -37,6 +37,7 @@ namespace	Air{
 
 			virtual	U1	Create();
 			virtual	U1	Destroy();
+			U1			CollosionDetect(const Float3& p,Float3& v,U32 uiMask);
 		public:
 			inline	U32			GetShapeCount(){
 				return m_pInfo->uiShapeCount;
@@ -47,8 +48,15 @@ namespace	Air{
 			inline	float		GetMass(){
 				return m_pInfo->fMass;
 			};
+			inline	void		SetMask(U32 uiMask){
+				m_uiMask	=	uiMask;
+			}
+			inline	U32			GetMask(){
+				return m_uiMask;
+			}
 		public:
 			Info*		m_pInfo; 
+			U32			m_uiMask;
 		};
 	}
 }

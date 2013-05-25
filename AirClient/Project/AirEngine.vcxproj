@@ -204,6 +204,7 @@
     <ClCompile Include="..\AirEngine\Src\AirHelperRenderable.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirParticle.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirParticleAffector.cpp" />
+    <ClCompile Include="..\AirEngine\Src\AirParticleEffect.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirParticleEmitter.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirParticleRenderer.cpp" />
     <ClCompile Include="..\AirEngine\Src\AirParticleTemplate.cpp" />
@@ -316,6 +317,7 @@
     <ClInclude Include="..\AirEngine\Inc\AirHelperRenderable.h" />
     <ClInclude Include="..\AirEngine\Inc\AirParticle.h" />
     <ClInclude Include="..\AirEngine\Inc\AirParticleAffector.h" />
+    <ClInclude Include="..\AirEngine\Inc\AirParticleEffect.h" />
     <ClInclude Include="..\AirEngine\Inc\AirParticleElement.h" />
     <ClInclude Include="..\AirEngine\Inc\AirParticleEmitter.h" />
     <ClInclude Include="..\AirEngine\Inc\AirParticleRenderer.h" />

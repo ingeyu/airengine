@@ -374,6 +374,9 @@
     <ClCompile Include="..\AirEngine\Src\AirGameSkill.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="..\AirEngine\Src\AirParticleEffect.cpp">
+      <Filter>Particle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\AirEngine\Inc\AirEngine.h">
@@ -765,6 +768,9 @@
     </ClInclude>
     <ClInclude Include="..\AirEngine\Inc\AirGameSkill.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AirEngine\Inc\AirParticleEffect.h">
+      <Filter>Particle</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

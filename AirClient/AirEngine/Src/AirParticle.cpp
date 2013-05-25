@@ -82,7 +82,7 @@ namespace	Air{
 		void Particle::ProcessRenderObject( U32 uiPhaseFlag )
 		{
 			AddToRenderQueue(uiPhaseFlag);
-			if(uiPhaseFlag &(1<<enPI_DeferredLight)){
+			if(uiPhaseFlag &(1<<enPI_DeferredLight)	&&m_pTemplate->GetEnablePointLight()){
 				PElementList::iterator	i	=	m_lstElement.begin();
 				const Float4& vColor	=	m_pTemplate->GetLightColor();
 				for(;i!=m_lstElement.end();i++){

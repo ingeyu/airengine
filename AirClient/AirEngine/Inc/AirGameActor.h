@@ -3,6 +3,7 @@
 
 #include "AirEngineHeader.h"
 #include "AirEngineCharacterAnimationModel.h"
+#include "AirGameSkill.h"
 namespace	Air{
 	
 	namespace	Game{
@@ -31,6 +32,10 @@ namespace	Air{
 			void			SetPosition(const Float3& v);
 			void			SetMoveState(enumActorMoveState	state);
 			void			SetModelName(CAString& strModelName);
+
+			void			SetSkill(U32 uiIndex,Skill* pSkill);
+			void			CastSkill(U32	uiIndex);
+			void			StopCastSkill(U32	uiIndex);
 			//inline function
 		public:
 			inline	float			GetMoveVelocity(){return m_fMoveVelocity;};
@@ -42,8 +47,9 @@ namespace	Air{
 			inline	void			SetFaceDirection(const Float3& v){m_vFaceDir=v;m_vFaceDir.Normalize();};
 			inline	void			SetGravityVelocity(float f){m_fGravityVelocity=f;};
 			inline	AnimationModel*	GetModel(){return m_pModel;};
-
-
+			inline	Skill*			GetSkill(U32 uiIndex){return m_vecSkill[uiIndex];};
+			inline	void			SetTarget(Actor* pActor){m_pTarget	=	pActor;};
+			inline	Actor*			GetTarget(){return m_pTarget;};
 		protected:
 			float					m_fMoveVelocity;
 			Float3					m_vMoveDir;
@@ -53,6 +59,8 @@ namespace	Air{
 			AnimationModel*			m_pModel;
 			Info					m_Info;
 			U32						m_uiLowBodyBoneIndex;
+			Actor*					m_pTarget;
+			SkillVector				m_vecSkill;
 		};
 	}
 }

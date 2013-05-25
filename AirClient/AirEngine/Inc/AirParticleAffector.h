@@ -6,15 +6,25 @@
 namespace	Air{
 	namespace	Engine{
 		class	Particle;
-		class	ForceField	:	MemoryObject{
+		enum	enumForceFieldType{
+			enFFT_PointForce,
+			enFFT_DirectionForce,
+			enFFT_DirectionVelocity,
+			enFFT_RotateForce,
+			enFFT_RotateVelocity,
+		};
+		class	ENGINE_EXPORT	ForceField	:	MemoryObject{
 		public:
-
+			enumForceFieldType	type;
+			Float3				vForce_Velocity;
+			Float3				vPosition;
+			Float3				vAxis;
 		};
 		class	ENGINE_EXPORT	ParticleAffector	:	public	IProduct{
 		public:
 			struct Info{
 				U32			uiCount;
-				ForceField* pForceField;
+				ForceField	forceField[4];
 				U32			bEnableCollision;
 			};
 			static	AString	ProductTypeName;
@@ -23,6 +33,8 @@ namespace	Air{
 			virtual	U1	Create();
 			virtual	U1	Destroy();
 			virtual	void	Update(const FrameTime& frameTime,Particle* pParticle);
+		protected:
+			void			UpdateVelocityPosition(const FrameTime& frameTime,ParticleElement* pElement);
 			Info*			m_pInfo;
 		};
 	}
