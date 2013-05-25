@@ -190,9 +190,11 @@ namespace	Air{
 					case	enFFT_PointForce		 :{
 						Float3 v	=	p.vPosition	-	pElement->vPos;
 						float fLength	=	v.Length();
-						v.Normalize();
-						Float3 vForce	=	(v*p.vForce_Velocity.x/fLength);
-						pElement->vVelocity	+=	vForce*frameTime.fTimeDelta;
+						if(fLength>0.00001f){
+							v.Normalize();
+							Float3 vForce	=	(v*p.vForce_Velocity.x/fLength);
+							pElement->vVelocity	+=	vForce*frameTime.fTimeDelta;
+						}
 						;
 													  }break;
 					case	enFFT_DirectionForce	 :{
