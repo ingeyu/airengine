@@ -59,19 +59,19 @@ ParticleTemplate	ForceFieldTest
 	PointLightColor		0.1 0.5 2 1.5
 	Emitter		DefaultEmitter
 	{
-		Freq			0.1
-		ElementLife		3
+		Freq			0.05
+		ElementLife		5
 		ElementSize		0.1
-		VelocityDir		0 0 0.2
+		VelocityDir		0 1 0
 		VelocityAngle		1
 	}
 	Affector	DefaultAffector	
 	{
 		CollisionDetect	true
-		DirectionForce	0 -1.8 0
-		//RotateForce 0 0 0 0 1 0 1
+		//DirectionForce	0 -1.8 0
+		RotateForce 0 0 0 0 1 0 1
 		//PointForce	0 4 0 5
-		//RotateVelocity	0 0 0 0 1 0 2
+		RotateVelocity	0 0 0 0 1 0 2
 	}
 	Renderer	DefaultRenderer	
 	{

@@ -34,7 +34,9 @@ namespace	Air{
 			virtual	U1	Destroy();
 			virtual	void	Update(const FrameTime& frameTime,Particle* pParticle);
 		protected:
-			void			UpdateVelocityPosition(const FrameTime& frameTime,ParticleElement* pElement);
+			void			UpdateForceField(ForceField* pForceField,Particle* pParticle);
+		protected:
+			void			UpdateVelocityPosition(const FrameTime& frameTime,ParticleElement* pElement,ForceField* pForceField);
 			Info*			m_pInfo;
 		};
 	}

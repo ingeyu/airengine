@@ -156,7 +156,7 @@ namespace	Air{
 			m_pModel	=	EngineSystem::GetSingleton()->CreateProduct<AnimationModel>(m_strProductName,&info);
 			m_pModel->SetActionState("stand.CAF");
 			m_uiLowBodyBoneIndex	=	m_pModel->GetBoneIndex("BoneWaist");
-			m_pNode->attachObject(m_pModel);
+			m_pNode->CreateChildSceneNode(Float3(0,0,0),Float4(Float3(-1,0,0),1.57))->attachObject(m_pModel);
 		}
 
 		void Actor::SetSkill( U32 uiIndex,Skill* pSkill )

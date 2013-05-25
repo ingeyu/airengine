@@ -71,6 +71,12 @@ namespace	Air{
 		{
 			const	ParticleCB&	cb	=	pParticle->GetCallback();
 			U32		uiMask			=	pParticle->GetCollisionMask();
+			
+			ForceField forcefield[4];
+			if(m_pInfo->uiCount	>	0){
+				memcpy(forcefield,m_pInfo->forceField,sizeof(ForceField)*m_pInfo->uiCount);
+				UpdateForceField(forcefield,pParticle);
+			}
 
 			PhysicsSystem* pPhysicsSys	=	PhysicsSystem::GetSingleton();
 			PElementList& lst = pParticle->GetElementList();
@@ -78,7 +84,7 @@ namespace	Air{
 			for(PElementList::iterator i = lst.begin();i!=lst.end();i++){
 				ParticleElement* e = (*i);
 				p = e->vPos;
-				UpdateVelocityPosition(frameTime,e);
+				UpdateVelocityPosition(frameTime,e,forcefield);
 
 				if(m_pInfo->bEnableCollision==0)
 					continue;
@@ -174,12 +180,12 @@ namespace	Air{
 			return pEInfo;
 		}
 
-		void ParticleAffector::UpdateVelocityPosition( const FrameTime& frameTime,ParticleElement* pElement )
+		void ParticleAffector::UpdateVelocityPosition( const FrameTime& frameTime,ParticleElement* pElement,ForceField* pForceField )
 		{
 			Float3 vTempVelocity;
 			U32 uiForceFieldCount	=	m_pInfo->uiCount;
 			for(U32 i=0;i<uiForceFieldCount&&i<4;i++){
-				ForceField& p	=	m_pInfo->forceField[i];
+				ForceField& p	=	pForceField[i];
 				switch(p.type){
 					case	enFFT_PointForce		 :{
 						Float3 v	=	p.vPosition	-	pElement->vPos;
@@ -201,26 +207,60 @@ namespace	Air{
 						Float3 vPos		=	p.vAxis*v.Dot(p.vAxis)+p.vPosition;
 						Float3 vDir	=	(vPos-pElement->vPos);
 						float fLength	=	vDir.Length();
-						vDir.Normalize();
+						if(fLength	>0.00001f){
+							vDir.Normalize();
 						
-						Float3 vForce	=	(vDir*p.vForce_Velocity.x/fLength);
-						pElement->vVelocity	+=	vForce*frameTime.fTimeDelta;
+							Float3 vForce	=	(vDir*p.vForce_Velocity.x/fLength);
+							pElement->vVelocity	+=	vForce*frameTime.fTimeDelta;
+						}
 						
 													  }break;
 					case	enFFT_RotateVelocity	 :{
 						Float3 v = pElement->vPos	-	p.vPosition;
 						Float3 vPos		=	p.vAxis*v.Dot(p.vAxis)+p.vPosition;
 						Float3 vDir	=	vPos	-	pElement->vPos;
-						
-						vDir.Normalize();
-						Float3 vVelocity	=	p.vAxis.Cross(vDir)*p.vForce_Velocity.x;
-						vTempVelocity+=	vVelocity;
+						if(vDir.Length()	>0.00001f){
+							vDir.Normalize();
+							Float3 vVelocity	=	p.vAxis.Cross(vDir)*p.vForce_Velocity.x;
+							vTempVelocity+=	vVelocity;
+						}
 													  }break;
 				}
 
 				
 			}
 			pElement->vPos	+= (pElement->vVelocity+vTempVelocity)*frameTime.fTimeDelta;
+		}
+
+		void ParticleAffector::UpdateForceField( ForceField* pForceField,Particle* pParticle )
+		{
+			Float44& matWorld	=	*pParticle->GetWorldMatrix();
+
+			U32 uiForceFieldCount	=	m_pInfo->uiCount;
+			for(U32 i=0;i<uiForceFieldCount&&i<4;i++){
+				ForceField& p	=	pForceField[i];
+				switch(p.type){
+				case	enFFT_PointForce		 :{
+					p.vPosition	=	matWorld*(p.vPosition);
+												  }break;
+				case	enFFT_DirectionForce	 :
+				case	enFFT_DirectionVelocity	 :{
+					float fLength	=	p.vForce_Velocity.Length();
+					Float3 v0	=	matWorld*p.vForce_Velocity;
+					v0-=matWorld.GetPosition();
+					v0.Normalize();
+					p.vForce_Velocity	=	v0*fLength;
+												  }break;
+				case	enFFT_RotateForce		 :
+				case	enFFT_RotateVelocity	 :{
+					p.vPosition	=	matWorld*p.vPosition;
+					Float3 v		=	matWorld*p.vAxis	-	matWorld.GetPosition();
+					p.vAxis	=	v.Normalize();
+												  }break;
+				}
+
+
+			}
 		}
 
 	}

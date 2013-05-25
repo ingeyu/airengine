@@ -44,7 +44,7 @@ namespace	Air{
 
 			parInfo.strTemplate	=	"ForceFieldTest";
 			pTest	=	Engine::ParticleSystem::GetSingleton()->CreateProduct<Engine::Particle>("test",&parInfo);
-			m_pModel->GetParentSceneNode()->attachObject(pTest);
+			m_pControl->GetControlNode()->attachObject(pTest);
 			
 			m_pControl->RegisterKeyCallback(OIS::KC_ESCAPE,this,ConverertFunction(&DefaultSection::OnESC));
 			m_pControl->RegisterMouseCallback(OIS::MB_Left,this,ConverertFunction(&DefaultSection::OnFireStart),enKET_MouseDown);
