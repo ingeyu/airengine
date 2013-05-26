@@ -1,5 +1,5 @@
 #include "AirPhysicsObject.h"
-
+#include "AirPhysicsSystem.h"
 namespace	Air{
 	namespace	Physics{
 
@@ -7,50 +7,77 @@ namespace	Air{
 		Object::Object( CAString& strName,Info* pInfo ):Common::IProduct(strName)
 		{
 			if(pInfo!=NULL){
-				if(pInfo->uiBufferSize==0){
-					m_pInfo	=	pInfo;
-				}else{
-					m_pInfo	=	(Info*)__Alloc(pInfo->uiBufferSize);
-					m_pInfo->RelativeToAbs();
-				}
-			}else{
-				m_pInfo	=	NULL;
+				m_Info	=	*pInfo;
 			}
 
-			m_uiMask	=	0;
+			m_uiMask	=	enPCM_DynamicObject;
 		}
 
 		Air::U1 Object::Create()
 		{
-			if(m_pInfo==NULL)
+			if(m_Info.uiShapeCount==0)
 				return false;
 			return true;
 		}
 
 		Air::U1 Object::Destroy()
 		{
-			if(m_pInfo->uiBufferSize!=0){
-				__Free(m_pInfo);
-				m_pInfo=NULL;
-			}
 			return true;
 		}
 
 		Air::U1 Object::CollosionDetect( const Float3& p,Float3& v,U32 uiMask )
 		{
 			if(m_uiMask&uiMask){
-				U32 uiShapeCount	=	m_pInfo->uiShapeCount;
+				U32 uiShapeCount	=	m_Info.uiShapeCount;
 				for(U32 i=0;i<uiShapeCount;i++){
-					PointShape* pShape	=	m_pInfo->pShapeArray[i];
-					switch(pShape->m_Type){
+					Shape& shape	=	m_Info.pShapeArray[i];
+					switch(shape.m_Type){
 						case 	enPST_Point:	{
 
 												}break;
 						case	enPST_Triangle:	{}break;
-						case	enPST_Box:		{}break;
-						case	enPST_Sphere:	{}break;
-						case	enPST_Cylinder:	{}break;
-						case	enPST_Plane:	{}break;
+						case	enPST_Box:		{
+							
+							BoundingBox	b(shape.m_vPosition-shape.m_vHalfSize,shape.m_vPosition+shape.m_vHalfSize);
+							if(b.IsInclude(p)){
+								Float3 vNormal	=	p	-	shape.m_vPosition;
+								vNormal.Normalize();
+								v	+=	vNormal*(-v).Dot(vNormal)*2;
+								return true;
+							}
+												}break;
+						case	enPST_Sphere:	{
+							Float3 vNormal	=	p	-	shape.m_vPosition;
+							
+							if(vNormal.Length()	<	shape.m_vHalfSize.x){
+								vNormal.Normalize();
+								v	+=	vNormal*(-v).Dot(vNormal)*2;
+								return true;
+							}
+												}break;
+						case	enPST_Cylinder:	{
+							
+							Float3 vNormal	=	p	-	shape.m_vPosition;
+							Float3 vTemp	=	vNormal;
+							vTemp.y=0;
+							float	fLength	=	vTemp.Length();	
+							if(	vNormal.y	>	0	&&	
+								vNormal.y	<	shape.m_vHalfSize.y	&&
+								fLength		<	shape.m_vHalfSize.x)
+							{
+								v.y = -v.y;
+								Float3 vTempV	=	v;
+								vTempV.y=0;
+								vTemp.Normalize();
+								vTempV	+=	vTemp*(-vTempV).Dot(vTemp)*2;
+								v.x		=	vTempV.x;
+								v.z		=	vTempV.z;
+								return true;
+							}
+												}break;
+						case	enPST_Plane:	{
+
+												}break;
 					}
 				}
 			}

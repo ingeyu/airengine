@@ -432,6 +432,7 @@ namespace Air{
 					void					DisableBoneExtraRotate(U32	uiIndex);
 					U1						HasBoneExtraRotate(U32	uiIndex);
 					U32						GetBoneIndex(CAString& strName);
+					float					GetAnimationLength(CAString& strAnimationName);
 				protected:
 					CoreAnimation*			m_pAnimation;
 					Resource*				m_pResource;			///<	×ÊÔ´

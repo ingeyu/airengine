@@ -2,10 +2,11 @@
 #define AirGameSkill_h__
 
 #include "AirEngineHeader.h"
-
+#include "AirParticle.h"
 namespace	Air{
 	namespace	Engine{
 		class	Particle;
+		class	ParticleElement;
 	};
 	namespace	Game{
 		enum enumSkillCastType{
@@ -16,8 +17,6 @@ namespace	Air{
 		enum enumSkillTargetType{
 			enSTT_None,
 			enSTT_Actor,
-			enSTT_Enemy,
-			enSTT_Friend,
 			enSTT_Position,
 			enSTT_Direction,
 			enSTT_Cone,
@@ -66,11 +65,14 @@ namespace	Air{
 				float				sdrt_MaxDistance_Radius;
 				AChar				sbt_strBindBoneName[16];
 				AChar				strEffectName[16];
+				AChar				strAnimationName[16];
 			};
 			SkillTemplate(CAString& strName,Info* pInfo);
 			virtual	U1		Create();
 			virtual	U1		Destroy();
 			virtual	void	Update(const FrameTime& frameTime,Skill* pSkill);
+		public:
+			inline	Info&	GetInfo(){return *m_pInfo;};
 		public:
 			inline	float				GetCoolDownTime(){return m_pInfo->cooldownTime;}
 			inline	enumSkillCastType	GetCastType(){return m_pInfo->castType;};
@@ -83,6 +85,7 @@ namespace	Air{
 			static AString	ProductTypeName;
 			struct Info{
 				AString	strTemplate;
+				Actor*	pActor;
 			};
 			Skill(CAString&	strName,Info* pInfo);
 			virtual	U1		Create();
@@ -96,6 +99,13 @@ namespace	Air{
 			inline	float			GetCoolDownTime(){return m_pTemplate->GetCoolDownTime();};
 			inline	float			GetLeftCastTime(){return m_fCurrentCastTime;};
 			inline	float			GetCastTime(){return m_pTemplate->GetCastTime();};
+
+		protected:
+			void	__stdcall		HitCallback(
+				const Engine::ParticleElement&	element,
+				U32								hitMask,
+				void*							pObject
+				);
 		protected:
 			float				m_fCurrentCoolDown;
 			float				m_fCurrentCastTime;
@@ -103,6 +113,8 @@ namespace	Air{
 			SkillTemplate*		m_pTemplate;
 			Info				m_Info;
 			Engine::Particle*	m_pParticle;
+			float				m_fAnimationLength;
+			float				m_fAnimationUpdateTime;
 		};
 	}
 	typedef	STD_VECTOR<Game::Skill*>	SkillVector;

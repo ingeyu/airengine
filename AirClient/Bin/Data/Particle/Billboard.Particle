@@ -11,8 +11,7 @@ ParticleTemplate	Billboard
 		ElementSize		0.5
 		VelocityDir		0 -5 0
 		VelocityAngle		0.2
-		//Center		0 0 0
-		//HalfSize		100 100 100
+		Enable			false
 	}
 	Affector	DefaultAffector	
 	{
@@ -30,7 +29,7 @@ ParticleTemplate	BigFire
 	Life		-1
 	Material	BigFire
 	EnablePointLight	true
-	PointLightColor		0.1 0.5 2 1.5
+	PointLightColor		0.1 0.5 5 1.5
 	Emitter		DefaultEmitter
 	{
 		Freq			0.5
@@ -38,8 +37,7 @@ ParticleTemplate	BigFire
 		ElementSize		0.5
 		VelocityDir		0 -10 0
 		VelocityAngle		0.2
-		//Center		0 0 0
-		//HalfSize		100 100 100
+		Enable			false
 	}
 	Affector	DefaultAffector	
 	{
@@ -56,10 +54,10 @@ ParticleTemplate	ForceFieldTest
 	Life		-1
 	Material	Particle_Billboard
 	EnablePointLight	true
-	PointLightColor		1 1 1 1.5
+	PointLightColor		1 2 1 0.5
 	Emitter		DefaultEmitter
 	{
-		Freq			0.05
+		Freq			0.2
 		ElementLife		5
 		ElementSize		0.1
 		VelocityDir		0 0.1 0

@@ -88,9 +88,11 @@ namespace	Air{
 
 				if(m_pInfo->bEnableCollision==0)
 					continue;
-				if(pPhysicsSys->CollisionDetect(e->vPos,e->vVelocity,uiMask)){
+				Physics::Object* pHitObject	=	NULL;
+				U32 uiCollisionMask	=	pPhysicsSys->CollisionDetect(e->vPos,e->vVelocity,uiMask,&pHitObject);
+				if(uiCollisionMask!=0){
 					if(cb.pCB!=NULL){
-						(*cb.pCB)(cb.pObject,*e,pParticle,enEHT_DynamicObject,NULL);
+						(*cb.pCB)(cb.pObject,*e,uiCollisionMask,pHitObject);
 					}					
 					p+=e->vVelocity*frameTime.fTimeDelta;
 					e->vPos=p;

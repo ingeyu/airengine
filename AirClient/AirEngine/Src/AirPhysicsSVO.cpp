@@ -38,7 +38,7 @@ namespace	Air{
 			m_SVO				=	svoData;
 		}
 
-		U1	SVO::IsIntersect( PointShape* shape,const BoundingBox& box){
+		U1	SVO::IsIntersect( Shape* shape,const BoundingBox& box){
 
 			switch(shape->m_Type){
 			case	enPST_Point:{
@@ -49,7 +49,7 @@ namespace	Air{
 								   }break;
 			case	enPST_Box:{
 				const Float3& vCenter		= shape->m_vPosition;
-				const Float3& vHalfSize	=	((BoxShape*)shape)->m_vHalfSize;
+				const Float3& vHalfSize	=	shape->m_vHalfSize;
 				BoundingBox bIntersect=	box;
 				bIntersect.Intersect(BoundingBox(vCenter-vHalfSize,vCenter+vHalfSize));
 				if(	bIntersect.vMin.x < bIntersect.vMax.x &&
@@ -61,7 +61,7 @@ namespace	Air{
 							  }break;
 			case	enPST_Sphere:{
 				const Float3& vCenter		= shape->m_vPosition;
-				float  fRadius	=	((SphereShape*)shape)->fRadius;
+				float  fRadius	=	shape->m_vHalfSize.x;
 				if(	box.vMin.x	-	vCenter.x	>	fRadius	||
 					box.vMin.y	-	vCenter.y	>	fRadius	||
 					box.vMin.z	-	vCenter.z	>	fRadius	||
@@ -77,8 +77,8 @@ namespace	Air{
 								 }break;
 			case	enPST_Cylinder:{
 				const Float3& vCenter		= shape->m_vPosition;
-				float  fRadius	=	((CylinderShape*)shape)->fRadius;
-				float  fHeight	=	((CylinderShape*)shape)->fHeight;
+				float  fRadius	=	shape->m_vHalfSize.x;
+				float  fHeight	=	shape->m_vHalfSize.y;
 				if(	box.vMin.x	-	vCenter.x	>	fRadius	||
 					box.vMin.z	-	vCenter.z	>	fRadius	||
 					vCenter.x	-	box.vMax.x 	>	fRadius	||
@@ -151,7 +151,7 @@ namespace	Air{
 			//}
 		}
 
-		Air::U1 SVO::CollisionDetect( PointShape*  pMove,PointShape* pGravity,Float3* pNormal ,Float3* pCorrect)
+		Air::U1 SVO::CollisionDetect( Shape*  pMove,Shape* pGravity,Float3* pNormal ,Float3* pCorrect)
 		{
 
 			if(m_uiDepth==0	||	m_SVO==NULL){
@@ -165,7 +165,7 @@ namespace	Air{
 
 			Float3 vCenter = pMove->m_vPosition;
 			//BoundingBox boxMove(vCenter-((BoxShape*)pMove)->m_vHalfSize,vCenter+((BoxShape*)pMove)->m_vHalfSize);
-			BoundingBox boxGravity(vCenter-((BoxShape*)pGravity)->m_vHalfSize,vCenter+((BoxShape*)pGravity)->m_vHalfSize);
+			BoundingBox boxGravity(vCenter-pGravity->m_vHalfSize,vCenter+pGravity->m_vHalfSize);
 
 			if(!IsIntersect(pMove,m_BoundingBox)&&!IsIntersect(pGravity,m_BoundingBox)){
 				return false;
@@ -281,7 +281,7 @@ namespace	Air{
 			
 		}
 
-		void SVO::ScaleShape( PointShape* shape )
+		void SVO::ScaleShape( Shape* shape )
 		{
 			shape->m_vPosition*=m_fScale;
 			switch(shape->m_Type){
@@ -293,18 +293,18 @@ namespace	Air{
 								   }break;
 			case	enPST_Box:{
 				
-				Float3& v = ((BoxShape*)shape)->m_vHalfSize;
+				Float3& v = shape->m_vHalfSize;
 				v*=m_fScale;
 							  }break;
 			case	enPST_Sphere:{
 				
-				float&  fRadius	=	((SphereShape*)shape)->fRadius;
+				float&  fRadius	=	shape->m_vHalfSize.x;
 				fRadius*=m_fScale;
 								 }break;
 			case	enPST_Cylinder:{
 
-				float&  fRadius	=	((CylinderShape*)shape)->fRadius;
-				float&  fHeight	=	((CylinderShape*)shape)->fHeight;
+				float&  fRadius	=	shape->m_vHalfSize.x;
+				float&  fHeight	=	shape->m_vHalfSize.y;
 				fRadius*=m_fScale;
 				fHeight*=m_fScale;
 				

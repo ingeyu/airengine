@@ -1,5 +1,6 @@
 #include "AirGameDefaultSection.h"
 #include "AirGameFreeControl.h"
+#include "AirPhysicsObject.h"
 
 namespace	Air{
 	namespace	Game{
@@ -31,7 +32,7 @@ namespace	Air{
 			parInfo.strTemplate	=	"Billboard";
 			m_pParticle=Engine::ParticleSystem::GetSingleton()->CreateProduct<Engine::Particle>("123",&parInfo);
 			m_pParticle->EnableEmitter(false);
-			//m_pParticle->SetCollisionMask(enPCM_Gravity);
+			m_pParticle->SetCollisionMask(enPCM_Environment|enPCM_DynamicObject);
 			m_pModel->attachObject("Ref_Weapon",m_pParticle);
 
 
@@ -39,11 +40,18 @@ namespace	Air{
 			parInfo.strTemplate	=	"BigFire";
 			m_pBigParticle=Engine::ParticleSystem::GetSingleton()->CreateProduct<Engine::Particle>("BigFire",&parInfo);
 			m_pBigParticle->EnableEmitter(false);
-			//m_pBigParticle->SetCollisionMask(enPCM_Gravity);
+			m_pBigParticle->SetCollisionMask(enPCM_Environment|enPCM_DynamicObject);
 			m_pModel->attachObject("Ref_Weapon",m_pBigParticle);
+
+			Engine::ParticleCB cb;
+			cb.pObject	=		this;
+
+			cb.pCB		=		(Engine::ElementHitCallback)Convert(&DefaultSection::HitCallback);
+			m_pBigParticle->SetCallback(cb);
 
 			parInfo.strTemplate	=	"ForceFieldTest";
 			pTest	=	Engine::ParticleSystem::GetSingleton()->CreateProduct<Engine::Particle>("test",&parInfo);
+			pTest->SetCollisionMask(enPCM_Environment);
 			m_pControl->GetControlNode()->attachObject(pTest);
 			
 			m_pControl->RegisterKeyCallback(OIS::KC_ESCAPE,this,ConverertFunction(&DefaultSection::OnESC));
@@ -51,6 +59,12 @@ namespace	Air{
 			m_pControl->RegisterMouseCallback(OIS::MB_Left,this,ConverertFunction(&DefaultSection::OnFireEnd),enKET_MouseUp);
 			m_pControl->RegisterMouseCallback(OIS::MB_Right,this,ConverertFunction(&DefaultSection::OnBigFireStart),enKET_MouseDown);
 			m_pControl->RegisterMouseCallback(OIS::MB_Right,this,ConverertFunction(&DefaultSection::OnBigFireEnd),enKET_MouseUp);
+
+			Physics::Object::Info poInfo;
+			poInfo.fMass	=	1;
+			poInfo.uiShapeCount	=	1;
+			poInfo.pShapeArray[0].SetCylinder(Float3(0,0,0),1,4);
+			PhysicsSystem::GetSingleton()->CreateProduct<Physics::Object>("TestCDObeject",&poInfo);
 			return true;
 		}
 
@@ -226,6 +240,13 @@ namespace	Air{
 			m_pBigParticle->EnableEmitter(true);
 			m_pParticle->EnableEmitter(false);
 			m_fShootTime	=	0.0f;
+		}
+
+		void	__stdcall DefaultSection::HitCallback( const Engine::ParticleElement& element, U32 hitMask, PhysicsObject* pObject )
+		{
+			if(hitMask	==	enPCM_DynamicObject){
+				OutputDebugStringA("DefaultSection::HitCallback\n");
+			}
 		}
 
 		AString	EditorSection::ProductTypeName="EditorSection";

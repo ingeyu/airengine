@@ -46,7 +46,7 @@ namespace	Air{
 					break;
 				}
 			}
-			if(m_bEnable){
+			if(pParticle->IsEmitterEnable()){
 				m_fUpdateTime	+=	frameTime.fTimeDelta;
 				ElementBorn(frameTime,lst,pParticle);
 			}

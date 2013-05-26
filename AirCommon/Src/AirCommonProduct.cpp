@@ -9,6 +9,7 @@ namespace Air{
 		:	m_pFactoryMgr(NULL),
 			m_strProductName(strName){
 			m_pFactory	=	NULL;
+			m_pUserData	=	NULL;
 		}
 	
 		const	AString& IProduct::GetProductTypeName()const{

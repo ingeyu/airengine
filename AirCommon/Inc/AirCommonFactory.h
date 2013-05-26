@@ -53,9 +53,17 @@ namespace Air{
 		protected:
 			const	AString&	m_strTypeName;		///<	工厂类型名
 		};
+		enum enumTraversalState{
+			enTS_InValidParameter,
+			enTS_Failed,
+			enTS_Break,
+			enTS_Continue,
+			enTS_TraversalAll,
+		};
 		class TraversalCallback{
 		public:
-			virtual	void	OnTraversal(IProduct* pProduct)=NULL;
+			//if return true ,it will be break Traversal and return true
+			virtual	enumTraversalState	OnTraversal(IProduct* pProduct)=NULL;
 		};
 		/**	\brief 工厂模版
 		*
@@ -203,12 +211,12 @@ namespace Air{
 			*    
 			*	@remarks 	遍历所有产品 函数会加锁
 			*	@see		IFactory
-			*	@return   	void
+			*	@return   	enumTraversalState
 			*	@param		IFactoryManager * pFactoryMgr
-			*	@note
+			*	@note		if TraversalCallback return true ,it will be break Traversal and return true
 			*
 			**/
-			void		TraversalProduct(TraversalCallback* pCB);
+			enumTraversalState		TraversalProduct(TraversalCallback* pCB);
 		protected:
 			ProductMap								m_mapProduct;		///<	产品列表
 			IFactoryManager*						m_pFactoryMgr;		///>	工厂管理器

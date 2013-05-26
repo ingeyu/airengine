@@ -145,16 +145,21 @@ namespace Air{
 
 		}
 
-		void IFactory::TraversalProduct( TraversalCallback* pCB )
+		enumTraversalState IFactory::TraversalProduct( TraversalCallback* pCB )
 		{
 			if(pCB==NULL)
-				return;
+				return enTS_InValidParameter;
 			m_CS.Enter();
 			ProductMap::const_iterator itr = m_mapProduct.begin();
 			for(;itr!=m_mapProduct.end();itr++){
-				pCB->OnTraversal(itr->second);
+				enumTraversalState	state	=	pCB->OnTraversal(itr->second);
+				if(state == enTS_Break){
+					m_CS.Leave();
+					return	state;
+				};
 			}
 			m_CS.Leave();
+			return enTS_TraversalAll;
 		}
 
 		IFactoryManager::IFactoryManager(){

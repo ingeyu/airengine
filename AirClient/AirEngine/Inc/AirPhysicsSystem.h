@@ -13,6 +13,7 @@ namespace	Air{
 	};
 	namespace	Physics{
 
+		class	Object;
 		class	SVO;
 		class	ENGINE_EXPORT	System :	
 			public	Common::IFactoryManager,
@@ -26,7 +27,7 @@ namespace	Air{
 			
 			void			Update(const FrameTime& frameTime);
 			void			UpdateSVO(U32* svoData,U32 uiDepth,float fScale);
-			U1				CollisionDetect(const Float3& p,Float3& v,U32 uiMask);
+			U32				CollisionDetect(const Float3& p,Float3& v,U32 uiMask,Object** ppObj	=	NULL);
 			U1				Silumation(Float3& p,float fRadius,float fHeight,Float3& v,U1 bGravity	=	false);
 		public:
 			inline const Float3&	GetGravity(){

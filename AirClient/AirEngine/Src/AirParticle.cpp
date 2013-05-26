@@ -19,7 +19,8 @@ namespace	Air{
 			m_bNeedWorldMatrix	=	true;
 			m_BoundingBox.vMin	=	Float3(-100,-100,-100);
 			m_BoundingBox.vMax	=	Float3(100,100,100);
-
+			m_uiCollisionMask	=	0;
+			m_bEnableEmitter	=	true;
 		}
 
 		Air::U1 Particle::Create()
@@ -37,6 +38,8 @@ namespace	Air{
 			}else{
 				SetMaterial(m_pTemplate->GetMaterial());
 			}
+
+			m_bEnableEmitter	=	m_pTemplate->GetEmitter()->IsEnable();
 			return true;
 		}
 
@@ -112,12 +115,12 @@ namespace	Air{
 
 		void Particle::EnableEmitter( U1 bEnable )
 		{
-			m_pTemplate->GetEmitter()->SetEnable(bEnable);
+			m_bEnableEmitter	=	bEnable;;
 		}
 
 		Air::U1 Particle::IsEmitterEnable()
 		{
-			return m_pTemplate->GetEmitter()->IsEnable();
+			return m_bEnableEmitter;
 		}
 
 		ParticleSystem::ParticleSystem()
@@ -168,9 +171,12 @@ namespace	Air{
 				UpdateParticle(const FrameTime& frameTime):t(frameTime){
 
 				};
-				virtual	void	OnTraversal(IProduct* pProduct){
+				virtual	Common::enumTraversalState	OnTraversal(IProduct* pProduct){
 					Particle* p = (Particle*)pProduct;
 					p->Update(t);
+
+					//dont break;
+					return Common::enTS_Continue;
 				}
 				const FrameTime& t;
 			};

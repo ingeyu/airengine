@@ -5,21 +5,17 @@
 #include "AirParticleElement.h"
 
 namespace	Air{
+
+
 	namespace	Engine{
 		
 		class Particle;
 		class ParticleTemplate;
-		enum enumElementHitType{
-			enEHT_StaticObject,
-			enEHT_DynamicObject,
-
-		};
 		typedef	void	(__stdcall	*ElementHitCallback)(
 			void*					pThis,
 			const ParticleElement&	element,
-			Particle*				pParticle,
-			enumElementHitType		hitType,
-			void*					pObject
+			U32						hitMask,
+			PhysicsObject*			pObject
 			);
 		struct ParticleCB{
 			ParticleCB(){
@@ -73,6 +69,7 @@ namespace	Air{
 			Info*							m_pInfo;
 			ParticleCB						m_CB;
 			U32								m_uiCollisionMask;
+			U1								m_bEnableEmitter;
 		};
 
 		typedef void*	(*ParticleScriptParser)(StringVector&	vecScript,U32& i);

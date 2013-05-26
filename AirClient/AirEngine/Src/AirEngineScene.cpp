@@ -261,9 +261,10 @@ namespace Air{
 			{
 			public:
 				ModelUpdate(const FrameTime& frameTime):t(frameTime){};
-				virtual	void	OnTraversal(IProduct* pProduct){
+				virtual	Common::enumTraversalState	OnTraversal(IProduct* pProduct){
 					Character::Animation::Model* p	=	(Character::Animation::Model*)pProduct;
 					p->Update(t);
+					return Common::enTS_Continue;
 				}
 
 				const FrameTime& t;

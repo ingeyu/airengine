@@ -58,6 +58,10 @@
 #endif
 namespace Air{
 	
+	namespace	Physics{
+		class	Object;
+	};
+	typedef		Physics::Object				PhysicsObject;
 	namespace Engine{
 	
 	
@@ -126,6 +130,7 @@ namespace Air{
 			}
 			
 		}
+
 		class	Shader;
 	
  		typedef		Render::Target				RenderTarget;
@@ -145,7 +150,7 @@ namespace Air{
 		typedef		Render::Draw::Buff			DrawBuff;
 		typedef		Render::Draw::Option		DrawOption;
 		//typedef		Render::IShader				Shader;
-
+		
 
 		typedef		std::vector<SamplerState*>	SamplerStateVector;
 		

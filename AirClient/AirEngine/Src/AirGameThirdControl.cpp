@@ -144,7 +144,7 @@ namespace Air{
 				
 				//vCurrentPos=(vOldPos+vCurrentPos)*0.5;
 				m_pNode->SetPosition(vCurrentPos);
-				Float3 v = Float3(0,1.5,0)	-vDir*m_fCurrentDis;
+				Float3 v = -vDir*m_fCurrentDis;
 				vCurrentPos.y=0;
 				m_pCamera->SetPosition(vCurrentPos+v);
 				

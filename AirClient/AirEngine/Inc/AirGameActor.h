@@ -38,18 +38,19 @@ namespace	Air{
 			void			StopCastSkill(U32	uiIndex);
 			//inline function
 		public:
-			inline	float			GetMoveVelocity(){return m_fMoveVelocity;};
-			inline	void			SetMoveVelocity(float f){m_fMoveVelocity	=	f;};
-			inline	const	Float3& GetMoveDirection(){return m_vMoveDir;};
-			inline	const	Float3&	GetFaceDirection(){return m_vFaceDir;};
-			inline	float			GetGravityVelocity(){return m_fGravityVelocity;};
-			inline	void			SetMoveDirection(const Float3& v){m_vMoveDir=v;m_vMoveDir.Normalize();};
-			inline	void			SetFaceDirection(const Float3& v){m_vFaceDir=v;m_vFaceDir.Normalize();};
-			inline	void			SetGravityVelocity(float f){m_fGravityVelocity=f;};
-			inline	AnimationModel*	GetModel(){return m_pModel;};
-			inline	Skill*			GetSkill(U32 uiIndex){return m_vecSkill[uiIndex];};
-			inline	void			SetTarget(Actor* pActor){m_pTarget	=	pActor;};
-			inline	Actor*			GetTarget(){return m_pTarget;};
+			inline	float				GetMoveVelocity(){return m_fMoveVelocity;};
+			inline	void				SetMoveVelocity(float f){m_fMoveVelocity	=	f;};
+			inline	const	Float3&		GetMoveDirection(){return m_vMoveDir;};
+			inline	const	Float3&		GetFaceDirection(){return m_vFaceDir;};
+			inline	float				GetGravityVelocity(){return m_fGravityVelocity;};
+			inline	void				SetMoveDirection(const Float3& v){m_vMoveDir=v;m_vMoveDir.Normalize();};
+			inline	void				SetFaceDirection(const Float3& v){m_vFaceDir=v;m_vFaceDir.Normalize();};
+			inline	void				SetGravityVelocity(float f){m_fGravityVelocity=f;};
+			inline	AnimationModel*		GetModel(){return m_pModel;};
+			inline	Skill*				GetSkill(U32 uiIndex){return m_vecSkill[uiIndex];};
+			inline	void				SetTarget(Actor* pActor){m_pTarget	=	pActor;};
+			inline	Actor*				GetTarget(){return m_pTarget;};
+			inline	Engine::SceneNode*	GetNode(){return	m_pNode;};
 		protected:
 			float					m_fMoveVelocity;
 			Float3					m_vMoveDir;

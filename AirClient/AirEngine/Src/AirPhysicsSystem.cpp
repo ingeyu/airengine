@@ -1,5 +1,6 @@
 #include "AirPhysicsSystem.h"
 #include "AirPhysicsSVO.h"
+#include "AirPhysicsObject.h"
 namespace	Air{
 	namespace	Physics{
 
@@ -14,6 +15,8 @@ namespace	Air{
 		{
 			m_pSVO	=	new SVO("SVO");
 			m_pSVO->AddRef();
+
+			AddFactory(new ParamFactory<Object>());
 			return true;
 		}
 
@@ -28,13 +31,50 @@ namespace	Air{
 
 		}
 
-		Air::U1 System::CollisionDetect( const Float3& p,Float3& v ,U32 uiMask)
+		U32 System::CollisionDetect( const Float3& p,Float3& v ,U32 uiMask,Object** ppObj)
 		{
 			static float& fTimeDelta	=	GetTimer().m_FrameTime.fTimeDelta;
 			if(uiMask&enPCM_Gravity){
-				v.y +=	m_vGravity.y*fTimeDelta;
+				v +=	m_vGravity*fTimeDelta;
 			}
-			return m_pSVO->CollisionDetect(p,&v);
+			if(uiMask&enPCM_DynamicObject){
+				class PhysicsCD:public Common::TraversalCallback{
+				public:
+					PhysicsCD(const Float3& p,Float3& v,U32 uiMask):tempP(p),tempV(v),mask(uiMask){
+						pHitObj=NULL;
+					};
+					virtual	Common::enumTraversalState	OnTraversal(Common::IProduct* pProduct){
+						Object* p = (Object*)pProduct;
+						if(p->CollosionDetect(tempP,tempV,mask)){
+							pHitObj	=	p;
+							return Common::enTS_Break;
+						}
+						return Common::enTS_Continue;
+					}
+					U32 mask;
+					const Float3&	tempP;
+					Float3&			tempV;	
+					Object*			pHitObj;
+				};
+
+				Common::IFactory* pFactory	=	GetFactory(Object::ProductTypeName);
+				if(pFactory!=NULL){
+					PhysicsCD tempCD(p,v,uiMask);
+					//if return false, CollosionDetect Hit Some Object
+					if(pFactory->TraversalProduct(&tempCD)== Common::enTS_Break){
+						if(ppObj!=NULL){
+							*ppObj	=	tempCD.pHitObj;
+						}
+						return enPCM_DynamicObject;
+					};
+				}
+			}
+			if(uiMask&enPCM_Environment){
+				if(m_pSVO->CollisionDetect(p,&v)){
+					return enPCM_Environment;
+				}
+			}
+			return 0;
 		}
 
 		void System::UpdateSVO( U32* svoData,U32 uiDepth,float fScale )
@@ -55,10 +95,12 @@ namespace	Air{
 
 
 
-			BoxShape	moveShape;
+			Shape	moveShape;
+			moveShape.m_Type	=	enPST_Box;
 			moveShape.m_vHalfSize			=	bound.GetHalfSize()*Float3(1,0.5,1);
 			moveShape.m_vPosition			=	bound.GetCenter();
-			BoxShape	gravityShape;
+			Shape	gravityShape;
+			gravityShape.m_Type	=	enPST_Box;
 			gravityShape.m_vHalfSize		=	bound.GetHalfSize()*Float3(0.5,1,0.5);
 			gravityShape.m_vPosition		=	bound.GetCenter();
 			

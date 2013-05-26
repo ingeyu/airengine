@@ -685,6 +685,16 @@ namespace Air{
 					return m_pAnimation->getSkeleton()->getCoreSkeleton()->getCoreBoneId(strName);
 				}
 
+				float Model::GetAnimationLength( CAString& strAnimationName )
+				{
+					CalCoreModel*	pModel	=	m_pAnimation->getCoreModel();
+					int iIndex	=	pModel->getCoreAnimationId(strAnimationName);
+					if(iIndex==0xffffffff)
+						return -1;
+
+					return pModel->getCoreAnimation(iIndex)->getDuration();
+				}
+
 
 	// 			void Model::SetParent( Common::INode* pParentNode ){
 	// 				if(m_pParentNode!=NULL){

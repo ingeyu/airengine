@@ -157,5 +157,15 @@ namespace	Air{
 			IFunction<T_Param>*	m_pFunction;
 		};
 	};//end of	namespace	Client
+
+	template<typename T_Source>
+	void*	Convert(T_Source t){
+#ifdef _X86_
+		U32* pp =	(U32*)&t;	
+#else
+		U64* pp	=	(U64*)&t;	
+#endif
+		return (void*)*pp;
+	};
 };//end of namespace Air
 #endif // COMMONFUNCTION_HEAD_FILE
