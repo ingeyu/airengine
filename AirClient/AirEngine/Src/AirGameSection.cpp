@@ -98,7 +98,7 @@ namespace	Air{
 			info.bAllowRotate	=	false;
 			info.pSection		=	this;
 			info.pCamera		=	m_pPipeline->GetMainCamera();
-			return GameSystem::GetSingleton()->CreateProduct<ThirdControl>(m_strProductName+"_Control",&info);
+			return EngineSystem::GetSingleton()->CreateProduct<ThirdControl>(m_strProductName+"_Control",&info);
 		}
 
 		Control* Section::GetControl()

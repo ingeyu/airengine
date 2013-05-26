@@ -54,7 +54,7 @@ ParticleTemplate	ForceFieldTest
 	Life		-1
 	Material	Particle_Billboard
 	EnablePointLight	true
-	PointLightColor		1 2 1 0.5
+	PointLightColor		0 0 2 0.5
 	Emitter		DefaultEmitter
 	{
 		Freq			0.2

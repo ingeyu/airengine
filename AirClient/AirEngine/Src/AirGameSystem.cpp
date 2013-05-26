@@ -18,11 +18,12 @@ namespace	Air{
 
 		Air::U1 System::Initialization()
 		{
+			
+			EngineSystem::GetSingleton()->AddFactory(new ParamFactory<FPSControl>());
+			EngineSystem::GetSingleton()->AddFactory(new ParamFactory<ThirdControl>());
+			EngineSystem::GetSingleton()->AddFactory(new ParamFactory<FreeControl>());
+			EngineSystem::GetSingleton()->AddFactory(new NoParamFactory<Section>());
 			AddFactory(new ParamFactory<Actor>());
-			AddFactory(new ParamFactory<FPSControl>());
-			AddFactory(new ParamFactory<ThirdControl>());
-			AddFactory(new ParamFactory<FreeControl>());
-			AddFactory(new NoParamFactory<Section>());
 
 
 			EngineSystem::GetSingleton()->CreateProduct<Engine::Material>("NoMaterial");

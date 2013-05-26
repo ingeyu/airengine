@@ -18,15 +18,16 @@ namespace	Air{
 			m_uiLowBodyBoneIndex	=	0;
 			m_pTarget				=	NULL;
 			m_vecSkill.resize(12);
+			m_pModel				=	NULL;
 		}
 
 		Air::U1 Actor::Create()
 		{
-			if (m_Info.strModelName.empty())
+			if (m_Info.strModelName.empty()	||	m_Info.pSection	==	NULL)
 			{
 				return false;
 			}
-			m_pNode	=	GameSystem::GetSingleton()->GetCurrentSection()->GetActorNode()->CreateChildSceneNode();
+			m_pNode	=	m_Info.pSection->GetActorNode()->CreateChildSceneNode();
 			SetModelName(m_Info.strModelName);
 			return true;
 		}

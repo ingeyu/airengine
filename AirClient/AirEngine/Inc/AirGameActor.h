@@ -7,6 +7,7 @@
 namespace	Air{
 	
 	namespace	Game{
+		class	Section;
 		enum	enumActorMoveState{
 			enAMS_NoMove			=	0,
 			enAMS_Left			=	1,
@@ -22,7 +23,8 @@ namespace	Air{
 		public:
 			static AString	ProductTypeName;
 			struct Info{
-				AString	strModelName;	
+				AString		strModelName;
+				Section*	pSection;
 			};
 			Actor(CAString& strName,Info* pInfo);
 			virtual	U1		Create();

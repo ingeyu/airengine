@@ -81,5 +81,7 @@ namespace Air{
 			static void InitSrand();
 		};
 	};
+	COMMON_EXPORT	void	RandomF3(Float3& v);
+	COMMON_EXPORT	void	RandomF2(Float2& v);
 };
 #endif

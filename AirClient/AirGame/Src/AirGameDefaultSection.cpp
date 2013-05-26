@@ -1,6 +1,7 @@
 #include "AirGameDefaultSection.h"
 #include "AirGameFreeControl.h"
 #include "AirPhysicsObject.h"
+#include "AirGameActor.h"
 
 namespace	Air{
 	namespace	Game{
@@ -64,13 +65,20 @@ namespace	Air{
 			Physics::Object::Info poInfo;
 			poInfo.fMass	=	1;
 			poInfo.uiShapeCount	=	1;
-			poInfo.pShapeArray[0].SetCylinder(Float3(0,0,0),1,4);
+			poInfo.pShapeArray[0].SetCylinder(Float3(0,0,0),0.5,1);
 			PhysicsSystem::GetSingleton()->CreateProduct<Physics::Object>("TestCDObeject",&poInfo);
+
+			Actor::Info ainfo ;
+			ainfo.strModelName	=	"นท";
+			ainfo.pSection		=	this;
+			Actor*	pActor=	GameSystem::GetSingleton()->CreateProduct<Actor>("gouride",&ainfo);
+			//pActor->
 			return true;
 		}
 
 		Air::U1 DefaultSection::Destroy()
 		{
+			//GameSystem::GetSingleton()->DestroyProduct<Actor>("gouride");
 			if(m_pParticle!=NULL){
 				if(m_pModel!=NULL)
 					m_pModel->detachObject(m_pParticle);
@@ -167,7 +175,7 @@ namespace	Air{
 			info.pSection		=	this;
 			info.pCamera		=	m_pScene->GetMainCamera();
 			info.vPosition		=	Float3(0,0,0);
-			return GameSystem::GetSingleton()->CreateProduct<ThirdControl>(m_strProductName+"_ThirdControl",&info);
+			return EngineSystem::GetSingleton()->CreateProduct<ThirdControl>(m_strProductName+"_ThirdControl",&info);
 		}
 
 		void DefaultSection::Update( const FrameTime& fFrameTime )
@@ -267,7 +275,7 @@ namespace	Air{
 			info.pSection		=	this;
 			info.pCamera		=	m_pScene->GetMainCamera();
 			
-			return GameSystem::GetSingleton()->CreateProduct<FreeControl>(m_strProductName+"_FreeControl",&info);
+			return EngineSystem::GetSingleton()->CreateProduct<FreeControl>(m_strProductName+"_FreeControl",&info);
 		}
 
 		Air::U1 EditorSection::Create()

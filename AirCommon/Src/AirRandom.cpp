@@ -8234,4 +8234,18 @@ namespace Air{
 			srand(t.wMilliseconds);
 		}
 	};
+
+	COMMON_EXPORT	void RandomF3( Float3& v )
+	{
+		v.x		=	Common::Number::RandomF();
+		v.y		=	Common::Number::RandomF();
+		v.z		=	Common::Number::RandomF();
+	}
+
+	COMMON_EXPORT	void RandomF2( Float2& v )
+	{
+		v.x		=	Common::Number::RandomF();
+		v.y		=	Common::Number::RandomF();
+	}
+
 };

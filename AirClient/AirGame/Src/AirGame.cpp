@@ -31,15 +31,15 @@ namespace Air{
 		Game::Section*	pSection	=	NULL;
 		extern "C" GAME_EXPORT U1 DllInit(void*		pParam)throw(){
 			
-			GameSystem::GetSingleton()->AddFactory(new NoParamFactory<Game::EditorSection>());
-			GameSystem::GetSingleton()->AddFactory(new NoParamFactory<Game::DefaultSection>());
+			EngineSystem::GetSingleton()->AddFactory(new NoParamFactory<Game::EditorSection>());
+			EngineSystem::GetSingleton()->AddFactory(new NoParamFactory<Game::DefaultSection>());
 			
 
 			if(pSection==NULL){
 				if(Engine::GetGlobalSetting().m_EngineParam.EditorMode==1){
-					pSection	=	GameSystem::GetSingleton()->CreateProduct<Game::EditorSection>("Test");
+					pSection	=	EngineSystem::GetSingleton()->CreateProduct<Game::EditorSection>("Test");
 				}else{
-					pSection	=	GameSystem::GetSingleton()->CreateProduct<Game::DefaultSection>("Test");
+					pSection	=	EngineSystem::GetSingleton()->CreateProduct<Game::DefaultSection>("Test");
 				}
 				GameSystem::GetSingleton()->SetCurrentSection(pSection);
 			}
@@ -64,7 +64,7 @@ namespace Air{
 				EditorSystem::GetSingleton()->Release();
 				EditorSystem::ReleaseSingleton();
 			}
-
+			GameSystem::GetSingleton()->DestroyAllProduct();
 			if(pSection!=NULL){
 				GameSystem::GetSingleton()->SetCurrentSection(NULL);
 				pSection->ReleaseRef();
@@ -72,8 +72,8 @@ namespace Air{
 			}
 
 
-			GameSystem::GetSingleton()->RemoveFactory(Game::EditorSection::ProductTypeName);
-			GameSystem::GetSingleton()->RemoveFactory(Game::DefaultSection::ProductTypeName);
+			EngineSystem::GetSingleton()->RemoveFactory(Game::EditorSection::ProductTypeName);
+			EngineSystem::GetSingleton()->RemoveFactory(Game::DefaultSection::ProductTypeName);
 			
 			return	true;
 		}
