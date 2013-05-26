@@ -24,7 +24,7 @@ namespace	Air{
 			void	__stdcall	OnBigFireStart(const Key& k);
 			void	__stdcall	OnBigFireEnd(const Key& k);
 
-			void	__stdcall		HitCallback(
+			U32	__stdcall		HitCallback(
 				const Engine::ParticleElement&	element,
 				U32								hitMask,
 				PhysicsObject*					pObject

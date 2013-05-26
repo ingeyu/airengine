@@ -52,6 +52,7 @@ namespace	Air{
 			parInfo.strTemplate	=	"ForceFieldTest";
 			pTest	=	Engine::ParticleSystem::GetSingleton()->CreateProduct<Engine::Particle>("test",&parInfo);
 			pTest->SetCollisionMask(enPCM_Environment);
+			pTest->EnableEmitter(false);
 			m_pControl->GetControlNode()->attachObject(pTest);
 			
 			m_pControl->RegisterKeyCallback(OIS::KC_ESCAPE,this,ConverertFunction(&DefaultSection::OnESC));
@@ -242,11 +243,20 @@ namespace	Air{
 			m_fShootTime	=	0.0f;
 		}
 
-		void	__stdcall DefaultSection::HitCallback( const Engine::ParticleElement& element, U32 hitMask, PhysicsObject* pObject )
+		U32	__stdcall DefaultSection::HitCallback( const Engine::ParticleElement& element, U32 hitMask, PhysicsObject* pObject )
 		{
-			if(hitMask	==	enPCM_DynamicObject){
-				OutputDebugStringA("DefaultSection::HitCallback\n");
+			if(hitMask	==	enPCM_Environment){
+				//OutputDebugStringA("DefaultSection::HitCallback\n");
+				Float3 v;
+				for(U32 I=0;I<10;I++){
+					RandomF3(v);
+					v+=element.vVelocity.NormalizeCopy();
+					v*=Common::Number::RandomF()*element.vVelocity.Length();
+					pTest->AddElement(element.vPos,v,0.1);
+				}
+				return Engine::enEHH_BornParticle|Engine::enEHH_MarkDead;
 			}
+			return Engine::enEHH_None;
 		}
 
 		AString	EditorSection::ProductTypeName="EditorSection";

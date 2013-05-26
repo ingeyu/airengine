@@ -25,7 +25,7 @@ namespace	Air{
 			virtual	void	Update(const FrameTime& frameTime,Particle* pParticle);
 			virtual	void	ElementBorn(const FrameTime& frameTime,PElementList& lst,Particle* pParticle);
 		public:
-			inline	U1				IsEnable(){return m_pInfo->bEnable;};
+			inline	U1				IsEnable(){return m_pInfo->bEnable!=0;};
 		protected:
 			virtual	ParticleElement*	NewElement(double dTotalTime);
 			virtual	void				RandomVelocity(Float3& vVelocity);

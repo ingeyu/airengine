@@ -58,7 +58,7 @@ ParticleTemplate	ForceFieldTest
 	Emitter		DefaultEmitter
 	{
 		Freq			0.2
-		ElementLife		5
+		ElementLife		0.5
 		ElementSize		0.1
 		VelocityDir		0 0.1 0
 		VelocityAngle		4

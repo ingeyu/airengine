@@ -54,7 +54,7 @@ namespace	Air{
 			
 			inline	float				GetLife(){return m_pInfo->fLife;};
 			inline	const	Float4&		GetLightColor(){return m_pInfo->fPointLightColor;};
-			inline	U1					GetEnablePointLight(){return m_pInfo->bEnablePointLight;};
+			inline	U1					GetEnablePointLight(){return m_pInfo->bEnablePointLight!=0;};
 			inline	ParticleEmitter*	GetEmitter(){return m_pEmitter;};
 			inline	ParticleAffector*	GetAffector(){return m_pAffector;};
 			inline	ParticleRenderer*	GetRenderer(){return m_pRenderer;};

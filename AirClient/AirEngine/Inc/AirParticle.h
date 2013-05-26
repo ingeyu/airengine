@@ -11,7 +11,13 @@ namespace	Air{
 		
 		class Particle;
 		class ParticleTemplate;
-		typedef	void	(__stdcall	*ElementHitCallback)(
+		enum	enumElementHitHandle{
+			enEHH_None			=	0,
+			enEHH_MarkDead		=	1,
+			enEHH_BornElement	=	1<<1,
+			enEHH_BornParticle	=	1<<2,
+		};
+		typedef	U32	(__stdcall	*ElementHitCallback)(
 			void*					pThis,
 			const ParticleElement&	element,
 			U32						hitMask,

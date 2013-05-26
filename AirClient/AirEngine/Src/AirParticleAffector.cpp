@@ -81,7 +81,8 @@ namespace	Air{
 			PhysicsSystem* pPhysicsSys	=	PhysicsSystem::GetSingleton();
 			PElementList& lst = pParticle->GetElementList();
 			Float3 p;
-			for(PElementList::iterator i = lst.begin();i!=lst.end();i++){
+			PElementList::iterator i = lst.begin();
+			for(;i!=lst.end();){
 				ParticleElement* e = (*i);
 				p = e->vPos;
 				UpdateVelocityPosition(frameTime,e,forcefield);
@@ -91,12 +92,27 @@ namespace	Air{
 				Physics::Object* pHitObject	=	NULL;
 				U32 uiCollisionMask	=	pPhysicsSys->CollisionDetect(e->vPos,e->vVelocity,uiMask,&pHitObject);
 				if(uiCollisionMask!=0){
+					U32	uiHandle	=	0;
 					if(cb.pCB!=NULL){
-						(*cb.pCB)(cb.pObject,*e,uiCollisionMask,pHitObject);
-					}					
+						uiHandle	=	(*cb.pCB)(cb.pObject,*e,uiCollisionMask,pHitObject);
+					}
+					if(uiHandle&enEHH_MarkDead){
+						delete *i;
+						i	=	lst.erase(i);
+						continue;
+					}
+					if(uiHandle&enEHH_BornElement){
+
+					}
+					if(uiHandle&enEHH_BornParticle){
+
+					}
 					p+=e->vVelocity*frameTime.fTimeDelta;
 					e->vPos=p;
+					
+
 				}
+				i++;
 			}
 		}
 
