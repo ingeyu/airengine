@@ -6,7 +6,7 @@
 namespace	Air{
 	namespace	Game{
 		Engine::Particle* pTest=NULL;
-
+		static Actor*	pActor=NULL;
 		AString	DefaultSection::ProductTypeName="DefaultSection";
 		DefaultSection::DefaultSection( CAString& strName ):Section(strName)
 		{
@@ -66,12 +66,13 @@ namespace	Air{
 			poInfo.fMass	=	1;
 			poInfo.uiShapeCount	=	1;
 			poInfo.pShapeArray[0].SetCylinder(Float3(0,0,0),0.5,1);
-			PhysicsSystem::GetSingleton()->CreateProduct<Physics::Object>("TestCDObeject",&poInfo);
+			Physics::Object* pObj	=	PhysicsSystem::GetSingleton()->CreateProduct<Physics::Object>("TestCDObeject",&poInfo);
 
 			Actor::Info ainfo ;
 			ainfo.strModelName	=	"นท";
 			ainfo.pSection		=	this;
-			Actor*	pActor=	GameSystem::GetSingleton()->CreateProduct<Actor>("gouride",&ainfo);
+			pActor=	GameSystem::GetSingleton()->CreateProduct<Actor>("gouride",&ainfo);
+			pActor->GetNode()->attachObject(pObj);
 			//pActor->
 			return true;
 		}
@@ -236,6 +237,8 @@ namespace	Air{
 				}
 				
 			}
+			if(pActor!=NULL)
+				pActor->SetPosition(Float3(3*sin(fFrameTime.fTotalTime),0,3*cos(fFrameTime.fTotalTime)));
 		}
 
 		void	__stdcall DefaultSection::OnBigFireEnd( const Key& k )

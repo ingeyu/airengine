@@ -17,6 +17,7 @@ namespace	Air{
 		{
 			if(m_Info.uiShapeCount==0)
 				return false;
+			//memcpy(m_)
 			return true;
 		}
 
@@ -30,7 +31,8 @@ namespace	Air{
 			if(m_uiMask&uiMask){
 				U32 uiShapeCount	=	m_Info.uiShapeCount;
 				for(U32 i=0;i<uiShapeCount;i++){
-					Shape& shape	=	m_Info.pShapeArray[i];
+					//use world space shape
+					Shape& shape	=	m_WorldShape[i];
 					switch(shape.m_Type){
 						case 	enPST_Point:	{
 
@@ -56,7 +58,7 @@ namespace	Air{
 							}
 												}break;
 						case	enPST_Cylinder:	{
-							
+
 							Float3 vNormal	=	p	-	shape.m_vPosition;
 							Float3 vTemp	=	vNormal;
 							vTemp.y=0;
@@ -82,6 +84,19 @@ namespace	Air{
 				}
 			}
 			return false;
+		}
+
+		void Object::Update( const Float44& ParentGlobalWorldMatrix, const Float4& ParentGlobalWorldQuat, const Float3& ParentGlobalWorldScale, U1 bParentDirty )
+		{
+			U32 uiShapeCount	=	m_Info.uiShapeCount;
+			for(U32 i=0;i<uiShapeCount;i++){
+				//local space to world space
+				Shape& shape			=	m_Info.pShapeArray[i];
+				Shape& worldShape		=	m_WorldShape[i];
+				worldShape				=	shape;
+				worldShape.m_vPosition	=	ParentGlobalWorldMatrix.GetPosition()+shape.m_vPosition;
+				worldShape.m_vHalfSize	=	shape.m_vHalfSize*ParentGlobalWorldScale;
+			}
 		}
 
 	}
