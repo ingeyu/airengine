@@ -32,7 +32,7 @@ namespace Air{
 	
 				m_pNode				=	pScene->GetRootNode()->CreateChildSceneNode();
 				m_pNode->SetPosition(m_Info.vPosition);
-				m_pNode->SetName("ThirdControl_Node");
+				
 
 				m_vMoveDirection	=	Float3(0,0,0);
 				

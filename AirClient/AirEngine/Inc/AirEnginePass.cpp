@@ -9,8 +9,7 @@ namespace	Air{
 
 
 		Pass::Pass( PassInfo* pInfo ){
-			if(pInfo!=NULL)
-				m_strName	=	pInfo->strName;
+
 			m_pInfo		=	pInfo;
 
 			m_pRasterizerState		=	NULL;
@@ -29,8 +28,7 @@ namespace	Air{
 		}
 
 		Air::U1 Pass::Create(){
-			if(m_strName.empty())
-				return	false;
+
 			if(m_pInfo==NULL)
 				return	false;
 

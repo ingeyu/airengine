@@ -48,7 +48,7 @@ namespace Air{
 		*
 		***/
 		class ENGINE_EXPORT MovableObject :
-			public	Common::IObject,
+			public	MemoryObject,
 			public	Flag<enumMovableObjectFlag>{
 		public:
 			MovableObject();

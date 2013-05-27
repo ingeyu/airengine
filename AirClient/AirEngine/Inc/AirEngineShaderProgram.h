@@ -77,6 +77,7 @@ namespace	Air{
 			Shader*						m_pShader;
 			enumShaderType				m_Type;
 			SamplerStateVector			m_vecSamplerState;
+			AString						m_strName;
 		};
 	
 	};//end of	namespace	Client

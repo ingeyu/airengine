@@ -163,7 +163,7 @@ namespace	Air{
 			m_pParticle->EnableEmitter(false);
 		}
 
-		void	__stdcall Skill::HitCallback( const Engine::ParticleElement& element, U32 hitMask, void* pObject )
+		void	__stdcall Skill::HitCallback( const Engine::ParticleElement& element, U32 hitMask, PhysicsObject* pObject )
 		{
 
 		}

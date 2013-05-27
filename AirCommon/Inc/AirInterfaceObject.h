@@ -37,29 +37,7 @@ namespace	Air{
 				m_pUserData	=	NULL;
 			};
 			virtual	~IObject(){};
-			/**	\brief	获取名字
-			*			
-			*	@remarks		获取名字	
-			*	@see		IObject
-			*	@return   	Client::String
-			*	@note
-			*
-			**/
-			inline	Air::AString GetName(){
-				return m_strName;
-			}
-			/**	\brief	设置名字
-			*   
-			*	@remarks 	设置名字
-			*	@see		IObject
-			*	@return   	void
-			*	@param		String strName
-			*	@note
-			*
-			**/
-			inline	void	SetName(const Air::AString& strName){
-				m_strName	= strName;
-			};
+
 			/**	\brief	设置用户数据
 			*   
 			*	@remarks 	设置用户数据
@@ -107,7 +85,6 @@ namespace	Air{
 				return	m_strUserString;
 			};
 		protected:
-			Air::AString	m_strName;			///<	物体名称
 			Air::AString	m_strUserString;	///<	用户字符信息
 			void*			m_pUserData;		///<	用户数据
 		};

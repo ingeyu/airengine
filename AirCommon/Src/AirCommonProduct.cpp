@@ -53,27 +53,6 @@ namespace Air{
 		Air::U32 IProduct::GetSize(){
 			return	sizeof(IProduct)+m_strProductName.size()+1;
 		}
-
-		void IProduct::SetUserData( void* pUserData ){
-			m_pUserData	=	pUserData;
-		}
-
-		void* IProduct::GetUserData(){
-			return	m_pUserData;
-		}
-
-		void IProduct::SetUserString( CAString& strUserString ){
-			m_strUserString	=	strUserString;
-		}
-
-		Air::AString IProduct::GetUserString(){
-			return	m_strUserString;
-		}
-
-		void IProduct::GetUserString( AString& strUserString ){
-			strUserString	=	m_strUserString;
-		}
-
 		void IProduct::SetProductName( CAString& strName )
 		{
 			m_strProductName	=	strName;

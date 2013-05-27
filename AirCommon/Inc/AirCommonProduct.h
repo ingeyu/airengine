@@ -125,17 +125,11 @@ namespace Air{
 			**/
 			virtual	U32		ReleaseRef();
 			virtual	U32		GetSize();
-			void			SetUserData(void*	pUserData);
-			void*			GetUserData();
-			void			SetUserString(CAString&	strUserString);
-			AString			GetUserString();
-			void			GetUserString(AString&	strUserString);
+
 		protected:
 			IFactoryManager*	m_pFactoryMgr;					///<	场景指针
 			IFactory*			m_pFactory;						///<	工厂指针
 			AString				m_strProductName;				///<	产品名
-			AString				m_strUserString;
-			void*				m_pUserData;
 		};
 
 	};

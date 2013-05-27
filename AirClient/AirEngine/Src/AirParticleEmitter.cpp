@@ -18,7 +18,7 @@ namespace	Air{
 				return false;
 			}
 
-			m_bEnable	=	m_pInfo->bEnable;
+			m_bEnable	=	m_pInfo->bEnable!=0;
 			
 			if(	m_pInfo->fFreq	<	0.000001f)
 				return false;

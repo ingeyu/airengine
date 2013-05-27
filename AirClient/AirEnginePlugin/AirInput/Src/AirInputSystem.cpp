@@ -16,8 +16,6 @@ namespace Air{
 	
 	
 			System::System(){
-				m_strName		=	"OIS InputSystem";
-	
 				m_bMouseEnable		=	true;
 				m_bKeyEnable		=	true;
 				m_bJoyStickEnable	=	true;

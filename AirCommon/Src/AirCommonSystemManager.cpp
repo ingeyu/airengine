@@ -4,8 +4,8 @@ namespace	Air{
 	namespace	Common{
 
 
-		ISystemManager::ISystemManager(AString	strTypeName){
-			m_strName		=	strTypeName;
+		ISystemManager::ISystemManager(CAString&	strTypeName):m_strName(strTypeName){
+			
 			m_pActiveSys	=	NULL;
 		}
 

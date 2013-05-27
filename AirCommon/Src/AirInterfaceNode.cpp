@@ -7,7 +7,7 @@ namespace Air{
 	
 	namespace Common{
 		INode::INode():IObject(){
-			m_strName		= Number::Increase("UnNameINode");
+			
 			m_pParentNode	= NULL;
 			m_vPos			=	Float3(0,0,0);
 			m_vScale		=	Float3(1,1,1);
@@ -18,11 +18,7 @@ namespace Air{
 			m_GlobalWorldMatrix	=	m_matWorld;
 			m_bDirty	= true;
 		}
-		INode::INode(CAString& strName,INode* pParentNode):IObject(){
-			if(strName.empty())
-				m_strName		= Number::Increase(strName);
-			else
-				m_strName		=	strName;
+		INode::INode(INode* pParentNode):IObject(){
 			m_pParentNode	= pParentNode;
 			m_vPos			=	Float3(0,0,0);//		= ;//Vector3::;
 			m_vScale		=	Float3(1,1,1);
@@ -41,8 +37,8 @@ namespace Air{
 			RemoveAllChild(true);
 	
 		}
-		INode* INode::CreateChild(CAString& strName){
-			INode* pChildNode = CreateChildImp(strName);
+		INode* INode::CreateChild(){
+			INode* pChildNode = CreateChildImp();
 			AddChild(pChildNode);
 			return pChildNode;
 		}
@@ -93,8 +89,8 @@ namespace Air{
 			lst.clear();
 		}
 	
-		INode* INode::CreateChildImp(CAString& strName){
-			return new INode(strName,this);
+		INode* INode::CreateChildImp(){
+			return new INode(this);
 		
 		}
 	

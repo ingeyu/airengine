@@ -64,6 +64,8 @@ namespace	Air{
 			U32						m_uiLowBodyBoneIndex;
 			Actor*					m_pTarget;
 			SkillVector				m_vecSkill;
+			Physics::Object*		m_pHitShape;
+			Physics::Object*		m_pMoveShape;
 		};
 	}
 }

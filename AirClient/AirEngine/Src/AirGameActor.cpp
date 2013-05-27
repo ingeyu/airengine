@@ -4,6 +4,8 @@
 #include "AirGameSystem.h"
 #include "AirGameSection.h"
 #include "AirGlobalSetting.h"
+#include "AirPhysicsObject.h"
+#include "AirPhysicsSystem.h"
 namespace	Air{
 	namespace	Game{
 
@@ -19,6 +21,8 @@ namespace	Air{
 			m_pTarget				=	NULL;
 			m_vecSkill.resize(12);
 			m_pModel				=	NULL;
+			m_pHitShape				=	NULL;
+			m_pMoveShape			=	NULL;
 		}
 
 		Air::U1 Actor::Create()
@@ -29,11 +33,20 @@ namespace	Air{
 			}
 			m_pNode	=	m_Info.pSection->GetActorNode()->CreateChildSceneNode();
 			SetModelName(m_Info.strModelName);
+
+			Physics::Object::Info poInfo;
+			poInfo.fMass	=	1;
+			poInfo.uiShapeCount	=	1;
+			poInfo.pShapeArray[0].SetCylinder(Float3(0,0,0),0.5,1);
+			m_pHitShape	=	PhysicsSystem::GetSingleton()->CreateProduct<Physics::Object>(m_strProductName+"_CD",&poInfo);
+			m_pHitShape->SetUserData(this);
+			m_pNode->attachObject(m_pHitShape);
 			return true;
 		}
 
 		Air::U1 Actor::Destroy()
 		{
+			SAFE_RELEASE_REF(m_pHitShape);
 			U32 uiSkillCount	=	m_vecSkill.size();
 			for(U32 i=0;i<uiSkillCount;i++){
 				SAFE_RELEASE_REF(m_vecSkill[i]);

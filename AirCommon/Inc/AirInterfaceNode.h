@@ -83,7 +83,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			virtual INode*		CreateChild(CAString& strName);
+			virtual INode*		CreateChild();
 			/**	\brief	附加节点
 			*   
 			*	@remarks 	将一个节点附加到此节点  作为这个节点的子节点 如果节点已经依附到其他节点，则会移除他们的之间的父子关系
@@ -336,7 +336,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			INode(CAString& strName,INode* pParentNode = NULL);
+			INode(INode* pParentNode);
 			/**	\brief	创建子节点
 			*   
 			*	@remarks 	作用是派生类 重写此函数 用于NEW对象的时候使用
@@ -345,7 +345,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			virtual INode* CreateChildImp(CAString& strName);
+			virtual INode* CreateChildImp();
 			
 		protected:
 			NodeList			m_lstChild;					///<	子节点列表

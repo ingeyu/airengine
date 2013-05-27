@@ -128,7 +128,7 @@ namespace Air{
 			:	public	IObject,
 			public	SimpleListenManager<SystemManagerListener>{
 		public:
-			ISystemManager(AString	strTypeName);
+			ISystemManager(CAString&	strTypeName);
 			virtual	~ISystemManager();
 
 			/**	\brief	初始化管理器
@@ -236,10 +236,11 @@ namespace Air{
 			virtual	void		RemoveSystem(ISystem*	pSys);
 
 			
-
+			inline	CAString&	GetName(){return m_strName;};
 		protected:
 			SystemList	m_lstSystem;		///<	系统列表
 			ISystem*	m_pActiveSys;		///<	当前激活的系统
+			AString		m_strName;
 		};
 
 		typedef	std::map<AString,ISystemManager*>	SystemManagerMap;

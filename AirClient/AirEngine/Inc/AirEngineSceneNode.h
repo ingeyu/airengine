@@ -62,7 +62,7 @@ namespace Air{
 			public	Flag<enumSceneNodeFlag>{
 		public:
 			SceneNode();
-			SceneNode(CAString&	strName,SceneNode*	pParentNode);
+			SceneNode(SceneNode*	pParentNode);
 			virtual ~SceneNode();
 			/**	\brief	返回父场景节点
 			*   
@@ -236,7 +236,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			virtual INode*	CreateChildImp(CAString& strName);
+			virtual INode*	CreateChildImp();
 			
 			enumSceneNodeType	GetType();
 			void				SetType(enumSceneNodeType	t);

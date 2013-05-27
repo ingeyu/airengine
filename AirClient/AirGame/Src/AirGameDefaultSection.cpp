@@ -62,17 +62,13 @@ namespace	Air{
 			m_pControl->RegisterMouseCallback(OIS::MB_Right,this,ConverertFunction(&DefaultSection::OnBigFireStart),enKET_MouseDown);
 			m_pControl->RegisterMouseCallback(OIS::MB_Right,this,ConverertFunction(&DefaultSection::OnBigFireEnd),enKET_MouseUp);
 
-			Physics::Object::Info poInfo;
-			poInfo.fMass	=	1;
-			poInfo.uiShapeCount	=	1;
-			poInfo.pShapeArray[0].SetCylinder(Float3(0,0,0),0.5,1);
-			Physics::Object* pObj	=	PhysicsSystem::GetSingleton()->CreateProduct<Physics::Object>("TestCDObeject",&poInfo);
+
 
 			Actor::Info ainfo ;
 			ainfo.strModelName	=	"นท";
 			ainfo.pSection		=	this;
 			pActor=	GameSystem::GetSingleton()->CreateProduct<Actor>("gouride",&ainfo);
-			pActor->GetNode()->attachObject(pObj);
+			
 			//pActor->
 			return true;
 		}

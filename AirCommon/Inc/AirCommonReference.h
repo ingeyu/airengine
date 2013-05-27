@@ -20,11 +20,12 @@
 
 #include "AirCommon.h"
 #include "AirCommonHeader.h"
+#include "AirInterfaceObject.h"
 namespace Air{
 	
 	namespace Common{
 	
-		class COMMON_EXPORT	IReference	:	public MemoryObject{
+		class COMMON_EXPORT	IReference	:	public IObject{
 		public:
 			IReference();
 			virtual	~IReference();

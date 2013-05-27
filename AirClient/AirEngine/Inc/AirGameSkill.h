@@ -10,9 +10,10 @@ namespace	Air{
 	};
 	namespace	Game{
 		enum enumSkillCastType{
-			enSCT_Immediately,
-			enSCT_TimeDelay,
-			enSCT_HoldOn,
+			enSCT_Immediately,		///<	立即
+			enSCT_TimeDelay,		///<	吟唱之后 施放
+			enSCT_HoldOn,			///<	持续
+			enSCT_Accumulate		///<	蓄能
 		};
 		enum enumSkillTargetType{
 			enSTT_None,
@@ -58,6 +59,7 @@ namespace	Air{
 				enumSkillBindType	bindType;
 				enumSkillDamageType	damageType;
 				float				sct_castTime;
+				float				sct_castDistance;
 				Float3				stt_targetPos_Dir;
 				float				stt_angle;
 				float				sdt_DelayTime;
@@ -104,7 +106,7 @@ namespace	Air{
 			void	__stdcall		HitCallback(
 				const Engine::ParticleElement&	element,
 				U32								hitMask,
-				void*							pObject
+				PhysicsObject*					pObject
 				);
 		protected:
 			float				m_fCurrentCoolDown;

@@ -13,8 +13,8 @@ namespace Air{
 				AddFlag(enSNF_VISIABLE);
 		}
 
-		SceneNode::SceneNode( CAString& strName,SceneNode* pParentNode )	:
-			Common::INode(strName,pParentNode){
+		SceneNode::SceneNode( SceneNode* pParentNode )	:
+			Common::INode(pParentNode){
 				m_Type	=	pParentNode->GetType();
 				AddFlag(enSNF_VISIABLE);
 		}
@@ -26,8 +26,8 @@ namespace Air{
 		}
 	
 	
-		Common::INode* SceneNode::CreateChildImp(CAString& strName){
-			SceneNode*	p	=	new SceneNode(strName,this);
+		Common::INode* SceneNode::CreateChildImp(){
+			SceneNode*	p	=	new SceneNode(this);
 			p->SetType(m_Type);
 			return p;
 		}
@@ -105,7 +105,7 @@ namespace Air{
 			const	Float3&	scale
 			)
 		{
-			SceneNode* pSceneNode = static_cast<SceneNode*>(CreateChild(""));
+			SceneNode* pSceneNode = static_cast<SceneNode*>(CreateChild());
 			pSceneNode->SetPosition(pos);
 			pSceneNode->SetQuat(rot);
 			pSceneNode->SetScale(scale);

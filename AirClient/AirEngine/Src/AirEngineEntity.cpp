@@ -23,7 +23,7 @@ namespace Air{
 		U1 Entity::Create(){
 			if(m_Info.pParentNode!=NULL){
 				m_pNode	=	new	SceneNode();//m_Info.pParentNode->CreateChildSceneNode();
-				m_pNode->SetName(m_strProductName);
+				
 				//m_pNode->AddListener(this);
 			}
 	
