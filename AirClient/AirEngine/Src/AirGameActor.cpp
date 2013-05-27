@@ -24,6 +24,7 @@ namespace	Air{
 			m_pHitShape				=	NULL;
 			m_pMoveShape			=	NULL;
 			m_MoveState				=	enAMS_NoMove;
+			m_fMoveVelocity			=	1.0f;
 		}
 
 		Air::U1 Actor::Create()

@@ -23,6 +23,7 @@ namespace	Air{
 			void	__stdcall	OnFireEnd(const Key& k);
 			void	__stdcall	OnBigFireStart(const Key& k);
 			void	__stdcall	OnBigFireEnd(const Key& k);
+			void	__stdcall	OnMonsterMove(const Key& k);
 
 			U32	__stdcall		HitCallback(
 				const Engine::ParticleElement&	element,

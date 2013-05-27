@@ -7,6 +7,7 @@ namespace	Air{
 	namespace	Game{
 		Engine::Particle* pTest=NULL;
 		static Actor*	pActor=NULL;
+		Float3 vTargetPos	=	Float3(0,0,0);
 		AString	DefaultSection::ProductTypeName="DefaultSection";
 		DefaultSection::DefaultSection( CAString& strName ):Section(strName)
 		{
@@ -61,6 +62,7 @@ namespace	Air{
 			m_pControl->RegisterMouseCallback(OIS::MB_Left,this,ConverertFunction(&DefaultSection::OnFireEnd),enKET_MouseUp);
 			m_pControl->RegisterMouseCallback(OIS::MB_Right,this,ConverertFunction(&DefaultSection::OnBigFireStart),enKET_MouseDown);
 			m_pControl->RegisterMouseCallback(OIS::MB_Right,this,ConverertFunction(&DefaultSection::OnBigFireEnd),enKET_MouseUp);
+			m_pControl->RegisterMouseCallback(OIS::MB_Middle,this,ConverertFunction(&DefaultSection::OnMonsterMove),enKET_MouseUp);
 
 
 
@@ -201,13 +203,7 @@ namespace	Air{
 
 			{
 				Float3 Pos		=	ray.m_vStart	+	ray.m_vDirection*ray.m_vStart.y/abs(ray.m_vDirection.y);
-				float fDistance	=	 10;//
-				if(PhysicsSystem::GetSingleton()->RayCast(ray.m_vStart,ray.m_vDirection,fDistance)){
-					//Pos	=		
-
-					if(pActor!=NULL)
-						pActor->SetPosition(ray.m_vStart	+	ray.m_vDirection*fDistance);
-				}
+				
 
 				m_vFaceDir	=	Pos	-	m_pControl->GetControlNode()->GetPosition()*Float3(1,0,1);
 				m_vFaceDir.Normalize();
@@ -239,7 +235,20 @@ namespace	Air{
 					}
 	
 				}
-				
+					
+				Float3 v	=	(m_pControl->GetControlNode()->GetPosition()	-	pActor->GetPosition());
+				v.y=0;
+				if(v.Length()>0.5){
+					v.Normalize();
+					pActor->SetMoveDirection(v);
+					pActor->SetFaceDirection(v);
+					pActor->Move(fFrameTime.fTimeDelta);
+				}else{
+					v.Normalize();
+					//pActor->SetFaceDirection(v);
+					pActor->SetMoveDirection(Float3(0,0,0));
+				}
+				pActor->Update(fFrameTime);
 			}
 			
 		}
@@ -271,6 +280,32 @@ namespace	Air{
 				return Engine::enEHH_BornParticle|Engine::enEHH_MarkDead;
 			}
 			return Engine::enEHH_None;
+		}
+
+		void	__stdcall DefaultSection::OnMonsterMove( const Key& k )
+		{
+			POINT	p;
+			p.x	=	Engine::GetGlobalSetting().m_pInputSystem->m_iX;
+			p.y	=	Engine::GetGlobalSetting().m_pInputSystem->m_iY;//arg.state.Y.abs;
+
+			RECT	r;
+			GetClientRect(Engine::GetGlobalSetting().m_EngineParam.hWnd,&r);
+
+			POINT	size;
+			size.x	=	r.right		-	r.left;
+			size.y	=	r.bottom	-	r.top;
+
+			Ray	ray	=	m_pScene->GetMainCamera()->BuildRay(p.x/(float)size.x,p.y/(float)size.y);
+
+			float fDistance	=	 10;//
+			if(PhysicsSystem::GetSingleton()->RayCast(ray.m_vStart,ray.m_vDirection,fDistance)){
+				//Pos	=		
+
+				vTargetPos	=	(ray.m_vStart	+	ray.m_vDirection*fDistance);
+				
+			}
+
+			
 		}
 
 		AString	EditorSection::ProductTypeName="EditorSection";
