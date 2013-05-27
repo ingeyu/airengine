@@ -185,7 +185,7 @@ namespace	Air{
 					m_pModel->PlayAction("shootlow.CAF",0.0);
 				}
 			}
-			
+
 			POINT	p;
 			p.x	=	Engine::GetGlobalSetting().m_pInputSystem->m_iX;
 			p.y	=	Engine::GetGlobalSetting().m_pInputSystem->m_iY;//arg.state.Y.abs;
@@ -200,7 +200,15 @@ namespace	Air{
 			Ray	ray	=	m_pScene->GetMainCamera()->BuildRay(p.x/(float)size.x,p.y/(float)size.y);
 
 			{
-				Float3 Pos	=	ray.m_vStart	+	ray.m_vDirection*ray.m_vStart.y/abs(ray.m_vDirection.y);
+				Float3 Pos		=	ray.m_vStart	+	ray.m_vDirection*ray.m_vStart.y/abs(ray.m_vDirection.y);
+				float fDistance	=	 10;//
+				if(PhysicsSystem::GetSingleton()->RayCast(ray.m_vStart,ray.m_vDirection,fDistance)){
+					//Pos	=		
+
+					if(pActor!=NULL)
+						pActor->SetPosition(ray.m_vStart	+	ray.m_vDirection*fDistance);
+				}
+
 				m_vFaceDir	=	Pos	-	m_pControl->GetControlNode()->GetPosition()*Float3(1,0,1);
 				m_vFaceDir.Normalize();
 				float fDot =	acos(m_vFaceDir.Dot(Float3(0,0,1)));
@@ -233,8 +241,7 @@ namespace	Air{
 				}
 				
 			}
-			if(pActor!=NULL)
-				pActor->SetPosition(Float3(3*sin(fFrameTime.fTotalTime),0,3*cos(fFrameTime.fTotalTime)));
+			
 		}
 
 		void	__stdcall DefaultSection::OnBigFireEnd( const Key& k )

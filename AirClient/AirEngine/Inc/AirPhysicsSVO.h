@@ -14,6 +14,7 @@ namespace	Air{
 			void		Update(U32* svoData,U32 uiDepth,float fScale);
 			U1			CollisionDetect(const Float3& p,Float3* pV=NULL);
 			U1			CollisionDetect( Shape* pMove,Shape* pGravity,Float3* pNormal=NULL,Float3* pCorrect=NULL);
+			U1			RayCast(const Float3& vStart,const Float3& vDir,float& fOutDistance,Float3* pNormal	=	NULL);
 		public:
 			U1			IsIntersect( Shape* shape,const BoundingBox& box);
 			void		ScaleShape(Shape* shape);

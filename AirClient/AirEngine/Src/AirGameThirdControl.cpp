@@ -66,6 +66,8 @@ namespace Air{
 				//vDir.y = 0;
 				//vDir.Normalize();
 				Float3	vRight	=	Float3(0,1,0).Cross(vDir).Normalize();
+
+
 	
 	
 				//¸üÐÂÉãÏñ»ú¾àÀë
@@ -135,7 +137,7 @@ namespace Air{
 				//vCurrentPos			+=	vMoveDir*fSensitivity;
 				Float3 vNewVelocity	=	vMoveDir*m_fMoveSensitivity;
 				vNewVelocity.y	=	m_fGravity;
-				PhysicsSystem::GetSingleton()->Silumation(vCurrentPos,0.5,1,vNewVelocity);
+				PhysicsSystem::GetSingleton()->Silumation(vCurrentPos,0.5,1,vNewVelocity,fTimeDelta);
 				m_fGravity		=	vNewVelocity.y;
 				if(vCurrentPos.y<-1){
 					vCurrentPos.y=1;
@@ -145,7 +147,7 @@ namespace Air{
 				//vCurrentPos=(vOldPos+vCurrentPos)*0.5;
 				m_pNode->SetPosition(vCurrentPos);
 				Float3 v = -vDir*m_fCurrentDis;
-				vCurrentPos.y=0;
+				//vCurrentPos.y=0;
 				m_pCamera->SetPosition(vCurrentPos+v);
 				
 					

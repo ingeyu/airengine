@@ -23,6 +23,7 @@ namespace	Air{
 			m_pModel				=	NULL;
 			m_pHitShape				=	NULL;
 			m_pMoveShape			=	NULL;
+			m_MoveState				=	enAMS_NoMove;
 		}
 
 		Air::U1 Actor::Create()
@@ -117,7 +118,8 @@ namespace	Air{
 
 		void Actor::SetMoveState( enumActorMoveState state )
 		{
-			
+			if(m_MoveState	==	state)
+				return;
 			{
 				if(state	==	enAMS_NoMove){
 					m_pModel->SetActionState("stand.CAF");
@@ -211,6 +213,66 @@ namespace	Air{
 				return;
 			}
 			pSkill->StopCast(this);
+		}
+
+		Air::U1 Actor::Move(float fTimeDelta)
+		{
+
+			Float3	vMoveDir	=	m_vMoveDir;
+			vMoveDir.y=0.0f;
+			vMoveDir.Normalize();
+
+			Float3 vOldPos		=	m_pNode->GetPosition();
+			Float3	vCurrentPos	=	m_pNode->GetPosition();
+			//vCurrentPos			+=	vMoveDir*fSensitivity;
+			Float3 vNewVelocity	=	vMoveDir*m_fMoveVelocity;
+			vNewVelocity.y	=	m_vMoveDir.y;
+			PhysicsSystem::GetSingleton()->Silumation(vCurrentPos,0.5,1,vNewVelocity,fTimeDelta);
+			m_vMoveDir.y		=	vNewVelocity.y;
+			if(vCurrentPos.y<-1){
+				vCurrentPos.y=1;
+				m_vMoveDir.y		=	0;
+			}
+
+			m_pNode->SetPosition(vCurrentPos);
+
+			return true;
+		}
+
+		void Actor::SetMoveDirection( const Float3& v )
+		{
+			m_vMoveDir.x	=	v.x;
+			m_vMoveDir.z	=	v.z;
+			
+			if(v.Length()	<0.00001){
+				if(m_MoveState!=enAMS_NoMove){
+					m_pModel->SetActionState("stand.CAF");
+					m_MoveState	=	enAMS_NoMove;
+				}
+			}else{
+				float fRun	=	m_vMoveDir.Dot(m_vFaceDir);
+				if(fRun	>	0){
+					
+					if(m_MoveState!=enAMS_CustomRun){
+						m_MoveState	=	enAMS_CustomRun;
+						m_pModel->SetActionState("run.CAF");
+					}
+				}else{
+					if(m_MoveState!=enAMS_CustomBack){
+						m_MoveState	=	enAMS_CustomBack;
+						m_pModel->SetActionState("runback.CAF");
+					}
+				}
+
+				
+			}
+
+
+		}
+
+		void Actor::UpdateActionState( enumActorMoveState state )
+		{
+			
 		}
 
 	}

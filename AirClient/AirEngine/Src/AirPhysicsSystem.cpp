@@ -82,9 +82,9 @@ namespace	Air{
 			m_pSVO->Update(svoData,uiDepth,fScale);
 		}
 
-		Air::U1 System::Silumation( Float3& p,float fRadius,float fHeight,Float3& v,U1 bGravity /*= false*/ )
+		Air::U1 System::Silumation( Float3& p,float fRadius,float fHeight,Float3& v,float fTimeDelta,U1 bGravity /*= false*/ )
 		{
-			static float& fTimeDelta	=	GetTimer().m_FrameTime.fTimeDelta;
+			//static float& fTimeDelta	=	GetTimer().m_FrameTime.fTimeDelta;
 
 			Float3 vOffset	=	v*fTimeDelta;
 			Float3 vTestPos	=	p+vOffset;
@@ -125,6 +125,11 @@ namespace	Air{
 
 
 			
+		}
+
+		Air::U1 System::RayCast( const Float3& vStart,const Float3& vDir,float& fOutDistance,Float3* pNormal /*= NULL*/ )
+		{
+			return m_pSVO->RayCast(vStart,vDir,fOutDistance,pNormal);
 		}
 
 	}
