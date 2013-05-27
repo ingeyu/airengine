@@ -24,6 +24,7 @@ namespace	Air{
 			virtual	U1		Destroy();
 			virtual	void	Update(const FrameTime& frameTime,Particle* pParticle);
 			virtual	void	ElementBorn(const FrameTime& frameTime,PElementList& lst,Particle* pParticle);
+			virtual	void	AddElement(Particle* pParticle);
 		public:
 			inline	U1				IsEnable(){return m_pInfo->bEnable!=0;};
 		protected:

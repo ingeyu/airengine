@@ -113,6 +113,11 @@ namespace	Air{
 			m_lstElement.push_back(pElement);
 		}
 
+		void Particle::AddElement()
+		{
+			m_pTemplate->GetEmitter()->AddElement(this);
+		}
+
 		void Particle::EnableEmitter( U1 bEnable )
 		{
 			m_bEnableEmitter	=	bEnable;;

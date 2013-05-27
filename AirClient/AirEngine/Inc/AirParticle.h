@@ -58,6 +58,7 @@ namespace	Air{
 			virtual	void				OnRender(Render::Device* pDevice);
 			virtual	void				AddElement(const Float3& vPos,const Float3& vVelocity,float fSize);
 			virtual	void				AddElement(ParticleElement* pElement);
+			virtual	void				AddElement();
 			void						EnableEmitter(U1	bEnable);
 			U1							IsEmitterEnable();
 		public:

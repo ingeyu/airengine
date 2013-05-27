@@ -55,14 +55,7 @@ namespace	Air{
 		void ParticleEmitter::ElementBorn( const FrameTime& frameTime,PElementList& lst ,Particle* pParticle)
 		{
 			while(m_fUpdateTime>m_pInfo->fFreq){
-				ParticleElement* p = NewElement(frameTime.fTotalTime);
-				RandomPosition(p->vPos);
-				p->vPos	=	(*pParticle->GetWorldMatrix())*p->vPos;
-				RandomVelocity(p->vVelocity);
-				Float3 vZeroPoint	=	(*pParticle->GetWorldMatrix())*Float3(0,0,0);
-				p->vVelocity	=	(*pParticle->GetWorldMatrix())*p->vVelocity	-	vZeroPoint;
-				RandomSize(p->fSize);
-				lst.push_back(p);
+				AddElement(pParticle);
 				m_fUpdateTime-=m_pInfo->fFreq;
 			}
 		}
@@ -124,6 +117,19 @@ namespace	Air{
 				}
 			}
 			return pEInfo;
+		}
+
+		void ParticleEmitter::AddElement(Particle* pParticle)
+		{
+			
+			ParticleElement* p = NewElement(GetTimer().m_FrameTime.fTotalTime);
+			RandomPosition(p->vPos);
+			p->vPos	=	(*pParticle->GetWorldMatrix())*p->vPos;
+			RandomVelocity(p->vVelocity);
+			Float3 vZeroPoint	=	(*pParticle->GetWorldMatrix())*Float3(0,0,0);
+			p->vVelocity	=	(*pParticle->GetWorldMatrix())*p->vVelocity	-	vZeroPoint;
+			RandomSize(p->fSize);
+			pParticle->AddElement(p);
 		}
 
 
