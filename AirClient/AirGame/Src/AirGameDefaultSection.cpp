@@ -242,7 +242,7 @@ namespace	Air{
 					v.Normalize();
 					pActor->SetMoveDirection(v);
 					pActor->SetFaceDirection(v);
-					pActor->Move(fFrameTime.fTimeDelta);
+					//pActor->Move(fFrameTime.fTimeDelta);
 				}else{
 					v.Normalize();
 					//pActor->SetFaceDirection(v);
@@ -268,7 +268,7 @@ namespace	Air{
 
 		U32	__stdcall DefaultSection::HitCallback( const Engine::ParticleElement& element, U32 hitMask, PhysicsObject* pObject )
 		{
-			if(hitMask	==	enPCM_Environment){
+			if(hitMask == enPCM_DynamicObject){
 				//OutputDebugStringA("DefaultSection::HitCallback\n");
 				Float3 v;
 				for(U32 I=0;I<10;I++){

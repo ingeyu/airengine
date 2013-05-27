@@ -24,7 +24,7 @@ namespace	Air{
 			m_pHitShape				=	NULL;
 			m_pMoveShape			=	NULL;
 			m_MoveState				=	enAMS_NoMove;
-			m_fMoveVelocity			=	1.0f;
+			m_fMoveVelocity			=	1.5f;
 		}
 
 		Air::U1 Actor::Create()
@@ -105,6 +105,7 @@ namespace	Air{
 					pSkill->Update(frameTime,this);
 				}
 			}
+			Move(frameTime.fTimeDelta);
 		}
 
 		const	Float3& Actor::GetPosition()
@@ -218,6 +219,9 @@ namespace	Air{
 
 		Air::U1 Actor::Move(float fTimeDelta)
 		{
+			if(m_MoveState==enAMS_NoMove){
+				return false;
+			}
 
 			Float3	vMoveDir	=	m_vMoveDir;
 			vMoveDir.y=0.0f;
