@@ -15,6 +15,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\AirEnginePlugin\AirAIRecast\AirAIDeviceRecast.h" />
     <ClInclude Include="..\AirEnginePlugin\AirAIRecast\AirAIRecast.h" />
     <ClInclude Include="..\AirEnginePlugin\AirAIRecast\ChunkyTriMesh.h" />
     <ClInclude Include="..\AirEnginePlugin\AirAIRecast\ConvexVolumeTool.h" />
@@ -42,6 +43,7 @@
     <ClInclude Include="..\AirEnginePlugin\AirAIRecast\Sample_TileMesh.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\AirAIDeviceRecast.cpp" />
     <ClCompile Include="..\AirEnginePlugin\AirAIRecast\AirAIRecast.cpp" />
     <ClCompile Include="..\AirEnginePlugin\AirAIRecast\ChunkyTriMesh.cpp" />
     <ClCompile Include="..\AirEnginePlugin\AirAIRecast\ConvexVolumeTool.cpp" />

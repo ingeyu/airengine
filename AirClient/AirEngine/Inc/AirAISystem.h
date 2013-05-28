@@ -4,7 +4,26 @@
 #include "AirEngineHeader.h"
 
 namespace	Air{
+	namespace	Engine{
+		class	MeshEntity;
+	};
 	namespace	AI{
+		class	ENGINE_EXPORT	Device	:public	Common::IProduct{
+		public:
+			static	AString	ProductTypeName;
+			Device(CAString& strName);
+
+			virtual	U1	Create();
+			virtual	U1	Destroy();
+
+			virtual	U1	AddMesh(
+				void*	pVB,
+				U32		uiVertexCount,
+				void*	pIB,
+				U32		uiIndexCount);
+			virtual	U1	Build();
+			virtual	U1	PathFind(const Float3& vStart,const Float3& vTarget,STD_VECTOR<Float3>* pPath	=	NULL);
+		};
 		class	ENGINE_EXPORT	System	:	
 			public	Common::IFactoryManager,
 			public	Singleton<System>
@@ -16,12 +35,18 @@ namespace	Air{
 			virtual	U1	Create();
 			virtual	U1	Destroy();
 
-			void				SVOUpdate(U32* svoData,U32 uiDepth,float fScale);
-			STD_VECTOR<Float3>	SVOFindPath(const Float3& vStart,const Float3& vTarget);
+			void		AddDevice(Device* pDevice);
+			U1			AddMesh(Engine::MeshEntity* pMeshArray,U32 uiCount);
+			U1			Build();
+
+			void		SVOUpdate(U32* svoData,U32 uiDepth,float fScale);
+			U1			FindPath(const Float3& vStart,const Float3& vTarget,STD_VECTOR<Float3>* pPath	=	NULL);
 		protected:
-			U32*		m_SVO;
-			U32			m_uiDepth;
-			float		m_fSVOScale;
+			U32*				m_SVO;
+			U32					m_uiDepth;
+			float				m_fSVOScale;
+			STD_VECTOR<Device*>	m_pDeviceArray;
+			Device*				m_pCurrentDevice;
 		};
 	}
 }

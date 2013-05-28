@@ -1,7 +1,7 @@
 #include "AirAIRecast.h"
 #include <Windows.h>
 #include "AirAISystem.h"
-
+#include "AirAIDeviceRecast.h"
 
 BOOL APIENTRY DllMain( HANDLE hModule, 
 	DWORD  ul_reason_for_call, 
@@ -20,12 +20,13 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 }
 
 namespace	Air{
-	namespace	Engine{
+	namespace	AI{
 
-		
+		DeviceRecast* pDevice	=	NULL;
 
 		extern "C" AIRAIRECAST_EXPORT U1 DllInit(void*		pParam)throw(){
-
+			pDevice	=	new DeviceRecast();
+			System::GetSingleton()->AddDevice(pDevice);
 			return	true;
 		}
 		extern "C" AIRAIRECAST_EXPORT U1 DllStart(void*		pParam)throw(){
@@ -38,7 +39,7 @@ namespace	Air{
 			return	true;
 		}
 		extern "C" AIRAIRECAST_EXPORT U1 DllRelease(void*	pParam)throw(){
-
+			SAFE_DELETE(pDevice);
 			return	true;
 		}
 	}
