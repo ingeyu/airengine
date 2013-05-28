@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Develop|Win32">
+      <Configuration>Develop</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\AirEnginePlugin\AirAIRecast\AirAIRecast.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirAIRecast\ChunkyTriMesh.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirAIRecast\ConvexVolumeTool.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirAIRecast\DebugUtils\Include\DebugDraw.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirAIRecast\DebugUtils\Include\DetourDebugDraw.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirAIRecast\DebugUtils\Include\RecastDebugDraw.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirAIRecast\DebugUtils\Include\RecastDump.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirAIRecast\Detour\Include\DetourAlloc.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirAIRecast\Detour\Include\DetourAssert.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirAIRecast\Detour\Include\DetourCommon.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirAIRecast\Detour\Include\DetourNavMesh.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirAIRecast\Detour\Include\DetourNavMeshBuilder.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirAIRecast\Detour\Include\DetourNavMeshQuery.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirAIRecast\Detour\Include\DetourNode.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirAIRecast\Detour\Include\DetourStatus.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirAIRecast\InputGeom.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirAIRecast\MeshLoaderObj.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirAIRecast\NavMeshTesterTool.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirAIRecast\PerfTimer.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirAIRecast\Recast\Include\Recast.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirAIRecast\Recast\Include\RecastAlloc.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirAIRecast\Recast\Include\RecastAssert.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirAIRecast\Sample.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirAIRecast\SampleInterfaces.h" />
+    <ClInclude Include="..\AirEnginePlugin\AirAIRecast\Sample_TileMesh.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\AirAIRecast.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\ChunkyTriMesh.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\ConvexVolumeTool.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\DebugUtils\Source\DebugDraw.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\DebugUtils\Source\DetourDebugDraw.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\DebugUtils\Source\RecastDebugDraw.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\DebugUtils\Source\RecastDump.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\Detour\Source\DetourAlloc.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\Detour\Source\DetourCommon.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\Detour\Source\DetourNavMesh.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\Detour\Source\DetourNavMeshBuilder.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\Detour\Source\DetourNavMeshQuery.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\Detour\Source\DetourNode.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\InputGeom.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\MeshLoaderObj.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\NavMeshTesterTool.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\PerfTimer.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\Recast\Source\Recast.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\Recast\Source\RecastAlloc.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\Recast\Source\RecastArea.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\Recast\Source\RecastContour.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\Recast\Source\RecastFilter.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\Recast\Source\RecastLayers.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\Recast\Source\RecastMesh.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\Recast\Source\RecastMeshDetail.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\Recast\Source\RecastRasterization.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\Recast\Source\RecastRegion.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\Sample.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\SampleInterfaces.cpp" />
+    <ClCompile Include="..\AirEnginePlugin\AirAIRecast\Sample_TileMesh.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>AirAIRecast</ProjectName>
+    <ProjectGuid>{64DD14D8-4856-4FCF-A0B9-CEFC517EC9C6}</ProjectGuid>
+    <RootNamespace>AudioCom</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\Build\$(TargetName)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\Build\$(TargetName)\$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\Build\$(TargetName)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\Build\$(TargetName)\$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'">$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'">true</LinkIncremental>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/Zm200 %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\AirEnginePlugin\AirAIRecast\DebugUtils\Include;..\AirEnginePlugin\AirAIRecast\Detour\Include;..\AirEnginePlugin\AirAIRecast;..\AirEnginePlugin\AirAIRecast\Recast\Include;..\AirEngine\Inc;..\..\AirCommon\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_AFXEXT;AIRAIRECAST_IMPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>OpenAL32.lib;AirCommon.lib;AirEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\Bin\$(Configuration)\$(ProjectName).dll</OutputFile>
+      <AdditionalLibraryDirectories>..\..\Dependencies\Openal\Lib;..\Lib\$(Configuration);..\..\Dependencies\Openal\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)AudioCom.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>..\Lib\$(Configuration)\$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/Zm200 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>..\AirEnginePlugin\AirAIRecast\DebugUtils\Include;..\AirEnginePlugin\AirAIRecast\Detour\Include;..\AirEnginePlugin\AirAIRecast;..\AirEnginePlugin\AirAIRecast\Recast\Include;..\AirEngine\Inc;..\..\AirCommon\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_AFXEXT;AIRAIRECAST_IMPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>OpenAL32.lib;AirCommon.lib;AirEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\Bin\$(Configuration)\$(ProjectName).dll</OutputFile>
+      <AdditionalLibraryDirectories>..\..\Dependencies\Openal\Lib;..\Lib\$(Configuration);..\..\Dependencies\Openal\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>..\Lib\$(Configuration)\$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Develop|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/Zm200 %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\AirEnginePlugin\AirAIRecast\DebugUtils\Include;..\AirEnginePlugin\AirAIRecast\Detour\Include;..\AirEnginePlugin\AirAIRecast;..\AirEnginePlugin\AirAIRecast\Recast\Include;..\AirEngine\Inc;..\..\AirCommon\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_AFXEXT;AIRAIRECAST_IMPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>OpenAL32.lib;AirCommon.lib;AirEngine.lib;libvorbis_static.lib;libvorbisfile_static.lib;libogg_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\Bin\$(Configuration)\$(ProjectName).dll</OutputFile>
+      <AdditionalLibraryDirectories>..\..\Dependencies\Openal\Lib;..\Lib\$(Configuration);..\..\Dependencies\Openal\Lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)AudioCom.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>..\Lib\$(Configuration)\$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
