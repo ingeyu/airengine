@@ -282,4 +282,23 @@ namespace	Air{
 		//signal(SIGSEGV, __SigsegvHandler);
 	}
 
+	COMMON_EXPORT	void GenDump( enumDumpLevel level /*= enDL_Normal*/ )
+	{
+		CONTEXT c;
+		RtlCaptureContext(&c);
+		EXCEPTION_RECORD	e;
+		e.ExceptionAddress	=	(void*)c.Eip;
+		e.ExceptionCode		=	EXCEPTION_ACCESS_VIOLATION ;
+		e.ExceptionFlags	=	EXCEPTION_NONCONTINUABLE;
+		e.ExceptionRecord	=	NULL;
+		e.NumberParameters	=	1;
+		e.ExceptionInformation[0]	=	0;
+		e.ExceptionInformation[1]	=	c.Ecx;
+		//e.ExceptionInformation	=	
+		EXCEPTION_POINTERS	exc;
+		exc.ContextRecord	=	&c;
+		exc.ExceptionRecord	=	&e;
+		CreateMiniDump(&exc);
+	}
+
 }

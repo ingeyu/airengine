@@ -11,5 +11,6 @@ namespace	Air{
 	};
 
 	COMMON_EXPORT	void	Dump_Init(enumDumpLevel level	=	enDL_Normal);
+	COMMON_EXPORT	void	GenDump(enumDumpLevel level	=	enDL_Normal);
 }
 #endif // AirDump_h__
