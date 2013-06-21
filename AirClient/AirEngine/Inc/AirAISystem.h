@@ -19,10 +19,14 @@ namespace	Air{
 			virtual	U1	AddMesh(
 				void*	pVB,
 				U32		uiVertexCount,
-				void*	pIB,
-				U32		uiIndexCount);
+				U32*	pIB,
+				U32		uiIndexCount,
+				U32		uiStride	=	sizeof(Float3));
 			virtual	U1	Build();
 			virtual	U1	PathFind(const Float3& vStart,const Float3& vTarget,STD_VECTOR<Float3>* pPath	=	NULL);
+		protected:
+			STD_VECTOR<Float3>	m_vecPosition;
+			STD_VECTOR<U32>		m_vecFaceIndex;
 		};
 		class	ENGINE_EXPORT	System	:	
 			public	Common::IFactoryManager,
@@ -36,7 +40,7 @@ namespace	Air{
 			virtual	U1	Destroy();
 
 			void		AddDevice(Device* pDevice);
-			U1			AddMesh(Engine::MeshEntity* pMeshArray,U32 uiCount);
+			U1			AddMesh(Engine::MeshEntity** pMeshArray,U32 uiCount);
 			U1			Build();
 
 			void		SVOUpdate(U32* svoData,U32 uiDepth,float fScale);

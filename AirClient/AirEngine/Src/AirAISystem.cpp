@@ -1,5 +1,6 @@
 #include "AirAISystem.h"
-
+#include "AirMeshEntity.h"
+#include "AirRenderbuffer.h"
 namespace	Air{
 	namespace	AI{
 
@@ -56,10 +57,25 @@ namespace	Air{
 			m_pDeviceArray.push_back(pDevice);
 		}
 
-		Air::U1 System::AddMesh( Engine::MeshEntity* pMeshArray,U32 uiCount )
+		Air::U1 System::AddMesh( Engine::MeshEntity** pMeshArray,U32 uiCount )
 		{
 			if(m_pCurrentDevice!=NULL)
 			{
+				STD_VECTOR<Float3>	vecVB;
+				vecVB.reserve(10000);
+
+				for(U32 i=0;i<uiCount;i++){
+					Float44& matWorld	=	*pMeshArray[i]->GetWorldMatrix();
+					Engine::StaticMesh* pMesh	=	pMeshArray[i]->GetMesh();
+					U32 uiVertexCount	=	pMesh->GetVertexCount();
+					Engine::Render::PNTT* pVB	=	(Engine::Render::PNTT*)pMesh->GetVB();
+					for(U32 uiV=0;uiV<uiVertexCount;uiV++){
+						vecVB.push_back(matWorld*pVB[uiV].Position);
+					}
+					U32 uiIndexCount	=	pMesh->GetFaceCount()*3;
+					m_pCurrentDevice->AddMesh(&vecVB[0],uiVertexCount,(U32*)pMesh->GetIB(),uiIndexCount);
+					vecVB.clear();
+				}
 				return true;//m_pCurrentDevice->Build();
 			}
 
@@ -93,8 +109,18 @@ namespace	Air{
 			return true;
 		}
 
-		Air::U1 Device::AddMesh( void* pVB, U32 uiVertexCount, void* pIB, U32 uiIndexCount )
+		Air::U1 Device::AddMesh( void* pVB, U32 uiVertexCount, U32* pIB, U32 uiIndexCount ,U32		uiStride)
 		{
+			U32 uiVertexBase	=	m_vecPosition.size();
+			U8*	pVBData	=	(U8*)pVB;
+			for(U32 i=0;i<uiVertexCount;i++){
+				Float3* pPos	=	(Float3*)pVBData;
+				m_vecPosition.push_back(*pPos);
+				pVBData+=uiStride;
+			}
+			for(U32 i=0;i<uiIndexCount;i++){
+				m_vecFaceIndex.push_back(pIB[i]+uiVertexBase);
+			}
 
 			return false;
 		}

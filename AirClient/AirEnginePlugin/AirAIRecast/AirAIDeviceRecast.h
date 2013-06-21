@@ -26,13 +26,14 @@ namespace	Air{
 
 			virtual	U1	Create();
 			virtual	U1	Destroy();
-			virtual	U1	AddMesh( void* pVB, U32 uiVertexCount, void* pIB, U32 uiIndexCount );
 
+			virtual	U1	Build();
 			InputGeom*			m_pInputGeom;
 			Sample_TileMesh*	m_pSample;
 			NavMeshTesterTool*	m_pTestTool;
 
 			Setting				m_Setting;
+
 		};
 	}
 }

@@ -159,6 +159,55 @@ bool InputGeom::loadMesh(rcContext* ctx, const char* filepath)
 	return true;
 }
 
+bool InputGeom::loadMesh( float* pVertex,unsigned int uiVertexCount,unsigned long* pFace,unsigned int uiFaceCount )
+{
+	if(	pVertex			==	NULL	||
+		uiVertexCount	==	0		||
+		pFace			==	NULL	||
+		uiFaceCount		==	0)
+		
+	{
+		return false;
+	}
+	if (m_mesh)
+	{
+		delete m_chunkyMesh;
+		m_chunkyMesh = 0;
+		delete m_mesh;
+		m_mesh = 0;
+	}
+	m_offMeshConCount = 0;
+	m_volumeCount = 0;
+
+	m_mesh = new rcMeshLoaderObj;
+	//if (!m_mesh)
+	//{
+	//	ctx->log(RC_LOG_ERROR, "loadMesh: Out of memory 'm_mesh'.");
+	//	return false;
+	//}
+	//if (!m_mesh->load(filepath))
+	//{
+	//	ctx->log(RC_LOG_ERROR, "buildTiledNavigation: Could not load '%s'", filepath);
+	//	return false;
+	//}
+
+	rcCalcBounds(pVertex, uiVertexCount, m_meshBMin, m_meshBMax);
+
+	m_chunkyMesh = new rcChunkyTriMesh;
+	if (!m_chunkyMesh)
+	{
+		
+		return false;
+	}
+	if (!rcCreateChunkyTriMesh(pVertex, (const int*)pFace,uiFaceCount, 256, m_chunkyMesh))
+	{
+		
+		return false;
+	}	
+	return true;
+}
+
+
 bool InputGeom::load(rcContext* ctx, const char* filePath)
 {
 	char* buf = 0;

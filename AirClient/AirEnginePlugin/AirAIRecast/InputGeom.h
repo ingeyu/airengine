@@ -61,7 +61,8 @@ public:
 	~InputGeom();
 	
 	bool loadMesh(class rcContext* ctx, const char* filepath);
-	
+	bool loadMesh(float* pVertex,unsigned int uiVertexCount,unsigned long* pFace,unsigned int uiFaceCount);
+
 	bool load(class rcContext* ctx, const char* filepath);
 	bool save(const char* filepath);
 	

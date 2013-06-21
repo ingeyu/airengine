@@ -27,17 +27,23 @@ namespace	Air{
 			return true;
 		}
 
-		Air::U1 DeviceRecast::AddMesh( void* pVB, U32 uiVertexCount, void* pIB, U32 uiIndexCount )
+
+		Air::U1 DeviceRecast::Build()
 		{
 			if(m_pInputGeom==NULL){
 				m_pInputGeom	=	new InputGeom();
 			}
 
-			rcMeshLoaderObj* pMesh	=	(rcMeshLoaderObj*)m_pInputGeom->getMesh();
-			if(pMesh==NULL){
-				//pMesh	=	m_pInputGeom->createMesh();
-			}
-			return false;
+			m_pInputGeom->loadMesh((float*)&m_vecPosition[0],m_vecPosition.size(),&m_vecFaceIndex[0],m_vecFaceIndex.size()/3);
+
+			BuildContext ctx;
+			m_pSample->setContext(&ctx);
+			m_pSample->handleMeshChanged(m_pInputGeom);
+			m_pSample->handleSettings();
+			m_pSample->handleBuild();
+			m_vecPosition.clear();
+			m_vecFaceIndex.clear();
+			return true;
 		}
 
 	}
