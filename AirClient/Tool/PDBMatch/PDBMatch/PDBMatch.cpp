@@ -431,7 +431,7 @@ bool	ModifyPDB(const TCHAR* strPDB,PDB_INFO* pInfo)
 
 			CloseHandle(hFile);
 		}
-		wprintf(L"pdb file size is too large!\n");
+		wprintf(L"pdb file save finished!\n");
 	}
 	return true;
 }
