@@ -1,0 +1,40 @@
+#ifndef DumpSymbol_h__
+#define DumpSymbol_h__
+
+namespace	Dump{
+
+	class	BinaryFile{
+	public:
+		BinaryFile();
+		virtual	~BinaryFile();
+
+		virtual	U1		Open(const std::wstring& strName);
+		virtual	U1		Close();
+		virtual	void*	GetOffset(U32 uiOffset)const;
+	protected:
+		std::wstring	m_strName;
+		void*			m_pBuffer;
+		U32				m_uiSize;
+	};
+	class	SymbolFile	:	public	BinaryFile{
+	public:
+		SymbolFile();
+		
+	};
+	class	FileManager	:	public	Singleton<FileManager>{
+	public:
+		FileManager();
+
+		U1			Initialization();
+		U1			Release();
+
+		U1			AddPath(const wchar_t* strPath);
+		BinaryFile*	AddModuleFile(const wchar_t* strName);
+		SymbolFile*	AddSymbolFile(const wchar_t* strName);
+	protected:
+		std::list<std::wstring>								m_lstSearchPath;
+		std::tr1::unordered_map<std::wstring,SymbolFile*>	m_mapSymbolFile;
+		std::tr1::unordered_map<std::wstring,BinaryFile*>	m_mapBinaryFile;
+	};
+}
+#endif // DumpSymbol_h__
