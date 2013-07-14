@@ -148,6 +148,14 @@ T* Singleton<T>::m_pInstance				= NULL;
 
 U1	LoadFile(const wchar_t* strName,void*& pData,U32& uiSize);
 
+std::wstring Acsi2WideByte(const std::string& strascii);
+
+U1			SplitFilePath(		const	std::wstring&	str,
+	std::wstring*			strPath		=	NULL,
+	std::wstring*			strFileName	=	NULL,
+	std::wstring*			strExe		=	NULL);
+
+
 
 #ifndef SAFE_DELETE
 #define SAFE_DELETE(p)	if(p!=NULL){delete p;p=NULL;}

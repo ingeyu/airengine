@@ -56,6 +56,7 @@ protected:
 protected:
 	bool		BuildCallstack();
 	U1			IsCall(const void* p);
+	void		LoadSymbol();
 protected:
 	void*			m_pBuffer;
 	U32				m_uiSize;

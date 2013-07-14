@@ -8,13 +8,19 @@ namespace	Dump{
 		BinaryFile();
 		virtual	~BinaryFile();
 
-		virtual	U1		Open(const std::wstring& strName);
+		virtual	U1		Open(const std::wstring& strName,DWORD timeStamp);
 		virtual	U1		Close();
-		virtual	void*	GetOffset(U32 uiOffset)const;
+		virtual	void*	GetOffset(U32 uiOffset);
+		void			SetBase(DWORD dwBase){
+			m_Base	=	dwBase;
+		}
+	protected:
+		DWORD			AddressConvert( DWORD dwAddr, BOOL bFile2RVA);
 	protected:
 		std::wstring	m_strName;
 		void*			m_pBuffer;
 		U32				m_uiSize;
+		DWORD			m_Base;
 	};
 	class	SymbolFile	:	public	BinaryFile{
 	public:
@@ -29,8 +35,8 @@ namespace	Dump{
 		U1			Release();
 
 		U1			AddPath(const wchar_t* strPath);
-		BinaryFile*	AddModuleFile(const wchar_t* strName);
-		SymbolFile*	AddSymbolFile(const wchar_t* strName);
+		BinaryFile*	AddModuleFile(const wchar_t* strName,DWORD timeStamp);
+		SymbolFile*	AddSymbolFile(const wchar_t* strName,GUID guid,DWORD age);
 	protected:
 		std::list<std::wstring>								m_lstSearchPath;
 		std::tr1::unordered_map<std::wstring,SymbolFile*>	m_mapSymbolFile;

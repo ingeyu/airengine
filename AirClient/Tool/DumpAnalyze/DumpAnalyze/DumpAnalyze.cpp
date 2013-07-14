@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "DumpFile.h"
+#include "DumpSymbol.h"
 
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -15,8 +16,13 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	HRESULT hr = CoInitialize(NULL);
 
+	Dump::FileManager::GetSingleton()->Initialization();
+
 	DumpFile	file;
 	file.Open(argv[1]);
+
+	Dump::FileManager::GetSingleton()->Release();
+	Dump::FileManager::ReleaseSingleton();
 
 	CoUninitialize();
 	getchar();

@@ -22,6 +22,24 @@ std::string WideByte2Acsi(const std::wstring& wstrcode){
 	return &resultstring[0];
 }
 
+std::wstring Acsi2WideByte(const std::string& strascii){
+	int widesize = MultiByteToWideChar (CP_ACP, 0, (char*)strascii.c_str(), -1, NULL, 0);
+	if (widesize == ERROR_NO_UNICODE_TRANSLATION)	{
+		return L"";
+	}
+	if (widesize == 0)	{
+		return L"";
+	}
+	std::vector<wchar_t> resultstring(widesize);
+	int convresult = MultiByteToWideChar (CP_ACP, 0, (char*)strascii.c_str(), -1, &resultstring[0], widesize);
+
+	if (convresult != widesize)	{
+		return L"";
+	}
+
+	return &resultstring[0];
+}
+
 int GetWinVersion(
 	DWORD dwPlatformId  ,
 	DWORD dwMinorVersion,
@@ -256,6 +274,8 @@ bool DumpFile::Open( const void* pData,unsigned int uiSize )
 	}
 	mdmp_dump(m_pBuffer,uiSize);
 	m_State	=	enFS_Open;
+
+	LoadSymbol();
 	return true;
 }
 
@@ -825,7 +845,10 @@ bool DumpFile::BuildCallstack()
 
 				if(module.pBinary!=NULL){
 					Dump::BinaryFile* pBinary	=	(Dump::BinaryFile*)module.pBinary;
-					void* pCode = pBinary->GetOffset(offset);
+					void* pCode = pBinary->GetOffset(address);
+					if(pCode==NULL){
+						continue;
+					}
 					if(!IsCall(pCode)){
 						continue;
 					}
@@ -894,6 +917,23 @@ U1 DumpFile::IsCall( const void* p )
 	}
 
 	return false;
+}
+
+void DumpFile::LoadSymbol()
+{
+	wprintf(L"[Load Module/Symbol File]\n");
+	for(U32 i=0;i<m_vecModule.size();i++){
+		DumpModule& module = m_vecModule[i];
+		module.pBinary	=	Dump::FileManager::GetSingleton()->AddModuleFile(module.Name,module.TimeDateStamp);
+		
+		if(module.pBinary!=NULL){
+			Dump::BinaryFile* pB	=	(Dump::BinaryFile*)module.pBinary;
+			pB->SetBase(module.BaseOfImage);
+
+			printf(WideByte2Acsi(module.Name).c_str());
+			wprintf(L"\n");
+		}
+	}
 }
 
 
