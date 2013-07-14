@@ -21,6 +21,9 @@ typedef	bool			U1;
 #include <DbgHelp.h>
 #include <string>
 #include <vector>
+#include <list>
+#include <unordered_map>
+#include <unordered_set>
 //#include <ImageHlp.h>
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -106,4 +109,47 @@ typedef	bool			U1;
 
 #define WCESTR		_T("Windows CE")
 
+
+template <class T>
+class Singleton{
+private:
+	static T			*m_pInstance;
+
+public:
+	Singleton(){
+		m_pInstance	= static_cast<T*>(this);
+	};
+	virtual	~Singleton(){
+		m_pInstance	=	NULL;
+	}
+	static T*	GetSingleton(){
+		if(m_pInstance==NULL){
+			try{
+				m_pInstance = new T();
+			}
+			catch(...){
+				//assert("GetSingleton Error!");
+			}
+		}
+		return m_pInstance;
+	};
+
+	static void ReleaseSingleton(){
+		if(m_pInstance!=NULL){
+			delete m_pInstance;
+			m_pInstance=NULL;
+		}
+	};
+};
+
+template <class T>
+T* Singleton<T>::m_pInstance				= NULL;
+
+
+U1	LoadFile(const wchar_t* strName,void*& pData,U32& uiSize);
+
+
+#ifndef SAFE_DELETE
+#define SAFE_DELETE(p)	if(p!=NULL){delete p;p=NULL;}
+#endif
 // TODO: 在此处引用程序需要的其他头文件

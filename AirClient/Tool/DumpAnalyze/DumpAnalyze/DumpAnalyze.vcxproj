@@ -79,6 +79,7 @@
   <ItemGroup>
     <ClInclude Include="DumpFile.h" />
     <ClInclude Include="DumpLog.h" />
+    <ClInclude Include="DumpSymbol.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -86,6 +87,7 @@
     <ClCompile Include="DumpAnalyze.cpp" />
     <ClCompile Include="DumpFile.cpp" />
     <ClCompile Include="DumpLog.cpp" />
+    <ClCompile Include="DumpSymbol.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

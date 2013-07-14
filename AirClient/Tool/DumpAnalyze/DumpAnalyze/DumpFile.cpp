@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "DumpFile.h"
+#include "DumpSymbol.h"
 
 //#define PRINT_DUMPINFO
 
@@ -464,6 +465,8 @@ void DumpFile::mdmp_dump(void* pBase,unsigned int uiSize)
 					module.TimeDateStamp	=	mm->TimeDateStamp;
 					module.Name				=	(wchar_t*)((unsigned char*)m_pBuffer +mm->ModuleNameRva+4);
 					memcpy(&module.RSDS,(unsigned char*)m_pBuffer +mm->CvRecord.Rva,mm->CvRecord.DataSize);
+					module.pBinary			=	NULL;
+					module.pPDB				=	NULL;
 				}
 #ifdef PRINT_DUMPINFO
 				printf("Modules (%s): %u\n",
@@ -820,7 +823,13 @@ bool DumpFile::BuildCallstack()
 			ULONG64 offset = (address - module.BaseOfImage);
 			if(offset < module.SizeOfImage	&&	offset > 0){
 
-				//if(IsCall())
+				if(module.pBinary!=NULL){
+					Dump::BinaryFile* pBinary	=	(Dump::BinaryFile*)module.pBinary;
+					void* pCode = pBinary->GetOffset(offset);
+					if(!IsCall(pCode)){
+						continue;
+					}
+				}
 				
 				swprintf_s(tempstring,L"[%08x]",address);
 				str+=tempstring;

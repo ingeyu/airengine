@@ -19,6 +19,8 @@ struct DumpModule{
 	GUID		Guid;
 	ULONG32		Age;
 	char		PDBName[256];
+	void*		pBinary;
+	void*		pPDB;
 };
 struct DumpThread{
 	ULONG32		ThreadId;
