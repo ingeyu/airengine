@@ -14,6 +14,9 @@ namespace	Dump{
 		void			SetBase(DWORD dwBase){
 			m_Base	=	dwBase;
 		}
+		const std::wstring	GetName(){
+			return m_strName;
+		};
 	protected:
 		DWORD			AddressConvert( DWORD dwAddr, BOOL bFile2RVA);
 	protected:
@@ -35,7 +38,7 @@ namespace	Dump{
 		U1			Release();
 
 		U1			AddPath(const wchar_t* strPath);
-		BinaryFile*	AddModuleFile(const wchar_t* strName,DWORD timeStamp);
+		BinaryFile*	AddModuleFile(const wchar_t* strName,DWORD timeStamp,DWORD imageSize);
 		SymbolFile*	AddSymbolFile(const wchar_t* strName,GUID guid,DWORD age);
 	protected:
 		std::list<std::wstring>								m_lstSearchPath;

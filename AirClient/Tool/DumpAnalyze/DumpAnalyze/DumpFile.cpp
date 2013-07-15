@@ -854,7 +854,7 @@ bool DumpFile::BuildCallstack()
 					}
 				}
 				
-				swprintf_s(tempstring,L"[%08x]",address);
+				swprintf_s(tempstring,L"[0x%08x]",address);
 				str+=tempstring;
 				str+=module.Name;
 				str+=L"\n";
@@ -896,7 +896,7 @@ U1 DumpFile::IsCall( const void* p )
 	U16 c3_1	=	*pCode3;
 	U16 c3		=	*pCode3;
 	c3=c3&0xf0ff;
-	if(c2 == 0x50FF ||c3_1==0x14ff){
+	if(c3 == 0x50FF ||c3_1==0x14ff){
 		return true;
 	}
 	U16* pCode4	=	(U16*)(pCode-4);
@@ -924,13 +924,16 @@ void DumpFile::LoadSymbol()
 	wprintf(L"[Load Module/Symbol File]\n");
 	for(U32 i=0;i<m_vecModule.size();i++){
 		DumpModule& module = m_vecModule[i];
-		module.pBinary	=	Dump::FileManager::GetSingleton()->AddModuleFile(module.Name,module.TimeDateStamp);
+		module.pBinary	=	Dump::FileManager::GetSingleton()->AddModuleFile(module.Name,module.TimeDateStamp,module.SizeOfImage);
 		
 		if(module.pBinary!=NULL){
 			Dump::BinaryFile* pB	=	(Dump::BinaryFile*)module.pBinary;
 			pB->SetBase(module.BaseOfImage);
 
 			printf(WideByte2Acsi(module.Name).c_str());
+			wprintf(L"\n");
+			wprintf(L"-->");
+			printf(WideByte2Acsi(pB->GetName()).c_str());
 			wprintf(L"\n");
 		}
 	}

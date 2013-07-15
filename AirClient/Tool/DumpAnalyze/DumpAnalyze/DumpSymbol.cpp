@@ -7,6 +7,8 @@ namespace	Dump{
 	BinaryFile::BinaryFile()
 	{
 		m_Base	=	0x00400000;
+		m_pBuffer	=	NULL;
+		m_uiSize=0;
 	}
 
 	BinaryFile::~BinaryFile()
@@ -229,7 +231,7 @@ namespace	Dump{
 		return true;
 	}
 
-	BinaryFile* FileManager::AddModuleFile( const wchar_t* strName,DWORD timeStamp )
+	BinaryFile* FileManager::AddModuleFile( const wchar_t* strName,DWORD timeStamp ,DWORD imageSize)
 	{
 		if(strName==NULL)
 			return false;
@@ -242,7 +244,10 @@ namespace	Dump{
 		SplitFilePath(strName,&strPath,&strFileName,&strExt);
 		strFileName	+=	(L"."+strExt);
 
-		std::tr1::unordered_map<std::wstring,BinaryFile*>::iterator	itr	=	m_mapBinaryFile.find(strFileName);
+		wchar_t strFullName[1024];
+		wsprintf(strFullName,L"%s\\%08x%x\\%s",strFileName.c_str(),timeStamp,imageSize,strFileName.c_str());
+
+		std::tr1::unordered_map<std::wstring,BinaryFile*>::iterator	itr	=	m_mapBinaryFile.find(strFullName);
 		if(itr!=m_mapBinaryFile.end()){
 			return itr->second;
 		}
@@ -251,8 +256,15 @@ namespace	Dump{
 		std::list<std::wstring>::iterator i = m_lstSearchPath.begin();
 		for(;i!=m_lstSearchPath.end();i++){
 			std::wstring str = (*i)	+	strFileName;
+			DWORD	dwAttr = GetFileAttributes(str.c_str());
+			if(dwAttr == INVALID_FILE_ATTRIBUTES){
+				continue;
+			}
+			if(dwAttr&FILE_ATTRIBUTE_DIRECTORY){
+				str	=	(*i)+strFullName;
+			}
 			if(pFile->Open(str,timeStamp)){
-				m_mapBinaryFile[strFileName]	=	pFile;
+				m_mapBinaryFile[strFullName]	=	pFile;
 				return pFile;
 			}
 		}
