@@ -69,15 +69,19 @@ U1 SplitFilePath( const std::wstring& str, std::wstring* strPath /*= NULL*/, std
 		U32	uiFileNameStart	=	0;
 		if(uiPoint==uiStrSize)
 			uiFileNameSize--;
+		if(uiSlash==-1){
+			strFileName->resize(uiPoint);
+			memcpy(&((*strFileName)[0]),&str[0],sizeof(wchar_t)*uiPoint);
+		}else{
+			if(uiSlash<uiStrSize){
+				if(uiSlash!=-1){
+					uiFileNameSize	-=		uiSlash+1;
+					uiFileNameStart	=		uiSlash+1;
+				}
 
-		if(uiSlash<uiStrSize){
-			if(uiSlash!=-1){
-				uiFileNameSize	-=		uiSlash+1;
-				uiFileNameStart	=		uiSlash+1;
+				strFileName->resize(uiFileNameSize);
+				memcpy(&((*strFileName)[0]),&str[uiFileNameStart],sizeof(wchar_t)*uiFileNameSize);
 			}
-
-			strFileName->resize(uiFileNameSize);
-			memcpy(&((*strFileName)[0]),&str[uiFileNameStart],sizeof(wchar_t)*uiFileNameSize);
 		}
 	}
 	return	true;

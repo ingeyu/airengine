@@ -1,6 +1,11 @@
 #ifndef DumpSymbol_h__
 #define DumpSymbol_h__
 
+
+interface	IDiaDataSource;
+interface	IDiaSession;	
+interface	IDiaSymbol;
+
 namespace	Dump{
 
 	class	BinaryFile{
@@ -28,7 +33,12 @@ namespace	Dump{
 	class	SymbolFile	:	public	BinaryFile{
 	public:
 		SymbolFile();
-		
+		U1 Open( const std::wstring& strName,GUID guid,DWORD age );
+		U1 Close();
+		U1 GetFunction_File_Line(U32 uiOffset,std::wstring& strFunc,std::wstring& strFile,DWORD& line);
+		IDiaDataSource* pIDiaDataSource;
+		IDiaSession*	pSession;
+		IDiaSymbol*		pSymbol;
 	};
 	class	FileManager	:	public	Singleton<FileManager>{
 	public:

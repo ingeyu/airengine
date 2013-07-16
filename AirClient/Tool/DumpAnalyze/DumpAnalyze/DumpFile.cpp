@@ -810,6 +810,8 @@ bool DumpFile::Close()
 
 bool DumpFile::BuildCallstack()
 {
+	if(m_pExceptionThreadContext==NULL)
+		return false;
 	DWORD esp		=	m_pExceptionThreadContext->Esp;
 	DWORD threadid	=	m_pExceptionStream->ThreadId;
 
@@ -845,7 +847,7 @@ bool DumpFile::BuildCallstack()
 
 				if(module.pBinary!=NULL){
 					Dump::BinaryFile* pBinary	=	(Dump::BinaryFile*)module.pBinary;
-					void* pCode = pBinary->GetOffset(address);
+					void* pCode = pBinary->GetOffset(offset);
 					if(pCode==NULL){
 						continue;
 					}
@@ -853,10 +855,27 @@ bool DumpFile::BuildCallstack()
 						continue;
 					}
 				}
+				if(module.pPDB!=NULL){
+
+				}
 				
 				swprintf_s(tempstring,L"[0x%08x]",address);
 				str+=tempstring;
-				str+=module.Name;
+				if(module.pPDB!=NULL){
+					Dump::SymbolFile* pPDB	=	(Dump::SymbolFile*)module.pPDB;
+					std::wstring strFunc;
+					std::wstring strFile;
+					DWORD line =0;
+					pPDB->GetFunction_File_Line(offset,strFunc,strFile,line);
+					str+=strFunc;
+					str+= L"==";
+					str+=strFile;
+					wchar_t strline[32];
+					wsprintf(strline,L"(%d)",line);
+					str+=strline;
+				}
+
+				//str+=module.Name;
 				str+=L"\n";
 			}
 		}
@@ -873,11 +892,11 @@ bool DumpFile::BuildCallstack()
 	//	WriteFile(hFile,strANSI.c_str(),strANSI.size()+1,&dWriteSize,NULL);
 	//	CloseHandle(hFile);
 	//}
-	//FILE* pFile = fopen(strANSIName.c_str(),"w");
-	//if(pFile!=NULL){
-	//	fprintf(pFile,strANSI.c_str());
-	//	fclose(pFile);
-	//}
+	FILE* pFile = fopen(strANSIName.c_str(),"w");
+	if(pFile!=NULL){
+		fprintf(pFile,strANSI.c_str());
+		fclose(pFile);
+	}
 	printf(strANSI.c_str());
 	//MessageBox(NULL,str.c_str(),L"CallStack!",NULL);
 	return true;
@@ -935,7 +954,23 @@ void DumpFile::LoadSymbol()
 			wprintf(L"-->");
 			printf(WideByte2Acsi(pB->GetName()).c_str());
 			wprintf(L"\n");
+			
+			module.pPDB	=	Dump::FileManager::GetSingleton()->AddSymbolFile(Acsi2WideByte(module.PDBName).c_str(),module.Guid,module.Age);
+			if(module.pPDB!=NULL){
+				Dump::SymbolFile* pS	=	(Dump::SymbolFile*)module.pPDB;
+				wprintf(L"-->");
+				printf(WideByte2Acsi(pS->GetName()).c_str());
+				wprintf(L"\n");
+
+				//int iOffset= 0x00000000;
+				//std::wstring s;
+				//DWORD d=0;
+				//pS->GetNameLine(iOffset,s,d);
+				//OutputDebugString(s.c_str());
+				//OutputDebugString(L"\n");
+			}
 		}
+
 	}
 }
 

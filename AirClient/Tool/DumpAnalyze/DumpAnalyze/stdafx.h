@@ -147,7 +147,7 @@ T* Singleton<T>::m_pInstance				= NULL;
 
 
 U1	LoadFile(const wchar_t* strName,void*& pData,U32& uiSize);
-
+std::string WideByte2Acsi(const std::wstring& wstrcode);
 std::wstring Acsi2WideByte(const std::string& strascii);
 
 U1			SplitFilePath(		const	std::wstring&	str,

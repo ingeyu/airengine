@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "DumpSymbol.h"
-
+#include "Dia2.h"
 namespace	Dump{
 
 
@@ -66,7 +66,7 @@ namespace	Dump{
 		DWORD uiFileOffset	=	AddressConvert(uiOffset,FALSE);
 		if(uiFileOffset==0)
 			return NULL;
-		return (U8*)m_pBuffer	+	(uiFileOffset-m_Base);
+		return (U8*)m_pBuffer	+	(uiFileOffset);
 	}
 	
 	/*
@@ -144,7 +144,100 @@ namespace	Dump{
 
 	SymbolFile::SymbolFile()
 	{
+		pIDiaDataSource	=	NULL;
+		pSession		=	NULL;
+		pSymbol			=	NULL;
+	}
 
+	U1 SymbolFile::Open( const std::wstring& strName,GUID guid,DWORD age )
+	{
+		if(strName.empty())
+			return false;
+		HRESULT		hr = CoCreateInstance(__uuidof(DiaSource), 
+			NULL, CLSCTX_INPROC_SERVER, 
+			__uuidof(IDiaDataSource), 
+			(void**)&pIDiaDataSource);
+		if(pIDiaDataSource==NULL){
+			Close();
+			return false;
+		}
+
+		hr	=	pIDiaDataSource->loadDataFromPdb((strName).c_str());
+		pIDiaDataSource->openSession(&pSession);
+		if(pSession==NULL){
+			Close();
+			return false;
+		}
+		m_strName	=	strName;
+		return true;
+	}
+
+	U1 SymbolFile::Close()
+	{
+		if(pSymbol){
+			pSymbol->Release();
+			pSymbol=NULL;
+		}
+		if(pSession){
+			pSession->Release();
+			pSession=NULL;
+		}
+		if(pIDiaDataSource){
+			pIDiaDataSource->Release();
+			pIDiaDataSource=NULL;
+		}
+		m_strName.clear();
+		return true;
+	}
+
+	U1 SymbolFile::GetFunction_File_Line( U32 uiOffset,std::wstring& strFunc,std::wstring& strFile,DWORD& line )
+	{
+		pSession->findSymbolByRVA(uiOffset,SymTagNull,&pSymbol);
+		if(pSymbol==NULL){
+			strFile	=	L"NoFile";
+			line	=	0;
+		}else{
+			DWORD tag;
+			pSymbol->get_symTag( &tag );
+			if(tag == SymTagFunction){
+				IDiaEnumLineNumbers* pEnumLine=NULL;
+				pSession->findLinesByRVA(uiOffset,1,&pEnumLine);
+				if(pEnumLine!=NULL){
+
+					IDiaLineNumber* pLine=NULL;
+					DWORD celt;
+					bool firstLine = true;
+					while ( ( pEnumLine->Next( 1, &pLine, &celt )>=0 ) && celt == 1 ){
+						IDiaSourceFile* pFile=NULL;
+						pLine->get_sourceFile(&pFile);
+						if(pFile!=NULL){
+							BSTR filename;
+							pFile->get_fileName(&filename);
+							strFile	=	filename;
+							SysFreeString(filename);
+							pFile->Release();
+							pFile=NULL;
+						}
+						pLine->get_lineNumber( &line );
+						pLine->Release();
+						pLine=NULL;
+						break;
+					}
+					pEnumLine->Release();
+					pEnumLine=NULL;
+				}
+
+
+				BSTR name;
+				pSymbol->get_name( &name );
+				strFunc	=	name;
+				SysFreeString(name);
+			
+			}
+			pSymbol->Release();
+			pSymbol=NULL;
+		}
+		return true;
 	}
 
 
@@ -281,9 +374,28 @@ namespace	Dump{
 
 		std::wstring strPath;
 		std::wstring strFileName;
-		SplitFilePath(strName,&strPath,&strFileName);
+		std::wstring strExt;
+		SplitFilePath(strName,&strPath,&strFileName,&strExt);
+		strFileName	+=	(L"."+strExt);
 
-		std::tr1::unordered_map<std::wstring,SymbolFile*>::iterator	itr	=	m_mapSymbolFile.find(strFileName);
+		wchar_t strFullName[1024];
+		wsprintf(strFullName,L"%s\\%08x%04x%04x%02x%02x%02x%02x%02x%02x%02x%02x%d\\%s",
+			strFileName.c_str(),
+			guid.Data1,
+			guid.Data2,
+			guid.Data3,
+			guid.Data4[0],
+			guid.Data4[1],
+			guid.Data4[2],
+			guid.Data4[3],
+			guid.Data4[4],
+			guid.Data4[5],
+			guid.Data4[6],
+			guid.Data4[7],
+			age,
+			strFileName.c_str());
+
+		std::tr1::unordered_map<std::wstring,SymbolFile*>::iterator	itr	=	m_mapSymbolFile.find(strFullName);
 		if(itr!=m_mapSymbolFile.end()){
 			return itr->second;
 		}
@@ -291,8 +403,15 @@ namespace	Dump{
 		std::list<std::wstring>::iterator i = m_lstSearchPath.begin();
 		for(;i!=m_lstSearchPath.end();i++){
 			std::wstring str = (*i)	+	strFileName;
-			if(pFile->Open(str,0)){
-				m_mapSymbolFile[strFileName]	=	pFile;
+			DWORD	dwAttr = GetFileAttributes(str.c_str());
+			if(dwAttr == INVALID_FILE_ATTRIBUTES){
+				continue;
+			}
+			if(dwAttr&FILE_ATTRIBUTE_DIRECTORY){
+				str	=	(*i)+strFullName;
+			}
+			if(pFile->Open(str,guid,age)){
+				m_mapSymbolFile[strFullName]	=	pFile;
 				return pFile;
 			}
 		}

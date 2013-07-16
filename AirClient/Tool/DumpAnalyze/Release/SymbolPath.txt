@@ -1,3 +1,4 @@
 C:\Windows\System32
 C:\Windows\SysWOW64
 D:\AirEngine\AirClient\Tool\DumpAnalyze\Release\GCRelease
+D:\AirEngine\AirClient\Tool\SymbolServer\Release\SymbolServer
