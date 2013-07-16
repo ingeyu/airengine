@@ -192,51 +192,59 @@ namespace	Dump{
 
 	U1 SymbolFile::GetFunction_File_Line( U32 uiOffset,std::wstring& strFunc,std::wstring& strFile,DWORD& line )
 	{
-		pSession->findSymbolByRVA(uiOffset,SymTagNull,&pSymbol);
+		pSession->findSymbolByRVA(uiOffset,SymTagFunction,&pSymbol);
 		if(pSymbol==NULL){
-			strFile	=	L"NoFile";
-			line	=	0;
-		}else{
-			DWORD tag;
-			pSymbol->get_symTag( &tag );
-			if(tag == SymTagFunction){
-				IDiaEnumLineNumbers* pEnumLine=NULL;
-				pSession->findLinesByRVA(uiOffset,1,&pEnumLine);
-				if(pEnumLine!=NULL){
-
-					IDiaLineNumber* pLine=NULL;
-					DWORD celt;
-					bool firstLine = true;
-					while ( ( pEnumLine->Next( 1, &pLine, &celt )>=0 ) && celt == 1 ){
-						IDiaSourceFile* pFile=NULL;
-						pLine->get_sourceFile(&pFile);
-						if(pFile!=NULL){
-							BSTR filename;
-							pFile->get_fileName(&filename);
-							strFile	=	filename;
-							SysFreeString(filename);
-							pFile->Release();
-							pFile=NULL;
-						}
-						pLine->get_lineNumber( &line );
-						pLine->Release();
-						pLine=NULL;
-						break;
-					}
-					pEnumLine->Release();
-					pEnumLine=NULL;
-				}
-
-
-				BSTR name;
-				pSymbol->get_name( &name );
-				strFunc	=	name;
-				SysFreeString(name);
-			
+			pSession->findSymbolByRVA(uiOffset,SymTagNull,&pSymbol);
+			if(pSymbol==NULL){
+				strFunc	=	L"";
+				strFile	=	L"NoFile";
+				line	=	0;
+				return false;
 			}
-			pSymbol->Release();
-			pSymbol=NULL;
 		}
+			
+		DWORD tag;
+			
+		pSymbol->get_symTag( &tag );
+
+		BSTR name;
+		pSymbol->get_name( &name );
+		strFunc	=	name;
+		SysFreeString(name);
+
+
+		IDiaEnumLineNumbers* pEnumLine=NULL;
+		pSession->findLinesByRVA(uiOffset,1,&pEnumLine);
+		if(pEnumLine!=NULL){
+
+			IDiaLineNumber* pLine=NULL;
+			DWORD celt;
+			bool firstLine = true;
+			while ( ( pEnumLine->Next( 1, &pLine, &celt )>=0 ) && celt == 1 ){
+				IDiaSourceFile* pFile=NULL;
+				pLine->get_sourceFile(&pFile);
+				if(pFile!=NULL){
+					BSTR filename;
+					pFile->get_fileName(&filename);
+					strFile	=	filename;
+					SysFreeString(filename);
+					pFile->Release();
+					pFile=NULL;
+				}
+				pLine->get_lineNumber( &line );
+				pLine->Release();
+				pLine=NULL;
+				break;
+			}
+			pEnumLine->Release();
+			pEnumLine=NULL;
+		}
+
+
+		pSymbol->Release();
+		pSymbol=NULL;
+
+		
 		return true;
 	}
 

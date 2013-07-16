@@ -880,7 +880,7 @@ bool DumpFile::BuildCallstack()
 			}
 		}
 	}
-	swprintf_s(tempstring,L"==[threadid=%d][End]==\n");
+	swprintf_s(tempstring,L"==[threadid=%d][End]==\n",threadid);
 	str+=tempstring;
 	std::string strANSI = WideByte2Acsi(str);
 	//OutputDebugString(str.c_str());
