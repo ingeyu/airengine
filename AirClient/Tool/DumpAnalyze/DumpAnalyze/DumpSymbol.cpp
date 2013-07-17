@@ -3,6 +3,12 @@
 #include "Dia2.h"
 namespace	Dump{
 
+	U1	IsRemoteSharePath(const wchar_t* pPath){
+		if(pPath[0]==L'\\'&&pPath[1]==L'\\'){
+			return true;
+		}
+		return false;
+	}
 
 	BinaryFile::BinaryFile()
 	{
@@ -257,7 +263,8 @@ namespace	Dump{
 	U1 FileManager::Initialization()
 	{
 		printf("[SearchPath:]\n");
-		m_lstSearchPath.push_back(L"");
+		AddPath(L"");
+		AddPath(L"symsrv");
 		void*	pData	=	NULL;
 		U32		uiSize	=	0;
 		if(LoadFile(L"SymbolPath.txt",pData,uiSize)){
@@ -357,6 +364,13 @@ namespace	Dump{
 		std::list<std::wstring>::iterator i = m_lstSearchPath.begin();
 		for(;i!=m_lstSearchPath.end();i++){
 			std::wstring str = (*i)	+	strFileName;
+			if(IsRemoteSharePath(i->c_str())){
+				if(RemoteFileToLocalCache(*i,strFileName.c_str(),strFullName)){
+					str = std::wstring(L"symsrv\\")	+	strFullName;
+				}else{
+					continue;
+				}
+			}
 			DWORD	dwAttr = GetFileAttributes(str.c_str());
 			if(dwAttr == INVALID_FILE_ATTRIBUTES){
 				continue;
@@ -371,6 +385,20 @@ namespace	Dump{
 		}
 		SAFE_DELETE(pFile);
 		return NULL;
+	}
+
+
+	bool ___CopyFile(const wchar_t *pTo,const wchar_t *pFrom) 
+	{  
+		SHFILEOPSTRUCT FileOp={0};  
+		FileOp.fFlags = FOF_NOCONFIRMATION|   //不出现确认对话框
+					FOF_NOCONFIRMMKDIR;
+	//需要时直接创建一个文件夹,不需用户确定
+
+		FileOp.pFrom = pFrom; 
+		FileOp.pTo = pTo;  
+		FileOp.wFunc = FO_COPY;  
+		return SHFileOperation(&FileOp) == 0; 
 	}
 
 	SymbolFile* FileManager::AddSymbolFile( const wchar_t* strName,GUID guid,DWORD age )
@@ -411,6 +439,13 @@ namespace	Dump{
 		std::list<std::wstring>::iterator i = m_lstSearchPath.begin();
 		for(;i!=m_lstSearchPath.end();i++){
 			std::wstring str = (*i)	+	strFileName;
+			if(IsRemoteSharePath(i->c_str())){
+				if(RemoteFileToLocalCache(*i,strFileName.c_str(),strFullName)){
+					str = std::wstring(L"symsrv\\")	+	strFullName;
+				}else{
+					continue;
+				}
+			}
 			DWORD	dwAttr = GetFileAttributes(str.c_str());
 			if(dwAttr == INVALID_FILE_ATTRIBUTES){
 				continue;
@@ -425,6 +460,43 @@ namespace	Dump{
 		}
 		SAFE_DELETE(pFile);
 		return NULL;
+	}
+
+	U1 FileManager::RemoteFileToLocalCache(const std::wstring& strRemote,const wchar_t* strName,const wchar_t* strFullName )
+	{
+		std::wstring str = strRemote	+	strName;
+		void*	pBuffer	=	NULL;
+		U32		uiSize	=	0;
+		if(!LoadFile(str.c_str(),pBuffer,uiSize)){
+			str	=	strRemote	+	strFullName;
+			if(!LoadFile(str.c_str(),pBuffer,uiSize)){
+				return false;
+			}
+		}
+		{
+			CreateDirectory(L"symsrv",NULL);
+			int iPathSize	=	wcslen(strFullName);
+			for(U32 j=0;j<iPathSize;j++){
+				if(strFullName[j]==L'\\'){
+					std::wstring strTemp;
+					strTemp.resize(j);
+					memcpy(&strTemp[0],strFullName,sizeof(wchar_t)*j);
+					strTemp	=	std::wstring(L"symsrv\\")	+	strTemp;
+					CreateDirectory(strTemp.c_str(),NULL);
+				}
+			}
+			std::wstring newfile = std::wstring(L"symsrv\\")+strFullName;
+			FILE* pFile = _wfopen(newfile.c_str(),L"wb");
+			if(pFile==NULL){
+				free(pBuffer);
+				return false;
+			}
+			fwrite(pBuffer,uiSize,1,pFile);
+			fclose(pFile);
+			free(pBuffer);
+			str	=	newfile;
+		}
+		return true;
 	}
 
 }

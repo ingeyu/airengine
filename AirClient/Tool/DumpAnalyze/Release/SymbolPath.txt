@@ -3,5 +3,5 @@ C:\Windows\SysWOW64
 D:\AirEngine\AirClient\Tool\DumpAnalyze\Release\GCRelease
 D:\AirEngine\AirClient\Tool\SymbolServer\Release\SymbolServer
 f:\localcache
-F:\airpdb
+\\127.0.0.1\airpdb
 D:\AirEngine\AirClient\Bin\Debug

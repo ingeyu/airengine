@@ -50,6 +50,7 @@ namespace	Dump{
 		U1			AddPath(const wchar_t* strPath);
 		BinaryFile*	AddModuleFile(const wchar_t* strName,DWORD timeStamp,DWORD imageSize);
 		SymbolFile*	AddSymbolFile(const wchar_t* strName,GUID guid,DWORD age);
+		U1			RemoteFileToLocalCache(const std::wstring& strRemote,const wchar_t* strName,const wchar_t* strFullName);
 	protected:
 		std::list<std::wstring>								m_lstSearchPath;
 		std::tr1::unordered_map<std::wstring,SymbolFile*>	m_mapSymbolFile;

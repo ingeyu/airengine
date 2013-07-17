@@ -13,7 +13,6 @@ int _tmain(int argc, _TCHAR* argv[])
 		return -1;
 	}
 
-
 	HRESULT hr = CoInitialize(NULL);
 
 	Dump::FileManager::GetSingleton()->Initialization();
