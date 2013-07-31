@@ -1,0 +1,174 @@
+#ifndef AirCppScriptDefine_h__
+#define AirCppScriptDefine_h__
+
+namespace	Air{
+	namespace	CppScript{
+		
+		enum	enumWordType{
+			enWT_Unknown,
+			enWT_PreDeclare,		//	#
+			enWT_Name,				//struct virtual int icount public 123 1.000f 
+			enWT_CppKeyWord,
+			enWT_BlockBegin,		//	{
+			enWT_BlockEnd,			//	}
+			enWT_Operator,			//	+	-	*	/
+			enWT_PrePriority,		//	(
+			enWT_PostPriority,		//	)
+			enWT_Delimiter,			//	,
+			enWT_Connector,			//	"\"
+			
+		};
+		enum	enumCppKeyWordType{
+			enCKWT_Include,		//	#include
+			enCKWT_Define,		//	#define
+			enCKWT_Typedef,		//	#typedef
+			enCKWT_Program,		//	#pragma
+			enCKWT_Warning,		//	#warning
+			enCKWT_Error,		//	#error
+			enCKWT_If,			//	#if
+			enCKWT_Else,		//	#else
+			enCKWT_ElseIf,		//	#elif
+			enCKWT_EndIf,		//	#endif
+			enCKWT_Ifdef,		//	#ifdef
+			enCKWT_Ifndef,		//	#ifndef
+			enCKWT_NameSpace,	//	namespace
+			enCKWT_Switch,		//	switch
+			enCKWT_Case,		//	case
+			enCKWT_Break,		//	break
+			enCKWT_Default,		//	default
+			enCKWT_Continue,	//	continue
+			enCKWT_Return,		//	return
+			enCKWT_For,			//	for
+			enCKWT_While,		//	while
+			enCKWT_Do,			//	do
+			enCKWT_Goto,		//	goto
+			enCKWT_Const,		//	const
+			enCKWT_Static,		//	static
+			enCKWT_Register,	//	register
+			enCKWT_Struct,		//	struct
+			enCKWT_Class,		//	class
+			enCKWT_Interface,	//	interface
+			enCKWT_Virtual,		//	virtual
+			enCKWT_Void,		//	void
+			enCKWT_Bool,		//	bool
+			enCKWT_Char,		//	char
+			enCKWT_Short,		//	short
+			enCKWT_Int,			//	int
+			enCKWT_Long,		//	long
+			enCKWT_Int64,		//	_int64
+			enCKWT_Unsigned,	//	unsigned
+			enCKWT_True,		//	true
+			enCKWT_False,		//	false
+			enCKWT_Null,		//	NULL
+			enCKWT_Public,		//	public
+			enCKWT_Protected,	//	protected
+			enCKWT_Private,		//	private
+		};
+
+		enum	enumPreDeclarePragmaType{
+			enPDPT_Comment_Lib,
+			enPDPT_Message
+		};
+
+		enum	enumWordNameType{
+			enWNT_ObjTypeDecl,			///<	"struct" "class" "interface"
+			enWNT_ObjTypeName,			///<	class "TestClass"
+			enWNT_ObjType,				///<	"int"
+			enWNT_ObjName,				///<	int "iCount"
+			enWNT_PreDecorate,
+			enWNT_PostDecorate,
+			enWNT_MemberPropertyType,	///<	"public"
+			enWNT_PreOperator,			///<	"+	-	*	/	=	!	."
+			enWNT_PostOperator,			///<	same with above
+			enWNT_StatementEnd,			///<	";"
+		};
+		enum	enumOperatorType{
+			enOT_Add,
+			enOT_Sub,
+			enOT_Mul,
+			enOT_Div,
+			enOT_Remain,
+			enOT_Mov,
+			enOT_And,
+			enOT_Or,
+			enOT_Xor,
+			enOT_Not,
+			enOT_Equal,
+			enOT_NotEqual,
+			enOT_Greater,
+			enOT_Less,
+			enOT_GreaterEqual,
+			enOT_LessEqual,
+			enOT_Increment,
+			enOT_Decrement,
+			enOT_AddEqual,
+			enOT_SubEqual,
+			enOT_MulEqual,
+			enOT_DivEqual,
+			enOT_RemainEqual,
+			enOT_AndEqual,
+			enOT_OrEqual,
+			enOT_LeftShift,
+			enOT_RightShift,
+			enOT_IndexBegin,
+			enOT_IndexEnd,
+		};
+		enum	enumObjectTypeDecl{
+			enOTD_Struct,
+			enOTD_Class,
+			enOTD_Interface,
+		};
+
+		enum	enumObjectType{
+			enCOT_Void,
+			enCOT_Bool,
+			enCOT_S8,
+			enCOT_S16,
+			enCOT_S32,
+			enCOT_S64,
+			enCOT_U8,
+			enCOT_U16,
+			enCOT_U32,
+			enCOT_U64,
+			enCOT_F32,
+			enCOT_F64,
+			enCOT_Obj,
+			enCOT_VirtualObj,
+			enCOT_Pointor
+		};
+		enum	enumMemberPropertyType{
+			enMP
+		};
+		enum	enumUnknownType{
+			enUT_Unknown,
+			enUT_IntNumber,
+			enUT_FloatNumber,
+			enUT_String
+		};
+
+		typedef	char				AChar;
+		typedef	wchar_t				WChar;
+		typedef	bool				U1;
+		typedef	unsigned char		U8;
+		typedef	unsigned short		U16;
+		typedef	unsigned long		U32;
+		typedef	unsigned __int64	U64;
+		typedef	unsigned int		UInt;
+#if 1
+		//(FLOAT_BIT == 32)
+		typedef	float				Real;
+#else
+		typedef	double				Real;
+#endif
+
+		typedef	float				FLOAT;
+		typedef	float				F32;
+		typedef	double				F64;
+		typedef	char				S8;
+		typedef	short				S16;
+		typedef	long				S32;
+		typedef	__int64				S64;
+		typedef	int					SInt;
+	}
+}
+#endif // AirCppScriptDefine_h__
