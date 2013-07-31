@@ -21,6 +21,63 @@ void ToLower(TCHAR* str){
 	}
 }
 
+bool SplitFilePath( const std::wstring& str, std::wstring* strPath /*= NULL*/, std::wstring* strFileName /*= NULL*/, std::wstring* strExe /*= NULL*/ )
+{
+	if(str.empty())
+		return	false;
+	UINT	uiStrSize	=	str.size();
+	INT	uiPoint	=	uiStrSize;
+	INT	uiSlash	=	-1;
+
+
+	for(INT i=uiStrSize-1;i>-1;i--){
+		if(str[i]	==	'.'	&&	uiPoint	==	uiStrSize){
+			uiPoint	=	i;
+		}
+		if(	str[i]	==	'/'	||
+			str[i]	==	'\\'){
+				uiSlash	=	i;
+				break;
+		}
+	}
+
+	if(	uiPoint	!=	uiStrSize	&&
+		strExe	!=	NULL)
+	{
+		if(uiPoint!=uiStrSize-1)
+			*strExe	=	&str[uiPoint+1];
+	}
+
+	if(	uiSlash	!=	-1		&&
+		strPath	!=	NULL)
+	{
+		if(uiSlash<uiStrSize){
+			strPath->resize(uiSlash+1);
+			memcpy(&((*strPath)[0]),&str[0],(uiSlash+1)*sizeof(wchar_t));
+		}else{
+			*strPath	=	str;
+		}
+	}
+
+	if(strFileName!=NULL){
+		UINT	uiFileNameSize	=	uiPoint;
+		UINT	uiFileNameStart	=	0;
+		if(uiPoint==uiStrSize)
+			uiFileNameSize--;
+
+		if(uiSlash<uiStrSize){
+			if(uiSlash!=-1){
+				uiFileNameSize	-=		uiSlash+1;
+				uiFileNameStart	=		uiSlash+1;
+			}
+
+			strFileName->resize(uiFileNameSize);
+			memcpy(&((*strFileName)[0]),&str[uiFileNameStart],uiFileNameSize*sizeof(wchar_t));
+		}
+	}
+	return	true;
+}
+
 struct PDBINFO{
 	DWORD						unknown;
 	MODLOAD_PDBGUID_PDBAGE		pdbage;
@@ -229,7 +286,7 @@ bool	GetPdbGUIDAge(const TCHAR*	strName,MODLOAD_PDBGUID_PDBAGE* pPdbAge){
 
 	pIDiaDataSource->Release();
 	pIDiaDataSource=NULL;
-	
+	return true;
 };
 
 std::wstring strOutputDir;
@@ -237,7 +294,7 @@ std::wstring strOutputDir;
 
 
 void	AddToSymbolServer(const TCHAR* strOldName,const TCHAR* strFileName,const TCHAR* strVersion){
-	std::wstring	strFileDirectory		=	strOutputDir+		+	_T("\\")		+	strFileName;
+	std::wstring	strFileDirectory		=	strOutputDir+		+	strFileName;
 	std::wstring	strVersionDirectory		=	strFileDirectory	+	_T("\\")		+	strVersion	;
 	std::wstring	strFile					=	strVersionDirectory	+	_T("\\")		+	strFileName;
 
@@ -262,7 +319,7 @@ void	FileCallBack(const TCHAR*	strFileName,const TCHAR* strPath){
 	}
 	if(wcscmp(&strOldFileName[iLen-4],_T(".pdb"))==0)
 	{
-		wsprintf(strOldFileName,L"%s\\%s",strPath,strFileName);
+		wsprintf(strOldFileName,L"%s%s",strPath,strFileName);
 		MODLOAD_PDBGUID_PDBAGE pdbGUIDAge;
 		GetPdbGUIDAge(strOldFileName,&pdbGUIDAge);
 		
@@ -287,14 +344,27 @@ void	FileCallBack(const TCHAR*	strFileName,const TCHAR* strPath){
 	}
 	else	if(wcscmp(&strOldFileName[iLen-4],_T(".dll"))==0	||	wcscmp(&strOldFileName[iLen-4],_T(".exe"))==0)
 	{
-		wsprintf(strOldFileName,L"%s\\%s",strPath,strFileName);
+		wsprintf(strOldFileName,L"%s%s",strPath,strFileName);
 		PEFile file(strOldFileName);
 
 		AddToSymbolServer(strOldFileName,strFileName,file.uniqueName.c_str());
 	}
 };
 void	Search(const std::wstring& strPath){
-
+	DWORD dwFlag	=	GetFileAttributes(strPath.c_str());
+	if(dwFlag	==	INVALID_FILE_ATTRIBUTES){
+		return;
+	}
+	if((dwFlag&FILE_ATTRIBUTE_DIRECTORY)==0){
+		std::wstring strName;
+		std::wstring strExt;
+		std::wstring strNewPath;
+		SplitFilePath(strPath,&strNewPath,&strName,&strExt);
+		strName+=L".";
+		strName+=strExt;
+		FileCallBack(strName.c_str(),strNewPath.c_str());
+		return;
+	}
 	std::wstring strSearchPath=strPath+L"\\*.*";
 	WIN32_FIND_DATA fileData;
 	HANDLE hFile	=	FindFirstFile(strSearchPath.c_str(),&fileData);
@@ -304,11 +374,11 @@ void	Search(const std::wstring& strPath){
 		{
 			if(fileData.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY){
 				
-				std::wstring strNewPath =strPath+L"\\"+fileData.cFileName;
+				std::wstring strNewPath =strPath+L"\\"+std::wstring(fileData.cFileName)+L"\\";
 				
 				Search(strNewPath);
 			}else{
-				FileCallBack(fileData.cFileName,strPath.c_str());
+				FileCallBack(fileData.cFileName,(strPath+L"\\").c_str());
 			}
 		}
 
@@ -327,6 +397,14 @@ int _tmain(int argc, _TCHAR* argv[])
 		getchar();
 		return -1;
 	}
+
+	wchar_t str[1024];
+	GetCurrentDirectory(1024,str);
+	std::wstring	strPath		=	str;
+	GetModuleFileName(NULL,str,1024);
+	SplitFilePath(str,&strPath,NULL,NULL);
+	SetCurrentDirectory(strPath.c_str());
+
 	if(argc < 3){
 		strOutputDir=_T(".\\SymbolServer\\");
 		CreateDirectory(strOutputDir.c_str(),NULL);
