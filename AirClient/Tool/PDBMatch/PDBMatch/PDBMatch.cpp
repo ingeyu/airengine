@@ -133,6 +133,10 @@ public:
 		// If we found a .debug section, and the debug directory is at the
 		// beginning of this section, it looks like a Borland file
 		header = GetSectionHeader(".debug");
+		if(header==NULL){
+			header = GetSectionHeader(".rsrc");
+		}
+
 		if ( header && (header->VirtualAddress == va_debug_dir) )
 		{
 			debugDir = (PIMAGE_DEBUG_DIRECTORY)(pBase+header->PointerToRawData);
