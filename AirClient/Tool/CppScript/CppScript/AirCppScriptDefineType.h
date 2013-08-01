@@ -1,21 +1,30 @@
 #ifndef AirCppScriptDefineType_h__
 #define AirCppScriptDefineType_h__
 
+#include "AirCppScriptDefine.h"
+
 namespace	Air{
 	namespace	CppScript{
-		struct WorldType{
-			U32				wordtype	:	8;
-			U32				main		:	8;
-			U32				sub			:	8;
-			U32				flag		:	8;
+		
+		union WorldType{
+			struct{
+				unsigned char				wordtype			:	8;
+				unsigned char				main				:	8;
+				unsigned char				sub					:	8;
+				unsigned char				Variable			:	6;
+				unsigned char				PreFlag				:	1;
+				unsigned char				PostFlag			:	1;
+			};
+			U32	uiType;
+			
 		};
 		struct WordInfo{
 			union{
-				WorldType	eType;
-				U32			uiType;
+				WorldType				eType;
+				unsigned long			uiType;
 			};
-			U32				line;
-			U32				file;
+			unsigned long				line;
+			unsigned long				file;
 		};
 	}
 }

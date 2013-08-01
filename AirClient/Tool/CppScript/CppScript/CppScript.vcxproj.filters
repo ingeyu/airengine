@@ -39,6 +39,9 @@
     <ClInclude Include="AirCppScriptCompiler.h">
       <Filter>CppScript</Filter>
     </ClInclude>
+    <ClInclude Include="AirCppScriptParse.h">
+      <Filter>CppScript</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -51,6 +54,9 @@
       <Filter>CppScript</Filter>
     </ClCompile>
     <ClCompile Include="AirCppScript.cpp">
+      <Filter>CppScript</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCppScriptParse.cpp">
       <Filter>CppScript</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,20 +1,47 @@
 #ifndef AirCppScriptDefine_h__
 #define AirCppScriptDefine_h__
 
+#include <string>
+#include <vector>
+#include <list>
+
 namespace	Air{
+	typedef	char				AChar;
+	typedef	wchar_t				WChar;
+	typedef	bool				U1;
+	typedef	unsigned char		U8;
+	typedef	unsigned short		U16;
+	typedef	unsigned long		U32;
+	typedef	unsigned __int64	U64;
+	typedef	unsigned int		UInt;
+#if 1
+	//(FLOAT_BIT == 32)
+	typedef	float				Real;
+#else
+	typedef	double				Real;
+#endif
+
+	typedef	float				FLOAT;
+	typedef	float				F32;
+	typedef	double				F64;
+	typedef	char				S8;
+	typedef	short				S16;
+	typedef	long				S32;
+	typedef	__int64				S64;
+	typedef	int					SInt;
+	typedef std::string			AString;
+	typedef const AString			CAString;
+	typedef std::vector<AString>	StringVector;
+	typedef std::list<AString>		StringList;
 	namespace	CppScript{
 		
 		enum	enumWordType{
 			enWT_Unknown,
 			enWT_PreDeclare,		//	#
-			enWT_Name,				//struct virtual int icount public 123 1.000f 
-			enWT_CppKeyWord,
-			enWT_BlockBegin,		//	{
-			enWT_BlockEnd,			//	}
-			enWT_Operator,			//	+	-	*	/
-			enWT_PrePriority,		//	(
-			enWT_PostPriority,		//	)
-			enWT_Delimiter,			//	,
+			enWT_Variable,			//	 123 1.000f 
+			enWT_CppKeyWord,		//	class struct virtual int public
+			enWDT_Operator,			//	+	-	*	/
+			enWT_Delimiter,			//	{ } ( ) , ; 
 			enWT_Connector,			//	"\"
 			
 		};
@@ -63,11 +90,11 @@ namespace	Air{
 			enCKWT_Public,		//	public
 			enCKWT_Protected,	//	protected
 			enCKWT_Private,		//	private
-		};
-
-		enum	enumPreDeclarePragmaType{
-			enPDPT_Comment_Lib,
-			enPDPT_Message
+			enCKWT_Comment,		//	comment
+			enCKWT_Lib,			//	private
+			enCKWT_Push,		//	push
+			enCKWT_Pop,			//	pop
+			enCKWT_Message,		//	message
 		};
 
 		enum	enumWordNameType{
@@ -108,17 +135,14 @@ namespace	Air{
 			enOT_RemainEqual,
 			enOT_AndEqual,
 			enOT_OrEqual,
-			enOT_LeftShift,
-			enOT_RightShift,
-			enOT_IndexBegin,
-			enOT_IndexEnd,
-		};
-		enum	enumObjectTypeDecl{
-			enOTD_Struct,
-			enOTD_Class,
-			enOTD_Interface,
-		};
+			enOT_LeftShift,		//	<<
+			enOT_RightShift,	//	>>
+			enOT_IndexBegin,	//	[
+			enOT_IndexEnd,		//	]
+			enOT_IfElse,		//	:
+			enOT_Question,		//	?
 
+		};
 		enum	enumObjectType{
 			enCOT_Void,
 			enCOT_Bool,
@@ -136,39 +160,30 @@ namespace	Air{
 			enCOT_VirtualObj,
 			enCOT_Pointor
 		};
-		enum	enumMemberPropertyType{
-			enMP
-		};
 		enum	enumUnknownType{
 			enUT_Unknown,
 			enUT_IntNumber,
 			enUT_FloatNumber,
 			enUT_String
 		};
+		enum	enumWordDelamiterType{
+			enWDT_Unknown,
+			enWDT_Parameter,		//	,
+			enWDT_Statement,		//	;
+			enWDT_BlockBegin,		//	{
+			enWDT_BlockEnd,			//	}
+			enWDT_PrePriority,		//	(
+			enWDT_PostPriority,		//	)
+			enWDT_Connector,		//	"\"
+		};
+		enum	enumVariableType{
+			enVT_Unknown,
+			enVT_Constant,
+			enVT_Static,
+			enVT_VariableName,
+		};
 
-		typedef	char				AChar;
-		typedef	wchar_t				WChar;
-		typedef	bool				U1;
-		typedef	unsigned char		U8;
-		typedef	unsigned short		U16;
-		typedef	unsigned long		U32;
-		typedef	unsigned __int64	U64;
-		typedef	unsigned int		UInt;
-#if 1
-		//(FLOAT_BIT == 32)
-		typedef	float				Real;
-#else
-		typedef	double				Real;
-#endif
 
-		typedef	float				FLOAT;
-		typedef	float				F32;
-		typedef	double				F64;
-		typedef	char				S8;
-		typedef	short				S16;
-		typedef	long				S32;
-		typedef	__int64				S64;
-		typedef	int					SInt;
 	}
 }
 #endif // AirCppScriptDefine_h__

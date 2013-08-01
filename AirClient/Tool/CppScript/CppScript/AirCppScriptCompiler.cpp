@@ -1,4 +1,5 @@
 #include "AirCppScriptCompiler.h"
+#include <Windows.h>
 
 namespace	Air{
 	namespace	CppScript{
@@ -18,7 +19,7 @@ namespace	Air{
 
 		bool Compiler::Initialization()
 		{
-			m_mapWordType["#"]			=	MakeType(enWT_PreDeclare,0,0,0);
+			m_mapWordType["#"]			=	MakeType(enWT_PreDeclare,	0,					0,0);
 			m_mapWordType["include"]	=	MakeType(enWT_CppKeyWord,	enCKWT_Include,		0,0);
 			m_mapWordType["define"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Define,		0,0);
 			m_mapWordType["pragma"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Typedef,		0,0);
@@ -63,9 +64,11 @@ namespace	Air{
 			m_mapWordType["public"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Public,		0,0);
 			m_mapWordType["protected"]	=	MakeType(enWT_CppKeyWord,	enCKWT_Protected,	0,0);
 			m_mapWordType["private"]	=	MakeType(enWT_CppKeyWord,	enCKWT_Private,		0,0);
-
-
-
+			m_mapWordType["comment"]	=	MakeType(enWT_CppKeyWord,	enCKWT_Comment,		0,0);
+			m_mapWordType["lib"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Lib,			0,0);
+			m_mapWordType["push"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Push,		0,0);
+			m_mapWordType["pop"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Pop,			0,0);
+			m_mapWordType["message"]	=	MakeType(enWT_CppKeyWord,	enCKWT_Message,		0,0);
 			return true;
 		}
 
@@ -76,27 +79,56 @@ namespace	Air{
 
 		bool Compiler::Compile( const void* pBuffer,unsigned int uiSize )
 		{
-
+			
 			return true;
 		}
 
-		bool Compiler::Compile( const char* pName )
+		bool Compiler::Compile( const wchar_t* pName )
 		{
-			return true;
+			HANDLE hFile	=	CreateFile(NULL,GENERIC_READ,FILE_SHARE_READ |FILE_SHARE_WRITE,NULL,OPEN_EXISTING,FILE_FLAG_SEQUENTIAL_SCAN,NULL );
+			if(hFile==INVALID_HANDLE_VALUE){
+				CloseHandle(hFile);
+				return false;
+			}
+			U32 uiSize	=	GetFileSize(hFile,0);
+			if(uiSize==0){
+				CloseHandle(hFile);
+				return	true;
+			}
+			void* pBuffer =	__Alloc(uiSize);
+			if(pBuffer==NULL){
+				CloseHandle(hFile);
+				return false;
+			}
+			DWORD	dwReadSize	=	0;
+			if(!ReadFile(hFile,pBuffer,uiSize,&dwReadSize,NULL)){
+				__Free(pBuffer);
+				CloseHandle(hFile);
+				return	false;
+			}
+			CloseHandle(hFile);
+			hFile=NULL;
+
+			bool bRet	=	Compile(pBuffer,uiSize);
+			__Free(pBuffer);
+			return bRet;
 		}
 
-		Air::CppScript::U32 WordToType( const char* str )
+		Air::U32 WordToType( const char* str )
 		{
-
+			return 0;
 		}
 
-		Air::CppScript::U32 MakeType( enumWordType w,U32 main,U32 sub,U32 flag )
+		Air::U32 MakeType( enumWordType w,U32 main,U32 sub,U32 flag )
 		{
 			WorldType	type;
 			type.wordtype	=	w;
 			type.main		=	main;
 			type.sub		=	sub;
-			type.flag		=	flag;
+			type.PreFlag	=	0;
+			type.PostFlag	=	0;
+			type.Variable	=	0;
+			return type.uiType;
 		}
 
 	}

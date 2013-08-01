@@ -3,6 +3,7 @@
 
 #include "AirCppScript.h"
 #include <unordered_map>
+#include <string>
 
 namespace	Air{
 	namespace	CppScript{
@@ -17,7 +18,7 @@ namespace	Air{
 			bool	Release();
 
 			bool	Compile(const void* pBuffer,unsigned int uiSize);
-			bool	Compile(const char* pName);
+			bool	Compile(const wchar_t* pName);
 		protected:
 			void	AllocWordInfo();
 			void	FreeWordInfo();
