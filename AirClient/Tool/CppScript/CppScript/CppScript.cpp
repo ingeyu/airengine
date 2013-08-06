@@ -49,8 +49,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	//	return -1;
 	//}
 
-	int i =0xff;
-	int j=!i;
 
 	wchar_t str[1024];
 	GetCurrentDirectory(1024,str);

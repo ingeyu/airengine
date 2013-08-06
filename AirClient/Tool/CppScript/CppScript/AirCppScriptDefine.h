@@ -84,6 +84,8 @@ namespace	Air{
 			enCKWT_Int,			//	int
 			enCKWT_Long,		//	long
 			enCKWT_Int64,		//	_int64
+			enCKWT_Float,		//	float
+			enCKWT_Double,		//	double
 			enCKWT_Unsigned,	//	unsigned
 			enCKWT_True,		//	true
 			enCKWT_False,		//	false
@@ -97,7 +99,6 @@ namespace	Air{
 			enCKWT_Pop,			//	pop
 			enCKWT_Message,		//	message
 
-			enOT_Unknown,
 			enOT_Add,
 			enOT_Sub,
 			enOT_Mul,
@@ -133,7 +134,6 @@ namespace	Air{
 			enOT_LogicOr,
 			enOT_LogicNot,
 			
-			enWDT_Unknown,
 			enWDT_Parameter,		//	,
 			enWDT_Statement,		//	;
 			enWDT_BlockBegin,		//	{
@@ -141,7 +141,12 @@ namespace	Air{
 			enWDT_PrePriority,		//	(
 			enWDT_PostPriority,		//	)
 			enWDT_Connector,		//	"\"
-			
+
+			enVT_IntNumber,
+			enVT_FloatNumber,
+			enVT_String,
+			enVT_Static,
+			enVT_VariableName,	
 		};
 		enum	enumBaseObjectType{
 			enBOT_Unknown,
@@ -161,16 +166,6 @@ namespace	Air{
 			enBOT_VirtualObj,
 			enBOT_Pointor
 		};
-
-		enum	enumVariableType{
-			enVT_Unknown,
-			enVT_IntNumber,
-			enVT_FloatNumber,
-			enVT_String,
-			enVT_Static,
-			enVT_VariableName,
-		};
-
 
 	}
 }

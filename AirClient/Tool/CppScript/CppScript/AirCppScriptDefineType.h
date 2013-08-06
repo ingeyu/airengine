@@ -6,7 +6,7 @@
 namespace	Air{
 	namespace	CppScript{
 		
-		union WorldType{
+		union WordType{
 			struct{
 				enumWordType				eWordtype			:	8;
 				//union{
@@ -32,7 +32,7 @@ namespace	Air{
 				file	=	0;
 			};
 			union{
-				WorldType				eType;
+				WordType				eType;
 				unsigned long			uiType;
 			};
 			union{
@@ -44,6 +44,41 @@ namespace	Air{
 			unsigned long				file;
 		};
 		typedef std::vector<WordInfo>	WordInfoVector;
+		struct ObjectType{
+			ObjectType(){
+				iSize		=	4;
+				t			=	enBOT_S32;
+				bConst		=	0;
+				bStatic		=	0;
+				bUnsign		=	0;
+				bPointor	=	0;
+				bpp			=	0;
+				bRef		=	0;
+				bVirtual	=	0;
+				bFloat		=	0;
+				bConstruct	=	0;
+				bDestruct	=	0;
+			};
+			U32					iSize		:	16;
+			enumBaseObjectType	t			:	6;
+			U32					bStatic		:	1;
+			U32					bConst		:	1;
+			U32					bUnsign		:	1;
+			U32					bPointor	:	1;
+			U32					bpp			:	1;	//Pointor To Pointor
+			U32					bRef		:	1;
+			U32					bVirtual	:	1;
+			U32					bFloat		:	1;
+			U32					bConstruct	:	1;
+			U32					bDestruct	:	1;
+		};
+		struct Parameter{
+			ObjectType	type;
+			AString		strName;
+			AString		strDefault;
+			U32			bHasDefault;
+		};
+		typedef std::vector<Parameter>	ParameterVector;
 	}
 }
 #endif // AirCppScriptDefineType_h__

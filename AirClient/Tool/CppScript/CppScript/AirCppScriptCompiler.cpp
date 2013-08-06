@@ -1,6 +1,7 @@
 #include "AirCppScriptCompiler.h"
 #include <Windows.h>
 #include "AirCppScriptParse.h"
+#include "AirCppScriptSyntax.h"
 namespace	Air{
 	namespace	CppScript{
 
@@ -57,6 +58,8 @@ namespace	Air{
 			m_mapWordType["int"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Int,			enBOT_S32,0);
 			m_mapWordType["long"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Long,		enBOT_S32,0);
 			m_mapWordType["__int64"]	=	MakeType(enWT_CppKeyWord,	enCKWT_Int64,		enBOT_S64,0);
+			m_mapWordType["float"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Float,		enBOT_F32,0);
+			m_mapWordType["double"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Double,		enBOT_F64,0);
 			m_mapWordType["unsigned"]	=	MakeType(enWT_CppKeyWord,	enCKWT_Unsigned,	0,0);
 			m_mapWordType["true"]		=	MakeType(enWT_CppKeyWord,	enCKWT_True,		0,0);
 			m_mapWordType["false"]		=	MakeType(enWT_CppKeyWord,	enCKWT_False,		0,0);
@@ -131,6 +134,11 @@ namespace	Air{
 			if(WorldToWordInfo(v,vInfo)	!=	0){
 				return false;
 			}
+			Node* pNode = new Node();
+			U32 idx =0;
+			enumSyntaxError	e	= pNode->Parse(vInfo,idx);
+			if(e!=enSE_OK)
+				return false;
 			return true;
 		}
 
@@ -245,7 +253,7 @@ namespace	Air{
 
 		Air::U32 MakeType( enumWordType w,U32 main,U32 sub,U32 flag )
 		{
-			WorldType	type;
+			WordType	type;
 			type.eWordtype		=	w;
 			type.eKeyword		=	(enumCppKeyWordType)main;
 			type.eBaseObj		=	(enumBaseObjectType)sub;

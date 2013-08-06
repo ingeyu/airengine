@@ -7,6 +7,7 @@
 
 namespace	Air{
 	namespace	CppScript{
+		class	Node;
 		U32		WordToType(const char* str);
 		U32		MakeType(enumWordType w,U32 main,U32 sub,U32 flag);
 		class	Compiler{
