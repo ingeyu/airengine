@@ -209,7 +209,7 @@ namespace	Air{
 											info.str+=vecWord[i+1]+vecWord[i+2];
 											i+=2;
 											info.uiType	=	MakeType(enWT_Variable,enVT_FloatNumber,0,0);
-											info.iVal	=	ToFloat(info.str);
+											info.fVal	=	ToFloat(info.str);
 											vecInfo.push_back(info);
 											continue;
 										}
@@ -235,7 +235,7 @@ namespace	Air{
 
 		Air::U32 Compiler::WordInfoToSyntaxTree( WordInfoVector& vecInfo )
 		{
-
+			return 0;
 		}
 
 		Air::U32 WordToType( const char* str )
