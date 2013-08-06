@@ -1,6 +1,6 @@
 #include "AirCppScriptCompiler.h"
 #include <Windows.h>
-
+#include "AirCppScriptParse.h"
 namespace	Air{
 	namespace	CppScript{
 
@@ -50,13 +50,13 @@ namespace	Air{
 			m_mapWordType["class"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Class,		0,0);
 			m_mapWordType["interface"]	=	MakeType(enWT_CppKeyWord,	enCKWT_Interface,	0,0);
 			m_mapWordType["virtual"]	=	MakeType(enWT_CppKeyWord,	enCKWT_Virtual,		0,0);
-			m_mapWordType["void"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Void,		0,0);
-			m_mapWordType["bool"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Bool,		0,0);
-			m_mapWordType["char"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Char,		0,0);
-			m_mapWordType["short"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Short,		0,0);
-			m_mapWordType["int"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Int,			0,0);
-			m_mapWordType["long"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Long,		0,0);
-			m_mapWordType["__int64"]	=	MakeType(enWT_CppKeyWord,	enCKWT_Int64,		0,0);
+			m_mapWordType["void"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Void,		enBOT_Void,0);
+			m_mapWordType["bool"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Bool,		enBOT_Bool,0);
+			m_mapWordType["char"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Char,		enBOT_S8,0);
+			m_mapWordType["short"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Short,		enBOT_S16,0);
+			m_mapWordType["int"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Int,			enBOT_S32,0);
+			m_mapWordType["long"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Long,		enBOT_S32,0);
+			m_mapWordType["__int64"]	=	MakeType(enWT_CppKeyWord,	enCKWT_Int64,		enBOT_S64,0);
 			m_mapWordType["unsigned"]	=	MakeType(enWT_CppKeyWord,	enCKWT_Unsigned,	0,0);
 			m_mapWordType["true"]		=	MakeType(enWT_CppKeyWord,	enCKWT_True,		0,0);
 			m_mapWordType["false"]		=	MakeType(enWT_CppKeyWord,	enCKWT_False,		0,0);
@@ -69,6 +69,50 @@ namespace	Air{
 			m_mapWordType["push"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Push,		0,0);
 			m_mapWordType["pop"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Pop,			0,0);
 			m_mapWordType["message"]	=	MakeType(enWT_CppKeyWord,	enCKWT_Message,		0,0);
+
+
+			m_mapWordType["+"]	=	MakeType(enWT_Operator,	enOT_Add,				0,0);
+			m_mapWordType["-"]	=	MakeType(enWT_Operator,	enOT_Sub,				0,0);
+			m_mapWordType["*"]	=	MakeType(enWT_Operator,	enOT_Mul,				0,0);
+			m_mapWordType["/"]	=	MakeType(enWT_Operator,	enOT_Div,				0,0);
+			m_mapWordType["%"]	=	MakeType(enWT_Operator,	enOT_Remain,			0,0);
+			m_mapWordType["="]	=	MakeType(enWT_Operator,	enOT_Mov,				0,0);
+			m_mapWordType["&"]	=	MakeType(enWT_Operator,	enOT_And,				0,0);
+			m_mapWordType["|"]	=	MakeType(enWT_Operator,	enOT_Or,				0,0);
+			m_mapWordType["^"]	=	MakeType(enWT_Operator,	enOT_Xor,				0,0);
+			m_mapWordType["~"]	=	MakeType(enWT_Operator,	enOT_Not,				0,0);
+			m_mapWordType["=="]	=	MakeType(enWT_Operator,	enOT_Equal,				0,0);
+			m_mapWordType["!="]	=	MakeType(enWT_Operator,	enOT_NotEqual,			0,0);
+			m_mapWordType[">"]	=	MakeType(enWT_Operator,	enOT_Greater,			0,0);
+			m_mapWordType["<"]	=	MakeType(enWT_Operator,	enOT_Less,				0,0);
+			m_mapWordType[">="]	=	MakeType(enWT_Operator,	enOT_GreaterEqual,		0,0);
+			m_mapWordType["<="]	=	MakeType(enWT_Operator,	enOT_LessEqual,			0,0);
+			m_mapWordType["++"]	=	MakeType(enWT_Operator,	enOT_Increment,			0,0);
+			m_mapWordType["--"]	=	MakeType(enWT_Operator,	enOT_Decrement,			0,0);
+			m_mapWordType["+="]	=	MakeType(enWT_Operator,	enOT_AddEqual,			0,0);
+			m_mapWordType["-+"]	=	MakeType(enWT_Operator,	enOT_SubEqual,			0,0);
+			m_mapWordType["*="]	=	MakeType(enWT_Operator,	enOT_MulEqual,			0,0);
+			m_mapWordType["/="]	=	MakeType(enWT_Operator,	enOT_DivEqual,			0,0);
+			m_mapWordType["%="]	=	MakeType(enWT_Operator,	enOT_RemainEqual,		0,0);
+			m_mapWordType["&="]	=	MakeType(enWT_Operator,	enOT_AndEqual,			0,0);
+			m_mapWordType["!="]	=	MakeType(enWT_Operator,	enOT_OrEqual,			0,0);
+			m_mapWordType["<<"]	=	MakeType(enWT_Operator,	enOT_LeftShift,			0,0);
+			m_mapWordType[">>"]	=	MakeType(enWT_Operator,	enOT_RightShift,		0,0);
+			m_mapWordType["["]	=	MakeType(enWT_Operator,	enOT_IndexBegin,		0,0);
+			m_mapWordType["]"]	=	MakeType(enWT_Operator,	enOT_IndexEnd,			0,0);
+			m_mapWordType[":"]	=	MakeType(enWT_Operator,	enOT_IfElse,			0,0);
+			m_mapWordType["?"]	=	MakeType(enWT_Operator,	enOT_Question,			0,0);
+			m_mapWordType["&&"]	=	MakeType(enWT_Operator,	enOT_LogicAnd,			0,0);
+			m_mapWordType["||"]	=	MakeType(enWT_Operator,	enOT_LogicNot,			0,0);
+			m_mapWordType["!"]	=	MakeType(enWT_Operator,	enOT_LogicOr,			0,0);
+
+			m_mapWordType[","]	=	MakeType(enWT_Delimiter,	enWDT_Parameter,		0,0);//	,
+			m_mapWordType[";"]	=	MakeType(enWT_Delimiter,	enWDT_Statement,		0,0);//	;
+			m_mapWordType["{"]	=	MakeType(enWT_Delimiter,	enWDT_BlockBegin,		0,0);//	{
+			m_mapWordType["}"]	=	MakeType(enWT_Delimiter,	enWDT_BlockEnd,			0,0);//	}
+			m_mapWordType["("]	=	MakeType(enWT_Delimiter,	enWDT_PrePriority,		0,0);//	(
+			m_mapWordType[")"]	=	MakeType(enWT_Delimiter,	enWDT_PostPriority,		0,0);//	)
+			m_mapWordType["\\"]	=	MakeType(enWT_Delimiter,	enWDT_Connector,		0,0);//	"\"
 			return true;
 		}
 
@@ -79,13 +123,20 @@ namespace	Air{
 
 		bool Compiler::Compile( const void* pBuffer,unsigned int uiSize )
 		{
-			
+			StringVector v;
+			if(!StringToWord((U8 *)pBuffer,uiSize,v)){
+				return false;
+			}
+			WordInfoVector	vInfo;
+			if(WorldToWordInfo(v,vInfo)	!=	0){
+				return false;
+			}
 			return true;
 		}
 
 		bool Compiler::Compile( const wchar_t* pName )
 		{
-			HANDLE hFile	=	CreateFile(NULL,GENERIC_READ,FILE_SHARE_READ |FILE_SHARE_WRITE,NULL,OPEN_EXISTING,FILE_FLAG_SEQUENTIAL_SCAN,NULL );
+			HANDLE hFile	=	CreateFile(pName,GENERIC_READ,FILE_SHARE_READ |FILE_SHARE_WRITE,NULL,OPEN_EXISTING,FILE_FLAG_SEQUENTIAL_SCAN,NULL );
 			if(hFile==INVALID_HANDLE_VALUE){
 				CloseHandle(hFile);
 				return false;
@@ -113,6 +164,79 @@ namespace	Air{
 			__Free(pBuffer);
 			return bRet;
 		}
+		U32	CharArrayToU32(char* p,U32 uiSize){
+			if(uiSize>4){
+				return 0;
+			}
+			U32 val=0;
+			for(U32 i=0;i<uiSize;i++){
+				val|=(p[i])<<(8*i);
+			}
+			return val;
+		}
+		Air::U32 Compiler::WorldToWordInfo( StringVector& vecWord,WordInfoVector& vecInfo )
+		{
+			U32 uiSize	=	vecWord.size();
+			vecInfo.reserve(uiSize);
+			for(U32 i=0;i<uiSize;i++){
+				std::tr1::unordered_map<std::string,U32>::iterator	itr = m_mapWordType.find(vecWord[i]);
+				if(itr!=m_mapWordType.end()){
+					WordInfo info;
+					info.uiType	=	itr->second;
+					info.str	=	vecWord[i];
+					vecInfo.push_back(info);
+				}else{
+					WordInfo info;
+					info.str	=	vecWord[i];
+					if(!info.str.empty()){
+						if(info.str[0]=='\''){
+							info.uiType	=	MakeType(enWT_Variable,enVT_IntNumber,0,0);
+							info.iVal	=	CharArrayToU32(&info.str[1],info.str.size()-2);
+							vecInfo.push_back(info);
+						}else if(info.str[0]=='\"'){
+							info.uiType	=	MakeType(enWT_Variable,enVT_String,0,0);
+							AString s;
+							s.resize(info.str.size()-2);
+							memcpy(&s[0],&info.str[1],info.str.size()-2);
+							info.str	=	s;
+							vecInfo.push_back(info);
+						}else if(IsNumber(info.str)){
+							if(i+1 < uiSize){
+								if(vecWord[i+1]=="."){
+									//info.str+=vecWord[i++];
+									if(i+2 < uiSize){
+										if(IsFloatEnd(vecWord[i+2])){
+											info.str+=vecWord[i+1]+vecWord[i+2];
+											i+=2;
+											info.uiType	=	MakeType(enWT_Variable,enVT_FloatNumber,0,0);
+											info.iVal	=	ToFloat(info.str);
+											vecInfo.push_back(info);
+											continue;
+										}
+									}
+								}
+							}
+							info.uiType	=	MakeType(enWT_Variable,enVT_IntNumber,0,0);
+							info.iVal	=	ToS32(info.str);
+							vecInfo.push_back(info);
+						}else if(IsHexNumber(info.str)){
+							info.uiType	=	MakeType(enWT_Variable,enVT_IntNumber,0,0);
+							info.iVal	=	ToHex(info.str);
+							vecInfo.push_back(info);
+						}else{
+							info.uiType	=	MakeType(enWT_Unknown,0,0,0);
+							vecInfo.push_back(info);
+						}
+					}
+				}
+			}
+			return 0;
+		}
+
+		Air::U32 Compiler::WordInfoToSyntaxTree( WordInfoVector& vecInfo )
+		{
+
+		}
 
 		Air::U32 WordToType( const char* str )
 		{
@@ -122,12 +246,10 @@ namespace	Air{
 		Air::U32 MakeType( enumWordType w,U32 main,U32 sub,U32 flag )
 		{
 			WorldType	type;
-			type.wordtype	=	w;
-			type.main		=	main;
-			type.sub		=	sub;
-			type.PreFlag	=	0;
-			type.PostFlag	=	0;
-			type.Variable	=	0;
+			type.eWordtype		=	w;
+			type.eKeyword		=	(enumCppKeyWordType)main;
+			type.eBaseObj		=	(enumBaseObjectType)sub;
+			type.Flag			=	flag;
 			return type.uiType;
 		}
 

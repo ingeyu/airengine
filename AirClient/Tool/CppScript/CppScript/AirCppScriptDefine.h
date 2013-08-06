@@ -40,12 +40,13 @@ namespace	Air{
 			enWT_PreDeclare,		//	#
 			enWT_Variable,			//	 123 1.000f 
 			enWT_CppKeyWord,		//	class struct virtual int public
-			enWDT_Operator,			//	+	-	*	/
+			enWT_Operator,			//	+	-	*	/
 			enWT_Delimiter,			//	{ } ( ) , ; 
 			enWT_Connector,			//	"\"
 			
 		};
 		enum	enumCppKeyWordType{
+			enCKWT_Unknown,
 			enCKWT_Include,		//	#include
 			enCKWT_Define,		//	#define
 			enCKWT_Typedef,		//	#typedef
@@ -95,21 +96,8 @@ namespace	Air{
 			enCKWT_Push,		//	push
 			enCKWT_Pop,			//	pop
 			enCKWT_Message,		//	message
-		};
 
-		enum	enumWordNameType{
-			enWNT_ObjTypeDecl,			///<	"struct" "class" "interface"
-			enWNT_ObjTypeName,			///<	class "TestClass"
-			enWNT_ObjType,				///<	"int"
-			enWNT_ObjName,				///<	int "iCount"
-			enWNT_PreDecorate,
-			enWNT_PostDecorate,
-			enWNT_MemberPropertyType,	///<	"public"
-			enWNT_PreOperator,			///<	"+	-	*	/	=	!	."
-			enWNT_PostOperator,			///<	same with above
-			enWNT_StatementEnd,			///<	";"
-		};
-		enum	enumOperatorType{
+			enOT_Unknown,
 			enOT_Add,
 			enOT_Sub,
 			enOT_Mul,
@@ -141,32 +129,10 @@ namespace	Air{
 			enOT_IndexEnd,		//	]
 			enOT_IfElse,		//	:
 			enOT_Question,		//	?
-
-		};
-		enum	enumObjectType{
-			enCOT_Void,
-			enCOT_Bool,
-			enCOT_S8,
-			enCOT_S16,
-			enCOT_S32,
-			enCOT_S64,
-			enCOT_U8,
-			enCOT_U16,
-			enCOT_U32,
-			enCOT_U64,
-			enCOT_F32,
-			enCOT_F64,
-			enCOT_Obj,
-			enCOT_VirtualObj,
-			enCOT_Pointor
-		};
-		enum	enumUnknownType{
-			enUT_Unknown,
-			enUT_IntNumber,
-			enUT_FloatNumber,
-			enUT_String
-		};
-		enum	enumWordDelamiterType{
+			enOT_LogicAnd,
+			enOT_LogicOr,
+			enOT_LogicNot,
+			
 			enWDT_Unknown,
 			enWDT_Parameter,		//	,
 			enWDT_Statement,		//	;
@@ -175,10 +141,32 @@ namespace	Air{
 			enWDT_PrePriority,		//	(
 			enWDT_PostPriority,		//	)
 			enWDT_Connector,		//	"\"
+			
 		};
+		enum	enumBaseObjectType{
+			enBOT_Unknown,
+			enBOT_Void,
+			enBOT_Bool,
+			enBOT_S8,
+			enBOT_S16,
+			enBOT_S32,
+			enBOT_S64,
+			enBOT_U8,
+			enBOT_U16,
+			enBOT_U32,
+			enBOT_U64,
+			enBOT_F32,
+			enBOT_F64,
+			enBOT_Obj,
+			enBOT_VirtualObj,
+			enBOT_Pointor
+		};
+
 		enum	enumVariableType{
 			enVT_Unknown,
-			enVT_Constant,
+			enVT_IntNumber,
+			enVT_FloatNumber,
+			enVT_String,
 			enVT_Static,
 			enVT_VariableName,
 		};

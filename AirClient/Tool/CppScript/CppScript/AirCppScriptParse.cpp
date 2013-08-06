@@ -16,8 +16,16 @@ namespace	Air{
 		}
 		Air::U1 IsHexNumber( CAString& str )
 		{
+			U32 i=0;
+			if(str.size()>2){
+				if(str[0]=='0'){
+					if(str[1]=='x'	||	str[1]=='X'){
+						i=2;
+					}
+				}
+			}
 			U32 uiCount=str.size();
-			for(U32 i=0;i<uiCount;i++){
+			for(;i<uiCount;i++){
 				if(	(str[i]>='0'&&str[i]<='9')	||
 					(str[i]>='a'&&str[i]<='f')	||
 					(str[i]>='A'&&str[i]<='F')
@@ -35,8 +43,18 @@ namespace	Air{
 
 		Air::U32 ToHex( const AString& str )
 		{
+			if(str.empty())
+				return 0;
+			U32 i=0;
+			if(str.size()>2){
+				if(str[0]=='0'){
+					if(str[1]=='x'	||	str[1]=='X'){
+						i=2;
+					}
+				}
+			}
 			U32 uiHex=0;
-			sscanf_s(str.c_str(),"%x",&uiHex);
+			sscanf_s(&str[i],"%x",&uiHex);
 			return uiHex;
 		}
 		Air::S32 ToS32( const AString& str ){
@@ -189,24 +207,46 @@ namespace	Air{
 					iBegin++;
 				}
 			}
-			//普通运算符
-			for(U32 i=*pPos;;i++){
-				if(!IsWord(p[i])){
-					*pPos	=	i;
-					break;
+			if(p[*pPos]=='\''){
+				U32& uiPos	=	*pPos;
+				for(;;){
+					str[iBegin++]	=	p[uiPos++];
+					if(p[uiPos]=='\''){
+						str[iBegin++]	=	p[uiPos++];
+						break;
+					}
 				}
-				if(!IsOperator(p[i])){
-					*pPos	=	i;
-					break;
-				}
-				if(IsAreaOperator(p[i])){
-					*pPos	=	i;
-					break;
-				}
-				str[iBegin]	=	p[i];
-				iBegin++;
+				return str;
 			}
-	
+			
+			//普通运算符
+			//for(U32 i=*pPos;;i++){
+			//	if(!IsWord(p[i])){
+			//		*pPos	=	i;
+			//		break;
+			//	}
+			//	if(!IsOperator(p[i])){
+			//		*pPos	=	i;
+			//		break;
+			//	}
+			//	if(IsAreaOperator(p[i])){
+			//		*pPos	=	i;
+			//		break;
+			//	}
+			//	str[iBegin]	=	p[i];
+			//	iBegin++;
+			//}
+			U32& i=*pPos;
+			if(p[i]=='/'){
+				if(p[i+1]=='/'){
+					i+=2;
+					return "//";
+				}else if(p[i+1]=='*'){
+					i+=2;
+					return "/*";
+				}
+			}
+			str[0]	=	p[i++];
 			return	str;
 	
 		};
@@ -244,7 +284,7 @@ namespace	Air{
 			for(U32 i=*pPos;;i++){
 				if(	p[i]	==	'/'	&&
 					p[i-1]	==	'*'){
-						*pPos	=	i;
+						*pPos	=	i+1;
 						return;
 				}
 			}
@@ -424,6 +464,24 @@ namespace	Air{
 				return 0;
 			}
 		}
+
+		Air::U1 IsFloatEnd( const AString& str )
+		{
+			if(str.empty())
+				return false;
+			U32 uiSize = str.size();
+			if(str[uiSize-1]	==	'f'){
+				uiSize--;
+			}
+			for(U32 i=0;i<uiSize-1;i++){
+				if(	(str[i]<'0'||str[i]>'9'))
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+
 
 	}
 };

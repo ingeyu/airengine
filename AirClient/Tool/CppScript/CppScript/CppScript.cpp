@@ -2,6 +2,8 @@
 //
 
 #include "stdafx.h"
+#include <Windows.h>
+#include <string>
 
 #include "AirCppScriptCompiler.h"
 _declspec(naked) void* __stdcall	__alloca(int iSize){
@@ -36,17 +38,31 @@ _declspec(naked)	void	__stdcall	__freea(void* p){
 		ret		4;
 	}
 }
+
+
+
 int _tmain(int argc, _TCHAR* argv[])
 {
-	if(argc	<	2){
-		wprintf(L"CppScript *.cpp\n");
-		getchar();
-		return -1;
-	}
+	//if(argc	<	2){
+	//	wprintf(L"CppScript *.cpp\n");
+	//	getchar();
+	//	return -1;
+	//}
+
+	int i =0xff;
+	int j=!i;
+
+	wchar_t str[1024];
+	GetCurrentDirectory(1024,str);
+	std::wstring	strPath		=	str;
+	GetModuleFileName(NULL,str,1024);
+	Air::CppScript::SplitFilePath(str,&strPath,NULL,NULL);
+	SetCurrentDirectory(strPath.c_str());
+
 	Air::CppScript::Compiler c;
 	c.Initialization();
 
-	c.Compile(argv[1]);
+	c.Compile(L"1.cpp");
 	getchar();
 	return 0;
 }
