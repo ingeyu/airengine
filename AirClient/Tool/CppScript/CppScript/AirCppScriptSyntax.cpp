@@ -223,6 +223,14 @@ namespace	Air{
 			return enSE_OK;
 		}
 
+		Node* Node::FindClass( CAString& strName )
+		{
+			if(m_pParent!=NULL){
+				return m_pParent->FindClass(strName);
+			}
+			return NULL;
+		}
+
 		void Print( const char* str )
 		{
 			OutputDebugStringA(str);
@@ -360,8 +368,17 @@ namespace	Air{
 							}break;
 				}
 			}else{
+				
 				if(m_VariableType.bUnsign==0){
-					return enSE_Unrecognized_Variable_Type;
+					Node* pNode	=	GetParent()->FindClass(vecInfo[idx].str);
+					if(pNode==NULL){
+						return enSE_Unrecognized_Variable_Type;
+					}
+					if(pNode->GetType()!=enNT_Object){
+						return enSE_Unrecognized_Variable_Type;
+					}
+					ObjectNode* pObj = (ObjectNode*)pNode;
+					
 				}
 			}
 			if(idx+1>=uiSize){
@@ -426,9 +443,7 @@ namespace	Air{
 					return enSE_UnexpectedEnd; 
 				}
 				tObjType	=	vecInfo[++idx].eType;
-			}
-
-			if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_Statement){
+			}else if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_Statement){
 				idx++;
 				return enSE_OK;
 			}
@@ -444,7 +459,7 @@ namespace	Air{
 		}
 
 
-		Air::CppScript::enumSyntaxError ClassNode::Parse( WordInfoVector& vecInfo,U32& idx )
+		Air::CppScript::enumSyntaxError ObjectNode::Parse( WordInfoVector& vecInfo,U32& idx )
 		{
 			return enSE_UnexpectedEnd;
 		}

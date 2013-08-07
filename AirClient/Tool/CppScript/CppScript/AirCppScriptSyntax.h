@@ -87,6 +87,7 @@ namespace	Air{
 				}
 			};
 			Node*			GetRootNode();
+			Node*			FindClass(CAString& strName);
 		protected:
 			enumNodeType	m_Type;
 			AString			m_strName;
@@ -96,12 +97,16 @@ namespace	Air{
 
 		class	NameSpaceNode	:	public	Node{
 		public:
+			NameSpaceNode(){
+				m_Type			=	enNT_NameSpace;
+			};
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 		};
 		class	VariableNode	:	public	Node{
 		public:
 			VariableNode(){
 				m_bHasInitValue	=	0;
+				m_Type			=	enNT_Variable;
 			};
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 			ObjectType					m_VariableType;
@@ -110,11 +115,14 @@ namespace	Air{
 		};
 		class	FunctionNode	:	public	Node{
 		public:
+			FunctionNode(){
+				m_Type			=	enNT_Function;
+			};
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 			ObjectType					m_ReturnType;
 			ParameterVector				m_vecParameter;
 		};
-		class	ClassNode		:	public	Node{
+		class	ObjectNode		:	public	Node{
 		public:
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 		};
