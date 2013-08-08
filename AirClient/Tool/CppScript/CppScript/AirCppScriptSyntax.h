@@ -43,6 +43,11 @@ namespace	Air{
 			enSE_Variable_Name_Cant_Be_A_CppKeyword,
 			enSE_Variable_Name_Cant_Be_A_String,
 			enSE_Illegal_Variable_Name,
+			enSE_Unsigned_Object_Cant_Be_A_Negative_Value,
+			enSE_Bool_Object_Cant_Be_A_Negative_Value,
+			enSE_Void_Cant_Be_Unsigned,
+			enSE_Bool_Cant_Be_Unsigned,
+			enSE_Float_Cant_Be_Unsigned,
 		};
 
 		template<typename T>
@@ -106,12 +111,14 @@ namespace	Air{
 		public:
 			VariableNode(){
 				m_bHasInitValue	=	0;
+				m_bSub			=	0;
 				m_Type			=	enNT_Variable;
 			};
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 			ObjectType					m_VariableType;
 			AString						m_strInitValue;
 			U32							m_bHasInitValue;
+			U32							m_bSub;
 		};
 		class	FunctionNode	:	public	Node{
 		public:
@@ -124,7 +131,12 @@ namespace	Air{
 		};
 		class	ObjectNode		:	public	Node{
 		public:
+			ObjectNode(){
+				m_uiObjSize	=	4;
+			};
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
+			U32							GetObjectSize(){return m_uiObjSize;};
+			U32		m_uiObjSize;
 		};
 	}
 }

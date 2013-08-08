@@ -329,10 +329,16 @@ namespace	Air{
 			if(tObjType.eWordtype	==	enWT_CppKeyWord){
 				switch(tObjType.eKeyword){
 					case enCKWT_Void:{
+						if(m_VariableType.bUnsign==1){
+							return enSE_Void_Cant_Be_Unsigned;
+						}
 						m_VariableType.iSize	=	0;
 						m_VariableType.t		=	enBOT_Void;
 									 }break;
 					case enCKWT_Bool:{
+						if(m_VariableType.bUnsign==1){
+							return enSE_Bool_Cant_Be_Unsigned;
+						}
 						m_VariableType.iSize	=	1;
 						m_VariableType.t		=	enBOT_Bool;
 									 }break;
@@ -354,10 +360,16 @@ namespace	Air{
 						m_VariableType.t		=	enBOT_S64;
 									 }break;
 					case enCKWT_Float:{
+						if(m_VariableType.bUnsign==1){
+							return enSE_Float_Cant_Be_Unsigned;
+						}
 						m_VariableType.iSize	=	4;
 						m_VariableType.t		=	enBOT_F32;
 									  }break;
 					case enCKWT_Double:{
+						if(m_VariableType.bUnsign==1){
+							return enSE_Float_Cant_Be_Unsigned;
+						}
 						m_VariableType.iSize	=	8;
 						m_VariableType.t		=	enBOT_F64;
 									  }break;
@@ -378,7 +390,8 @@ namespace	Air{
 						return enSE_Unrecognized_Variable_Type;
 					}
 					ObjectNode* pObj = (ObjectNode*)pNode;
-					
+					m_VariableType.t		=	enBOT_Obj;
+					m_VariableType.iSize	=	pObj->GetObjectSize();
 				}
 			}
 			if(idx+1>=uiSize){
@@ -415,7 +428,26 @@ namespace	Air{
 					tObjType	=	vecInfo[++idx].eType;
 				}
 			}
-
+			if(m_VariableType.bPointor	==	1){
+				if(tObjType.eWordtype == enWT_CppKeyWord && tObjType.eKeyword	==	enOT_Sub){
+					if(m_VariableType.bUnsign==1){
+						return enSE_Unsigned_Object_Cant_Be_A_Negative_Value;
+					}
+					if(m_VariableType.t	==	enBOT_Bool){
+						return enSE_Bool_Object_Cant_Be_A_Negative_Value;
+					}
+					m_bSub	=	1;
+					if(idx+1>=uiSize){
+						return enSE_UnexpectedEnd; 
+					}
+					tObjType	=	vecInfo[++idx].eType;
+				}else if(tObjType.eWordtype == enWT_CppKeyWord && tObjType.eKeyword	==	enOT_Add){
+					if(idx+1>=uiSize){
+						return enSE_UnexpectedEnd; 
+					}
+					tObjType	=	vecInfo[++idx].eType;
+				}
+			}
 			if(tObjType.eWordtype	!=	enWT_Unknown){
 				if(	tObjType.eWordtype	==	enWT_Operator	||
 					tObjType.eWordtype	==	enWT_Delimiter	)
