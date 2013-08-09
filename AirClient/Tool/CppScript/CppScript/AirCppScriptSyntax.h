@@ -14,6 +14,7 @@ namespace	Air{
 			enNT_Object,
 			enNT_Statement,
 			enNT_Block,
+
 		};
 		enum	enumSyntaxError{
 			enSE_OK,
@@ -43,11 +44,22 @@ namespace	Air{
 			enSE_Variable_Name_Cant_Be_A_CppKeyword,
 			enSE_Variable_Name_Cant_Be_A_String,
 			enSE_Illegal_Variable_Name,
+			enSE_Variable_Name_Already_Declaration,
 			enSE_Unsigned_Object_Cant_Be_A_Negative_Value,
 			enSE_Bool_Object_Cant_Be_A_Negative_Value,
 			enSE_Void_Cant_Be_Unsigned,
 			enSE_Bool_Cant_Be_Unsigned,
 			enSE_Float_Cant_Be_Unsigned,
+			enSE_Variable_Miss_Delimiter_End_Of_Statement,
+			enSE_Unrecognized_Variable_Init_Value,
+			enSE_Int_Variable_Need_A_Int_Init_Value,
+			enSE_Float_Variable_Need_A_Float_Init_Value,
+			enSE_CharPtr_Variable_Need_A_String_Init_Value,
+			enSE_Function_Declare_Must_Fallow_Parameter,
+			enSE_Unrecognized_Parameter,
+			enSE_Function_Parameter_Name_Already_Exist,
+
+			enSE_Unknown_Error	=	0xffffffff
 		};
 
 		template<typename T>
@@ -78,6 +90,9 @@ namespace	Air{
 			enumSyntaxError				IsVariableDeclare(WordInfoVector& vecInfo,U32& idx);
 			enumSyntaxError				IsFunctionDeclare(WordInfoVector& vecInfo,U32& idx);
 			enumSyntaxError				IsFunction(WordInfoVector& vecInfo,U32& idx);
+			enumSyntaxError				ParseObjectType(WordInfoVector& vecInfo,U32& idx,ObjectType& t,Node** pObjectNode	=	NULL);
+			enumSyntaxError				ParseVariableName(WordInfoVector& vecInfo,U32& idx,AString& strName,U1 bCheckExist	=	true);
+			
 
 			enumNodeType	GetType()const{return m_Type;};
 			CAString&		GetName()const{return m_strName;};
@@ -86,13 +101,10 @@ namespace	Air{
 			Node*			GetParent(){return m_pParent;};
 			void			SetParent(Node* p){m_pParent=p;};
 			U32				GetChildCount(){return m_lstChild.size();};
-			void			AddChild(Node* p){
-				if(p!=NULL){
-					m_lstChild.push_back(p);
-				}
-			};
+			void			AddChild(Node* p);
+			void			RemoveChild(Node* p);
 			Node*			GetRootNode();
-			Node*			FindClass(CAString& strName);
+			Node*			FindNode(CAString& strName,enumNodeType type = enNT_Unknown);
 		protected:
 			enumNodeType	m_Type;
 			AString			m_strName;
@@ -115,24 +127,41 @@ namespace	Air{
 				m_Type			=	enNT_Variable;
 			};
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
-			ObjectType					m_VariableType;
+			Parameter					m_VariableType;
 			AString						m_strInitValue;
 			U32							m_bHasInitValue;
 			U32							m_bSub;
+			WordInfo					m_InitInfo;
+		};
+		class	StatementNode	:	public	Node{
+		public:
+			StatementNode(){
+				m_Type			=	enNT_Statement;
+			};
+			Node*				m_pLeft;
+			//Node
 		};
 		class	FunctionNode	:	public	Node{
 		public:
 			FunctionNode(){
 				m_Type			=	enNT_Function;
+				m_bOnlyDeclare	=	true;
+				m_bVirtual		=	0;
 			};
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
-			ObjectType					m_ReturnType;
+			virtual	enumSyntaxError		ParseParameter(WordInfoVector& vecInfo,U32& idx);
+			virtual	enumSyntaxError		ParseFunction(WordInfoVector& vecInfo,U32& idx);
+			U1							IsParamNameExist(CAString& strName);
+			Parameter					m_ReturnType;
 			ParameterVector				m_vecParameter;
+			U32							m_bOnlyDeclare;
+			U32							m_bVirtual;
 		};
 		class	ObjectNode		:	public	Node{
 		public:
 			ObjectNode(){
 				m_uiObjSize	=	4;
+				m_Type			=	enNT_Object;
 			};
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 			U32							GetObjectSize(){return m_uiObjSize;};

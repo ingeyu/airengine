@@ -135,7 +135,7 @@ namespace	Air{
 			enOT_LogicNot,
 			
 			enWDT_Parameter,		//	,
-			enWDT_Statement,		//	;
+			enWDT_StatementEnd,		//	;
 			enWDT_BlockBegin,		//	{
 			enWDT_BlockEnd,			//	}
 			enWDT_PrePriority,		//	(

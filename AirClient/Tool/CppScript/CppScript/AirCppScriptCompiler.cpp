@@ -110,7 +110,7 @@ namespace	Air{
 			m_mapWordType["!"]	=	MakeType(enWT_Operator,	enOT_LogicOr,			0,0);
 
 			m_mapWordType[","]	=	MakeType(enWT_Delimiter,	enWDT_Parameter,		0,0);//	,
-			m_mapWordType[";"]	=	MakeType(enWT_Delimiter,	enWDT_Statement,		0,0);//	;
+			m_mapWordType[";"]	=	MakeType(enWT_Delimiter,	enWDT_StatementEnd,		0,0);//	;
 			m_mapWordType["{"]	=	MakeType(enWT_Delimiter,	enWDT_BlockBegin,		0,0);//	{
 			m_mapWordType["}"]	=	MakeType(enWT_Delimiter,	enWDT_BlockEnd,			0,0);//	}
 			m_mapWordType["("]	=	MakeType(enWT_Delimiter,	enWDT_PrePriority,		0,0);//	(
