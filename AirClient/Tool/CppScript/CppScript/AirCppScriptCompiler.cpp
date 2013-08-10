@@ -72,7 +72,7 @@ namespace	Air{
 			m_mapWordType["push"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Push,		0,0);
 			m_mapWordType["pop"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Pop,			0,0);
 			m_mapWordType["message"]	=	MakeType(enWT_CppKeyWord,	enCKWT_Message,		0,0);
-
+			m_mapWordType["operator"]	=	MakeType(enWT_CppKeyWord,	enCKWT_Operator,	0,0);
 
 			m_mapWordType["+"]	=	MakeType(enWT_Operator,	enOT_Add,				0,0);
 			m_mapWordType["-"]	=	MakeType(enWT_Operator,	enOT_Sub,				0,0);
@@ -103,19 +103,19 @@ namespace	Air{
 			m_mapWordType[">>"]	=	MakeType(enWT_Operator,	enOT_RightShift,		0,0);
 			m_mapWordType["["]	=	MakeType(enWT_Operator,	enOT_IndexBegin,		0,0);
 			m_mapWordType["]"]	=	MakeType(enWT_Operator,	enOT_IndexEnd,			0,0);
-			m_mapWordType[":"]	=	MakeType(enWT_Operator,	enOT_IfElse,			0,0);
+			m_mapWordType[":"]	=	MakeType(enWT_Operator,	enOT_Colon,			0,0);
 			m_mapWordType["?"]	=	MakeType(enWT_Operator,	enOT_Question,			0,0);
 			m_mapWordType["&&"]	=	MakeType(enWT_Operator,	enOT_LogicAnd,			0,0);
 			m_mapWordType["||"]	=	MakeType(enWT_Operator,	enOT_LogicNot,			0,0);
 			m_mapWordType["!"]	=	MakeType(enWT_Operator,	enOT_LogicOr,			0,0);
 
-			m_mapWordType[","]	=	MakeType(enWT_Delimiter,	enWDT_Parameter,		0,0);//	,
-			m_mapWordType[";"]	=	MakeType(enWT_Delimiter,	enWDT_StatementEnd,		0,0);//	;
-			m_mapWordType["{"]	=	MakeType(enWT_Delimiter,	enWDT_BlockBegin,		0,0);//	{
-			m_mapWordType["}"]	=	MakeType(enWT_Delimiter,	enWDT_BlockEnd,			0,0);//	}
-			m_mapWordType["("]	=	MakeType(enWT_Delimiter,	enWDT_PrePriority,		0,0);//	(
-			m_mapWordType[")"]	=	MakeType(enWT_Delimiter,	enWDT_PostPriority,		0,0);//	)
-			m_mapWordType["\\"]	=	MakeType(enWT_Delimiter,	enWDT_Connector,		0,0);//	"\"
+			m_mapWordType[","]	=	MakeType(enWT_Delimiter,	enWDT_Comma,		0,0);//	,
+			m_mapWordType[";"]	=	MakeType(enWT_Delimiter,	enWDT_Semicolon,		0,0);//	;
+			m_mapWordType["{"]	=	MakeType(enWT_Delimiter,	enWDT_PreBrace,		0,0);//	{
+			m_mapWordType["}"]	=	MakeType(enWT_Delimiter,	enWDT_PostBrace,			0,0);//	}
+			m_mapWordType["("]	=	MakeType(enWT_Delimiter,	enWDT_PreBracket,		0,0);//	(
+			m_mapWordType[")"]	=	MakeType(enWT_Delimiter,	enWDT_PostBracket,		0,0);//	)
+			m_mapWordType["\\"]	=	MakeType(enWT_Delimiter,	enWDT_Back_Slant ,		0,0);//	"\"
 			return true;
 		}
 

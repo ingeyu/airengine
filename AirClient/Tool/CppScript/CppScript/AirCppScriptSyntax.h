@@ -58,6 +58,12 @@ namespace	Air{
 			enSE_Function_Declare_Must_Fallow_Parameter,
 			enSE_Unrecognized_Parameter,
 			enSE_Function_Parameter_Name_Already_Exist,
+			enSE_Illegal_Class_Or_Struct_Name,
+			enSE_Class_Or_Struct_Name_Already_Exist,
+			enSE_Unrecognized_Inherit_Type,
+			enSE_Unrecognized_Inherit_Object,
+			enSE_Unrecognized_Class_Or_Struct_Word,
+			enSE_Public_Private_Protected_Must_Fallow_Colon,
 
 			enSE_Unknown_Error	=	0xffffffff
 		};
@@ -104,7 +110,7 @@ namespace	Air{
 			void			AddChild(Node* p);
 			void			RemoveChild(Node* p);
 			Node*			GetRootNode();
-			Node*			FindNode(CAString& strName,enumNodeType type = enNT_Unknown);
+			Node*			FindNode(CAString& strName,enumNodeType type = enNT_Unknown,U1 bFindParent = true);
 		protected:
 			enumNodeType	m_Type;
 			AString			m_strName;
@@ -160,12 +166,23 @@ namespace	Air{
 		class	ObjectNode		:	public	Node{
 		public:
 			ObjectNode(){
-				m_uiObjSize	=	4;
+				m_uiObjSize		=	4;
+				m_bInherit		=	false;
+				m_bVirtualTable	=	false;
+				m_bDeclare		=	false;
 				m_Type			=	enNT_Object;
+				m_InheritType	=	enCKWT_Public;
+				m_pInherit		=	NULL;
 			};
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
-			U32							GetObjectSize(){return m_uiObjSize;};
-			U32		m_uiObjSize;
+			U32							GetObjectSize();
+			U32					m_uiObjSize;
+			U1					m_bInherit;
+			U1					m_bVirtualTable;
+			U1					m_bDeclare;
+			enumCppKeyWordType	m_InheritType;
+			ObjectNode*			m_pInherit;
+			
 		};
 	}
 }

@@ -98,6 +98,7 @@ namespace	Air{
 			enCKWT_Push,		//	push
 			enCKWT_Pop,			//	pop
 			enCKWT_Message,		//	message
+			enCKWT_Operator,	//	operator
 
 			enOT_Add,
 			enOT_Sub,
@@ -128,19 +129,19 @@ namespace	Air{
 			enOT_RightShift,	//	>>
 			enOT_IndexBegin,	//	[
 			enOT_IndexEnd,		//	]
-			enOT_IfElse,		//	:
+			enOT_Colon,		//	:
 			enOT_Question,		//	?
 			enOT_LogicAnd,
 			enOT_LogicOr,
 			enOT_LogicNot,
 			
-			enWDT_Parameter,		//	,
-			enWDT_StatementEnd,		//	;
-			enWDT_BlockBegin,		//	{
-			enWDT_BlockEnd,			//	}
-			enWDT_PrePriority,		//	(
-			enWDT_PostPriority,		//	)
-			enWDT_Connector,		//	"\"
+			enWDT_Comma,			///<	,	¶ººÅ
+			enWDT_Semicolon,		///<	;	·ÖºÅ
+			enWDT_PreBrace,			///<	{	´óÀ¨ºÅ Ç°×º
+			enWDT_PostBrace,		///<	}	´óÀ¨ºÅ	ºó×º
+			enWDT_PreBracket,		///<	(	À¨ºÅ Ç°×º
+			enWDT_PostBracket,		///<	)	ºó×º
+			enWDT_Back_Slant ,		///<	"\"·´Ð±¸Ü
 
 			enVT_IntNumber,
 			enVT_FloatNumber,
