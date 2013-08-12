@@ -495,6 +495,73 @@ namespace	Air{
 			return enSE_OK;
 		}
 
+		Air::CppScript::enumSyntaxError Node::FindBlock( WordInfoVector& vecInfo,U32& idx,WordInfoVector& outInfo,U32 uiKeyBegin,U32 uiKeyEnd )
+		{
+			U32 uiSize	=	vecInfo.size();
+			if(idx>=uiSize)
+				return enSE_UnexpectedEnd;
+			U32 uiBeginIndx	=	0XFFFFFFFF;
+			U32 uiEndIndex	=	0XFFFFFFFF;
+			U32 uiDepth		=	0;
+			for(U32 i=idx;i<uiSize;i++){
+				if(uiKeyBegin	==	vecInfo[i].eType.uiType){
+					if(uiDepth==0){
+						uiBeginIndx	=	i;
+					}
+					uiDepth++;
+					continue;
+				}
+				if(uiKeyEnd	==	vecInfo[i].eType.uiType){
+					if(uiDepth==1){
+						uiEndIndex	=	i;
+						break;
+					}
+					uiDepth--;
+					continue;
+				}
+			}
+			if(uiDepth!=0){
+				return	enSE_UnexpectedEnd;
+			}
+			if(uiBeginIndx==0XFFFFFFFF||uiEndIndex==0XFFFFFFFF){
+				return enSE_UnexpectedEnd;
+			}
+			U32 uiCount	=	uiEndIndex	-	uiBeginIndx+1;
+			outInfo.resize(uiCount);
+			for(U32 i=0;i<uiCount;i++){
+				outInfo[i]=vecInfo[uiBeginIndx+i];
+			}
+			return enSE_OK;
+		}
+
+		Air::CppScript::enumSyntaxError Node::FindStatementEnd( WordInfoVector& vecInfo,U32& idx,WordInfoVector& outInfo )
+		{
+
+			U32 uiSize	=	vecInfo.size();
+			if(idx>=uiSize)
+				return enSE_UnexpectedEnd;
+			U32 uiBeginIndx	=	0XFFFFFFFF;
+			U32 uiEndIndex	=	0XFFFFFFFF;
+			U32 uiKeyEnd	=	MakeType(enWT_Delimiter,enWDT_Semicolon,0,0);
+			for(U32 i=idx;i<uiSize;i++){
+
+				if(uiKeyEnd	==	vecInfo[i].eType.uiType){
+					uiEndIndex	=	i;
+					break;
+
+				}
+			}
+			if(uiBeginIndx==0XFFFFFFFF||uiEndIndex==0XFFFFFFFF){
+				return enSE_UnexpectedEnd;
+			}
+			U32 uiCount	=	uiEndIndex	-	uiBeginIndx+1;
+			outInfo.resize(uiCount);
+			for(U32 i=0;i<uiCount;i++){
+				outInfo[i]=vecInfo[uiBeginIndx+i];
+			}
+			return enSE_OK;
+		}
+
 		void Print( const char* str )
 		{
 			OutputDebugStringA(str);
@@ -549,7 +616,7 @@ namespace	Air{
 		Air::CppScript::enumSyntaxError VariableNode::Parse( WordInfoVector& vecInfo,U32& idx )
 		{
 			enumSyntaxError	e	=	enSE_OK;
-			e	=	ParseObjectType(vecInfo,idx,m_VariableType.type,&m_VariableType.pNodePtr);
+			e	=	ParseObjectType(vecInfo,idx,VariableType,&pNodePtr);
 			if(e!=enSE_OK)
 				return e;
 			e	=	ParseVariableName(vecInfo,idx,m_strName);
@@ -558,12 +625,51 @@ namespace	Air{
 			U32 uiSize	=	vecInfo.size();
 			WordType tObjType	=	vecInfo[idx].eType;
 
+			if(tObjType.eWordtype	==	enWT_Operator	&&	tObjType.eKeyword	==	enOT_SquareBracketBegin){
+				if(idx+1>=uiSize){
+					return enSE_UnexpectedEnd; 
+				}
+				tObjType	=	vecInfo[++idx].eType;
+				if(tObjType.eWordtype	==	enWT_Variable	&&	tObjType.eKeyword	==	enVT_IntNumber){
+					uiArrayCount	=	vecInfo[idx].iVal;
+					if(uiArrayCount==0){
+						return enSE_Variable_Array_Count_Must_Greater_Than_Zero;
+					}
+					if(idx+1>=uiSize){
+						return enSE_UnexpectedEnd; 
+					}
+					tObjType	=	vecInfo[++idx].eType;
+					if(tObjType.eWordtype	==	enWT_Operator	&&	tObjType.eKeyword	==	enOT_SquareBracketEnd){
+						if(idx+1>=uiSize){
+							return enSE_UnexpectedEnd; 
+						}
+						tObjType	=	vecInfo[++idx].eType;
+					}else{
+						return enSE_Miss_End_Of_SquareBracket;
+					}
+				}else{
+					return enSE_Variable_Array_Count_Must_Be_Int_Number;
+				}
+			}
+
 			if(tObjType.eWordtype	==	enWT_Operator	&&	tObjType.eKeyword	==	enOT_Mov){
 				m_bHasInitValue	=	1;
 				if(idx+1>=uiSize){
 					return enSE_UnexpectedEnd; 
 				}
 				tObjType	=	vecInfo[++idx].eType;
+				if(uiArrayCount>1){
+					if(tObjType.uiType	==	MakeType(enWT_Delimiter,enWDT_PreBrace)){
+						WordInfoVector vecTempInfo;
+						e	=	FindBlock(vecInfo,idx,vecTempInfo,MakeType(enWT_Delimiter,enWDT_PreBrace,0,0),MakeType(enWT_Delimiter,enWDT_PostBrace,0,0));
+						if(e!=enSE_OK){
+							return e;
+						}else{
+							//not finished!add code here
+
+						}
+					}
+				}
 			}else if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_Semicolon){
 				idx++;
 				return enSE_OK;
@@ -572,10 +678,10 @@ namespace	Air{
 			}
 
 			if(tObjType.eWordtype == enWT_CppKeyWord && tObjType.eKeyword	==	enOT_Sub){
-				if(m_VariableType.type.bUnsign==1){
+				if(VariableType.bUnsign==1){
 					return enSE_Unsigned_Object_Cant_Be_A_Negative_Value;
 				}
-				if(m_VariableType.type.t	==	enBOT_Bool){
+				if(VariableType.t	==	enBOT_Bool){
 					return enSE_Bool_Object_Cant_Be_A_Negative_Value;
 				}
 				m_bSub	=	1;
@@ -591,10 +697,10 @@ namespace	Air{
 			}
 			
 			if(tObjType.eWordtype	==	enWT_Variable){
-				if(	m_VariableType.type.t	==	enBOT_S8	&&	
-					m_VariableType.type.bPointor	==	1	&&
-					m_VariableType.type.bUnsign	==	0	&&
-					m_VariableType.type.bpp		==	0	&&
+				if(	VariableType.t	==	enBOT_S8	&&	
+					VariableType.bPointor	==	1	&&
+					VariableType.bUnsign	==	0	&&
+					VariableType.bpp		==	0	&&
 					tObjType.eKeyword		==	enVT_String)
 				{
 					m_InitInfo	=	vecInfo[idx];
@@ -603,11 +709,11 @@ namespace	Air{
 					}
 					tObjType	=	vecInfo[++idx].eType;
 					
-				}else if(	m_VariableType.type.t	==	enBOT_S8	||
-					m_VariableType.type.t	==	enBOT_S16	||
-					m_VariableType.type.t	==	enBOT_S32	||
-					m_VariableType.type.t	==	enBOT_S64	||
-					m_VariableType.type.bPointor	==	1)
+				}else if(	VariableType.t	==	enBOT_S8	||
+					VariableType.t	==	enBOT_S16	||
+					VariableType.t	==	enBOT_S32	||
+					VariableType.t	==	enBOT_S64	||
+					VariableType.bPointor	==	1)
 				{
 					if(tObjType.eKeyword	!=	enVT_IntNumber){
 						return enSE_Int_Variable_Need_A_Int_Init_Value;
@@ -619,7 +725,7 @@ namespace	Air{
 						tObjType	=	vecInfo[++idx].eType;
 					}
 				}
-				else	if(m_VariableType.type.t	==	enBOT_F32	||	m_VariableType.type.t	==	enBOT_F64)
+				else	if(VariableType.t	==	enBOT_F32	||	VariableType.t	==	enBOT_F64)
 				{
 					if(tObjType.eKeyword	!=	enVT_FloatNumber){
 						return enSE_Float_Variable_Need_A_Float_Init_Value;
@@ -638,7 +744,7 @@ namespace	Air{
 				}else{
 					return enSE_Variable_Miss_Delimiter_End_Of_Statement;
 				}
-			}else if(m_VariableType.type.bPointor==1	&&	tObjType.eKeyword	==	enCKWT_Null){
+			}else if(VariableType.bPointor==1	&&	tObjType.eKeyword	==	enCKWT_Null){
 				m_InitInfo	=	vecInfo[idx];
 				if(idx+1>=uiSize){
 					return enSE_UnexpectedEnd; 
@@ -649,6 +755,55 @@ namespace	Air{
 					return enSE_OK;
 				}else{
 					return enSE_Variable_Miss_Delimiter_End_Of_Statement;
+				}
+			}else if(VariableType.bPointor==1	&&	tObjType.eKeyword	==	enCKWT_New){
+				m_pRightExpression = new NewObjectExpressionNode();
+				idx++;
+
+				e	=	m_pRightExpression->Parse(vecInfo,idx);
+				if(e!=enSE_OK){
+					return e;
+				}
+				if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_Semicolon){
+					idx++;
+					return enSE_OK;
+				}else{
+					return enSE_Variable_Miss_Delimiter_End_Of_Statement;
+				}
+			}else if(tObjType.eWordtype	==	enWT_Unknown){
+				CAString& strKey	=	vecInfo[idx].str;
+				Node* pNode			=	FindNode(strKey);
+				if(pNode==NULL){
+					return enSE_Unrecognized_Variable_Init_Value;
+				}
+				switch(pNode->GetType()){
+					case enNT_Variable:
+					case enNT_Parameter:{
+						
+						U32 uiTempIdx	=	idx;
+						Node* pNode = new ExpressionNode();
+						AddChild(pNode);
+						enumSyntaxError	e = pNode->Parse(vecInfo,uiTempIdx);
+						if(e!=enSE_OK){
+							return e;
+						}else{
+							idx	=	uiTempIdx;
+						}
+									   }break;
+					case enNT_Function:{
+						U32 uiTempIdx	=	idx;
+						Node* pNode = new FunctionCallExpressionNode();
+						AddChild(pNode);
+						enumSyntaxError	e = pNode->Parse(vecInfo,uiTempIdx);
+						if(e!=enSE_OK){
+							return e;
+						}else{
+							idx	=	uiTempIdx;
+						}
+									   }break;
+					default:{
+						return enSE_Unrecognized_Variable_Init_Value;
+							}break;
 				}
 			}else{
 				return enSE_Unrecognized_Variable_Init_Value;
@@ -671,7 +826,7 @@ namespace	Air{
 				idx++;
 			}
 			enumSyntaxError	e	=	enSE_OK;
-			e	=	ParseObjectType(vecInfo,idx,m_ReturnType.type,(Node**)&m_ReturnType.pNodePtr);
+			e	=	ParseObjectType(vecInfo,idx,m_ReturnType.VariableType,(Node**)&m_ReturnType.pNodePtr);
 			if(e!=enSE_OK)
 				return e;
 			e	=	ParseVariableName(vecInfo,idx,m_strName);
@@ -751,36 +906,14 @@ namespace	Air{
 					return enSE_OK;
 				}
 				
-				Parameter p;
+				ParameterNode* p	=	new ParameterNode();
 				enumSyntaxError e = enSE_OK;
-				e =	ParseObjectType(vecInfo,idx,p.type,(Node**)&p.pNodePtr);
+				e =	p->Parse(vecInfo,idx);
 				if(e!=enSE_OK){
 					return e;
 				}
-				e	=	ParseVariableName(vecInfo,idx,p.strName,false);
-				if(e!=enSE_OK)
-					return e;
-				if(IsParamNameExist(p.strName)){
-					return enSE_Function_Parameter_Name_Already_Exist;
-				}
-				tObjType	=	vecInfo[idx].eType;
-				if(tObjType.eWordtype	==	enWT_Operator	&&	tObjType.eKeyword	==	enOT_Mov){
-					if(idx+1>=uiSize){
-						return enSE_UnexpectedEnd; 
-					}
-					tObjType	=	vecInfo[++idx].eType;
-				}else if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_Comma){
-					m_vecParameter.push_back(p);
-					idx++;
-					if(idx+1>=uiSize){
-						return enSE_UnexpectedEnd; 
-					}
-					continue;
-				}else if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_PostBracket){
-					m_vecParameter.push_back(p);
-				}else{
-					return enSE_Unrecognized_Parameter;
-				}
+				AddChild(p);
+				
 			}
 
 			return enSE_UnexpectedEnd;
@@ -795,24 +928,136 @@ namespace	Air{
 					return enSE_UnexpectedEnd;
 				}
 				WordType tObjType	=	vecInfo[idx].eType;
-				if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_PostBrace){
+				if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_PreBrace){
+					idx++;
+					continue;
+				}else if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_PostBrace){
 					idx++;
 					return enSE_OK;
+				}else if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_Semicolon){
+					idx++;
+					continue;
 				}
-				U32 uiTempIndex	=	idx;
-				ObjectType			tempType;
-				Node*				pObjectNode=NULL;
-				e	=	ParseObjectType(vecInfo,uiTempIndex,tempType,&pObjectNode);
-				if(e!=enSE_OK){
-					uiTempIndex	=	idx;
-				}else{
-					AString strName;
-					e	=	ParseVariableName(vecInfo,uiTempIndex,strName);
-					if(e!=enSE_OK){
-						return e;
-					}else{
-						idx	=	uiTempIndex;
+				tObjType	=	vecInfo[idx].eType;
+
+				if(tObjType.eWordtype==enWT_CppKeyWord){
+					switch(tObjType.eKeyword){
+						case enCKWT_If:{
+							U32 uiTempIdx	=	idx;
+							Node* pNode = new IfStatementNode();
+							AddChild(pNode);
+							enumSyntaxError	e = pNode->Parse(vecInfo,uiTempIdx);
+							if(e!=enSE_OK){
+								return e;
+							}else{
+								idx	=	uiTempIdx;
+							}
+								   }break;
+						case enCKWT_For:{
+							U32 uiTempIdx	=	idx;
+							Node* pNode = new ForStatementNode();
+							AddChild(pNode);
+							enumSyntaxError	e = pNode->Parse(vecInfo,uiTempIdx);
+							if(e!=enSE_OK){
+								return e;
+							}else{
+								idx	=	uiTempIdx;
+							}
+									   }break;
+						case enCKWT_While:{
+							U32 uiTempIdx	=	idx;
+							Node* pNode = new WhileStatementNode();
+							AddChild(pNode);
+							enumSyntaxError	e = pNode->Parse(vecInfo,uiTempIdx);
+							if(e!=enSE_OK){
+								return e;
+							}else{
+								idx	=	uiTempIdx;
+							}
+										}break;
+						case enCKWT_Const:
+						case enCKWT_Static:
+						case enCKWT_Unsigned:
+						case enCKWT_Void:
+						case enCKWT_Bool:		//	bool
+						case enCKWT_Char:		//	char
+						case enCKWT_Short:		//	short
+						case enCKWT_Int:			//	int
+						case enCKWT_Long:		//	long
+						case enCKWT_Int64:		//	_int64
+						case enCKWT_Float:		//	float
+						case enCKWT_Double:		//	double
+							{
+								U32 uiTempIdx	=	idx;
+								Node* pNode = new ExpressionNode();
+								AddChild(pNode);
+								enumSyntaxError	e = pNode->Parse(vecInfo,uiTempIdx);
+								if(e!=enSE_OK){
+									return enSE_Unknown_Error;
+								}else{
+									idx	=	uiTempIdx;
+								}
+							}break;
+						default:{
+							return enSE_UnexpectedEnd;
+								}break;
 					}
+				}else if(tObjType.eWordtype	==	enWT_Unknown){
+					ObjectNode*		pObj	=	(ObjectNode*)FindNode(vecInfo[idx].str,enNT_Object);
+					if(pObj!=NULL){
+						U32 uiTempIdx	=	idx;
+						Node* pNode = new VariableNode();
+						AddChild(pNode);
+						enumSyntaxError	e = pNode->Parse(vecInfo,uiTempIdx);
+						if(e!=enSE_OK){
+							return e;
+						}else{
+							idx	=	uiTempIdx;
+						}
+						continue;
+					}
+					VariableNode*		pVar	=	(VariableNode*)FindNode(vecInfo[idx].str,enNT_Variable);
+					if(pObj!=NULL){
+						U32 uiTempIdx	=	idx;
+						Node* pNode = new ExpressionNode();
+						AddChild(pNode);
+						enumSyntaxError	e = pNode->Parse(vecInfo,uiTempIdx);
+						if(e!=enSE_OK){
+							return e;
+						}else{
+							idx	=	uiTempIdx;
+						}
+						continue;
+					}
+					ParameterNode*		pParam	=	(ParameterNode*)FindNode(vecInfo[idx].str,enNT_Parameter);
+					if(pParam!=NULL){
+						U32 uiTempIdx	=	idx;
+						Node* pNode = new ExpressionNode();
+						AddChild(pNode);
+						enumSyntaxError	e = pNode->Parse(vecInfo,uiTempIdx);
+						if(e!=enSE_OK){
+							return e;
+						}else{
+							idx	=	uiTempIdx;
+						}
+						continue;
+					}
+					FunctionNode*		pFunction	=	(FunctionNode*)FindNode(vecInfo[idx].str,enNT_Function);
+					if(pParam!=NULL){
+						U32 uiTempIdx	=	idx;
+						Node* pNode = new FunctionCallExpressionNode();
+						AddChild(pNode);
+						enumSyntaxError	e = pNode->Parse(vecInfo,uiTempIdx);
+						if(e!=enSE_OK){
+							return e;
+						}else{
+							idx	=	uiTempIdx;
+						}
+						continue;
+					}
+					return enSE_Unrecognized_Variable;
+				}else{
+					return enSE_UnexpectedEnd;
 				}
 
 				if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_Semicolon){
@@ -829,11 +1074,21 @@ namespace	Air{
 				return false;
 			U32 uiSize	=	m_vecParameter.size();
 			for(U32 i=0;i<uiSize;i++){
-				if(m_vecParameter[i].strName	==	strName){
+				if(m_vecParameter[i]->GetName()	==	strName){
 					return true;
 				}
 			}
 			return false;
+		}
+
+		ParameterNode* FunctionNode::FindParameter( CAString& strName )
+		{
+			U32 uiSize	=	m_vecParameter.size();
+			for(U32 i=0;i<uiSize;i++){
+				if(m_vecParameter[i]->GetName()	==	strName)
+					return	m_vecParameter[i];
+			}
+			return NULL;
 		}
 
 
@@ -976,6 +1231,183 @@ namespace	Air{
 				return m_uiObjSize+m_pInherit->GetObjectSize();
 			}
 			return m_uiObjSize;
+		}
+
+
+		Air::CppScript::enumSyntaxError ParameterNode::Parse( WordInfoVector& vecInfo,U32& idx )
+		{
+			enumSyntaxError	e	=	enSE_OK;
+			e	=	ParseObjectType(vecInfo,idx,VariableType,&pNodePtr);
+			if(e!=enSE_OK)
+				return e;
+			e	=	ParseVariableName(vecInfo,idx,m_strName);
+			if(e!=enSE_OK)
+				return e;
+			U32 uiSize	=	vecInfo.size();
+			WordType tObjType	=	vecInfo[idx].eType;
+
+			if(tObjType.eWordtype	==	enWT_Operator	&&	tObjType.eKeyword	==	enOT_SquareBracketBegin){
+				if(idx+1>=uiSize){
+					return enSE_UnexpectedEnd; 
+				}
+				tObjType	=	vecInfo[++idx].eType;
+				if(tObjType.eWordtype	==	enWT_Variable	&&	tObjType.eKeyword	==	enVT_IntNumber){
+					uiArrayCount	=	vecInfo[idx].iVal;
+					if(uiArrayCount==0){
+						return enSE_Variable_Array_Count_Must_Greater_Than_Zero;
+					}
+					if(idx+1>=uiSize){
+						return enSE_UnexpectedEnd; 
+					}
+					tObjType	=	vecInfo[++idx].eType;
+					if(tObjType.eWordtype	==	enWT_Operator	&&	tObjType.eKeyword	==	enOT_SquareBracketEnd){
+						if(idx+1>=uiSize){
+							return enSE_UnexpectedEnd; 
+						}
+						tObjType	=	vecInfo[++idx].eType;
+					}else{
+						return enSE_Miss_End_Of_SquareBracket;
+					}
+				}else{
+					return enSE_Variable_Array_Count_Must_Be_Int_Number;
+				}
+			}
+
+			if(tObjType.eWordtype	==	enWT_Operator	&&	tObjType.eKeyword	==	enOT_Mov){
+				m_bHasInitValue	=	1;
+				if(idx+1>=uiSize){
+					return enSE_UnexpectedEnd; 
+				}
+				tObjType	=	vecInfo[++idx].eType;
+				
+			}else if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_Comma ){
+				idx++;
+				return enSE_OK;
+			}else if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_PostBracket ){
+				return enSE_OK;
+			}else{
+				return	enSE_Variable_Miss_Delimiter_End_Of_Statement;
+			}
+
+			if(tObjType.eWordtype == enWT_CppKeyWord && tObjType.eKeyword	==	enOT_Sub){
+				if(VariableType.bUnsign==1){
+					return enSE_Unsigned_Object_Cant_Be_A_Negative_Value;
+				}
+				if(VariableType.t	==	enBOT_Bool){
+					return enSE_Bool_Object_Cant_Be_A_Negative_Value;
+				}
+				m_bSub	=	1;
+				if(idx+1>=uiSize){
+					return enSE_UnexpectedEnd; 
+				}
+				tObjType	=	vecInfo[++idx].eType;
+			}else if(tObjType.eWordtype == enWT_CppKeyWord && tObjType.eKeyword	==	enOT_Add){
+				if(idx+1>=uiSize){
+					return enSE_UnexpectedEnd; 
+				}
+				tObjType	=	vecInfo[++idx].eType;
+			}
+
+			if(tObjType.eWordtype	==	enWT_Variable){
+				if(	VariableType.t	==	enBOT_S8	&&	
+					VariableType.bPointor	==	1	&&
+					VariableType.bUnsign	==	0	&&
+					VariableType.bpp		==	0	&&
+					tObjType.eKeyword		==	enVT_String)
+				{
+					m_InitInfo	=	vecInfo[idx];
+					if(idx+1>=uiSize){
+						return enSE_UnexpectedEnd; 
+					}
+					tObjType	=	vecInfo[++idx].eType;
+
+				}else if(	VariableType.t	==	enBOT_S8	||
+					VariableType.t	==	enBOT_S16	||
+					VariableType.t	==	enBOT_S32	||
+					VariableType.t	==	enBOT_S64	||
+					VariableType.bPointor	==	1)
+				{
+					if(tObjType.eKeyword	!=	enVT_IntNumber){
+						return enSE_Int_Variable_Need_A_Int_Init_Value;
+					}else{
+						m_InitInfo	=	vecInfo[idx];
+						if(idx+1>=uiSize){
+							return enSE_UnexpectedEnd; 
+						}
+						tObjType	=	vecInfo[++idx].eType;
+					}
+				}
+				else	if(VariableType.t	==	enBOT_F32	||	VariableType.t	==	enBOT_F64)
+				{
+					if(tObjType.eKeyword	!=	enVT_FloatNumber){
+						return enSE_Float_Variable_Need_A_Float_Init_Value;
+					}else{
+						m_InitInfo	=	vecInfo[idx];
+						if(idx+1>=uiSize){
+							return enSE_UnexpectedEnd; 
+						}
+						tObjType	=	vecInfo[++idx].eType;
+					}
+				}
+
+				if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_Comma ){
+					idx++;
+					return enSE_OK;
+				}else if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_PostBracket ){
+					return enSE_OK;
+				}else{
+					return enSE_Variable_Miss_Delimiter_End_Of_Statement;
+				}
+			}else if(VariableType.bPointor==1	&&	tObjType.eKeyword	==	enCKWT_Null){
+				m_InitInfo	=	vecInfo[idx];
+				if(idx+1>=uiSize){
+					return enSE_UnexpectedEnd; 
+				}
+				tObjType	=	vecInfo[++idx].eType;
+				if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_Comma ){
+					idx++;
+					return enSE_OK;
+				}else if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_PostBracket ){
+					return enSE_OK;
+				}else{
+					return enSE_Variable_Miss_Delimiter_End_Of_Statement;
+				}
+			}else{
+				return enSE_Unrecognized_Variable_Init_Value;
+			}
+
+			return enSE_UnexpectedEnd;
+		}
+
+
+		Air::CppScript::enumSyntaxError ExpressionNode::Parse( WordInfoVector& vecInfo,U32& idx )
+		{
+			U32 uiSize = vecInfo.size();
+			WordInfo& info = vecInfo[idx];
+			WordType t = info.eType;
+			Node* p	=	FindNode(info.str);
+			if(p==NULL){
+				return enSE_Unrecognized_Variable;
+			}
+			if(p->GetType()!=enNT_Variable &&	p->GetType()!=enNT_Parameter){
+				return enSE_Unrecognized_Variable;
+			}
+			pLeftNode	=	p;
+			if(idx+1>=uiSize){
+				return enSE_UnexpectedEnd; 
+			}
+			t	=	vecInfo[++idx].eType;
+			if(t.eWordtype==enWT_Operator){
+				eOperator	=	t.eKeyword;
+				if(idx+1>=uiSize){
+					return enSE_UnexpectedEnd; 
+				}
+				t	=	vecInfo[++idx].eType;
+			}
+
+			//if(t.eWordtype)
+
+			return enSE_UnexpectedEnd;
 		}
 
 	}

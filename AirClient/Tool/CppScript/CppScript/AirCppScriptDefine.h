@@ -99,6 +99,8 @@ namespace	Air{
 			enCKWT_Pop,			//	pop
 			enCKWT_Message,		//	message
 			enCKWT_Operator,	//	operator
+			enCKWT_New,			//	new
+			enCKWT_Delete,		//	delete
 
 			enOT_Add,
 			enOT_Sub,
@@ -127,8 +129,8 @@ namespace	Air{
 			enOT_OrEqual,
 			enOT_LeftShift,		//	<<
 			enOT_RightShift,	//	>>
-			enOT_IndexBegin,	//	[
-			enOT_IndexEnd,		//	]
+			enOT_SquareBracketBegin,	//	[
+			enOT_SquareBracketEnd,		//	]
 			enOT_Colon,		//	:
 			enOT_Question,		//	?
 			enOT_LogicAnd,

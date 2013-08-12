@@ -24,6 +24,8 @@ namespace	Air{
 					}
 				}
 			}
+			if(i==0)
+				return false;
 			U32 uiCount=str.size();
 			for(;i<uiCount;i++){
 				if(	(str[i]>='0'&&str[i]<='9')	||

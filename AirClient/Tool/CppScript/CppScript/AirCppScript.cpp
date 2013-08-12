@@ -40,11 +40,11 @@ namespace	Air{
 			if(str.empty())
 				return	false;
 			U32	uiStrSize	=	str.size();
-			S32	uiPoint	=	uiStrSize;
-			S32	uiSlash	=	-1;
+			U32	uiPoint	=	uiStrSize;
+			U32	uiSlash	=	0xffffffff;
 
 
-			for(S32 i=uiStrSize-1;i>-1;i--){
+			for(U32 i=uiStrSize-1;i>-1;i--){
 				if(str[i]	==	'.'	&&	uiPoint	==	uiStrSize){
 					uiPoint	=	i;
 				}
@@ -62,7 +62,7 @@ namespace	Air{
 					*strExe	=	&str[uiPoint+1];
 			}
 
-			if(	uiSlash	!=	-1		&&
+			if(	uiSlash	!=	0xffffffff		&&
 				strPath	!=	NULL)
 			{
 				if(uiSlash<uiStrSize){
@@ -80,7 +80,7 @@ namespace	Air{
 					uiFileNameSize--;
 
 				if(uiSlash<uiStrSize){
-					if(uiSlash!=-1){
+					if(uiSlash!=0xffffffff){
 						uiFileNameSize	-=		uiSlash+1;
 						uiFileNameStart	=		uiSlash+1;
 					}

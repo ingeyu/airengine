@@ -73,6 +73,8 @@ namespace	Air{
 			m_mapWordType["pop"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Pop,			0,0);
 			m_mapWordType["message"]	=	MakeType(enWT_CppKeyWord,	enCKWT_Message,		0,0);
 			m_mapWordType["operator"]	=	MakeType(enWT_CppKeyWord,	enCKWT_Operator,	0,0);
+			m_mapWordType["new"]		=	MakeType(enWT_CppKeyWord,	enCKWT_New,			0,0);
+			m_mapWordType["delete"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Delete,		0,0);
 
 			m_mapWordType["+"]	=	MakeType(enWT_Operator,	enOT_Add,				0,0);
 			m_mapWordType["-"]	=	MakeType(enWT_Operator,	enOT_Sub,				0,0);
@@ -101,8 +103,8 @@ namespace	Air{
 			m_mapWordType["!="]	=	MakeType(enWT_Operator,	enOT_OrEqual,			0,0);
 			m_mapWordType["<<"]	=	MakeType(enWT_Operator,	enOT_LeftShift,			0,0);
 			m_mapWordType[">>"]	=	MakeType(enWT_Operator,	enOT_RightShift,		0,0);
-			m_mapWordType["["]	=	MakeType(enWT_Operator,	enOT_IndexBegin,		0,0);
-			m_mapWordType["]"]	=	MakeType(enWT_Operator,	enOT_IndexEnd,			0,0);
+			m_mapWordType["["]	=	MakeType(enWT_Operator,	enOT_SquareBracketBegin,		0,0);
+			m_mapWordType["]"]	=	MakeType(enWT_Operator,	enOT_SquareBracketEnd,			0,0);
 			m_mapWordType[":"]	=	MakeType(enWT_Operator,	enOT_Colon,			0,0);
 			m_mapWordType["?"]	=	MakeType(enWT_Operator,	enOT_Question,			0,0);
 			m_mapWordType["&&"]	=	MakeType(enWT_Operator,	enOT_LogicAnd,			0,0);

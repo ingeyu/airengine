@@ -72,18 +72,7 @@ namespace	Air{
 			U32					bConstruct	:	1;
 			U32					bDestruct	:	1;
 		};
-		class	Node;
-		struct Parameter{
-			Parameter(){
-				pNodePtr=NULL;
-			};
-			ObjectType	type;
-			AString		strName;
-			AString		strDefault;
-			U32			bHasDefault;
-			Node*		pNodePtr;
-		};
-		typedef std::vector<Parameter>	ParameterVector;
+		U32		MakeType(enumWordType w,U32 main,U32 sub=0,U32 flag=0);
 	}
 }
 #endif // AirCppScriptDefineType_h__

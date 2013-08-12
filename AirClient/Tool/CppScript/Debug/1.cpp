@@ -13,6 +13,11 @@ struct Vector3
 	float	z;
 };
 
+struct Vector4 
+{
+	float	f[4];
+};
+
 namespace	Air{
 	void ToLower(char* str){
 		int iLen=strlen(str);
