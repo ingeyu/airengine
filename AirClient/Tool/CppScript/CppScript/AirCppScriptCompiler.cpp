@@ -75,6 +75,9 @@ namespace	Air{
 			m_mapWordType["operator"]	=	MakeType(enWT_CppKeyWord,	enCKWT_Operator,	0,0);
 			m_mapWordType["new"]		=	MakeType(enWT_CppKeyWord,	enCKWT_New,			0,0);
 			m_mapWordType["delete"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Delete,		0,0);
+			m_mapWordType["__declspec"]	=	MakeType(enWT_CppKeyWord,	enCKWT___declspec,	0,0);
+			m_mapWordType["dllexport"]	=	MakeType(enWT_CppKeyWord,	enCKWT_dllexport,	0,0);
+			m_mapWordType["dllimport"]	=	MakeType(enWT_CppKeyWord,	enCKWT_dllimport,	0,0);
 
 			m_mapWordType["+"]	=	MakeType(enWT_Operator,	enOT_Add,				0,0);
 			m_mapWordType["-"]	=	MakeType(enWT_Operator,	enOT_Sub,				0,0);
@@ -200,11 +203,11 @@ namespace	Air{
 					info.str	=	vecWord[i];
 					if(!info.str.empty()){
 						if(info.str[0]=='\''){
-							info.uiType	=	MakeType(enWT_Variable,enVT_IntNumber,0,0);
+							info.uiType	=	MakeType(enWT_Constant,enVT_IntNumber,0,0);
 							info.iVal	=	CharArrayToU32(&info.str[1],info.str.size()-2);
 							vecInfo.push_back(info);
 						}else if(info.str[0]=='\"'){
-							info.uiType	=	MakeType(enWT_Variable,enVT_String,0,0);
+							info.uiType	=	MakeType(enWT_Constant,enVT_String,0,0);
 							AString s;
 							s.resize(info.str.size()-2);
 							memcpy(&s[0],&info.str[1],info.str.size()-2);
@@ -218,7 +221,7 @@ namespace	Air{
 										if(IsFloatEnd(vecWord[i+2])){
 											info.str+=vecWord[i+1]+vecWord[i+2];
 											i+=2;
-											info.uiType	=	MakeType(enWT_Variable,enVT_FloatNumber,0,0);
+											info.uiType	=	MakeType(enWT_Constant,enVT_FloatNumber,0,0);
 											info.fVal	=	ToFloat(info.str);
 											vecInfo.push_back(info);
 											continue;
@@ -226,11 +229,11 @@ namespace	Air{
 									}
 								}
 							}
-							info.uiType	=	MakeType(enWT_Variable,enVT_IntNumber,0,0);
+							info.uiType	=	MakeType(enWT_Constant,enVT_IntNumber,0,0);
 							info.iVal	=	ToS32(info.str);
 							vecInfo.push_back(info);
 						}else if(IsHexNumber(info.str)){
-							info.uiType	=	MakeType(enWT_Variable,enVT_IntNumber,0,0);
+							info.uiType	=	MakeType(enWT_Constant,enVT_IntNumber,0,0);
 							info.iVal	=	ToHex(info.str);
 							vecInfo.push_back(info);
 						}else{

@@ -44,7 +44,7 @@ namespace	Air{
 			U32	uiSlash	=	0xffffffff;
 
 
-			for(U32 i=uiStrSize-1;i>-1;i--){
+			for(U32 i=uiStrSize-1;i>=0;i--){
 				if(str[i]	==	'.'	&&	uiPoint	==	uiStrSize){
 					uiPoint	=	i;
 				}

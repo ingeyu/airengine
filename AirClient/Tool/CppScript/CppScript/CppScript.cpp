@@ -38,20 +38,13 @@ _declspec(naked)	void	__stdcall	__freea(void* p){
 		ret		4;
 	}
 }
-struct A{
- int x,y,z;
-};
-A Call(int x,int y,int z){
-	A a;
-	a.x=x;
-	a.y=y;a.z=z;
-	return a;
-}
 
+__declspec(dllimport) int Call(int x,int y,int z);
+//__declspec(dllimport) int a;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	A a = Call(1,2,3);
+	//A a = Call(1,2,3);
 	//if(argc	<	2){
 	//	wprintf(L"CppScript *.cpp\n");
 	//	getchar();

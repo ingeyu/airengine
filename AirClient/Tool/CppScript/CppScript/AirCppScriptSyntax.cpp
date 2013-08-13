@@ -47,6 +47,33 @@ namespace	Air{
 						}
 						return enSE_Unrecognized_Delimiter;
 										}break;
+					case enCKWT_Unknown:{
+						U32 uiTempIdx	=	idx;
+						Node* pNode = new VariableNode();
+						AddChild(pNode);
+						enumSyntaxError	e = pNode->Parse(vecInfo,uiTempIdx);
+						if(e!=enSE_OK){
+							RemoveChild(pNode);
+							delete pNode;
+							uiTempIdx	=	idx;
+							pNode		=	new	FunctionNode();
+							AddChild(pNode);
+							e = pNode->Parse(vecInfo,uiTempIdx);
+							if(e!=enSE_OK){
+								RemoveChild(pNode);
+								delete pNode;
+								return enSE_Unknown_Error;
+							}else{
+								idx	=	uiTempIdx;
+							}
+						}else{
+
+							idx	=	uiTempIdx;
+						}
+										}break;
+					default:{
+						return enSE_UnexpectedEnd;
+							}break;
 
 				}
 				if(e!=enSE_OK){
@@ -112,7 +139,7 @@ namespace	Air{
 			if(idx>=vecInfo.size())
 				return enSE_UnexpectedEnd;
 			WordType& t = vecInfo[idx].eType;
-			if(t.eWordtype!=enWT_Variable){
+			if(t.eWordtype!=enWT_Constant){
 				return	enSE_Include_Must_Fallow_A_String;
 			}
 			if(t.eKeyword!=enVT_String){
@@ -150,7 +177,7 @@ namespace	Air{
 				if(t.eKeyword	!=	enWDT_PreBracket){
 					return	enSE_Define_Cant_Fallow_A_Delimiter;
 				}
-			}else if(t.eWordtype==enWT_Variable){
+			}else if(t.eWordtype==enWT_Constant){
 				if(t.eKeyword	==	enVT_IntNumber	||	t.eKeyword	==	enVT_FloatNumber){
 					return	enSE_Define_Cant_Fallow_A_Number;
 				}else if(t.eKeyword	==	enVT_String){
@@ -241,6 +268,17 @@ namespace	Air{
 							idx	=	uiTempIdx;
 						}
 								 }break;
+				case enCKWT___declspec:{
+					Node* pNode = new ImportFunctionNode();
+					AddChild(pNode);
+					idx++;
+					enumSyntaxError e = pNode->Parse(vecInfo,idx);
+					if(enSE_OK != e){
+						RemoveChild(pNode);
+						delete pNode;
+						return e;
+					}
+									   }break;
 			}
 			return enSE_OK;
 		}
@@ -473,7 +511,7 @@ namespace	Air{
 					return enSE_Miss_Variable_Name;
 				}else if(tObjType.eWordtype	==	enWT_CppKeyWord){
 					return enSE_Variable_Name_Cant_Be_A_CppKeyword;
-				}else if(tObjType.eWordtype	==	enWT_Variable){
+				}else if(tObjType.eWordtype	==	enWT_Constant){
 					if(tObjType.eKeyword	==	enVT_IntNumber	||	tObjType.eKeyword	==	enVT_FloatNumber){
 						return enSE_Variable_Name_Cant_Be_A_Number;
 					}else if(tObjType.eKeyword	==	enVT_String){
@@ -582,7 +620,7 @@ namespace	Air{
 				return	enSE_NameSpace_Cant_Fallow_A_Operator;
 			}else if(t.eWordtype==enWT_Delimiter){
 				return	enSE_NameSpace_Cant_Fallow_A_Delimiter;
-			}else if(t.eWordtype==enWT_Variable){
+			}else if(t.eWordtype==enWT_Constant){
 				if(t.eKeyword	==	enVT_IntNumber	||	t.eKeyword	==	enVT_FloatNumber){
 					return	enSE_NameSpace_Cant_Fallow_A_Number;
 				}else if(t.eKeyword	==	enVT_String){
@@ -630,7 +668,7 @@ namespace	Air{
 					return enSE_UnexpectedEnd; 
 				}
 				tObjType	=	vecInfo[++idx].eType;
-				if(tObjType.eWordtype	==	enWT_Variable	&&	tObjType.eKeyword	==	enVT_IntNumber){
+				if(tObjType.eWordtype	==	enWT_Constant	&&	tObjType.eKeyword	==	enVT_IntNumber){
 					uiArrayCount	=	vecInfo[idx].iVal;
 					if(uiArrayCount==0){
 						return enSE_Variable_Array_Count_Must_Greater_Than_Zero;
@@ -696,7 +734,7 @@ namespace	Air{
 				tObjType	=	vecInfo[++idx].eType;
 			}
 			
-			if(tObjType.eWordtype	==	enWT_Variable){
+			if(tObjType.eWordtype	==	enWT_Constant){
 				if(	VariableType.t	==	enBOT_S8	&&	
 					VariableType.bPointor	==	1	&&
 					VariableType.bUnsign	==	0	&&
@@ -790,15 +828,20 @@ namespace	Air{
 							idx	=	uiTempIdx;
 						}
 									   }break;
-					case enNT_Function:{
+					case enNT_Function:
+					case enNT_ImportFunction:{
+						idx++;
 						U32 uiTempIdx	=	idx;
-						Node* pNode = new FunctionCallExpressionNode();
-						AddChild(pNode);
-						enumSyntaxError	e = pNode->Parse(vecInfo,uiTempIdx);
+						FunctionCallExpressionNode* pExpression = new FunctionCallExpressionNode();
+						pExpression->pFunction	=	pNode;
+						AddChild(pExpression);
+						enumSyntaxError	e = pExpression->Parse(vecInfo,uiTempIdx);
 						if(e!=enSE_OK){
 							return e;
 						}else{
 							idx	=	uiTempIdx;
+							return enSE_OK;
+							
 						}
 									   }break;
 					default:{
@@ -989,7 +1032,7 @@ namespace	Air{
 						case enCKWT_Double:		//	double
 							{
 								U32 uiTempIdx	=	idx;
-								Node* pNode = new ExpressionNode();
+								Node* pNode = new VariableStatementNode();
 								AddChild(pNode);
 								enumSyntaxError	e = pNode->Parse(vecInfo,uiTempIdx);
 								if(e!=enSE_OK){
@@ -1251,7 +1294,7 @@ namespace	Air{
 					return enSE_UnexpectedEnd; 
 				}
 				tObjType	=	vecInfo[++idx].eType;
-				if(tObjType.eWordtype	==	enWT_Variable	&&	tObjType.eKeyword	==	enVT_IntNumber){
+				if(tObjType.eWordtype	==	enWT_Constant	&&	tObjType.eKeyword	==	enVT_IntNumber){
 					uiArrayCount	=	vecInfo[idx].iVal;
 					if(uiArrayCount==0){
 						return enSE_Variable_Array_Count_Must_Greater_Than_Zero;
@@ -1308,7 +1351,7 @@ namespace	Air{
 				tObjType	=	vecInfo[++idx].eType;
 			}
 
-			if(tObjType.eWordtype	==	enWT_Variable){
+			if(tObjType.eWordtype	==	enWT_Constant){
 				if(	VariableType.t	==	enBOT_S8	&&	
 					VariableType.bPointor	==	1	&&
 					VariableType.bUnsign	==	0	&&
@@ -1407,6 +1450,122 @@ namespace	Air{
 
 			//if(t.eWordtype)
 
+			return enSE_UnexpectedEnd;
+		}
+
+
+		Air::CppScript::enumSyntaxError ImportFunctionNode::Parse( WordInfoVector& vecInfo,U32& idx )
+		{
+			U32 uiSize	=	vecInfo.size();
+			if(idx>=uiSize)
+				return enSE_UnexpectedEnd;
+			WordType t = vecInfo[idx].eType;
+			if(t.uiType!=MakeType(enWT_Delimiter,enWDT_PreBracket)){
+				return enSE_UnexpectedEnd;
+			}
+
+			if(idx+1>=uiSize)
+				return enSE_UnexpectedEnd;
+			t = vecInfo[++idx].eType;
+			if(t.uiType==MakeType(enWT_CppKeyWord,enCKWT_dllimport)){
+				ieType	=	enCKWT_dllimport;
+			}else if(t.uiType==MakeType(enWT_CppKeyWord,enCKWT_dllexport)){
+				ieType	=	enCKWT_dllexport;
+			}else{
+				return enSE_UnexpectedEnd;
+			}
+
+			if(idx+1>=uiSize)
+				return enSE_UnexpectedEnd;
+			t = vecInfo[++idx].eType;
+			if(t.uiType!=MakeType(enWT_Delimiter,enWDT_PostBracket)){
+				return enSE_UnexpectedEnd;
+			}
+
+			if(idx+1>=uiSize)
+				return enSE_UnexpectedEnd;
+			t = vecInfo[++idx].eType;
+
+
+			return FunctionNode::Parse(vecInfo,idx);
+		}
+
+
+		Air::CppScript::enumSyntaxError FunctionCallExpressionNode::Parse( WordInfoVector& vecInfo,U32& idx )
+		{
+			U32 uiSize	=	vecInfo.size();
+			if(idx>=uiSize)
+				return enSE_UnexpectedEnd;
+			WordType t = vecInfo[idx].eType;
+			if(t.uiType!=MakeType(enWT_Delimiter,enWDT_PreBracket)){
+				return enSE_UnexpectedEnd;
+			}
+			if(idx+1>=uiSize)
+				return enSE_UnexpectedEnd;
+			t = vecInfo[++idx].eType;
+			for(;idx<uiSize;){
+				
+				if(t.uiType==MakeType(enWT_Delimiter,enWDT_Comma)){
+					if(idx+1>=uiSize)
+						return enSE_UnexpectedEnd;
+					t = vecInfo[++idx].eType;
+					continue;
+				}else if(t.uiType==MakeType(enWT_Delimiter,enWDT_PostBracket)){
+					if(idx+1>=uiSize)
+						return enSE_UnexpectedEnd;
+					t = vecInfo[++idx].eType;
+					break;
+				}else if(t.eWordtype	==	enWT_Constant){
+					ConstantNode* pNode = new ConstantNode();
+					enumSyntaxError	e	=	pNode->Parse(vecInfo,idx);
+					if(e==enSE_OK){
+						AddChild(pNode);
+						pParameterArray.push_back(pNode);
+						continue;
+					}else{
+						return enSE_UnexpectedEnd;
+					}
+				}else if(t.eWordtype	==	enWT_Unknown){
+					Node* pNode	=	FindNode(vecInfo[idx].str);
+					if(pNode==NULL){
+						return enSE_Unrecognized_Variable;
+					}
+					enumNodeType eNT = pNode->GetType();
+					if(eNT==enNT_Variable	||	eNT == enNT_Parameter){
+						pParameterArray.push_back(pNode);
+						if(idx+1>=uiSize)
+							return enSE_UnexpectedEnd;
+						t = vecInfo[++idx].eType;
+						continue;
+					}
+				}else{
+					return enSE_UnexpectedEnd;
+				}
+				return enSE_UnexpectedEnd;
+			}
+			
+			if(t.uiType!=MakeType(enWT_Delimiter,enWDT_Semicolon)){
+				return enSE_UnexpectedEnd;
+			}else{
+				if(idx+1>=uiSize)
+					return enSE_UnexpectedEnd;
+				t = vecInfo[++idx].eType;
+				return enSE_OK;
+			}
+			return enSE_UnexpectedEnd;
+		}
+
+
+		Air::CppScript::enumSyntaxError ConstantNode::Parse( WordInfoVector& vecInfo,U32& idx )
+		{
+			U32 uiSize	=	vecInfo.size();
+			if(idx>=uiSize)
+				return enSE_UnexpectedEnd;
+			ConstInfo	=	vecInfo[idx];
+			if(ConstInfo.eType.eWordtype==enWT_Constant){
+				idx++;
+				return enSE_OK;
+			}
 			return enSE_UnexpectedEnd;
 		}
 

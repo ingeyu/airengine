@@ -13,10 +13,15 @@ struct Vector3
 	float	z;
 };
 
+Vector3 tempVector;
+Vector3	vec[100];
+
 struct Vector4 
 {
 	float	f[4];
 };
+
+__declspec(dllimport) int strlen(const char* str);
 
 namespace	Air{
 	void ToLower(char* str){

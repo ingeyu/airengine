@@ -38,7 +38,7 @@ namespace	Air{
 		enum	enumWordType{
 			enWT_Unknown,
 			enWT_PreDeclare,		//	#
-			enWT_Variable,			//	 123 1.000f 
+			enWT_Constant,			//	 123 1.000f 
 			enWT_CppKeyWord,		//	class struct virtual int public
 			enWT_Operator,			//	+	-	*	/
 			enWT_Delimiter,			//	{ } ( ) , ; 
@@ -101,6 +101,9 @@ namespace	Air{
 			enCKWT_Operator,	//	operator
 			enCKWT_New,			//	new
 			enCKWT_Delete,		//	delete
+			enCKWT___declspec,	
+			enCKWT_dllexport,
+			enCKWT_dllimport,
 
 			enOT_Add,
 			enOT_Sub,

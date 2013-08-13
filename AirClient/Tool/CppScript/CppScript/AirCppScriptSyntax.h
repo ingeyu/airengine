@@ -9,11 +9,14 @@ namespace	Air{
 			enNT_Unknown,
 			enNT_Global,
 			enNT_NameSpace,
+			enNT_ImportFunction,
 			enNT_Variable,
+			enNT_Constant,
 			enNT_Function,
 			enNT_Object,
 			enNT_Parameter,
 			enNT_Statement,
+			enNT_VariableStatement,
 			enNT_IfStatement,
 			enNT_ForStatement,
 			enNT_WhileStatement,
@@ -138,6 +141,8 @@ namespace	Air{
 			Node*			m_pParent;
 		};
 
+		
+
 		class	NameSpaceNode	:	public	Node{
 		public:
 			NameSpaceNode(){
@@ -168,7 +173,14 @@ namespace	Air{
 			WordInfo					m_InitInfo;
 			Node*						m_pRightExpression;
 		};
-
+		class	ConstantNode	:	public	Node{
+		public:
+			ConstantNode(){
+				m_Type			=	enNT_Constant;
+			};
+			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
+			WordInfo ConstInfo;
+		};
 		class	ExpressionNode	:	public	Node{
 		public:
 			ExpressionNode(){
@@ -188,6 +200,7 @@ namespace	Air{
 				m_Type		=	enNT_FunctionCall_Expression;
 				pFunction	=	NULL;
 			};
+			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 			Node*							pFunction;
 			std::vector<Node*>				pParameterArray;
 		};
@@ -225,7 +238,13 @@ namespace	Air{
 			};
 			
 		};
+		class	VariableStatementNode	:	public	VariableNode{
+		public:
+			VariableStatementNode(){
+				m_Type			=	enNT_Statement;
+			};
 
+		};
 		class	IfStatementNode	:	public	StatementNode
 		{
 		public:
@@ -272,6 +291,15 @@ namespace	Air{
 			ParameterVector				m_vecParameter;
 			U32							m_bOnlyDeclare;
 			U32							m_bVirtual;
+		};
+		class	ImportFunctionNode	:	public	FunctionNode{
+		public:
+			ImportFunctionNode(){
+				m_Type	=	enNT_ImportFunction;
+				ieType	=	enCKWT_Unknown;;
+			};
+			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
+			enumCppKeyWordType			ieType;
 		};
 		class	ObjectNode		:	public	Node{
 		public:
