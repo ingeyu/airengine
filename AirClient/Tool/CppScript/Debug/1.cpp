@@ -26,11 +26,9 @@ __declspec(dllimport) int strlen(const char* str);
 namespace	Air{
 	void ToLower(char* str){
 		int iLen=strlen(str);
-
-		static int iOffset = 'A'-'a';
 		for(int i=0;i<iLen;i++){
-			if(str[i]>='A' && str[i]<='Z'){
-				str[i]-=iOffset;
+			if(str[i]>=65 && str[i]<=90){
+				str[i]+=32;
 			}
 		}
 	}

@@ -50,6 +50,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	//	getchar();
 	//	return -1;
 	//}
+	int i='Z';
+
 	HANDLE p = CreateFileA("E:\\wz\\LauncherSkin2.0\\denglu.html",GENERIC_READ,0,0,OPEN_EXISTING,0,0);
 
 	wchar_t str[1024];

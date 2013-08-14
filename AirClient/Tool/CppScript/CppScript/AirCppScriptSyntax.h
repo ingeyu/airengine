@@ -122,6 +122,7 @@ namespace	Air{
 
 			enumSyntaxError				FindBlock(WordInfoVector& vecInfo,U32& idx,WordInfoVector& outInfo,U32 uiKeyBegin,U32 uiKeyEnd);
 			enumSyntaxError				FindStatementEnd(WordInfoVector& vecInfo,U32& idx,WordInfoVector& outInfo);
+			enumSyntaxError				ParseExpression(WordInfoVector& vecInfo,U32& idx);
 
 			enumNodeType	GetType()const{return m_Type;};
 			CAString&		GetName()const{return m_strName;};
