@@ -45,6 +45,30 @@
     <ClInclude Include="AirCppScriptSyntax.h">
       <Filter>CppScript</Filter>
     </ClInclude>
+    <ClInclude Include="AirCppScriptSyntaxNode.h">
+      <Filter>CppScript</Filter>
+    </ClInclude>
+    <ClInclude Include="AirCppScriptSyntaxNameSpace.h">
+      <Filter>CppScript</Filter>
+    </ClInclude>
+    <ClInclude Include="AirCppScriptSyntaxConstant.h">
+      <Filter>CppScript</Filter>
+    </ClInclude>
+    <ClInclude Include="AirCppScriptSyntaxExpression.h">
+      <Filter>CppScript</Filter>
+    </ClInclude>
+    <ClInclude Include="AirCppScriptSyntaxFunction.h">
+      <Filter>CppScript</Filter>
+    </ClInclude>
+    <ClInclude Include="AirCppScriptSyntaxVariable.h">
+      <Filter>CppScript</Filter>
+    </ClInclude>
+    <ClInclude Include="AirCppScriptSyntaxObject.h">
+      <Filter>CppScript</Filter>
+    </ClInclude>
+    <ClInclude Include="AirCppScriptSyntaxStatement.h">
+      <Filter>CppScript</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -63,6 +87,30 @@
       <Filter>CppScript</Filter>
     </ClCompile>
     <ClCompile Include="AirCppScriptSyntax.cpp">
+      <Filter>CppScript</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCppScriptSyntaxNode.cpp">
+      <Filter>CppScript</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCppScriptSyntaxNameSpace.cpp">
+      <Filter>CppScript</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCppScriptSyntaxConstant.cpp">
+      <Filter>CppScript</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCppScriptSyntaxExpression.cpp">
+      <Filter>CppScript</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCppScriptSyntaxFunction.cpp">
+      <Filter>CppScript</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCppScriptSyntaxVariable.cpp">
+      <Filter>CppScript</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCppScriptSyntaxObject.cpp">
+      <Filter>CppScript</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCppScriptSyntaxStatement.cpp">
       <Filter>CppScript</Filter>
     </ClCompile>
   </ItemGroup>

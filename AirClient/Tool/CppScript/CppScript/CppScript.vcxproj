@@ -83,6 +83,14 @@
     <ClInclude Include="AirCppScriptDefineType.h" />
     <ClInclude Include="AirCppScriptParse.h" />
     <ClInclude Include="AirCppScriptSyntax.h" />
+    <ClInclude Include="AirCppScriptSyntaxConstant.h" />
+    <ClInclude Include="AirCppScriptSyntaxExpression.h" />
+    <ClInclude Include="AirCppScriptSyntaxFunction.h" />
+    <ClInclude Include="AirCppScriptSyntaxNameSpace.h" />
+    <ClInclude Include="AirCppScriptSyntaxNode.h" />
+    <ClInclude Include="AirCppScriptSyntaxObject.h" />
+    <ClInclude Include="AirCppScriptSyntaxStatement.h" />
+    <ClInclude Include="AirCppScriptSyntaxVariable.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -91,6 +99,14 @@
     <ClCompile Include="AirCppScriptCompiler.cpp" />
     <ClCompile Include="AirCppScriptParse.cpp" />
     <ClCompile Include="AirCppScriptSyntax.cpp" />
+    <ClCompile Include="AirCppScriptSyntaxConstant.cpp" />
+    <ClCompile Include="AirCppScriptSyntaxExpression.cpp" />
+    <ClCompile Include="AirCppScriptSyntaxFunction.cpp" />
+    <ClCompile Include="AirCppScriptSyntaxNameSpace.cpp" />
+    <ClCompile Include="AirCppScriptSyntaxNode.cpp" />
+    <ClCompile Include="AirCppScriptSyntaxObject.cpp" />
+    <ClCompile Include="AirCppScriptSyntaxStatement.cpp" />
+    <ClCompile Include="AirCppScriptSyntaxVariable.cpp" />
     <ClCompile Include="CppScript.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
