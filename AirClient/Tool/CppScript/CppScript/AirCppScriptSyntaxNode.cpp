@@ -4,7 +4,7 @@
 #include "AirCppScriptSyntaxObject.h"
 #include "AirCppScriptSyntaxNameSpace.h"
 #include "AirCppScriptSyntaxExpression.h"
-
+#include "AirCppScriptSyntaxStatement.h"
 namespace	Air{
 	namespace	CppScript{
 
@@ -52,28 +52,29 @@ namespace	Air{
 					return enSE_Unrecognized_Delimiter;
 									}break;
 				case enCKWT_Unknown:{
-					U32 uiTempIdx	=	idx;
-					Node* pNode = new VariableNode();
-					AddChild(pNode);
-					enumSyntaxError	e = pNode->Parse(vecInfo,uiTempIdx);
-					if(e!=enSE_OK){
-						RemoveChild(pNode);
-						delete pNode;
-						uiTempIdx	=	idx;
-						pNode		=	new	FunctionNode();
-						AddChild(pNode);
-						e = pNode->Parse(vecInfo,uiTempIdx);
+					Node* pNode	=	FindNode(vecInfo[idx].str);
+					if(pNode==NULL){
+						return enSE_UnexpectedEnd;
+					}
+					if(pNode->GetType()	==	enNT_Object){
+						
+						e	=	__ParseNode<VariableNode>(vecInfo,idx);
 						if(e!=enSE_OK){
-							RemoveChild(pNode);
-							delete pNode;
-							return enSE_Unknown_Error;
-						}else{
-							idx	=	uiTempIdx;
+							e = __ParseNode<FunctionNode>(vecInfo,idx);
+							if(e!=enSE_OK){
+								return enSE_Unknown_Error;
+							}
+						}
+					}else	if(pNode->GetType()	==	enNT_Variable){
+						
+						e	=	__ParseNode<StatementNode>(vecInfo,idx);
+						if(e!=enSE_OK){
+							return e;
 						}
 					}else{
 
-						idx	=	uiTempIdx;
 					}
+					
 									}break;
 				default:{
 					return enSE_UnexpectedEnd;
@@ -205,86 +206,41 @@ namespace	Air{
 				return enSE_UnexpectedEnd;
 
 			WordType& t = vecInfo[idx].eType;
-
+			enumSyntaxError e	=	enSE_OK;
 			switch(t.eKeyword){
-			case	enCKWT_NameSpace:{
-				Node* pNode = new NameSpaceNode();
-				pNode->SetParent(this);
-				pNode->SetType(enNT_NameSpace);
-				AddChild(pNode);
-				idx++;
-				enumSyntaxError e = pNode->Parse(vecInfo,idx);
-				if(enSE_OK != e){
-					RemoveChild(pNode);
-					delete pNode;
-					return e;
-				}
-
-									 }break;
-			case enCKWT_Struct:
-			case enCKWT_Class:	{
-				Node* pNode = new ObjectNode();
-				pNode->SetParent(this);
-				pNode->SetType(enNT_Object);
-				AddChild(pNode);
-				idx++;
-				enumSyntaxError e = pNode->Parse(vecInfo,idx);
-				if(enSE_OK != e){
-					RemoveChild(pNode);
-					delete pNode;
-					return e;
-				}
-
-								}break;
-			case enCKWT_Const:
-			case enCKWT_Static:
-			case enCKWT_Unsigned:
-			case enCKWT_Void:
-			case enCKWT_Bool:		//	bool
-			case enCKWT_Char:		//	char
-			case enCKWT_Short:		//	short
-			case enCKWT_Int:			//	int
-			case enCKWT_Long:		//	long
-			case enCKWT_Int64:		//	_int64
-			case enCKWT_Float:		//	float
-			case enCKWT_Double:		//	double
-				{
-					U32 uiTempIdx	=	idx;
-					Node* pNode = new VariableNode();
-					AddChild(pNode);
-					enumSyntaxError	e = pNode->Parse(vecInfo,uiTempIdx);
-					if(e!=enSE_OK){
-						RemoveChild(pNode);
-						delete pNode;
-						uiTempIdx	=	idx;
-						pNode		=	new	FunctionNode();
-						AddChild(pNode);
-						e = pNode->Parse(vecInfo,uiTempIdx);
-						if(e!=enSE_OK){
-							RemoveChild(pNode);
-							delete pNode;
-							return enSE_Unknown_Error;
-						}else{
-							idx	=	uiTempIdx;
-						}
-					}else{
-
-						idx	=	uiTempIdx;
-					}
-				}break;
-			case enCKWT___declspec:{
-				Node* pNode = new ImportFunctionNode();
-				AddChild(pNode);
-				idx++;
-				enumSyntaxError e = pNode->Parse(vecInfo,idx);
-				if(enSE_OK != e){
-					RemoveChild(pNode);
-					delete pNode;
-					return e;
-				}
-								   }break;
+				case	enCKWT_NameSpace:{
+					e = __ParseNode<NameSpaceNode>(vecInfo,idx);
+										 }break;
+				case enCKWT_Struct:
+				case enCKWT_Class:	{
+					e = __ParseNode<ObjectNode>(vecInfo,idx);
+									}break;
+				case enCKWT_Const:
+				case enCKWT_Static:
+				case enCKWT_Unsigned:
+				case enCKWT_Void:
+				case enCKWT_Bool:		//	bool
+				case enCKWT_Char:		//	char
+				case enCKWT_Short:		//	short
+				case enCKWT_Int:			//	int
+				case enCKWT_Long:		//	long
+				case enCKWT_Int64:		//	_int64
+				case enCKWT_Float:		//	float
+				case enCKWT_Double:		//	double
+					{
+						e = __ParseNode<VariableNode>(vecInfo,idx);
+						if(e!=enSE_OK)
+							e = __ParseNode<FunctionNode>(vecInfo,idx);
+					}break;
+				case enCKWT___declspec:{
+					e = __ParseNode<FunctionNode>(vecInfo,idx);
+									   }break;
+				default:{
+					e	=	enSE_UnexpectedEnd;
+						}break;
 			}
-			return enSE_OK;
+
+			return e;
 		}
 
 		enumSyntaxError Node::IsVariableDeclare( WordInfoVector& vecInfo,U32& idx )
@@ -556,6 +512,7 @@ namespace	Air{
 				if(uiKeyEnd	==	vecInfo[i].eType.uiType){
 					if(uiDepth==1){
 						uiEndIndex	=	i;
+						uiDepth--;
 						break;
 					}
 					uiDepth--;
@@ -662,5 +619,32 @@ namespace	Air{
 			}
 			return enSE_OK;
 		}
+
+		Node* Node::__CheckNextNodeType( WordInfoVector& vecInfo,U32& idx,enumNodeType eType )
+		{
+			Node* pNode =	FindNode(vecInfo[idx].str);
+			if(pNode==NULL){
+				return NULL;
+			}
+			if(pNode->GetType()!=eType){
+				return NULL;
+			}
+			idx++;
+			return pNode;
+		}
+
+		Air::CppScript::enumSyntaxError Node::__CheckNextWordType( WordInfoVector& vecInfo,U32& idx,U32 uiType )
+		{
+			U32 uiSize	=	vecInfo.size();
+			if(idx+1	>=	uiSize){
+				return enSE_UnexpectedEnd;
+			}
+			WordType	t	=	vecInfo[idx].eType;
+			if(t.uiType	!=	uiType){
+				return enSE_UnexpectedEnd;
+			}
+			return enSE_OK;
+		}
+
 	}
 }

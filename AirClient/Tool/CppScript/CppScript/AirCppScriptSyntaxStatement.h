@@ -5,40 +5,86 @@
 
 namespace	Air{
 	namespace	CppScript{
+		enum	enumStatementType{
+			enST_Unknown,
+			enST_If,
+			enST_For,
+			enST_While,
+			enST_Switch,
+			enST_New,
+			enST_Delete,
+			enST_Return,
+		};
 		class	StatementNode	:	public	Node{
 		public:
 			StatementNode(){
 				m_Type			=	enNT_Statement;
+				m_sType			=	enST_Unknown;
 			};
-
+			virtual	enumSyntaxError	Parse(WordInfoVector& vecInfo,U32& idx);
+			enumSyntaxError			ParseSubStatement(WordInfoVector& vecInfo,U32& idx);
+			enumStatementType		m_sType;
 		};
-		class	VariableStatementNode	:	public	VariableNode{
-		public:
-			VariableStatementNode(){
-				m_Type			=	enNT_Statement;
-			};
 
-		};
 		class	IfStatementNode	:	public	StatementNode
 		{
 		public:
 			IfStatementNode(){
-				m_Type			=	enNT_IfStatement;
+				m_sType			=	enST_If;
 			};
 		};
 		class	ForStatementNode	:	public	StatementNode
 		{
 		public:
 			ForStatementNode(){
-				m_Type			=	enNT_ForStatement;
+				m_sType			=	enST_For;
 			};
+			virtual	enumSyntaxError	Parse(WordInfoVector& vecInfo,U32& idx);
+			enumSyntaxError	ParseCondition(WordInfoVector& vecInfo,U32& idx);
+			enumSyntaxError	ParseCode(WordInfoVector& vecInfo,U32& idx);
 		};
 		class	WhileStatementNode	:	public	StatementNode
 		{
 		public:
 			WhileStatementNode(){
-				m_Type			=	enNT_WhileStatement;
+				m_sType			=	enST_While;
 			};
+		};
+		class	SwitchStatementNode	:	public	StatementNode
+		{
+		public:
+			SwitchStatementNode(){
+				m_sType			=	enST_Switch;
+			};
+		};
+		class	NewStatementNode	:	public	StatementNode{
+		public:
+			NewStatementNode(){
+				m_sType		=	enST_New;
+				pObject		=	NULL;
+				uiNewCount	=	1;
+			};
+			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
+			Node*							pObject;
+			U32								uiNewCount;
+		};
+		class	DeleteStatementNode	:	public	StatementNode{
+		public:
+			DeleteStatementNode(){
+				m_sType		=	enST_Delete;
+				pObject		=	NULL;
+			};
+			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
+			Node*							pObject;
+		};
+		class	ReturnStatementNode	:	public	StatementNode{
+		public:
+			ReturnStatementNode(){
+				m_sType		=	enST_Return;
+				pReturn		=	NULL;
+			};
+			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
+			Node*							pReturn;
 		};
 	}
 }

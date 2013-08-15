@@ -20,26 +20,23 @@ namespace	Air{
 				m_Type			=	enNT_Function;
 				m_bOnlyDeclare	=	true;
 				m_bVirtual		=	0;
+				ieType			=	enCKWT_Unknown;
 			};
+
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
+			virtual	enumSyntaxError		ParseImportExport(WordInfoVector& vecInfo,U32& idx);
 			virtual	enumSyntaxError		ParseParameter(WordInfoVector& vecInfo,U32& idx);
 			virtual	enumSyntaxError		ParseFunction(WordInfoVector& vecInfo,U32& idx);
 			U1							IsParamNameExist(CAString& strName);
 			ParameterNode*				FindParameter(CAString& strName);
+			
 			ParameterNode				m_ReturnType;
 			ParameterVector				m_vecParameter;
 			U32							m_bOnlyDeclare;
 			U32							m_bVirtual;
-		};
-		class	ImportFunctionNode	:	public	FunctionNode{
-		public:
-			ImportFunctionNode(){
-				m_Type	=	enNT_ImportFunction;
-				ieType	=	enCKWT_Unknown;;
-			};
-			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 			enumCppKeyWordType			ieType;
 		};
+	
 	}
 }
 #endif // AirCppScriptSyntaxFunction_h__

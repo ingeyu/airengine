@@ -6,10 +6,10 @@ namespace	Air{
 
 		Air::CppScript::enumSyntaxError NameSpaceNode::Parse( WordInfoVector& vecInfo,U32& idx )
 		{
-			if(idx>=vecInfo.size())
+			if(idx+1>=vecInfo.size())
 				return enSE_UnexpectedEnd;
 
-			WordType& t = vecInfo[idx].eType;
+			WordType& t = vecInfo[++idx].eType;
 
 			if(t.eWordtype==enWT_CppKeyWord){
 				return	enSE_NameSpace_Cant_Fallow_A_CppKeyword;

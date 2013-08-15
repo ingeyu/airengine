@@ -105,40 +105,40 @@ namespace	Air{
 			enCKWT_dllexport,
 			enCKWT_dllimport,
 
-			enOT_Add,
-			enOT_Sub,
-			enOT_Mul,
-			enOT_Div,
-			enOT_Remain,
-			enOT_Mov,
-			enOT_And,
-			enOT_Or,
-			enOT_Xor,
-			enOT_Not,
-			enOT_Equal,
-			enOT_NotEqual,
-			enOT_Greater,
-			enOT_Less,
-			enOT_GreaterEqual,
-			enOT_LessEqual,
-			enOT_Increment,
-			enOT_Decrement,
-			enOT_AddEqual,
-			enOT_SubEqual,
-			enOT_MulEqual,
-			enOT_DivEqual,
-			enOT_RemainEqual,
-			enOT_AndEqual,
-			enOT_OrEqual,
-			enOT_LeftShift,		//	<<
-			enOT_RightShift,	//	>>
-			enOT_SquareBracketBegin,	//	[
-			enOT_SquareBracketEnd,		//	]
-			enOT_Colon,		//	:
-			enOT_Question,		//	?
-			enOT_LogicAnd,
-			enOT_LogicOr,
-			enOT_LogicNot,
+			enOT_Add,					///<	+
+			enOT_Sub,					///<	-
+			enOT_Mul,					///<	*
+			enOT_Div,					///<	/
+			enOT_Remain,				///<	%
+			enOT_Mov,					///<	=
+			enOT_And,					///<	&
+			enOT_Or,					///<	|
+			enOT_Xor,					///<	^
+			enOT_Not,					///<	~
+			enOT_Equal,					///<	==
+			enOT_NotEqual,				///<	!=
+			enOT_Greater,				///<	>
+			enOT_Less,					///<	<
+			enOT_GreaterEqual,			///<	>=
+			enOT_LessEqual,				///<	<=
+			enOT_Increment,				///<	++
+			enOT_Decrement,				///<	--
+			enOT_AddEqual,				///<	+=
+			enOT_SubEqual,				///<	-=
+			enOT_MulEqual,				///<	*/
+			enOT_DivEqual,				///<	/=
+			enOT_RemainEqual,			///<	%=
+			enOT_AndEqual,				///<	&=
+			enOT_OrEqual,				///<	|=
+			enOT_LeftShift,				///<	<<
+			enOT_RightShift,			///<	>>
+			enOT_SquareBracketBegin,	///<	[
+			enOT_SquareBracketEnd,		///<	]
+			enOT_Colon,					///<	:
+			enOT_Question,				///<	?
+			enOT_LogicAnd,				///<	&&
+			enOT_LogicOr,				///<	||
+			enOT_LogicNot,				///<	!
 			
 			enWDT_Comma,			///<	,	¶ººÅ
 			enWDT_Semicolon,		///<	;	·ÖºÅ

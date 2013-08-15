@@ -43,7 +43,14 @@ namespace	Air{
 					return enSE_Variable_Array_Count_Must_Be_Int_Number;
 				}
 			}
-
+			if(tObjType.eWordtype	==	enWT_Operator	&&	tObjType.eKeyword	==	enOT_Mov){
+				idx--;
+				return enSE_OK;
+			}else if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_Semicolon){
+				idx++;
+				return enSE_OK;
+			}
+			/*
 			if(tObjType.eWordtype	==	enWT_Operator	&&	tObjType.eKeyword	==	enOT_Mov){
 				m_bHasInitValue	=	1;
 				if(idx+1>=uiSize){
@@ -187,7 +194,7 @@ namespace	Air{
 				}
 			} 
 
-
+			*/
 			return enSE_UnexpectedEnd;
 		}
 	}

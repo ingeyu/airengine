@@ -63,7 +63,7 @@ namespace	Air{
 			m_mapWordType["unsigned"]	=	MakeType(enWT_CppKeyWord,	enCKWT_Unsigned,	0,0);
 			m_mapWordType["true"]		=	MakeType(enWT_CppKeyWord,	enCKWT_True,		0,0);
 			m_mapWordType["false"]		=	MakeType(enWT_CppKeyWord,	enCKWT_False,		0,0);
-			m_mapWordType["NULL"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Null,		0,0);
+			m_mapWordType["NULL"]		=	MakeType(enWT_Constant,		enCKWT_Null,		0,0);
 			m_mapWordType["public"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Public,		0,0);
 			m_mapWordType["protected"]	=	MakeType(enWT_CppKeyWord,	enCKWT_Protected,	0,0);
 			m_mapWordType["private"]	=	MakeType(enWT_CppKeyWord,	enCKWT_Private,		0,0);
@@ -98,7 +98,7 @@ namespace	Air{
 			m_mapWordType["++"]	=	MakeType(enWT_Operator,	enOT_Increment,			0,0);
 			m_mapWordType["--"]	=	MakeType(enWT_Operator,	enOT_Decrement,			0,0);
 			m_mapWordType["+="]	=	MakeType(enWT_Operator,	enOT_AddEqual,			0,0);
-			m_mapWordType["-+"]	=	MakeType(enWT_Operator,	enOT_SubEqual,			0,0);
+			m_mapWordType["-="]	=	MakeType(enWT_Operator,	enOT_SubEqual,			0,0);
 			m_mapWordType["*="]	=	MakeType(enWT_Operator,	enOT_MulEqual,			0,0);
 			m_mapWordType["/="]	=	MakeType(enWT_Operator,	enOT_DivEqual,			0,0);
 			m_mapWordType["%="]	=	MakeType(enWT_Operator,	enOT_RemainEqual,		0,0);

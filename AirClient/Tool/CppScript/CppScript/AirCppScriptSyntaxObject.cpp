@@ -8,9 +8,9 @@ namespace	Air{
 		Air::CppScript::enumSyntaxError ObjectNode::Parse( WordInfoVector& vecInfo,U32& idx )
 		{
 			U32 uiSize	 = vecInfo.size();
-			if(idx > uiSize)
+			if(idx+1 > uiSize)
 				return enSE_UnexpectedEnd;
-			WordType tObjType	=	vecInfo[idx].eType;
+			WordType tObjType	=	vecInfo[++idx].eType;
 			//Class Name
 			if(tObjType.eWordtype	==	enWT_Unknown	&&	tObjType.eKeyword	==	enCKWT_Unknown){
 				AString& str =	vecInfo[idx].str;
@@ -110,28 +110,11 @@ namespace	Air{
 				case enCKWT_Float:		//	float
 				case enCKWT_Double:		//	double
 					{
-						U32 uiTempIdx	=	idx;
-						Node* pNode = new VariableNode();
-						AddChild(pNode);
-						enumSyntaxError	e = pNode->Parse(vecInfo,uiTempIdx);
+						e = __ParseNode<VariableNode>(vecInfo,idx);
 						if(e!=enSE_OK){
-							RemoveChild(pNode);
-							delete pNode;
-							uiTempIdx	=	idx;
-							pNode		=	new	FunctionNode();
-							AddChild(pNode);
-							e = pNode->Parse(vecInfo,uiTempIdx);
-							if(e!=enSE_OK){
-								RemoveChild(pNode);
-								delete pNode;
-								return enSE_Unknown_Error;
-							}else{
-								idx	=	uiTempIdx;
-							}
-						}else{
-
-							idx	=	uiTempIdx;
+							e = __ParseNode<FunctionNode>(vecInfo,idx);
 						}
+						
 					}break;
 				}
 			}

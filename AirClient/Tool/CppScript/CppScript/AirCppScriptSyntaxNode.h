@@ -17,18 +17,7 @@ namespace	Air{
 			enNT_Object,
 			enNT_Parameter,
 			enNT_Statement,
-			enNT_VariableStatement,
-			enNT_IfStatement,
-			enNT_ForStatement,
-			enNT_WhileStatement,
-			enNT_SwitchStatement,
 			enNT_Expression,
-			enNT_FunctionCall_Expression,
-			enNT_New_Object_Expression,
-			enNT_Delete_Object_Expression,
-			enNT_Return_Object_Expression,
-			enNT_Break_Object_Expression,
-			enNT_Continue_Object_Expression,
 			enNT_Block,
 
 		};
@@ -84,7 +73,11 @@ namespace	Air{
 			enSE_Variable_Array_Count_Must_Be_Int_Number,
 			enSE_Variable_Array_Count_Must_Greater_Than_Zero,
 			enSE_Miss_End_Of_SquareBracket,
-
+			enSE_UnDefine_Function,
+			enSE_Expression_Need_A_Operator,
+			enSE_For_Statement_Must_Fallow_A_Pre_Bracket,
+			enSE_For_Statement_Miss_Post_Bracket,
+			enSE_For_Statement_Condition_Must_Have_2_Semicolon,
 
 			enSE_Unknown_Error	=	0xffffffff
 		};
@@ -125,6 +118,8 @@ namespace	Air{
 			enumSyntaxError				FindStatementEnd(WordInfoVector& vecInfo,U32& idx,WordInfoVector& outInfo);
 			enumSyntaxError				ParseExpression(WordInfoVector& vecInfo,U32& idx);
 
+			
+
 			enumNodeType	GetType()const{return m_Type;};
 			CAString&		GetName()const{return m_strName;};
 			void			SetType(enumNodeType t){m_Type=t;};
@@ -136,6 +131,23 @@ namespace	Air{
 			void			RemoveChild(Node* p);
 			Node*			GetRootNode();
 			Node*			FindNode(CAString& strName,enumNodeType type = enNT_Unknown,U1 bFindParent = true);
+		public:
+			template<typename T>
+			enumSyntaxError	__ParseNode(WordInfoVector& vecInfo,U32& idx){
+				U32 uiTempIdx	=	idx;
+				Node* pNode = new T();
+				AddChild(pNode);
+				enumSyntaxError	e = pNode->Parse(vecInfo,uiTempIdx);
+				if(e==enSE_OK){
+					idx	=	uiTempIdx;
+				}else{
+					RemoveChild(pNode);
+					delete pNode;
+				}
+				return e;
+			};
+			Node*						__CheckNextNodeType(WordInfoVector& vecInfo,U32& idx,enumNodeType eType);
+			enumSyntaxError				__CheckNextWordType(WordInfoVector& vecInfo,U32& idx,U32			uiType);
 		protected:
 			enumNodeType	m_Type;
 			AString			m_strName;
