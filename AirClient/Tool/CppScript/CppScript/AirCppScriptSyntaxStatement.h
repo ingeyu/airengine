@@ -31,17 +31,29 @@ namespace	Air{
 		public:
 			IfStatementNode(){
 				m_sType			=	enST_If;
+				pConditionExp	=	NULL;
 			};
+			virtual	enumSyntaxError	Parse(WordInfoVector& vecInfo,U32& idx);
+			Node*	pConditionExp;
 		};
 		class	ForStatementNode	:	public	StatementNode
 		{
 		public:
 			ForStatementNode(){
 				m_sType			=	enST_For;
+				pInitExp		=	NULL;
+				pConditionExp	=	NULL;
+				pIterExp		=	NULL;
 			};
 			virtual	enumSyntaxError	Parse(WordInfoVector& vecInfo,U32& idx);
 			enumSyntaxError	ParseCondition(WordInfoVector& vecInfo,U32& idx);
 			enumSyntaxError	ParseCode(WordInfoVector& vecInfo,U32& idx);
+			enumSyntaxError	ParseSubCondition_Init(WordInfoVector& vecInfo);
+			enumSyntaxError	ParseSubCondition_Condition(WordInfoVector& vecInfo);
+			enumSyntaxError	ParseSubCondition_Iter(WordInfoVector& vecInfo);
+			Node*	pInitExp;
+			Node*	pConditionExp;
+			Node*	pIterExp;
 		};
 		class	WhileStatementNode	:	public	StatementNode
 		{

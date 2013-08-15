@@ -201,9 +201,8 @@ namespace	Air{
 				t = vecInfo[++idx].eType;
 				if(t.uiType	==	MakeType(enWT_Operator,enOT_Add)){
 					eSelfOperator[bPost]	=	enOT_Increment;
-					if(idx+1>=uiSize)
-						return enSE_UnexpectedEnd;
-					t = vecInfo[++idx].eType;
+					
+					idx++;
 				}else{
 					if(bPost==1){
 						idx--;
@@ -217,9 +216,8 @@ namespace	Air{
 				t = vecInfo[++idx].eType;
 				if(t.uiType	==	MakeType(enWT_Operator,enOT_Sub)){
 					eSelfOperator[bPost]	=	enOT_Decrement;
-					if(idx+1>=uiSize)
-						return enSE_UnexpectedEnd;
-					t = vecInfo[++idx].eType;
+					
+					idx++;
 				}else{
 					if(bPost==1){
 						idx--;

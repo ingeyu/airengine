@@ -26,7 +26,7 @@ namespace	Air{
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 			virtual	enumSyntaxError		ParseImportExport(WordInfoVector& vecInfo,U32& idx);
 			virtual	enumSyntaxError		ParseParameter(WordInfoVector& vecInfo,U32& idx);
-			virtual	enumSyntaxError		ParseFunction(WordInfoVector& vecInfo,U32& idx);
+			//virtual	enumSyntaxError		ParseFunction(WordInfoVector& vecInfo,U32& idx);
 			U1							IsParamNameExist(CAString& strName);
 			ParameterNode*				FindParameter(CAString& strName);
 			

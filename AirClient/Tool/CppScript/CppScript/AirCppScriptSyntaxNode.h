@@ -117,7 +117,7 @@ namespace	Air{
 			enumSyntaxError				FindBlock(WordInfoVector& vecInfo,U32& idx,WordInfoVector& outInfo,U32 uiKeyBegin,U32 uiKeyEnd);
 			enumSyntaxError				FindStatementEnd(WordInfoVector& vecInfo,U32& idx,WordInfoVector& outInfo);
 			enumSyntaxError				ParseExpression(WordInfoVector& vecInfo,U32& idx);
-
+			enumSyntaxError				ParseFunctionCode( WordInfoVector& vecInfo,U32& idx );
 			
 
 			enumNodeType	GetType()const{return m_Type;};
@@ -133,16 +133,22 @@ namespace	Air{
 			Node*			FindNode(CAString& strName,enumNodeType type = enNT_Unknown,U1 bFindParent = true);
 		public:
 			template<typename T>
-			enumSyntaxError	__ParseNode(WordInfoVector& vecInfo,U32& idx){
+			enumSyntaxError	__ParseNode(WordInfoVector& vecInfo,U32& idx,Node** pOutNode = NULL){
 				U32 uiTempIdx	=	idx;
 				Node* pNode = new T();
 				AddChild(pNode);
 				enumSyntaxError	e = pNode->Parse(vecInfo,uiTempIdx);
 				if(e==enSE_OK){
 					idx	=	uiTempIdx;
+					if(pOutNode!=NULL){
+						*pOutNode	=	pNode;
+					}
 				}else{
 					RemoveChild(pNode);
 					delete pNode;
+					if(pOutNode!=NULL){
+						*pOutNode	=	NULL;
+					}
 				}
 				return e;
 			};

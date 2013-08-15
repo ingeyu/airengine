@@ -223,7 +223,7 @@ namespace	Air{
 					m_bOnlyDeclare	=	1;
 					return enSE_OK;
 				}
-				e	=	ParseFunction(vecInfo,idx);
+				e	=	ParseFunctionCode(vecInfo,idx);
 				if(e!=enSE_OK){
 					return e;
 				}
@@ -261,148 +261,7 @@ namespace	Air{
 			return enSE_UnexpectedEnd;
 		}
 
-		Air::CppScript::enumSyntaxError FunctionNode::ParseFunction( WordInfoVector& vecInfo,U32& idx )
-		{
-			U32 uiSize	 = vecInfo.size();
-			enumSyntaxError	e = enSE_OK;
-			for(;;){
-				if(idx	>=	uiSize){
-					return enSE_UnexpectedEnd;
-				}
-				WordType tObjType	=	vecInfo[idx].eType;
-				if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_PreBrace){
-					idx++;
-					continue;
-				}else if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_PostBrace){
-					idx++;
-					return enSE_OK;
-				}else if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_Semicolon){
-					idx++;
-					continue;
-				}
-				tObjType	=	vecInfo[idx].eType;
-
-				if(tObjType.eWordtype==enWT_CppKeyWord){
-					switch(tObjType.eKeyword){
-					case enCKWT_If:{
-						e = __ParseNode<IfStatementNode>(vecInfo,idx);
-								   }break;
-					case enCKWT_For:{
-						e = __ParseNode<ForStatementNode>(vecInfo,idx);
-									}break;
-					case enCKWT_While:{
-						e = __ParseNode<WhileStatementNode>(vecInfo,idx);
-									  }break;
-					case enCKWT_Switch:{
-						e = __ParseNode<SwitchStatementNode>(vecInfo,idx);
-									   }break;
-					case enCKWT_New:{
-						e = __ParseNode<NewStatementNode>(vecInfo,idx);
-									   }break;
-					case enCKWT_Delete:{
-						e = __ParseNode<DeleteStatementNode>(vecInfo,idx);
-									   }break;
-					case enCKWT_Return:{
-						e = __ParseNode<ReturnStatementNode>(vecInfo,idx);
-									   }break;
-					case enCKWT_Const:
-					case enCKWT_Static:
-					case enCKWT_Unsigned:
-					case enCKWT_Void:
-					case enCKWT_Bool:		//	bool
-					case enCKWT_Char:		//	char
-					case enCKWT_Short:		//	short
-					case enCKWT_Int:			//	int
-					case enCKWT_Long:		//	long
-					case enCKWT_Int64:		//	_int64
-					case enCKWT_Float:		//	float
-					case enCKWT_Double:		//	double
-						{
-						e = __ParseNode<VariableNode>(vecInfo,idx);
-						}break;
-					default:{
-						e = __ParseNode<StatementNode>(vecInfo,idx);
-							}break;
-					}
-					if(e==enSE_OK){
-						continue;
-					}else{
-						return e;
-					}
-				}else{
-					e = __ParseNode<StatementNode>(vecInfo,idx);
-					if(e==enSE_OK){
-						continue;
-					}else{
-						return e;
-					}
-				} 
-
-				//if(tObjType.eWordtype	==	enWT_Unknown){
-				//	ObjectNode*		pObj	=	(ObjectNode*)FindNode(vecInfo[idx].str,enNT_Object);
-				//	if(pObj!=NULL){
-				//		U32 uiTempIdx	=	idx;
-				//		Node* pNode = new VariableNode();
-				//		AddChild(pNode);
-				//		enumSyntaxError	e = pNode->Parse(vecInfo,uiTempIdx);
-				//		if(e!=enSE_OK){
-				//			return e;
-				//		}else{
-				//			idx	=	uiTempIdx;
-				//		}
-				//		continue;
-				//	}
-				//	VariableNode*		pVar	=	(VariableNode*)FindNode(vecInfo[idx].str,enNT_Variable);
-				//	if(pObj!=NULL){
-				//		U32 uiTempIdx	=	idx;
-				//		Node* pNode = new ExpressionNode();
-				//		AddChild(pNode);
-				//		enumSyntaxError	e = pNode->Parse(vecInfo,uiTempIdx);
-				//		if(e!=enSE_OK){
-				//			return e;
-				//		}else{
-				//			idx	=	uiTempIdx;
-				//		}
-				//		continue;
-				//	}
-				//	ParameterNode*		pParam	=	(ParameterNode*)FindNode(vecInfo[idx].str,enNT_Parameter);
-				//	if(pParam!=NULL){
-				//		U32 uiTempIdx	=	idx;
-				//		Node* pNode = new ExpressionNode();
-				//		AddChild(pNode);
-				//		enumSyntaxError	e = pNode->Parse(vecInfo,uiTempIdx);
-				//		if(e!=enSE_OK){
-				//			return e;
-				//		}else{
-				//			idx	=	uiTempIdx;
-				//		}
-				//		continue;
-				//	}
-				//	FunctionNode*		pFunction	=	(FunctionNode*)FindNode(vecInfo[idx].str,enNT_Function);
-				//	if(pParam!=NULL){
-				//		U32 uiTempIdx	=	idx;
-				//		Node* pNode = new FunctionCallExpressionNode();
-				//		AddChild(pNode);
-				//		enumSyntaxError	e = pNode->Parse(vecInfo,uiTempIdx);
-				//		if(e!=enSE_OK){
-				//			return e;
-				//		}else{
-				//			idx	=	uiTempIdx;
-				//		}
-				//		continue;
-				//	}
-				//	return enSE_Unrecognized_Variable;
-				//}else{
-				//	return enSE_UnexpectedEnd;
-				//}
-
-				//if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_Semicolon){
-				//	idx++;
-				//	continue;
-				//}
-			}
-			return enSE_UnexpectedEnd;
-		}
+		
 
 		Air::U1 FunctionNode::IsParamNameExist( CAString& strName )
 		{

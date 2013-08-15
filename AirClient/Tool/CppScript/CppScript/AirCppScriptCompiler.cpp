@@ -136,7 +136,7 @@ namespace	Air{
 				return false;
 			}
 			WordInfoVector	vInfo;
-			if(WorldToWordInfo(v,vInfo)	!=	0){
+			if(WordToWordInfo(v,vInfo)	!=	0){
 				return false;
 			}
 			Node* pNode = new Node();
@@ -187,7 +187,7 @@ namespace	Air{
 			}
 			return val;
 		}
-		Air::U32 Compiler::WorldToWordInfo( StringVector& vecWord,WordInfoVector& vecInfo )
+		Air::U32 Compiler::WordToWordInfo( StringVector& vecWord,WordInfoVector& vecInfo )
 		{
 			U32 uiSize	=	vecWord.size();
 			vecInfo.reserve(uiSize);

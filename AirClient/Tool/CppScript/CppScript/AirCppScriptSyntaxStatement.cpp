@@ -109,22 +109,20 @@ namespace	Air{
 			if(statement.empty()){
 				return enSE_For_Statement_Must_Fallow_A_Pre_Bracket;
 			}
-			WordType t = statement[idx++].eType;
+			U32 uiTempSize	=	statement.size();
+			U32 uiTemp	=	0;
+			WordType t = statement[uiTemp].eType;
 			if(t.uiType!=MakeType(enWT_Delimiter,enWDT_PreBracket)){
 				return enSE_For_Statement_Must_Fallow_A_Pre_Bracket;
 			}
-			U32 uiTempSize	=	statement.size();
-			U32 uiTemp	=	0;
+			
 			e	=	ParseCondition(statement,uiTemp);
 			if(e==enSE_OK){
 				idx+=uiTempSize;
 			}else{
 				return e;
 			}
-			t = statement[uiTemp].eType;
-			if(t.uiType!=MakeType(enWT_Delimiter,enWDT_PreBracket)){
-				return enSE_For_Statement_Miss_Post_Bracket;
-			}
+			
 			if(idx+1>=uiSize){
 				return enSE_UnexpectedEnd;
 			}
@@ -152,7 +150,7 @@ namespace	Air{
 		{
 			U32 uiSize	=	vecInfo.size();
 			U32 uiSemicolon	=	0;
-			for(U32 i=0;i<uiSemicolon;i++){
+			for(U32 i=0;i<uiSize;i++){
 				if(vecInfo[i].eType.uiType==MakeType(enWT_Delimiter,enWDT_Semicolon)){
 					uiSemicolon++;
 				}
@@ -161,12 +159,99 @@ namespace	Air{
 				return enSE_For_Statement_Condition_Must_Have_2_Semicolon;
 			}
 			idx++;
+			uiSemicolon=0;
+			WordInfoVector v[3];
+			U32 uiSemicolonIndx=0;
+			for(U32 i=0;i<uiSize;i++){
+				if(vecInfo[i].eType.uiType==MakeType(enWT_Delimiter,enWDT_Semicolon)){
+					uiSemicolon++;
+					if(uiSemicolon==1){
+						for(U32 j=idx;j<=i;j++){
+							v[0].push_back(vecInfo[j]);
+						}
+						uiSemicolonIndx=i;
+					}else if(uiSemicolon==2){
+						for(U32 j=uiSemicolonIndx+1;j<=i;j++){
+							v[1].push_back(vecInfo[j]);
+						}
+						for(U32 j=i+1;j<uiSize-1;j++){
+							v[2].push_back(vecInfo[j]);
+						}
+						WordInfo vSemi;
+						vSemi.eType.uiType	=	MakeType(enWT_Delimiter,enWDT_Semicolon);
+						vSemi.str			=	";";
+						v[2].push_back(vSemi);
+						break;
+					}
+				}
+			}
+			WordInfoVector& vInit		=	v[0];
+			WordInfoVector& vCondition	=	v[1];
+			WordInfoVector& vIter		=	v[2];
+			enumSyntaxError e	=	enSE_OK;
+			if(vInit.size()>1){
+				e	=	ParseSubCondition_Init(vInit);
+				if(e!=enSE_OK)
+					return	e;
+			}
+			if(vCondition.size()>1){
+				e	=	ParseSubCondition_Condition(vCondition);
+				if(e!=enSE_OK)
+					return	e;
+			}
+			if(vIter.size()>1){
+				e	=	ParseSubCondition_Iter(vIter);
+				if(e!=enSE_OK)
+					return	e;
+			}
 
-			return enSE_UnexpectedEnd;
+			return enSE_OK;
 		}
 
 		Air::CppScript::enumSyntaxError ForStatementNode::ParseCode( WordInfoVector& vecInfo,U32& idx )
 		{
+			return ParseFunctionCode(vecInfo,idx);
+		}
+
+		Air::CppScript::enumSyntaxError ForStatementNode::ParseSubCondition_Init( WordInfoVector& vecInfo )
+		{
+			U32 i=0;
+			enumSyntaxError e	=	__ParseNode<VariableNode>(vecInfo,i);
+			e					=	__ParseNode<StatementNode>(vecInfo,i,&pInitExp);
+			
+			return e;
+		}
+
+		Air::CppScript::enumSyntaxError ForStatementNode::ParseSubCondition_Condition( WordInfoVector& vecInfo )
+		{
+			U32 i=0;
+			enumSyntaxError	e	=	__ParseNode<StatementNode>(vecInfo,i,&pInitExp);
+
+			return e;
+		}
+
+		Air::CppScript::enumSyntaxError ForStatementNode::ParseSubCondition_Iter( WordInfoVector& vecInfo )
+		{
+			U32 i=0;
+			enumSyntaxError	e	=	__ParseNode<StatementNode>(vecInfo,i,&pInitExp);
+
+			return e;
+		}
+
+
+		Air::CppScript::enumSyntaxError IfStatementNode::Parse( WordInfoVector& vecInfo,U32& idx )
+		{
+			U32 uiSize	=	vecInfo.size();
+			enumSyntaxError	e	=	enSE_OK;
+			WordInfoVector statement;
+			e	=	FindBlock(vecInfo,idx,statement,MakeType(enWT_Delimiter,enWDT_PreBracket),MakeType(enWT_Delimiter,enWDT_PostBracket));
+			if(e!=enSE_OK){
+				return e;
+			}
+			if(statement.empty()){
+				return enSE_For_Statement_Must_Fallow_A_Pre_Bracket;
+			}
+
 			return enSE_UnexpectedEnd;
 		}
 
