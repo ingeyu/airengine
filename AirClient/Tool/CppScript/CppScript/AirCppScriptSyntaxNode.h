@@ -78,6 +78,10 @@ namespace	Air{
 			enSE_For_Statement_Must_Fallow_A_Pre_Bracket,
 			enSE_For_Statement_Miss_Post_Bracket,
 			enSE_For_Statement_Condition_Must_Have_2_Semicolon,
+			enSE_Index_Operator_Miss_End_Of_SquareBracket,
+			enSE_Return_Miss_Value,
+			enSE_Return_Must_In_A_Function_Block,
+			enSE_Function_Return_Type_Not_Match,
 
 			enSE_Unknown_Error	=	0xffffffff
 		};
@@ -114,7 +118,7 @@ namespace	Air{
 			enumSyntaxError				ParseVariableName(WordInfoVector& vecInfo,U32& idx,AString& strName,U1 bCheckExist	=	true);
 
 
-			enumSyntaxError				FindBlock(WordInfoVector& vecInfo,U32& idx,WordInfoVector& outInfo,U32 uiKeyBegin,U32 uiKeyEnd);
+			enumSyntaxError				FindBlock(WordInfoVector& vecInfo,U32& idx,WordInfoVector& outInfo,U32 uiKeyBegin,U32 uiKeyEnd,U1 bIncludeKey=true);
 			enumSyntaxError				FindStatementEnd(WordInfoVector& vecInfo,U32& idx,WordInfoVector& outInfo);
 			enumSyntaxError				ParseExpression(WordInfoVector& vecInfo,U32& idx);
 			enumSyntaxError				ParseFunctionCode( WordInfoVector& vecInfo,U32& idx );
@@ -154,6 +158,8 @@ namespace	Air{
 			};
 			Node*						__CheckNextNodeType(WordInfoVector& vecInfo,U32& idx,enumNodeType eType);
 			enumSyntaxError				__CheckNextWordType(WordInfoVector& vecInfo,U32& idx,U32			uiType);
+
+			void			Print(std::string str);
 		protected:
 			enumNodeType	m_Type;
 			AString			m_strName;

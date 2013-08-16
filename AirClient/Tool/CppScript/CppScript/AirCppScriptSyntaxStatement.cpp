@@ -1,5 +1,6 @@
 #include "AirCppScriptSyntaxStatement.h"
 #include "AirCppScriptSyntaxExpression.h"
+#include "AirCppScriptSyntaxFunction.h"
 namespace	Air{
 	namespace	CppScript{
 
@@ -94,6 +95,44 @@ namespace	Air{
 
 		Air::CppScript::enumSyntaxError ReturnStatementNode::Parse( WordInfoVector& vecInfo,U32& idx )
 		{
+			idx++;
+			U32 uiSize	=	vecInfo.size();
+			if(idx>=uiSize){
+				return enSE_Return_Miss_Value;
+			}
+			WordType t = vecInfo[idx].eType;
+
+			Node* pFinction	=	GetParent();
+			while(pFinction->GetType()==enNT_Function){
+				if(pFinction==NULL){
+					break;
+				}
+				pFinction=pFinction->GetParent();
+			}
+			if(pFinction==NULL){
+				return enSE_Return_Must_In_A_Function_Block;
+			}
+			FunctionNode* pFN	=	(FunctionNode*)pFinction;
+			if(pFN->m_ReturnType.VariableType.t	==	enBOT_Void){
+				if(t.eKeyword	==	enWDT_Semicolon){
+					return enSE_OK;
+				}else{
+					return enSE_Function_Return_Type_Not_Match;
+				}
+			}else{
+				WordInfoVector vTemp;
+				enumSyntaxError	e	=	FindStatementEnd(vecInfo,idx,vTemp);
+				if(e!=enSE_OK){
+					return e;
+				}
+				U32 uiTemp=0;
+				e	=	__ParseNode<ExpressionNode>(vTemp,uiTemp,&pReturn);
+				if(e!=enSE_OK){
+					return e;
+				}
+				idx+=uiTemp;
+				return enSE_OK;
+			}
 			return enSE_UnexpectedEnd;
 		}
 
@@ -126,7 +165,8 @@ namespace	Air{
 			if(idx+1>=uiSize){
 				return enSE_UnexpectedEnd;
 			}
-			if(vecInfo[idx+1].eType.uiType==MakeType(enWT_Delimiter,enWDT_PreBrace)){
+			idx++;
+			if(vecInfo[idx].eType.uiType==MakeType(enWT_Delimiter,enWDT_PreBrace)){
 				statement.clear();
 				e	=	FindBlock(vecInfo,idx,statement,MakeType(enWT_Delimiter,enWDT_PreBrace),MakeType(enWT_Delimiter,enWDT_PostBrace));
 				if(e!=enSE_OK){
@@ -241,18 +281,26 @@ namespace	Air{
 
 		Air::CppScript::enumSyntaxError IfStatementNode::Parse( WordInfoVector& vecInfo,U32& idx )
 		{
+			idx++;
 			U32 uiSize	=	vecInfo.size();
 			enumSyntaxError	e	=	enSE_OK;
 			WordInfoVector statement;
-			e	=	FindBlock(vecInfo,idx,statement,MakeType(enWT_Delimiter,enWDT_PreBracket),MakeType(enWT_Delimiter,enWDT_PostBracket));
+			e	=	FindBlock(vecInfo,idx,statement,MakeType(enWT_Delimiter,enWDT_PreBracket),MakeType(enWT_Delimiter,enWDT_PostBracket),false);
 			if(e!=enSE_OK){
 				return e;
 			}
 			if(statement.empty()){
 				return enSE_For_Statement_Must_Fallow_A_Pre_Bracket;
 			}
-
-			return enSE_UnexpectedEnd;
+			
+			U32 uiTemp=0;
+			e	=	__ParseNode<ExpressionNode>(statement,uiTemp);
+			if(e!=enSE_OK){
+				return e;
+			}else{
+				idx+=statement.size()+2;
+			}
+			return ParseFunctionCode(vecInfo,idx);
 		}
 
 	}

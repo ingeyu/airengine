@@ -17,6 +17,7 @@ namespace	Air{
 			ExpressionNode(){
 				m_Type		=	enNT_Expression;
 				eType		=	enET_Unknown;
+				m_strName			=	"Exp";
 			};
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 			enumSyntaxError				ParseExpression(WordInfoVector& vecInfo,U32& idx);
@@ -34,6 +35,8 @@ namespace	Air{
 
 				eSelfOperator[0]	=	enCKWT_Unknown;
 				eSelfOperator[1]	=	enCKWT_Unknown;
+				m_pIndex			=	NULL;
+				m_strName			=	"ExpElement";
 			};
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 			enumSyntaxError				ParseObjectCast(WordInfoVector& vecInfo,U32& idx);
@@ -44,12 +47,14 @@ namespace	Air{
 			U1		bValue;
 			U1		bValue2;
 			enumCppKeyWordType	eSelfOperator[2];
+			Node*				m_pIndex;
 		};
 		class	ExpressionOperatorNode	:	public	ExpressionNode{
 		public:
 			ExpressionOperatorNode(){
 				eType		=	enET_Operator;
 				uiPre		=	false;
+				m_strName			=	"ExpOperator";
 			};
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 			void						CheckMultiOperator(WordType t,U32& idx);
@@ -63,6 +68,7 @@ namespace	Air{
 				pFunction	=	NULL;
 			};
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
+			Node*						ParseFunctionName(WordInfoVector& vecInfo,U32& idx);
 			Node*							pFunction;
 			std::vector<Node*>				pParameterArray;
 		};

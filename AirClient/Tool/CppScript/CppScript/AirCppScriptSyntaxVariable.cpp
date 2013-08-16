@@ -44,7 +44,11 @@ namespace	Air{
 				}
 			}
 			if(tObjType.eWordtype	==	enWT_Operator	&&	tObjType.eKeyword	==	enOT_Mov){
-				idx--;
+				if(uiArrayCount!=0){
+					idx-=4;
+				}else{
+					idx--;
+				}
 				return enSE_OK;
 			}else if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_Semicolon){
 				idx++;

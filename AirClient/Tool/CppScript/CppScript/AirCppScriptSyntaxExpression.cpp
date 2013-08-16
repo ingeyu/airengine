@@ -7,45 +7,15 @@ namespace	Air{
 
 		Air::CppScript::enumSyntaxError ExpressionNode::Parse( WordInfoVector& vecInfo,U32& idx )
 		{
-			//U32 uiSize = vecInfo.size();
-			//WordInfo& info = vecInfo[idx];
-			//WordType t = info.eType;
-			//Node* p	=	FindNode(info.str);
-			//if(p==NULL){
-			//	return enSE_Unrecognized_Variable;
-			//}
-			//if(p->GetType()!=enNT_Variable &&	p->GetType()!=enNT_Parameter){
-			//	return enSE_Unrecognized_Variable;
-			//}
-			//pLeftNode	=	p;
-			//if(idx+1>=uiSize){
-			//	return enSE_UnexpectedEnd; 
-			//}
-			//t	=	vecInfo[++idx].eType;
-			//if(t.eWordtype==enWT_Operator){
-			//	eOperator	=	t.eKeyword;
-			//	if(idx+1>=uiSize){
-			//		return enSE_UnexpectedEnd; 
-			//	}
-			//	t	=	vecInfo[++idx].eType;
-			//}
-
-			////if(t.eWordtype)
-
-			enumSyntaxError	e	=	__ParseNode<ExpressionElementNode>(vecInfo,idx);
-			if(e!=enSE_OK){
-				e	=	__ParseNode<FunctionCallExpressionNode>(vecInfo,idx);
-				if(e!=enSE_OK){
-					return e;
-				}
-			}
+			enumSyntaxError	e	=	enSE_OK;
+			e	=	ParseExpression(vecInfo,idx);
 			U32 uiSize = vecInfo.size();
 			if(idx<uiSize){
 				e	=	__ParseNode<ExpressionOperatorNode>(vecInfo,idx);
 				if(e!=enSE_OK){
 					return	enSE_UnexpectedEnd;
 				}
-				e	=	__ParseNode<ExpressionNode>(vecInfo,idx);
+				e	=	ParseExpression(vecInfo,idx);
 				if(e!=enSE_OK){
 					return	enSE_UnexpectedEnd;
 				}
@@ -55,7 +25,35 @@ namespace	Air{
 
 		Air::CppScript::enumSyntaxError ExpressionNode::ParseExpression( WordInfoVector& vecInfo,U32& idx )
 		{
-			return	enSE_UnexpectedEnd;
+			enumSyntaxError	e	=	enSE_OK;
+			U32 uiSize = vecInfo.size();
+			WordInfo& info = vecInfo[idx];
+			WordType t = info.eType;
+			if(t.eKeyword	==	enWDT_PreBracket){
+				WordInfoVector firstStatement;
+				e	=	FindBlock(vecInfo,idx,firstStatement,MakeType(enWT_Delimiter,enWDT_PreBracket),MakeType(enWT_Delimiter,enWDT_PostBracket),false);
+				if(e!=enSE_OK){
+					return	e;
+				}
+				U32 uiTemp	=	0;
+				e	=	__ParseNode<ExpressionNode>(firstStatement,uiTemp);
+				if(e!=enSE_OK){
+					return e;
+				}
+				idx+=firstStatement.size()+2;
+				if(idx>=vecInfo.size()){
+					return enSE_OK;
+				}
+			}else{
+				e	=	__ParseNode<ExpressionElementNode>(vecInfo,idx);
+				if(e!=enSE_OK){
+					e	=	__ParseNode<FunctionCallExpressionNode>(vecInfo,idx);
+					if(e!=enSE_OK){
+						return e;
+					}
+				}
+			}
+			return enSE_OK;
 		}
 
 
@@ -64,7 +62,7 @@ namespace	Air{
 			U32 uiSize	=	vecInfo.size();
 			if(idx>=uiSize)
 				return enSE_UnexpectedEnd;
-			pFunction	=	__CheckNextNodeType(vecInfo,idx,enNT_Function);
+			pFunction	=	ParseFunctionName(vecInfo,idx);//__CheckNextNodeType(vecInfo,idx,enNT_Function);
 			if(pFunction==NULL)
 				return enSE_UnDefine_Function;
 			if(idx+1>=uiSize)
@@ -116,6 +114,51 @@ namespace	Air{
 			}
 
 			return enSE_UnexpectedEnd;
+		}
+
+		Node* FunctionCallExpressionNode::ParseFunctionName( WordInfoVector& vecInfo,U32& idx )
+		{
+			U32 uiOld	=	idx;
+			U32 uiSize	=	vecInfo.size();
+			Node* pNode	=	FindNode(vecInfo[uiOld].str);
+			if(pNode==NULL){
+				return NULL;
+			}
+			if(pNode->GetType()==enNT_Function){
+				idx++;
+				return pNode;
+			}else if(pNode->GetType()==enNT_NameSpace){
+				while(pNode){
+					
+					if(uiOld+2>=uiSize){
+						return NULL;
+					}
+					WordType t0= vecInfo[uiOld+1].eType;
+					WordType t1= vecInfo[uiOld+2].eType;
+					if(t0.eKeyword!=enOT_Colon||t1.eKeyword!=enOT_Colon){
+						return NULL;
+					}
+					uiOld+=2;
+					if(idx+1>=uiSize){
+						return NULL;
+					}
+					uiOld++;
+					pNode	=	pNode->FindNode(vecInfo[uiOld].str,enNT_Unknown,false);
+					if(pNode==NULL){
+						return NULL;
+					}
+					if(pNode->GetType()==enNT_Function){
+						uiOld++;
+						idx=uiOld;
+						return	pNode;
+					}
+					if(pNode->GetType()==enNT_NameSpace){
+						uiOld++;
+						continue;
+					}
+				}
+			}
+			return NULL;
 		}
 
 
@@ -178,6 +221,23 @@ namespace	Air{
 			}else{
 				return enSE_UnexpectedEnd;
 			}
+			if(idx<vecInfo.size()){
+				t = vecInfo[idx].eType;
+				if(t.uiType	==	MakeType(enWT_Operator,enOT_SquareBracketBegin)){
+					idx++;
+					e	=	__ParseNode<ExpressionElementNode>(vecInfo,idx,&m_pIndex);
+					if(e!=enSE_OK){
+						return e;
+					}
+					t = vecInfo[idx].eType;
+					if(t.uiType	!=	MakeType(enWT_Operator,enOT_SquareBracketEnd)){
+						return enSE_Index_Operator_Miss_End_Of_SquareBracket;
+					}else{
+						idx++;
+					}
+				}
+			}
+
 			CheckSelfOperator(vecInfo,idx,1);
 			return	enSE_OK;
 		}
@@ -247,8 +307,9 @@ namespace	Air{
 
 		void ExpressionOperatorNode::CheckMultiOperator( WordType t,U32& idx)
 		{
-			if(t.eWordtype!=enWT_Operator)
+			if(t.eWordtype!=enWT_Operator){
 				return;
+			}
 			switch(eOperator){
 			case enOT_Add:{
 				if(t.eKeyword	==	enOT_Mov){
@@ -259,6 +320,9 @@ namespace	Air{
 			case enOT_Sub:{
 				if(t.eKeyword	==	enOT_Mov){
 					eOperator	=	enOT_SubEqual;
+					idx++;
+				}else if(t.eKeyword	==	enOT_Greater){
+					eOperator	=	enOT_PointorMember;
 					idx++;
 				}
 						  }break;
@@ -328,7 +392,14 @@ namespace	Air{
 					idx++;
 				}
 						   }break;
+			case	enOT_Colon:{
+				if(t.eKeyword	==	enOT_Colon){
+					eOperator	=	enOT_Domain;
+					idx++;
+				}
+							   }break;
 			}
+			
 		}
 
 	}

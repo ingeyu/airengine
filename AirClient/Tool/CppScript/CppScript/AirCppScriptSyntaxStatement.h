@@ -32,6 +32,7 @@ namespace	Air{
 			IfStatementNode(){
 				m_sType			=	enST_If;
 				pConditionExp	=	NULL;
+				m_strName		=	"If";
 			};
 			virtual	enumSyntaxError	Parse(WordInfoVector& vecInfo,U32& idx);
 			Node*	pConditionExp;
@@ -44,6 +45,7 @@ namespace	Air{
 				pInitExp		=	NULL;
 				pConditionExp	=	NULL;
 				pIterExp		=	NULL;
+				m_strName		=	"For";
 			};
 			virtual	enumSyntaxError	Parse(WordInfoVector& vecInfo,U32& idx);
 			enumSyntaxError	ParseCondition(WordInfoVector& vecInfo,U32& idx);
@@ -94,6 +96,7 @@ namespace	Air{
 			ReturnStatementNode(){
 				m_sType		=	enST_Return;
 				pReturn		=	NULL;
+				m_strName		=	"Return";
 			};
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 			Node*							pReturn;

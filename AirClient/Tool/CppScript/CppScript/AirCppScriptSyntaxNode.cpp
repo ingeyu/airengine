@@ -5,6 +5,7 @@
 #include "AirCppScriptSyntaxNameSpace.h"
 #include "AirCppScriptSyntaxExpression.h"
 #include "AirCppScriptSyntaxStatement.h"
+#include <string>
 namespace	Air{
 	namespace	CppScript{
 
@@ -29,6 +30,8 @@ namespace	Air{
 
 			for(;idx<uiSize;){
 				enumSyntaxError	e	=	enSE_OK;
+				if(idx>=uiSize)
+					return enSE_OK;
 				WordType& t = vecInfo[idx].eType;
 				switch(t.eWordtype){
 				case enWT_PreDeclare:{
@@ -48,6 +51,8 @@ namespace	Air{
 							return enSE_OK;
 						}
 						continue;
+					}else if(t.eKeyword	==	enWDT_PostBrace){
+						return enSE_OK;
 					}
 					return enSE_Unrecognized_Delimiter;
 									}break;
@@ -493,7 +498,7 @@ namespace	Air{
 			return enSE_OK;
 		}
 
-		Air::CppScript::enumSyntaxError Node::FindBlock( WordInfoVector& vecInfo,U32& idx,WordInfoVector& outInfo,U32 uiKeyBegin,U32 uiKeyEnd )
+		Air::CppScript::enumSyntaxError Node::FindBlock( WordInfoVector& vecInfo,U32& idx,WordInfoVector& outInfo,U32 uiKeyBegin,U32 uiKeyEnd ,U1 bIncludeKey)
 		{
 			U32 uiSize	=	vecInfo.size();
 			if(idx>=uiSize)
@@ -505,6 +510,8 @@ namespace	Air{
 				if(uiKeyBegin	==	vecInfo[i].eType.uiType){
 					if(uiDepth==0){
 						uiBeginIndx	=	i;
+						if(!bIncludeKey)
+							uiBeginIndx++;
 					}
 					uiDepth++;
 					continue;
@@ -525,7 +532,12 @@ namespace	Air{
 			if(uiBeginIndx==0XFFFFFFFF||uiEndIndex==0XFFFFFFFF){
 				return enSE_UnexpectedEnd;
 			}
-			U32 uiCount	=	uiEndIndex	-	uiBeginIndx+1;
+			U32 uiCount	=	uiEndIndex	-	uiBeginIndx;
+			if(uiCount==0){
+				return enSE_OK;
+			}
+			if(bIncludeKey)
+				uiCount++;
 			outInfo.resize(uiCount);
 			for(U32 i=0;i<uiCount;i++){
 				outInfo[i]=vecInfo[uiBeginIndx+i];
@@ -725,5 +737,30 @@ namespace	Air{
 			}
 			return enSE_UnexpectedEnd;
 		}
+		std::string strType[]={
+			"enNT_Unknown",
+			"enNT_Global",
+			"enNT_NameSpac",
+			"enNT_ImportFunction",
+			"enNT_Variable",
+			"enNT_Constant",
+			"enNT_Function",
+			"enNT_Object",
+			"enNT_Parameter",
+			"enNT_Statement",
+			"enNT_Expression",
+			"enNT_Block"
+		};
+		void Node::Print( std::string str )
+		{
+			
+			printf("%sType[%s] Name[%s]\n",str.c_str(),strType[GetType()].c_str(),GetName().c_str());
+			str+="----+";
+			NodeList::iterator	i	=	m_lstChild.begin();
+			for(;i!=m_lstChild.end();i++){
+				(*i)->Print(str);
+			}
+		}
+
 	}
 }

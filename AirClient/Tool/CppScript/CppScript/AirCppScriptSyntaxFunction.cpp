@@ -223,18 +223,23 @@ namespace	Air{
 					m_bOnlyDeclare	=	1;
 					return enSE_OK;
 				}
-				e	=	ParseFunctionCode(vecInfo,idx);
-				if(e!=enSE_OK){
-					return e;
-				}
-				tObjType	=	vecInfo[idx].eType;
-				if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_PostBrace){
-					idx++;
-					return enSE_OK;
-				}
-			}
 
-			return enSE_UnexpectedEnd;
+			}
+			//e	=	ParseFunctionCode(vecInfo,idx);
+			//if(e!=enSE_OK){
+			//	return e;
+			//}
+			//if(idx<uiSize){
+			//	tObjType	=	vecInfo[idx].eType;
+			//	if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_PostBrace){
+			//		idx++;
+			//		return enSE_OK;
+			//	}
+			//}else{
+			//	return enSE_OK;
+			//}
+
+			return ParseFunctionCode(vecInfo,idx);;
 		}
 
 		Air::CppScript::enumSyntaxError FunctionNode::ParseParameter( WordInfoVector& vecInfo,U32& idx )

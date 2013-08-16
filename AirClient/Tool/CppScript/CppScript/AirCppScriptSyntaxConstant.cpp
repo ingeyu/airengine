@@ -11,6 +11,7 @@ namespace	Air{
 			if(idx>=uiSize)
 				return enSE_UnexpectedEnd;
 			ConstInfo	=	vecInfo[idx];
+			m_strName	=	ConstInfo.str;
 			if(ConstInfo.eType.eWordtype==enWT_Constant){
 				idx++;
 				return enSE_OK;

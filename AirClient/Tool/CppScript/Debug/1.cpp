@@ -37,7 +37,7 @@ namespace	Air{
 int main(){
 	int x	=	-5;
 	float	f	=	100.0f;
-	char str[]	=	"aerIOJIFSDF";
-	ToLower(str);
+	char str2[100]	=	"aerIOJIFSDF";
+	Air::ToLower(str);
 	return -1;
 }

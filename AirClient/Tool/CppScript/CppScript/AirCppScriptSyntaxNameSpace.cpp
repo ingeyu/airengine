@@ -26,23 +26,34 @@ namespace	Air{
 			}
 			m_strName	=	vecInfo[idx].str;
 			idx++;
-
-			for(;idx<vecInfo.size();){
-				WordType& t = vecInfo[idx].eType;
-				if(t.eWordtype	==	enWT_Delimiter	&&	t.eKeyword	==	enWDT_PostBrace){
-					idx++;
-					return enSE_OK;
-				}
-				if(t.eWordtype	==	enWT_Delimiter	&&	t.eKeyword	==	enWDT_PreBrace){
-					idx++;
-					continue;
-				}
-				enumSyntaxError e = Node::Parse(vecInfo,idx);
-				if(e!=enSE_OK){
-					return e;
-				}
+			WordInfoVector vTemp;
+			enumSyntaxError e =	FindBlock(vecInfo,idx,vTemp,MakeType(enWT_Delimiter,enWDT_PreBrace),MakeType(enWT_Delimiter,enWDT_PostBrace),false);
+			if(e!=enSE_OK){
+				return	e;
 			}
-
+			U32 uiTemp = 0;
+			e = Node::Parse(vTemp,uiTemp);
+			if(e!=enSE_OK){
+				return e;
+			}
+			idx+=vTemp.size()+2;
+			return enSE_OK;
+			/*for(;idx<vecInfo.size();){
+			WordType& t = vecInfo[idx].eType;
+			if(t.eWordtype	==	enWT_Delimiter	&&	t.eKeyword	==	enWDT_PostBrace){
+			idx++;
+			return enSE_OK;
+			}
+			if(t.eWordtype	==	enWT_Delimiter	&&	t.eKeyword	==	enWDT_PreBrace){
+			idx++;
+			continue;
+			}
+			enumSyntaxError e = Node::Parse(vecInfo,idx);
+			if(e!=enSE_OK){
+			return e;
+			}
+			}
+			*/
 
 			return enSE_UnexpectedEnd;
 		}

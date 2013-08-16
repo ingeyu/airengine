@@ -78,6 +78,10 @@ namespace	Air{
 			m_mapWordType["__declspec"]	=	MakeType(enWT_CppKeyWord,	enCKWT___declspec,	0,0);
 			m_mapWordType["dllexport"]	=	MakeType(enWT_CppKeyWord,	enCKWT_dllexport,	0,0);
 			m_mapWordType["dllimport"]	=	MakeType(enWT_CppKeyWord,	enCKWT_dllimport,	0,0);
+			m_mapWordType["__cdecl"]	=	MakeType(enWT_CppKeyWord,	enCKWT___cdecl,		0,0);
+			m_mapWordType["__fastcall"]	=	MakeType(enWT_CppKeyWord,	enCKWT___fastcall,	0,0);
+			m_mapWordType["__stdcall"]	=	MakeType(enWT_CppKeyWord,	enCKWT___stdcall,	0,0);
+			m_mapWordType["__thiscall"]	=	MakeType(enWT_CppKeyWord,	enCKWT___thiscall,	0,0);
 
 			m_mapWordType["+"]	=	MakeType(enWT_Operator,	enOT_Add,				0,0);
 			m_mapWordType["-"]	=	MakeType(enWT_Operator,	enOT_Sub,				0,0);
@@ -108,19 +112,21 @@ namespace	Air{
 			m_mapWordType[">>"]	=	MakeType(enWT_Operator,	enOT_RightShift,		0,0);
 			m_mapWordType["["]	=	MakeType(enWT_Operator,	enOT_SquareBracketBegin,		0,0);
 			m_mapWordType["]"]	=	MakeType(enWT_Operator,	enOT_SquareBracketEnd,			0,0);
-			m_mapWordType[":"]	=	MakeType(enWT_Operator,	enOT_Colon,			0,0);
+			m_mapWordType[":"]	=	MakeType(enWT_Operator,	enOT_Colon,				0,0);
 			m_mapWordType["?"]	=	MakeType(enWT_Operator,	enOT_Question,			0,0);
 			m_mapWordType["&&"]	=	MakeType(enWT_Operator,	enOT_LogicAnd,			0,0);
 			m_mapWordType["||"]	=	MakeType(enWT_Operator,	enOT_LogicNot,			0,0);
 			m_mapWordType["!"]	=	MakeType(enWT_Operator,	enOT_LogicOr,			0,0);
+			m_mapWordType["->"]	=	MakeType(enWT_Operator,	enOT_PointorMember,		0,0);
 
-			m_mapWordType[","]	=	MakeType(enWT_Delimiter,	enWDT_Comma,		0,0);//	,
+			m_mapWordType[","]	=	MakeType(enWT_Delimiter,	enWDT_Comma,			0,0);//	,
 			m_mapWordType[";"]	=	MakeType(enWT_Delimiter,	enWDT_Semicolon,		0,0);//	;
-			m_mapWordType["{"]	=	MakeType(enWT_Delimiter,	enWDT_PreBrace,		0,0);//	{
-			m_mapWordType["}"]	=	MakeType(enWT_Delimiter,	enWDT_PostBrace,			0,0);//	}
+			m_mapWordType["{"]	=	MakeType(enWT_Delimiter,	enWDT_PreBrace,			0,0);//	{
+			m_mapWordType["}"]	=	MakeType(enWT_Delimiter,	enWDT_PostBrace,		0,0);//	}
 			m_mapWordType["("]	=	MakeType(enWT_Delimiter,	enWDT_PreBracket,		0,0);//	(
 			m_mapWordType[")"]	=	MakeType(enWT_Delimiter,	enWDT_PostBracket,		0,0);//	)
 			m_mapWordType["\\"]	=	MakeType(enWT_Delimiter,	enWDT_Back_Slant ,		0,0);//	"\"
+			m_mapWordType["."]	=	MakeType(enWT_Delimiter,	enWDT_Period,			0,0);//	)
 			return true;
 		}
 
@@ -144,6 +150,9 @@ namespace	Air{
 			enumSyntaxError	e	= pNode->Parse(vInfo,idx);
 			if(e!=enSE_OK)
 				return false;
+#ifdef _DEBUG
+			pNode->Print("|-|");
+#endif
 			return true;
 		}
 
