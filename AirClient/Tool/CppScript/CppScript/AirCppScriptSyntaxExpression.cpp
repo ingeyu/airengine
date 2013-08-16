@@ -139,7 +139,7 @@ namespace	Air{
 						return NULL;
 					}
 					uiOld+=2;
-					if(idx+1>=uiSize){
+					if(uiOld+1>=uiSize){
 						return NULL;
 					}
 					uiOld++;
