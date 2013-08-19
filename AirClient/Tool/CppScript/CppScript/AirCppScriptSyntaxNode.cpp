@@ -740,7 +740,7 @@ namespace	Air{
 		std::string strType[]={
 			"enNT_Unknown",
 			"enNT_Global",
-			"enNT_NameSpac",
+			"enNT_NameSpace",
 			"enNT_ImportFunction",
 			"enNT_Variable",
 			"enNT_Constant",

@@ -11,8 +11,8 @@ namespace	Air{
 		U32 ToHex( const AString& str );
 		U1	IsFloatEnd(const AString& str);
 		Real ToFloat( const AString& str );
-		U1	StringToWord( U8*	pData,U32	uiSize,StringVector& vecWord);
 		
+		U1	ParseWord(U8*	pData,U32	uiSize,StringVector& vecWord,PosVector& vecLine);
 	}
 }
 #endif // AirCppScriptParse_h__

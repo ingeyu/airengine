@@ -1,9 +1,54 @@
 #include "AirCppScriptParse.h"
-
+#include <Windows.h>
 
 namespace	Air{
 
 	namespace	CppScript{
+		U1	StringToLineVector(const char* p,U32 uiSize,StringVector& vLine){
+			U32 uiBegin	=	0;
+			U32	uiEnd	=	0;
+			int iLine	=	0;
+			vLine.reserve(100);
+			U32 i=0;
+			for(;i<uiSize;i++){
+				if(p[i]==0x0a){
+					uiEnd	=	i;
+					if(i>0){
+						if(p[uiEnd-1]==0x0d){
+							uiEnd--;
+						}
+					}
+					U32 uiLineSize	=	uiEnd-uiBegin;
+					if(uiLineSize	>	0){
+						std::string str;
+						str.resize(uiLineSize);
+						memcpy(&str[0],&p[uiBegin],uiLineSize);
+						vLine.push_back(str);
+					}else{
+						vLine.push_back("");
+					}
+
+					uiBegin	=	i+1;
+				}
+			}
+			if(i>0){
+				if(p[i-1]==0x0d){
+					i--;
+				}
+			}
+			U32 uiLineSize	=	i-uiBegin;
+			if(uiLineSize	>	0){
+				std::string str;
+				str.resize(uiLineSize);
+				memcpy(&str[0],&p[uiBegin],uiLineSize);
+				vLine.push_back(str);
+			}else{
+				vLine.push_back("");
+			}
+
+
+			return true;
+		}
 		Air::U1 IsNumber(const CAString& str )
 		{
 			U32 uiCount=str.size();
@@ -282,64 +327,74 @@ namespace	Air{
 			}
 		}
 	
-		void	SkipComment(char*	p,U32*	pPos){
-			for(U32 i=*pPos;;i++){
+		U1	SkipComment(char*	p,U32& i,U32 uiSize){
+			for(;i<uiSize;i++){
 				if(	p[i]	==	'/'	&&
-					p[i-1]	==	'*'){
-						*pPos	=	i+1;
-						return;
+					p[i-1]	==	'*')
+				{
+					i++;
+					return false;
 				}
 			}
+			return true;
 		};
 	
-		U1 StringToWord( U8*	pData,U32	uiSize,StringVector& vecWord){
-			//判断数据是否为空
-			if(pData	==	NULL)
-			{
-				return	false;
-			}
-			AChar*	p	=	(AChar*)pData;//->GetBuff();
-			U32	iSize	=	uiSize;//pData->GetSize();
-	
-			std::list<AString>	lst;
-	
-			U32	iNumWord	=	0;
-	
-			for(U32 i=0;i<iSize;){
-				//判断是否为一个词
-				if(IsWord(p[i])){
-					//判断是否为运算符
-					if(!IsOperator(p[i])){
-						//取出这个词
-						lst.push_back(MakeWord(p,&i));
-					}else{
-						//取出操作符
-						AString	strTemp	=	MakeOperator(p,&i);
-						//判断是否为注释行
-						if(strTemp	==	"//"){
-							SkipToNextLine(p,&i);
+		U1 LineToWord(StringVector& vLine,StringVector& vecWord,PosVector& vecLine){
+
+			vecWord.reserve(100);
+			vecLine.reserve(100);
+			U1 bSkipComment	=	false;
+			U32 uiLineCount	=	vLine.size();
+			for(U32	iLine=0;iLine<uiLineCount;iLine++){
+				AString& strLine	=	vLine[iLine];
+				if(!strLine.empty()){
+					char* p	=	&strLine[0];
+					U32		iSize	=	strLine.size();
+
+					
+					U32 i=0;
+					
+					if(bSkipComment){
+						bSkipComment	=	SkipComment(p,i,iSize);
+						if(bSkipComment){
 							continue;
-						}else	if(strTemp	==	"/*"){
-							SkipComment(p,&i);
-							continue;
-						}else
-							lst.push_back(strTemp);
+						}
 					}
-					//递增
-					iNumWord++;
-				}else{
-					i++;
-					continue;
+					for(;i<iSize;){
+						//判断是否为一个词
+						if(IsWord(p[i])){
+							//判断是否为运算符
+							if(!IsOperator(p[i])){
+								//取出这个词
+								vecWord.push_back(MakeWord(p,&i));
+								vecLine.push_back(Pos(iLine,i));
+							}else{
+								//取出操作符
+								AString	strTemp	=	MakeOperator(p,&i);
+								//判断是否为注释行
+								if(strTemp	==	"//"){
+									SkipToNextLine(p,&i);
+									continue;
+								}else	if(strTemp	==	"/*"){
+									if(SkipComment(p,i,iSize)){
+										bSkipComment	=	true;
+										break;
+									}
+									continue;
+								}else{
+									vecWord.push_back(strTemp);
+									vecLine.push_back(Pos(iLine,i));
+								}
+							}
+						}else{
+							i++;
+							continue;
+						}
+					}
+					
+
 				}
 			}
-	
-			vecWord.resize(iNumWord);
-			std::list<AString>::iterator	itr	=	lst.begin();
-			for(U32 i=0;i<iNumWord;i++,itr++){
-				vecWord[i]	=	(AString)(*itr);
-			}
-	
-	
 			return	true;
 		}
 
@@ -481,6 +536,21 @@ namespace	Air{
 					return false;
 				}
 			}
+			return true;
+		}
+
+		U1	ParseWord( U8* pData,U32 uiSize,StringVector& vecWord,PosVector& vecLine )
+		{
+			StringVector vLine;
+			if(!StringToLineVector((char*)pData,uiSize,vLine)){
+				return false;
+			}
+
+
+			if(!LineToWord(vLine,vecWord,vecLine)){
+				return false;
+			}
+
 			return true;
 		}
 

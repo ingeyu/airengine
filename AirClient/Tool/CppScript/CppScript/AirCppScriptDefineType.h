@@ -26,21 +26,18 @@ namespace	Air{
 		};
 		struct WordInfo{
 			WordInfo(){
-				uiType	=	0;
 				iVal	=	0;
-				line	=	0;
 				file	=	0;
 			};
-			union{
-				WordType				eType;
-				unsigned long			uiType;
-			};
+			
+			WordType				eType;
+			
 			union{
 				U32		iVal;
 				float	fVal;
 			};
 			AString						str;
-			unsigned long				line;
+			Pos							pos;
 			unsigned long				file;
 		};
 		typedef std::vector<WordInfo>	WordInfoVector;

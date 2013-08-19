@@ -44,7 +44,7 @@ __declspec(dllimport) int Call(int x,int y,int z);
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	//A a = Call(1,2,3);
+	char cc='\n';
 	//if(argc	<	2){
 	//	wprintf(L"CppScript *.cpp\n");
 	//	getchar();

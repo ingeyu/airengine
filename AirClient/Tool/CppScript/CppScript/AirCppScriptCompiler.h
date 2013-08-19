@@ -23,7 +23,7 @@ namespace	Air{
 		protected:
 			void	AllocWordInfo();
 			void	FreeWordInfo();
-			U32		WordToWordInfo(StringVector& vecWord,WordInfoVector& vecInfo);
+			U32		WordToWordInfo(StringVector& vecWord,PosVector& vLine,WordInfoVector& vecInfo);
 			U32		WordInfoToSyntaxTree(WordInfoVector& vecInfo);
 
 			

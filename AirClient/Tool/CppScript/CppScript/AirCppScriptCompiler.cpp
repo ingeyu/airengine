@@ -138,11 +138,12 @@ namespace	Air{
 		bool Compiler::Compile( const void* pBuffer,unsigned int uiSize )
 		{
 			StringVector v;
-			if(!StringToWord((U8 *)pBuffer,uiSize,v)){
+			PosVector	vLine;
+			if(!ParseWord((U8 *)pBuffer,uiSize,v,vLine)){
 				return false;
 			}
 			WordInfoVector	vInfo;
-			if(WordToWordInfo(v,vInfo)	!=	0){
+			if(WordToWordInfo(v,vLine,vInfo)	!=	0){
 				return false;
 			}
 			Node* pNode = new Node();
@@ -196,7 +197,7 @@ namespace	Air{
 			}
 			return val;
 		}
-		Air::U32 Compiler::WordToWordInfo( StringVector& vecWord,WordInfoVector& vecInfo )
+		Air::U32 Compiler::WordToWordInfo( StringVector& vecWord,PosVector& vLine,WordInfoVector& vecInfo )
 		{
 			U32 uiSize	=	vecWord.size();
 			vecInfo.reserve(uiSize);
@@ -204,19 +205,21 @@ namespace	Air{
 				std::tr1::unordered_map<std::string,U32>::iterator	itr = m_mapWordType.find(vecWord[i]);
 				if(itr!=m_mapWordType.end()){
 					WordInfo info;
-					info.uiType	=	itr->second;
+					info.eType.uiType	=	itr->second;
 					info.str	=	vecWord[i];
+					info.pos	=	vLine[i];
 					vecInfo.push_back(info);
 				}else{
 					WordInfo info;
 					info.str	=	vecWord[i];
+					info.pos	=	vLine[i];
 					if(!info.str.empty()){
 						if(info.str[0]=='\''){
-							info.uiType	=	MakeType(enWT_Constant,enVT_IntNumber,0,0);
+							info.eType.uiType	=	MakeType(enWT_Constant,enVT_IntNumber,0,0);
 							info.iVal	=	CharArrayToU32(&info.str[1],info.str.size()-2);
 							vecInfo.push_back(info);
 						}else if(info.str[0]=='\"'){
-							info.uiType	=	MakeType(enWT_Constant,enVT_String,0,0);
+							info.eType.uiType	=	MakeType(enWT_Constant,enVT_String,0,0);
 							AString s;
 							s.resize(info.str.size()-2);
 							memcpy(&s[0],&info.str[1],info.str.size()-2);
@@ -230,7 +233,7 @@ namespace	Air{
 										if(IsFloatEnd(vecWord[i+2])){
 											info.str+=vecWord[i+1]+vecWord[i+2];
 											i+=2;
-											info.uiType	=	MakeType(enWT_Constant,enVT_FloatNumber,0,0);
+											info.eType.uiType	=	MakeType(enWT_Constant,enVT_FloatNumber,0,0);
 											info.fVal	=	ToFloat(info.str);
 											vecInfo.push_back(info);
 											continue;
@@ -238,15 +241,15 @@ namespace	Air{
 									}
 								}
 							}
-							info.uiType	=	MakeType(enWT_Constant,enVT_IntNumber,0,0);
+							info.eType.uiType	=	MakeType(enWT_Constant,enVT_IntNumber,0,0);
 							info.iVal	=	ToS32(info.str);
 							vecInfo.push_back(info);
 						}else if(IsHexNumber(info.str)){
-							info.uiType	=	MakeType(enWT_Constant,enVT_IntNumber,0,0);
+							info.eType.uiType	=	MakeType(enWT_Constant,enVT_IntNumber,0,0);
 							info.iVal	=	ToHex(info.str);
 							vecInfo.push_back(info);
 						}else{
-							info.uiType	=	MakeType(enWT_Unknown,0,0,0);
+							info.eType.uiType	=	MakeType(enWT_Unknown,0,0,0);
 							vecInfo.push_back(info);
 						}
 					}

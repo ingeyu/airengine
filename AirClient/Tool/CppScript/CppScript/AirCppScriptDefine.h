@@ -33,6 +33,19 @@ namespace	Air{
 	typedef const AString			CAString;
 	typedef std::vector<AString>	StringVector;
 	typedef std::list<AString>		StringList;
+	struct	Pos{
+		Pos(){
+			uiLine=0;
+			uiColumn=0;
+		};
+		Pos(U32 l,U32 c){
+			uiLine		=	l;
+			uiColumn	=	c;
+		};
+		U32	uiLine;
+		U32	uiColumn;
+	};
+	typedef	std::vector<Pos>		PosVector;
 	namespace	CppScript{
 		
 		enum	enumWordType{
