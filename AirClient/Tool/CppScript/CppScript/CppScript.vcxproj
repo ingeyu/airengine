@@ -81,6 +81,7 @@
     <ClInclude Include="AirCppScriptCompiler.h" />
     <ClInclude Include="AirCppScriptDefine.h" />
     <ClInclude Include="AirCppScriptDefineType.h" />
+    <ClInclude Include="AirCppScriptFunction.h" />
     <ClInclude Include="AirCppScriptParse.h" />
     <ClInclude Include="AirCppScriptSyntax.h" />
     <ClInclude Include="AirCppScriptSyntaxConstant.h" />
@@ -97,6 +98,7 @@
   <ItemGroup>
     <ClCompile Include="AirCppScript.cpp" />
     <ClCompile Include="AirCppScriptCompiler.cpp" />
+    <ClCompile Include="AirCppScriptFunction.cpp" />
     <ClCompile Include="AirCppScriptParse.cpp" />
     <ClCompile Include="AirCppScriptSyntax.cpp" />
     <ClCompile Include="AirCppScriptSyntaxConstant.cpp" />

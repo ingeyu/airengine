@@ -11,6 +11,7 @@ namespace	Air{
 		void ToLower(wchar_t* str);
 		void ToLower(char* str);
 		bool SplitFilePath( const std::wstring& str, std::wstring* strPath = NULL, std::wstring* strFileName = NULL, std::wstring* strExe = NULL );
+
 	}
 }
 

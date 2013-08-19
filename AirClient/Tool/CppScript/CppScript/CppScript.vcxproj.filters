@@ -16,6 +16,9 @@
     <Filter Include="CppScript">
       <UniqueIdentifier>{31578ca4-ef31-41b8-9703-5ea8adf1a892}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Module">
+      <UniqueIdentifier>{27bed263-1f58-4162-8e0d-c027f5ac6cf3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -69,6 +72,9 @@
     <ClInclude Include="AirCppScriptSyntaxStatement.h">
       <Filter>CppScript</Filter>
     </ClInclude>
+    <ClInclude Include="AirCppScriptFunction.h">
+      <Filter>Module</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -112,6 +118,9 @@
     </ClCompile>
     <ClCompile Include="AirCppScriptSyntaxStatement.cpp">
       <Filter>CppScript</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCppScriptFunction.cpp">
+      <Filter>Module</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

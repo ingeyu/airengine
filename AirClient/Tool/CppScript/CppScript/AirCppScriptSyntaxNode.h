@@ -123,6 +123,8 @@ namespace	Air{
 			enumSyntaxError				ParseExpression(WordInfoVector& vecInfo,U32& idx);
 			enumSyntaxError				ParseFunctionCode( WordInfoVector& vecInfo,U32& idx );
 			
+			virtual	enumSyntaxError		GenerateFunctionCode(AString& Buffer,U32& idx);
+			virtual	U32					CalcLocalVariableSize(U32& uiSize);
 
 			enumNodeType	GetType()const{return m_Type;};
 			CAString&		GetName()const{return m_strName;};
@@ -160,6 +162,7 @@ namespace	Air{
 			enumSyntaxError				__CheckNextWordType(WordInfoVector& vecInfo,U32& idx,U32			uiType);
 
 			void			Print(std::string str);
+			
 		protected:
 			enumNodeType	m_Type;
 			AString			m_strName;

@@ -6,6 +6,7 @@
 #include <string>
 
 #include "AirCppScriptCompiler.h"
+#include "AirCppScriptFunction.h"
 _declspec(naked) void* __stdcall	__alloca(int iSize){
 	__asm{
 		mov		eax,dword ptr[esp+4];
@@ -44,7 +45,6 @@ __declspec(dllimport) int Call(int x,int y,int z);
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	char cc='\n';
 	//if(argc	<	2){
 	//	wprintf(L"CppScript *.cpp\n");
 	//	getchar();
@@ -61,7 +61,19 @@ int _tmain(int argc, _TCHAR* argv[])
 	Air::CppScript::Compiler c;
 	c.Initialization();
 
-	c.Compile(L"1.cpp");
+	c.Compile(L"2.cpp");
+	c.Link(L"1.module");
+
+	//Air::CppScript::Function f;
+
+	//char dst[30];
+	//char src[]="123123123123123123";
+	//unsigned int ret=0;
+	//void* uiParam[]={dst,src,(void*)strlen(dst)};
+	//f.Call(&ret,(VOID**)uiParam,3);
+
+	c.Release();
+
 	getchar();
 	return 0;
 }

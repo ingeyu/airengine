@@ -1,5 +1,6 @@
 #include "AirCppScriptSyntaxExpression.h"
 #include "AirCppScriptSyntaxConstant.h"
+#include "AirCppScriptSyntaxVariable.h"
 
 namespace	Air{
 	namespace	CppScript{
@@ -54,6 +55,204 @@ namespace	Air{
 				}
 			}
 			return enSE_OK;
+		}
+
+		Air::CppScript::enumSyntaxError ExpressionNode::GenerateFunctionCode( AString& Buffer,U32& idx )
+		{
+			if(m_lstChild.empty())
+			{
+				return enSE_Unknown_Error;
+			}
+			if(m_lstChild.size()==1){
+				Node* pNode	=	*(m_lstChild.begin());
+				if(pNode->GetType()!=enNT_Expression){
+					return	enSE_Unknown_Error;
+				}
+				//ExpressionNode* pExp	=	(ExpressionNode*)pNode;
+				//if(pExp->eType	==enET_Element){
+
+				//}else if(pExp->eType	==enET_FunctionCall){
+
+				//}else{
+				//	return	enSE_Unknown_Error;
+				//}
+				return pNode->GenerateFunctionCode(Buffer,idx);
+			}
+			if(m_lstChild.size()==3){
+				ExpressionNode* p[3];
+				int i=0;
+				NodeList::iterator	itr	=	m_lstChild.begin();
+				for(;itr!=m_lstChild.end();itr++,i++){
+					p[i]	=	(ExpressionNode*)(*itr);
+				}
+				ExpressionElementNode* pLeft	=	(ExpressionElementNode*)(p[0]);
+				p[2]->GenerateFunctionCode(Buffer,idx);
+				printf("push eax\n");
+				p[0]->GenerateFunctionCode(Buffer,idx);
+				printf("pop ebx\n");
+				ExpressionOperatorNode* pOperator	=	(ExpressionOperatorNode*)p[1];
+				switch(pOperator->eOperator){
+					case enOT_Add:					///<	+
+						{
+							printf("add eax,ebx\n");
+						}break;
+					case enOT_Sub:					///<	-
+						{
+							printf("sub eax,ebx\n");
+						}break;
+					case enOT_Mul:					///<	*
+						{
+							printf("imul eax,ebx\n");
+						}break;
+					case enOT_Div:					///<	/
+						{
+							printf("div eax,ebx\n");
+						}break;
+					case enOT_Remain:				///<	%
+						{
+
+						}break;
+					case enOT_Mov:					///<	=
+						{
+							printf("mov eax,ebx\n");
+							if(pLeft->pObj->GetType()==enNT_Parameter){
+								printf("mov [ebp+14h],eax\n");
+							}else{
+								VariableNode* pVar	=	(VariableNode*)(pLeft->pObj);
+								if(pVar->IsLocal()){
+									printf("mov [esi+%d],eax\n",pVar->m_uiOffset);
+								}else{
+									printf("mov [%d],eax\n",pVar->m_uiOffset);
+								}
+							}
+							return enSE_OK;
+						}break;
+					case enOT_And:					///<	&
+						{
+							printf("and eax,ebx");
+						}break;
+					case enOT_Or:					///<	|
+						{
+
+						}break;
+					case enOT_Xor:					///<	^
+						{
+
+						}break;
+					case enOT_Not:					///<	~
+						{
+
+						}break;
+					case enOT_Equal:					///<	==
+						{
+							printf("sub eax,ebx\n");
+						}break;
+					case enOT_NotEqual:				///<	!=
+						{
+							printf("sub eax,ebx\n");
+						}break;
+					case enOT_Greater:				///<	>
+						{
+							printf("sub eax,ebx\n");
+						}break;
+					case enOT_Less:					///<	<
+						{
+							printf("sub eax,ebx\n");
+						}break;
+					case enOT_GreaterEqual:			///<	>=
+						{
+
+						}break;
+					case enOT_LessEqual:			///<	<=
+						{
+
+						}break;
+					case enOT_Increment:			///<	++
+						{
+
+						}break;
+					case enOT_Decrement:			///<	--
+						{
+
+						}break;
+					case enOT_AddEqual:				///<	+=
+						{
+
+						}break;
+					case enOT_SubEqual:				///<	-=
+						{
+
+						}break;
+					case enOT_MulEqual:				///<	*/
+						{
+
+						}break;
+					case enOT_DivEqual:				///<	/=
+						{
+
+						}break;
+					case enOT_RemainEqual:			///<	%=
+						{
+
+						}break;
+					case enOT_AndEqual:				///<	&=
+						{
+
+						}break;
+					case enOT_OrEqual:				///<	|=
+						{
+
+						}break;
+					case enOT_LeftShift:			///<	<<
+						{
+
+						}break;
+					case enOT_RightShift:			///<	>>
+						{
+
+						}break;
+					case enOT_SquareBracketBegin:	///<	[
+						{
+
+						}break;
+					case enOT_SquareBracketEnd:		///<	]
+						{
+
+						}break;
+					case enOT_Colon:				///<	:
+						{
+
+						}break;
+					case enOT_Question:				///<	?
+						{
+
+						}break;
+					case enOT_LogicAnd:				///<	&&
+						{
+
+						}break;
+					case enOT_LogicOr:				///<	||
+						{
+
+						}break;
+					case enOT_LogicNot:				///<	!
+						{
+
+						}break;
+					case enOT_PointorMember:		///<	->
+						{
+
+						}break;
+					case enOT_Domain:				///<	::
+						{
+
+						}break;
+				}
+
+
+			}
+
+			return enSE_Unknown_Error;
 		}
 
 
@@ -283,6 +482,38 @@ namespace	Air{
 						idx--;
 					}
 				}
+			}
+			return enSE_OK;
+		}
+
+		Air::CppScript::enumSyntaxError ExpressionElementNode::GenerateFunctionCode( AString& Buffer,U32& idx )
+		{
+			if(pObj->GetType()==enNT_Constant){
+				ConstantNode* pConstant	=	(ConstantNode*)pObj;
+				printf("mov eax,%xh\n",pConstant->ConstInfo.iVal);
+				return enSE_OK;
+			}
+			VariableNode* pVar	=	(VariableNode*)(pObj);
+			if(pVar->IsLocal()){
+				
+				printf("mov eax,[esp+%d]\n",pVar->m_uiOffset);
+				if(eSelfOperator[1]==enOT_Increment){
+					printf("mov ebx,eax\n");
+					printf("add ebx,1\n");
+					printf("mov [esp+%d],ebx\n",pVar->m_uiOffset);
+				}else if(eSelfOperator[1]==enOT_Decrement){
+					printf("mov ebx,eax\n");
+					printf("sub ebx,1\n");
+					printf("mov [esp+%d],ebx\n",pVar->m_uiOffset);
+				}else if(eSelfOperator[1]==enOT_Decrement){;
+					printf("add eax,1\n");
+					printf("mov [esp+%d],eax\n",pVar->m_uiOffset);
+				}else if(eSelfOperator[1]==enOT_Decrement){
+					printf("sub eax,1\n");
+					printf("mov [esp+%d],eax\n",pVar->m_uiOffset);
+				}
+			}else{
+				printf("mov eax,[%d]\n",pVar->m_uiOffset);
 			}
 			return enSE_OK;
 		}

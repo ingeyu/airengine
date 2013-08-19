@@ -331,6 +331,60 @@ namespace	Air{
 			return enSE_OK;
 		}
 
+		Air::CppScript::enumSyntaxError FunctionNode::GenerateFunctionCode(AString& Buffer,U32& idx)
+		{
+			if(ieType!=enCKWT_Unknown){
+				return enSE_OK;
+			}
+			U32 iParamIndex=0;
+			NodeList::iterator	i	=	m_lstChild.begin();
+			for(;i!=m_lstChild.end();i++){
+				Node* pNode	=	(*i);
+				if(pNode!=NULL){
+					if(pNode->GetType()==enNT_Parameter){
+						ParameterNode* pParam = (ParameterNode*)pNode;
+						pParam->m_uiOffset	=	iParamIndex*4;
+						iParamIndex++;
+					}
+				}
+			}
+			m_uiLocalVariableSize=0;
+			CalcLocalVariableSize(m_uiLocalVariableSize);
+
+			printf("Function=%s\n",m_strName.c_str());
+			printf("push ebp\n");
+			printf("push ebx\n");
+			printf("push edx\n");
+			printf("push esi\n");
+			printf("mov ebp,esp\n");
+			if(m_uiLocalVariableSize!=0){
+				printf("sub,esp,%d\n",m_uiLocalVariableSize);
+				printf("mov,esi,esp\n");
+			}
+
+			i	=	m_lstChild.begin();
+			for(;i!=m_lstChild.end();i++){
+				Node* pNode	=	(*i);
+				if(pNode!=NULL){
+					if(pNode->GetType()==enNT_Statement){
+						pNode->GenerateFunctionCode(Buffer,idx);
+					}
+				}
+			}
+			printf("mov esp,ebp\n");
+			printf("pop esi\n");
+			printf("pop edx\n");
+			printf("pop ebx\n");
+			printf("pop ebp\n");
+			
+			if(m_vecParameter.empty()){
+				printf("ret\n");
+			}else{
+				printf("ret %d\n",m_vecParameter.size()*4);
+			}
+			return enSE_OK;
+		}
+
 
 	}
 }

@@ -21,12 +21,16 @@ namespace	Air{
 				m_bOnlyDeclare	=	true;
 				m_bVirtual		=	0;
 				ieType			=	enCKWT_Unknown;
+				m_uiLocalVariableSize	=	0;
 			};
 
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 			virtual	enumSyntaxError		ParseImportExport(WordInfoVector& vecInfo,U32& idx);
 			virtual	enumSyntaxError		ParseParameter(WordInfoVector& vecInfo,U32& idx);
 			//virtual	enumSyntaxError		ParseFunction(WordInfoVector& vecInfo,U32& idx);
+
+			virtual	enumSyntaxError		GenerateFunctionCode(AString& Buffer,U32& idx);
+
 			U1							IsParamNameExist(CAString& strName);
 			ParameterNode*				FindParameter(CAString& strName);
 			
@@ -35,6 +39,8 @@ namespace	Air{
 			U32							m_bOnlyDeclare;
 			U32							m_bVirtual;
 			enumCppKeyWordType			ieType;
+		protected:
+			U32							m_uiLocalVariableSize;
 		};
 	
 	}

@@ -27,7 +27,7 @@ namespace	Air{
 	void ToLower(char* str){
 		int iLen=strlen(str);
 		for(int i=0;i<iLen;i++){
-			if((str[i]>=65) && (str[i]<=90)){
+			if((str[i]>='A') && (str[i]<=90)){
 				str[i]+=32;
 			}
 		}

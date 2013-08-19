@@ -8,9 +8,7 @@ namespace	Air{
 
 		Compiler::Compiler()
 		{
-			m_pWordBuffer	=	NULL;
-			m_pWordInfo		=	NULL;
-			m_uiWordCount	=	0;
+			m_pSyntaxTree	=	NULL;
 		}
 
 		Compiler::~Compiler()
@@ -146,13 +144,20 @@ namespace	Air{
 			if(WordToWordInfo(v,vLine,vInfo)	!=	0){
 				return false;
 			}
-			Node* pNode = new Node();
+			if(m_pSyntaxTree==NULL)
+				m_pSyntaxTree = new Node();
 			U32 idx =0;
-			enumSyntaxError	e	= pNode->Parse(vInfo,idx);
-			if(e!=enSE_OK)
+			enumSyntaxError	e	= m_pSyntaxTree->Parse(vInfo,idx);
+			if(e!=enSE_OK){
+				Pos pos;
+				if(idx<vInfo.size()){
+					pos	=	vInfo[idx].pos;
+				}
+				printf("error(%d) file_pos(%d,%d)\n",e,pos.uiLine,pos.uiColumn);
 				return false;
+			}
 #ifdef _DEBUG
-			pNode->Print("|-|");
+			m_pSyntaxTree->Print("|-|");
 #endif
 			return true;
 		}
@@ -182,7 +187,7 @@ namespace	Air{
 			}
 			CloseHandle(hFile);
 			hFile=NULL;
-
+			wprintf(L"Compile %s\n",pName);
 			bool bRet	=	Compile(pBuffer,uiSize);
 			__Free(pBuffer);
 			return bRet;
@@ -261,6 +266,32 @@ namespace	Air{
 		Air::U32 Compiler::WordInfoToSyntaxTree( WordInfoVector& vecInfo )
 		{
 			return 0;
+		}
+
+		bool Compiler::CompileProject( const WStringVector& vCppArray,U32 uiCompileFlag/*=0*/ )
+		{
+			U32 uiSize	=	vCppArray.size();
+			for(U32 i=0;i<uiSize;i++){
+				if(!Compile(vCppArray[i].c_str())){
+					return false;
+				};
+			}
+			return true;
+		}
+
+		bool Compiler::Link( const wchar_t* pName,U32 uiLinkFlag /*= 0*/ )
+		{
+			if(m_pSyntaxTree==NULL)
+				return false;
+			AString	strBuffer;
+			U32 idx=0;
+			m_pSyntaxTree->GenerateFunctionCode(strBuffer,idx);
+
+			if(m_pSyntaxTree!=NULL){
+				delete m_pSyntaxTree;
+				m_pSyntaxTree=NULL;
+			}
+			return true;
 		}
 
 		Air::U32 WordToType( const char* str )

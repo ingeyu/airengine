@@ -30,9 +30,12 @@ namespace	Air{
 	typedef	__int64				S64;
 	typedef	int					SInt;
 	typedef std::string			AString;
+	typedef std::wstring		WString;
 	typedef const AString			CAString;
 	typedef std::vector<AString>	StringVector;
+	typedef std::vector<WString>	WStringVector;
 	typedef std::list<AString>		StringList;
+	typedef std::vector<U8>			U8Vector;
 	struct	Pos{
 		Pos(){
 			uiLine=0;

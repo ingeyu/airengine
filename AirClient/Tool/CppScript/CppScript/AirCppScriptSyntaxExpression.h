@@ -21,6 +21,7 @@ namespace	Air{
 			};
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 			enumSyntaxError				ParseExpression(WordInfoVector& vecInfo,U32& idx);
+			virtual	enumSyntaxError		GenerateFunctionCode(AString& Buffer,U32& idx);
 			enumExpressionType	eType;
 		};
 		class	ExpressionElementNode	:	public	ExpressionNode{
@@ -41,6 +42,7 @@ namespace	Air{
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 			enumSyntaxError				ParseObjectCast(WordInfoVector& vecInfo,U32& idx);
 			enumSyntaxError				CheckSelfOperator(WordInfoVector& vecInfo,U32& idx,U32 bPost);
+			virtual	enumSyntaxError		GenerateFunctionCode(AString& Buffer,U32& idx);
 			Node*	pObj;
 			Node*	pCast;
 			U1		bAddress;

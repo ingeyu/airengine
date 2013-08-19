@@ -17,22 +17,18 @@ namespace	Air{
 
 			bool	Initialization();
 			bool	Release();
-
-			bool	Compile(const void* pBuffer,unsigned int uiSize);
+			bool	CompileProject(const WStringVector&	vCppArray,U32 uiCompileFlag=0);
 			bool	Compile(const wchar_t* pName);
+			bool	Link(const wchar_t* pName,U32	uiLinkFlag	=	0);
 		protected:
-			void	AllocWordInfo();
-			void	FreeWordInfo();
+			bool	Compile(const void* pBuffer,unsigned int uiSize);
 			U32		WordToWordInfo(StringVector& vecWord,PosVector& vLine,WordInfoVector& vecInfo);
 			U32		WordInfoToSyntaxTree(WordInfoVector& vecInfo);
 
 			
 		protected:
-			AChar*		m_pWordBuffer;
-			WordInfo*	m_pWordInfo;
-			U32			m_uiWordCount;
 			std::tr1::unordered_map<std::string,U32>	m_mapWordType;
-
+			Node*										m_pSyntaxTree;
 		};
 	}
 }

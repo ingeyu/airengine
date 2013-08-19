@@ -762,5 +762,50 @@ namespace	Air{
 			}
 		}
 
+		Air::CppScript::enumSyntaxError Node::GenerateFunctionCode(AString& Buffer,U32& idx)
+		{
+			NodeList::iterator	i	=	m_lstChild.begin();
+			for(;i!=m_lstChild.end();i++){
+				Node* pNode	=	(*i);
+				if(pNode!=NULL){
+					if(pNode->GetType()==enNT_Function){
+						pNode->GenerateFunctionCode(Buffer,idx);
+					}
+				}
+			}
+			return enSE_OK;
+		}
+
+		Air::U32 Node::CalcLocalVariableSize( U32& uiSize )
+		{
+			//uiSize	=	0;
+			NodeList::iterator	i	=	m_lstChild.begin();
+			for(;i!=m_lstChild.end();i++){
+				Node* pNode	=	(*i);
+				if(pNode!=NULL){
+					if(pNode->GetType()==enNT_Variable){
+						VariableNode* pVar	=	(VariableNode*)pNode;
+						U32 uiObjSize	=	pVar->VariableType.iSize;
+						if(pVar->VariableType.t	==	enBOT_Obj){
+							ObjectNode* pObj	=	(ObjectNode*)pVar->pNodePtr;
+							uiObjSize	=	pObj->GetObjectSize();
+						}
+						if(pVar->VariableType.bPointor){
+							uiObjSize=4;
+						}
+						U32 uiObjCount	=	1;
+						if(pVar->uiArrayCount!=0){
+							uiObjCount	=	pVar->uiArrayCount;
+						}
+						pVar->m_uiOffset	=	uiSize;
+						uiSize+=	(uiObjCount*uiObjSize+1)&0xfffffffc;
+					}else{
+						pNode->CalcLocalVariableSize(uiSize);
+					}
+				}
+			}
+			return uiSize;
+		}
+
 	}
 }

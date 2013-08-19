@@ -81,6 +81,20 @@ namespace	Air{
 			return enSE_UnexpectedEnd;
 		}
 
+		Air::CppScript::enumSyntaxError StatementNode::GenerateFunctionCode( AString& Buffer,U32& idx )
+		{
+			NodeList::iterator	i	=	m_lstChild.begin();
+			for(;i!=m_lstChild.end();i++){
+				Node* pNode	=	(*i);
+				if(pNode!=NULL){
+					if(pNode->GetType()==enNT_Expression){
+						pNode->GenerateFunctionCode(Buffer,idx);
+					}
+				}
+			}
+			return enSE_OK;
+		}
+
 		Air::CppScript::enumSyntaxError NewStatementNode::Parse( WordInfoVector& vecInfo,U32& idx )
 		{
 			return enSE_UnexpectedEnd;
@@ -265,7 +279,7 @@ namespace	Air{
 		Air::CppScript::enumSyntaxError ForStatementNode::ParseSubCondition_Condition( WordInfoVector& vecInfo )
 		{
 			U32 i=0;
-			enumSyntaxError	e	=	__ParseNode<StatementNode>(vecInfo,i,&pInitExp);
+			enumSyntaxError	e	=	__ParseNode<StatementNode>(vecInfo,i,&pConditionExp);
 
 			return e;
 		}
@@ -273,9 +287,37 @@ namespace	Air{
 		Air::CppScript::enumSyntaxError ForStatementNode::ParseSubCondition_Iter( WordInfoVector& vecInfo )
 		{
 			U32 i=0;
-			enumSyntaxError	e	=	__ParseNode<StatementNode>(vecInfo,i,&pInitExp);
+			enumSyntaxError	e	=	__ParseNode<StatementNode>(vecInfo,i,&pIterExp);
 
 			return e;
+		}
+
+		Air::CppScript::enumSyntaxError ForStatementNode::GenerateFunctionCode( AString& Buffer,U32& idx )
+		{
+			printf("#for begin\n");
+			printf("push edi\n");
+			pInitExp->GenerateFunctionCode(Buffer,idx);
+			pConditionExp->GenerateFunctionCode(Buffer,idx);
+			printf("test eax,eax\n");
+			printf("mov edi,eax\n");
+			printf("jz break\n");
+			
+
+			NodeList::iterator	i	=	m_lstChild.begin();
+			for(;i!=m_lstChild.end();i++){
+				Node* pNode	=	(*i);
+				if(pNode!=NULL&&pNode!=pInitExp&&pNode!=pConditionExp&&pNode!=pIterExp){
+					if(pNode->GetType()==enNT_Statement){
+						pNode->GenerateFunctionCode(Buffer,idx);
+					}
+				}
+			}
+			printf("mov eax,edi\n");
+			pIterExp->GenerateFunctionCode(Buffer,idx);
+			printf("jmp Compare\n");
+			printf("pop edi\n");
+			printf("#for end\n");
+			return enSE_OK;
 		}
 
 

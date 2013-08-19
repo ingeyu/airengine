@@ -4,11 +4,7 @@
 #include "AirCppScriptSyntaxNode.h"
 
 namespace	Air{
-	namespace	CppScript{		
-
-
-
-		
+	namespace	CppScript{
 
 	}
 }

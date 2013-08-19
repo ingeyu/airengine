@@ -201,5 +201,14 @@ namespace	Air{
 			*/
 			return enSE_UnexpectedEnd;
 		}
+
+		Air::U1 VariableNode::IsLocal()
+		{
+			if(GetParent()->GetType()==enNT_Global){
+				return false;
+			}
+			return true;
+		}
+
 	}
 }

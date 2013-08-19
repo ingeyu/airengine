@@ -6,7 +6,11 @@
 namespace	Air{
 	namespace	CppScript{		
 
-
+		enum enumVariableDomainType{
+			enVDT_Unknown,
+			enVDT_Local,
+			enVDT_Global,
+		};
 		class	VariableNode	:	public	Node{
 		public:
 			VariableNode(){
@@ -17,7 +21,10 @@ namespace	Air{
 				uiArrayCount	=	NULL;
 				bHasDefault		=	0;
 				m_pRightExpression	=	NULL;
+				m_uiOffset			=	0;
+				m_bLocal			=	true;
 			};
+			U1							IsLocal();
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 			ObjectType					VariableType;
 			AString						strDefault;
@@ -29,6 +36,10 @@ namespace	Air{
 			U32							m_bSub;
 			WordInfo					m_InitInfo;
 			Node*						m_pRightExpression;
+			U1							m_bLocal;
+
+		public:
+			U32							m_uiOffset;			///<	代码生成 地址内存偏移
 		};
 	}
 }
