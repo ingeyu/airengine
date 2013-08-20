@@ -163,14 +163,13 @@ namespace	Air{
 			return	PushBuffer(c);
 		}
 
-		Air::U32 Assemble::Call( U32 mAddr,U32* pRelocal /*= NULL*/ )
+		Air::U32 Assemble::Call( U32 uiOffset,U32* pRelocal /*= NULL*/ )
 		{
 			U8 c[5]={0xE8,0,0,0,0};
 			U32* pOffset	=	(U32*)&c[1];
-			*pOffset=mAddr;
-			U32 uiOffset	=	m_uiOffset+1;
+			*pOffset=uiOffset;
 			if(pRelocal!=NULL){
-				*pRelocal	=	uiOffset;
+				*pRelocal	=	m_uiOffset+1;
 			}
 			return	PushBuffer(c);
 		}
@@ -196,6 +195,40 @@ namespace	Air{
 				*pOffset=mSrc;
 				return	PushBuffer(c);
 			}
+		}
+
+		Air::U32 Assemble::Ret( U16 uiEspOffset /*= 0*/ )
+		{
+			if(uiEspOffset==0){
+				U8 c = 0xC3;
+				return	PushBuffer(c);
+			}else{
+				U8 c[3] = {0xC2,0,0};
+				
+				U16* pOffset	=	(U16*)&c[1];
+				*pOffset=uiEspOffset;
+				return	PushBuffer(c);
+			}
+		}
+
+		Air::U32 Assemble::Cmp( AssembleRegister rLeft,AssembleRegister rRight )
+		{
+			U8 c[2] = {0x3B,0XC0};
+			c[1]|=rLeft<<3|rRight;
+			return	PushBuffer(c);
+		}
+
+		Air::U32 Assemble::Test( AssembleRegister r )
+		{
+			U8 c[2] = {0x85,0XC0};
+			c[1]|=r<<3;
+			return	PushBuffer(c);
+		}
+
+		Air::U32 Assemble::Int3()
+		{
+			U8 c=0xCC;
+			return	PushBuffer(c);
 		}
 
 	}

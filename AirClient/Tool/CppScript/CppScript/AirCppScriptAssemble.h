@@ -80,7 +80,7 @@ namespace	Air{
 			U32		Mov(AssembleRegister rDst, U32 mOffset,AssembleRegister rSrc);
 			U32		Mov(AssembleRegister rDst,AssembleRegister rSrc,U32 mOffset);
 			U32		Call(AssembleRegister r);
-			U32		Call(U32 mAddr,U32* pRelocal	=	NULL);
+			U32		Call(U32 uiOffset,U32* pRelocal	=	NULL);
 			U32		Add(AssembleRegister rDst,AssembleRegister rSrc);
 			U32		Add(AssembleRegister rDst,U32 mSrc);
 			U32		Add(AssembleRegister rDst, U32 mOffset,AssembleRegister rSrc);
@@ -105,7 +105,7 @@ namespace	Air{
 			U32		JumpLess(U32 mOffset);
 			U32		JumpGreater(U32 mOffset);
 			U32		JumpEqual(U32 mOffset);
-			U32		Ret(U32 uiEspOffset	=	0);
+			U32		Ret(U16 uiEspOffset	=	0);
 			U32		Int3();
 
 
