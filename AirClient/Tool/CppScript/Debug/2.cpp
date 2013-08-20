@@ -1,6 +1,6 @@
-int main(){
+int main(int iCount,int iStart){
 	int iTotal	=	0;
-	for(int i=0;i<101;i++){
+	for(int i=iStart;i<iCount;i++){
 		iTotal+=i;
 	}
 	return iTotal;

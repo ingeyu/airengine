@@ -41,6 +41,7 @@ namespace	Air{
 		public:
 			U32							m_uiOffset;			///<	代码生成 地址内存偏移
 		};
+		
 	}
 }
 #endif // AirCppScriptSyntaxVariable_h__

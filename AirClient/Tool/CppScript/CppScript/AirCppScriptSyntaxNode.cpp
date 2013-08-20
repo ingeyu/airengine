@@ -762,14 +762,14 @@ namespace	Air{
 			}
 		}
 
-		Air::CppScript::enumSyntaxError Node::GenerateFunctionCode(AString& Buffer,U32& idx)
+		Air::CppScript::enumSyntaxError Node::GenerateFunctionCode(Assemble& asmGen)
 		{
 			NodeList::iterator	i	=	m_lstChild.begin();
 			for(;i!=m_lstChild.end();i++){
 				Node* pNode	=	(*i);
 				if(pNode!=NULL){
 					if(pNode->GetType()==enNT_Function){
-						pNode->GenerateFunctionCode(Buffer,idx);
+						pNode->GenerateFunctionCode(asmGen);
 					}
 				}
 			}

@@ -69,8 +69,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	//char dst[30];
 	//char src[]="123123123123123123";
 	unsigned int ret=0;
-	//void* uiParam[]={dst,src,(void*)strlen(dst)};
-	f.Call(&ret);
+	int iP[2] = {101,0};
+	f.Call(&ret,(void**)iP,2);//,(void**)&iP,1);
 
 	c.Release();
 

@@ -19,15 +19,15 @@ namespace	Air{
 				pop ebx
 					mov eax,ebx
 					mov [esi+0],eax
-					mov eax,0h
-					push eax
+					mov eax,[ebp+18h]
+				push eax
 					mov eax,[esi+4]
 				pop ebx
 					mov eax,ebx
 					mov [esi+4],eax
-FORCOMPARE:mov eax,65h
-		   push eax
-		   mov eax,[esi+4]
+FORCOMPARE:mov eax,[ebp+14h]
+				push eax
+					mov eax,[esi+4]
 				pop ebx
 					sub eax,ebx
 					test eax,eax
@@ -49,7 +49,7 @@ FOREND:mov eax,[esi+0]
 					pop edx
 					pop ebx
 					pop ebp
-					ret
+					ret 8h
 
 			}
 		}
@@ -58,10 +58,10 @@ FOREND:mov eax,[esi+0]
 		{
 			pFunction	=	(void*)TestMemcpy;
 			strName		=	"TestMemcpy";
-			std::string strCode;
-			strCode+="Disassemble__\n";
-			Disassemble(pFunction,128,strCode);
-			printf(strCode.c_str());
+			//std::string strCode;
+			//strCode+="Disassemble__\n";
+			//Disassemble(pFunction,128,strCode);
+			//printf(strCode.c_str());
 		}
 
 		Air::U32 Function::GetParameterCount()
@@ -96,7 +96,7 @@ FunctionCall:	call Func
 				pop ebx
 			}
 			if(pRetValue!=NULL){
-				memcpy(pRetValue,&uiRet,sizeof(U32));
+				*(U32*)pRetValue=uiRet;
 			}
 			return enCE_OK;
 		}

@@ -57,7 +57,7 @@ namespace	Air{
 			return enSE_OK;
 		}
 
-		Air::CppScript::enumSyntaxError ExpressionNode::GenerateFunctionCode( AString& Buffer,U32& idx )
+		Air::CppScript::enumSyntaxError ExpressionNode::GenerateFunctionCode( Assemble& asmGen )
 		{
 			if(m_lstChild.empty())
 			{
@@ -76,7 +76,7 @@ namespace	Air{
 				//}else{
 				//	return	enSE_Unknown_Error;
 				//}
-				return pNode->GenerateFunctionCode(Buffer,idx);
+				return pNode->GenerateFunctionCode(asmGen);
 			}
 			if(m_lstChild.size()==3){
 				ExpressionNode* p[3];
@@ -86,9 +86,9 @@ namespace	Air{
 					p[i]	=	(ExpressionNode*)(*itr);
 				}
 				ExpressionElementNode* pLeft	=	(ExpressionElementNode*)(p[0]);
-				p[2]->GenerateFunctionCode(Buffer,idx);
+				p[2]->GenerateFunctionCode(asmGen);
 				printf("push eax\n");
-				p[0]->GenerateFunctionCode(Buffer,idx);
+				p[0]->GenerateFunctionCode(asmGen);
 				printf("pop ebx\n");
 				ExpressionOperatorNode* pOperator	=	(ExpressionOperatorNode*)p[1];
 				switch(pOperator->eOperator){
@@ -205,7 +205,7 @@ namespace	Air{
 								}
 							}
 						}break;
-					case enOT_MulEqual:				///<	*/
+					case enOT_MulEqual:				///<	*=
 						{
 
 						}break;
@@ -508,7 +508,7 @@ namespace	Air{
 			return enSE_OK;
 		}
 
-		Air::CppScript::enumSyntaxError ExpressionElementNode::GenerateFunctionCode( AString& Buffer,U32& idx )
+		Air::CppScript::enumSyntaxError ExpressionElementNode::GenerateFunctionCode( Assemble& asmGen )
 		{
 			if(pObj->GetType()==enNT_Constant){
 				ConstantNode* pConstant	=	(ConstantNode*)pObj;

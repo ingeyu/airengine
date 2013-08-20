@@ -70,6 +70,8 @@ namespace	Air{
 			U32					bDestruct	:	1;
 		};
 		U32		MakeType(enumWordType w,U32 main,U32 sub=0,U32 flag=0);
+
+		class Assemble;
 	}
 }
 #endif // AirCppScriptDefineType_h__

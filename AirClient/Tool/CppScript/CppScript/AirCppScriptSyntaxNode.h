@@ -123,7 +123,7 @@ namespace	Air{
 			enumSyntaxError				ParseExpression(WordInfoVector& vecInfo,U32& idx);
 			enumSyntaxError				ParseFunctionCode( WordInfoVector& vecInfo,U32& idx );
 			
-			virtual	enumSyntaxError		GenerateFunctionCode(AString& Buffer,U32& idx);
+			virtual	enumSyntaxError		GenerateFunctionCode(Assemble& asmGen);
 			virtual	U32					CalcLocalVariableSize(U32& uiSize);
 
 			enumNodeType	GetType()const{return m_Type;};

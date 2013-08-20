@@ -24,7 +24,7 @@ namespace	Air{
 			virtual	enumSyntaxError	Parse(WordInfoVector& vecInfo,U32& idx);
 			enumSyntaxError			ParseSubStatement(WordInfoVector& vecInfo,U32& idx);
 
-			virtual	enumSyntaxError		GenerateFunctionCode(AString& Buffer,U32& idx);
+			virtual	enumSyntaxError		GenerateFunctionCode(Assemble& asmGen);
 			enumStatementType		m_sType;
 		};
 
@@ -56,7 +56,7 @@ namespace	Air{
 			enumSyntaxError	ParseSubCondition_Condition(WordInfoVector& vecInfo);
 			enumSyntaxError	ParseSubCondition_Iter(WordInfoVector& vecInfo);
 
-			virtual	enumSyntaxError		GenerateFunctionCode(AString& Buffer,U32& idx);
+			virtual	enumSyntaxError		GenerateFunctionCode(Assemble& asmGen);
 
 			Node*	pInitExp;
 			Node*	pConditionExp;

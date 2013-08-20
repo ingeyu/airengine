@@ -29,7 +29,7 @@ namespace	Air{
 			virtual	enumSyntaxError		ParseParameter(WordInfoVector& vecInfo,U32& idx);
 			//virtual	enumSyntaxError		ParseFunction(WordInfoVector& vecInfo,U32& idx);
 
-			virtual	enumSyntaxError		GenerateFunctionCode(AString& Buffer,U32& idx);
+			virtual	enumSyntaxError		GenerateFunctionCode(Assemble& asmGen);
 
 			U1							IsParamNameExist(CAString& strName);
 			ParameterNode*				FindParameter(CAString& strName);

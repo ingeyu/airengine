@@ -331,7 +331,7 @@ namespace	Air{
 			return enSE_OK;
 		}
 
-		Air::CppScript::enumSyntaxError FunctionNode::GenerateFunctionCode(AString& Buffer,U32& idx)
+		Air::CppScript::enumSyntaxError FunctionNode::GenerateFunctionCode(Assemble& asmGen)
 		{
 			if(ieType!=enCKWT_Unknown){
 				return enSE_OK;
@@ -367,7 +367,7 @@ namespace	Air{
 				Node* pNode	=	(*i);
 				if(pNode!=NULL){
 					if(pNode->GetType()==enNT_Statement){
-						pNode->GenerateFunctionCode(Buffer,idx);
+						pNode->GenerateFunctionCode(asmGen);
 					}
 				}
 			}
@@ -377,10 +377,10 @@ namespace	Air{
 			printf("pop ebx\n");
 			printf("pop ebp\n");
 			
-			if(m_vecParameter.empty()){
+			if(iParamIndex==0){
 				printf("ret\n");
 			}else{
-				printf("ret %d\n",m_vecParameter.size()*4);
+				printf("ret %d\n",iParamIndex*4);
 			}
 			return enSE_OK;
 		}

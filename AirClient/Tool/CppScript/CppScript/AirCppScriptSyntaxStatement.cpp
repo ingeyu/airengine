@@ -81,14 +81,14 @@ namespace	Air{
 			return enSE_UnexpectedEnd;
 		}
 
-		Air::CppScript::enumSyntaxError StatementNode::GenerateFunctionCode( AString& Buffer,U32& idx )
+		Air::CppScript::enumSyntaxError StatementNode::GenerateFunctionCode( Assemble& asmGen )
 		{
 			NodeList::iterator	i	=	m_lstChild.begin();
 			for(;i!=m_lstChild.end();i++){
 				Node* pNode	=	(*i);
 				if(pNode!=NULL){
 					if(pNode->GetType()==enNT_Expression){
-						pNode->GenerateFunctionCode(Buffer,idx);
+						pNode->GenerateFunctionCode(asmGen);
 					}
 				}
 			}
@@ -292,11 +292,11 @@ namespace	Air{
 			return e;
 		}
 
-		Air::CppScript::enumSyntaxError ForStatementNode::GenerateFunctionCode( AString& Buffer,U32& idx )
+		Air::CppScript::enumSyntaxError ForStatementNode::GenerateFunctionCode( Assemble& asmGen )
 		{
-			pInitExp->GenerateFunctionCode(Buffer,idx);
+			pInitExp->GenerateFunctionCode(asmGen);
 			printf("FORCOMPARE:");
-			pConditionExp->GenerateFunctionCode(Buffer,idx);
+			pConditionExp->GenerateFunctionCode(asmGen);
 			printf("test eax,eax\n");
 			
 			printf("jz FOREND\n");
@@ -307,12 +307,12 @@ namespace	Air{
 				Node* pNode	=	(*i);
 				if(pNode!=NULL&&pNode!=pInitExp&&pNode!=pConditionExp&&pNode!=pIterExp){
 					if(pNode->GetType()==enNT_Statement){
-						pNode->GenerateFunctionCode(Buffer,idx);
+						pNode->GenerateFunctionCode(asmGen);
 					}
 				}
 			}
 			
-			pIterExp->GenerateFunctionCode(Buffer,idx);
+			pIterExp->GenerateFunctionCode(asmGen);
 			printf("jmp FORCOMPARE\n");
 			printf("FOREND:");
 			return enSE_OK;

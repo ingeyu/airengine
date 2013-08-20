@@ -1,6 +1,6 @@
 #ifndef AirCppScriptAssemble_h__
 #define AirCppScriptAssemble_h__
-
+#include "AirCppScriptDefine.h"
 #include <string>
 
 namespace	Air{
@@ -70,9 +70,62 @@ namespace	Air{
 
 		class	Assemble{
 		public:
-			//U32		Add();
+			Assemble();
 
-			
+
+			U32		Push(AssembleRegister r);
+			U32		Pop(AssembleRegister r);
+			U32		Mov(AssembleRegister rDst,AssembleRegister rSrc);
+			U32		Mov(AssembleRegister rDst,U32 mSrc);
+			U32		Mov(AssembleRegister rDst, U32 mOffset,AssembleRegister rSrc);
+			U32		Mov(AssembleRegister rDst,AssembleRegister rSrc,U32 mOffset);
+			U32		Call(AssembleRegister r);
+			U32		Call(U32 mAddr,U32* pRelocal	=	NULL);
+			U32		Add(AssembleRegister rDst,AssembleRegister rSrc);
+			U32		Add(AssembleRegister rDst,U32 mSrc);
+			U32		Add(AssembleRegister rDst, U32 mOffset,AssembleRegister rSrc);
+			U32		Add(AssembleRegister rDst,AssembleRegister rSrc,U32 mOffset);
+			U32		Sub(AssembleRegister rDst,AssembleRegister rSrc);
+			U32		Sub(AssembleRegister rDst,U32 mSrc);
+			U32		Sub(AssembleRegister rDst, U32 mOffset,AssembleRegister rSrc);
+			U32		Sub(AssembleRegister rDst,AssembleRegister rSrc,U32 mOffset);
+			U32		IMul(AssembleRegister rDst,AssembleRegister rSrc);
+			U32		IMul(AssembleRegister rDst,U32 mSrc);
+			U32		IMul(AssembleRegister rDst, U32 mOffset,AssembleRegister rSrc);
+			U32		IMul(AssembleRegister rDst,AssembleRegister rSrc,U32 mOffset);
+			U32		Div(AssembleRegister rDst,AssembleRegister rSrc);
+			U32		Div(AssembleRegister rDst,U32 mSrc);
+			U32		Div(AssembleRegister rDst, U32 mOffset,AssembleRegister rSrc);
+			U32		Div(AssembleRegister rDst,AssembleRegister rSrc,U32 mOffset);
+			U32		Test(AssembleRegister r);
+			U32		Cmp(AssembleRegister rLeft,AssembleRegister rRight);
+			U32		Jmp(U32 mOffset);
+			U32		JmpAbs(U32 mAddr);
+			U32		JumpZero(U32 mOffset);
+			U32		JumpLess(U32 mOffset);
+			U32		JumpGreater(U32 mOffset);
+			U32		JumpEqual(U32 mOffset);
+			U32		Ret(U32 uiEspOffset	=	0);
+			U32		Int3();
+
+
+		public:
+			U32		GetCurrentOffset();
+		protected:
+			U32		PushBuffer(const U8* pBuffer,U32 uiSize);
+			U8*		Buffer(U32 uiSize);
+			template<typename T>
+			U32		PushBuffer(const T& t){
+				return PushBuffer(&t,sizeof(t));
+			};
+			template<int iCount>
+			U32		PushBuffer(const U8(&t)[iCount]){
+				return PushBuffer(t,iCount);
+			};
+		protected:
+			U32		m_uiSize;
+			U32		m_uiOffset;
+			U8*		m_pBuffer;
 		};
 
 		bool	Disassemble(const void* p,unsigned int uiSize,std::string&	strCode);

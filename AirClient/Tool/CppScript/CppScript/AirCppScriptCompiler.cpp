@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include "AirCppScriptParse.h"
 #include "AirCppScriptSyntax.h"
+#include "AirCppScriptAssemble.h"
 namespace	Air{
 	namespace	CppScript{
 
@@ -283,9 +284,8 @@ namespace	Air{
 		{
 			if(m_pSyntaxTree==NULL)
 				return false;
-			AString	strBuffer;
-			U32 idx=0;
-			m_pSyntaxTree->GenerateFunctionCode(strBuffer,idx);
+			Assemble asmGen;
+			m_pSyntaxTree->GenerateFunctionCode(asmGen);
 
 			if(m_pSyntaxTree!=NULL){
 				delete m_pSyntaxTree;
