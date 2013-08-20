@@ -358,8 +358,8 @@ namespace	Air{
 			printf("push esi\n");
 			printf("mov ebp,esp\n");
 			if(m_uiLocalVariableSize!=0){
-				printf("sub,esp,%d\n",m_uiLocalVariableSize);
-				printf("mov,esi,esp\n");
+				printf("sub esp,%d\n",m_uiLocalVariableSize);
+				printf("mov esi,esp\n");
 			}
 
 			i	=	m_lstChild.begin();

@@ -294,13 +294,12 @@ namespace	Air{
 
 		Air::CppScript::enumSyntaxError ForStatementNode::GenerateFunctionCode( AString& Buffer,U32& idx )
 		{
-			printf("#for begin\n");
-			printf("push edi\n");
 			pInitExp->GenerateFunctionCode(Buffer,idx);
+			printf("FORCOMPARE:");
 			pConditionExp->GenerateFunctionCode(Buffer,idx);
 			printf("test eax,eax\n");
-			printf("mov edi,eax\n");
-			printf("jz break\n");
+			
+			printf("jz FOREND\n");
 			
 
 			NodeList::iterator	i	=	m_lstChild.begin();
@@ -312,11 +311,10 @@ namespace	Air{
 					}
 				}
 			}
-			printf("mov eax,edi\n");
+			
 			pIterExp->GenerateFunctionCode(Buffer,idx);
-			printf("jmp Compare\n");
-			printf("pop edi\n");
-			printf("#for end\n");
+			printf("jmp FORCOMPARE\n");
+			printf("FOREND:");
 			return enSE_OK;
 		}
 

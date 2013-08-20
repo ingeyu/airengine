@@ -64,13 +64,13 @@ int _tmain(int argc, _TCHAR* argv[])
 	c.Compile(L"2.cpp");
 	c.Link(L"1.module");
 
-	//Air::CppScript::Function f;
+	Air::CppScript::Function f;
 
 	//char dst[30];
 	//char src[]="123123123123123123";
-	//unsigned int ret=0;
+	unsigned int ret=0;
 	//void* uiParam[]={dst,src,(void*)strlen(dst)};
-	//f.Call(&ret,(VOID**)uiParam,3);
+	f.Call(&ret);
 
 	c.Release();
 

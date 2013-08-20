@@ -19,6 +19,9 @@
     <Filter Include="Module">
       <UniqueIdentifier>{27bed263-1f58-4162-8e0d-c027f5ac6cf3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Disassemble">
+      <UniqueIdentifier>{a6873d32-20e7-47cf-9f99-ed225bae7885}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -75,6 +78,33 @@
     <ClInclude Include="AirCppScriptFunction.h">
       <Filter>Module</Filter>
     </ClInclude>
+    <ClInclude Include="AirCppScriptAssemble.h">
+      <Filter>Module</Filter>
+    </ClInclude>
+    <ClInclude Include="Disassemable\decode.h">
+      <Filter>Disassemble</Filter>
+    </ClInclude>
+    <ClInclude Include="Disassemable\extern.h">
+      <Filter>Disassemble</Filter>
+    </ClInclude>
+    <ClInclude Include="Disassemable\input.h">
+      <Filter>Disassemble</Filter>
+    </ClInclude>
+    <ClInclude Include="Disassemable\itab.h">
+      <Filter>Disassemble</Filter>
+    </ClInclude>
+    <ClInclude Include="Disassemable\syn.h">
+      <Filter>Disassemble</Filter>
+    </ClInclude>
+    <ClInclude Include="Disassemable\types.h">
+      <Filter>Disassemble</Filter>
+    </ClInclude>
+    <ClInclude Include="Disassemable\udint.h">
+      <Filter>Disassemble</Filter>
+    </ClInclude>
+    <ClInclude Include="Disassemable\udis86.h">
+      <Filter>Disassemble</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -121,6 +151,30 @@
     </ClCompile>
     <ClCompile Include="AirCppScriptFunction.cpp">
       <Filter>Module</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCppScriptAssemble.cpp">
+      <Filter>Module</Filter>
+    </ClCompile>
+    <ClCompile Include="Disassemable\decode.c">
+      <Filter>Disassemble</Filter>
+    </ClCompile>
+    <ClCompile Include="Disassemable\input.c">
+      <Filter>Disassemble</Filter>
+    </ClCompile>
+    <ClCompile Include="Disassemable\itab.c">
+      <Filter>Disassemble</Filter>
+    </ClCompile>
+    <ClCompile Include="Disassemable\syn.c">
+      <Filter>Disassemble</Filter>
+    </ClCompile>
+    <ClCompile Include="Disassemable\syn-att.c">
+      <Filter>Disassemble</Filter>
+    </ClCompile>
+    <ClCompile Include="Disassemable\syn-intel.c">
+      <Filter>Disassemble</Filter>
+    </ClCompile>
+    <ClCompile Include="Disassemable\udis86.c">
+      <Filter>Disassemble</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

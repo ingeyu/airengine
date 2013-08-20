@@ -133,11 +133,11 @@ namespace	Air{
 						}break;
 					case enOT_Or:					///<	|
 						{
-
+							printf("or eax,ebx");
 						}break;
 					case enOT_Xor:					///<	^
 						{
-
+							printf("xor eax,ebx");
 						}break;
 					case enOT_Not:					///<	~
 						{
@@ -177,11 +177,33 @@ namespace	Air{
 						}break;
 					case enOT_AddEqual:				///<	+=
 						{
+							printf("add eax,ebx\n");
+							if(pLeft->pObj->GetType()==enNT_Parameter){
+								printf("mov [ebp+14h],eax\n");
+							}else{
+								VariableNode* pVar	=	(VariableNode*)(pLeft->pObj);
+								if(pVar->IsLocal()){
+									printf("mov [esi+%d],eax\n",pVar->m_uiOffset);
+								}else{
+									printf("mov [%d],eax\n",pVar->m_uiOffset);
+								}
+							}
 
+							return enSE_OK;
 						}break;
 					case enOT_SubEqual:				///<	-=
 						{
-
+							printf("sub eax,ebx\n");
+							if(pLeft->pObj->GetType()==enNT_Parameter){
+								printf("mov [ebp+14h],eax\n");
+							}else{
+								VariableNode* pVar	=	(VariableNode*)(pLeft->pObj);
+								if(pVar->IsLocal()){
+									printf("mov [esi+%d],eax\n",pVar->m_uiOffset);
+								}else{
+									printf("mov [%d],eax\n",pVar->m_uiOffset);
+								}
+							}
 						}break;
 					case enOT_MulEqual:				///<	*/
 						{
@@ -494,26 +516,36 @@ namespace	Air{
 				return enSE_OK;
 			}
 			VariableNode* pVar	=	(VariableNode*)(pObj);
-			if(pVar->IsLocal()){
+			char str[32];
+			
+			if(pVar->GetType()==enNT_Parameter){
+				sprintf_s(str,"[ebp+%xh]",pVar->m_uiOffset+0x14);
 				
-				printf("mov eax,[esp+%d]\n",pVar->m_uiOffset);
-				if(eSelfOperator[1]==enOT_Increment){
-					printf("mov ebx,eax\n");
-					printf("add ebx,1\n");
-					printf("mov [esp+%d],ebx\n",pVar->m_uiOffset);
-				}else if(eSelfOperator[1]==enOT_Decrement){
-					printf("mov ebx,eax\n");
-					printf("sub ebx,1\n");
-					printf("mov [esp+%d],ebx\n",pVar->m_uiOffset);
-				}else if(eSelfOperator[1]==enOT_Decrement){;
-					printf("add eax,1\n");
-					printf("mov [esp+%d],eax\n",pVar->m_uiOffset);
-				}else if(eSelfOperator[1]==enOT_Decrement){
-					printf("sub eax,1\n");
-					printf("mov [esp+%d],eax\n",pVar->m_uiOffset);
-				}
 			}else{
-				printf("mov eax,[%d]\n",pVar->m_uiOffset);
+				if(!pVar->IsLocal()){
+					sprintf_s(str,"[%xh]",pVar->m_uiOffset);
+				}else{
+					sprintf_s(str,"[esi+%d]",pVar->m_uiOffset);
+				}
+			}
+			
+
+			printf("mov eax,%s\n",str);
+
+			if(eSelfOperator[1]==enOT_Increment){
+				printf("mov ebx,eax\n");
+				printf("add ebx,1\n");
+				printf("mov %s,ebx\n",str);
+			}else if(eSelfOperator[1]==enOT_Decrement){
+				printf("mov ebx,eax\n");
+				printf("sub ebx,1\n");
+				printf("mov %s,ebx\n",str);
+			}else if(eSelfOperator[1]==enOT_Decrement){;
+				printf("add eax,1\n");
+				printf("mov %s,eax\n",str);
+			}else if(eSelfOperator[1]==enOT_Decrement){
+				printf("sub eax,1\n");
+				printf("mov %s,eax\n",str);
 			}
 			return enSE_OK;
 		}

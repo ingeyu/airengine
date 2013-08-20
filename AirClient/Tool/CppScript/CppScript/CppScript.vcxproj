@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AirCppScript.h" />
+    <ClInclude Include="AirCppScriptAssemble.h" />
     <ClInclude Include="AirCppScriptCompiler.h" />
     <ClInclude Include="AirCppScriptDefine.h" />
     <ClInclude Include="AirCppScriptDefineType.h" />
@@ -92,11 +93,20 @@
     <ClInclude Include="AirCppScriptSyntaxObject.h" />
     <ClInclude Include="AirCppScriptSyntaxStatement.h" />
     <ClInclude Include="AirCppScriptSyntaxVariable.h" />
+    <ClInclude Include="Disassemable\decode.h" />
+    <ClInclude Include="Disassemable\extern.h" />
+    <ClInclude Include="Disassemable\input.h" />
+    <ClInclude Include="Disassemable\itab.h" />
+    <ClInclude Include="Disassemable\syn.h" />
+    <ClInclude Include="Disassemable\types.h" />
+    <ClInclude Include="Disassemable\udint.h" />
+    <ClInclude Include="Disassemable\udis86.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AirCppScript.cpp" />
+    <ClCompile Include="AirCppScriptAssemble.cpp" />
     <ClCompile Include="AirCppScriptCompiler.cpp" />
     <ClCompile Include="AirCppScriptFunction.cpp" />
     <ClCompile Include="AirCppScriptParse.cpp" />
@@ -110,6 +120,13 @@
     <ClCompile Include="AirCppScriptSyntaxStatement.cpp" />
     <ClCompile Include="AirCppScriptSyntaxVariable.cpp" />
     <ClCompile Include="CppScript.cpp" />
+    <ClCompile Include="Disassemable\decode.c" />
+    <ClCompile Include="Disassemable\input.c" />
+    <ClCompile Include="Disassemable\itab.c" />
+    <ClCompile Include="Disassemable\syn-att.c" />
+    <ClCompile Include="Disassemable\syn-intel.c" />
+    <ClCompile Include="Disassemable\syn.c" />
+    <ClCompile Include="Disassemable\udis86.c" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
