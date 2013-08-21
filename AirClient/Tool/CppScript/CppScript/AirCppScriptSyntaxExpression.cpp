@@ -1,7 +1,7 @@
 #include "AirCppScriptSyntaxExpression.h"
 #include "AirCppScriptSyntaxConstant.h"
 #include "AirCppScriptSyntaxVariable.h"
-
+#include "AirCppScriptAssemble.h"
 namespace	Air{
 	namespace	CppScript{
 
@@ -87,22 +87,22 @@ namespace	Air{
 				}
 				ExpressionElementNode* pLeft	=	(ExpressionElementNode*)(p[0]);
 				p[2]->GenerateFunctionCode(asmGen);
-				printf("push eax\n");
+				printf("push eax\n");asmGen.Code(eC_PUSH_EAX);
 				p[0]->GenerateFunctionCode(asmGen);
-				printf("pop ebx\n");
+				printf("pop ebx\n");asmGen.Code(eC_POP_EBX);
 				ExpressionOperatorNode* pOperator	=	(ExpressionOperatorNode*)p[1];
 				switch(pOperator->eOperator){
 					case enOT_Add:					///<	+
 						{
-							printf("add eax,ebx\n");
+							printf("add eax,ebx\n");asmGen.Operator(eC_ADD_R32_RM32,eAR_EAX,eAR_EBX);
 						}break;
 					case enOT_Sub:					///<	-
 						{
-							printf("sub eax,ebx\n");
+							printf("sub eax,ebx\n");asmGen.Operator(eC_SUB_R32_RM32,eAR_EAX,eAR_EBX);
 						}break;
 					case enOT_Mul:					///<	*
 						{
-							printf("imul eax,ebx\n");
+							printf("imul eax,ebx\n");//asmGen.Operator(eC_IMUL_R32_RM32,eAR_EAX,eAR_EBX);
 						}break;
 					case enOT_Div:					///<	/
 						{
@@ -114,13 +114,13 @@ namespace	Air{
 						}break;
 					case enOT_Mov:					///<	=
 						{
-							printf("mov eax,ebx\n");
+							printf("mov eax,ebx\n");asmGen.Operator(eC_MOV_R32_RM32,eAR_EAX,eAR_EBX);
 							if(pLeft->pObj->GetType()==enNT_Parameter){
 								printf("mov [ebp+14h],eax\n");
 							}else{
 								VariableNode* pVar	=	(VariableNode*)(pLeft->pObj);
 								if(pVar->IsLocal()){
-									printf("mov [esi+%d],eax\n",pVar->m_uiOffset);
+									printf("mov [esi+%d],eax\n",pVar->m_uiOffset);//asmGen.Operator(eC_MOV_,eAR_EAX,eAR_EBX);
 								}else{
 									printf("mov [%d],eax\n",pVar->m_uiOffset);
 								}
@@ -129,15 +129,15 @@ namespace	Air{
 						}break;
 					case enOT_And:					///<	&
 						{
-							printf("and eax,ebx");
+							printf("and eax,ebx");asmGen.Operator(eC_AND_R32_RM32,eAR_EAX,eAR_EBX);
 						}break;
 					case enOT_Or:					///<	|
 						{
-							printf("or eax,ebx");
+							printf("or eax,ebx");asmGen.Operator(eC_OR_R32_RM32,eAR_EAX,eAR_EBX);
 						}break;
 					case enOT_Xor:					///<	^
 						{
-							printf("xor eax,ebx");
+							printf("xor eax,ebx");asmGen.Operator(eC_XOR_R32_RM32,eAR_EAX,eAR_EBX);
 						}break;
 					case enOT_Not:					///<	~
 						{
@@ -145,19 +145,19 @@ namespace	Air{
 						}break;
 					case enOT_Equal:					///<	==
 						{
-							printf("sub eax,ebx\n");
+							printf("sub eax,ebx\n");asmGen.Operator(eC_SUB_R32_RM32,eAR_EAX,eAR_EBX);
 						}break;
 					case enOT_NotEqual:				///<	!=
 						{
-							printf("sub eax,ebx\n");
+							printf("sub eax,ebx\n");asmGen.Operator(eC_SUB_R32_RM32,eAR_EAX,eAR_EBX);
 						}break;
 					case enOT_Greater:				///<	>
 						{
-							printf("sub eax,ebx\n");
+							printf("sub eax,ebx\n");asmGen.Operator(eC_SUB_R32_RM32,eAR_EAX,eAR_EBX);
 						}break;
 					case enOT_Less:					///<	<
 						{
-							printf("sub eax,ebx\n");
+							printf("sub eax,ebx\n");asmGen.Operator(eC_SUB_R32_RM32,eAR_EAX,eAR_EBX);
 						}break;
 					case enOT_GreaterEqual:			///<	>=
 						{
@@ -177,15 +177,15 @@ namespace	Air{
 						}break;
 					case enOT_AddEqual:				///<	+=
 						{
-							printf("add eax,ebx\n");
+							printf("add eax,ebx\n");asmGen.Operator(eC_ADD_R32_RM32,eAR_EAX,eAR_EBX);
 							if(pLeft->pObj->GetType()==enNT_Parameter){
-								printf("mov [ebp+14h],eax\n");
+								printf("mov [ebp+14h],eax\n");asmGen.Operator(eC_MOV_RM32_R32,eAR_EBP,eAR_EAX,0x14);
 							}else{
 								VariableNode* pVar	=	(VariableNode*)(pLeft->pObj);
 								if(pVar->IsLocal()){
-									printf("mov [esi+%d],eax\n",pVar->m_uiOffset);
+									printf("mov [esi+%d],eax\n",pVar->m_uiOffset);asmGen.Operator(eC_MOV_RM32_R32,eAR_ESI,0x14,eAR_EAX);
 								}else{
-									printf("mov [%d],eax\n",pVar->m_uiOffset);
+									printf("mov [%d],eax\n",pVar->m_uiOffset);asmGen.Operator(eC_MOV_RM32_R32,eAR_ESI,0,eAR_EAX);
 								}
 							}
 
@@ -193,9 +193,9 @@ namespace	Air{
 						}break;
 					case enOT_SubEqual:				///<	-=
 						{
-							printf("sub eax,ebx\n");
+							printf("sub eax,ebx\n");asmGen.Operator(eC_SUB_R32_RM32,eAR_EAX,eAR_EBX);
 							if(pLeft->pObj->GetType()==enNT_Parameter){
-								printf("mov [ebp+14h],eax\n");
+								printf("mov [ebp+14h],eax\n");asmGen.Operator(eC_MOV_RM32_R32,eAR_EBP,0x14,eAR_EAX);
 							}else{
 								VariableNode* pVar	=	(VariableNode*)(pLeft->pObj);
 								if(pVar->IsLocal()){

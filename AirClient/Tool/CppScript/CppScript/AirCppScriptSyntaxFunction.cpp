@@ -2,6 +2,7 @@
 #include "AirCppScriptSyntaxStatement.h"
 #include "AirCppScriptSyntaxObject.h"
 #include "AirCppScriptSyntaxExpression.h"
+#include "AirCppScriptAssemble.h"
 
 namespace	Air{
 	namespace	CppScript{
@@ -352,14 +353,14 @@ namespace	Air{
 			CalcLocalVariableSize(m_uiLocalVariableSize);
 
 			printf("Function=%s\n",m_strName.c_str());
-			printf("push ebp\n");
-			printf("push ebx\n");
-			printf("push edx\n");
-			printf("push esi\n");
-			printf("mov ebp,esp\n");
+			printf("push ebp\n");asmGen.Code(eC_PUSH_EBP);
+			printf("push ebx\n");asmGen.Code(eC_PUSH_EBX);
+			printf("push edx\n");asmGen.Code(eC_PUSH_EDX);
+			printf("push esi\n");asmGen.Code(eC_PUSH_ESI);
+			printf("mov ebp,esp\n");asmGen.Operator(eC_MOV_R32_RM32,eAR_EBP,eAR_ESP);
 			if(m_uiLocalVariableSize!=0){
-				printf("sub esp,%d\n",m_uiLocalVariableSize);
-				printf("mov esi,esp\n");
+				printf("sub esp,%d\n",m_uiLocalVariableSize);asmGen.Operator(eC_SUB_R8_RM8,eAR_ESP,m_uiLocalVariableSize);
+				printf("mov esi,esp\n");asmGen.Operator(eC_MOV_R32_RM32,eAR_ESI,eAR_ESP);
 			}
 
 			i	=	m_lstChild.begin();
@@ -371,16 +372,16 @@ namespace	Air{
 					}
 				}
 			}
-			printf("mov esp,ebp\n");
-			printf("pop esi\n");
-			printf("pop edx\n");
-			printf("pop ebx\n");
-			printf("pop ebp\n");
+			printf("mov esp,ebp\n");asmGen.Operator(eC_MOV_R32_RM32,eAR_ESP,eAR_ESI);
+			printf("pop esi\n");asmGen.Code(eC_POP_ESI);
+			printf("pop edx\n");asmGen.Code(eC_POP_EDX);
+			printf("pop ebx\n");asmGen.Code(eC_POP_EBX);
+			printf("pop ebp\n");asmGen.Code(eC_POP_EBP);
 			
 			if(iParamIndex==0){
-				printf("ret\n");
+				printf("ret\n");asmGen.Code(eC_RET);
 			}else{
-				printf("ret %d\n",iParamIndex*4);
+				printf("ret %d\n",iParamIndex*4);asmGen.Code(eC_RET_IMM16,iParamIndex*4);
 			}
 			return enSE_OK;
 		}
