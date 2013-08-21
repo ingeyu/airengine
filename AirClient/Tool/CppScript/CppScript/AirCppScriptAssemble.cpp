@@ -3,6 +3,305 @@
 #include "AirCppScript.h"
 namespace	Air{
 	namespace	CppScript{
+		Instruction Code[257]={
+			{eO_AAA		,1,false,	0,0X37},
+			{eO_AAD		,2,true,	0,0XD5,0X00},
+			{eO_AAM		,2,true,	0,0XD4,0X00},
+			{eO_AAS		,1,false,	0,0X3F},
+			{eO_ADC		,2,true,	0,0X12},
+			{eO_ADD		,2,true,	0,0},
+			{eO_AND		,2,true,	0,0},
+			{eO_ARPL 		,2,true,	0,0x63,0}	,
+			{eO_BOUND 	,2,true,	0,0x62,0}		,
+			{eO_BSF 		,3,true,	0,0x0F,0xBC,0}	,//3~4	0000111110111100oorrrmmm	Bit Scan Forward 
+			{eO_BSR 		,3,true,	0,0x0F,0xBD,0}	,//3~4
+			{eO_BSWAP 	,2,true,	0,0x0F,0xC8}		,
+			{eO_BT 		,4,true,	0,0x0F,0XBA,0X20}	,//0x0F,0XA3,0X00
+			{eO_BTC 		,1,true,	0,0x0,0}	,
+			{eO_BTR 		,1,true,	0,0x0,0}	,
+			{eO_BTS 		,1,true,	0,0x0,0}	,
+			{eO_CBW 		,1,true,	0,0x0,0}	,
+			{eO_CDQ 		,1,true,	0,0x0,0}	,
+			{eO_CLC 		,1,true,	0,0x0,0}	,
+			{eO_CLD 		,1,true,	0,0x0,0}	,
+			{eO_CLI 		,1,true,	0,0x0,0}	,
+			{eO_CLTS 		,1,true,	0,0x0,0}	,
+			{eO_CMC 		,1,false,	0,0xF5,0}	,
+			{eO_CMOVcc 	,1,true,	0,0x0,0}	,
+			{eO_CMP 		,1,true,	0,0x0,0}	,
+			{eO_CMPSB 	,1,true,	0,0x0,0}		,
+			{eO_CMPSW 	,1,true,	0,0x0,0}		,
+			{eO_CMPSD 	,1,true,	0,0x0,0}		,
+			{eO_CMPXCHG 	,1,true,	0,0x0,0}	,
+			{eO_CMPXCHG8B ,1,true,	0,0x0,0}		,
+			{eO_CPUID 	,1,true,	0,0x0,0}		,
+			{eO_CWD 		,1,true,	0,0x0,0}	,
+			{eO_CWDE 		,1,true,	0,0x0,0}	,
+			{eO_DAA 		,1,true,	0,0x0,0}	,
+			{eO_DAS 		,1,true,	0,0x0,0}	,
+			{eO_DEC 		,1,true,	0,0x0,0}	,
+			{eO_DIV 		,1,true,	0,0x0,0}	,
+			{eO_ENTER 	,1,true,	0,0x0,0}		,
+			{eO_HLT 		,1,true,	0,0x0,0}	,
+			{eO_IDIV 		,1,true,	0,0x0,0}	,
+			{eO_IMUL 		,1,true,	0,0x0,0}	,
+			{eO_IN 		,1,true,	0,0x0,0}	,
+			{eO_INC 		,1,true,	0,0x0,0}	,
+			{eO_INSB 		,1,true,	0,0x0,0}	,
+			{eO_INSW 		,1,true,	0,0x0,0}	,
+			{eO_INSD 		,1,true,	0,0x0,0}	,
+			{eO_INT 		,1,true,	0,0x0,0}	,
+			{eO_INTO 		,1,true,	0,0x0,0}	,
+			{eO_INVD 		,1,true,	0,0x0,0}	,
+			{eO_INVLPG 	,1,true,	0,0x0,0}	,
+			{eO_IRET 		,1,true,	0,0x0,0}	,
+			{eO_IRETD 	,1,true,	0,0x0,0}		,
+			{eO_LAHF 		,1,true,	0,0x0,0}	,
+			{eO_LAR 		,1,true,	0,0x0,0}	,
+			{eO_LDS 		,1,true,	0,0x0,0}	,
+			{eO_LES 		,1,true,	0,0x0,0}	,
+			{eO_LFS 		,1,true,	0,0x0,0}	,
+			{eO_LGS 		,1,true,	0,0x0,0}	,
+			{eO_LSS 		,1,true,	0,0x0,0}	,
+			{eO_LEA 		,1,true,	0,0x0,0}	,
+			{eO_LEAVE 	,1,true,	0,0x0,0}		,
+			{eO_LGDT 		,1,true,	0,0x0,0}	,
+			{eO_LIDT 		,1,true,	0,0x0,0}	,
+			{eO_LLDT 		,1,true,	0,0x0,0}	,
+			{eO_LMSW 		,1,true,	0,0x0,0}	,
+			{eO_LODSB 	,1,true,	0,0x0,0}		,
+			{eO_LODSW 	,1,true,	0,0x0,0}		,
+			{eO_LODSD 	,1,true,	0,0x0,0}		,
+			{eO_LSL 		,1,true,	0,0x0,0}	,
+			{eO_LTR 		,1,true,	0,0x0,0}	,
+			{eO_MOV 		,1,true,	0,0x0,0}	,
+			{eO_MOVSB 	,1,true,	0,0x0,0}		,
+			{eO_MOVSW 	,1,true,	0,0x0,0}		,
+			{eO_MOVSD 	,1,true,	0,0x0,0}		,
+			{eO_MOVSX 	,1,true,	0,0x0,0}		,
+			{eO_MOVZX 	,1,true,	0,0x0,0}		,
+			{eO_MUL 		,1,true,	0,0x0,0}	,
+			{eO_NEG 		,1,true,	0,0x0,0}	,
+			{eO_NOP 		,1,true,	0,0x0,0}	,
+			{eO_NOT 		,1,true,	0,0x0,0}	,
+			{eO_OR 		,1,true,	0,0x0,0}	,
+			{eO_OUT 		,1,true,	0,0x0,0}	,
+			{eO_OUTSB 	,1,true,	0,0x0,0}		,
+			{eO_OUTSW 	,1,true,	0,0x0,0}		,
+			{eO_OUTSD 	,1,true,	0,0x0,0}		,
+			{eO_POP 		,1,true,	0,0x0,0}	,
+			{eO_POPA 		,1,true,	0,0x0,0}	,
+			{eO_POPAD 	,1,true,	0,0x0,0}		,
+			{eO_POPF 		,1,true,	0,0x0,0}	,
+			{eO_POPFD 	,1,true,	0,0x0,0}		,
+			{eO_PUSH 		,1,true,	0,0x0,0}	,
+			{eO_PUSHW 	,1,true,	0,0x0,0}		,
+			{eO_PUSHD 	,1,true,	0,0x0,0}		,
+			{eO_PUSHA 	,1,true,	0,0x0,0}		,
+			{eO_PUSHAD 	,1,true,	0,0x0,0}	,
+			{eO_PUSHF 	,1,true,	0,0x0,0}		,
+			{eO_PUSHFD 	,1,true,	0,0x0,0}	,
+			{eO_RCL 		,1,true,	0,0x0,0}	,
+			{eO_RCR 		,1,true,	0,0x0,0}	,
+			{eO_RDMSR 	,1,true,	0,0x0,0}		,
+			{eO_RET 		,1,true,	0,0x0,0}	,
+			{eO_RET 		,1,true,	0,0x0,0}	,
+			{eO_RET 		,1,true,	0,0x0,0}	,
+			{eO_RET 		,1,true,	0,0x0,0}	,
+			{eO_RDPMC 	,1,true,	0,0x0,0}		,
+			{eO_ROL 		,1,true,	0,0x0,0}	,
+			{eO_ROR 		,1,true,	0,0x0,0}	,
+			{eO_RSM 		,1,true,	0,0x0,0}	,
+			{eO_SALC 		,1,true,	0,0x0,0}	,
+			{eO_SAHF 		,1,true,	0,0x0,0}	,
+			{eO_SAL 		,1,true,	0,0x0,0}	,
+			{eO_SAR 		,1,true,	0,0x0,0}	,
+			{eO_SETcc 	,1,true,	0,0x0,0}		,
+			{eO_SHL 		,1,true,	0,0x0,0}	,
+			{eO_SHR 		,1,true,	0,0x0,0}	,
+			{eO_SBB 		,1,true,	0,0x0,0}	,
+			{eO_SCASB 	,1,true,	0,0x0,0}		,
+			{eO_SCASW 	,1,true,	0,0x0,0}		,
+			{eO_SCASD 	,1,true,	0,0x0,0}		,
+			{eO_SGDT 		,1,true,	0,0x0,0}	,
+			{eO_SHLD 		,1,true,	0,0x0,0}	,
+			{eO_SHRD 		,1,true,	0,0x0,0}	,
+			{eO_SIDT 		,1,true,	0,0x0,0}	,
+			{eO_SLDT		,1,true,	0,0x0,0}	,
+			{eO_SMSW 		,1,true,	0,0x0,0}	,
+			{eO_STC 		,1,true,	0,0x0,0}	,
+			{eO_STD 		,1,true,	0,0x0,0}	,
+			{eO_STI 		,1,true,	0,0x0,0}	,
+			{eO_STOSB 	,1,true,	0,0x0,0}		,
+			{eO_STOSW 	,1,true,	0,0x0,0}		,
+			{eO_STOSD 	,1,true,	0,0x0,0}		,
+			{eO_STR 		,1,true,	0,0x0,0}	,
+			{eO_SUB 		,1,true,	0,0x0,0}	,
+			{eO_TEST 		,1,true,	0,0x0,0}	,
+			{eO_VERR 		,1,true,	0,0x0,0}	,
+			{eO_VERW 		,1,true,	0,0x0,0}	,
+			{eO_WAIT 		,1,true,	0,0x0,0}	,
+			{eO_WBINVD 	,1,true,	0,0x0,0}	,
+			{eO_WRMSR 	,1,true,	0,0x0,0}		,
+			{eO_XADD 		,1,true,	0,0x0,0}	,
+			{eO_XCHG 		,1,true,	0,0x0,0}	,
+			{eO_XLAT 		,1,true,	0,0x0,0}	,
+			{eO_XOR 		,1,true,	0,0x0,0}	,
+			{eO_CALL 		,1,true,	0,0x0,0}	,
+			{eO_Jcc 		,1,true,	0,0x0,0}	,
+			{eO_JCXZ 		,1,true,	0,0x0,0}	,
+			{eO_JCXE 		,1,true,	0,0x0,0}	,
+			{eO_JECXZ 	,1,true,	0,0x0,0}		,
+			{eO_JECXE 	,1,true,	0,0x0,0}		,
+			{eO_JMP 		,1,true,	0,0x0,0}	,
+			{eO_LOOP 		,1,true,	0,0x0,0}	,
+			{eO_LOOPZ 	,1,true,	0,0x0,0}		,
+			{eO_LOOPE 	,1,true,	0,0x0,0}		,
+			{eO_LOOPNZ 	,1,true,	0,0x0,0}	,
+			{eO_LOOPNE 	,1,true,	0,0x0,0}	,
+			{eO_LOCK 		,1,true,	0,0x0,0}	,
+			{eO_REP 		,1,true,	0,0x0,0}	,
+			{eO_REPE 		,1,true,	0,0x0,0}	,
+			{eO_REPZ 		,1,true,	0,0x0,0}	,
+			{eO_REPNE 	,1,true,	0,0x0,0}		,
+			{eO_REPNZ 	,1,true,	0,0x0,0}		,
+			{eO_CS		,1,true,	0,0x0,0}		,
+			{eO_DS		,1,true,	0,0x0,0}		,
+			{eO_ES		,1,true,	0,0x0,0}		,
+			{eO_FS		,1,true,	0,0x0,0}		,
+			{eO_GS		,1,true,	0,0x0,0}		,
+			{eO_SS		,1,true,	0,0x0,0}		,
+			{eO_F2XM1 	,1,true,	0,0x0,0}		,
+			{eO_FABS 		,1,true,	0,0x0,0}	,
+			{eO_FADD 		,1,true,	0,0x0,0}	,
+			{eO_FADDP 	,1,true,	0,0x0,0}		,
+			{eO_FIADD 	,1,true,	0,0x0,0}		,
+			{eO_FCMOVcc 	,1,true,	0,0x0,0}	,
+			{eO_FCHS 		,1,true,	0,0x0,0}	,
+			{eO_FCLEX 	,1,true,	0,0x0,0}		,
+			{eO_FNCLEX 	,1,true,	0,0x0,0}	,
+			{eO_FCOM 		,1,true,	0,0x0,0}	,
+			{eO_FCOMP 	,1,true,	0,0x0,0}		,
+			{eO_FICOM 	,1,true,	0,0x0,0}		,
+			{eO_FICOMP 	,1,true,	0,0x0,0}	,
+			{eO_FCOMI 	,1,true,	0,0x0,0}		,
+			{eO_FCOMIP 	,1,true,	0,0x0,0}	,
+			{eO_FUCOMI 	,1,true,	0,0x0,0}	,
+			{eO_FUCOMIP 	,1,true,	0,0x0,0}	,
+			{eO_FUCOMPP 	,1,true,	0,0x0,0}	,
+			{eO_FCOS 		,1,true,	0,0x0,0}	,
+			{eO_FDECSTP 	,1,true,	0,0x0,0}	,
+			{eO_FDISI 	,1,true,	0,0x0,0}		,
+			{eO_FNDISI 	,1,true,	0,0x0,0}	,
+			{eO_FDIV 		,1,true,	0,0x0,0}	,
+			{eO_FDIVP 	,1,true,	0,0x0,0}		,
+			{eO_FIDIV 	,1,true,	0,0x0,0}		,
+			{eO_FDIVR 	,1,true,	0,0x0,0}		,
+			{eO_FDIVRP 	,1,true,	0,0x0,0}	,
+			{eO_FIDIVR 	,1,true,	0,0x0,0}	,
+			{eO_FENI 		,1,true,	0,0x0,0}	,
+			{eO_FNENI 	,1,true,	0,0x0,0}		,
+			{eO_FFREE 	,1,true,	0,0x0,0}		,
+			{eO_FINCSTP 	,1,true,	0,0x0,0}	,
+			{eO_FINIT 	,1,true,	0,0x0,0}		,
+			{eO_FNINIT 	,1,true,	0,0x0,0}	,
+			{eO_FLD 		,1,true,	0,0x0,0}	,
+			{eO_FILD 		,1,true,	0,0x0,0}	,
+			{eO_FBLD 		,1,true,	0,0x0,0}	,
+			{eO_FLD1 		,1,true,	0,0x0,0}	,
+			{eO_FLDZ 		,1,true,	0,0x0,0}	,
+			{eO_FLDPI 	,1,true,	0,0x0,0}		,
+			{eO_FLDL2E 	,1,true,	0,0x0,0}	,
+			{eO_FLDL2T 	,1,true,	0,0x0,0}	,
+			{eO_FLDLG2 	,1,true,	0,0x0,0}	,
+			{eO_FLDLN2 	,1,true,	0,0x0,0}	,
+			{eO_FLDCW 	,1,true,	0,0x0,0}		,
+			{eO_FLDENV 	,1,true,	0,0x0,0}	,
+			{eO_FMUL 		,1,true,	0,0x0,0}	,
+			{eO_FMULP 	,1,true,	0,0x0,0}		,
+			{eO_FIMUL 	,1,true,	0,0x0,0}		,
+			{eO_FNOP 		,1,true,	0,0x0,0}	,
+			{eO_FPATAN 	,1,true,	0,0x0,0}	,
+			{eO_FPREM 	,1,true,	0,0x0,0}		,
+			{eO_FPREM1 	,1,true,	0,0x0,0}	,
+			{eO_FPTAN 	,1,true,	0,0x0,0}		,
+			{eO_FRNDINT 	,1,true,	0,0x0,0}	,
+			{eO_FRSTOR 	,1,true,	0,0x0,0}	,
+			{eO_FSAVE 	,1,true,	0,0x0,0}		,
+			{eO_FNSAVE 	,1,true,	0,0x0,0}	,
+			{eO_FSCALE 	,1,true,	0,0x0,0}	,
+			{eO_FSETPM 	,1,true,	0,0x0,0}	,
+			{eO_FSIN 		,1,true,	0,0x0,0}	,
+			{eO_FSINCOS 	,1,true,	0,0x0,0}	,
+			{eO_FSQRT 	,1,true,	0,0x0,0}		,
+			{eO_FST 		,1,true,	0,0x0,0}	,
+			{eO_FSTP 		,1,true,	0,0x0,0}	,
+			{eO_FIST 		,1,true,	0,0x0,0}	,
+			{eO_FISTP 	,1,true,	0,0x0,0}		,
+			{eO_FBSTP 	,1,true,	0,0x0,0}		,
+			{eO_FSTCW 	,1,true,	0,0x0,0}		,
+			{eO_FNSTCW 	,1,true,	0,0x0,0}	,
+			{eO_FSTENV 	,1,true,	0,0x0,0}	,
+			{eO_FNSTENV 	,1,true,	0,0x0,0}	,
+			{eO_FSTSW 	,1,true,	0,0x0,0}		,
+			{eO_FNSTSW 	,1,true,	0,0x0,0}	,
+			{eO_FSUB 		,1,true,	0,0x0,0}	,
+			{eO_FSUBP 	,1,true,	0,0x0,0}		,
+			{eO_FISUB 	,1,true,	0,0x0,0}		,
+			{eO_FSUBR 	,1,true,	0,0x0,0}		,
+			{eO_FSUBRP 	,1,true,	0,0x0,0}	,
+			{eO_FISUBR 	,1,true,	0,0x0,0}	,
+			{eO_FTST 		,1,true,	0,0x0,0}	,
+			{eO_FUCOM 	,1,true,	0,0x0,0}		,
+			{eO_FUCOMP 	,1,true,	0,0x0,0}	,
+			{eO_FUCOMPP 	,1,true,	0,0x0,0}	,
+			{eO_FWAIT 	,1,true,	0,0x0,0}		,
+			{eO_FXAM 		,1,true,	0,0x0,0}	,
+			{eO_FXCH 		,1,true,	0,0x0,0}	,
+			{eO_FXTRACT 	,1,true,	0,0x0,0}	,
+			{eO_FYL2X 	,1,true,	0,0x0,0}		,
+			{eO_FYL2XP1	,1,true,	0,0x0,0}	,
+		};
+
+		void	CheckPrefix(AssembleOperator op,InstCode& c){
+			switch(op){
+				case eO_LOCK:{
+					c.InstructionPrefixes	=	0xF0;
+						   }break;
+				case eO_REPNE:
+				case eO_REPNZ:{
+					c.InstructionPrefixes	=	0xF2;
+						   }break;
+				case eO_REP:{
+					c.InstructionPrefixes	=	0xF3;
+						   }break;
+				case eO_REPE:
+				case eO_REPZ:{
+					c.InstructionPrefixes	=	0xF3;
+						   }break;
+				case eO_CS:{
+					c.InstructionPrefixes	=	0x2E;
+						   }break;
+				case eO_SS:{
+					c.InstructionPrefixes	=	0x36;
+						   }break;
+				case eO_DS:{
+					c.InstructionPrefixes	=	0x3E;
+						   }break;
+				case eO_ES:{
+					c.InstructionPrefixes	=	0x26;
+						   }break;
+				case eO_FS:{
+					c.InstructionPrefixes	=	0x64;
+						   }break;
+				case eO_GS:{
+					c.InstructionPrefixes	=	0x65;
+						 }break;
+				default:{
+					c.InstructionPrefixes	=	0;
+						}break;
+			}
+		}
 
 
 		bool Disassemble( const void* p,unsigned int uiSize,std::string&	strCode)
@@ -54,102 +353,149 @@ namespace	Air{
 			return	&m_pBuffer[uiOldOffset];
 		}
 
-		Air::U32 Assemble::PushBuffer( const U8* pBuffer,U32 uiSize )
+		Air::U32 Assemble::PushBuffer( const void* pBuffer,U32 uiSize )
 		{
 			U32 uiOldOffset	=	m_uiOffset;
 			memcpy(Buffer(uiSize),pBuffer,uiSize);
 			return uiOldOffset;
 		}
+
+		U32		Assemble::Code(Code1 op){
+			return PushBuffer(op);
+		};
+
+		U32		Assemble::Code(Code1 op,U32 Imm32){
+			U8 c[5]={op,0,0,0,0};
+			U32* pOffset	=	(U32*)&c[1];
+			*pOffset=Imm32;
+			return PushBuffer(c);
+		};
+		U32		Assemble::Code(AssembleOperator op,AssembleRegister rDst,AssembleRegister rSrc){
+			return m_uiOffset;
+		};
+		U32		Assemble::Code(AssembleOperator op,AssembleRegister rDst,U32 mSrc){
+			return m_uiOffset;
+		};
+		U32		Assemble::Code(AssembleOperator op,AssembleRegister rDst, U32 mOffset,AssembleRegister rSrc){
+			return m_uiOffset;
+		};
+		U32		Assemble::Code(AssembleOperator op,AssembleRegister rDst,AssembleRegister rSrc,U32 mOffset){
+			return m_uiOffset;
+		};
+
+		Air::U32 Assemble::Code( Code1 op,U8 Imm8 )
+		{
+			U8 c[2]={op,0};
+			c[1]=Imm8;
+			return PushBuffer(c);
+		}
+
 		Air::U32 Assemble::Push( AssembleRegister r )
 		{
-			U8 c =	0x50;
+			U8 c =	eC_PUSH_EAX;
 			c|=r;
 			return	PushBuffer(c);
+		}
+
+		Air::U32 Assemble::Push( U32 m )
+		{
+			U8 c[5];
+			U32 size=2;
+			if(m<256){
+				c[0]=eC_PUSH_IMM8;
+				c[1]=(U8)m;
+			}else{
+				size=5;
+				c[0]=eC_PUSH_IMM32;
+				U32* pOffset	=	(U32*)&c[1];
+				*pOffset=m;
+			}
+			return PushBuffer(c,size);
 		}
 
 
 		Air::U32 Assemble::Pop( AssembleRegister r )
 		{
-			U8 c =	0x58;
+			U8 c =	eC_POP_EAX;
 			c|=r;
 			return	PushBuffer(c);
 		}
 
-		Air::U32 Assemble::Mov( AssembleRegister rDst,AssembleRegister rSrc )
+		Air::U32 Assemble::Operator( Code1 op,AssembleRegister rDst,AssembleRegister rSrc )
 		{
-			U8 c[2] =	{0x8B,0xC0};
+			U8 c[2] =	{op,0xC0};
 			c[1]|=rDst<<3|rSrc;
 			return	PushBuffer(c);
 		}
 
-		U32		Assemble::Mov(AssembleRegister rDst,AssembleRegister rSrc,U32 mOffset)
+		U32		Assemble::Operator(Code1 op,AssembleRegister rDst,AssembleRegister rSrc,U32 mOffset)
 		{
 			if(mOffset==0){
-				U8 c[2] =	{0x8B,0x00};
+				U8 c[2] =	{op,0x00};
 				c[1]|=rDst<<3|rSrc;
 				return	PushBuffer(c);
 			}
 			if(mOffset	> 255){
-				U8 c[6] =	{0x8B,0x80,0x00,0x00,0x00,0x00};
+				U8 c[6] =	{op,0x80,0x00,0x00,0x00,0x00};
 				c[1]|=rDst<<3|rSrc;
 				U32* pOffset	=	(U32*)&c[2];
 				*pOffset=mOffset;
 				return	PushBuffer(c);
 			}else{
-				U8 c[3] =	{0x8B,0x40,0x00};
+				U8 c[3] =	{op,0x40,0x00};
 				c[1]|=rDst<<3|rSrc;
 				c[2]=(U8)mOffset;
 				return	PushBuffer(c);
 			}
 		}
 
-		Air::U32 Assemble::Mov( AssembleRegister rDst, U32 mOffset,AssembleRegister rSrc )
+		Air::U32 Assemble::Operator( Code1 op,AssembleRegister rDst, U32 mOffset,AssembleRegister rSrc )
 		{
 			if(mOffset==0){
 				if(rDst	==	eAR_ESP){
-					U8 c[3] =	{0x89,0x00,0x24};
+					U8 c[3] =	{op,0x00,0x24};
 					c[1]|=rSrc<<3|rDst;
 					return	PushBuffer(c);
 				}else if(rDst	==	eAR_EBP){
-					U8 c[3] =	{0x89,0x40,0x00};
+					U8 c[3] =	{op,0x40,0x00};
 					c[1]|=rSrc<<3|rDst;
 					return	PushBuffer(c);
 				}
-				U8 c[2] =	{0x89,0x00};
+				U8 c[2] =	{op,0x00};
 				c[1]|=rSrc<<3|rDst;
 				return	PushBuffer(c);
 			}
 			if(rDst	==	eAR_ESP){
 				if(mOffset	> 255){
-					U8 c[7] =	{0x89,0x80,0x24,0x00,0x00,0x00,0x00};
+					U8 c[7] =	{op,0x80,0x24,0x00,0x00,0x00,0x00};
 					c[1]|=rSrc<<3|rDst;
 					U32* pOffset	=	(U32*)&c[3];
 					*pOffset=mOffset;
 					return	PushBuffer(c);
 				}else{
-					U8 c[4] =	{0x89,0x40,0x24,0x00};
+					U8 c[4] =	{op,0x40,0x24,0x00};
 					c[1]|=rSrc<<3|rDst;
 					c[3]=(U8)mOffset;
 					return	PushBuffer(c);
 				}
 			}
 			if(mOffset	> 255){
-				U8 c[6] =	{0x89,0x80,0x00,0x00,0x00,0x00};
+				U8 c[6] =	{op,0x80,0x00,0x00,0x00,0x00};
 				c[1]|=rSrc<<3|rDst;
 				U32* pOffset	=	(U32*)&c[2];
 				*pOffset=mOffset;
 				return	PushBuffer(c);
 			}else{
-				U8 c[3] =	{0x89,0x40,0x00};
+				U8 c[3] =	{op,0x40,0x00};
 				c[1]|=rSrc<<3|rDst;
 				c[2]=(U8)mOffset;
 				return	PushBuffer(c);
 			}
 		}
 
-		Air::U32 Assemble::Mov( AssembleRegister rDst,U32 mSrc )
+		Air::U32 Assemble::Operator( Code1 op,AssembleRegister rDst,U32 mSrc )
 		{
-			U8 c[5] =	{0xB8,0x00,0x00,0x00,0x00};
+			U8 c[5] =	{op,0x00,0x00,0x00,0x00};
 			c[0]|=rDst;
 			U32* pOffset	=	(U32*)&c[1];
 			*pOffset=mSrc;
@@ -158,14 +504,14 @@ namespace	Air{
 
 		Air::U32 Assemble::Call( AssembleRegister r)
 		{
-			U8 c[2] =	{0xFF,0xD0};
+			U8 c[2] =	{eC_R8_RM32_NONE_NONE_group4,0xD0};
 			c[1]|=	r;
 			return	PushBuffer(c);
 		}
 
 		Air::U32 Assemble::Call( U32 uiOffset,U32* pRelocal /*= NULL*/ )
 		{
-			U8 c[5]={0xE8,0,0,0,0};
+			U8 c[5]={eC_CALL_REL32,0,0,0,0};
 			U32* pOffset	=	(U32*)&c[1];
 			*pOffset=uiOffset;
 			if(pRelocal!=NULL){
@@ -174,36 +520,14 @@ namespace	Air{
 			return	PushBuffer(c);
 		}
 
-		Air::U32 Assemble::Add( AssembleRegister rDst,AssembleRegister rSrc )
-		{
-			U8 c[2] =	{0x03,0xC0};
-			c[1]|=rDst<<3|rSrc;
-			return	PushBuffer(c);
-		}
-
-		Air::U32 Assemble::Add( AssembleRegister rDst,U32 mSrc )
-		{
-			if(mSrc<256){
-				U8 c[3] =	{0x83,0xC0,0};
-				c[1]|=rDst;
-				c[2]	=	(U8)mSrc;
-				return	PushBuffer(c);
-			}else{
-				U8 c[6] =	{0x81,0xC0,0,0,0,0};
-				c[1]|=rDst;
-				U32* pOffset	=	(U32*)&c[2];
-				*pOffset=mSrc;
-				return	PushBuffer(c);
-			}
-		}
 
 		Air::U32 Assemble::Ret( U16 uiEspOffset /*= 0*/ )
 		{
 			if(uiEspOffset==0){
-				U8 c = 0xC3;
+				U8 c = eC_RET;
 				return	PushBuffer(c);
 			}else{
-				U8 c[3] = {0xC2,0,0};
+				U8 c[3] = {eC_RET_IMM16,0,0};
 				
 				U16* pOffset	=	(U16*)&c[1];
 				*pOffset=uiEspOffset;
@@ -213,21 +537,60 @@ namespace	Air{
 
 		Air::U32 Assemble::Cmp( AssembleRegister rLeft,AssembleRegister rRight )
 		{
-			U8 c[2] = {0x3B,0XC0};
+			U8 c[2] = {eC_CMP_R32_RM32,0XC0};
 			c[1]|=rLeft<<3|rRight;
 			return	PushBuffer(c);
 		}
 
 		Air::U32 Assemble::Test( AssembleRegister r )
 		{
-			U8 c[2] = {0x85,0XC0};
+			U8 c[2] = {eC_TEST_RM32_R32,0XC0};
 			c[1]|=r<<3;
 			return	PushBuffer(c);
 		}
 
 		Air::U32 Assemble::Int3()
 		{
-			U8 c=0xCC;
+			U8 c=eC_INT_C3;
+			return	PushBuffer(c);
+		}
+
+
+		Air::U8 Assemble::OperatorToByteCode( AssembleOperator op )
+		{
+
+			return 0;
+		}
+
+		Air::U32 Assemble::Jmp( U32 mOffset )
+		{
+			U8 c[5]={eC_JMP_REL32,0,0,0,0};
+			U32* pOffset	=	(U32*)&c[1];
+			*pOffset=mOffset;
+			return	PushBuffer(c);
+		}
+
+		Air::U32 Assemble::JumpZero( U32 mOffset )
+		{
+			if(mOffset<256){
+				U8 c[2]={eC_JZ_REL8,(U8)mOffset};
+				return	PushBuffer(c);
+			}
+			U8 c[6]={eC_IMM8_NONE_NONE_NONE_opcodex,eCEx_JZ_REL32,0,0,0,0};
+			U32* pOffset	=	(U32*)&c[2];
+			*pOffset=mOffset;
+			return	PushBuffer(c);
+		}
+
+		Air::U32 Assemble::JumpLess( U32 mOffset )
+		{
+			if(mOffset<256){
+				U8 c[2]={eC_JL_REL8,(U8)mOffset};
+				return	PushBuffer(c);
+			}
+			U8 c[6]={eC_IMM8_NONE_NONE_NONE_opcodex,eCEx_JL_REL32,0,0,0,0};
+			U32* pOffset	=	(U32*)&c[2];
+			*pOffset=mOffset;
 			return	PushBuffer(c);
 		}
 
