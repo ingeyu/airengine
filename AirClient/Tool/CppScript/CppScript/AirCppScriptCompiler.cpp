@@ -3,6 +3,8 @@
 #include "AirCppScriptParse.h"
 #include "AirCppScriptSyntax.h"
 #include "AirCppScriptAssemble.h"
+#include "AirCppScriptFunction.h"
+#include "AirCppScriptSyntaxFunction.h"
 namespace	Air{
 	namespace	CppScript{
 
@@ -286,6 +288,19 @@ namespace	Air{
 				return false;
 			Assemble asmGen;
 			m_pSyntaxTree->GenerateFunctionCode(asmGen);
+
+			AString	strName;
+			Disassemble(asmGen.GetBuffer(),asmGen.GetCurrentOffset(),strName);
+			printf(strName.c_str());
+
+			FunctionNode* pNode = (FunctionNode*)m_pSyntaxTree->FindNode("main",enNT_Function);
+
+			Function f;
+			f.SetFunctionEntry(pNode->pEntry);
+
+			U32 ret=0;
+			U32 uiParam[]={101,0};
+			f.Call(&ret,(void**)uiParam,2);
 
 			if(m_pSyntaxTree!=NULL){
 				delete m_pSyntaxTree;

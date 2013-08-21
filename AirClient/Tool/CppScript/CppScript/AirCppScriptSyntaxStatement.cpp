@@ -1,6 +1,7 @@
 #include "AirCppScriptSyntaxStatement.h"
 #include "AirCppScriptSyntaxExpression.h"
 #include "AirCppScriptSyntaxFunction.h"
+#include "AirCppScriptAssemble.h"
 namespace	Air{
 	namespace	CppScript{
 
@@ -295,13 +296,14 @@ namespace	Air{
 		Air::CppScript::enumSyntaxError ForStatementNode::GenerateFunctionCode( Assemble& asmGen )
 		{
 			pInitExp->GenerateFunctionCode(asmGen);
-			printf("FORCOMPARE:");
+			
+			U32 pCondition	=	asmGen.GetCurrentOffset();
+			
 			pConditionExp->GenerateFunctionCode(asmGen);
-			printf("test eax,eax\n");
+			asmGen.Test(eAR_EAX);
+			asmGen.JumpZero(0xffffffff);
+			U32 uiJump	=	asmGen.GetCurrentOffset();
 			
-			printf("jz FOREND\n");
-			
-
 			NodeList::iterator	i	=	m_lstChild.begin();
 			for(;i!=m_lstChild.end();i++){
 				Node* pNode	=	(*i);
@@ -313,8 +315,9 @@ namespace	Air{
 			}
 			
 			pIterExp->GenerateFunctionCode(asmGen);
-			printf("jmp FORCOMPARE\n");
-			printf("FOREND:");
+			asmGen.Jmp(pCondition);
+			asmGen.WriteAddress_JumpHere(uiJump);
+			
 			return enSE_OK;
 		}
 

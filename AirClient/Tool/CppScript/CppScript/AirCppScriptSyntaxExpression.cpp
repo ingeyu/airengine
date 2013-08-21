@@ -87,26 +87,26 @@ namespace	Air{
 				}
 				ExpressionElementNode* pLeft	=	(ExpressionElementNode*)(p[0]);
 				p[2]->GenerateFunctionCode(asmGen);
-				printf("push eax\n");asmGen.Code(eC_PUSH_EAX);
+				asmGen.Code(eC_PUSH_EAX);
 				p[0]->GenerateFunctionCode(asmGen);
-				printf("pop ebx\n");asmGen.Code(eC_POP_EBX);
+				asmGen.Code(eC_POP_EBX);
 				ExpressionOperatorNode* pOperator	=	(ExpressionOperatorNode*)p[1];
 				switch(pOperator->eOperator){
 					case enOT_Add:					///<	+
 						{
-							printf("add eax,ebx\n");asmGen.Operator(eC_ADD_R32_RM32,eAR_EAX,eAR_EBX);
+							asmGen.Operator(eC_ADD_R32_RM32,eAR_EAX,eAR_EBX);
 						}break;
 					case enOT_Sub:					///<	-
 						{
-							printf("sub eax,ebx\n");asmGen.Operator(eC_SUB_R32_RM32,eAR_EAX,eAR_EBX);
+							asmGen.Operator(eC_SUB_R32_RM32,eAR_EAX,eAR_EBX);
 						}break;
 					case enOT_Mul:					///<	*
 						{
-							printf("imul eax,ebx\n");//asmGen.Operator(eC_IMUL_R32_RM32,eAR_EAX,eAR_EBX);
+							//asmGen.Operator(eC_IMUL_R32_RM32,eAR_EAX,eAR_EBX);
 						}break;
 					case enOT_Div:					///<	/
 						{
-							printf("div eax,ebx\n");
+							//printf("div eax,ebx\n");
 						}break;
 					case enOT_Remain:				///<	%
 						{
@@ -114,30 +114,33 @@ namespace	Air{
 						}break;
 					case enOT_Mov:					///<	=
 						{
-							printf("mov eax,ebx\n");asmGen.Operator(eC_MOV_R32_RM32,eAR_EAX,eAR_EBX);
+							VariableNode* pVar	=	(VariableNode*)(pLeft->pObj);
+							asmGen.Operator(eC_MOV_R32_RM32,eAR_EAX,eAR_EBX);
 							if(pLeft->pObj->GetType()==enNT_Parameter){
-								printf("mov [ebp+14h],eax\n");
+								asmGen.Operator(eC_MOV_RM32_R32,eAR_EBP,0X14+pVar->m_uiOffset,eAR_EBX);
 							}else{
-								VariableNode* pVar	=	(VariableNode*)(pLeft->pObj);
+								
 								if(pVar->IsLocal()){
-									printf("mov [esi+%d],eax\n",pVar->m_uiOffset);//asmGen.Operator(eC_MOV_,eAR_EAX,eAR_EBX);
+									asmGen.Operator(eC_MOV_RM32_R32,eAR_ESI,pVar->m_uiOffset,eAR_EBX);
 								}else{
-									printf("mov [%d],eax\n",pVar->m_uiOffset);
+									
+									//asmGen.Operator(eC_MOV_R32,eAR_ESI,0X14+pVar->m_uiOffset,eAR_EBX);
+									asmGen.Operator(eC_MOV_RM32_R32,eAR_EAX,pVar->m_uiOffset,eAR_EAX);
 								}
 							}
 							return enSE_OK;
 						}break;
 					case enOT_And:					///<	&
 						{
-							printf("and eax,ebx");asmGen.Operator(eC_AND_R32_RM32,eAR_EAX,eAR_EBX);
+							asmGen.Operator(eC_AND_R32_RM32,eAR_EAX,eAR_EBX);
 						}break;
 					case enOT_Or:					///<	|
 						{
-							printf("or eax,ebx");asmGen.Operator(eC_OR_R32_RM32,eAR_EAX,eAR_EBX);
+							asmGen.Operator(eC_OR_R32_RM32,eAR_EAX,eAR_EBX);
 						}break;
 					case enOT_Xor:					///<	^
 						{
-							printf("xor eax,ebx");asmGen.Operator(eC_XOR_R32_RM32,eAR_EAX,eAR_EBX);
+							asmGen.Operator(eC_XOR_R32_RM32,eAR_EAX,eAR_EBX);
 						}break;
 					case enOT_Not:					///<	~
 						{
@@ -145,19 +148,19 @@ namespace	Air{
 						}break;
 					case enOT_Equal:					///<	==
 						{
-							printf("sub eax,ebx\n");asmGen.Operator(eC_SUB_R32_RM32,eAR_EAX,eAR_EBX);
+							asmGen.Operator(eC_SUB_R32_RM32,eAR_EAX,eAR_EBX);
 						}break;
 					case enOT_NotEqual:				///<	!=
 						{
-							printf("sub eax,ebx\n");asmGen.Operator(eC_SUB_R32_RM32,eAR_EAX,eAR_EBX);
+							asmGen.Operator(eC_SUB_R32_RM32,eAR_EAX,eAR_EBX);
 						}break;
 					case enOT_Greater:				///<	>
 						{
-							printf("sub eax,ebx\n");asmGen.Operator(eC_SUB_R32_RM32,eAR_EAX,eAR_EBX);
+							asmGen.Operator(eC_SUB_R32_RM32,eAR_EAX,eAR_EBX);
 						}break;
 					case enOT_Less:					///<	<
 						{
-							printf("sub eax,ebx\n");asmGen.Operator(eC_SUB_R32_RM32,eAR_EAX,eAR_EBX);
+							asmGen.Operator(eC_SUB_R32_RM32,eAR_EAX,eAR_EBX);
 						}break;
 					case enOT_GreaterEqual:			///<	>=
 						{
@@ -177,15 +180,16 @@ namespace	Air{
 						}break;
 					case enOT_AddEqual:				///<	+=
 						{
-							printf("add eax,ebx\n");asmGen.Operator(eC_ADD_R32_RM32,eAR_EAX,eAR_EBX);
+							asmGen.Operator(eC_ADD_R32_RM32,eAR_EAX,eAR_EBX);
 							if(pLeft->pObj->GetType()==enNT_Parameter){
-								printf("mov [ebp+14h],eax\n");asmGen.Operator(eC_MOV_RM32_R32,eAR_EBP,eAR_EAX,0x14);
+								asmGen.Operator(eC_MOV_RM32_R32,eAR_EBP,eAR_EAX,0x14);
 							}else{
 								VariableNode* pVar	=	(VariableNode*)(pLeft->pObj);
 								if(pVar->IsLocal()){
-									printf("mov [esi+%d],eax\n",pVar->m_uiOffset);asmGen.Operator(eC_MOV_RM32_R32,eAR_ESI,0x14,eAR_EAX);
+									asmGen.Operator(eC_MOV_RM32_R32,eAR_ESI,pVar->m_uiOffset,eAR_EAX);
 								}else{
-									printf("mov [%d],eax\n",pVar->m_uiOffset);asmGen.Operator(eC_MOV_RM32_R32,eAR_ESI,0,eAR_EAX);
+									//printf("mov [%d],eax\n",pVar->m_uiOffset);
+									asmGen.Operator(eC_MOV_RM32_R32,eAR_ESI,0,eAR_EAX);
 								}
 							}
 
@@ -193,15 +197,15 @@ namespace	Air{
 						}break;
 					case enOT_SubEqual:				///<	-=
 						{
-							printf("sub eax,ebx\n");asmGen.Operator(eC_SUB_R32_RM32,eAR_EAX,eAR_EBX);
+							asmGen.Operator(eC_SUB_R32_RM32,eAR_EAX,eAR_EBX);
 							if(pLeft->pObj->GetType()==enNT_Parameter){
-								printf("mov [ebp+14h],eax\n");asmGen.Operator(eC_MOV_RM32_R32,eAR_EBP,0x14,eAR_EAX);
+								asmGen.Operator(eC_MOV_RM32_R32,eAR_EBP,0x14,eAR_EAX);
 							}else{
 								VariableNode* pVar	=	(VariableNode*)(pLeft->pObj);
 								if(pVar->IsLocal()){
-									printf("mov [esi+%d],eax\n",pVar->m_uiOffset);
+									asmGen.Operator(eC_MOV_RM32_R32,eAR_ESI,pVar->m_uiOffset,eAR_EAX);
 								}else{
-									printf("mov [%d],eax\n",pVar->m_uiOffset);
+									//printf("mov [%d],eax\n",pVar->m_uiOffset);
 								}
 							}
 						}break;
@@ -512,40 +516,43 @@ namespace	Air{
 		{
 			if(pObj->GetType()==enNT_Constant){
 				ConstantNode* pConstant	=	(ConstantNode*)pObj;
-				printf("mov eax,%xh\n",pConstant->ConstInfo.iVal);
+				asmGen.Operator(eC_MOV_EAX_IMM32,eAR_EAX,pConstant->ConstInfo.iVal);
 				return enSE_OK;
 			}
 			VariableNode* pVar	=	(VariableNode*)(pObj);
 			char str[32];
-			
+			AssembleRegister r = eAR_EBP;
+			U32	uiOffset		=	pVar->m_uiOffset;
 			if(pVar->GetType()==enNT_Parameter){
-				sprintf_s(str,"[ebp+%xh]",pVar->m_uiOffset+0x14);
 				
+				uiOffset	=	pVar->m_uiOffset+0x14;
 			}else{
 				if(!pVar->IsLocal()){
 					sprintf_s(str,"[%xh]",pVar->m_uiOffset);
 				}else{
-					sprintf_s(str,"[esi+%d]",pVar->m_uiOffset);
+					
+					r	=	eAR_ESI;
 				}
 			}
 			
 
-			printf("mov eax,%s\n",str);
+			
+			asmGen.Operator(eC_MOV_R32_RM32,eAR_EAX,r,uiOffset);
 
 			if(eSelfOperator[1]==enOT_Increment){
-				printf("mov ebx,eax\n");
-				printf("add ebx,1\n");
-				printf("mov %s,ebx\n",str);
+				asmGen.Operator(eC_MOV_R32_RM32,eAR_EBX,eAR_EAX);
+				asmGen.Code(eC_INC_EBX);
+				asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,eAR_EBX);
 			}else if(eSelfOperator[1]==enOT_Decrement){
-				printf("mov ebx,eax\n");
-				printf("sub ebx,1\n");
-				printf("mov %s,ebx\n",str);
+				asmGen.Operator(eC_MOV_R32_RM32,eAR_EBX,eAR_EAX);
+				asmGen.Code(eC_DEC_EBX);
+				asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,eAR_EBX);
 			}else if(eSelfOperator[1]==enOT_Decrement){;
-				printf("add eax,1\n");
-				printf("mov %s,eax\n",str);
+				asmGen.Code(eC_INC_EAX);
+				asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,eAR_EAX);
 			}else if(eSelfOperator[1]==enOT_Decrement){
-				printf("sub eax,1\n");
-				printf("mov %s,eax\n",str);
+				asmGen.Code(eC_DEC_EAX);
+				asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,eAR_EAX);
 			}
 			return enSE_OK;
 		}

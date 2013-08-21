@@ -1,6 +1,7 @@
 #include "AirCppScriptAssemble.h"
 #include "Disassemable/udis86.h"
 #include "AirCppScript.h"
+#include <Windows.h>
 namespace	Air{
 	namespace	CppScript{
 		Instruction Code[257]={
@@ -302,17 +303,86 @@ namespace	Air{
 						}break;
 			}
 		}
+// 
+// 		U32 modrm(int mod, AssembleRegister r1,AssembleRegister r2)
+// 		{
+// 			unsigned char m = mod<<6|r1|r2<<3;
+// 			switch(mod)
+// 			{
+// 			case 0:
+// 				switch(r1)
+// 				{
+// 				case 4:
+// 					sibb(parser,op1,NONE);
+// 					break;
+// 				case 5:
+// 					op1.type	= MEM;
+// 					if(parser.pre_addr)
+// 						op1.imm	= parser.gword();
+// 					else
+// 						op1.imm	= parser.gdword();
+// 					break;
+// 				default:
+// 					op1.type	= MEM;
+// 					op1.base	= (op_s)(EAX+r1);
+// 					break;
+// 				}
+// 				break;
+// 			case 1:
+// 				switch(r1)
+// 				{
+// 				case 4:
+// 					sibb(parser,op1,EBP);
+// 					op1.imm		= parser.gbyte();
+// 					break;
+// 				default:
+// 					op1.type	= MEM;
+// 					op1.base	= (op_s)(EAX+r1);
+// 					op1.imm		= parser.gchar();
+// 					break;
+// 				}
+// 				break;
+// 			case 2:
+// 				switch(r1)
+// 				{
+// 				case 4:
+// 					sibb(parser,op1,EBP);
+// 					op1.imm		= parser.gdword();
+// 					break;
+// 				default:
+// 					op1.type	= MEM;
+// 					op1.base	= (op_s)(EAX+r1);
+// 					op1.imm		= parser.gdword();
+// 					break;
+// 				}
+// 				break;
+// 			case 3:
+// 				op1.type		= size;
+// 				switch(size)
+// 				{
+// 				case R8:
+// 					op1.base	= (op_s)(AL+r1);
+// 					break;
+// 				default:
+// 					if(parser.pre_addr)
+// 						op1.base	= (op_s)(AX+r1);
+// 					else
+// 						op1.base	= (op_s)(EAX+r1);
+// 					break;
+// 				}
+// 				break;
+// 			}
+// 			return r2;
+// 		}
 
 
 		bool Disassemble( const void* p,unsigned int uiSize,std::string&	strCode)
 		{
 			ud_t ud_obj;
 			ud_init(&ud_obj);
-#ifdef _X86_
+
 			ud_set_mode(&ud_obj, 32);
-#else
-			ud_set_mode(&ud_obj, 64);
-#endif
+
 			//ud_set_input_buffer(&ud_obj, bin, sizeof(bin));
 			ud_set_input_buffer(&ud_obj, (uint8_t*)p,uiSize);//bin, sizeof(bin));
 			ud_set_syntax(&ud_obj, UD_SYN_INTEL);
@@ -335,7 +405,7 @@ namespace	Air{
 		{
 			m_uiSize	=	1024*1024;
 			m_uiOffset	=	0;
-			m_pBuffer	=	(U8*)__Alloc(m_uiSize);
+			m_pBuffer	=	(U8*)VirtualAlloc(0,m_uiSize,MEM_COMMIT,PAGE_EXECUTE_READWRITE);
 		}
 
 		U8* Assemble::Buffer( U32 uiSize)
@@ -343,9 +413,9 @@ namespace	Air{
 			if(m_uiOffset	+	uiSize	>	m_uiSize){
 				U32 uiOldSize	=	m_uiSize;
 				m_uiSize*=2;
-				U8*	pBuffer	=	(U8*)__Alloc(m_uiSize);
+				U8*	pBuffer	=	(U8*)VirtualAlloc(0,m_uiSize,MEM_COMMIT,PAGE_EXECUTE_READWRITE);
 				memcpy(pBuffer,m_pBuffer,uiOldSize);
-				__Free(m_pBuffer);
+				VirtualFree(m_pBuffer,0,MEM_FREE);
 				m_pBuffer=pBuffer;
 			}
 			U32 uiOldOffset	=	m_uiOffset;
@@ -361,7 +431,7 @@ namespace	Air{
 		}
 
 		U32		Assemble::Code(Code1 op){
-			return PushBuffer(op);
+			return PushBuffer((U8)op);
 		};
 
 		U32		Assemble::Code(Code1 op,U32 Imm32){
@@ -565,9 +635,10 @@ namespace	Air{
 		Air::U32 Assemble::Jmp( U32 mOffset )
 		{
 			U8 c[5]={eC_JMP_REL32,0,0,0,0};
-			U32* pOffset	=	(U32*)&c[1];
-			*pOffset=mOffset;
-			return	PushBuffer(c);
+			U32 ret	=	PushBuffer(c);
+			U32 uiRA	=	mOffset-m_uiOffset;
+			memcpy(&m_pBuffer[m_uiOffset-4],&uiRA,sizeof(U32));
+			return uiRA;
 		}
 
 		Air::U32 Assemble::JumpZero( U32 mOffset )
@@ -579,7 +650,8 @@ namespace	Air{
 			U8 c[6]={eC_IMM8_NONE_NONE_NONE_opcodex,eCEx_JZ_REL32,0,0,0,0};
 			U32* pOffset	=	(U32*)&c[2];
 			*pOffset=mOffset;
-			return	PushBuffer(c);
+			U32 ret	=	PushBuffer(c);
+			return ret;
 		}
 
 		Air::U32 Assemble::JumpLess( U32 mOffset )
@@ -592,6 +664,46 @@ namespace	Air{
 			U32* pOffset	=	(U32*)&c[2];
 			*pOffset=mOffset;
 			return	PushBuffer(c);
+		}
+
+		U8* Assemble::GetCurrentPtr()
+		{
+			return &m_pBuffer[m_uiOffset];
+		}
+
+		void Assemble::WriteAddress_JumpHere( U32 uiJump )
+		{
+			U32 uiRA	=	m_uiOffset-uiJump;
+			memcpy(&m_pBuffer[uiJump-4],&uiRA,sizeof(U32));
+		}
+
+		Air::U32 Assemble::GetCurrentOffset()
+		{
+			return m_uiOffset;
+		}
+
+		Air::U32 Assemble::Nop()
+		{
+			U8 c=eC_NOP;
+			return	PushBuffer(c);
+		}
+
+		void* Assemble::GetBuffer()
+		{
+			return m_pBuffer;
+		}
+
+		Air::U32 Assemble::SubEsp( U32 imm32 )
+		{
+			if(imm32 < 256){
+				U8 c[3]={eC_R8_RM32_IMM8_NONE_group1_,0XEC,(U8)imm32};
+				return PushBuffer(c);
+			}else{
+				U8 c[6]={eC_R8_RM32_IMM32_NONE_group1,0XEC,0,0,0,0};
+				U32* pImm32	=	(U32*)&c[2];
+				*pImm32	=	imm32;
+				return PushBuffer(c);
+			}
 		}
 
 	}

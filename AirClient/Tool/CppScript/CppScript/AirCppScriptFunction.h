@@ -18,6 +18,8 @@ namespace	Air{
 			U32				GetParameterCount();
 			U1				HasReturnValue();
 			enumCallError	Call(void* pRetValue=NULL,void** ppParameter=NULL,U32 uiCount=0);
+			void			SetFunctionEntry(void*	p);
+			void*			GetFunctionEntry();
 		protected:
 			AString	strName;
 			void*	pFunction;

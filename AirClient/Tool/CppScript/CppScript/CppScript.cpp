@@ -50,6 +50,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	//	getchar();
 	//	return -1;
 	//}
+	__asm{
+	//	sub esp,4;
+	}
 
 	wchar_t str[1024];
 	GetCurrentDirectory(1024,str);

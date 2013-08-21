@@ -306,24 +306,26 @@ namespace	Air{
 			eAR_EBP,
 			eAR_ESI,
 			eAR_EDI,
-
-			eAR_AX=eAR_EAX,
-			eAR_CX=eAR_ECX,
-			eAR_DX=eAR_EDX,
-			eAR_BX=eAR_EBX,
-			eAR_SP=eAR_ESP,
-			eAR_BP=eAR_EBP,
-			eAR_SI=eAR_ESI,
-			eAR_DI=eAR_EDI,
-
-			eAR_AL=eAR_EAX,
-			eAR_CL=eAR_ECX,
-			eAR_DL=eAR_EDX,
-			eAR_BL=eAR_EBX,
-			eAR_AH=eAR_ESP,
-			eAR_CH=eAR_EBP,
-			eAR_DH=eAR_ESI,
-			eAR_BH=eAR_EDI,
+		};
+		enum	AssembleRegister16{
+			eAR_AX,
+			eAR_CX,
+			eAR_DX,
+			eAR_BX,
+			eAR_SP,
+			eAR_BP,
+			eAR_SI,
+			eAR_DI,
+		};
+		enum	AssembleRegister8{
+			eAR_AL,
+			eAR_CL,
+			eAR_DL,
+			eAR_BL,
+			eAR_AH,
+			eAR_CH,
+			eAR_DH,
+			eAR_BH,
 		};
 		enum	AssembleSegmentRegister{
 			eASR_ES,
@@ -737,10 +739,13 @@ namespace	Air{
 			
 			U32		Ret(U16 uiEspOffset	=	0);
 			U32		Int3();
-
-
+			U32		Nop();
+			void	WriteAddress_JumpHere(U32 uiJump);
+			U32		SubEsp(U32 imm32);
 		public:
 			U32		GetCurrentOffset();
+			U8*		GetCurrentPtr();
+			void*	GetBuffer();
 		protected:
 			U32		PushBuffer(const void* pBuffer,U32 uiSize);
 			U8*		Buffer(U32 uiSize);

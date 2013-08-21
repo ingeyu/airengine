@@ -101,5 +101,15 @@ FunctionCall:	call Func
 			return enCE_OK;
 		}
 
+		void Function::SetFunctionEntry( void* p )
+		{
+			pFunction	=	p;
+		}
+
+		void* Function::GetFunctionEntry()
+		{
+			return pFunction;
+		}
+
 	}
 }

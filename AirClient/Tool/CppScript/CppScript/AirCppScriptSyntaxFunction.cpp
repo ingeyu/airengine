@@ -352,15 +352,15 @@ namespace	Air{
 			m_uiLocalVariableSize=0;
 			CalcLocalVariableSize(m_uiLocalVariableSize);
 
-			printf("Function=%s\n",m_strName.c_str());
-			printf("push ebp\n");asmGen.Code(eC_PUSH_EBP);
-			printf("push ebx\n");asmGen.Code(eC_PUSH_EBX);
-			printf("push edx\n");asmGen.Code(eC_PUSH_EDX);
-			printf("push esi\n");asmGen.Code(eC_PUSH_ESI);
-			printf("mov ebp,esp\n");asmGen.Operator(eC_MOV_R32_RM32,eAR_EBP,eAR_ESP);
+			pEntry	=	asmGen.GetCurrentPtr();
+			asmGen.Code(eC_PUSH_EBP);
+			asmGen.Code(eC_PUSH_EBX);
+			asmGen.Code(eC_PUSH_EDX);
+			asmGen.Code(eC_PUSH_ESI);
+			asmGen.Operator(eC_MOV_R32_RM32,eAR_EBP,eAR_ESP);
 			if(m_uiLocalVariableSize!=0){
-				printf("sub esp,%d\n",m_uiLocalVariableSize);asmGen.Operator(eC_SUB_R8_RM8,eAR_ESP,m_uiLocalVariableSize);
-				printf("mov esi,esp\n");asmGen.Operator(eC_MOV_R32_RM32,eAR_ESI,eAR_ESP);
+				asmGen.SubEsp(m_uiLocalVariableSize);
+				asmGen.Operator(eC_MOV_R32_RM32,eAR_ESI,eAR_ESP);
 			}
 
 			i	=	m_lstChild.begin();
@@ -372,17 +372,19 @@ namespace	Air{
 					}
 				}
 			}
-			printf("mov esp,ebp\n");asmGen.Operator(eC_MOV_R32_RM32,eAR_ESP,eAR_ESI);
-			printf("pop esi\n");asmGen.Code(eC_POP_ESI);
-			printf("pop edx\n");asmGen.Code(eC_POP_EDX);
-			printf("pop ebx\n");asmGen.Code(eC_POP_EBX);
-			printf("pop ebp\n");asmGen.Code(eC_POP_EBP);
+			asmGen.Operator(eC_MOV_R32_RM32,eAR_ESP,eAR_EBP);
+			asmGen.Code(eC_POP_ESI);
+			asmGen.Code(eC_POP_EDX);
+			asmGen.Code(eC_POP_EBX);
+			asmGen.Code(eC_POP_EBP);
 			
-			if(iParamIndex==0){
-				printf("ret\n");asmGen.Code(eC_RET);
-			}else{
-				printf("ret %d\n",iParamIndex*4);asmGen.Code(eC_RET_IMM16,iParamIndex*4);
-			}
+			
+			asmGen.Ret(iParamIndex*4);
+			
+			asmGen.Code(eC_NOP);
+			asmGen.Code(eC_NOP);
+			asmGen.Code(eC_NOP);
+			asmGen.Code(eC_NOP);
 			return enSE_OK;
 		}
 
