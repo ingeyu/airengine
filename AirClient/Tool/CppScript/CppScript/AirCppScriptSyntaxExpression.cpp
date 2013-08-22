@@ -524,7 +524,7 @@ namespace	Air{
 		{
 			if(pObj->GetType()==enNT_Constant){
 				ConstantNode* pConstant	=	(ConstantNode*)pObj;
-				asmGen.Operator(eC_MOV_EAX_IMM32,eAR_EAX,pConstant->ConstInfo.iVal);
+				asmGen.Mov_Imm(eAR_EAX,pConstant->ConstInfo.iVal);
 				return enSE_OK;
 			}
 			VariableNode* pVar	=	(VariableNode*)(pObj);
@@ -548,19 +548,19 @@ namespace	Air{
 			asmGen.Operator(eC_MOV_R32_RM32,eAR_EAX,r,uiOffset);
 
 			if(eSelfOperator[1]==enOT_Increment){
-				asmGen.Operator(eC_MOV_R32_RM32,eAR_EBX,eAR_EAX);
+				asmGen.Mov_R32R32(eAR_EBX,eAR_EAX);
 				asmGen.Code(eC_INC_EBX);
-				asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,eAR_EBX);
+				asmGen.Mov_RM32R32(r,uiOffset,eAR_EBX);
 			}else if(eSelfOperator[1]==enOT_Decrement){
-				asmGen.Operator(eC_MOV_R32_RM32,eAR_EBX,eAR_EAX);
+				asmGen.Mov_R32R32(eAR_EBX,eAR_EAX);
 				asmGen.Code(eC_DEC_EBX);
-				asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,eAR_EBX);
+				asmGen.Mov_RM32R32(r,uiOffset,eAR_EBX);
 			}else if(eSelfOperator[1]==enOT_Decrement){;
 				asmGen.Code(eC_INC_EAX);
-				asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,eAR_EAX);
+				asmGen.Mov_RM32R32(r,uiOffset,eAR_EAX);
 			}else if(eSelfOperator[1]==enOT_Decrement){
 				asmGen.Code(eC_DEC_EAX);
-				asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,eAR_EAX);
+				asmGen.Mov_RM32R32(r,uiOffset,eAR_EAX);
 			}
 			return enSE_OK;
 		}

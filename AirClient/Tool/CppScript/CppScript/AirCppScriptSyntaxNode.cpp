@@ -807,5 +807,69 @@ namespace	Air{
 			return uiSize;
 		}
 
+		Node* Node::FindNodeDown( CAString& strName,enumNodeType type /*= enNT_Unknown*/,U1 bFindChild /*= true*/ )
+		{
+			for(NodeList::iterator i = m_lstChild.begin();i!=m_lstChild.end();i++){
+				Node* pNode	=	(*i);
+				if(pNode!=NULL){
+					if(type!=enNT_Unknown){
+						if(pNode->GetType()!=type)
+							continue;
+					}
+					if(pNode->GetName()	==	strName){
+						return pNode;
+					}
+				}
+			}
+			if(bFindChild){
+				for(NodeList::iterator i = m_lstChild.begin();i!=m_lstChild.end();i++){
+					Node* pNode	=	(*i);
+					if(pNode!=NULL){
+						pNode->FindNodeDown(strName,type,bFindChild);
+					}
+				}
+			}
+			return NULL;
+		}
+
+		void Node::FindNodeDown( CAString& strName,std::list<Node*>& lstNode,enumNodeType type /*= enNT_Unknown*/ )
+		{
+			for(NodeList::iterator i = m_lstChild.begin();i!=m_lstChild.end();i++){
+				Node* pNode	=	(*i);
+				if(pNode!=NULL){
+					if(type!=enNT_Unknown){
+						if(pNode->GetType()==type){
+							if(pNode->GetName()	==	strName){
+								lstNode.push_back(pNode);
+							}
+						}
+					}else{
+						if(pNode->GetName()	==	strName){
+							lstNode.push_back(pNode);
+						}
+					}
+					
+					pNode->FindNodeDown(strName,lstNode,type);
+				}
+			}
+		}
+
+		void Node::FindNodeDown( std::list<Node*>& lstNode,enumNodeType type /*= enNT_Unknown*/ )
+		{
+			for(NodeList::iterator i = m_lstChild.begin();i!=m_lstChild.end();i++){
+				Node* pNode	=	(*i);
+				if(pNode!=NULL){
+					if(type!=enNT_Unknown){
+						if(pNode->GetType()==type){
+							lstNode.push_back(pNode);
+						}
+					}else{
+						lstNode.push_back(pNode);
+					}
+					pNode->FindNodeDown(lstNode,type);
+				}
+			}
+		}
+
 	}
 }

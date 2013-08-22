@@ -641,15 +641,18 @@ namespace	Air{
 			return uiRA;
 		}
 
-		Air::U32 Assemble::JumpZero( U32 mOffset )
+		Air::U32 Assemble::JumpZero( U32* pOffset )
 		{
-			if(mOffset<256){
-				U8 c[2]={eC_JZ_REL8,(U8)mOffset};
-				return	PushBuffer(c);
-			}
+			//if(mOffset<256){
+			//	U8 c[2]={eC_JZ_REL8,(U8)mOffset};
+			//	return	PushBuffer(c);
+			//}
 			U8 c[6]={eC_IMM8_NONE_NONE_NONE_opcodex,eCEx_JZ_REL32,0,0,0,0};
-			U32* pOffset	=	(U32*)&c[2];
-			*pOffset=mOffset;
+			U32* p	=	(U32*)&c[2];
+			if(pOffset!=NULL){
+				U32 uiDst	=	*pOffset - m_uiOffset - 5;
+				*p=uiDst;
+			}
 			U32 ret	=	PushBuffer(c);
 			return ret;
 		}
@@ -704,6 +707,58 @@ namespace	Air{
 				*pImm32	=	imm32;
 				return PushBuffer(c);
 			}
+		}
+
+		Air::U32 Assemble::IMulR32Imm( AssembleRegister r,U32 imm32 )
+		{
+			if(imm32 < 256){
+				U8 c[3]={eC_IMUL_R32_RM32_IMM8,0XC0,(U8)imm32};
+				c[1]|=r;
+				return PushBuffer(c);
+			}else{
+				U8 c[6]={eC_IMUL_R32_RM32_IMM32,0XC0,0,0,0,0};
+				c[1]|=r;
+				U32* pImm32	=	(U32*)&c[2];
+				*pImm32	=	imm32;
+				return PushBuffer(c);
+			}
+		}
+
+		Air::U32 Assemble::IMulR32R32( AssembleRegister rDst,AssembleRegister rSrc )
+		{
+			U8 c[3]={eC_IMM8_NONE_NONE_NONE_opcodex,0xAF,0XC0};
+			c[2]|=	rDst<<3|rSrc;
+			return PushBuffer(c);
+		}
+
+		Air::U32 Assemble::IDivR32Imm( AssembleRegister r,U32 imm32 )
+		{
+			if(r!=eAR_EAX){
+				Mov_R32R32(eAR_EAX,r);
+			}
+			Mov_Imm(eAR_ECX,imm32);
+			U8 cDiv_Eax_Ecx[2]={eC_R8_RM32_NONE_NONE_group3,0xF9};
+			return PushBuffer(cDiv_Eax_Ecx);
+		}
+
+		Air::U32 Assemble::Mov_Imm( AssembleRegister r,U32 imm32 )
+		{
+			return Operator(eC_MOV_EAX_IMM32,r,imm32);
+		}
+
+		Air::U32 Assemble::Mov_R32R32( AssembleRegister rDst,AssembleRegister rSrc )
+		{
+			return Operator(eC_MOV_R32_RM32,rDst,rSrc);
+		}
+
+		Air::U32 Assemble::Mov_RM32R32( AssembleRegister rDst,U32 uiOffset,AssembleRegister rSrc )
+		{
+			return Operator(eC_MOV_RM32_R32,rDst,uiOffset,rSrc);
+		}
+
+		Air::U32 Assemble::Mov_R32RM32( AssembleRegister rDst,AssembleRegister rSrc ,U32 uiOffset)
+		{
+			return Operator(eC_MOV_R32_RM32,rDst,rSrc,uiOffset);
 		}
 
 	}

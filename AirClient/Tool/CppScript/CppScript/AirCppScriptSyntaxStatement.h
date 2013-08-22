@@ -8,6 +8,8 @@ namespace	Air{
 		enum	enumStatementType{
 			enST_Unknown,
 			enST_If,
+			enST_Else,
+			enST_ElseIf,
 			enST_For,
 			enST_While,
 			enST_Switch,
@@ -27,18 +29,44 @@ namespace	Air{
 			virtual	enumSyntaxError		GenerateFunctionCode(Assemble& asmGen);
 			enumStatementType		m_sType;
 		};
+		class	ElseStatementNode	:	public	StatementNode{
+		public:
+			ElseStatementNode(){
+				m_sType			=	enST_Else;
+				m_strName		=	"Else";
+				m_uiJump		=	0;
+			};
+			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 
-		class	IfStatementNode	:	public	StatementNode
+			U32		m_uiJump;
+		};
+		class	IfStatementNode	:	public	ElseStatementNode
 		{
 		public:
 			IfStatementNode(){
 				m_sType			=	enST_If;
 				pConditionExp	=	NULL;
 				m_strName		=	"If";
+				m_uiEntry		=	0;
 			};
-			virtual	enumSyntaxError	Parse(WordInfoVector& vecInfo,U32& idx);
+			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
+			virtual	enumSyntaxError		GenerateFunctionCode(Assemble& asmGen);
+			Node*	pConditionExp;
+			U32		m_uiEntry;
+		};
+		class	ElseIfStatementNode	:	public	ElseStatementNode
+		{
+		public:
+			ElseIfStatementNode(){
+				m_sType			=	enST_ElseIf;
+				pConditionExp	=	NULL;
+				m_strName		=	"ElseIf";
+			};
+			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
+			virtual	enumSyntaxError		GenerateFunctionCode(Assemble& asmGen);
 			Node*	pConditionExp;
 		};
+
 		class	ForStatementNode	:	public	StatementNode
 		{
 		public:
@@ -104,7 +132,9 @@ namespace	Air{
 				m_strName		=	"Return";
 			};
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
+			virtual	enumSyntaxError		GenerateFunctionCode(Assemble& asmGen);
 			Node*							pReturn;
+			U32								m_uiJump;
 		};
 	}
 }

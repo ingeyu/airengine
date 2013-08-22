@@ -64,7 +64,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	Air::CppScript::Compiler c;
 	c.Initialization();
 
-	c.Compile(L"2.cpp");
+	c.Compile(L"3.cpp");
 	c.Link(L"1.module");
 
 	c.Release();

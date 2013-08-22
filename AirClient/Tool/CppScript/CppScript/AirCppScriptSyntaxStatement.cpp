@@ -151,6 +151,14 @@ namespace	Air{
 			return enSE_UnexpectedEnd;
 		}
 
+		Air::CppScript::enumSyntaxError ReturnStatementNode::GenerateFunctionCode( Assemble& asmGen )
+		{
+			__super::GenerateFunctionCode(asmGen);
+			m_uiJump	=	asmGen.GetCurrentOffset()+5;
+			asmGen.Jmp(m_uiJump);
+			return enSE_OK;
+		}
+
 		Air::CppScript::enumSyntaxError ForStatementNode::Parse( WordInfoVector& vecInfo,U32& idx )
 		{
 			U32 uiSize	=	vecInfo.size();
@@ -301,7 +309,7 @@ namespace	Air{
 			
 			pConditionExp->GenerateFunctionCode(asmGen);
 			asmGen.Test(eAR_EAX);
-			asmGen.JumpZero(0xffffffff);
+			asmGen.JumpZero();
 			U32 uiJump	=	asmGen.GetCurrentOffset();
 			
 			NodeList::iterator	i	=	m_lstChild.begin();
@@ -337,13 +345,154 @@ namespace	Air{
 			}
 			
 			U32 uiTemp=0;
-			e	=	__ParseNode<ExpressionNode>(statement,uiTemp);
+			e	=	__ParseNode<ExpressionNode>(statement,uiTemp,&pConditionExp);
+			if(e!=enSE_OK){
+				return e;
+			}else{
+				idx+=statement.size()+2;
+			}
+			e = ParseFunctionCode(vecInfo,idx);
+			if(e != enSE_OK){
+				return e;
+			}
+			
+			for(;idx<uiSize;){
+				WordType	t = vecInfo[idx].eType;
+				if(t.uiType	==	MakeType(enWT_CppKeyWord,enCKWT_Else)){
+					if(idx+1>=uiSize){
+						return enSE_UnexpectedEnd;
+					}
+					t = vecInfo[idx+1].eType;
+					if(t.uiType	==	MakeType(enWT_CppKeyWord,enCKWT_If)){
+						idx++;
+						e	=	__ParseNode<ElseIfStatementNode>(vecInfo,idx);
+						if(e!=enSE_OK){
+							return e;
+						}
+					}else if(t.uiType	==	MakeType(enWT_Delimiter,enWDT_PreBrace)){
+						
+						e	=	__ParseNode<ElseStatementNode>(vecInfo,idx);
+						if(e!=enSE_OK){
+							return e;
+						}
+					}else{
+						return enSE_UnexpectedEnd;
+					}
+				}else{
+					return e;
+				}
+			}
+			return e;
+		}
+
+		Air::CppScript::enumSyntaxError IfStatementNode::GenerateFunctionCode( Assemble& asmGen )
+		{
+			//m_uiEntry	=	asmGen.GetCurrentOffset();
+			pConditionExp->GenerateFunctionCode(asmGen);
+			//Condition JUMP To End
+			asmGen.JumpZero(0);
+			U32 uiConditionJMP	=	asmGen.GetCurrentOffset();
+
+			NodeList	lstElse;
+
+			NodeList::iterator	i	=	m_lstChild.begin();
+			for(;i!=m_lstChild.end();i++){
+				Node* pNode	=	(*i);
+				if(pNode!=NULL&&pNode!=pConditionExp){
+					if(pNode->GetType()==enNT_Statement){
+						StatementNode* pState	=	(StatementNode*)pNode;
+						if(pState->m_sType==enST_ElseIf	||	pState->m_sType==enST_Else){
+							lstElse.push_back(pState);
+							continue;
+						}
+						pNode->GenerateFunctionCode(asmGen);
+					}
+				}
+			}
+			asmGen.Jmp(0);
+			m_uiJump	=	asmGen.GetCurrentOffset();
+			asmGen.WriteAddress_JumpHere(uiConditionJMP);
+			//GenCode
+			i	=	lstElse.begin();
+			for(;i!=lstElse.end();i++){
+				(*i)->GenerateFunctionCode(asmGen);
+			}
+			//Write JUMP
+			i	=	lstElse.begin();
+			for(;i!=lstElse.end();i++){
+				ElseStatementNode* pElse	=	(ElseStatementNode*)(*i);
+				
+				if(pElse->m_sType==enST_ElseIf){
+					asmGen.WriteAddress_JumpHere(pElse->m_uiJump);//->GenerateFunctionCode(asmGen);
+				}
+			}
+			
+			asmGen.WriteAddress_JumpHere(m_uiJump);
+			
+			return enSE_OK;
+		}
+
+
+		Air::CppScript::enumSyntaxError ElseStatementNode::Parse( WordInfoVector& vecInfo,U32& idx )
+		{
+			idx++;
+			return ParseFunctionCode(vecInfo,idx);
+		}
+
+
+
+		Air::CppScript::enumSyntaxError ElseIfStatementNode::Parse( WordInfoVector& vecInfo,U32& idx )
+		{
+			idx++;
+			U32 uiSize	=	vecInfo.size();
+			enumSyntaxError	e	=	enSE_OK;
+			WordInfoVector statement;
+			e	=	FindBlock(vecInfo,idx,statement,MakeType(enWT_Delimiter,enWDT_PreBracket),MakeType(enWT_Delimiter,enWDT_PostBracket),false);
+			if(e!=enSE_OK){
+				return e;
+			}
+			if(statement.empty()){
+				return enSE_For_Statement_Must_Fallow_A_Pre_Bracket;
+			}
+
+			U32 uiTemp=0;
+			e	=	__ParseNode<ExpressionNode>(statement,uiTemp,&pConditionExp);
 			if(e!=enSE_OK){
 				return e;
 			}else{
 				idx+=statement.size()+2;
 			}
 			return ParseFunctionCode(vecInfo,idx);
+		}
+
+		Air::CppScript::enumSyntaxError ElseIfStatementNode::GenerateFunctionCode( Assemble& asmGen )
+		{
+			//m_uiEntry	=	asmGen.GetCurrentOffset();
+			pConditionExp->GenerateFunctionCode(asmGen);
+			//Condition JUMP To End
+			asmGen.JumpZero(0);
+			U32 uiConditionJMP	=	asmGen.GetCurrentOffset();
+
+			NodeList	lstElse;
+
+			NodeList::iterator	i	=	m_lstChild.begin();
+			for(;i!=m_lstChild.end();i++){
+				Node* pNode	=	(*i);
+				if(pNode!=NULL&&pNode!=pConditionExp){
+					if(pNode->GetType()==enNT_Statement){
+						StatementNode* pState	=	(StatementNode*)pNode;
+						if(pState->m_sType==enST_ElseIf	||	pState->m_sType==enST_Else){
+							lstElse.push_back(pState);
+							continue;
+						}
+						pNode->GenerateFunctionCode(asmGen);
+					}
+				}
+			}
+			asmGen.Jmp(0);
+			m_uiJump	=	asmGen.GetCurrentOffset();
+			asmGen.WriteAddress_JumpHere(uiConditionJMP);
+			return enSE_OK;
 		}
 
 	}

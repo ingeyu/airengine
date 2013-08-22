@@ -734,7 +734,7 @@ namespace	Air{
 			U32		Cmp(AssembleRegister rLeft,AssembleRegister rRight);
 			U32		Jmp(U32 mOffset);
 			U32		JmpAbs(U32 mAddr);
-			U32		JumpZero(U32 mOffset);
+			U32		JumpZero(U32* pOffset=NULL);
 			U32		JumpLess(U32 mOffset);
 			
 			U32		Ret(U16 uiEspOffset	=	0);
@@ -742,6 +742,13 @@ namespace	Air{
 			U32		Nop();
 			void	WriteAddress_JumpHere(U32 uiJump);
 			U32		SubEsp(U32 imm32);
+			U32		IMulR32Imm(AssembleRegister r,U32 imm32);
+			U32		IMulR32R32(AssembleRegister rDst,AssembleRegister rSrc);
+			U32		IDivR32Imm(AssembleRegister r,U32 imm32);
+			U32		Mov_Imm(AssembleRegister r,U32 imm32);
+			U32		Mov_R32R32(AssembleRegister rDst,AssembleRegister rSrc);
+			U32		Mov_RM32R32(AssembleRegister rDst,U32 uiOffset,AssembleRegister rSrc);
+			U32		Mov_R32RM32(AssembleRegister rDst,AssembleRegister rSrc,U32 uiOffset);
 		public:
 			U32		GetCurrentOffset();
 			U8*		GetCurrentPtr();

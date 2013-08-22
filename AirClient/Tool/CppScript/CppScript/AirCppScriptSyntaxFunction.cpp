@@ -372,6 +372,17 @@ namespace	Air{
 					}
 				}
 			}
+			std::list<Node*> lstNode;
+			FindNodeDown(lstNode,enNT_Statement);
+			for(std::list<Node*>::iterator i=lstNode.begin();i!=lstNode.end();i++){
+				StatementNode* pNode = (StatementNode*)(*i);
+				if(pNode!=NULL){
+					if(pNode->m_sType	==	enST_Return){
+						asmGen.WriteAddress_JumpHere(((ReturnStatementNode*)pNode)->m_uiJump);
+					}
+				}
+			}
+			
 			asmGen.Operator(eC_MOV_R32_RM32,eAR_ESP,eAR_EBP);
 			asmGen.Code(eC_POP_ESI);
 			asmGen.Code(eC_POP_EDX);

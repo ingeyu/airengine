@@ -138,6 +138,9 @@ namespace	Air{
 			void			RemoveChild(Node* p);
 			Node*			GetRootNode();
 			Node*			FindNode(CAString& strName,enumNodeType type = enNT_Unknown,U1 bFindParent = true);
+			Node*			FindNodeDown(CAString& strName,enumNodeType type = enNT_Unknown,U1 bFindChild = true);
+			void			FindNodeDown(CAString& strName,std::list<Node*>& lstNode,enumNodeType type = enNT_Unknown);
+			void			FindNodeDown(std::list<Node*>& lstNode,enumNodeType type = enNT_Unknown);
 		public:
 			template<typename T>
 			enumSyntaxError	__ParseNode(WordInfoVector& vecInfo,U32& idx,Node** pOutNode = NULL){
