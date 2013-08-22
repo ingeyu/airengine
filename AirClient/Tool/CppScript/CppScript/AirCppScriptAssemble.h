@@ -745,7 +745,7 @@ namespace	Air{
 		public:
 			U32		GetCurrentOffset();
 			U8*		GetCurrentPtr();
-			void*	GetBuffer();
+			void*	GetBuffer(U32 uiOffset=0);
 		protected:
 			U32		PushBuffer(const void* pBuffer,U32 uiSize);
 			U8*		Buffer(U32 uiSize);

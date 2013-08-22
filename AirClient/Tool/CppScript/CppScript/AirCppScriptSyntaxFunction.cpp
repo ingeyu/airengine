@@ -352,7 +352,7 @@ namespace	Air{
 			m_uiLocalVariableSize=0;
 			CalcLocalVariableSize(m_uiLocalVariableSize);
 
-			pEntry	=	asmGen.GetCurrentPtr();
+			pEntry	=
 			asmGen.Code(eC_PUSH_EBP);
 			asmGen.Code(eC_PUSH_EBX);
 			asmGen.Code(eC_PUSH_EDX);

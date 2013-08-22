@@ -82,6 +82,7 @@ namespace	Air{
 			enSE_Return_Miss_Value,
 			enSE_Return_Must_In_A_Function_Block,
 			enSE_Function_Return_Type_Not_Match,
+			enSE_Function_Parameter_Count_Not_Match,
 
 			enSE_Unknown_Error	=	0xffffffff
 		};

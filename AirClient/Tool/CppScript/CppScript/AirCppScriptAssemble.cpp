@@ -583,7 +583,7 @@ namespace	Air{
 		{
 			U8 c[5]={eC_CALL_REL32,0,0,0,0};
 			U32* pOffset	=	(U32*)&c[1];
-			*pOffset=uiOffset;
+			*pOffset=uiOffset-m_uiOffset-5;
 			if(pRelocal!=NULL){
 				*pRelocal	=	m_uiOffset+1;
 			}
@@ -688,9 +688,9 @@ namespace	Air{
 			return	PushBuffer(c);
 		}
 
-		void* Assemble::GetBuffer()
+		void* Assemble::GetBuffer(U32 uiOffset)
 		{
-			return m_pBuffer;
+			return &m_pBuffer[uiOffset];
 		}
 
 		Air::U32 Assemble::SubEsp( U32 imm32 )

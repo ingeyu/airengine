@@ -296,7 +296,7 @@ namespace	Air{
 			FunctionNode* pNode = (FunctionNode*)m_pSyntaxTree->FindNode("main",enNT_Function);
 
 			Function f;
-			f.SetFunctionEntry(pNode->pEntry);
+			f.SetFunctionEntry(asmGen.GetBuffer(pNode->pEntry));
 
 			U32 ret=0;
 			U32 uiParam[]={101,0};

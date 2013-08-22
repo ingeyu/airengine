@@ -67,14 +67,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	c.Compile(L"2.cpp");
 	c.Link(L"1.module");
 
-	Air::CppScript::Function f;
-
-	//char dst[30];
-	//char src[]="123123123123123123";
-	unsigned int ret=0;
-	int iP[2] = {101,0};
-	f.Call(&ret,(void**)iP,2);//,(void**)&iP,1);
-
 	c.Release();
 
 	getchar();

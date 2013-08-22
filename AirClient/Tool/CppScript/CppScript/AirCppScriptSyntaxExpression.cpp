@@ -1,7 +1,9 @@
 #include "AirCppScriptSyntaxExpression.h"
 #include "AirCppScriptSyntaxConstant.h"
 #include "AirCppScriptSyntaxVariable.h"
+#include "AirCppScriptSyntaxFunction.h"
 #include "AirCppScriptAssemble.h"
+
 namespace	Air{
 	namespace	CppScript{
 
@@ -55,6 +57,24 @@ namespace	Air{
 				}
 			}
 			return enSE_OK;
+		}
+
+		void	SaveValue(Node* pNode,Assemble& asmGen){
+			VariableNode* pVar	=	(VariableNode*)(pNode);
+			if(pVar->GetType()==enNT_Parameter){
+				
+				asmGen.Operator(eC_MOV_RM32_R32,eAR_EBP,0X14+pVar->m_uiOffset,eAR_EAX);
+			}else{
+
+				if(pVar->IsLocal()){
+					asmGen.Operator(eC_MOV_RM32_R32,eAR_ESI,pVar->m_uiOffset,eAR_EAX);
+				}else{
+
+					asmGen.Operator(eC_MOV_R32_RM32,eAR_EBX,eAR_EAX);
+					asmGen.Operator(eC_MOV_EAX_IMM32,eAR_EAX,pVar->m_uiOffset);
+					asmGen.Operator(eC_MOV_RM32_R32,eAR_EAX,0,eAR_EBX);
+				}
+			}
 		}
 
 		Air::CppScript::enumSyntaxError ExpressionNode::GenerateFunctionCode( Assemble& asmGen )
@@ -114,20 +134,9 @@ namespace	Air{
 						}break;
 					case enOT_Mov:					///<	=
 						{
-							VariableNode* pVar	=	(VariableNode*)(pLeft->pObj);
+							
 							asmGen.Operator(eC_MOV_R32_RM32,eAR_EAX,eAR_EBX);
-							if(pLeft->pObj->GetType()==enNT_Parameter){
-								asmGen.Operator(eC_MOV_RM32_R32,eAR_EBP,0X14+pVar->m_uiOffset,eAR_EBX);
-							}else{
-								
-								if(pVar->IsLocal()){
-									asmGen.Operator(eC_MOV_RM32_R32,eAR_ESI,pVar->m_uiOffset,eAR_EBX);
-								}else{
-									
-									//asmGen.Operator(eC_MOV_R32,eAR_ESI,0X14+pVar->m_uiOffset,eAR_EBX);
-									asmGen.Operator(eC_MOV_RM32_R32,eAR_EAX,pVar->m_uiOffset,eAR_EAX);
-								}
-							}
+							SaveValue(pLeft->pObj,asmGen);
 							return enSE_OK;
 						}break;
 					case enOT_And:					///<	&
@@ -164,11 +173,11 @@ namespace	Air{
 						}break;
 					case enOT_GreaterEqual:			///<	>=
 						{
-
+							asmGen.Operator(eC_SUB_R32_RM32,eAR_EAX,eAR_EBX);
 						}break;
 					case enOT_LessEqual:			///<	<=
 						{
-
+							asmGen.Operator(eC_SUB_R32_RM32,eAR_EAX,eAR_EBX);
 						}break;
 					case enOT_Increment:			///<	++
 						{
@@ -181,33 +190,14 @@ namespace	Air{
 					case enOT_AddEqual:				///<	+=
 						{
 							asmGen.Operator(eC_ADD_R32_RM32,eAR_EAX,eAR_EBX);
-							if(pLeft->pObj->GetType()==enNT_Parameter){
-								asmGen.Operator(eC_MOV_RM32_R32,eAR_EBP,eAR_EAX,0x14);
-							}else{
-								VariableNode* pVar	=	(VariableNode*)(pLeft->pObj);
-								if(pVar->IsLocal()){
-									asmGen.Operator(eC_MOV_RM32_R32,eAR_ESI,pVar->m_uiOffset,eAR_EAX);
-								}else{
-									//printf("mov [%d],eax\n",pVar->m_uiOffset);
-									asmGen.Operator(eC_MOV_RM32_R32,eAR_ESI,0,eAR_EAX);
-								}
-							}
+							SaveValue(pLeft->pObj,asmGen);
 
 							return enSE_OK;
 						}break;
 					case enOT_SubEqual:				///<	-=
 						{
 							asmGen.Operator(eC_SUB_R32_RM32,eAR_EAX,eAR_EBX);
-							if(pLeft->pObj->GetType()==enNT_Parameter){
-								asmGen.Operator(eC_MOV_RM32_R32,eAR_EBP,0x14,eAR_EAX);
-							}else{
-								VariableNode* pVar	=	(VariableNode*)(pLeft->pObj);
-								if(pVar->IsLocal()){
-									asmGen.Operator(eC_MOV_RM32_R32,eAR_ESI,pVar->m_uiOffset,eAR_EAX);
-								}else{
-									//printf("mov [%d],eax\n",pVar->m_uiOffset);
-								}
-							}
+							SaveValue(pLeft->pObj,asmGen);
 						}break;
 					case enOT_MulEqual:				///<	*=
 						{
@@ -307,6 +297,11 @@ namespace	Air{
 					t = vecInfo[++idx].eType;
 					continue;
 				}else if(t.uiType==MakeType(enWT_Delimiter,enWDT_PostBracket)){
+					
+					FunctionNode* p	=	(FunctionNode*)pFunction;
+					if(p->GetParameterCount()!=pParameterArray.size()){
+						return enSE_Function_Parameter_Count_Not_Match;
+					}
 					idx++;
 					return enSE_OK;
 				}else if(t.eWordtype	==	enWT_Constant){
@@ -384,6 +379,19 @@ namespace	Air{
 				}
 			}
 			return NULL;
+		}
+
+		Air::CppScript::enumSyntaxError FunctionCallExpressionNode::GenerateFunctionCode( Assemble& asmGen )
+		{
+			U32 uiParamSize	=	pParameterArray.size();
+			for(U32 i=0;i<uiParamSize;i++){
+				U32 idx	=	uiParamSize-i-1;
+				pParameterArray[idx]->GenerateFunctionCode(asmGen);
+				asmGen.Code(eC_PUSH_EAX);
+			}
+			FunctionNode* p	=	(FunctionNode*)pFunction;
+			asmGen.Call(p->GetEntry());
+			return enSE_OK;
 		}
 
 

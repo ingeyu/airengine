@@ -34,13 +34,19 @@ namespace	Air{
 
 			U1							IsParamNameExist(CAString& strName);
 			ParameterNode*				FindParameter(CAString& strName);
+			U32							GetParameterCount(){
+				return m_vecParameter.size();
+			};
+			U32							GetEntry(){
+				return pEntry;
+			};
 			
 			ParameterNode				m_ReturnType;
 			ParameterVector				m_vecParameter;
 			U32							m_bOnlyDeclare;
 			U32							m_bVirtual;
 			enumCppKeyWordType			ieType;
-			void*						pEntry;
+			U32							pEntry;
 		protected:
 			U32							m_uiLocalVariableSize;
 		};
