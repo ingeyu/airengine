@@ -893,6 +893,22 @@ namespace	Air{
 			return Group2(enCG2_SHR,r,imm);
 		}
 
+		Air::U32 Assemble::MovAbsEax( U32 uiOffset )
+		{
+			U8 c[5]={eC_MOV_MEM_EAX,0,0,0,0};
+			U32* pOffset	=	(U32*)&c[1];
+			*pOffset=uiOffset;
+			return PushBuffer(c);
+		}
+
+		Air::U32 Assemble::MovEaxAbs( U32 uiOffset )
+		{
+			U8 c[5]={eC_MOV_EAX_MEM,0,0,0,0};
+			U32* pOffset	=	(U32*)&c[1];
+			*pOffset=uiOffset;
+			return PushBuffer(c);
+		}
+
 		Air::CppScript::Code1Ex InserveJumpCondition( Code1Ex codeex )
 		{
 			switch(codeex){

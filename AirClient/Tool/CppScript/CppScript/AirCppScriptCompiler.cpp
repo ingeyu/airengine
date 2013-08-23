@@ -5,6 +5,7 @@
 #include "AirCppScriptAssemble.h"
 #include "AirCppScriptFunction.h"
 #include "AirCppScriptSyntaxFunction.h"
+#include "AirCppScriptModule.h"
 namespace	Air{
 	namespace	CppScript{
 
@@ -167,29 +168,12 @@ namespace	Air{
 
 		bool Compiler::Compile( const wchar_t* pName )
 		{
-			HANDLE hFile	=	CreateFile(pName,GENERIC_READ,FILE_SHARE_READ |FILE_SHARE_WRITE,NULL,OPEN_EXISTING,FILE_FLAG_SEQUENTIAL_SCAN,NULL );
-			if(hFile==INVALID_HANDLE_VALUE){
-				CloseHandle(hFile);
+			
+			U32 uiSize	=	0;
+			void* pBuffer =	NULL;
+			if(!LoadFile(pName,pBuffer,uiSize)){
 				return false;
 			}
-			U32 uiSize	=	GetFileSize(hFile,0);
-			if(uiSize==0){
-				CloseHandle(hFile);
-				return	true;
-			}
-			void* pBuffer =	__Alloc(uiSize);
-			if(pBuffer==NULL){
-				CloseHandle(hFile);
-				return false;
-			}
-			DWORD	dwReadSize	=	0;
-			if(!ReadFile(hFile,pBuffer,uiSize,&dwReadSize,NULL)){
-				__Free(pBuffer);
-				CloseHandle(hFile);
-				return	false;
-			}
-			CloseHandle(hFile);
-			hFile=NULL;
 			wprintf(L"Compile %s\n",pName);
 			bool bRet	=	Compile(pBuffer,uiSize);
 			__Free(pBuffer);
@@ -287,6 +271,11 @@ namespace	Air{
 			if(m_pSyntaxTree==NULL)
 				return false;
 			Assemble asmGen;
+
+			ModuleHeader moduleHeader;
+			InitModuleHeader(moduleHeader);
+			asmGen.PushBuffer(moduleHeader);
+
 			m_pSyntaxTree->GenerateFunctionCode(asmGen);
 
 			AString	strName;

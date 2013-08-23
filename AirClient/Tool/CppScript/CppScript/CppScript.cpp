@@ -50,9 +50,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	//	getchar();
 	//	return -1;
 	//}
+	GUID guid;
+	::CoCreateGuid(&guid);
 
-	INT X = 0;
-	INT Y = X%10;
 
 	wchar_t str[1024];
 	GetCurrentDirectory(1024,str);

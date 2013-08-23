@@ -20,6 +20,7 @@ namespace	Air{
 			enumCallError	Call(void* pRetValue=NULL,void** ppParameter=NULL,U32 uiCount=0);
 			void			SetFunctionEntry(void*	p);
 			void*			GetFunctionEntry();
+			void			SetName(const char* str);
 		protected:
 			AString	strName;
 			void*	pFunction;

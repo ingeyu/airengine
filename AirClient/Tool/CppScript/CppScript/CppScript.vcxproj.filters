@@ -105,6 +105,9 @@
     <ClInclude Include="Disassemable\udis86.h">
       <Filter>Disassemble</Filter>
     </ClInclude>
+    <ClInclude Include="AirCppScriptModule.h">
+      <Filter>Module</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -175,6 +178,9 @@
     </ClCompile>
     <ClCompile Include="Disassemable\udis86.c">
       <Filter>Disassemble</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCppScriptModule.cpp">
+      <Filter>Module</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

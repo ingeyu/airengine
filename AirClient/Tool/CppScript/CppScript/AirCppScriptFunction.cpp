@@ -111,5 +111,10 @@ FunctionCall:	call Func
 			return pFunction;
 		}
 
+		void Function::SetName( const char* str )
+		{
+			strName	=	str;
+		}
+
 	}
 }

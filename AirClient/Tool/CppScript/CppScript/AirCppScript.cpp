@@ -1,6 +1,6 @@
 #include "AirCppScript.h"
 #include <malloc.h>
-
+#include <Windows.h>
 namespace	Air{
 	namespace	CppScript{
 
@@ -90,6 +90,35 @@ namespace	Air{
 				}
 			}
 			return	true;
+		}
+
+		bool LoadFile( const wchar_t* strName,void*& pBuffer,U32& uiSize )
+		{
+			HANDLE hFile	=	CreateFile(strName,GENERIC_READ,FILE_SHARE_READ |FILE_SHARE_WRITE,NULL,OPEN_EXISTING,FILE_FLAG_SEQUENTIAL_SCAN,NULL );
+			if(hFile==INVALID_HANDLE_VALUE){
+				CloseHandle(hFile);
+				return false;
+			}
+			uiSize	=	GetFileSize(hFile,0);
+			if(uiSize==0){
+				CloseHandle(hFile);
+				return	true;
+			}
+			pBuffer =	__Alloc(uiSize);
+			if(pBuffer==NULL){
+				CloseHandle(hFile);
+				return false;
+			}
+			DWORD	dwReadSize	=	0;
+			if(!ReadFile(hFile,pBuffer,uiSize,&dwReadSize,NULL)){
+				__Free(pBuffer);
+				CloseHandle(hFile);
+				return	false;
+			}
+			CloseHandle(hFile);
+			hFile=NULL;
+			
+			return true;
 		}
 
 	}

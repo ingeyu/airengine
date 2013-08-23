@@ -68,9 +68,10 @@ namespace	Air{
 					asmGen.Operator(eC_MOV_RM32_R32,eAR_ESI,pVar->m_uiOffset,eAR_EAX);
 				}else{
 
-					asmGen.Operator(eC_MOV_R32_RM32,eAR_EBX,eAR_EAX);
-					asmGen.Operator(eC_MOV_EAX_IMM32,eAR_EAX,pVar->m_uiOffset);
-					asmGen.Operator(eC_MOV_RM32_R32,eAR_EAX,0,eAR_EBX);
+					//asmGen.Operator(eC_MOV_R32_RM32,eAR_EBX,eAR_EAX);
+					//asmGen.Operator(eC_MOV_EAX_IMM32,eAR_EAX,pVar->m_uiOffset);
+					//asmGen.Operator(eC_MOV_RM32_R32,eAR_EAX,0,eAR_EBX);
+					asmGen.MovAbsEax(pVar->m_uiOffset);
 				}
 			}
 		}
@@ -611,7 +612,10 @@ namespace	Air{
 				uiOffset	=	pVar->m_uiOffset+0x14;
 			}else{
 				if(!pVar->IsLocal()){
-					sprintf_s(str,"[%xh]",pVar->m_uiOffset);
+					//sprintf_s(str,"[%xh]",pVar->m_uiOffset);
+					uiOffset	=	0;
+					asmGen.Mov_Imm(eAR_EBX,pVar->m_uiOffset);
+					r	=	eAR_EBX;
 				}else{
 					
 					r	=	eAR_ESI;

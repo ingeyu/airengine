@@ -784,6 +784,8 @@ namespace	Air{
 			U32		Mov_R32R32(AssembleRegister rDst,AssembleRegister rSrc);
 			U32		Mov_RM32R32(AssembleRegister rDst,U32 uiOffset,AssembleRegister rSrc);
 			U32		Mov_R32RM32(AssembleRegister rDst,AssembleRegister rSrc,U32 uiOffset);
+			U32		MovAbsEax(U32 uiOffset);
+			U32		MovEaxAbs(U32 uiOffset);
 			// ~
 			U32		Not(AssembleRegister r);
 			// !
@@ -801,22 +803,25 @@ namespace	Air{
 			U8*		GetCurrentPtr();
 			void*	GetBuffer(U32 uiOffset=0);
 
+			U32		PushBuffer(const void* pBuffer,U32 uiSize);
+			template<typename T>
+			U32		PushBuffer(const T& t){
+				return PushBuffer(&t,sizeof(t));
+			};	
+			template<int iCount>
+			U32		PushBuffer(const U8(&t)[iCount]){
+				return PushBuffer(t,iCount);
+			};
 		protected:
 			U32		Group1(Code1Group1 g1Code,AssembleRegister r,U32 imm);
 			U32		Group2(Code1Group2 g2Code,AssembleRegister r,U8 imm);
 
 			U32		CodeEx(Code1Ex codeex,U32 uiVal);
 		protected:
-			U32		PushBuffer(const void* pBuffer,U32 uiSize);
+			
 			U8*		Buffer(U32 uiSize);
-			template<typename T>
-			U32		PushBuffer(const T& t){
-				return PushBuffer(&t,sizeof(t));
-			};
-			template<int iCount>
-			U32		PushBuffer(const U8(&t)[iCount]){
-				return PushBuffer(t,iCount);
-			};
+
+			
 		protected:
 			U32		m_uiSize;
 			U32		m_uiOffset;
