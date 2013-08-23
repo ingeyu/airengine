@@ -647,26 +647,18 @@ namespace	Air{
 			//	U8 c[2]={eC_JZ_REL8,(U8)mOffset};
 			//	return	PushBuffer(c);
 			//}
-			U8 c[6]={eC_IMM8_NONE_NONE_NONE_opcodex,eCEx_JZ_REL32,0,0,0,0};
-			U32* p	=	(U32*)&c[2];
-			if(pOffset!=NULL){
-				U32 uiDst	=	*pOffset - m_uiOffset - 5;
-				*p=uiDst;
-			}
-			U32 ret	=	PushBuffer(c);
-			return ret;
+
+			return JumpCondition(eCEx_JZ_REL32,pOffset);
 		}
 
 		Air::U32 Assemble::JumpLess( U32 mOffset )
 		{
-			if(mOffset<256){
-				U8 c[2]={eC_JL_REL8,(U8)mOffset};
-				return	PushBuffer(c);
-			}
-			U8 c[6]={eC_IMM8_NONE_NONE_NONE_opcodex,eCEx_JL_REL32,0,0,0,0};
-			U32* pOffset	=	(U32*)&c[2];
-			*pOffset=mOffset;
-			return	PushBuffer(c);
+			//if(mOffset<256){
+			//	U8 c[2]={eC_JL_REL8,(U8)mOffset};
+			//	return	PushBuffer(c);
+			//}
+
+			return JumpCondition(eCEx_JL_REL32,&mOffset);
 		}
 
 		U8* Assemble::GetCurrentPtr()
@@ -696,17 +688,9 @@ namespace	Air{
 			return &m_pBuffer[uiOffset];
 		}
 
-		Air::U32 Assemble::SubEsp( U32 imm32 )
+		Air::U32 Assemble::SubR32Imm( AssembleRegister r,U32 imm )
 		{
-			if(imm32 < 256){
-				U8 c[3]={eC_R8_RM32_IMM8_NONE_group1_,0XEC,(U8)imm32};
-				return PushBuffer(c);
-			}else{
-				U8 c[6]={eC_R8_RM32_IMM32_NONE_group1,0XEC,0,0,0,0};
-				U32* pImm32	=	(U32*)&c[2];
-				*pImm32	=	imm32;
-				return PushBuffer(c);
-			}
+			return Group1(enCG1_SUB,r,imm);
 		}
 
 		Air::U32 Assemble::IMulR32Imm( AssembleRegister r,U32 imm32 )
@@ -737,7 +721,7 @@ namespace	Air{
 				Mov_R32R32(eAR_EAX,r);
 			}
 			Mov_Imm(eAR_ECX,imm32);
-			U8 cDiv_Eax_Ecx[2]={eC_R8_RM32_NONE_NONE_group3,0xF9};
+			U8 cDiv_Eax_Ecx[3]={0X99,eC_R8_RM32_NONE_NONE_group3,0xF9};
 			return PushBuffer(cDiv_Eax_Ecx);
 		}
 
@@ -759,6 +743,177 @@ namespace	Air{
 		Air::U32 Assemble::Mov_R32RM32( AssembleRegister rDst,AssembleRegister rSrc ,U32 uiOffset)
 		{
 			return Operator(eC_MOV_R32_RM32,rDst,rSrc,uiOffset);
+		}
+
+		Air::U32 Assemble::JumpNotEqual( U32* pOffset/*=NULL*/ )
+		{
+			return JumpCondition(eCEx_JNZ_REL32,pOffset);
+		}
+
+		void Assemble::Optimize()
+		{
+
+		}
+
+		Air::U32 Assemble::IDiv()
+		{
+			//0X99			cdq
+			//0xF0 0XF9		idiv eax,ecx
+			U8 cDiv_Eax_Ecx[3]={eC_CDQ,eC_R8_RM32_NONE_NONE_group3,0xF9};
+			return PushBuffer(cDiv_Eax_Ecx);
+		}
+
+		Air::U32 Assemble::Not( AssembleRegister r )
+		{
+			U32 uiOffset	=	GetCurrentOffset();
+			if(r!=eAR_EBX){
+				Mov_R32R32(eAR_EBX,r);
+			}
+			XorR32R32(eAR_EAX,eAR_EAX);
+			CmpR32Imm(eAR_EBX,0);
+			SetEqual(r);
+			return uiOffset;
+		}
+
+		Air::U32 Assemble::LogicNot( AssembleRegister r )
+		{
+			U8 cDiv_Eax_Ecx[3]={eC_CDQ,eC_R8_RM32_NONE_NONE_group3,0xF9};
+			return PushBuffer(cDiv_Eax_Ecx);
+		}
+
+		Air::U32 Assemble::CmpEaxImm(U32 Imm32 )
+		{
+			U8 c[5]={eC_CMP_EAX_IMM32,0,0,0,0};
+			U32* pImm32	=	(U32*)&c[1];
+			*pImm32	=	Imm32;
+			return PushBuffer(c);
+		}
+
+		Air::U32 Assemble::XorEaxImm( U32 Imm )
+		{
+			U8 c[3]={eC_R8_RM32_IMM8_NONE_group1_,0xF0,0};
+			c[2]=(U8)Imm;
+			return PushBuffer(c);
+		}
+
+		Air::U32 Assemble::XorR32R32( AssembleRegister rDst,AssembleRegister rSrc )
+		{
+			U8 c[2]={eC_XOR_R32_RM32,0xC0};
+			c[1]|=rDst|rSrc<<3;
+			return PushBuffer(c);
+		}
+
+		Air::U32 Assemble::SetEqual( AssembleRegister r )
+		{
+			U8 c[3]={eC_IMM8_NONE_NONE_NONE_opcodex,eCEx_SETE_rm8,0xC0};
+			c[2]|=r;
+			return PushBuffer(c);
+		}
+
+		Air::U32 Assemble::CmpR32Imm( AssembleRegister r,U32 imm )
+		{
+			return Group1(enCG1_CMP,r,imm);
+		}
+
+		Air::U32 Assemble::Group1(Code1Group1 g1Code,AssembleRegister r,U32 imm )
+		{
+			if(imm<256){
+				U8 c[3]={eC_R8_RM32_IMM8_NONE_group1_,0xC0|g1Code<<3,(U8)imm};
+				c[1]|=r;
+				return PushBuffer(c);
+			}
+			U8 c[6]={eC_R8_RM32_IMM32_NONE_group1,0xC0|g1Code<<3,0,0,0,0};
+			c[1]|=r;
+			U32* pImm32	=	(U32*)&c[2];
+			*pImm32	=	imm;
+			return PushBuffer(c);
+		}
+
+		Air::U32 Assemble::XorR32Imm( AssembleRegister r,U32 imm )
+		{
+			return Group1(enCG1_XOR,r,imm);
+		}
+
+		Air::U32 Assemble::AddR32Imm( AssembleRegister r,U32 imm )
+		{
+			return Group1(enCG1_ADD,r,imm);
+		}
+
+		Air::U32 Assemble::AndR32Imm( AssembleRegister r,U32 imm )
+		{
+			return Group1(enCG1_AND,r,imm);
+		}
+
+		Air::U32 Assemble::OrR32Imm( AssembleRegister r,U32 imm )
+		{
+			return Group1(enCG1_OR,r,imm);
+		}
+
+		Air::U32 Assemble::JumpCondition( Code1Ex codeex,U32* pOffset )
+		{
+			U32 uiVal	=	0;
+			if(pOffset!=NULL){
+				uiVal	=	*pOffset - m_uiOffset - 5;
+			}
+			return CodeEx(codeex,uiVal);
+		}
+
+		Air::U32 Assemble::CodeEx( Code1Ex codeex,U32 uiVal )
+		{
+			U8 c[6]={eC_IMM8_NONE_NONE_NONE_opcodex,codeex,0,0,0,0};
+			U32* pOffset	=	(U32*)&c[2];
+			*pOffset=uiVal;
+			return	PushBuffer(c);
+		}
+
+		Air::U32 Assemble::AndR32R32( AssembleRegister rDst,AssembleRegister rSrc )
+		{
+			return Operator(eC_AND_R32_RM32,rDst,rSrc);
+		}
+
+		Air::U32 Assemble::OrR32R32( AssembleRegister rDst,AssembleRegister rSrc )
+		{
+			return Operator(eC_OR_R32_RM32,rDst,rSrc);
+		}
+
+		Air::U32 Assemble::Group2( Code1Group2 g2Code,AssembleRegister r,U8 imm )
+		{
+			U8 c[3]={eC_R8_RM8_IMM8_NONE_group2,0xC0|g2Code<<3,(U8)imm};
+			c[1]|=r;
+			return PushBuffer(c);
+		}
+
+		Air::U32 Assemble::LeftShift(AssembleRegister r, U8 imm )
+		{
+			return Group2(enCG2_SHL,r,imm);
+		}
+
+		Air::U32 Assemble::RightShift( AssembleRegister r,U8 imm )
+		{
+			return Group2(enCG2_SHR,r,imm);
+		}
+
+		Air::CppScript::Code1Ex InserveJumpCondition( Code1Ex codeex )
+		{
+			switch(codeex){
+				case	eCEx_JO_REL32	: {return eCEx_JNO_REL32;}break;
+				case 	eCEx_JNO_REL32	: {return eCEx_JO_REL32;}break;
+				case 	eCEx_JB_REL32	: {return eCEx_JAE_REL32;}break;
+				case 	eCEx_JAE_REL32	: {return eCEx_JB_REL32;}break;
+				case 	eCEx_JZ_REL32	: {return eCEx_JNZ_REL32;}break;
+				case 	eCEx_JNZ_REL32	: {return eCEx_JZ_REL32;}break;
+				case 	eCEx_JBE_REL32	: {return eCEx_JA_REL32;}break;
+				case 	eCEx_JA_REL32	: {return eCEx_JBE_REL32;}break;
+				case 	eCEx_JS_REL32	: {return eCEx_JNS_REL32;}break;
+				case 	eCEx_JNS_REL32	: {return eCEx_JS_REL32;}break;
+				case 	eCEx_JP_REL32	: {return eCEx_JNP_REL32;}break;
+				case 	eCEx_JNP_REL32	: {return eCEx_JP_REL32;}break;
+				case 	eCEx_JL_REL32	: {return eCEx_JGE_REL32;}break;
+				case 	eCEx_JGE_REL32	: {return eCEx_JL_REL32;}break;
+				case 	eCEx_JLE_REL32	: {return eCEx_JG_REL32;}break;
+				case 	eCEx_JG_REL32	: {return eCEx_JLE_REL32;}break;
+			}
+			return codeex;
 		}
 
 	}

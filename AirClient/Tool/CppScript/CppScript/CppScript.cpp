@@ -50,9 +50,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	//	getchar();
 	//	return -1;
 	//}
-	__asm{
-	//	sub esp,4;
-	}
+
+	INT X = 0;
+	INT Y = X%10;
 
 	wchar_t str[1024];
 	GetCurrentDirectory(1024,str);
@@ -64,7 +64,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	Air::CppScript::Compiler c;
 	c.Initialization();
 
-	c.Compile(L"3.cpp");
+	c.Compile(L"2.cpp");
 	c.Link(L"1.module");
 
 	c.Release();

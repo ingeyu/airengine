@@ -309,7 +309,11 @@ namespace	Air{
 			
 			pConditionExp->GenerateFunctionCode(asmGen);
 			asmGen.Test(eAR_EAX);
-			asmGen.JumpZero();
+			asmGen.JumpCondition(
+					InserveJumpCondition(
+						(Code1Ex)((ExpressionNode*)pConditionExp)->GetJumpCondition()
+					)
+				);
 			U32 uiJump	=	asmGen.GetCurrentOffset();
 			
 			NodeList::iterator	i	=	m_lstChild.begin();
@@ -389,8 +393,10 @@ namespace	Air{
 		{
 			//m_uiEntry	=	asmGen.GetCurrentOffset();
 			pConditionExp->GenerateFunctionCode(asmGen);
+
 			//Condition JUMP To End
-			asmGen.JumpZero(0);
+			asmGen.Test(eAR_EAX);
+			asmGen.JumpCondition((Code1Ex)((ExpressionNode*)pConditionExp)->GetJumpCondition());
 			U32 uiConditionJMP	=	asmGen.GetCurrentOffset();
 
 			NodeList	lstElse;
@@ -439,6 +445,20 @@ namespace	Air{
 			return ParseFunctionCode(vecInfo,idx);
 		}
 
+		Air::CppScript::enumSyntaxError ElseStatementNode::GenerateFunctionCode( Assemble& asmGen )
+		{
+			NodeList::iterator	i	=	m_lstChild.begin();
+			for(;i!=m_lstChild.end();i++){
+				Node* pNode	=	(*i);
+				if(pNode!=NULL){
+					if(pNode->GetType()==enNT_Statement){
+						pNode->GenerateFunctionCode(asmGen);
+					}
+				}
+			}
+			return enSE_OK;
+		}
+
 
 
 		Air::CppScript::enumSyntaxError ElseIfStatementNode::Parse( WordInfoVector& vecInfo,U32& idx )
@@ -470,7 +490,8 @@ namespace	Air{
 			//m_uiEntry	=	asmGen.GetCurrentOffset();
 			pConditionExp->GenerateFunctionCode(asmGen);
 			//Condition JUMP To End
-			asmGen.JumpZero(0);
+			asmGen.Test(eAR_EAX);
+			asmGen.JumpCondition((Code1Ex)((ExpressionNode*)pConditionExp)->GetJumpCondition());
 			U32 uiConditionJMP	=	asmGen.GetCurrentOffset();
 
 			NodeList	lstElse;

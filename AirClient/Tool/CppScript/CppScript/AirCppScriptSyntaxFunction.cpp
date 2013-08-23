@@ -357,10 +357,10 @@ namespace	Air{
 			asmGen.Code(eC_PUSH_EBX);
 			asmGen.Code(eC_PUSH_EDX);
 			asmGen.Code(eC_PUSH_ESI);
-			asmGen.Operator(eC_MOV_R32_RM32,eAR_EBP,eAR_ESP);
+			asmGen.Mov_R32R32(eAR_EBP,eAR_ESP);
 			if(m_uiLocalVariableSize!=0){
-				asmGen.SubEsp(m_uiLocalVariableSize);
-				asmGen.Operator(eC_MOV_R32_RM32,eAR_ESI,eAR_ESP);
+				asmGen.SubR32Imm(eAR_ESP,m_uiLocalVariableSize);
+				asmGen.Mov_R32R32(eAR_ESI,eAR_ESP);
 			}
 
 			i	=	m_lstChild.begin();
@@ -383,14 +383,14 @@ namespace	Air{
 				}
 			}
 			
-			asmGen.Operator(eC_MOV_R32_RM32,eAR_ESP,eAR_EBP);
+			asmGen.Mov_R32R32(eAR_ESP,eAR_EBP);
 			asmGen.Code(eC_POP_ESI);
 			asmGen.Code(eC_POP_EDX);
 			asmGen.Code(eC_POP_EBX);
 			asmGen.Code(eC_POP_EBP);
 			
 			
-			asmGen.Ret(iParamIndex*4);
+			asmGen.Ret((U16)iParamIndex*4);
 			
 			asmGen.Code(eC_NOP);
 			asmGen.Code(eC_NOP);

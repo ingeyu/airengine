@@ -37,7 +37,7 @@ namespace	Air{
 				m_uiJump		=	0;
 			};
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
-
+			virtual	enumSyntaxError		GenerateFunctionCode(Assemble& asmGen);
 			U32		m_uiJump;
 		};
 		class	IfStatementNode	:	public	ElseStatementNode

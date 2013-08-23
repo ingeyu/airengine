@@ -293,6 +293,8 @@ namespace	Air{
 			Disassemble(asmGen.GetBuffer(),asmGen.GetCurrentOffset(),strName);
 			printf(strName.c_str());
 
+			asmGen.Optimize();
+
 			FunctionNode* pNode = (FunctionNode*)m_pSyntaxTree->FindNode("main",enNT_Function);
 
 			Function f;

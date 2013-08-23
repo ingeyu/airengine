@@ -22,6 +22,7 @@ namespace	Air{
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 			enumSyntaxError				ParseExpression(WordInfoVector& vecInfo,U32& idx);
 			virtual	enumSyntaxError		GenerateFunctionCode(Assemble& asmGen);
+			U32							GetJumpCondition();
 			enumExpressionType	eType;
 		};
 		class	ExpressionElementNode	:	public	ExpressionNode{
@@ -38,6 +39,8 @@ namespace	Air{
 				eSelfOperator[1]	=	enCKWT_Unknown;
 				m_pIndex			=	NULL;
 				m_strName			=	"ExpElement";
+				bNot				=	false;
+				bLogicNot			=	false;
 			};
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 			enumSyntaxError				ParseObjectCast(WordInfoVector& vecInfo,U32& idx);
@@ -48,6 +51,8 @@ namespace	Air{
 			U1		bAddress;
 			U1		bValue;
 			U1		bValue2;
+			U1		bNot;
+			U1		bLogicNot;
 			enumCppKeyWordType	eSelfOperator[2];
 			Node*				m_pIndex;
 		};

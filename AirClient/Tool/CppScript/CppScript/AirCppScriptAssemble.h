@@ -618,6 +618,8 @@ namespace	Air{
 		enum Code1Ex{
 			eCEx_R16_NONE_NONE_NONE_top00, // 0x00
 			eCEx_R16_NONE_NONE_NONE_top01,
+			eCEx_LAR_r32_rm32,           //Load Access Rights Byte     
+
 			eCEx_JO_REL32	=	0x80, // 0x80
 			eCEx_JNO_REL32,
 			eCEx_JB_REL32,
@@ -634,6 +636,24 @@ namespace	Air{
 			eCEx_JGE_REL32,
 			eCEx_JLE_REL32,
 			eCEx_JG_REL32,
+			eCEx_SETO_rm8               ,//Set byte if overflow 
+			eCEx_SETNO_rm8              ,//Set byte if not overflow 
+			eCEx_SETB_rm8               ,//Set byte if below 
+			eCEx_SETAE_rm8              ,//Set byte if above or equal
+			eCEx_SETE_rm8               ,//Set byte if equal 
+			eCEx_SETNE_rm8              ,//Set byte if not equal 
+			eCEx_SETBE_rm8              ,//Set byte if below or equal 
+			eCEx_SETA_rm8               ,//Set byte if above 
+			eCEx_SETS_rm8               ,//Set byte if sign 
+			eCEx_SETNS_rm8              ,//Set byte if not sign 
+			eCEx_SETPE_rm8              ,//Set byte if parity even 
+			eCEx_SETPO_rm8              ,//Set byte if parity odd 
+			eCEx_SETL_rm8               ,//Set byte if less 
+			eCEx_SETGE_rm8              ,//Set byte if greater or equal
+			eCEx_SETLE_rm8              ,//Set byte if less or equal 
+			eCEx_SETG_rm8               ,//Set byte if greater 
+			eCEx_PUSH_FS                 ,//Push FS
+			eCEx_POP_FS                  ,//Pop FS
 		};
 		enum Code1Group1{
 			enCG1_ADD,
@@ -705,9 +725,13 @@ namespace	Air{
 			U32	Imm;
 		};
 
+		Code1Ex	InserveJumpCondition(Code1Ex codeex);
+
 		class	Assemble{
 		public:
 			Assemble();
+
+			void	Optimize();
 
 			U32		Code(Code1 op);
 			U32		Code(Code1 op,U8 Imm8);
@@ -732,27 +756,56 @@ namespace	Air{
 			U32		Call(U32 uiOffset,U32* pRelocal	=	NULL);
 			U32		Test(AssembleRegister r);
 			U32		Cmp(AssembleRegister rLeft,AssembleRegister rRight);
+			U32		CmpEaxImm(U32 Imm32);
+			U32		CmpR32Imm(AssembleRegister r,U32 imm);
 			U32		Jmp(U32 mOffset);
 			U32		JmpAbs(U32 mAddr);
 			U32		JumpZero(U32* pOffset=NULL);
+			U32		JumpNotEqual(U32* pOffset=NULL);
 			U32		JumpLess(U32 mOffset);
+			U32		JumpCondition(Code1Ex codeex,U32* pOffset=NULL);
 			
 			U32		Ret(U16 uiEspOffset	=	0);
 			U32		Int3();
 			U32		Nop();
 			void	WriteAddress_JumpHere(U32 uiJump);
-			U32		SubEsp(U32 imm32);
+
+			U32		AddR32Imm(AssembleRegister r,U32 imm);
+			U32		SubR32Imm(AssembleRegister r,U32 imm);
+			U32		AndR32Imm(AssembleRegister r,U32 imm);
+			U32		OrR32Imm(AssembleRegister r,U32 imm);
+			U32		XorR32Imm(AssembleRegister r,U32 imm);
+
 			U32		IMulR32Imm(AssembleRegister r,U32 imm32);
 			U32		IMulR32R32(AssembleRegister rDst,AssembleRegister rSrc);
 			U32		IDivR32Imm(AssembleRegister r,U32 imm32);
+			U32		IDiv();
 			U32		Mov_Imm(AssembleRegister r,U32 imm32);
 			U32		Mov_R32R32(AssembleRegister rDst,AssembleRegister rSrc);
 			U32		Mov_RM32R32(AssembleRegister rDst,U32 uiOffset,AssembleRegister rSrc);
 			U32		Mov_R32RM32(AssembleRegister rDst,AssembleRegister rSrc,U32 uiOffset);
+			// ~
+			U32		Not(AssembleRegister r);
+			// !
+			U32		LogicNot(AssembleRegister r);
+			U32		XorEaxImm(U32 Imm);
+			U32		XorR32R32(AssembleRegister rDst,AssembleRegister rSrc);
+			U32		AndR32R32(AssembleRegister rDst,AssembleRegister rSrc);
+			U32		OrR32R32(AssembleRegister rDst,AssembleRegister rSrc);
+			U32		SetEqual(AssembleRegister r);
+
+			U32		LeftShift(AssembleRegister r,U8 imm);
+			U32		RightShift(AssembleRegister r,U8 imm);
 		public:
 			U32		GetCurrentOffset();
 			U8*		GetCurrentPtr();
 			void*	GetBuffer(U32 uiOffset=0);
+
+		protected:
+			U32		Group1(Code1Group1 g1Code,AssembleRegister r,U32 imm);
+			U32		Group2(Code1Group2 g2Code,AssembleRegister r,U8 imm);
+
+			U32		CodeEx(Code1Ex codeex,U32 uiVal);
 		protected:
 			U32		PushBuffer(const void* pBuffer,U32 uiSize);
 			U8*		Buffer(U32 uiSize);
