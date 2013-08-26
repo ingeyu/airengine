@@ -22,6 +22,8 @@ namespace	Air{
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 			enumSyntaxError				ParseExpression(WordInfoVector& vecInfo,U32& idx);
 			virtual	enumSyntaxError		GenerateFunctionCode(Assemble& asmGen);
+			enumSyntaxError				LogicAnd(ExpressionNode* p[3],Assemble& asmGen);
+			enumSyntaxError				LogicOr(ExpressionNode* p[3],Assemble& asmGen);
 			U32							GetJumpCondition();
 			enumExpressionType	eType;
 		};

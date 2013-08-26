@@ -147,12 +147,19 @@ namespace	Air{
 				for(;itr!=m_lstChild.end();itr++,i++){
 					p[i]	=	(ExpressionNode*)(*itr);
 				}
+				ExpressionOperatorNode* pOperator	=	(ExpressionOperatorNode*)p[1];
+
+				if(pOperator->eOperator ==	enOT_LogicAnd){
+					return LogicAnd(p,asmGen);
+				}else if(pOperator->eOperator ==	enOT_LogicOr){
+					return LogicOr(p,asmGen);
+				}
 				ExpressionElementNode* pLeft	=	(ExpressionElementNode*)(p[0]);
 				p[2]->GenerateFunctionCode(asmGen);
 				asmGen.Code(eC_PUSH_EAX);
 				p[0]->GenerateFunctionCode(asmGen);
 				asmGen.Code(eC_POP_EBX);
-				ExpressionOperatorNode* pOperator	=	(ExpressionOperatorNode*)p[1];
+				
 				switch(pOperator->eOperator){
 					case enOT_Add:					///<	+
 						{
@@ -324,6 +331,31 @@ namespace	Air{
 
 
 			}
+
+			return enSE_OK;
+		}
+
+		Air::CppScript::enumSyntaxError ExpressionNode::LogicAnd( ExpressionNode* p[3],Assemble& asmGen )
+		{
+			
+			asmGen.Code(eC_PUSH_EAX);
+			p[0]->GenerateFunctionCode(asmGen);
+			asmGen.Test(eAR_EAX);
+			asmGen.JumpZero();
+			U32 uiJump = asmGen.GetCurrentOffset();
+			p[2]->GenerateFunctionCode(asmGen);
+			asmGen.WriteAddress_JumpHere(uiJump);
+			return enSE_OK;
+		}
+		Air::CppScript::enumSyntaxError ExpressionNode::LogicOr( ExpressionNode* p[3],Assemble& asmGen )
+		{
+			asmGen.Code(eC_PUSH_EAX);
+			p[0]->GenerateFunctionCode(asmGen);
+			asmGen.Test(eAR_EAX);
+			asmGen.JumpNotEqual();
+			U32 uiJump = asmGen.GetCurrentOffset();
+			p[2]->GenerateFunctionCode(asmGen);
+			asmGen.WriteAddress_JumpHere(uiJump);
 
 			return enSE_OK;
 		}
@@ -648,6 +680,14 @@ namespace	Air{
 
 			
 			asmGen.Operator(eC_MOV_R32_RM32,eAR_EAX,r,uiOffset);
+			
+			if(m_pIndex!=NULL){
+				asmGen.Push(eAR_EAX);
+				m_pIndex->GenerateFunctionCode(asmGen);
+				asmGen.Mov_R32R32(eAR_EBX,eAR_EAX);
+				asmGen.Pop(eAR_EAX);
+				asmGen.Operator(eC_ADD_R32_RM32,eAR_EAX,eAR_EBX);
+			}
 			
 			if(eSelfOperator[1]==enOT_Increment){
 				asmGen.Mov_R32R32(eAR_EBX,eAR_EAX);

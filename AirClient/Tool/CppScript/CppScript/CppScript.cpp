@@ -43,8 +43,21 @@ _declspec(naked)	void	__stdcall	__freea(void* p){
 
 typedef int (__stdcall *ScriptFunc)(int iCount,int iStart);
 
+void ToLower2(char* str){
+	int iLen=12;//strlen(str);
+	for(int i=0;i<iLen;i++){
+		if((str[i]>='A') && (str[i]<=90)){
+			str[i]+=32;
+		}
+	}
+}
+
 int _tmain(int argc, _TCHAR* argv[])
 {
+
+	char str[]="asdasdasdDD";
+	ToLower2(str);
+
 	if(argc	<	2){
 		wprintf(L"CppScript *.proj\n");
 		wprintf(L"CppScript *.cpp\n");
