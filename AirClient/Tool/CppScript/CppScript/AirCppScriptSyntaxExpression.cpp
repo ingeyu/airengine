@@ -69,7 +69,7 @@ namespace	Air{
 				}else{
 					//代码实现 全局变量重定位问题
 					//Code Impl Global Variable Load Relocaltion
-					asmGen.Call(0);
+					asmGen.Call(asmGen.GetCurrentOffset()+5);
 					U32	uiOffset	=	pVar->m_uiOffset	-	asmGen.GetCurrentOffset();
 					asmGen.Pop(eAR_EBX);
 					asmGen.Mov_RM32R32(eAR_EBX,uiOffset,eAR_EAX);
@@ -615,7 +615,7 @@ namespace	Air{
 				if(!pVar->IsLocal()){
 					//代码实现 全局变量重定位问题
 					//Code Impl Global Variable Load Relocaltion
-					asmGen.Call(0);
+					asmGen.Call(asmGen.GetCurrentOffset()+5);
 					uiOffset	=	pVar->m_uiOffset	-	asmGen.GetCurrentOffset();
 					asmGen.Pop(eAR_EAX);
 					r	=	eAR_EAX;

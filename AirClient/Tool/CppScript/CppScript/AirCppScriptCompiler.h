@@ -17,7 +17,7 @@ namespace	Air{
 
 			bool	Initialization();
 			bool	Release();
-			bool	CompileProject(const WStringVector&	vCppArray,U32 uiCompileFlag=0);
+			bool	BuildProj( const wchar_t* pName);
 			bool	Compile(const wchar_t* pName);
 			bool	Link(const wchar_t* pName,U32	uiLinkFlag	=	0);
 		protected:

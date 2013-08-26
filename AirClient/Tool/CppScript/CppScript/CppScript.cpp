@@ -41,40 +41,51 @@ _declspec(naked)	void	__stdcall	__freea(void* p){
 	}
 }
 
-__declspec(dllimport) int Call(int x,int y,int z);
-//__declspec(dllimport) int a;
-
 typedef int (__stdcall *ScriptFunc)(int iCount,int iStart);
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	//if(argc	<	2){
-	//	wprintf(L"CppScript *.cpp\n");
-	//	getchar();
-	//	return -1;
-	//}
+	if(argc	<	2){
+		wprintf(L"CppScript *.proj\n");
+		wprintf(L"CppScript *.cpp\n");
+		wprintf(L"CppScript *.module\n");
+		getchar();
+		return -1;
+	}
+	Air::CppScript::InitWorkDirectory();
 
-	wchar_t str[1024];
-	GetCurrentDirectory(1024,str);
-	std::wstring	strPath		=	str;
-	GetModuleFileName(NULL,str,1024);
-	Air::CppScript::SplitFilePath(str,&strPath,NULL,NULL);
-	SetCurrentDirectory(strPath.c_str());
-
-	Air::CppScript::Compiler c;
-	c.Initialization();
-
-	c.Compile(L"2.cpp");
-	c.Link(L"1.module");
-
-	c.Release();
-
-	Air::CppScript::Module module;
-	module.Load(L"1.module");
 	
-	ScriptFunc f = (ScriptFunc)module.FindFunction("main");
 
-	int ret=(*f)(101,0);
+	
+	std::wstring	strPath,strName,strExt;
+	
+	Air::CppScript::SplitFilePath(argv[1],&strPath,&strName,&strExt);
+	
+	Air::CppScript::ToLower(&strExt[0]);
+	if(strExt==L"cpp"){
+		Air::CppScript::Compiler c;
+		c.Initialization();
+
+		c.Compile(argv[1]);
+		std::wstring	strOutputName	=	strPath+strName+L".module";
+		c.Link(strOutputName.c_str());
+		c.Release();
+	}else if (strExt==L"proj"){
+		Air::CppScript::Compiler c;
+		c.Initialization();
+		c.BuildProj(argv[1]);
+		c.Release();
+	}else if(strExt==L"module"){
+		getchar();
+		Air::CppScript::Module module;
+		if(module.Load(argv[1])!=Air::CppScript::enLE_OK){
+			printf("Load Module (%s) Failed!\n",argv[1]);
+		}
+		ScriptFunc	f	=	(ScriptFunc)module.FindFunction("main");
+		int ret=(*f)(101,0);
+		printf("main = (%08x,%d)\n",ret,ret);
+		module.UnLoad();
+	}
 
 	getchar();
 	return 0;

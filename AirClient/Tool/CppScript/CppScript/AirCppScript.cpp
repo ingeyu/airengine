@@ -44,7 +44,7 @@ namespace	Air{
 			U32	uiSlash	=	0xffffffff;
 
 
-			for(U32 i=uiStrSize-1;i>=0;i--){
+			for(S32 i=uiStrSize-1;i>=0;i--){
 				if(str[i]	==	'.'	&&	uiPoint	==	uiStrSize){
 					uiPoint	=	i;
 				}
@@ -137,6 +137,16 @@ namespace	Air{
 			hFile=NULL;
 
 			return true;
+		}
+
+		void InitWorkDirectory()
+		{
+			wchar_t str[1024];
+			GetCurrentDirectory(1024,str);
+			std::wstring	strPath		=	str;
+			GetModuleFileName(NULL,str,1024);
+			Air::CppScript::SplitFilePath(str,&strPath,NULL,NULL);
+			SetCurrentDirectory(strPath.c_str());
 		}
 
 	}

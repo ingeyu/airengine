@@ -255,14 +255,14 @@ namespace	Air{
 			return 0;
 		}
 
-		bool Compiler::CompileProject( const WStringVector& vCppArray,U32 uiCompileFlag/*=0*/ )
+		bool Compiler::BuildProj(  const wchar_t* pName )
 		{
-			U32 uiSize	=	vCppArray.size();
-			for(U32 i=0;i<uiSize;i++){
-				if(!Compile(vCppArray[i].c_str())){
-					return false;
-				};
-			}
+			//U32 uiSize	=	vCppArray.size();
+			//for(U32 i=0;i<uiSize;i++){
+			//	if(!Compile(vCppArray[i].c_str())){
+			//		return false;
+			//	};
+			//}
 			return true;
 		}
 
