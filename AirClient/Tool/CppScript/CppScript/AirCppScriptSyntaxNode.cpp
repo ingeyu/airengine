@@ -773,6 +773,8 @@ namespace	Air{
 				if(pNode!=NULL){
 					if(pNode->GetType()==enNT_Function){
 						pNode->GenerateFunctionCode(asmGen);
+					}else if(pNode->GetType()==enNT_NameSpace){
+						pNode->GenerateFunctionCode(asmGen);
 					}
 				}
 			}
@@ -884,12 +886,11 @@ namespace	Air{
 			InitModuleHeader(moduleHeader);
 			asmGen.PushBuffer(moduleHeader);
 
-
-			e	=	LinkGolbalVariable(asmGen);
+			e	=	LinkImportFunction(asmGen);
 			if(e!=enSE_OK)
 				return e;
 
-			e	=	LinkImportFunction(asmGen);
+			e	=	LinkGolbalVariable(asmGen);
 			if(e!=enSE_OK)
 				return e;
 
@@ -975,7 +976,9 @@ namespace	Air{
 				if(p!=NULL){
 					if(p->GetType()==enNT_Function){
 						FunctionNode* pFunc = (FunctionNode*)(p);
-						if(pFunc->ieType	==	enCKWT_dllimport){
+						if(	pFunc->ieType	==	enCKWT_dllimport &&
+							pFunc->RefCount	!=	0)
+						{
 							memset(&iat,0,sizeof(iat));
 							iat.jump[0]	=	eC_JMP_REL32;
 							strcpy(&iat.Name[0],pFunc->GetName().c_str());

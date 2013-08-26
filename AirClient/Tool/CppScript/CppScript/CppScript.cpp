@@ -78,13 +78,20 @@ int _tmain(int argc, _TCHAR* argv[])
 	}else if(strExt==L"module"){
 		
 		Air::CppScript::Module module;
-		if(module.Load(argv[1])!=Air::CppScript::enLE_OK){
-			printf("Load Module (%s) Failed!\n",argv[1]);
+		Air::CppScript::enumLoadError	le=module.Load(argv[1]);
+		if(le!=Air::CppScript::enLE_OK){
+			wprintf(L"Load Module (%s)(Code=%d) Failed!\n",argv[1],le);
+			
+		}else{
+			ScriptFunc	f	=	(ScriptFunc)module.FindFunction("main");
+			if(f!=NULL){
+				int ret=(*f)(101,0);
+				printf("main = (%08x,%d)\n",ret,ret);
+			}else{
+				printf("cant find main function\n");
+			}
+			module.UnLoad();
 		}
-		ScriptFunc	f	=	(ScriptFunc)module.FindFunction("main");
-		int ret=(*f)(101,0);
-		printf("main = (%08x,%d)\n",ret,ret);
-		module.UnLoad();
 	}
 
 	getchar();

@@ -360,6 +360,7 @@ namespace	Air{
 			}
 			if(pNode->GetType()==enNT_Function){
 				idx++;
+				((FunctionNode*)pNode)->RefCount=1;
 				return pNode;
 			}else if(pNode->GetType()==enNT_NameSpace){
 				while(pNode){
@@ -384,6 +385,7 @@ namespace	Air{
 					if(pNode->GetType()==enNT_Function){
 						uiOld++;
 						idx=uiOld;
+						((FunctionNode*)pNode)->RefCount=1;
 						return	pNode;
 					}
 					if(pNode->GetType()==enNT_NameSpace){

@@ -23,6 +23,7 @@ namespace	Air{
 				ieType			=	enCKWT_Unknown;
 				m_uiLocalVariableSize	=	0;
 				pEntry			=	NULL;
+				RefCount		=	0;
 			};
 
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
@@ -47,6 +48,7 @@ namespace	Air{
 			U32							m_bVirtual;
 			enumCppKeyWordType			ieType;
 			U32							pEntry;
+			U32							RefCount;
 		protected:
 			U32							m_uiLocalVariableSize;
 		};
