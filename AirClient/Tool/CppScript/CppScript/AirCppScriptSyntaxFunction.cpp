@@ -334,7 +334,7 @@ namespace	Air{
 
 		Air::CppScript::enumSyntaxError FunctionNode::GenerateFunctionCode(Assemble& asmGen)
 		{
-			if(ieType!=enCKWT_Unknown){
+			if(ieType==enCKWT_dllimport){
 				return enSE_OK;
 			}
 			U32 iParamIndex=0;
@@ -350,7 +350,7 @@ namespace	Air{
 				}
 			}
 			m_uiLocalVariableSize=0;
-			CalcLocalVariableSize(m_uiLocalVariableSize);
+			CalcLocalVariableSize(m_uiLocalVariableSize,true);
 
 			pEntry	=
 			asmGen.Code(eC_PUSH_EBP);

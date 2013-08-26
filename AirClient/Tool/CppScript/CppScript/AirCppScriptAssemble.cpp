@@ -909,6 +909,13 @@ namespace	Air{
 			return PushBuffer(c);
 		}
 
+		U32 Assemble::AddOffset( U32 uiOffset )
+		{
+			U32 uiOld	=	m_uiOffset;
+			m_uiOffset+=uiOffset;
+			return uiOld;
+		}
+
 		Air::CppScript::Code1Ex InserveJumpCondition( Code1Ex codeex )
 		{
 			switch(codeex){

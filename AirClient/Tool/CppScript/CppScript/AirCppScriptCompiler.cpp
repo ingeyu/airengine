@@ -272,26 +272,27 @@ namespace	Air{
 				return false;
 			Assemble asmGen;
 
-			ModuleHeader moduleHeader;
-			InitModuleHeader(moduleHeader);
-			asmGen.PushBuffer(moduleHeader);
+			m_pSyntaxTree->Link(asmGen);
 
-			m_pSyntaxTree->GenerateFunctionCode(asmGen);
+			asmGen.Optimize();
 
+			SaveFile(pName,asmGen.GetBuffer(),asmGen.GetCurrentOffset());
+
+			
+
+			
+
+			//FunctionNode* pNode = (FunctionNode*)m_pSyntaxTree->FindNode("main",enNT_Function);
 			AString	strName;
 			Disassemble(asmGen.GetBuffer(),asmGen.GetCurrentOffset(),strName);
 			printf(strName.c_str());
 
-			asmGen.Optimize();
+			//Function f;
+			//f.SetFunctionEntry(asmGen.GetBuffer(pNode->pEntry));
 
-			FunctionNode* pNode = (FunctionNode*)m_pSyntaxTree->FindNode("main",enNT_Function);
-
-			Function f;
-			f.SetFunctionEntry(asmGen.GetBuffer(pNode->pEntry));
-
-			U32 ret=0;
-			U32 uiParam[]={101,0};
-			f.Call(&ret,(void**)uiParam,2);
+			//U32 ret=0;
+			//U32 uiParam[]={101,0};
+			//f.Call(&ret,(void**)uiParam,2);
 
 			if(m_pSyntaxTree!=NULL){
 				delete m_pSyntaxTree;

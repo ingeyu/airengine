@@ -15,6 +15,17 @@ namespace	Air{
 			enLE_Unknown_Version,
 			enLE_Cant_Find_Import_Function
 		};
+		struct IAT{
+			U8	jump[8];
+			S8	Name[32];
+		};
+		struct	EAT{
+			union{
+				U32			EAT_RA;
+				U8*			EAT_A;
+			};
+			S8	Name[32];
+		};
 		struct	ModuleHeader{
 			U32		CppS;
 			U32		CompilerVersion;
@@ -22,30 +33,18 @@ namespace	Air{
 			U32		TimeStamp;
 			GUID	Guid;
 			U32		Age;
-			U32		IATCount;
+			U32		ImageSize;		//Include Header
 			union{
-				U32		IAT_RA;
-				U8*		IAT_A;
-			};
-			union{
-				U32			IAT_Name_RA;
-				char**		IAT_Name_A;
+				U32	Entry_RA;
+				U8*	Entry_A;
 			};
 			U32		EATCount;
+			EAT		EATArray[4];
+			U32		IATCount;
 			union{
-				U32			EAT_RA;
-				U32**		EAT_A;
+				U32		IATArray_RA;
+				IAT*	IATArray;
 			};
-			union{
-				U32			EAT_Name_RA;
-				char**		EAT_Name_A;
-			};
-			union{
-				U32		Entry_RA;		//if Entry == 0 its a dll else exe
-				U8*		Entry_A;
-			};
-			U32		ImageSize;		//Include Header
-			U8		Code[4];
 		};
 
 		class	Module{

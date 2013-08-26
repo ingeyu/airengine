@@ -7,6 +7,7 @@
 
 #include "AirCppScriptCompiler.h"
 #include "AirCppScriptFunction.h"
+#include "AirCppScriptModule.h"
 _declspec(naked) void* __stdcall	__alloca(int iSize){
 	__asm{
 		mov		eax,dword ptr[esp+4];
@@ -43,6 +44,8 @@ _declspec(naked)	void	__stdcall	__freea(void* p){
 __declspec(dllimport) int Call(int x,int y,int z);
 //__declspec(dllimport) int a;
 
+typedef int (__stdcall *ScriptFunc)(int iCount,int iStart);
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	//if(argc	<	2){
@@ -50,9 +53,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	//	getchar();
 	//	return -1;
 	//}
-	GUID guid;
-	::CoCreateGuid(&guid);
-
 
 	wchar_t str[1024];
 	GetCurrentDirectory(1024,str);
@@ -68,6 +68,13 @@ int _tmain(int argc, _TCHAR* argv[])
 	c.Link(L"1.module");
 
 	c.Release();
+
+	Air::CppScript::Module module;
+	module.Load(L"1.module");
+	
+	ScriptFunc f = (ScriptFunc)module.FindFunction("main");
+
+	int ret=(*f)(101,0);
 
 	getchar();
 	return 0;

@@ -5,6 +5,9 @@
 #include "AirCppScriptSyntaxNameSpace.h"
 #include "AirCppScriptSyntaxExpression.h"
 #include "AirCppScriptSyntaxStatement.h"
+#include "AirCppScriptSyntaxConstant.h"
+#include "AirCppScriptAssemble.h"
+#include "AirCppScriptModule.h"
 #include <string>
 namespace	Air{
 	namespace	CppScript{
@@ -776,7 +779,7 @@ namespace	Air{
 			return enSE_OK;
 		}
 
-		Air::U32 Node::CalcLocalVariableSize( U32& uiSize )
+		Air::U32 Node::CalcLocalVariableSize( U32& uiSize,U1 bChild )
 		{
 			//uiSize	=	0;
 			NodeList::iterator	i	=	m_lstChild.begin();
@@ -800,7 +803,9 @@ namespace	Air{
 						pVar->m_uiOffset	=	uiSize;
 						uiSize+=	(uiObjCount*uiObjSize+1)&0xfffffffc;
 					}else{
-						pNode->CalcLocalVariableSize(uiSize);
+						if(bChild){
+							pNode->CalcLocalVariableSize(uiSize);
+						}
 					}
 				}
 			}
@@ -869,6 +874,165 @@ namespace	Air{
 					pNode->FindNodeDown(lstNode,type);
 				}
 			}
+		}
+
+		Air::CppScript::enumSyntaxError Node::Link( Assemble& asmGen )
+		{
+			enumSyntaxError	e	=	enSE_OK;
+
+			ModuleHeader moduleHeader;
+			InitModuleHeader(moduleHeader);
+			asmGen.PushBuffer(moduleHeader);
+
+
+			e	=	LinkGolbalVariable(asmGen);
+			if(e!=enSE_OK)
+				return e;
+
+			e	=	GenerateGlobalFunctionCode(asmGen);
+			if(e!=enSE_OK)
+				return e;
+
+			e	=	LinkImportFunction(asmGen);
+			if(e!=enSE_OK)
+				return e;
+
+			e	=	GenerateFunctionCode(asmGen);
+			if(e!=enSE_OK)
+				return e;
+
+			e	=	LinkExportFunction(asmGen);
+			if(e!=enSE_OK)
+				return e;
+
+			ModuleHeader* pHeader	=	(ModuleHeader*)asmGen.GetBuffer();
+			pHeader->ImageSize		=	asmGen.GetCurrentOffset();
+
+			return e;
+		}
+
+		Air::CppScript::enumSyntaxError Node::LinkGolbalVariable( Assemble& asmGen )
+		{
+			U32	uiOldOffset	=	asmGen.GetCurrentOffset();
+			U32 uiOffset	=	uiOldOffset;
+			NodeList::iterator i = m_lstChild.begin();
+			for(;i!=m_lstChild.end();i++){
+				Node* p =	(*i);
+				if(p!=NULL){
+					if(p->GetType()==enNT_Variable){
+						VariableNode* pVar	=	(VariableNode*)p;
+						U32 uiObjSize	=	pVar->VariableType.iSize;
+						if(pVar->VariableType.t	==	enBOT_Obj){
+							ObjectNode* pObj	=	(ObjectNode*)pVar->pNodePtr;
+							uiObjSize	=	pObj->GetObjectSize();
+						}
+						if(pVar->VariableType.bPointor){
+							uiObjSize=4;
+						}
+						U32 uiObjCount	=	1;
+						if(pVar->uiArrayCount!=0){
+							uiObjCount	=	pVar->uiArrayCount;
+						}
+						pVar->m_uiOffset	=	uiOffset;
+						uiOffset+=	uiObjCount*uiObjSize;
+					}else if(p->GetType()==enNT_Constant){
+						ConstantNode* pCon	=	(ConstantNode*)p;
+						if(pCon->ConstInfo.eType.eKeyword	==	enVT_String){
+							pCon->m_uiOffset	=	uiOffset;
+							uiOffset+=	pCon->ConstInfo.str.size()+1;
+							memcpy(asmGen.GetBuffer(pCon->m_uiOffset),pCon->ConstInfo.str.c_str(),pCon->ConstInfo.str.size()+1);
+						}
+					}
+				}
+			}
+			asmGen.AddOffset(uiOffset-uiOldOffset);
+
+			return enSE_OK;
+		}
+
+		Air::CppScript::enumSyntaxError Node::LinkImportFunction( Assemble& asmGen )
+		{
+
+			ModuleHeader* pHeader	=	(ModuleHeader*)asmGen.GetBuffer();
+			pHeader->IATArray_RA	=	asmGen.GetCurrentOffset();
+
+			IAT iat;
+			
+			NodeList::iterator i = m_lstChild.begin();
+			for(;i!=m_lstChild.end();i++){
+				Node* p =	(*i);
+				if(p!=NULL){
+					if(p->GetType()==enNT_Function){
+						FunctionNode* pFunc = (FunctionNode*)(p);
+						if(pFunc->ieType	==	enCKWT_dllimport){
+							memset(&iat,0,sizeof(iat));
+							iat.jump[0]	=	eC_CALL_REL32;
+							strcpy(&iat.Name[0],pFunc->GetName().c_str());
+							pFunc->pEntry	=	asmGen.PushBuffer(iat);
+							pHeader->IATCount++;
+						}
+						
+					}
+				}
+			}
+			return enSE_OK;
+		}
+
+		Air::CppScript::enumSyntaxError Node::GenerateGlobalFunctionCode( Assemble& asmGen )
+		{
+			ModuleHeader* pHeader	=	(ModuleHeader*)asmGen.GetBuffer();
+			pHeader->Entry_RA		=	asmGen.GetCurrentOffset();
+
+			asmGen.Code(eC_PUSH_EBP);
+			asmGen.Code(eC_PUSH_EBX);
+			asmGen.Code(eC_PUSH_EDX);
+			asmGen.Code(eC_PUSH_ESI);
+			asmGen.Mov_R32R32(eAR_EBP,eAR_ESP);
+
+			NodeList::iterator i = m_lstChild.begin();
+			for(;i!=m_lstChild.end();i++){
+				Node* p =	(*i);
+				if(p!=NULL){
+					if(p->GetType()==enNT_Statement){
+						p->GenerateFunctionCode(asmGen);
+					}
+				}
+			}
+			asmGen.Mov_R32R32(eAR_ESP,eAR_EBP);
+			asmGen.Code(eC_POP_ESI);
+			asmGen.Code(eC_POP_EDX);
+			asmGen.Code(eC_POP_EBX);
+			asmGen.Code(eC_POP_EBP);
+			asmGen.Ret(4);
+			asmGen.Code(eC_NOP);
+			asmGen.Code(eC_NOP);
+			asmGen.Code(eC_NOP);
+			asmGen.Code(eC_NOP);
+
+			return enSE_OK;
+		}
+
+		Air::CppScript::enumSyntaxError Node::LinkExportFunction( Assemble& asmGen )
+		{
+			ModuleHeader* pHeader	=	(ModuleHeader*)asmGen.GetBuffer();
+
+			NodeList::iterator i = m_lstChild.begin();
+			for(;i!=m_lstChild.end();i++){
+				Node* p =	(*i);
+				if(p!=NULL){
+					if(p->GetType()==enNT_Function){
+						FunctionNode* pFunc = (FunctionNode*)(p);
+						if(pFunc->ieType	==	enCKWT_dllexport){
+							EAT& eat	=	pHeader->EATArray[pHeader->EATCount];
+							strcpy(&eat.Name[0],pFunc->GetName().c_str());
+							eat.EAT_RA	=	pFunc->GetEntry();
+							pHeader->EATCount++;
+						}
+
+					}
+				}
+			}
+			return enSE_OK;
 		}
 
 	}

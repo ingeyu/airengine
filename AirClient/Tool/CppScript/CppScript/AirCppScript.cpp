@@ -121,6 +121,24 @@ namespace	Air{
 			return true;
 		}
 
+		bool SaveFile( const wchar_t* strName,void* pBuffer,U32 uiSize )
+		{
+			HANDLE hFile	=	CreateFile(strName,GENERIC_WRITE,FILE_SHARE_WRITE,NULL,CREATE_ALWAYS,0,NULL );
+			if(hFile==INVALID_HANDLE_VALUE){
+				CloseHandle(hFile);
+				return false;
+			}
+			DWORD	dwWriteSize	=	0;
+			if(!WriteFile(hFile,pBuffer,uiSize,&dwWriteSize,NULL)){
+				CloseHandle(hFile);
+				return	false;
+			}
+			CloseHandle(hFile);
+			hFile=NULL;
+
+			return true;
+		}
+
 	}
 
 }

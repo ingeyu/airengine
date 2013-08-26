@@ -800,6 +800,7 @@ namespace	Air{
 			U32		RightShift(AssembleRegister r,U8 imm);
 		public:
 			U32		GetCurrentOffset();
+			U32		AddOffset(U32 uiOffset);
 			U8*		GetCurrentPtr();
 			void*	GetBuffer(U32 uiOffset=0);
 

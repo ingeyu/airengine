@@ -11,9 +11,11 @@ namespace	Air{
 		public:
 			ConstantNode(){
 				m_Type			=	enNT_Constant;
+				m_uiOffset		=	0;
 			};
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
-			WordInfo ConstInfo;
+			WordInfo	ConstInfo;
+			U32			m_uiOffset;
 		};
 	}
 }

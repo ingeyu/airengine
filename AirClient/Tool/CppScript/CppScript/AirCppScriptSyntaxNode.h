@@ -125,7 +125,13 @@ namespace	Air{
 			enumSyntaxError				ParseFunctionCode( WordInfoVector& vecInfo,U32& idx );
 			
 			virtual	enumSyntaxError		GenerateFunctionCode(Assemble& asmGen);
-			virtual	U32					CalcLocalVariableSize(U32& uiSize);
+			virtual	U32					CalcLocalVariableSize(U32& uiSize,U1 bChild	=	false);
+
+			enumSyntaxError				LinkGolbalVariable(Assemble& asmGen);
+			enumSyntaxError				LinkImportFunction(Assemble& asmGen);
+			enumSyntaxError				LinkExportFunction(Assemble& asmGen);
+			enumSyntaxError				GenerateGlobalFunctionCode(Assemble& asmGen);
+			virtual	enumSyntaxError		Link(Assemble& asmGen);
 
 			enumNodeType	GetType()const{return m_Type;};
 			CAString&		GetName()const{return m_strName;};

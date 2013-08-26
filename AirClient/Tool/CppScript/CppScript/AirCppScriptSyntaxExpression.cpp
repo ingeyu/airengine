@@ -67,11 +67,12 @@ namespace	Air{
 				if(pVar->IsLocal()){
 					asmGen.Operator(eC_MOV_RM32_R32,eAR_ESI,pVar->m_uiOffset,eAR_EAX);
 				}else{
-
-					//asmGen.Operator(eC_MOV_R32_RM32,eAR_EBX,eAR_EAX);
-					//asmGen.Operator(eC_MOV_EAX_IMM32,eAR_EAX,pVar->m_uiOffset);
-					//asmGen.Operator(eC_MOV_RM32_R32,eAR_EAX,0,eAR_EBX);
-					asmGen.MovAbsEax(pVar->m_uiOffset);
+					//代码实现 全局变量重定位问题
+					//Code Impl Global Variable Load Relocaltion
+					asmGen.Call(0);
+					U32	uiOffset	=	pVar->m_uiOffset	-	asmGen.GetCurrentOffset();
+					asmGen.Pop(eAR_EBX);
+					asmGen.Mov_RM32R32(eAR_EBX,uiOffset,eAR_EAX);
 				}
 			}
 		}
@@ -612,10 +613,12 @@ namespace	Air{
 				uiOffset	=	pVar->m_uiOffset+0x14;
 			}else{
 				if(!pVar->IsLocal()){
-					//sprintf_s(str,"[%xh]",pVar->m_uiOffset);
-					uiOffset	=	0;
-					asmGen.Mov_Imm(eAR_EBX,pVar->m_uiOffset);
-					r	=	eAR_EBX;
+					//代码实现 全局变量重定位问题
+					//Code Impl Global Variable Load Relocaltion
+					asmGen.Call(0);
+					uiOffset	=	pVar->m_uiOffset	-	asmGen.GetCurrentOffset();
+					asmGen.Pop(eAR_EAX);
+					r	=	eAR_EAX;
 				}else{
 					
 					r	=	eAR_ESI;

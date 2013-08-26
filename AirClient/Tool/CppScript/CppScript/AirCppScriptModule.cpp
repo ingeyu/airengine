@@ -48,6 +48,13 @@ namespace	Air{
 				__Free(pBuffer);
 				return e;
 			};
+			void* pParam	=	m_pImageBase;
+			void* pEntry	=	m_pHeader->Entry_A;
+			__asm{
+				mov		eax,pParam;
+				push	eax;
+				call	pEntry;
+			}
 			return e;
 		}
 
@@ -66,7 +73,7 @@ namespace	Air{
 			memcpy(m_pImageBase,pBuffer,m_uiSize);
 			m_pHeader		=	(ModuleHeader*)m_pImageBase;
 
-			if(m_pHeader->Version==0){
+			if(m_pHeader->Version==FILE_VERSION_01){
 				return LoadRelocaltion_VF01();
 			}else{
 				UnLoad();
@@ -83,17 +90,12 @@ namespace	Air{
 			}
 
 			//IAT
-			m_pHeader->IAT_RA			+=	(U32)m_pImageBase;
-			m_pHeader->IAT_Name_RA		+=	(U32)m_pImageBase;
-			U32*	pName	=	(U32*)m_pHeader->IAT_Name_A;
-			
+			m_pHeader->IATArray_RA		+=	(U32)m_pImageBase;
 			for(U32 i=0;i<m_pHeader->IATCount;i++){
-				pName[i]	+=	(U32)m_pImageBase;
-				
 				//Find Import Function Address
 				void*	pRealAddr	=	NULL;
 				for(U32 j=0;j<3;j++){
-					if(strcmp(InjectFunc[j].strName.c_str(),m_pHeader->IAT_Name_A[i])==0){
+					if(strcmp(InjectFunc[j].strName.c_str(),m_pHeader->IATArray[i].Name)==0){
 						pRealAddr	=	InjectFunc[j].pFunction;
 						break;
 					}
@@ -101,23 +103,16 @@ namespace	Air{
 				if(pRealAddr==NULL){
 					return enLE_Cant_Find_Import_Function;
 				}
-
 				//Relocaltion
-				U8* pIAT	=	m_pHeader->IAT_A;
-				pIAT+=	5*i	+ 1;
+				U8* pIAT	=	&m_pHeader->IATArray[i].jump[1];
 				U32	uiCurrent	=	(U32)pIAT + 4;
 				U32	uiOffset	=	(U32)pRealAddr	-	uiCurrent;
 				memcpy(pIAT,&uiOffset,sizeof(U32));
 			}
 
 			//EAT
-			m_pHeader->EAT_RA			+=	(U32)m_pImageBase;
-			m_pHeader->EAT_Name_RA		+=	(U32)m_pImageBase;
-			pName				=	(U32*)m_pHeader->EAT_Name_A;
-			U32*	pExportFunc	=	(U32*)m_pHeader->EAT_RA;
 			for(U32 i=0;i<m_pHeader->EATCount;i++){
-				pName[i]		+=	(U32)m_pImageBase;
-				pExportFunc[i]	+=	(U32)m_pImageBase;
+				m_pHeader->EATArray[i].EAT_RA	+=	(U32)m_pImageBase;
 			}
 			return enLE_OK;
 		}
@@ -135,8 +130,8 @@ namespace	Air{
 		void* Module::FindFunction( const char* strFunctionName )
 		{
 			for(U32 i=0;i<m_pHeader->EATCount;i++){
-				if(strcmp(m_pHeader->EAT_Name_A[i],strFunctionName)==0){
-					return m_pHeader->EAT_A[i];
+				if(strcmp(m_pHeader->EATArray[i].Name,strFunctionName)==0){
+					return m_pHeader->EATArray[i].EAT_A;
 				}
 			}
 			return NULL;
@@ -144,6 +139,7 @@ namespace	Air{
 
 		void InitModuleHeader( ModuleHeader& header )
 		{
+			memset(&header,0,sizeof(header));
 			header.CppS				=	CPP_SCRIPT_MASK;
 			header.CompilerVersion	=	COMPILE_VERSION;
 			header.Version			=	FILE_VERSION_01;
@@ -153,17 +149,11 @@ namespace	Air{
 			CoCreateGuid(&header.Guid);
 			header.Age				=	1;
 			header.IATCount			=	0;
-			header.IAT_RA			=	0;
-			header.IAT_Name_RA		=	0;
+			header.IATArray_RA		=	0;
 			header.EATCount			=	0;
-			header.EAT_RA			=	0;
-			header.EAT_Name_RA		=	0;
 			header.Entry_RA			=	0;
 			header.ImageSize		=	0;
-			header.Code[0]			=	0x90;
-			header.Code[0]			=	0x90;
-			header.Code[0]			=	0x90;
-			header.Code[0]			=	0x90;
+
 		}
 
 
