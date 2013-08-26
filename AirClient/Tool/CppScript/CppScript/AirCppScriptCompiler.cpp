@@ -272,7 +272,11 @@ namespace	Air{
 				return false;
 			Assemble asmGen;
 
-			m_pSyntaxTree->Link(asmGen);
+			enumSyntaxError e =  m_pSyntaxTree->Link(asmGen);
+			if(e!=enSE_OK){
+				printf("link error(%d) \n",e);
+				return false;
+			}
 
 			asmGen.Optimize();
 

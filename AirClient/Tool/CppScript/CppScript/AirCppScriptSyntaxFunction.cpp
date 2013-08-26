@@ -261,7 +261,7 @@ namespace	Air{
 					return e;
 				}
 				AddChild(p);
-
+				m_vecParameter.push_back(p);
 			}
 
 			return enSE_UnexpectedEnd;

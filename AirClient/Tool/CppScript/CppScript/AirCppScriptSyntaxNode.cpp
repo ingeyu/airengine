@@ -889,13 +889,15 @@ namespace	Air{
 			if(e!=enSE_OK)
 				return e;
 
+			e	=	LinkImportFunction(asmGen);
+			if(e!=enSE_OK)
+				return e;
+
 			e	=	GenerateGlobalFunctionCode(asmGen);
 			if(e!=enSE_OK)
 				return e;
 
-			e	=	LinkImportFunction(asmGen);
-			if(e!=enSE_OK)
-				return e;
+
 
 			e	=	GenerateFunctionCode(asmGen);
 			if(e!=enSE_OK)
@@ -913,6 +915,11 @@ namespace	Air{
 
 		Air::CppScript::enumSyntaxError Node::LinkGolbalVariable( Assemble& asmGen )
 		{
+			asmGen.Nop();
+			asmGen.Nop();
+			asmGen.Nop();
+			asmGen.Nop();
+
 			U32	uiOldOffset	=	asmGen.GetCurrentOffset();
 			U32 uiOffset	=	uiOldOffset;
 			NodeList::iterator i = m_lstChild.begin();
@@ -947,6 +954,10 @@ namespace	Air{
 			}
 			asmGen.AddOffset(uiOffset-uiOldOffset);
 
+			asmGen.Nop();
+			asmGen.Nop();
+			asmGen.Nop();
+			asmGen.Nop();
 			return enSE_OK;
 		}
 
@@ -966,7 +977,7 @@ namespace	Air{
 						FunctionNode* pFunc = (FunctionNode*)(p);
 						if(pFunc->ieType	==	enCKWT_dllimport){
 							memset(&iat,0,sizeof(iat));
-							iat.jump[0]	=	eC_CALL_REL32;
+							iat.jump[0]	=	eC_JMP_REL32;
 							strcpy(&iat.Name[0],pFunc->GetName().c_str());
 							pFunc->pEntry	=	asmGen.PushBuffer(iat);
 							pHeader->IATCount++;
@@ -975,6 +986,14 @@ namespace	Air{
 					}
 				}
 			}
+			asmGen.Nop();
+			asmGen.Nop();
+			asmGen.Nop();
+			asmGen.Nop();
+			asmGen.Nop();
+			asmGen.Nop();
+			asmGen.Nop();
+			asmGen.Nop();
 			return enSE_OK;
 		}
 

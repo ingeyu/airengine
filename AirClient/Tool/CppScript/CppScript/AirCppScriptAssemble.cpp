@@ -389,7 +389,7 @@ namespace	Air{
 
 			//printf("==> Without Symbol Resolution\n");
 			//dis_loop(&ud_obj);
-			char str[64];
+			char str[256];
 			while (ud_disassemble(&ud_obj) != 0) {
 				
 				sprintf_s(str,"%016llx %-16s %s\n", ud_insn_off(&ud_obj),

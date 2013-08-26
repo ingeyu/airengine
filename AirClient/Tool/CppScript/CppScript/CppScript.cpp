@@ -76,7 +76,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		c.BuildProj(argv[1]);
 		c.Release();
 	}else if(strExt==L"module"){
-		getchar();
+		
 		Air::CppScript::Module module;
 		if(module.Load(argv[1])!=Air::CppScript::enLE_OK){
 			printf("Load Module (%s) Failed!\n",argv[1]);

@@ -76,6 +76,7 @@ namespace	Air{
 				m_strName			=	"ExpFunctionCall";
 			};
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
+			virtual	enumSyntaxError		ParseParameter(WordInfoVector& vecInfo,U32& idx);
 			Node*						ParseFunctionName(WordInfoVector& vecInfo,U32& idx);
 			virtual	enumSyntaxError		GenerateFunctionCode(Assemble& asmGen);
 			Node*							pFunction;
