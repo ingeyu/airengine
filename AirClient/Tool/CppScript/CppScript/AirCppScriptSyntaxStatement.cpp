@@ -395,10 +395,12 @@ namespace	Air{
 			pConditionExp->GenerateFunctionCode(asmGen);
 
 			//Condition JUMP To End
-			asmGen.Test(eAR_EAX);
-			asmGen.JumpCondition((Code1Ex)((ExpressionNode*)pConditionExp)->GetJumpCondition());
-			U32 uiConditionJMP	=	asmGen.GetCurrentOffset();
-
+			U32 uiConditionJMP	=	0;
+			if(((ExpressionNode*)pConditionExp)->HasJump()==0){
+				asmGen.Test(eAR_EAX);
+				asmGen.JumpCondition(InserveJumpCondition((Code1Ex)((ExpressionNode*)pConditionExp)->GetJumpCondition()));
+				uiConditionJMP	=	asmGen.GetCurrentOffset();
+			}
 			NodeList	lstElse;
 
 			NodeList::iterator	i	=	m_lstChild.begin();
@@ -417,7 +419,12 @@ namespace	Air{
 			}
 			asmGen.Jmp(0);
 			m_uiJump	=	asmGen.GetCurrentOffset();
-			asmGen.WriteAddress_JumpHere(uiConditionJMP);
+			
+			if(((ExpressionNode*)pConditionExp)->HasJump()==0){
+				asmGen.WriteAddress_JumpHere(uiConditionJMP);
+			}else{
+				((ExpressionNode*)pConditionExp)->WriteJumpAddress(asmGen);
+			}
 			//GenCode
 			i	=	lstElse.begin();
 			for(;i!=lstElse.end();i++){

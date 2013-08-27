@@ -24,9 +24,16 @@ namespace	Air{
 			virtual	enumSyntaxError		GenerateFunctionCode(Assemble& asmGen);
 			enumSyntaxError				LogicAnd(ExpressionNode* p[3],Assemble& asmGen);
 			enumSyntaxError				LogicOr(ExpressionNode* p[3],Assemble& asmGen);
+			enumSyntaxError				OpEqual(ExpressionNode* p[3],enumCppKeyWordType op,Assemble& asmGen);
 			U32							GetJumpCondition();
-			enumExpressionType	eType;
-		};
+
+
+			virtual	void				GenerateWriteCode(enumCppKeyWordType op,Assemble& asmGen);
+			virtual	U1					WriteJumpAddress(Assemble& asmGen);
+			virtual	U32					HasJump();
+			enumExpressionType			eType;
+			std::list<U32>				m_lstJump;
+			};
 		class	ExpressionElementNode	:	public	ExpressionNode{
 		public:
 			ExpressionElementNode(){
@@ -48,6 +55,7 @@ namespace	Air{
 			enumSyntaxError				ParseObjectCast(WordInfoVector& vecInfo,U32& idx);
 			enumSyntaxError				CheckSelfOperator(WordInfoVector& vecInfo,U32& idx,U32 bPost);
 			virtual	enumSyntaxError		GenerateFunctionCode(Assemble& asmGen);
+			virtual	void				GenerateWriteCode(enumCppKeyWordType op,Assemble& asmGen);
 			Node*	pObj;
 			Node*	pCast;
 			U1		bAddress;

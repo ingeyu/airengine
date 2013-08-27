@@ -3,6 +3,7 @@
 #include "AirCppScriptSyntaxVariable.h"
 #include "AirCppScriptSyntaxFunction.h"
 #include "AirCppScriptAssemble.h"
+#include "AirCppScriptSyntaxObject.h"
 
 namespace	Air{
 	namespace	CppScript{
@@ -96,6 +97,10 @@ namespace	Air{
 			}
 			ExpressionOperatorNode* pOperator	=	(ExpressionOperatorNode*)p[1];
 			switch(pOperator->eOperator){
+				case enOT_LogicAnd:
+				case enOT_LogicOr:{
+					return p[2]->GetJumpCondition();
+								  }break;
 				case enOT_Equal:
 				case enOT_NotEqual:{
 					return eCEx_JZ_REL32;
@@ -130,14 +135,7 @@ namespace	Air{
 				if(pNode->GetType()!=enNT_Expression){
 					return	enSE_Unknown_Error;
 				}
-				//ExpressionNode* pExp	=	(ExpressionNode*)pNode;
-				//if(pExp->eType	==enET_Element){
 
-				//}else if(pExp->eType	==enET_FunctionCall){
-
-				//}else{
-				//	return	enSE_Unknown_Error;
-				//}
 				return pNode->GenerateFunctionCode(asmGen);
 			}
 			if(m_lstChild.size()==3){
@@ -153,6 +151,17 @@ namespace	Air{
 					return LogicAnd(p,asmGen);
 				}else if(pOperator->eOperator ==	enOT_LogicOr){
 					return LogicOr(p,asmGen);
+				}else  if(
+					pOperator->eOperator	==	enOT_Mov		||
+					pOperator->eOperator	==	enOT_AddEqual	||
+					pOperator->eOperator	==	enOT_SubEqual	||
+					pOperator->eOperator	==	enOT_AndEqual	||
+					pOperator->eOperator	==	enOT_OrEqual	||
+					pOperator->eOperator	==	enOT_MulEqual	||
+					pOperator->eOperator	==	enOT_DivEqual
+					)
+				{
+					return OpEqual(p,pOperator->eOperator,asmGen);
 				}
 				ExpressionElementNode* pLeft	=	(ExpressionElementNode*)(p[0]);
 				p[2]->GenerateFunctionCode(asmGen);
@@ -341,10 +350,12 @@ namespace	Air{
 			asmGen.Code(eC_PUSH_EAX);
 			p[0]->GenerateFunctionCode(asmGen);
 			asmGen.Test(eAR_EAX);
-			asmGen.JumpZero();
-			U32 uiJump = asmGen.GetCurrentOffset();
+			asmGen.JumpCondition(InserveJumpCondition((Code1Ex)p[0]->GetJumpCondition()));
+			m_lstJump.push_back(asmGen.GetCurrentOffset());
 			p[2]->GenerateFunctionCode(asmGen);
-			asmGen.WriteAddress_JumpHere(uiJump);
+			asmGen.Test(eAR_EAX);
+			asmGen.JumpCondition(InserveJumpCondition((Code1Ex)p[2]->GetJumpCondition()));
+			m_lstJump.push_back(asmGen.GetCurrentOffset());
 			return enSE_OK;
 		}
 		Air::CppScript::enumSyntaxError ExpressionNode::LogicOr( ExpressionNode* p[3],Assemble& asmGen )
@@ -352,12 +363,53 @@ namespace	Air{
 			asmGen.Code(eC_PUSH_EAX);
 			p[0]->GenerateFunctionCode(asmGen);
 			asmGen.Test(eAR_EAX);
-			asmGen.JumpNotEqual();
-			U32 uiJump = asmGen.GetCurrentOffset();
+			asmGen.JumpCondition((Code1Ex)p[0]->GetJumpCondition());
+			U32 uiJump0	=	asmGen.GetCurrentOffset();
 			p[2]->GenerateFunctionCode(asmGen);
-			asmGen.WriteAddress_JumpHere(uiJump);
-
+			asmGen.Test(eAR_EAX);
+			asmGen.JumpCondition(InserveJumpCondition((Code1Ex)p[0]->GetJumpCondition()));
+			asmGen.WriteAddress_JumpHere(uiJump0);
+			m_lstJump.push_back(asmGen.GetCurrentOffset());
 			return enSE_OK;
+		}
+		void ExpressionNode::GenerateWriteCode( enumCppKeyWordType op,Assemble& asmGen )
+		{
+			if(m_lstChild.size()==1){
+				Node* pNode	=	*(m_lstChild.begin());
+				if(pNode->GetType()!=enNT_Expression){
+					return;
+				}
+				return ((ExpressionNode*)pNode)->GenerateWriteCode(op,asmGen);
+			}
+		}
+
+		Air::CppScript::enumSyntaxError ExpressionNode::OpEqual( ExpressionNode* p[3],enumCppKeyWordType op,Assemble& asmGen )
+		{
+			p[2]->GenerateFunctionCode(asmGen);
+			p[0]->GenerateWriteCode(op,asmGen);
+			return enSE_OK;
+		}
+
+		U1 ExpressionNode::WriteJumpAddress(Assemble& asmGen)
+		{
+			U1	bWrite	=	false;
+			std::list<U32>::iterator i = m_lstJump.begin();
+			for(;i!=m_lstJump.end();i++){
+				asmGen.WriteAddress_JumpHere(*i);
+				bWrite=true;
+			}
+			m_lstJump.clear();
+			return bWrite;
+		}
+
+		Air::U32 ExpressionNode::HasJump()
+		{
+			U32	uiSize	=	0;
+			NodeList::iterator	itr	=	m_lstChild.begin();
+			for(;itr!=m_lstChild.end();itr++){
+				uiSize+=((ExpressionNode*)(*itr))->HasJump();
+			}
+			return uiSize+m_lstJump.size();
 		}
 
 
@@ -392,7 +444,7 @@ namespace	Air{
 			}
 			if(pNode->GetType()==enNT_Function){
 				idx++;
-				((FunctionNode*)pNode)->RefCount=1;
+				((FunctionNode*)pNode)->RefCount++;
 				return pNode;
 			}else if(pNode->GetType()==enNT_NameSpace){
 				while(pNode){
@@ -417,7 +469,7 @@ namespace	Air{
 					if(pNode->GetType()==enNT_Function){
 						uiOld++;
 						idx=uiOld;
-						((FunctionNode*)pNode)->RefCount=1;
+						((FunctionNode*)pNode)->RefCount++;
 						return	pNode;
 					}
 					if(pNode->GetType()==enNT_NameSpace){
@@ -657,7 +709,7 @@ namespace	Air{
 				return enSE_OK;
 			}
 			VariableNode* pVar	=	(VariableNode*)(pObj);
-			char str[32];
+			
 			AssembleRegister r = eAR_EBP;
 			U32	uiOffset		=	pVar->m_uiOffset;
 			if(pVar->GetType()==enNT_Parameter){
@@ -679,14 +731,34 @@ namespace	Air{
 			
 
 			
-			asmGen.Operator(eC_MOV_R32_RM32,eAR_EAX,r,uiOffset);
+			
 			
 			if(m_pIndex!=NULL){
-				asmGen.Push(eAR_EAX);
+				
+				asmGen.Mov_R32RM32(eAR_EDX,r,uiOffset);
+	
+				//asmGen.AddR32Imm(eAR_EDX,uiOffset);
 				m_pIndex->GenerateFunctionCode(asmGen);
-				asmGen.Mov_R32R32(eAR_EBX,eAR_EAX);
-				asmGen.Pop(eAR_EAX);
-				asmGen.Operator(eC_ADD_R32_RM32,eAR_EAX,eAR_EBX);
+				U32 uiRegOffset	=	1;
+				if(pVar->pNodePtr!=0){
+					uiRegOffset	=	((ObjectNode*)pVar->pNodePtr)->GetObjectSize();
+				}else{
+					uiRegOffset	=	pVar->VariableType.iSize;
+				}
+				if(uiRegOffset>1){
+					asmGen.IMulR32Imm(eAR_EAX,uiRegOffset);
+				}
+				asmGen.Operator(eC_ADD_R32_RM32,eAR_EDX,eAR_EAX);
+
+				if(uiRegOffset==4){
+					asmGen.Operator(eC_MOV_R32_RM32,eAR_EAX,eAR_EDX,0);
+				}else{
+					asmGen.Operator(eC_MOV_R8_RM8,eAR_EAX,eAR_EDX,0);
+				}
+
+				return enSE_OK;
+			}else{
+				asmGen.Operator(eC_MOV_R32_RM32,eAR_EAX,r,uiOffset);
 			}
 			
 			if(eSelfOperator[1]==enOT_Increment){
@@ -710,6 +782,132 @@ namespace	Air{
 				asmGen.LogicNot(eAR_EAX);
 			}
 			return enSE_OK;
+		}
+
+		void ExpressionElementNode::GenerateWriteCode(enumCppKeyWordType op, Assemble& asmGen )
+		{
+			if(pObj->GetType()==enNT_Constant){
+				return;
+			}
+			VariableNode* pVar	=	(VariableNode*)(pObj);
+
+			AssembleRegister r = eAR_EBP;
+			U32	uiOffset		=	pVar->m_uiOffset;
+			if(pVar->GetType()==enNT_Parameter){
+
+				uiOffset	=	pVar->m_uiOffset+0x14;
+			}else{
+				if(!pVar->IsLocal()){
+					//代码实现 全局变量重定位问题
+					//Code Impl Global Variable Load Relocaltion
+					asmGen.Call(asmGen.GetCurrentOffset()+5);
+					uiOffset	=	pVar->m_uiOffset	-	asmGen.GetCurrentOffset();
+					asmGen.Pop(eAR_EBX);
+					r	=	eAR_EBX;
+				}else{
+
+					r	=	eAR_ESI;
+				}
+			}
+
+			if(m_pIndex==NULL){
+				switch(op){
+					case	enOT_Mov		:{
+						asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,eAR_EAX);
+											 }break;
+					case	enOT_AddEqual	:{
+						asmGen.Operator(eC_ADD_RM32_R32,r,uiOffset,eAR_EAX);
+											 }break;
+					case	enOT_SubEqual	:{
+						asmGen.Operator(eC_SUB_RM32_R32,r,uiOffset,eAR_EAX);
+											 }break;
+					case	enOT_AndEqual	:{
+						asmGen.Operator(eC_AND_RM32_R32,r,uiOffset,eAR_EAX);
+											 }break;
+					case	enOT_OrEqual	:{
+						asmGen.Operator(eC_OR_RM32_R32,r,uiOffset,eAR_EAX);
+											 }break;
+					case	enOT_MulEqual	:{
+						asmGen.Operator(eC_MOV_R32_RM32,eAR_EBX,r,uiOffset);
+						asmGen.IMulR32Imm(eAR_EBX,eAR_EAX);
+						asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,eAR_EBX);
+											 }break;
+					case	enOT_DivEqual	:{
+						asmGen.Mov_R32R32(eAR_ECX,eAR_EAX);
+						asmGen.Operator(eC_MOV_R32_RM32,eAR_EAX,r,uiOffset);
+						asmGen.IDiv();
+						asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,eAR_EAX);
+											 }break;
+				}
+				
+			}else{
+				asmGen.Mov_R32R32(eAR_EDX,eAR_EAX);
+				//asmGen.AddR32Imm(eAR_EDX,uiOffset);
+				m_pIndex->GenerateFunctionCode(asmGen);
+				U32 uiRegOffset	=	1;
+				if(pVar->pNodePtr!=0){
+					uiRegOffset	=	((ObjectNode*)pVar->pNodePtr)->GetObjectSize();
+				}else{
+					uiRegOffset	=	pVar->VariableType.iSize;
+				}
+				if(uiRegOffset>1){
+					asmGen.IMulR32Imm(eAR_EAX,uiRegOffset);
+				}
+				asmGen.Mov_R32RM32(eAR_EBX,r,uiOffset);
+				asmGen.Operator(eC_ADD_R32_RM32,eAR_EBX,eAR_EAX);
+				switch(op){
+				case	enOT_Mov		:{
+					if(uiRegOffset==4){
+						asmGen.Operator(eC_MOV_RM32_R32,eAR_EBX,0,eAR_EDX);
+					}else{
+						asmGen.Operator(eC_MOV_RM8_R8,eAR_EBX,0,eAR_EDX);
+					}
+										 }break;
+				case	enOT_AddEqual	:{
+					if(uiRegOffset==4){
+						asmGen.Operator(eC_ADD_RM32_R32,eAR_EBX,0,eAR_EDX);
+					}else{
+						asmGen.Operator(eC_ADD_RM8_R8,eAR_EBX,0,eAR_EDX);
+					}
+										 }break;
+				case	enOT_SubEqual	:{
+					if(uiRegOffset==4){
+						asmGen.Operator(eC_SUB_RM32_R32,eAR_EBX,0,eAR_EDX);
+					}else{
+						asmGen.Operator(eC_SUB_RM8_R8,eAR_EBX,0,eAR_EDX);
+					}
+										 }break;
+				case	enOT_AndEqual	:{
+					if(uiRegOffset==4){
+						asmGen.Operator(eC_AND_RM32_R32,eAR_EBX,0,eAR_EDX);
+					}else{
+						asmGen.Operator(eC_AND_RM8_R8,eAR_EBX,0,eAR_EDX);
+					}
+										 }break;
+				case	enOT_OrEqual	:{
+					if(uiRegOffset==4){
+						asmGen.Operator(eC_OR_RM32_R32,eAR_EBX,0,eAR_EDX);
+					}else{
+						asmGen.Operator(eC_OR_RM8_R8,eAR_EBX,0,eAR_EDX);
+					}
+										 }break;
+				case	enOT_MulEqual	:{
+					//asmGen.Operator(eC_MOV_R32_RM32,eAR_EBX,r,uiOffset);
+					//asmGen.IMulR32Imm(eAR_EBX,eAR_EAX);
+					//asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,eAR_EBX);
+										 }break;
+				case	enOT_DivEqual	:{
+					//asmGen.Mov_R32R32(eAR_ECX,eAR_EAX);
+					//asmGen.Operator(eC_MOV_R32_RM32,eAR_EAX,r,uiOffset);
+					//asmGen.IDiv();
+					//asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,eAR_EAX);
+										 }break;
+				}
+				
+			}
+
+
+			
 		}
 
 
