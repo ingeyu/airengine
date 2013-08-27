@@ -4,20 +4,20 @@
 char* str="HELLO WORLD!";
 
 
-__declspec(dllimport) void Print(const char* str);
-
+__declspec(dllimport)	void Print(const char* str);
+__declspec(dllimport)	int strlen(char* p);
 namespace	Air{
-	int strlen(char* p){
-		if(p==0){
-			return 0;
-		}
-		for(int i=0;;i++){
-			if(p[i]==0){
-				return i;
-			}
-		}
-		return 0;
-	}
+	//int strlen(char* p){
+	//	if(p==0){
+	//		return 0;
+	//	}
+	//	for(int i=0;;i++){
+	//		if(p[i]==0){
+	//			return i;
+	//		}
+	//	}
+	//	return 0;
+	//}
 	void ToLower(char* str){
 		int iLen=strlen(str);
 		for(int i=0;i<iLen;i++){

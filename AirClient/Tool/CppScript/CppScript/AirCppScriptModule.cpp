@@ -101,7 +101,15 @@ namespace	Air{
 					}
 				}
 				if(pRealAddr==NULL){
-					return enLE_Cant_Find_Import_Function;
+					HMODULE	hNt	=	GetModuleHandle(L"ntdll.dll");
+					pRealAddr	=	GetProcAddress(hNt,m_pHeader->IATArray[i].Name);
+					if(pRealAddr==NULL){
+						HMODULE	hNt	=	GetModuleHandle(L"kernel32.dll");
+						pRealAddr	=	GetProcAddress(hNt,m_pHeader->IATArray[i].Name);
+						if(pRealAddr==NULL){
+							return enLE_Cant_Find_Import_Function;
+						}
+					}
 				}
 				//Relocaltion
 				U8* pIAT	=	&m_pHeader->IATArray[i].jump[1];
