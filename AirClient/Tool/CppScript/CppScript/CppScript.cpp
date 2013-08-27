@@ -41,7 +41,7 @@ _declspec(naked)	void	__stdcall	__freea(void* p){
 	}
 }
 
-typedef int (__stdcall *ScriptFunc)(int iCount,int iStart);
+typedef int (__stdcall *ScriptFunc)(char* p);
 
 void ToLower2(char* str){
 	int iLen=12;//strlen(str);
@@ -96,9 +96,10 @@ int _tmain(int argc, _TCHAR* argv[])
 			wprintf(L"Load Module (%s)(Code=%d) Failed!\n",argv[1],le);
 			
 		}else{
-			ScriptFunc	f	=	(ScriptFunc)module.FindFunction("main");
+			ScriptFunc	f	=	(ScriptFunc)module.FindFunction("ToL");
+			char pStr[] = "aALDKJQWASDASDEQPWEOQUO8CVM,NX,VCMNASKDJQWEIRUOR";
 			if(f!=NULL){
-				int ret=(*f)(101,0);
+				int ret=(*f)(pStr);
 				printf("main = (%08x,%d)\n",ret,ret);
 			}else{
 				printf("cant find main function\n");

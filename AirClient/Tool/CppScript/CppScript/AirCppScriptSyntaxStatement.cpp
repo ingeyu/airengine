@@ -303,17 +303,19 @@ namespace	Air{
 
 		Air::CppScript::enumSyntaxError ForStatementNode::GenerateFunctionCode( Assemble& asmGen )
 		{
-			pInitExp->GenerateFunctionCode(asmGen);
+			if(pInitExp!=NULL)
+				pInitExp->GenerateFunctionCode(asmGen);
 			
 			U32 pCondition	=	asmGen.GetCurrentOffset();
-			
-			pConditionExp->GenerateFunctionCode(asmGen);
-			asmGen.Test(eAR_EAX);
-			asmGen.JumpCondition(
+			if(pConditionExp!=NULL){
+				pConditionExp->GenerateFunctionCode(asmGen);
+				asmGen.Test(eAR_EAX);
+				asmGen.JumpCondition(
 					InserveJumpCondition(
-						(Code1Ex)((ExpressionNode*)pConditionExp)->GetJumpCondition()
+					(Code1Ex)((ExpressionNode*)pConditionExp)->GetJumpCondition()
 					)
-				);
+					);
+			}
 			U32 uiJump	=	asmGen.GetCurrentOffset();
 			
 			NodeList::iterator	i	=	m_lstChild.begin();
@@ -325,10 +327,13 @@ namespace	Air{
 					}
 				}
 			}
-			
-			pIterExp->GenerateFunctionCode(asmGen);
+			if(pIterExp!=NULL){
+				pIterExp->GenerateFunctionCode(asmGen);
+			}
 			asmGen.Jmp(pCondition);
-			asmGen.WriteAddress_JumpHere(uiJump);
+			if(pConditionExp!=NULL){
+				asmGen.WriteAddress_JumpHere(uiJump);
+			}
 			
 			return enSE_OK;
 		}
