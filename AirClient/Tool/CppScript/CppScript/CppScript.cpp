@@ -41,22 +41,11 @@ _declspec(naked)	void	__stdcall	__freea(void* p){
 	}
 }
 
-typedef int (__stdcall *ScriptFunc)(char* p);
+typedef int (__stdcall *ScriptFunc)(int x,int y);
 
-void ToLower2(char* str){
-	int iLen=12;//strlen(str);
-	for(int i=0;i<iLen;i++){
-		if((str[i]>='A') && (str[i]<=90)){
-			str[i]+=32;
-		}
-	}
-}
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-
-	char str[]="asdasdasdDD";
-	ToLower2(str);
 
 	if(argc	<	2){
 		wprintf(L"CppScript *.proj\n");
@@ -96,10 +85,9 @@ int _tmain(int argc, _TCHAR* argv[])
 			wprintf(L"Load Module (%s)(Code=%d) Failed!\n",argv[1],le);
 			
 		}else{
-			ScriptFunc	f	=	(ScriptFunc)module.FindFunction("ToL");
-			char pStr[] = "aALDKJQWASDASDEQPWEOQUO8CVM,NX,VCMNASKDJQWEIRUOR";
+			ScriptFunc	f	=	(ScriptFunc)module.FindFunction("main");
 			if(f!=NULL){
-				int ret=(*f)(pStr);
+				int ret=(*f)(0,0);
 				printf("main = (%08x,%d)\n",ret,ret);
 			}else{
 				printf("cant find main function\n");
