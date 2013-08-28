@@ -39,9 +39,9 @@ namespace	Air{
 		{
 			if(str.empty())
 				return	false;
-			U32	uiStrSize	=	str.size();
-			U32	uiPoint	=	uiStrSize;
-			U32	uiSlash	=	0xffffffff;
+			S32	uiStrSize	=	str.size();
+			S32	uiPoint	=	uiStrSize;
+			S32	uiSlash	=	0xffffffff;
 
 
 			for(S32 i=uiStrSize-1;i>=0;i--){

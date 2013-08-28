@@ -46,7 +46,6 @@ typedef int (__stdcall *ScriptFunc)(int x,int y);
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-
 	if(argc	<	2){
 		wprintf(L"CppScript *.proj\n");
 		wprintf(L"CppScript *.cpp\n");
@@ -54,6 +53,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		getchar();
 		return -1;
 	}
+	wprintf(L"load %s\n",argv[1]);
 	Air::CppScript::InitWorkDirectory();
 
 	
@@ -78,7 +78,9 @@ int _tmain(int argc, _TCHAR* argv[])
 		c.BuildProj(argv[1]);
 		c.Release();
 	}else if(strExt==L"module"){
-		
+		if(!strPath.empty()){
+			SetCurrentDirectory(strPath.c_str());
+		}
 		Air::CppScript::Module module;
 		Air::CppScript::enumLoadError	le=module.Load(argv[1]);
 		if(le!=Air::CppScript::enLE_OK){

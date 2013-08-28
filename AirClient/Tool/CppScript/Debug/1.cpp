@@ -6,6 +6,7 @@ char* str="HELLO WORLD!";
 
 __declspec(dllimport)	void Print(const char* str);
 __declspec(dllimport)	int strlen(char* p);
+__declspec(dllimport)	int	CopyFileA(char* lpExistingFileName,char* lpNewFileName,int bFailIfExists);
 namespace	Air{
 	//int strlen(char* p){
 	//	if(p==0){
@@ -29,7 +30,7 @@ namespace	Air{
 }
 //×¢ÊÍ
 __declspec(dllexport)	int main(int count,int param){
-
+	CopyFileA("1.cpp","1.cpp.bak",0);
 	Print(str);
 	Air::ToLower(str);
 	Print(str);
