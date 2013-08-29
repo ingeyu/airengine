@@ -8,6 +8,7 @@ namespace	Air{
 		Air::CppScript::enumSyntaxError VariableNode::Parse( WordInfoVector& vecInfo,U32& idx )
 		{
 			enumSyntaxError	e	=	enSE_OK;
+			SetErrorInfo(vecInfo[idx]);
 			e	=	ParseObjectType(vecInfo,idx,VariableType,&pNodePtr);
 			if(e!=enSE_OK)
 				return e;

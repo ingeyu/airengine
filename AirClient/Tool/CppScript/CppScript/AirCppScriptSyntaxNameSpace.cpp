@@ -8,7 +8,7 @@ namespace	Air{
 		{
 			if(idx+1>=vecInfo.size())
 				return enSE_UnexpectedEnd;
-
+			SetErrorInfo(vecInfo[idx]);
 			WordType& t = vecInfo[++idx].eType;
 
 			if(t.eWordtype==enWT_CppKeyWord){

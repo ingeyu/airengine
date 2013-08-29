@@ -147,6 +147,9 @@ namespace	Air{
 			Node*			FindNodeDown(CAString& strName,enumNodeType type = enNT_Unknown,U1 bFindChild = true);
 			void			FindNodeDown(CAString& strName,std::list<Node*>& lstNode,enumNodeType type = enNT_Unknown);
 			void			FindNodeDown(std::list<Node*>& lstNode,enumNodeType type = enNT_Unknown);
+
+			void			SetErrorInfo(WordInfo& info);
+			WordInfo		GetErrorInfo();
 		public:
 			template<typename T>
 			enumSyntaxError	__ParseNode(WordInfoVector& vecInfo,U32& idx,Node** pOutNode = NULL){
@@ -178,7 +181,10 @@ namespace	Air{
 			AString			m_strName;
 			NodeList		m_lstChild;
 			Node*			m_pParent;
+			WordInfo		errorInfo;
 		};
+
+		const AString&	GetSyntaxErrorString(enumSyntaxError e);	
 	}
 }
 #endif // AirCppScriptSyntaxNode_h__

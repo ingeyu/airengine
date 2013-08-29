@@ -14,6 +14,13 @@ namespace	Air{
 		};
 		typedef std::vector<ParameterNode*>	ParameterVector;
 
+		enum enumFunctionType{
+			enFT_CFunction,
+			enFT_MemberFunction,
+			enFT_Construct,
+			enFT_DisConstruct,
+		};
+
 		class	FunctionNode	:	public	Node{
 		public:
 			FunctionNode(){
@@ -24,16 +31,22 @@ namespace	Air{
 				m_uiLocalVariableSize	=	0;
 				pEntry			=	NULL;
 				RefCount		=	0;
+				callType		=	enCKWT___stdcall;
+				FunctionType	=	enFT_CFunction;
 			};
 
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 			virtual	enumSyntaxError		ParseImportExport(WordInfoVector& vecInfo,U32& idx);
 			virtual	enumSyntaxError		ParseParameter(WordInfoVector& vecInfo,U32& idx);
-			//virtual	enumSyntaxError		ParseFunction(WordInfoVector& vecInfo,U32& idx);
-
+			enumSyntaxError				ParseReturnType_Name(WordInfoVector& vecInfo,U32& idx);
+			enumSyntaxError				ParseCallType(WordInfoVector& vecInfo,U32& idx);
 			virtual	enumSyntaxError		GenerateFunctionCode(Assemble& asmGen);
 
 			U1							IsParamNameExist(CAString& strName);
+			U1							IsVartual(){return m_bVirtual!=0;};
+			U1							IsStatic(){return m_bIsStatic!=0;};
+			U1							IsMemberFunction();
+			U32							GetVirtualIndex();
 			ParameterNode*				FindParameter(CAString& strName);
 			U32							GetParameterCount(){
 				return m_vecParameter.size();
@@ -41,14 +54,23 @@ namespace	Air{
 			U32							GetEntry(){
 				return pEntry;
 			};
-			
+			enumCppKeyWordType			GetCallType(){
+				return callType;
+			};
+			enumFunctionType			GetFunctionType(){
+				return FunctionType;
+			};
 			ParameterNode				m_ReturnType;
 			ParameterVector				m_vecParameter;
 			U32							m_bOnlyDeclare;
 			U32							m_bVirtual;
+			U32							m_uiVirtualIndex;
+			U32							m_bIsStatic;
 			enumCppKeyWordType			ieType;
 			U32							pEntry;
 			U32							RefCount;
+			enumCppKeyWordType			callType;
+			enumFunctionType			FunctionType;
 		protected:
 			U32							m_uiLocalVariableSize;
 		};

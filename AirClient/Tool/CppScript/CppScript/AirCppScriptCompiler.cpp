@@ -153,11 +153,18 @@ namespace	Air{
 			U32 idx =0;
 			enumSyntaxError	e	= m_pSyntaxTree->Parse(vInfo,idx);
 			if(e!=enSE_OK){
-				Pos pos;
-				if(idx<vInfo.size()){
-					pos	=	vInfo[idx].pos;
-				}
-				printf("error(%d) file_pos(%d,%d)\n",e,pos.uiLine,pos.uiColumn);
+				WordInfo info = m_pSyntaxTree->GetErrorInfo();
+				printf(
+					"Error\n"
+					"-Code[%d]\n"
+					"-CodeInfo[%s]\n"
+					"-Word[%s]\n"
+					"-FilePos[%d,%d]\n",
+					e,
+					GetSyntaxErrorString(e).c_str(),
+					info.str.c_str(),
+					info.pos.uiLine+1,
+					info.pos.uiColumn);
 				return false;
 			}
 #ifdef _DEBUG

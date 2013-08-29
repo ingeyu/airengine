@@ -12,7 +12,10 @@ namespace	Air{
 		Air::CppScript::enumSyntaxError ExpressionNode::Parse( WordInfoVector& vecInfo,U32& idx )
 		{
 			enumSyntaxError	e	=	enSE_OK;
+			SetErrorInfo(vecInfo[idx]);
 			e	=	ParseExpression(vecInfo,idx);
+			if(e!=enSE_OK)
+				return e;
 			U32 uiSize = vecInfo.size();
 			if(idx<uiSize){
 				e	=	__ParseNode<ExpressionOperatorNode>(vecInfo,idx);
@@ -418,6 +421,7 @@ namespace	Air{
 			U32 uiSize	=	vecInfo.size();
 			if(idx>=uiSize)
 				return enSE_UnexpectedEnd;
+			SetErrorInfo(vecInfo[idx]);
 			pFunction	=	ParseFunctionName(vecInfo,idx);//__CheckNextNodeType(vecInfo,idx,enNT_Function);
 			if(pFunction==NULL)
 				return enSE_UnDefine_Function;
@@ -555,6 +559,7 @@ namespace	Air{
 			U32 uiSize	=	vecInfo.size();
 			if(idx>=uiSize)
 				return enSE_UnexpectedEnd;
+			SetErrorInfo(vecInfo[idx]);
 			WordType t = vecInfo[idx].eType;
 			enumSyntaxError e=enSE_OK;
 			CheckSelfOperator(vecInfo,idx,0);
@@ -916,6 +921,7 @@ namespace	Air{
 			U32 uiSize	=	vecInfo.size();
 			if(idx>=uiSize)
 				return enSE_UnexpectedEnd;
+			SetErrorInfo(vecInfo[idx]);
 			WordType t = vecInfo[idx].eType;
 			enumSyntaxError e=enSE_OK;
 			if(t.eWordtype	!=	enWT_Operator)

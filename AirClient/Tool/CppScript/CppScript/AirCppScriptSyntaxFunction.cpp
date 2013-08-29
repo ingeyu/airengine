@@ -155,6 +155,7 @@ namespace	Air{
 		Air::CppScript::enumSyntaxError FunctionNode::Parse( WordInfoVector& vecInfo,U32& idx )
 		{
 			enumSyntaxError e = enSE_OK;
+			SetErrorInfo(vecInfo[idx]);
 			e	=	ParseImportExport(vecInfo,idx);
 			if(e!=enSE_OK)
 				return e;
@@ -168,13 +169,12 @@ namespace	Air{
 				}
 				idx++;
 			}
+
 			
-			e	=	ParseObjectType(vecInfo,idx,m_ReturnType.VariableType,(Node**)&m_ReturnType.pNodePtr);
+			e = ParseReturnType_Name(vecInfo,idx);
 			if(e!=enSE_OK)
 				return e;
-			e	=	ParseVariableName(vecInfo,idx,m_strName);
-			if(e!=enSE_OK)
-				return e;
+			
 
 			if(idx+2 > uiSize){
 				return enSE_UnexpectedEnd;
@@ -395,6 +395,74 @@ namespace	Air{
 			asmGen.Code(eC_NOP);
 			asmGen.Code(eC_NOP);
 			asmGen.Code(eC_NOP);
+			return enSE_OK;
+		}
+
+		Air::U1 FunctionNode::IsMemberFunction()
+		{
+			if(GetParent()->GetType()==enNT_Object){
+				return true;
+			}
+			return false;
+		}
+
+		Air::U32 FunctionNode::GetVirtualIndex()
+		{
+			if(!IsVartual())
+				return 0xffffffff;
+			return m_uiVirtualIndex;
+		}
+
+		Air::CppScript::enumSyntaxError FunctionNode::ParseReturnType_Name( WordInfoVector& vecInfo,U32& idx )
+		{
+			if(m_pParent!=NULL&&m_pParent->GetType()==enNT_Object){
+				FunctionType	=	enFT_MemberFunction;
+
+				AString& str = vecInfo[idx].str;
+				if(str == m_pParent->GetName()){
+					FunctionType	=	enFT_Construct;
+					idx++;
+					return enSE_OK;
+				}else if(str == AString("~")+m_pParent->GetName()){
+					FunctionType	=	enFT_DisConstruct;
+					idx++;
+					return enSE_OK;
+				}
+				
+			}
+			enumSyntaxError	e;
+
+			e	=	ParseObjectType(vecInfo,idx,m_ReturnType.VariableType,(Node**)&m_ReturnType.pNodePtr);
+			if(e!=enSE_OK)
+				return e;
+
+			e	=	ParseCallType(vecInfo,idx);
+			if(e!=enSE_OK)
+				return e;
+
+			e	=	ParseVariableName(vecInfo,idx,m_strName);
+			if(e!=enSE_OK)
+				return e;
+			return enSE_OK;
+		}
+
+		Air::CppScript::enumSyntaxError FunctionNode::ParseCallType( WordInfoVector& vecInfo,U32& idx )
+		{
+			WordType tObjType	=	vecInfo[idx].eType;
+			if(tObjType.eWordtype == enWT_CppKeyWord){
+				switch(tObjType.eKeyword){
+				case enCKWT___cdecl:
+				case enCKWT___fastcall:
+				case enCKWT___stdcall:
+				case enCKWT___thiscall:{
+					callType	=	tObjType.eKeyword;
+					if(idx+1 > vecInfo.size()){
+						return enSE_UnexpectedEnd;
+					}
+					idx++;
+									   }break;
+				}
+			}
 			return enSE_OK;
 		}
 

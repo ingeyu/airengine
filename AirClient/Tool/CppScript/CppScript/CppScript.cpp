@@ -68,9 +68,10 @@ int _tmain(int argc, _TCHAR* argv[])
 		Air::CppScript::Compiler c;
 		c.Initialization();
 
-		c.Compile(argv[1]);
-		std::wstring	strOutputName	=	strPath+strName+L".module";
-		c.Link(strOutputName.c_str());
+		if(c.Compile(argv[1])){
+			std::wstring	strOutputName	=	strPath+strName+L".module";
+			c.Link(strOutputName.c_str());
+		}
 		c.Release();
 	}else if (strExt==L"proj"){
 		Air::CppScript::Compiler c;

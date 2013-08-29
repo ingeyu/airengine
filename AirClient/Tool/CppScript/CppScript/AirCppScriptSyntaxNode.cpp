@@ -30,7 +30,7 @@ namespace	Air{
 			if(idx >=uiSize){
 				return enSE_UnexpectedEnd;
 			}
-
+			SetErrorInfo(vecInfo[idx]);
 			for(;idx<uiSize;){
 				enumSyntaxError	e	=	enSE_OK;
 				if(idx>=uiSize)
@@ -322,6 +322,7 @@ namespace	Air{
 			U32 uiSize =	vecInfo.size();
 
 			WordType	tObjType	=	vecInfo[idx].eType;
+			SetErrorInfo(vecInfo[idx]);
 			if(tObjType.eWordtype	==	enWT_CppKeyWord){
 				if(tObjType.eKeyword	==	enCKWT_Const){
 					t.bConst	=	1;
@@ -471,6 +472,7 @@ namespace	Air{
 			U32 uiSize	=	vecInfo.size();
 
 			WordType tObjType	=	vecInfo[idx].eType;
+			SetErrorInfo(vecInfo[idx]);
 
 			if(tObjType.eWordtype	!=	enWT_Unknown){
 				if(	tObjType.eWordtype	==	enWT_Operator	||
@@ -504,8 +506,9 @@ namespace	Air{
 		Air::CppScript::enumSyntaxError Node::FindBlock( WordInfoVector& vecInfo,U32& idx,WordInfoVector& outInfo,U32 uiKeyBegin,U32 uiKeyEnd ,U1 bIncludeKey)
 		{
 			U32 uiSize	=	vecInfo.size();
-			if(idx>=uiSize)
+			if(idx>=uiSize){
 				return enSE_UnexpectedEnd;
+			}
 			U32 uiBeginIndx	=	0XFFFFFFFF;
 			U32 uiEndIndex	=	0XFFFFFFFF;
 			U32 uiDepth		=	0;
@@ -530,9 +533,11 @@ namespace	Air{
 				}
 			}
 			if(uiDepth!=0){
+				SetErrorInfo(vecInfo[idx]);
 				return	enSE_UnexpectedEnd;
 			}
 			if(uiBeginIndx==0XFFFFFFFF||uiEndIndex==0XFFFFFFFF){
+				SetErrorInfo(vecInfo[idx]);
 				return enSE_UnexpectedEnd;
 			}
 			U32 uiCount	=	uiEndIndex	-	uiBeginIndx;
@@ -1056,6 +1061,88 @@ namespace	Air{
 				}
 			}
 			return enSE_OK;
+		}
+
+		void Node::SetErrorInfo( WordInfo& info )
+		{
+			if(m_pParent==NULL){
+				errorInfo	=	info;
+			}else{
+				m_pParent->SetErrorInfo(info);
+			}
+		}
+
+		Air::CppScript::WordInfo Node::GetErrorInfo()
+		{
+			return errorInfo;
+		}
+
+		const AString& GetSyntaxErrorString( enumSyntaxError e )
+		{
+			static AString strError[]={
+				"enSE_OK",
+				"enSE_UnexpectedEnd",
+				"enSE_PreDeclare_Must_Fallow_A_CppKeyword",
+				"enSE_PreDeclare_Fallow_Unknown",
+				"enSE_Include_Must_Fallow_A_String",
+				"enSE_Define_Cant_Fallow_A_Number",
+				"enSE_Define_Cant_Fallow_A_String",
+				"enSE_Define_Cant_Fallow_A_CppKeyword",
+				"enSE_Define_Cant_Fallow_A_Operator",
+				"enSE_Define_Cant_Fallow_A_Delimiter",
+				"enSE_Unrecognized_Operator",
+				"enSE_Unrecognized_Delimiter",
+				"enSE_NameSpace_Cant_Fallow_A_Number",
+				"enSE_NameSpace_Cant_Fallow_A_String",
+				"enSE_NameSpace_Cant_Fallow_A_CppKeyword",
+				"enSE_NameSpace_Cant_Fallow_A_Operator",
+				"enSE_NameSpace_Cant_Fallow_A_Delimiter",
+				"enSE_Unsigned_Not_Match_Void",
+				"enSE_Unsigned_Not_Match_Bool",
+				"enSE_Unsigned_Not_Match_Float",
+				"enSE_Unsigned_Not_Match_Double",
+				"enSE_Unrecognized_Variable_Type",
+				"enSE_Miss_Variable_Name",
+				"enSE_Variable_Name_Cant_Be_A_Number",
+				"enSE_Variable_Name_Cant_Be_A_CppKeyword",
+				"enSE_Variable_Name_Cant_Be_A_String",
+				"enSE_Illegal_Variable_Name",
+				"enSE_Variable_Name_Already_Declaration",
+				"enSE_Unsigned_Object_Cant_Be_A_Negative_Value",
+				"enSE_Bool_Object_Cant_Be_A_Negative_Value",
+				"enSE_Void_Cant_Be_Unsigned",
+				"enSE_Bool_Cant_Be_Unsigned",
+				"enSE_Float_Cant_Be_Unsigned",
+				"enSE_Variable_Miss_Delimiter_End_Of_Statement",
+				"enSE_Unrecognized_Variable_Init_Value",
+				"enSE_Unrecognized_Variable",
+				"enSE_Int_Variable_Need_A_Int_Init_Value",
+				"enSE_Float_Variable_Need_A_Float_Init_Value",
+				"enSE_CharPtr_Variable_Need_A_String_Init_Value",
+				"enSE_Function_Declare_Must_Fallow_Parameter",
+				"enSE_Unrecognized_Parameter",
+				"enSE_Function_Parameter_Name_Already_Exist",
+				"enSE_Illegal_Class_Or_Struct_Name",
+				"enSE_Class_Or_Struct_Name_Already_Exist",
+				"enSE_Unrecognized_Inherit_Type",
+				"enSE_Unrecognized_Inherit_Object",
+				"enSE_Unrecognized_Class_Or_Struct_Word",
+				"enSE_Public_Private_Protected_Must_Fallow_Colon",
+				"enSE_Variable_Array_Count_Must_Be_Int_Number",
+				"enSE_Variable_Array_Count_Must_Greater_Than_Zero",
+				"enSE_Miss_End_Of_SquareBracket",
+				"enSE_UnDefine_Function",
+				"enSE_Expression_Need_A_Operator",
+				"enSE_For_Statement_Must_Fallow_A_Pre_Bracket",
+				"enSE_For_Statement_Miss_Post_Bracket",
+				"enSE_For_Statement_Condition_Must_Have_2_Semicolon",
+				"enSE_Index_Operator_Miss_End_Of_SquareBracket",
+				"enSE_Return_Miss_Value",
+				"enSE_Return_Must_In_A_Function_Block",
+				"enSE_Function_Return_Type_Not_Match",
+				"enSE_Function_Parameter_Count_Not_Match",
+			};
+			return strError[e];
 		}
 
 	}

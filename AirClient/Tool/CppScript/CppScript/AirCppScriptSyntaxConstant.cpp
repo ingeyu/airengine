@@ -10,6 +10,8 @@ namespace	Air{
 			U32 uiSize	=	vecInfo.size();
 			if(idx>=uiSize)
 				return enSE_UnexpectedEnd;
+			SetErrorInfo(vecInfo[idx]);
+
 			ConstInfo	=	vecInfo[idx];
 			m_strName	=	ConstInfo.str;
 			if(ConstInfo.eType.eWordtype==enWT_Constant){

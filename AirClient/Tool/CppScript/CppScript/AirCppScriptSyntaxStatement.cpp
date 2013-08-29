@@ -9,6 +9,7 @@ namespace	Air{
 		Air::CppScript::enumSyntaxError StatementNode::Parse( WordInfoVector& vecInfo,U32& idx )
 		{
 			enumSyntaxError	e	=	enSE_OK;
+			SetErrorInfo(vecInfo[idx]);
 			WordInfoVector statement;
 			e	=	FindStatementEnd(vecInfo,idx,statement);
 			if(e!=enSE_OK){
@@ -16,9 +17,12 @@ namespace	Air{
 			}
 			U32 uiTempSize	=	statement.size();
 			U32 uiTemp	=	0;
-			if(__ParseNode<ExpressionNode>(statement,uiTemp)==enSE_OK){
+			e	=	__ParseNode<ExpressionNode>(statement,uiTemp);
+			if(e==enSE_OK){
 				idx+=uiTempSize;
 				return enSE_OK;
+			}else{
+				return e;
 			}
 			//for(;uiTemp<uiTempSize;){
 			//	WordType t	=	statement[uiTemp].eType;
@@ -115,6 +119,7 @@ namespace	Air{
 			if(idx>=uiSize){
 				return enSE_Return_Miss_Value;
 			}
+			SetErrorInfo(vecInfo[idx]);
 			WordType t = vecInfo[idx].eType;
 
 			Node* pFinction	=	GetParent();
@@ -342,6 +347,7 @@ namespace	Air{
 		Air::CppScript::enumSyntaxError IfStatementNode::Parse( WordInfoVector& vecInfo,U32& idx )
 		{
 			idx++;
+			SetErrorInfo(vecInfo[idx]);
 			U32 uiSize	=	vecInfo.size();
 			enumSyntaxError	e	=	enSE_OK;
 			WordInfoVector statement;
@@ -454,6 +460,7 @@ namespace	Air{
 		Air::CppScript::enumSyntaxError ElseStatementNode::Parse( WordInfoVector& vecInfo,U32& idx )
 		{
 			idx++;
+			SetErrorInfo(vecInfo[idx]);
 			return ParseFunctionCode(vecInfo,idx);
 		}
 
@@ -476,6 +483,7 @@ namespace	Air{
 		Air::CppScript::enumSyntaxError ElseIfStatementNode::Parse( WordInfoVector& vecInfo,U32& idx )
 		{
 			idx++;
+			SetErrorInfo(vecInfo[idx]);
 			U32 uiSize	=	vecInfo.size();
 			enumSyntaxError	e	=	enSE_OK;
 			WordInfoVector statement;

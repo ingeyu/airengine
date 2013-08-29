@@ -10,6 +10,7 @@ namespace	Air{
 			U32 uiSize	 = vecInfo.size();
 			if(idx+1 > uiSize)
 				return enSE_UnexpectedEnd;
+			SetErrorInfo(vecInfo[idx]);
 			WordType tObjType	=	vecInfo[++idx].eType;
 			//Class Name
 			if(tObjType.eWordtype	==	enWT_Unknown	&&	tObjType.eKeyword	==	enCKWT_Unknown){
@@ -38,7 +39,7 @@ namespace	Air{
 					return enSE_UnexpectedEnd;
 				tObjType	=	vecInfo[++idx].eType;
 				//Is Public Private Protected
-				if(tObjType.eWordtype	!=	enWT_CppKeyWord){
+				if(tObjType.eWordtype	==	enWT_CppKeyWord){
 					if(	tObjType.eKeyword	==	enCKWT_Public	||
 						tObjType.eKeyword	==	enCKWT_Private	||
 						tObjType.eKeyword	==	enCKWT_Protected	){
@@ -76,11 +77,29 @@ namespace	Air{
 				if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_PostBrace){
 					idx++;
 					return enSE_OK;
+				}else if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_Semicolon){
+					idx++;
+					continue;
 				}
 
-				if(tObjType.eWordtype!=enWT_CppKeyWord){
-					return enSE_Unrecognized_Class_Or_Struct_Word;
+			
+				if(tObjType.uiType	==	MakeType(enWT_Unknown,enCKWT_Unknown)){
+					Node* pObj	=	FindNode(vecInfo[idx].str);
+					if(pObj==NULL){
+						return enSE_Unrecognized_Class_Or_Struct_Word;
+					}
+					if(pObj->GetType()!=enNT_Object){
+						return enSE_Unrecognized_Class_Or_Struct_Word;
+					}
+					e = __ParseNode<VariableNode>(vecInfo,idx);
+					if(e!=enSE_OK){
+						Node* pFunc	=	NULL;
+						e = __ParseNode<FunctionNode>(vecInfo,idx,&pFunc);
+						AddVirtualFunction((FunctionNode*)pFunc);
+					}
+					continue;
 				}
+				
 				switch(tObjType.eKeyword){
 				case enCKWT_Public:
 				case enCKWT_Private:
@@ -97,6 +116,13 @@ namespace	Air{
 						return enSE_Public_Private_Protected_Must_Fallow_Colon;
 					}
 									  }break;
+				case enCKWT_Virtual:{
+					Node* pFunc	=	NULL;
+					e = __ParseNode<FunctionNode>(vecInfo,idx,&pFunc);
+					AddVirtualFunction((FunctionNode*)pFunc);
+					if(e!=enSE_OK)
+						return e;
+									}break;
 				case enCKWT_Const:
 				case enCKWT_Static:
 				case enCKWT_Unsigned:
@@ -112,7 +138,9 @@ namespace	Air{
 					{
 						e = __ParseNode<VariableNode>(vecInfo,idx);
 						if(e!=enSE_OK){
-							e = __ParseNode<FunctionNode>(vecInfo,idx);
+							Node* pFunc	=	NULL;
+							e = __ParseNode<FunctionNode>(vecInfo,idx,&pFunc);
+							AddVirtualFunction((FunctionNode*)pFunc);
 						}
 						
 					}break;
@@ -127,6 +155,35 @@ namespace	Air{
 				return m_uiObjSize+m_pInherit->GetObjectSize();
 			}
 			return m_uiObjSize;
+		}
+
+		Air::U32 ObjectNode::GetVirtualFunctionCount()
+		{
+			if(m_pInherit!=NULL){
+				return m_pInherit->GetVirtualFunctionCount()+m_uiVirtualCount;
+			}
+			return m_uiVirtualCount;
+		}
+
+		void ObjectNode::AddVirtualFunction( FunctionNode* p )
+		{
+			if(p==NULL)
+				return;
+			if(!p->IsVartual())
+				return;
+			m_vecVirtualFunction.push_back(p);
+
+			if(m_pInherit!=NULL){
+				Node* pNode = m_pInherit->FindNodeDown(p->GetName(),enNT_Function,false);
+				if(pNode!=NULL){
+					if(((FunctionNode*)pNode)->IsVartual()){
+						p->m_uiVirtualIndex	=	((FunctionNode*)pNode)->GetVirtualIndex();
+						return;
+					}
+				}
+			}
+			m_uiVirtualCount++;
+			p->m_uiVirtualIndex	=	GetVirtualFunctionCount()-1;
 		}
 
 	}

@@ -5,7 +5,7 @@
 
 namespace	Air{
 	namespace	CppScript{		
-
+		class	FunctionNode;
 		class	ObjectNode		:	public	Node{
 		public:
 			ObjectNode(){
@@ -19,13 +19,17 @@ namespace	Air{
 			};
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 			U32							GetObjectSize();
-			U32					m_uiObjSize;
-			U1					m_bInherit;
-			U1					m_bVirtualTable;
-			U1					m_bDeclare;
-			enumCppKeyWordType	m_InheritType;
-			ObjectNode*			m_pInherit;
-
+			U32							GetVirtualFunctionCount();
+			void						AddVirtualFunction(FunctionNode* p);
+		protected:
+			U32								m_uiObjSize;
+			U1								m_bInherit;
+			U1								m_bVirtualTable;
+			U1								m_bDeclare;
+			enumCppKeyWordType				m_InheritType;
+			ObjectNode*						m_pInherit;
+			std::vector<FunctionNode*>		m_vecVirtualFunction;
+			U32								m_uiVirtualCount;
 		};
 	}
 }
