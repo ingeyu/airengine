@@ -1,7 +1,7 @@
 /*
 	Function
 */
-char* str="HELLO WORLD!";
+char* str="HELLO WORLD!жпнд";
 
 
 __declspec(dllimport)	void Print(const char* str);

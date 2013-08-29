@@ -318,13 +318,14 @@ namespace	Air{
 			return	str;
 		};
 	
-		void	SkipToNextLine(char*	p,U32*	pPos){
-			for(U32 i=*pPos;;i++){
+		void	SkipToNextLine(char*	p,U32 uiSize,U32*	pPos){
+			for(U32 i=*pPos;i<uiSize;i++){
 				if(p[i]	==	0x0a){
 					*pPos	=	i;
 					return;
 				}
 			}
+			*pPos	=	uiSize;
 		}
 	
 		U1	SkipComment(char*	p,U32& i,U32 uiSize){
@@ -373,7 +374,7 @@ namespace	Air{
 								AString	strTemp	=	MakeOperator(p,&i);
 								//ÅÐ¶ÏÊÇ·ñÎª×¢ÊÍÐÐ
 								if(strTemp	==	"//"){
-									SkipToNextLine(p,&i);
+									SkipToNextLine(p,iSize,&i);
 									continue;
 								}else	if(strTemp	==	"/*"){
 									if(SkipComment(p,i,iSize)){

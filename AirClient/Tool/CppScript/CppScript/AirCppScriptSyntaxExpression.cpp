@@ -66,7 +66,7 @@ namespace	Air{
 				asmGen.Operator(eC_MOV_RM32_R32,eAR_EBP,0X14+pVar->m_uiOffset,eAR_EAX);
 			}else{
 				if(pVar->IsLocal()){
-					asmGen.Operator(eC_MOV_RM32_R32,eAR_ESI,pVar->m_uiOffset,eAR_EAX);
+					asmGen.Operator(eC_MOV_RM32_R32,eAR_EBP,pVar->m_uiOffset,eAR_EAX);
 				}else{
 					//代码实现 全局变量重定位问题
 					//Code Impl Global Variable Load Relocaltion
@@ -725,7 +725,7 @@ namespace	Air{
 					r	=	eAR_EAX;
 				}else{
 					
-					r	=	eAR_ESI;
+					r	=	eAR_EBP;
 				}
 			}
 			
@@ -806,7 +806,7 @@ namespace	Air{
 					r	=	eAR_EBX;
 				}else{
 
-					r	=	eAR_ESI;
+					r	=	eAR_EBP;
 				}
 			}
 

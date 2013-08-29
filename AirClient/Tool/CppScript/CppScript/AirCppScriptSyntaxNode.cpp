@@ -802,8 +802,9 @@ namespace	Air{
 						if(pVar->uiArrayCount!=0){
 							uiObjCount	=	pVar->uiArrayCount;
 						}
-						pVar->m_uiOffset	=	uiSize;
 						uiSize+=	(uiObjCount*uiObjSize+1)&0xfffffffc;
+						pVar->m_uiOffset	=	-(int)uiSize;
+						
 					}else{
 						if(bChild){
 							pNode->CalcLocalVariableSize(uiSize);

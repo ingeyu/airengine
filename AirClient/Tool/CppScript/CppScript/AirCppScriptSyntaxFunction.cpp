@@ -360,9 +360,8 @@ namespace	Air{
 			asmGen.Mov_R32R32(eAR_EBP,eAR_ESP);
 			if(m_uiLocalVariableSize!=0){
 				asmGen.SubR32Imm(eAR_ESP,m_uiLocalVariableSize);
-				asmGen.Mov_R32R32(eAR_ESI,eAR_ESP);
 			}
-
+			asmGen.Mov_R32R32(eAR_ESI,eAR_ECX);
 			i	=	m_lstChild.begin();
 			for(;i!=m_lstChild.end();i++){
 				Node* pNode	=	(*i);
