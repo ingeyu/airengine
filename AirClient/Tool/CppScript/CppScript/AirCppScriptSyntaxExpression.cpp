@@ -127,7 +127,7 @@ namespace	Air{
 			};
 			return eCEx_JZ_REL32;
 		}
-		Air::CppScript::enumSyntaxError ExpressionNode::GenerateFunctionCode( Assemble& asmGen )
+		Air::CppScript::enumSyntaxError ExpressionNode::GenerateCode( Assemble& asmGen )
 		{
 			if(m_lstChild.empty())
 			{
@@ -139,7 +139,7 @@ namespace	Air{
 					return	enSE_Unknown_Error;
 				}
 
-				return pNode->GenerateFunctionCode(asmGen);
+				return pNode->GenerateCode(asmGen);
 			}
 			if(m_lstChild.size()==3){
 				ExpressionNode* p[3];
@@ -167,9 +167,9 @@ namespace	Air{
 					return OpEqual(p,pOperator->eOperator,asmGen);
 				}
 				ExpressionElementNode* pLeft	=	(ExpressionElementNode*)(p[0]);
-				p[2]->GenerateFunctionCode(asmGen);
+				p[2]->GenerateCode(asmGen);
 				asmGen.Code(eC_PUSH_EAX);
-				p[0]->GenerateFunctionCode(asmGen);
+				p[0]->GenerateCode(asmGen);
 				asmGen.Code(eC_POP_EBX);
 				
 				switch(pOperator->eOperator){
@@ -351,11 +351,11 @@ namespace	Air{
 		{
 			
 			asmGen.Code(eC_PUSH_EAX);
-			p[0]->GenerateFunctionCode(asmGen);
+			p[0]->GenerateCode(asmGen);
 			asmGen.Test(eAR_EAX);
 			asmGen.JumpCondition(InserveJumpCondition((Code1Ex)p[0]->GetJumpCondition()));
 			m_lstJump.push_back(asmGen.GetCurrentOffset());
-			p[2]->GenerateFunctionCode(asmGen);
+			p[2]->GenerateCode(asmGen);
 			asmGen.Test(eAR_EAX);
 			asmGen.JumpCondition(InserveJumpCondition((Code1Ex)p[2]->GetJumpCondition()));
 			m_lstJump.push_back(asmGen.GetCurrentOffset());
@@ -364,11 +364,11 @@ namespace	Air{
 		Air::CppScript::enumSyntaxError ExpressionNode::LogicOr( ExpressionNode* p[3],Assemble& asmGen )
 		{
 			asmGen.Code(eC_PUSH_EAX);
-			p[0]->GenerateFunctionCode(asmGen);
+			p[0]->GenerateCode(asmGen);
 			asmGen.Test(eAR_EAX);
 			asmGen.JumpCondition((Code1Ex)p[0]->GetJumpCondition());
 			U32 uiJump0	=	asmGen.GetCurrentOffset();
-			p[2]->GenerateFunctionCode(asmGen);
+			p[2]->GenerateCode(asmGen);
 			asmGen.Test(eAR_EAX);
 			asmGen.JumpCondition(InserveJumpCondition((Code1Ex)p[0]->GetJumpCondition()));
 			asmGen.WriteAddress_JumpHere(uiJump0);
@@ -388,7 +388,7 @@ namespace	Air{
 
 		Air::CppScript::enumSyntaxError ExpressionNode::OpEqual( ExpressionNode* p[3],enumCppKeyWordType op,Assemble& asmGen )
 		{
-			p[2]->GenerateFunctionCode(asmGen);
+			p[2]->GenerateCode(asmGen);
 			p[0]->GenerateWriteCode(op,asmGen);
 			return enSE_OK;
 		}
@@ -485,12 +485,12 @@ namespace	Air{
 			return NULL;
 		}
 
-		Air::CppScript::enumSyntaxError FunctionCallExpressionNode::GenerateFunctionCode( Assemble& asmGen )
+		Air::CppScript::enumSyntaxError FunctionCallExpressionNode::GenerateCode( Assemble& asmGen )
 		{
 			U32 uiParamSize	=	pParameterArray.size();
 			for(U32 i=0;i<uiParamSize;i++){
 				U32 idx	=	uiParamSize-i-1;
-				pParameterArray[idx]->GenerateFunctionCode(asmGen);
+				pParameterArray[idx]->GenerateCode(asmGen);
 				asmGen.Code(eC_PUSH_EAX);
 			}
 			FunctionNode* p	=	(FunctionNode*)pFunction;
@@ -692,7 +692,7 @@ namespace	Air{
 			return enSE_OK;
 		}
 
-		Air::CppScript::enumSyntaxError ExpressionElementNode::GenerateFunctionCode( Assemble& asmGen )
+		Air::CppScript::enumSyntaxError ExpressionElementNode::GenerateCode( Assemble& asmGen )
 		{
 			if(pObj->GetType()==enNT_Constant){
 				ConstantNode* pConstant	=	(ConstantNode*)pObj;
@@ -743,7 +743,7 @@ namespace	Air{
 				asmGen.Mov_R32RM32(eAR_EDX,r,uiOffset);
 	
 				//asmGen.AddR32Imm(eAR_EDX,uiOffset);
-				m_pIndex->GenerateFunctionCode(asmGen);
+				m_pIndex->GenerateCode(asmGen);
 				U32 uiRegOffset	=	1;
 				if(pVar->pNodePtr!=0){
 					uiRegOffset	=	((ObjectNode*)pVar->pNodePtr)->GetObjectSize();
@@ -848,7 +848,7 @@ namespace	Air{
 			}else{
 				asmGen.Mov_R32R32(eAR_EDX,eAR_EAX);
 				//asmGen.AddR32Imm(eAR_EDX,uiOffset);
-				m_pIndex->GenerateFunctionCode(asmGen);
+				m_pIndex->GenerateCode(asmGen);
 				U32 uiRegOffset	=	1;
 				if(pVar->pNodePtr!=0){
 					uiRegOffset	=	((ObjectNode*)pVar->pNodePtr)->GetObjectSize();

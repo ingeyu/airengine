@@ -86,14 +86,14 @@ namespace	Air{
 			return enSE_UnexpectedEnd;
 		}
 
-		Air::CppScript::enumSyntaxError StatementNode::GenerateFunctionCode( Assemble& asmGen )
+		Air::CppScript::enumSyntaxError StatementNode::GenerateCode( Assemble& asmGen )
 		{
 			NodeList::iterator	i	=	m_lstChild.begin();
 			for(;i!=m_lstChild.end();i++){
 				Node* pNode	=	(*i);
 				if(pNode!=NULL){
 					if(pNode->GetType()==enNT_Expression){
-						pNode->GenerateFunctionCode(asmGen);
+						pNode->GenerateCode(asmGen);
 					}
 				}
 			}
@@ -156,9 +156,9 @@ namespace	Air{
 			return enSE_UnexpectedEnd;
 		}
 
-		Air::CppScript::enumSyntaxError ReturnStatementNode::GenerateFunctionCode( Assemble& asmGen )
+		Air::CppScript::enumSyntaxError ReturnStatementNode::GenerateCode( Assemble& asmGen )
 		{
-			__super::GenerateFunctionCode(asmGen);
+			__super::GenerateCode(asmGen);
 			m_uiJump	=	asmGen.GetCurrentOffset()+5;
 			asmGen.Jmp(m_uiJump);
 			return enSE_OK;
@@ -306,14 +306,14 @@ namespace	Air{
 			return e;
 		}
 
-		Air::CppScript::enumSyntaxError ForStatementNode::GenerateFunctionCode( Assemble& asmGen )
+		Air::CppScript::enumSyntaxError ForStatementNode::GenerateCode( Assemble& asmGen )
 		{
 			if(pInitExp!=NULL)
-				pInitExp->GenerateFunctionCode(asmGen);
+				pInitExp->GenerateCode(asmGen);
 			
 			U32 pCondition	=	asmGen.GetCurrentOffset();
 			if(pConditionExp!=NULL){
-				pConditionExp->GenerateFunctionCode(asmGen);
+				pConditionExp->GenerateCode(asmGen);
 				asmGen.Test(eAR_EAX);
 				asmGen.JumpCondition(
 					InserveJumpCondition(
@@ -328,12 +328,12 @@ namespace	Air{
 				Node* pNode	=	(*i);
 				if(pNode!=NULL&&pNode!=pInitExp&&pNode!=pConditionExp&&pNode!=pIterExp){
 					if(pNode->GetType()==enNT_Statement){
-						pNode->GenerateFunctionCode(asmGen);
+						pNode->GenerateCode(asmGen);
 					}
 				}
 			}
 			if(pIterExp!=NULL){
-				pIterExp->GenerateFunctionCode(asmGen);
+				pIterExp->GenerateCode(asmGen);
 			}
 			asmGen.Jmp(pCondition);
 			if(pConditionExp!=NULL){
@@ -400,10 +400,10 @@ namespace	Air{
 			return e;
 		}
 
-		Air::CppScript::enumSyntaxError IfStatementNode::GenerateFunctionCode( Assemble& asmGen )
+		Air::CppScript::enumSyntaxError IfStatementNode::GenerateCode( Assemble& asmGen )
 		{
 			//m_uiEntry	=	asmGen.GetCurrentOffset();
-			pConditionExp->GenerateFunctionCode(asmGen);
+			pConditionExp->GenerateCode(asmGen);
 
 			//Condition JUMP To End
 			U32 uiConditionJMP	=	0;
@@ -424,7 +424,7 @@ namespace	Air{
 							lstElse.push_back(pState);
 							continue;
 						}
-						pNode->GenerateFunctionCode(asmGen);
+						pNode->GenerateCode(asmGen);
 					}
 				}
 			}
@@ -439,7 +439,7 @@ namespace	Air{
 			//GenCode
 			i	=	lstElse.begin();
 			for(;i!=lstElse.end();i++){
-				(*i)->GenerateFunctionCode(asmGen);
+				(*i)->GenerateCode(asmGen);
 			}
 			//Write JUMP
 			i	=	lstElse.begin();
@@ -447,7 +447,7 @@ namespace	Air{
 				ElseStatementNode* pElse	=	(ElseStatementNode*)(*i);
 				
 				if(pElse->m_sType==enST_ElseIf){
-					asmGen.WriteAddress_JumpHere(pElse->m_uiJump);//->GenerateFunctionCode(asmGen);
+					asmGen.WriteAddress_JumpHere(pElse->m_uiJump);//->GenerateCode(asmGen);
 				}
 			}
 			
@@ -464,14 +464,14 @@ namespace	Air{
 			return ParseFunctionCode(vecInfo,idx);
 		}
 
-		Air::CppScript::enumSyntaxError ElseStatementNode::GenerateFunctionCode( Assemble& asmGen )
+		Air::CppScript::enumSyntaxError ElseStatementNode::GenerateCode( Assemble& asmGen )
 		{
 			NodeList::iterator	i	=	m_lstChild.begin();
 			for(;i!=m_lstChild.end();i++){
 				Node* pNode	=	(*i);
 				if(pNode!=NULL){
 					if(pNode->GetType()==enNT_Statement){
-						pNode->GenerateFunctionCode(asmGen);
+						pNode->GenerateCode(asmGen);
 					}
 				}
 			}
@@ -505,10 +505,10 @@ namespace	Air{
 			return ParseFunctionCode(vecInfo,idx);
 		}
 
-		Air::CppScript::enumSyntaxError ElseIfStatementNode::GenerateFunctionCode( Assemble& asmGen )
+		Air::CppScript::enumSyntaxError ElseIfStatementNode::GenerateCode( Assemble& asmGen )
 		{
 			//m_uiEntry	=	asmGen.GetCurrentOffset();
-			pConditionExp->GenerateFunctionCode(asmGen);
+			pConditionExp->GenerateCode(asmGen);
 			//Condition JUMP To End
 			asmGen.Test(eAR_EAX);
 			asmGen.JumpCondition((Code1Ex)((ExpressionNode*)pConditionExp)->GetJumpCondition());
@@ -526,7 +526,7 @@ namespace	Air{
 							lstElse.push_back(pState);
 							continue;
 						}
-						pNode->GenerateFunctionCode(asmGen);
+						pNode->GenerateCode(asmGen);
 					}
 				}
 			}

@@ -21,6 +21,7 @@ namespace	Air{
 			U32							GetObjectSize();
 			U32							GetVirtualFunctionCount();
 			void						AddVirtualFunction(FunctionNode* p);
+			virtual	enumSyntaxError		GenerateCode(Assemble& asmGen);
 		protected:
 			U32								m_uiObjSize;
 			U1								m_bInherit;

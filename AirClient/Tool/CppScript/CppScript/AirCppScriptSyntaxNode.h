@@ -124,7 +124,7 @@ namespace	Air{
 			enumSyntaxError				ParseExpression(WordInfoVector& vecInfo,U32& idx);
 			enumSyntaxError				ParseFunctionCode( WordInfoVector& vecInfo,U32& idx );
 			
-			virtual	enumSyntaxError		GenerateFunctionCode(Assemble& asmGen);
+			virtual	enumSyntaxError		GenerateCode(Assemble& asmGen);
 			virtual	U32					CalcLocalVariableSize(U32& uiSize,U1 bChild	=	false);
 
 			enumSyntaxError				LinkGolbalVariable(Assemble& asmGen);

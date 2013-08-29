@@ -332,7 +332,7 @@ namespace	Air{
 			return enSE_OK;
 		}
 
-		Air::CppScript::enumSyntaxError FunctionNode::GenerateFunctionCode(Assemble& asmGen)
+		Air::CppScript::enumSyntaxError FunctionNode::GenerateCode(Assemble& asmGen)
 		{
 			if(ieType==enCKWT_dllimport){
 				return enSE_OK;
@@ -367,7 +367,7 @@ namespace	Air{
 				Node* pNode	=	(*i);
 				if(pNode!=NULL){
 					if(pNode->GetType()==enNT_Statement){
-						pNode->GenerateFunctionCode(asmGen);
+						pNode->GenerateCode(asmGen);
 					}
 				}
 			}
@@ -421,11 +421,13 @@ namespace	Air{
 				AString& str = vecInfo[idx].str;
 				if(str == m_pParent->GetName()){
 					FunctionType	=	enFT_Construct;
+					m_strName	=	str;
 					idx++;
 					return enSE_OK;
 				}else if(str == AString("~")+m_pParent->GetName()){
 					FunctionType	=	enFT_DisConstruct;
 					idx++;
+					m_strName	=	str;
 					return enSE_OK;
 				}
 				

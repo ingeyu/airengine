@@ -59,6 +59,8 @@ namespace	Air{
 				if(m_pInherit==NULL){
 					return enSE_Unrecognized_Inherit_Object;
 				}
+				idx++;
+				tObjType	=	vecInfo[idx].eType;
 			}
 
 			if(tObjType.eWordtype	==	enWT_Delimiter	&&		tObjType.eKeyword	==	enWDT_PreBrace){
@@ -184,6 +186,21 @@ namespace	Air{
 			}
 			m_uiVirtualCount++;
 			p->m_uiVirtualIndex	=	GetVirtualFunctionCount()-1;
+		}
+
+		Air::CppScript::enumSyntaxError ObjectNode::GenerateCode( Assemble& asmGen )
+		{
+			NodeList::iterator	i	=	m_lstChild.begin();
+			for(;i!=m_lstChild.end();i++){
+				Node* pNode	=	(*i);
+				if(pNode!=NULL){
+					if(pNode->GetType()==enNT_Function){
+						pNode->GenerateCode(asmGen);
+					}
+				}
+			}
+			return enSE_OK;
+			return enSE_OK;
 		}
 
 	}

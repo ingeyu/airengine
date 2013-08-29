@@ -770,16 +770,18 @@ namespace	Air{
 			}
 		}
 
-		Air::CppScript::enumSyntaxError Node::GenerateFunctionCode(Assemble& asmGen)
+		Air::CppScript::enumSyntaxError Node::GenerateCode(Assemble& asmGen)
 		{
 			NodeList::iterator	i	=	m_lstChild.begin();
 			for(;i!=m_lstChild.end();i++){
 				Node* pNode	=	(*i);
 				if(pNode!=NULL){
 					if(pNode->GetType()==enNT_Function){
-						pNode->GenerateFunctionCode(asmGen);
+						pNode->GenerateCode(asmGen);
 					}else if(pNode->GetType()==enNT_NameSpace){
-						pNode->GenerateFunctionCode(asmGen);
+						pNode->GenerateCode(asmGen);
+					}else if(pNode->GetType()==enNT_Object){
+						pNode->GenerateCode(asmGen);
 					}
 				}
 			}
@@ -906,7 +908,7 @@ namespace	Air{
 
 
 
-			e	=	GenerateFunctionCode(asmGen);
+			e	=	GenerateCode(asmGen);
 			if(e!=enSE_OK)
 				return e;
 
@@ -1022,7 +1024,7 @@ namespace	Air{
 				Node* p =	(*i);
 				if(p!=NULL){
 					if(p->GetType()==enNT_Statement){
-						p->GenerateFunctionCode(asmGen);
+						p->GenerateCode(asmGen);
 					}
 				}
 			}

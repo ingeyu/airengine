@@ -40,7 +40,7 @@ namespace	Air{
 			virtual	enumSyntaxError		ParseParameter(WordInfoVector& vecInfo,U32& idx);
 			enumSyntaxError				ParseReturnType_Name(WordInfoVector& vecInfo,U32& idx);
 			enumSyntaxError				ParseCallType(WordInfoVector& vecInfo,U32& idx);
-			virtual	enumSyntaxError		GenerateFunctionCode(Assemble& asmGen);
+			virtual	enumSyntaxError		GenerateCode(Assemble& asmGen);
 
 			U1							IsParamNameExist(CAString& strName);
 			U1							IsVartual(){return m_bVirtual!=0;};

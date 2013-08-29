@@ -54,14 +54,14 @@ namespace	Air{
 			m_mapWordType["interface"]	=	MakeType(enWT_CppKeyWord,	enCKWT_Interface,	0,0);
 			m_mapWordType["virtual"]	=	MakeType(enWT_CppKeyWord,	enCKWT_Virtual,		0,0);
 			m_mapWordType["void"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Void,		enBOT_Void,0);
-			m_mapWordType["bool"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Bool,		enBOT_Bool,0);
-			m_mapWordType["char"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Char,		enBOT_S8,0);
-			m_mapWordType["short"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Short,		enBOT_S16,0);
-			m_mapWordType["int"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Int,			enBOT_S32,0);
-			m_mapWordType["long"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Long,		enBOT_S32,0);
-			m_mapWordType["__int64"]	=	MakeType(enWT_CppKeyWord,	enCKWT_Int64,		enBOT_S64,0);
-			m_mapWordType["float"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Float,		enBOT_F32,0);
-			m_mapWordType["double"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Double,		enBOT_F64,0);
+			m_mapWordType["bool"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Bool,		enBOT_Bool,1);
+			m_mapWordType["char"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Char,		enBOT_S8,1);
+			m_mapWordType["short"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Short,		enBOT_S16,2);
+			m_mapWordType["int"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Int,			enBOT_S32,4);
+			m_mapWordType["long"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Long,		enBOT_S32,4);
+			m_mapWordType["__int64"]	=	MakeType(enWT_CppKeyWord,	enCKWT_Int64,		enBOT_S64,8);
+			m_mapWordType["float"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Float,		enBOT_F32,4);
+			m_mapWordType["double"]		=	MakeType(enWT_CppKeyWord,	enCKWT_Double,		enBOT_F64,8);
 			m_mapWordType["unsigned"]	=	MakeType(enWT_CppKeyWord,	enCKWT_Unsigned,	0,0);
 			m_mapWordType["true"]		=	MakeType(enWT_CppKeyWord,	enCKWT_True,		0,0);
 			m_mapWordType["false"]		=	MakeType(enWT_CppKeyWord,	enCKWT_False,		0,0);
@@ -156,10 +156,9 @@ namespace	Air{
 				WordInfo info = m_pSyntaxTree->GetErrorInfo();
 				printf(
 					"Error\n"
-					"-Code[%d]\n"
-					"-CodeInfo[%s]\n"
-					"-Word[%s]\n"
-					"-FilePos[%d,%d]\n",
+					"-Code		[%d,%s]\n"
+					"-Word		[%s]\n"
+					"-FilePos	[%d,%d]\n",
 					e,
 					GetSyntaxErrorString(e).c_str(),
 					info.str.c_str(),

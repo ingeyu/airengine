@@ -21,7 +21,7 @@ namespace	Air{
 			};
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 			enumSyntaxError				ParseExpression(WordInfoVector& vecInfo,U32& idx);
-			virtual	enumSyntaxError		GenerateFunctionCode(Assemble& asmGen);
+			virtual	enumSyntaxError		GenerateCode(Assemble& asmGen);
 			enumSyntaxError				LogicAnd(ExpressionNode* p[3],Assemble& asmGen);
 			enumSyntaxError				LogicOr(ExpressionNode* p[3],Assemble& asmGen);
 			enumSyntaxError				OpEqual(ExpressionNode* p[3],enumCppKeyWordType op,Assemble& asmGen);
@@ -54,7 +54,7 @@ namespace	Air{
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 			enumSyntaxError				ParseObjectCast(WordInfoVector& vecInfo,U32& idx);
 			enumSyntaxError				CheckSelfOperator(WordInfoVector& vecInfo,U32& idx,U32 bPost);
-			virtual	enumSyntaxError		GenerateFunctionCode(Assemble& asmGen);
+			virtual	enumSyntaxError		GenerateCode(Assemble& asmGen);
 			virtual	void				GenerateWriteCode(enumCppKeyWordType op,Assemble& asmGen);
 			Node*	pObj;
 			Node*	pCast;
@@ -88,7 +88,7 @@ namespace	Air{
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 			virtual	enumSyntaxError		ParseParameter(WordInfoVector& vecInfo,U32& idx);
 			Node*						ParseFunctionName(WordInfoVector& vecInfo,U32& idx);
-			virtual	enumSyntaxError		GenerateFunctionCode(Assemble& asmGen);
+			virtual	enumSyntaxError		GenerateCode(Assemble& asmGen);
 			Node*							pFunction;
 			std::vector<Node*>				pParameterArray;
 		};
