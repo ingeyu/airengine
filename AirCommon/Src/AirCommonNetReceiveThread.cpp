@@ -9,7 +9,7 @@ namespace Air{
 			m_pListener	=	NULL;
 			m_Socket	=	NULL;
 			m_ReceiveSize	=	0;
-			ZeroMemory(m_ReceiveBuffer,1024*1024*10);
+			ZeroMemory(m_ReceiveBuffer,DEFAULT_RECEIVE_SIZE);
 		}
 	
 		U1 NetReceiveThread::RepetitionRun(){
@@ -19,7 +19,7 @@ namespace Air{
 				return	false;
 			}
 			U32 iRecvSize	=	0;
-			int	iRet	=	recv(m_Socket,&m_ReceiveBuffer[m_ReceiveSize],1024*1024*10,0);
+			int	iRet	=	recv(m_Socket,&m_ReceiveBuffer[m_ReceiveSize],DEFAULT_RECEIVE_SIZE,0);
 			if(iRet	<=	0){
 				//Á¬½Ó¹Ø±Õ
 				if(m_pListener!=NULL){
@@ -30,8 +30,12 @@ namespace Air{
 			}else{
 				m_ReceiveSize	+=	iRet;
 
+				S32 uiOffset	=	0;
+				U1	bBusy	=	m_ReceiveSize	>	DEFAULT_RECEIVE_SIZE/2;
+				if(bBusy){
+					OutputDebugStringA("Recv Busy!\n");
+				}
 				while(true){
-					U32 uiOffset	=	0;
 					if(m_ReceiveSize<uiOffset+4){
 						U32 uiLeftSize	=	m_ReceiveSize	-	uiOffset;
 						if(uiLeftSize	>0){
