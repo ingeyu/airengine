@@ -10,6 +10,8 @@ namespace	Air{
 			enET_Element,
 			enET_Operator,
 			enET_FunctionCall,
+			enET_ThisCall,
+			enET_New,
 		};
 
 		class	ExpressionNode	:	public	Node{
@@ -92,7 +94,28 @@ namespace	Air{
 			Node*							pFunction;
 			std::vector<Node*>				pParameterArray;
 		};
-
+		class	ThisCallExpressionNode	:	public	FunctionCallExpressionNode{
+		public:
+			ThisCallExpressionNode(){
+				eType		=	enET_ThisCall;
+				m_strName	=	"ExpThisCall";
+			};
+			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
+			virtual	enumSyntaxError		GenerateCode(Assemble& asmGen);
+		};
+		class	NewExpressionNode	:	public	FunctionCallExpressionNode{
+		public:
+			NewExpressionNode(){
+				eType		=	enET_New;
+				pFunction	=	NULL;
+				m_strName	=	"New";
+				m_pNewObject=NULL;
+			};
+			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
+			virtual	enumSyntaxError		GenerateCode(Assemble& asmGen);
+			ObjectType					m_NewType;
+			Node*						m_pNewObject;
+		};
 	}
 }
 #endif // AirCppScriptSyntaxExpression_h__

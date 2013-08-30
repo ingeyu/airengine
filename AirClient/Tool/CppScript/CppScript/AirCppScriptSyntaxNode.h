@@ -85,6 +85,7 @@ namespace	Air{
 			enSE_Function_Parameter_Count_Not_Match,
 			enSE_Delete_UnKnown_Variable,
 			enSE_Delete_Array_Need_SquareBracketEnd,
+			enSE_UnDefine_Object_Type,
 
 			enSE_Unknown_Error	=	0xffffffff
 		};

@@ -52,11 +52,18 @@ namespace	Air{
 					return enSE_OK;
 				}
 			}else{
-				e	=	__ParseNode<ExpressionElementNode>(vecInfo,idx);
-				if(e!=enSE_OK){
-					e	=	__ParseNode<FunctionCallExpressionNode>(vecInfo,idx);
+				if(vecInfo[idx].eType.uiType	==	MakeType(enWT_CppKeyWord,enCKWT_New)){
+					e	=	__ParseNode<NewExpressionNode>(vecInfo,idx);
 					if(e!=enSE_OK){
 						return e;
+					}
+				}else{
+					e	=	__ParseNode<ExpressionElementNode>(vecInfo,idx);
+					if(e!=enSE_OK){
+						e	=	__ParseNode<FunctionCallExpressionNode>(vecInfo,idx);
+						if(e!=enSE_OK){
+							return e;
+						}
 					}
 				}
 			}
@@ -1033,6 +1040,51 @@ namespace	Air{
 							   }break;
 			}
 			
+		}
+
+
+		Air::CppScript::enumSyntaxError NewExpressionNode::Parse( WordInfoVector& vecInfo,U32& idx )
+		{
+			//Skip New
+			idx++;
+			U32 uiSize	=	vecInfo.size();
+			if(idx>=uiSize)
+				return enSE_UnexpectedEnd;
+			SetErrorInfo(vecInfo[idx]);
+			enumSyntaxError	e	=	enSE_OK;
+			e	=	ParseObjectType(vecInfo,idx,m_NewType,(Node**)&m_pNewObject);
+			if(e!=enSE_OK)
+				return e;
+
+			if(idx+1>=uiSize)
+				return enSE_UnexpectedEnd;
+			WordType t = vecInfo[idx].eType;
+			if(t.uiType!=MakeType(enWT_Delimiter,enWDT_PreBracket)){
+				return enSE_UnexpectedEnd;
+			}
+			if(idx+1>=uiSize)
+				return enSE_UnexpectedEnd;
+
+
+			return ParseParameter(vecInfo,idx);
+		}
+
+		Air::CppScript::enumSyntaxError NewExpressionNode::GenerateCode( Assemble& asmGen )
+		{
+			return enSE_OK;
+		}
+
+
+		Air::CppScript::enumSyntaxError ThisCallExpressionNode::Parse( WordInfoVector& vecInfo,U32& idx )
+		{
+			SetErrorInfo(vecInfo[idx]);
+			return enSE_UnexpectedEnd;
+		}
+
+		Air::CppScript::enumSyntaxError ThisCallExpressionNode::GenerateCode( Assemble& asmGen )
+		{
+
+			return enSE_UnexpectedEnd;
 		}
 
 	}

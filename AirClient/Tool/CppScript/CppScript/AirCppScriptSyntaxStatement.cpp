@@ -105,7 +105,6 @@ namespace	Air{
 			return enSE_UnexpectedEnd;
 		}
 
-
 		Air::CppScript::enumSyntaxError DeleteStatementNode::Parse( WordInfoVector& vecInfo,U32& idx )
 		{
 			idx++;
