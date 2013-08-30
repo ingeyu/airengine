@@ -153,9 +153,9 @@ namespace	Air{
 
 		Air::U32 ObjectNode::GetObjectSize()
 		{
-			if(m_pInherit!=NULL){
-				return m_uiObjSize+m_pInherit->GetObjectSize();
-			}
+			//if(m_pInherit!=NULL){
+			//	return m_uiObjSize+m_pInherit->GetObjectSize();
+			//}
 			return m_uiObjSize;
 		}
 
@@ -190,7 +190,24 @@ namespace	Air{
 
 		Air::CppScript::enumSyntaxError ObjectNode::GenerateCode( Assemble& asmGen )
 		{
+			if(m_pInherit!=NULL){
+				m_uiObjSize	=	((ObjectNode*)m_bInherit)->GetObjectSize();
+			}
+			//Calc Member Offset
 			NodeList::iterator	i	=	m_lstChild.begin();
+			for(;i!=m_lstChild.end();i++){
+				Node* pNode	=	(*i);
+				if(pNode!=NULL){
+					if(pNode->GetType()==enNT_Variable){
+						VariableNode* pVar = (VariableNode*)pNode;
+						pVar->m_uiOffset	=	m_uiObjSize;
+						m_uiObjSize	+=pVar->GetSize();
+					}
+				}
+			}
+			
+			
+			i	=	m_lstChild.begin();
 			for(;i!=m_lstChild.end();i++){
 				Node* pNode	=	(*i);
 				if(pNode!=NULL){

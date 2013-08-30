@@ -1,5 +1,6 @@
 #include "AirCppScriptSyntaxVariable.h"
 #include "AirCppScriptSyntaxExpression.h"
+#include "AirCppScriptSyntaxObject.h"
 
 namespace	Air{
 	namespace	CppScript{
@@ -209,6 +210,32 @@ namespace	Air{
 				return false;
 			}
 			return true;
+		}
+
+		Air::U1 VariableNode::IsMember()
+		{
+			if(m_pParent!=NULL&&m_pParent->GetType()==enNT_Object){
+				return true;
+			}
+			return false;
+		}
+
+		Air::U32 VariableNode::GetSize()
+		{
+			U32	uiSize	=	VariableType.iSize;
+			
+			if(pNodePtr!=NULL){
+				uiSize	=	((ObjectNode*)pNodePtr)->GetObjectSize();
+			}
+
+			if(VariableType.bPointor){
+				uiSize=4;
+			}
+
+			if(uiArrayCount>1){
+				return uiSize*uiArrayCount;
+			}
+			return uiSize;
 		}
 
 	}

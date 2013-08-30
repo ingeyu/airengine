@@ -70,6 +70,8 @@ namespace	Air{
 			}else{
 				if(pVar->IsLocal()){
 					asmGen.Operator(eC_MOV_RM32_R32,eAR_EBP,pVar->m_uiOffset,eAR_EAX);
+				}else if(pVar->IsMember()){
+					asmGen.Operator(eC_MOV_RM32_R32,eAR_ESI,pVar->m_uiOffset,eAR_EAX);
 				}else{
 					//代码实现 全局变量重定位问题
 					//Code Impl Global Variable Load Relocaltion
@@ -728,8 +730,9 @@ namespace	Air{
 					uiOffset	=	pVar->m_uiOffset	-	asmGen.GetCurrentOffset();
 					asmGen.Pop(eAR_EAX);
 					r	=	eAR_EAX;
+				}else if(pVar->IsMember()){
+					r	=	eAR_ESI;
 				}else{
-					
 					r	=	eAR_EBP;
 				}
 			}
@@ -809,8 +812,9 @@ namespace	Air{
 					uiOffset	=	pVar->m_uiOffset	-	asmGen.GetCurrentOffset();
 					asmGen.Pop(eAR_EBX);
 					r	=	eAR_EBX;
+				}else if(pVar->IsMember()){
+					r	=	eAR_ESI;
 				}else{
-
 					r	=	eAR_EBP;
 				}
 			}

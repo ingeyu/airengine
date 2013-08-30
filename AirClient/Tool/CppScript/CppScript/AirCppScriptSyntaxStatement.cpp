@@ -108,7 +108,49 @@ namespace	Air{
 
 		Air::CppScript::enumSyntaxError DeleteStatementNode::Parse( WordInfoVector& vecInfo,U32& idx )
 		{
+			idx++;
+			U32 uiSize	=	vecInfo.size();
+			if(idx>=uiSize){
+				return enSE_Return_Miss_Value;
+			}
+			SetErrorInfo(vecInfo[idx]);
+			WordType t = vecInfo[idx].eType;
+
+			if(t.uiType==MakeType(enWT_Delimiter,enOT_SquareBracketBegin)){
+				idx++;
+				t = vecInfo[idx].eType;
+				if(t.uiType==MakeType(enWT_Delimiter,enOT_SquareBracketEnd)){
+					idx++;
+					t = vecInfo[idx].eType;
+				}else{
+					return enSE_Delete_Array_Need_SquareBracketEnd;
+				}
+				
+			}else if(t.uiType!=0){
+				return enSE_Delete_UnKnown_Variable;
+			}
+			Node* pNode = GetParent()->FindNode(vecInfo[idx].str);
+			if(pNode==NULL){
+				return enSE_Delete_UnKnown_Variable;
+			}
+			if(	pNode->GetType()!=enNT_Variable	&&
+				pNode->GetType()!=enNT_Parameter)
+			{
+				return enSE_Delete_UnKnown_Variable;
+			}
+			pObject	=	pNode;
+			idx++;
+			t = vecInfo[idx].eType;
+			if(t.uiType==MakeType(enWT_Delimiter,enWDT_Semicolon)){
+				idx++;
+				return enSE_OK;
+			}
 			return enSE_UnexpectedEnd;
+		}
+
+		Air::CppScript::enumSyntaxError DeleteStatementNode::GenerateCode( Assemble& asmGen )
+		{
+			return enSE_OK;
 		}
 
 
@@ -308,9 +350,11 @@ namespace	Air{
 
 		Air::CppScript::enumSyntaxError ForStatementNode::GenerateCode( Assemble& asmGen )
 		{
+			//Init Variable Code
 			if(pInitExp!=NULL)
 				pInitExp->GenerateCode(asmGen);
 			
+			//Condition Compare
 			U32 pCondition	=	asmGen.GetCurrentOffset();
 			if(pConditionExp!=NULL){
 				pConditionExp->GenerateCode(asmGen);
@@ -322,7 +366,8 @@ namespace	Air{
 					);
 			}
 			U32 uiJump	=	asmGen.GetCurrentOffset();
-			
+
+			//Loop Code
 			NodeList::iterator	i	=	m_lstChild.begin();
 			for(;i!=m_lstChild.end();i++){
 				Node* pNode	=	(*i);
@@ -332,14 +377,42 @@ namespace	Air{
 					}
 				}
 			}
+
+			NodeList	lstNode;
+			FindNodeDown(lstNode,enNT_Statement);
+			//Modify Continue Jump
+			i	=	lstNode.begin();
+			for(;i!=lstNode.end();i++){
+				Node* pNode	=	(*i);
+				if(pNode!=NULL){
+					StatementNode* pState	=	(StatementNode*)pNode;
+					if(pState->m_sType==enST_Continue){
+						asmGen.WriteAddress_JumpHere(((ContinueStatementNode*)pState)->m_uiJump);
+					}
+				}
+			}
+			//Iterator
 			if(pIterExp!=NULL){
 				pIterExp->GenerateCode(asmGen);
 			}
+			//Loop Jump To Condition Compare
 			asmGen.Jmp(pCondition);
 			if(pConditionExp!=NULL){
 				asmGen.WriteAddress_JumpHere(uiJump);
 			}
-			
+
+			//Modify Break Jump
+			i	=	lstNode.begin();
+			for(;i!=lstNode.end();i++){
+				Node* pNode	=	(*i);
+				if(pNode!=NULL){
+					StatementNode* pState	=	(StatementNode*)pNode;
+					if(pState->m_sType==enST_Break){
+						asmGen.WriteAddress_JumpHere(((BreakStatementNode*)pState)->m_uiJump);
+					}
+				}
+			}
+
 			return enSE_OK;
 		}
 
@@ -534,6 +607,25 @@ namespace	Air{
 			m_uiJump	=	asmGen.GetCurrentOffset();
 			asmGen.WriteAddress_JumpHere(uiConditionJMP);
 			return enSE_OK;
+		}
+
+
+		Air::CppScript::enumSyntaxError BreakStatementNode::Parse( WordInfoVector& vecInfo,U32& idx )
+		{
+			idx++;
+			WordType t = vecInfo[idx].eType;
+			if(t.uiType==MakeType(enWT_Delimiter,enWDT_Semicolon)){
+				idx++;
+				return enSE_OK;
+			}
+			return enSE_UnexpectedEnd;
+		}
+
+		Air::CppScript::enumSyntaxError BreakStatementNode::GenerateCode( Assemble& asmGen )
+		{
+			asmGen.Jmp(0);
+			m_uiJump	=	asmGen.GetCurrentOffset();
+			return	enSE_OK;
 		}
 
 	}

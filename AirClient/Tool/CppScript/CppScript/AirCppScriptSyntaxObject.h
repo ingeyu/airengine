@@ -9,7 +9,7 @@ namespace	Air{
 		class	ObjectNode		:	public	Node{
 		public:
 			ObjectNode(){
-				m_uiObjSize		=	4;
+				m_uiObjSize		=	0;
 				m_bInherit		=	false;
 				m_bVirtualTable	=	false;
 				m_bDeclare		=	false;

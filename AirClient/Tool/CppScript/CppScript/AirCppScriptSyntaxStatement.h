@@ -16,6 +16,9 @@ namespace	Air{
 			enST_New,
 			enST_Delete,
 			enST_Return,
+			enST_Break,
+			enST_Continue,
+
 		};
 		class	StatementNode	:	public	Node{
 		public:
@@ -110,6 +113,7 @@ namespace	Air{
 				m_sType		=	enST_New;
 				pObject		=	NULL;
 				uiNewCount	=	1;
+				m_strName		=	"New";
 			};
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 			Node*							pObject;
@@ -120,8 +124,10 @@ namespace	Air{
 			DeleteStatementNode(){
 				m_sType		=	enST_Delete;
 				pObject		=	NULL;
+				m_strName		=	"Delete";
 			};
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
+			virtual	enumSyntaxError		GenerateCode(Assemble& asmGen);
 			Node*							pObject;
 		};
 		class	ReturnStatementNode	:	public	StatementNode{
@@ -135,6 +141,26 @@ namespace	Air{
 			virtual	enumSyntaxError		GenerateCode(Assemble& asmGen);
 			Node*							pReturn;
 			U32								m_uiJump;
+		};
+
+		class	BreakStatementNode	:public	StatementNode{
+		public:
+			BreakStatementNode(){
+				m_sType			=	enST_Break;
+				m_uiJump		=	0;
+				m_strName		=	"Break";
+			};
+			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
+			virtual	enumSyntaxError		GenerateCode(Assemble& asmGen);
+			U32								m_uiJump;
+		};
+
+		class	ContinueStatementNode	:public	BreakStatementNode{
+		public:
+			ContinueStatementNode(){
+				m_sType			=	enST_Continue;
+				m_strName		=	"Continue";
+			};
 		};
 	}
 }
