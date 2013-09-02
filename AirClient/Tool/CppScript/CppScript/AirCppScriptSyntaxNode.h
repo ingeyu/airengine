@@ -86,6 +86,10 @@ namespace	Air{
 			enSE_Delete_UnKnown_Variable,
 			enSE_Delete_Array_Need_SquareBracketEnd,
 			enSE_UnDefine_Object_Type,
+			enSE_This_Call_Object_Variable_Name_Unrecognized,
+			enSE_This_Call_Need_Member_Function,
+			enSE_UnDefine_Function_Name,
+			enSE_This_Call_Isnt_Match_Static_Function,
 
 			enSE_Unknown_Error	=	0xffffffff
 		};
@@ -146,10 +150,10 @@ namespace	Air{
 			void			AddChild(Node* p);
 			void			RemoveChild(Node* p);
 			Node*			GetRootNode();
-			Node*			FindNode(CAString& strName,enumNodeType type = enNT_Unknown,U1 bFindParent = true);
-			Node*			FindNodeDown(CAString& strName,enumNodeType type = enNT_Unknown,U1 bFindChild = true);
-			void			FindNodeDown(CAString& strName,std::list<Node*>& lstNode,enumNodeType type = enNT_Unknown);
-			void			FindNodeDown(std::list<Node*>& lstNode,enumNodeType type = enNT_Unknown);
+			virtual	Node*	FindNode(CAString& strName,enumNodeType type = enNT_Unknown,U1 bFindParent = true);
+			virtual	Node*	FindNodeDown(CAString& strName,enumNodeType type = enNT_Unknown,U1 bFindChild = true);
+			virtual	void	FindNodeDown(CAString& strName,std::list<Node*>& lstNode,enumNodeType type = enNT_Unknown);
+			virtual	void	FindNodeDown(std::list<Node*>& lstNode,enumNodeType type = enNT_Unknown);
 
 			void			SetErrorInfo(WordInfo& info);
 			WordInfo		GetErrorInfo();

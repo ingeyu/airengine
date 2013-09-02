@@ -33,6 +33,8 @@ namespace	Air{
 				RefCount		=	0;
 				callType		=	enCKWT___stdcall;
 				FunctionType	=	enFT_CFunction;
+				m_uiVirtualIndex	=	0;
+				m_bIsStatic		=	false;
 			};
 
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);

@@ -1,6 +1,7 @@
 #include "AirCppScriptSyntaxObject.h"
 #include "AirCppScriptSyntaxVariable.h"
 #include "AirCppScriptSyntaxFunction.h"
+#include "AirCppScriptAssemble.h"
 namespace	Air{
 	namespace	CppScript{
 
@@ -193,6 +194,11 @@ namespace	Air{
 			if(m_pInherit!=NULL){
 				m_uiObjSize	=	((ObjectNode*)m_bInherit)->GetObjectSize();
 			}
+			if(GetVirtualFunctionCount()>0){
+				if(m_pInherit!=0&&((ObjectNode*)m_pInherit)->GetVirtualFunctionCount()==0){
+					m_uiObjSize+=4;
+				}
+			}
 			//Calc Member Offset
 			NodeList::iterator	i	=	m_lstChild.begin();
 			for(;i!=m_lstChild.end();i++){
@@ -216,8 +222,58 @@ namespace	Air{
 					}
 				}
 			}
+			//Build Virtual Function Table
+			U32* pVFT	=	GetVFTPtr(asmGen);
+			if(m_pInherit!=NULL&&((ObjectNode*)m_pInherit)->GetVirtualFunctionCount()>0){
+				memcpy(pVFT,((ObjectNode*)m_pInherit)->GetVFTPtr(asmGen),sizeof(U32)*((ObjectNode*)m_pInherit)->GetVirtualFunctionCount());
+			}
+			
+			for(U32 idx=0;idx!=m_vecVirtualFunction.size();idx++){
+				FunctionNode* pNode	=	m_vecVirtualFunction[idx];
+				pVFT[pNode->GetVirtualIndex()]	=	pNode->GetEntry();
+			}
+			
+
 			return enSE_OK;
 			return enSE_OK;
+		}
+
+		Node* ObjectNode::FindNode( CAString& strName,enumNodeType type /*= enNT_Unknown*/,U1 bFindParent /*= true*/ )
+		{
+			Node* pNode = NULL;
+			if(m_pInherit!=NULL){
+				pNode	=	m_pInherit->FindNode(strName,type,false);
+			}
+			if(pNode==NULL){
+				pNode	=	__super::FindNode(strName,type,bFindParent);
+			}
+			return pNode;
+		}
+
+		Node* ObjectNode::FindNodeDown( CAString& strName,enumNodeType type /*= enNT_Unknown*/,U1 bFindChild /*= true*/ )
+		{
+			Node* pNode = NULL;
+			if(m_pInherit!=NULL){
+				pNode	=	m_pInherit->FindNodeDown(strName,type,false);
+			}
+			if(pNode==NULL){
+				pNode	=	__super::FindNodeDown(strName,type,bFindChild);
+			}
+			return pNode;
+		}
+
+		U32* ObjectNode::GetVFTPtr(Assemble& asmGen)
+		{
+			return (U32*)asmGen.GetBuffer(m_uiVFTOffset);
+		}
+
+		void ObjectNode::AllocVFT( Assemble& asmGen )
+		{
+			U32 uiVFTCount	=	GetVirtualFunctionCount();
+			if(uiVFTCount==0){
+				return ;
+			}
+			m_uiVFTOffset	=	asmGen.AddOffset(uiVFTCount*sizeof(U32));
 		}
 
 	}

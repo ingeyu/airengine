@@ -13,6 +13,7 @@ namespace	Air{
 			enET_ThisCall,
 			enET_New,
 		};
+		class VariableNode;
 
 		class	ExpressionNode	:	public	Node{
 		public:
@@ -99,9 +100,11 @@ namespace	Air{
 			ThisCallExpressionNode(){
 				eType		=	enET_ThisCall;
 				m_strName	=	"ExpThisCall";
+				
 			};
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 			virtual	enumSyntaxError		GenerateCode(Assemble& asmGen);
+			std::vector<VariableNode*>	m_vecObject;
 		};
 		class	NewExpressionNode	:	public	FunctionCallExpressionNode{
 		public:

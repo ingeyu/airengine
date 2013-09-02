@@ -738,6 +738,10 @@ namespace	Air{
 					if(e==enSE_OK){
 						continue;
 					}else{
+						e = __ParseNode<VariableNode>(vecInfo,idx);
+						if(e==enSE_OK){
+							continue;
+						}
 						return e;
 					}
 				} 
@@ -773,6 +777,13 @@ namespace	Air{
 		Air::CppScript::enumSyntaxError Node::GenerateCode(Assemble& asmGen)
 		{
 			NodeList::iterator	i	=	m_lstChild.begin();
+			for(;i!=m_lstChild.end();i++){
+				Node* pNode	=	(*i);
+				if(pNode->GetType()==enNT_Object){
+					((ObjectNode*)pNode)->AllocVFT(asmGen);
+				}
+			}
+			i	=	m_lstChild.begin();
 			for(;i!=m_lstChild.end();i++){
 				Node* pNode	=	(*i);
 				if(pNode!=NULL){

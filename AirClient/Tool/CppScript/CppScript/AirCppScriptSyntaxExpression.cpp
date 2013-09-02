@@ -58,11 +58,14 @@ namespace	Air{
 						return e;
 					}
 				}else{
-					e	=	__ParseNode<ExpressionElementNode>(vecInfo,idx);
+					e	=	__ParseNode<ThisCallExpressionNode>(vecInfo,idx);
 					if(e!=enSE_OK){
-						e	=	__ParseNode<FunctionCallExpressionNode>(vecInfo,idx);
+						e	=	__ParseNode<ExpressionElementNode>(vecInfo,idx);
 						if(e!=enSE_OK){
-							return e;
+							e	=	__ParseNode<FunctionCallExpressionNode>(vecInfo,idx);
+							if(e!=enSE_OK){
+								return e;
+							}
 						}
 					}
 				}
@@ -496,6 +499,7 @@ namespace	Air{
 
 		Air::CppScript::enumSyntaxError FunctionCallExpressionNode::GenerateCode( Assemble& asmGen )
 		{
+			
 			U32 uiParamSize	=	pParameterArray.size();
 			for(U32 i=0;i<uiParamSize;i++){
 				U32 idx	=	uiParamSize-i-1;
@@ -503,7 +507,9 @@ namespace	Air{
 				asmGen.Code(eC_PUSH_EAX);
 			}
 			FunctionNode* p	=	(FunctionNode*)pFunction;
-			asmGen.Call(p->GetEntry());
+			{
+				asmGen.Call(p->GetEntry());
+			}
 			return enSE_OK;
 		}
 
@@ -1078,13 +1084,116 @@ namespace	Air{
 		Air::CppScript::enumSyntaxError ThisCallExpressionNode::Parse( WordInfoVector& vecInfo,U32& idx )
 		{
 			SetErrorInfo(vecInfo[idx]);
-			return enSE_UnexpectedEnd;
+			U32 uiSize	=	vecInfo.size();
+			if(idx>=uiSize){
+				return enSE_UnexpectedEnd;
+			}
+			U32 uiTemp = idx;
+			for(;uiTemp<uiSize;){
+				WordType t	=	vecInfo[uiTemp].eType;
+				if(t.uiType!=0){
+					return enSE_This_Call_Object_Variable_Name_Unrecognized;
+				}
+				Node* pNode	=	FindNode(vecInfo[uiTemp].str);
+				if(pNode==NULL)
+					break;
+				enumNodeType	nt	=	pNode->GetType();
+				if(nt==enNT_Variable||nt==enNT_Parameter){
+					m_vecObject.push_back((VariableNode*)pNode);
+					t	=	vecInfo[++uiTemp].eType;
+					if(t.uiType==MakeType(enWT_Delimiter,enWDT_Period)){
+						uiTemp++;
+						continue;
+					}else if(t.uiType==MakeType(enWT_Operator,enOT_Sub)){
+						t	=	vecInfo[++uiTemp].eType;
+						if(t.uiType==MakeType(enWT_Operator,enOT_Greater)){
+							uiTemp++;
+							continue;
+						}
+					}else{
+						return enSE_UnexpectedEnd;
+					}
+				}else{
+					break;
+				}
+				
+			}
+			AString& strFunctionName	=	vecInfo[uiTemp].str;
+			U32 uiObjSize		=	m_vecObject.size();
+			VariableNode* pVar	=	NULL;
+			if(uiObjSize>0){
+				pVar	=	m_vecObject[uiObjSize-1];
+				ObjectNode* pObj	=	(ObjectNode*)pVar->pNodePtr;
+				if(pObj!=NULL){
+					pFunction	=	pObj->FindNode(strFunctionName,enNT_Function,false);
+				}
+			}else{
+				pFunction	=	FindNode(strFunctionName,enNT_Function);
+			}
+			if(pFunction==NULL){
+				return enSE_UnDefine_Function_Name;
+			}
+			if(((FunctionNode*)pFunction)->IsStatic()){
+				return enSE_This_Call_Isnt_Match_Static_Function;
+					//return enSE_This_Call_Object_Variable_Name_Unrecognized;
+			}
+			if(((FunctionNode*)pFunction)->GetParent()->GetType()!=enNT_Object){
+				return enSE_This_Call_Object_Variable_Name_Unrecognized;
+			}
+			
+			idx=uiTemp;
+			return ParseParameter(vecInfo,idx);
 		}
 
 		Air::CppScript::enumSyntaxError ThisCallExpressionNode::GenerateCode( Assemble& asmGen )
 		{
+			VariableNode* pObj		=	NULL;
+			U32			uiOffset	=	0;
+			for(U32 i=0;i<m_vecObject.size();i++){
+				VariableNode* p = m_vecObject[i];
+				if(i==0){
+					if(p->GetType()==enNT_Variable&&p->GetParent()->GetType()!=enNT_Object){
+						pObj	=	m_vecObject[i];
+						continue;
+					}
+				}
+				if(p->pNodePtr!=NULL&&p->pNodePtr->GetType()==enNT_Object){
+					if(((ObjectNode*)p->pNodePtr)->GetVirtualFunctionCount()>0){
+						uiOffset+=4;
+					}
+				}
+				uiOffset	+=	p->m_uiOffset;
+				
+			}
+			U32 uiParamSize	=	pParameterArray.size();
+			for(U32 i=0;i<uiParamSize;i++){
+				U32 idx	=	uiParamSize-i-1;
+				pParameterArray[idx]->GenerateCode(asmGen);
+				asmGen.Code(eC_PUSH_EAX);
+			}
 
-			return enSE_UnexpectedEnd;
+			FunctionNode* p	=	(FunctionNode*)pFunction;
+
+			if(pObj==NULL){
+				asmGen.Mov_R32R32(eAR_ECX,eAR_ESI);
+			}else{
+				ExpressionElementNode element;
+				element.pObj	=	pObj;
+				element.GenerateCode(asmGen);
+				asmGen.Mov_R32R32(eAR_ECX,eAR_EAX);
+			}
+			if(uiOffset!=0){
+				asmGen.AddR32Imm(eAR_ECX,uiOffset);
+			}
+			//Virtual Call
+			if(p->IsVartual()){
+				asmGen.Mov_R32RM32(eAR_EAX,eAR_ECX,0);
+				asmGen.Mov_R32RM32(eAR_EAX,eAR_EAX,4*p->GetVirtualIndex());
+				asmGen.Call(eAR_EAX);
+			}else{
+				asmGen.Call(p->GetEntry());
+			}
+			return enSE_OK;
 		}
 
 	}
