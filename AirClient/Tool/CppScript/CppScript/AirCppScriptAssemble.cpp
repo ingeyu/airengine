@@ -410,6 +410,8 @@ namespace	Air{
 
 		U8* Assemble::Buffer( U32 uiSize)
 		{
+			if(m_pBuffer==NULL)
+				return NULL;
 			if(m_uiOffset	+	uiSize	>	m_uiSize){
 				U32 uiOldSize	=	m_uiSize;
 				m_uiSize*=2;

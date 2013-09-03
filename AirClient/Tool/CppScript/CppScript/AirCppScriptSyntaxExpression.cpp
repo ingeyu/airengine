@@ -1118,6 +1118,9 @@ namespace	Air{
 				enumNodeType	nt	=	pNode->GetType();
 				if(nt==enNT_Variable||nt==enNT_Parameter){
 					m_vecObject.push_back((VariableNode*)pNode);
+					if(uiTemp+1>=uiSize){
+						return enSE_UnexpectedEnd;
+					}
 					t	=	vecInfo[++uiTemp].eType;
 					if(t.uiType==MakeType(enWT_Delimiter,enWDT_Period)){
 						uiTemp++;
