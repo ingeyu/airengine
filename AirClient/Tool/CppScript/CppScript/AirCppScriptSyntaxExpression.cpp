@@ -1065,18 +1065,36 @@ namespace	Air{
 			if(idx+1>=uiSize)
 				return enSE_UnexpectedEnd;
 			WordType t = vecInfo[idx].eType;
-			if(t.uiType!=MakeType(enWT_Delimiter,enWDT_PreBracket)){
-				return enSE_UnexpectedEnd;
+			if(t.uiType==MakeType(enWT_Delimiter,enWDT_PreBracket)){
+				if(idx+1>=uiSize)
+					return enSE_UnexpectedEnd;
+				t = vecInfo[idx+1].eType;
+				if(t.uiType==MakeType(enWT_Delimiter,enWDT_PostBracket)){
+					return enSE_OK;
+				}
+				
 			}
-			if(idx+1>=uiSize)
-				return enSE_UnexpectedEnd;
-
 
 			return ParseParameter(vecInfo,idx);
 		}
 
 		Air::CppScript::enumSyntaxError NewExpressionNode::GenerateCode( Assemble& asmGen )
 		{
+			ObjectNode* pNode = (ObjectNode*)m_pNewObject;
+			asmGen.Push(pNode->GetObjectSize());
+			FunctionNode* pAlloc = (FunctionNode*)GetRootNode()->FindNode("__Alloc",enNT_Function,false);
+			if(pAlloc!=NULL){
+				asmGen.Call(pAlloc->GetEntry());
+			}else{
+				asmGen.Call(0x88888888);
+			}
+			FunctionNode* pConstruct = (FunctionNode*)pNode->FindNode(pNode->GetName(),enNT_Function,false);
+			if(pConstruct!=NULL&&pConstruct->IsConstructFunction()){
+				asmGen.Push(eAR_EAX);
+				asmGen.Mov_R32R32(eAR_ECX,eAR_EAX);
+				asmGen.Call(pConstruct->GetEntry());
+				asmGen.Pop(eAR_EAX);
+			}
 			return enSE_OK;
 		}
 

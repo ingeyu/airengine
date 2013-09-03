@@ -352,16 +352,40 @@ namespace	Air{
 			m_uiLocalVariableSize=0;
 			CalcLocalVariableSize(m_uiLocalVariableSize,true);
 
-			pEntry	=
+			//Call Parent Construct Function
+			pEntry	=	0xffffffff;
+			if(IsConstructFunction()){
+				ObjectNode* pObj		= (ObjectNode*)GetParent();
+				ObjectNode* pInherit	= pObj->GetInherit();
+				if(pInherit!=NULL){
+					FunctionNode* pFunc = (FunctionNode*)pInherit->FindNode(pInherit->GetName(),enNT_Function,false);
+					if(pFunc!=NULL&&pFunc->IsConstructFunction()){
+						pEntry	=	asmGen.Call(pFunc->GetEntry());
+					
+					}
+				}
+			}
+			if(pEntry==0xffffffff)
+				pEntry	=	asmGen.GetCurrentOffset();
+
 			asmGen.Code(eC_PUSH_EBP);
 			asmGen.Code(eC_PUSH_EBX);
 			asmGen.Code(eC_PUSH_EDX);
-			asmGen.Code(eC_PUSH_ESI);
+			//Only Member Function Need Save ESI
+			if(IsMemberFunction()&&!IsStatic())
+			{
+				asmGen.Code(eC_PUSH_ESI);
+			}
 			asmGen.Mov_R32R32(eAR_EBP,eAR_ESP);
 			if(m_uiLocalVariableSize!=0){
 				asmGen.SubR32Imm(eAR_ESP,m_uiLocalVariableSize);
 			}
-			asmGen.Mov_R32R32(eAR_ESI,eAR_ECX);
+			if(IsMemberFunction()&&!IsStatic())
+			{
+				asmGen.Mov_R32R32(eAR_ESI,eAR_ECX);
+			}
+			
+
 			i	=	m_lstChild.begin();
 			for(;i!=m_lstChild.end();i++){
 				Node* pNode	=	(*i);
@@ -381,9 +405,20 @@ namespace	Air{
 					}
 				}
 			}
+			//Construct Virtual Function Table
+			if(IsConstructFunction()){
+				ObjectNode* pObj		= (ObjectNode*)GetParent();
+				if(pObj->GetVirtualFunctionCount()>0){
+					asmGen.MovEaxGlobalVarAddr(pObj->GetVFTOffset());
+					asmGen.Mov_RM32R32(eAR_ESI,0,eAR_EAX);
+				}
+			}
 			
 			asmGen.Mov_R32R32(eAR_ESP,eAR_EBP);
-			asmGen.Code(eC_POP_ESI);
+			if(IsMemberFunction()&&!IsStatic())
+			{
+				asmGen.Code(eC_POP_ESI);
+			}
 			asmGen.Code(eC_POP_EDX);
 			asmGen.Code(eC_POP_EBX);
 			asmGen.Code(eC_POP_EBP);
@@ -466,6 +501,24 @@ namespace	Air{
 				}
 			}
 			return enSE_OK;
+		}
+
+		Air::U1 FunctionNode::IsConstructFunction()
+		{
+			if(!IsMemberFunction())
+				return false;
+			if(IsStatic())
+				return	false;
+			return FunctionType	==	enFT_Construct;
+		}
+
+		Air::U1 FunctionNode::IsDisConstructFunction()
+		{
+			if(!IsMemberFunction())
+				return false;
+			if(IsStatic())
+				return	false;
+			return FunctionType	==	enFT_DisConstruct;
 		}
 
 

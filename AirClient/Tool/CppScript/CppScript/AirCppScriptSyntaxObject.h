@@ -31,7 +31,7 @@ namespace	Air{
 			virtual	Node*	FindNodeDown(CAString& strName,enumNodeType type = enNT_Unknown,U1 bFindChild = true);
 			U32*			GetVFTPtr(Assemble& asmGen);
 			U32				GetVFTOffset();
-			
+			ObjectNode*		GetInherit(){return m_pInherit;};
 		protected:
 			U32								m_uiObjSize;
 			U1								m_bInherit;

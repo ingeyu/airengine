@@ -798,6 +798,8 @@ namespace	Air{
 
 			U32		LeftShift(AssembleRegister r,U8 imm);
 			U32		RightShift(AssembleRegister r,U8 imm);
+			U32		MovEaxGlobalVar(U32 uiOffset);
+			U32		MovEaxGlobalVarAddr(U32 uiOffset);
 		public:
 			U32		GetCurrentOffset();
 			U32		AddOffset(U32 uiOffset);

@@ -48,6 +48,8 @@ namespace	Air{
 			U1							IsVartual(){return m_bVirtual!=0;};
 			U1							IsStatic(){return m_bIsStatic!=0;};
 			U1							IsMemberFunction();
+			U1							IsConstructFunction();
+			U1							IsDisConstructFunction();
 			U32							GetVirtualIndex();
 			ParameterNode*				FindParameter(CAString& strName);
 			U32							GetParameterCount(){

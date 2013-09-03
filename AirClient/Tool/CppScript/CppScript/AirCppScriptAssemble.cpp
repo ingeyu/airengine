@@ -916,6 +916,26 @@ namespace	Air{
 			return uiOld;
 		}
 
+		Air::U32 Assemble::MovEaxGlobalVar( U32 uiOffset )
+		{
+			U32 uiRet =		
+			Call(GetCurrentOffset()+5);
+			U32	ui	=	uiOffset	-	GetCurrentOffset();
+			Pop(eAR_EAX);
+			Mov_R32RM32(eAR_EAX,eAR_EAX,ui);
+			return	uiRet;
+		}
+
+		Air::U32 Assemble::MovEaxGlobalVarAddr( U32 uiOffset )
+		{
+			U32 uiRet =		
+				Call(GetCurrentOffset()+5);
+			U32	ui	=	uiOffset	-	GetCurrentOffset();
+			Pop(eAR_EAX);
+			AddR32Imm(eAR_EAX,ui);
+			return	uiRet;
+		}
+
 		Air::CppScript::Code1Ex InserveJumpCondition( Code1Ex codeex )
 		{
 			switch(codeex){

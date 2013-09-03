@@ -276,6 +276,11 @@ namespace	Air{
 			m_uiVFTOffset	=	asmGen.AddOffset(uiVFTCount*sizeof(U32));
 		}
 
+		Air::U32 ObjectNode::GetVFTOffset()
+		{
+			return m_uiVFTOffset;
+		}
+
 	}
 	
 }
