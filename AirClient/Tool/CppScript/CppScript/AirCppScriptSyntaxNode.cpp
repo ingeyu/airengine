@@ -598,12 +598,12 @@ namespace	Air{
 					case enNT_Parameter:{
 
 						U32 uiTempIdx	=	idx;
-						Node* pNode = new ExpressionNode();
-						AddChild(pNode);
-						enumSyntaxError	e = pNode->Parse(vecInfo,uiTempIdx);
+						Node* pNodeVar = new ExpressionNode();
+						AddChild(pNodeVar);
+						enumSyntaxError	e = pNodeVar->Parse(vecInfo,uiTempIdx);
 						if(e!=enSE_OK){
-							RemoveChild(pNode);
-							delete pNode;
+							RemoveChild(pNodeVar);
+							delete pNodeVar;
 							return e;
 						}else{
 							idx	=	uiTempIdx;

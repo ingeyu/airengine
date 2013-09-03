@@ -397,7 +397,7 @@ namespace	Air{
 			}
 			std::list<Node*> lstNode;
 			FindNodeDown(lstNode,enNT_Statement);
-			for(std::list<Node*>::iterator i=lstNode.begin();i!=lstNode.end();i++){
+			for(i=lstNode.begin();i!=lstNode.end();i++){
 				StatementNode* pNode = (StatementNode*)(*i);
 				if(pNode!=NULL){
 					if(pNode->m_sType	==	enST_Return){
