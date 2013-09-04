@@ -413,6 +413,24 @@ namespace	Air{
 					}
 				}
 			}
+
+			//Build Local Variable DisConstruct
+			NodeList::reverse_iterator	itr	=	m_lstChild.rbegin();
+			for(;itr!=m_lstChild.rend();itr++){
+				Node* pNode	=	(*itr);
+				if(pNode!=NULL){
+					if(pNode->GetType()==enNT_Variable){
+						if(((VariableNode*)pNode)->IsObject()){
+							ThisCallExpressionNode construct;
+							construct.m_vecObject.push_back((VariableNode*)pNode);
+							ObjectNode* pObj	=	(ObjectNode*)((VariableNode*)pNode)->pNodePtr;
+							construct.pFunction	=	pObj->GetDisConstructFunction();
+							construct.GenerateCode(asmGen);
+						}
+					}
+				}
+			}
+
 			//Construct Virtual Function Table
 			if(IsConstructFunction()){
 				ObjectNode* pObj		= (ObjectNode*)GetParent();
