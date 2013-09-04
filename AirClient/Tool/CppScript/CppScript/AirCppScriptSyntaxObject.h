@@ -32,6 +32,8 @@ namespace	Air{
 			U32*			GetVFTPtr(Assemble& asmGen);
 			U32				GetVFTOffset();
 			ObjectNode*		GetInherit(){return m_pInherit;};
+			FunctionNode*	GetConstructFunction();
+			FunctionNode*	GetDisConstructFunction();
 		protected:
 			U32								m_uiObjSize;
 			U1								m_bInherit;

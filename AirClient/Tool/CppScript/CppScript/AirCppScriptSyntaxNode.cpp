@@ -776,14 +776,8 @@ namespace	Air{
 
 		Air::CppScript::enumSyntaxError Node::GenerateCode(Assemble& asmGen)
 		{
+			
 			NodeList::iterator	i	=	m_lstChild.begin();
-			for(;i!=m_lstChild.end();i++){
-				Node* pNode	=	(*i);
-				if(pNode->GetType()==enNT_Object){
-					((ObjectNode*)pNode)->AllocVFT(asmGen);
-				}
-			}
-			i	=	m_lstChild.begin();
 			for(;i!=m_lstChild.end();i++){
 				Node* pNode	=	(*i);
 				if(pNode!=NULL){
@@ -917,7 +911,9 @@ namespace	Air{
 			if(e!=enSE_OK)
 				return e;
 
-
+			e	=	LinkVirtualFunctionTable(asmGen);
+			if(e!=enSE_OK)
+				return e;
 
 			e	=	GenerateCode(asmGen);
 			if(e!=enSE_OK)
@@ -926,6 +922,7 @@ namespace	Air{
 			e	=	LinkExportFunction(asmGen);
 			if(e!=enSE_OK)
 				return e;
+
 
 			ModuleHeader* pHeader	=	(ModuleHeader*)asmGen.GetBuffer();
 			pHeader->ImageSize		=	asmGen.GetCurrentOffset();
@@ -1090,6 +1087,46 @@ namespace	Air{
 			return errorInfo;
 		}
 
+		Air::CppScript::enumSyntaxError Node::LinkVirtualFunctionTable( Assemble& asmGen)
+		{
+			asmGen.Int3();
+			asmGen.Int3();
+			asmGen.Int3();
+			asmGen.Int3();
+			std::vector<VFT>	vecVFT;
+			NodeList::iterator	i	=	m_lstChild.begin();
+			for(;i!=m_lstChild.end();i++){
+				Node* pNode	=	(*i);
+				if(pNode->GetType()==enNT_Object){
+					((ObjectNode*)pNode)->AllocVFT(asmGen);
+					VFT vft;
+					vft.uiOffset	=	((ObjectNode*)pNode)->GetVFTOffset();
+					vft.uiCount		=	((ObjectNode*)pNode)->GetVirtualFunctionCount();
+					vecVFT.push_back(vft);
+				}
+			}
+
+			asmGen.Int3();
+			asmGen.Int3();
+			asmGen.Int3();
+			asmGen.Int3();
+
+			ModuleHeader* pHeader	=	(ModuleHeader*)asmGen.GetBuffer();
+
+			pHeader->VFTCount	=	vecVFT.size();
+			pHeader->VFTArray_RA	=	asmGen.GetCurrentOffset();
+			asmGen.PushBuffer(&vecVFT[0],sizeof(VFT)*pHeader->VFTCount);
+
+			asmGen.Int3();
+			asmGen.Int3();
+			asmGen.Int3();
+			asmGen.Int3();
+
+			
+
+			return enSE_OK;
+		}
+
 		const AString& GetSyntaxErrorString( enumSyntaxError e )
 		{
 			static AString strError[]={
@@ -1154,6 +1191,13 @@ namespace	Air{
 				"enSE_Return_Must_In_A_Function_Block",
 				"enSE_Function_Return_Type_Not_Match",
 				"enSE_Function_Parameter_Count_Not_Match",
+				"enSE_Delete_UnKnown_Variable",
+				"enSE_Delete_Array_Need_SquareBracketEnd",
+				"enSE_UnDefine_Object_Type",
+				"enSE_This_Call_Object_Variable_Name_Unrecognized",
+				"enSE_This_Call_Need_Member_Function",
+				"enSE_UnDefine_Function_Name",
+				"enSE_This_Call_Isnt_Match_Static_Function",
 			};
 			return strError[e];
 		}

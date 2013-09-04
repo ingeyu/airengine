@@ -197,6 +197,8 @@ namespace	Air{
 			if(GetVirtualFunctionCount()>0){
 				if(m_pInherit!=0&&((ObjectNode*)m_pInherit)->GetVirtualFunctionCount()==0){
 					m_uiObjSize+=4;
+				}else if(m_pInherit==NULL){
+					m_uiObjSize+=4;
 				}
 			}
 			//Calc Member Offset
@@ -279,6 +281,26 @@ namespace	Air{
 		Air::U32 ObjectNode::GetVFTOffset()
 		{
 			return m_uiVFTOffset;
+		}
+
+		FunctionNode* ObjectNode::GetConstructFunction()
+		{
+			FunctionNode* p	=	(FunctionNode*)FindNode(GetName(),enNT_Function,false);
+			if(p->IsConstructFunction())
+			{
+				return p;
+			}
+			return NULL;
+		}
+
+		FunctionNode* ObjectNode::GetDisConstructFunction()
+		{
+			FunctionNode* p	=	(FunctionNode*)FindNode(AString("~")+GetName(),enNT_Function,false);
+			if(p->IsDisConstructFunction())
+			{
+				return p;
+			}
+			return NULL;
 		}
 
 	}

@@ -122,6 +122,15 @@ namespace	Air{
 			for(U32 i=0;i<m_pHeader->EATCount;i++){
 				m_pHeader->EATArray[i].EAT_RA	+=	(U32)m_pImageBase;
 			}
+			//VFT
+			m_pHeader->VFTArray_RA	+=	(U32)m_pImageBase;
+			for(U32 i=0;i<m_pHeader->EATCount;i++){
+				U8* pBase	=	(U8*)m_pImageBase	+	m_pHeader->VFTArray[i].uiOffset;
+				U32*	pVFT	=	(U32*)pBase;
+				for(U32 j=0;j<m_pHeader->VFTArray[i].uiCount;j++){
+					pVFT[j]	+=	(U32)m_pImageBase;
+				}
+			}
 			return enLE_OK;
 		}
 
@@ -161,7 +170,8 @@ namespace	Air{
 			header.EATCount			=	0;
 			header.Entry_RA			=	0;
 			header.ImageSize		=	0;
-
+			header.VFTCount			=	0;
+			header.VFTArray_RA		=	0;
 		}
 
 

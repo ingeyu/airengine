@@ -372,7 +372,7 @@ namespace	Air{
 			asmGen.Code(eC_PUSH_EBX);
 			asmGen.Code(eC_PUSH_EDX);
 			//Only Member Function Need Save ESI
-			if(IsMemberFunction()&&!IsStatic())
+			//if(IsMemberFunction()&&!IsStatic())
 			{
 				asmGen.Code(eC_PUSH_ESI);
 			}
@@ -392,6 +392,14 @@ namespace	Air{
 				if(pNode!=NULL){
 					if(pNode->GetType()==enNT_Statement){
 						pNode->GenerateCode(asmGen);
+					}else if(pNode->GetType()==enNT_Variable){
+						if(((VariableNode*)pNode)->IsObject()){
+							ThisCallExpressionNode construct;
+							construct.m_vecObject.push_back((VariableNode*)pNode);
+							ObjectNode* pObj	=	(ObjectNode*)((VariableNode*)pNode)->pNodePtr;
+							construct.pFunction	=	pObj->GetConstructFunction();
+							construct.GenerateCode(asmGen);
+						}
 					}
 				}
 			}
@@ -415,7 +423,7 @@ namespace	Air{
 			}
 			
 			asmGen.Mov_R32R32(eAR_ESP,eAR_EBP);
-			if(IsMemberFunction()&&!IsStatic())
+			//if(IsMemberFunction()&&!IsStatic())
 			{
 				asmGen.Code(eC_POP_ESI);
 			}

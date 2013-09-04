@@ -26,6 +26,7 @@ namespace	Air{
 			};
 			U1							IsLocal();
 			U1							IsMember();
+			U1							IsObject();
 			U32							GetSize();
 			virtual	enumSyntaxError		Parse(WordInfoVector& vecInfo,U32& idx);
 			ObjectType					VariableType;

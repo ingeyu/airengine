@@ -756,7 +756,12 @@ namespace	Air{
 			
 			if(m_pIndex!=NULL){
 				
-				asmGen.Mov_R32RM32(eAR_EDX,r,uiOffset);
+				if(pVar->IsObject()){
+					asmGen.Mov_R32R32(eAR_EDX,r);
+					asmGen.AddR32Imm(eAR_EDX,uiOffset);
+				}else{
+					asmGen.Mov_R32RM32(eAR_EDX,r,uiOffset);
+				}
 	
 				//asmGen.AddR32Imm(eAR_EDX,uiOffset);
 				m_pIndex->GenerateCode(asmGen);
@@ -779,7 +784,14 @@ namespace	Air{
 
 				return enSE_OK;
 			}else{
-				asmGen.Operator(eC_MOV_R32_RM32,eAR_EAX,r,uiOffset);
+				if(pVar->IsObject()){
+					if(r!=eAR_EAX){
+						asmGen.Mov_R32R32(eAR_EAX,r);
+					}
+					asmGen.AddR32Imm(eAR_EAX,uiOffset);
+				}else{
+					asmGen.Operator(eC_MOV_R32_RM32,eAR_EAX,r,uiOffset);
+				}
 			}
 			
 			if(eSelfOperator[1]==enOT_Increment){
@@ -1082,7 +1094,7 @@ namespace	Air{
 		{
 			ObjectNode* pNode = (ObjectNode*)m_pNewObject;
 			asmGen.Push(pNode->GetObjectSize());
-			FunctionNode* pAlloc = (FunctionNode*)GetRootNode()->FindNode("__Alloc",enNT_Function,false);
+			FunctionNode* pAlloc = (FunctionNode*)GetRootNode()->FindNode("malloc",enNT_Function,false);
 			if(pAlloc!=NULL){
 				asmGen.Call(pAlloc->GetEntry());
 			}else{
@@ -1163,7 +1175,16 @@ namespace	Air{
 			}
 			
 			idx=uiTemp;
-			return ParseParameter(vecInfo,idx);
+			enumSyntaxError	e	=	ParseParameter(vecInfo,idx);
+			if(e!=enSE_OK){
+				return e;
+			}
+
+			FunctionNode* pAlloc = (FunctionNode*)GetRootNode()->FindNode("malloc",enNT_Function,false);
+			if(pAlloc!=NULL){
+				pAlloc->RefCount++;
+			}
+			return enSE_OK;
 		}
 
 		Air::CppScript::enumSyntaxError ThisCallExpressionNode::GenerateCode( Assemble& asmGen )

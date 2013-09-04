@@ -238,5 +238,10 @@ namespace	Air{
 			return uiSize;
 		}
 
+		Air::U1 VariableNode::IsObject()
+		{
+			return VariableType.t==enBOT_Obj && !VariableType.bPointor;
+		}
+
 	}
 }

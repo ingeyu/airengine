@@ -26,6 +26,10 @@ namespace	Air{
 			};
 			S8	Name[32];
 		};
+		struct VFT{
+			U32	uiOffset;
+			U32	uiCount;
+		};
 		struct	ModuleHeader{
 			U32		CppS;
 			U32		CompilerVersion;
@@ -44,6 +48,11 @@ namespace	Air{
 			union{
 				U32		IATArray_RA;
 				IAT*	IATArray;
+			};
+			U32		VFTCount;
+			union{
+				U32		VFTArray_RA;
+				VFT*	VFTArray;
 			};
 		};
 

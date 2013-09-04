@@ -107,6 +107,7 @@ namespace	Air{
 		void	Print(const char* str);
 		class	Node;
 		typedef std::list<Node*>	NodeList;
+		struct ModuleHeader;
 		class	Node{
 		public:
 			Node();
@@ -137,6 +138,7 @@ namespace	Air{
 			enumSyntaxError				LinkGolbalVariable(Assemble& asmGen);
 			enumSyntaxError				LinkImportFunction(Assemble& asmGen);
 			enumSyntaxError				LinkExportFunction(Assemble& asmGen);
+			enumSyntaxError				LinkVirtualFunctionTable(Assemble& asmGen);
 			enumSyntaxError				GenerateGlobalFunctionCode(Assemble& asmGen);
 			virtual	enumSyntaxError		Link(Assemble& asmGen);
 
