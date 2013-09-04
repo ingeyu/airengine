@@ -89,6 +89,15 @@ namespace	Air{
 				if(tObjType.uiType	==	MakeType(enWT_Unknown,enCKWT_Unknown)){
 					Node* pObj	=	FindNode(vecInfo[idx].str);
 					if(pObj==NULL){
+						//if its a DisConstruct Function
+						if(vecInfo[idx].str	==	AString("~")+GetName()){
+							e = __ParseNode<FunctionNode>(vecInfo,idx);
+							if(e!=enSE_OK){
+								return e;
+							}else{
+								continue;
+							}
+						}
 						return enSE_Unrecognized_Class_Or_Struct_Word;
 					}
 					if(pObj->GetType()!=enNT_Object){
@@ -119,7 +128,8 @@ namespace	Air{
 						return enSE_Public_Private_Protected_Must_Fallow_Colon;
 					}
 									  }break;
-				case enCKWT_Virtual:{
+				case enCKWT_Virtual:
+				case enOT_Not:{
 					Node* pFunc	=	NULL;
 					e = __ParseNode<FunctionNode>(vecInfo,idx,&pFunc);
 					AddVirtualFunction((FunctionNode*)pFunc);
@@ -147,6 +157,14 @@ namespace	Air{
 						}
 						
 					}break;
+				default:{
+					Node* pFunc	=	NULL;
+					e = __ParseNode<FunctionNode>(vecInfo,idx,&pFunc);
+					AddVirtualFunction((FunctionNode*)pFunc);
+					if(e!=enSE_OK){
+						return e;
+					}
+						}break;
 				}
 			}
 			return enSE_UnexpectedEnd;
