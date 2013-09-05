@@ -938,6 +938,20 @@ namespace	Air{
 			return	uiRet;
 		}
 
+		Air::U32 Assemble::Mov_RM16R16( AssembleRegister rDst,U32 uiOffset,AssembleRegister rSrc )
+		{
+			U32	uiRet = PushBuffer((U8)eC_PREFIX_NONE_NONE);
+			Mov_RM32R32(rDst,uiOffset,rSrc);
+			return uiRet;
+		}
+
+		Air::U32 Assemble::Mov_R16RM16( AssembleRegister rDst,AssembleRegister rSrc,U32 uiOffset )
+		{
+			U32	uiRet = PushBuffer((U8)eC_PREFIX_NONE_NONE);
+			Mov_R32RM32(rDst,rSrc,uiOffset);
+			return uiRet;
+		}
+
 		Air::CppScript::Code1Ex InserveJumpCondition( Code1Ex codeex )
 		{
 			switch(codeex){

@@ -90,6 +90,7 @@ namespace	Air{
 			enSE_This_Call_Need_Member_Function,
 			enSE_UnDefine_Function_Name,
 			enSE_This_Call_Isnt_Match_Static_Function,
+			enSE_Delete_Must_Be_A_Pointor,
 
 			enSE_Unknown_Error	=	0xffffffff
 		};

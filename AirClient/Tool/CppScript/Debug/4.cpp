@@ -1,9 +1,10 @@
 __declspec(dllimport)	void Print(const char* str);
 __declspec(dllimport)	void*	malloc(int	uiSize);
+__declspec(dllimport)	void	free(void*	p);
 struct Vector3{
 	float x;
 	float y;
-	float z;
+	short z;
 	Vector3(){
 		x	=	0;
 		y	=	0;
@@ -28,10 +29,11 @@ struct Vector4	:	public	Vector3{
 */
 
 __declspec(dllexport)	int main(int iCount,int iStart){
-	Vector3 v;
-	v.Add();
+	//Vector3 v;
+	//v.Add();
 	Vector3* pV =	NULL;
 	pV	=	new Vector3();
 	pV->Add();
+	delete pV;
 	return 0;
 }

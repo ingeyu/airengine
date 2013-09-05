@@ -2,6 +2,7 @@
 #include "AirCppScriptSyntaxExpression.h"
 #include "AirCppScriptSyntaxFunction.h"
 #include "AirCppScriptAssemble.h"
+#include "AirCppScriptSyntaxObject.h"
 namespace	Air{
 	namespace	CppScript{
 
@@ -128,7 +129,7 @@ namespace	Air{
 			}else if(t.uiType!=0){
 				return enSE_Delete_UnKnown_Variable;
 			}
-			Node* pNode = GetParent()->FindNode(vecInfo[idx].str);
+			Node* pNode = FindNode(vecInfo[idx].str);
 			if(pNode==NULL){
 				return enSE_Delete_UnKnown_Variable;
 			}
@@ -137,11 +138,18 @@ namespace	Air{
 			{
 				return enSE_Delete_UnKnown_Variable;
 			}
+			VariableNode* pVar	=	(VariableNode*)pNode;
+			if(!pVar->VariableType.bPointor){
+				return enSE_Delete_Must_Be_A_Pointor;
+			}
 			pObject	=	pNode;
 			idx++;
 			t = vecInfo[idx].eType;
 			if(t.uiType==MakeType(enWT_Delimiter,enWDT_Semicolon)){
 				idx++;
+
+				FunctionNode* pFree = (FunctionNode*)GetRootNode()->FindNode("free",enNT_Function,false);
+				pFree->RefCount++;
 				return enSE_OK;
 			}
 			return enSE_UnexpectedEnd;
@@ -149,6 +157,39 @@ namespace	Air{
 
 		Air::CppScript::enumSyntaxError DeleteStatementNode::GenerateCode( Assemble& asmGen )
 		{
+			VariableNode* pVar = (VariableNode*)pObject;
+
+			ExpressionElementNode element;
+			element.pObj	=	pObject;
+			element.GenerateCode(asmGen);
+
+			
+			asmGen.Push(eAR_EAX);
+
+			if(pVar->pNodePtr!=NULL){
+				ObjectNode* pObj	=	(ObjectNode*)pVar->pNodePtr;
+				FunctionNode* pDisConstruct = (FunctionNode*)pObj->FindNode(AString("~")+pObj->GetName(),enNT_Function,false);
+				if(pDisConstruct!=NULL&&pDisConstruct->IsDisConstructFunction()){
+					
+					asmGen.Mov_R32R32(eAR_ECX,eAR_EAX);
+					if(pDisConstruct->IsVartual()){
+						asmGen.Mov_R32RM32(eAR_EAX,eAR_EAX,0);
+						asmGen.Mov_R32RM32(eAR_EAX,eAR_EAX,pDisConstruct->GetVirtualIndex()*4);
+						asmGen.Call(eAR_EAX);
+					}else{
+						
+						asmGen.Call(pDisConstruct->GetEntry());
+					}
+				}
+			}
+
+			FunctionNode* pFree = (FunctionNode*)GetRootNode()->FindNode("free",enNT_Function,false);
+			if(pFree!=NULL){
+				asmGen.Call(pFree->GetEntry());
+			}else{
+				asmGen.Call(0x88888888);
+			}
+			
 			return enSE_OK;
 		}
 

@@ -212,6 +212,17 @@ namespace	Air{
 						m_bOnlyDeclare	=	1;
 						return enSE_OK;
 					}
+				}else{
+					e = ParseParameter(vecInfo,idx);
+					if(e!=enSE_OK){
+						return e;
+					}
+					tObjType	=	vecInfo[idx].eType;
+					if(tObjType.eWordtype	==	enWT_Delimiter	&&	tObjType.eKeyword	==	enWDT_Semicolon){
+						idx++;
+						m_bOnlyDeclare	=	1;
+						return enSE_OK;
+					}
 				}
 			}else{
 				e = ParseParameter(vecInfo,idx);

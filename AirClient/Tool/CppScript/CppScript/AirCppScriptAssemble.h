@@ -784,6 +784,8 @@ namespace	Air{
 			U32		Mov_R32R32(AssembleRegister rDst,AssembleRegister rSrc);
 			U32		Mov_RM32R32(AssembleRegister rDst,U32 uiOffset,AssembleRegister rSrc);
 			U32		Mov_R32RM32(AssembleRegister rDst,AssembleRegister rSrc,U32 uiOffset);
+			U32		Mov_RM16R16(AssembleRegister rDst,U32 uiOffset,AssembleRegister rSrc);
+			U32		Mov_R16RM16(AssembleRegister rDst,AssembleRegister rSrc,U32 uiOffset);
 			U32		MovAbsEax(U32 uiOffset);
 			U32		MovEaxAbs(U32 uiOffset);
 			// ~

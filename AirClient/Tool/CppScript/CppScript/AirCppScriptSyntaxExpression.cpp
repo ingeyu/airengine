@@ -777,7 +777,9 @@ namespace	Air{
 				asmGen.Operator(eC_ADD_R32_RM32,eAR_EDX,eAR_EAX);
 
 				if(uiRegOffset==4){
-					asmGen.Operator(eC_MOV_R32_RM32,eAR_EAX,eAR_EDX,0);
+					asmGen.Mov_R32RM32(eAR_EAX,eAR_EDX,0);
+				}else if(uiRegOffset==2){
+					asmGen.Mov_R16RM16(eAR_EAX,eAR_EDX,0);
 				}else{
 					asmGen.Operator(eC_MOV_R8_RM8,eAR_EAX,eAR_EDX,0);
 				}
@@ -847,7 +849,16 @@ namespace	Air{
 			if(m_pIndex==NULL){
 				switch(op){
 					case	enOT_Mov		:{
-						asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,eAR_EAX);
+						//asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,eAR_EAX);
+						U32 uiRegOffset	=	pVar->GetSize();
+						
+						if(uiRegOffset==4){
+							asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,eAR_EAX);
+						}else if(uiRegOffset==2){
+							asmGen.Mov_RM16R16(r,uiOffset,eAR_EAX);
+						}else{
+							asmGen.Operator(eC_MOV_RM8_R8,r,uiOffset,eAR_EAX);
+						}
 											 }break;
 					case	enOT_AddEqual	:{
 						asmGen.Operator(eC_ADD_RM32_R32,r,uiOffset,eAR_EAX);
@@ -893,6 +904,8 @@ namespace	Air{
 				case	enOT_Mov		:{
 					if(uiRegOffset==4){
 						asmGen.Operator(eC_MOV_RM32_R32,eAR_EBX,0,eAR_EDX);
+					}else if(uiRegOffset==2){
+						asmGen.Mov_RM16R16(eAR_EBX,0,eAR_EDX);
 					}else{
 						asmGen.Operator(eC_MOV_RM8_R8,eAR_EBX,0,eAR_EDX);
 					}
