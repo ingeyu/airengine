@@ -847,10 +847,11 @@ namespace	Air{
 			}
 
 			if(m_pIndex==NULL){
+				U32 uiRegOffset	=	pVar->GetSize();
 				switch(op){
 					case	enOT_Mov		:{
 						//asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,eAR_EAX);
-						U32 uiRegOffset	=	pVar->GetSize();
+						
 						
 						if(uiRegOffset==4){
 							asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,eAR_EAX);
@@ -861,16 +862,32 @@ namespace	Air{
 						}
 											 }break;
 					case	enOT_AddEqual	:{
-						asmGen.Operator(eC_ADD_RM32_R32,r,uiOffset,eAR_EAX);
+						if(uiRegOffset==4){
+							asmGen.Operator(eC_ADD_RM32_R32,r,uiOffset,eAR_EAX);
+						}else{
+							asmGen.Operator(eC_ADD_RM8_R8,r,uiOffset,eAR_EAX);
+						}
 											 }break;
 					case	enOT_SubEqual	:{
-						asmGen.Operator(eC_SUB_RM32_R32,r,uiOffset,eAR_EAX);
+						if(uiRegOffset==4){
+							asmGen.Operator(eC_SUB_RM32_R32,r,uiOffset,eAR_EAX);
+						}else{
+							 asmGen.Operator(eC_SUB_RM8_R8,r,uiOffset,eAR_EAX);
+						}
 											 }break;
 					case	enOT_AndEqual	:{
-						asmGen.Operator(eC_AND_RM32_R32,r,uiOffset,eAR_EAX);
+						if(uiRegOffset==4){
+							asmGen.Operator(eC_AND_RM32_R32,r,uiOffset,eAR_EAX);
+						}else{
+							asmGen.Operator(eC_AND_RM8_R8,r,uiOffset,eAR_EAX);
+						}
 											 }break;
 					case	enOT_OrEqual	:{
-						asmGen.Operator(eC_OR_RM32_R32,r,uiOffset,eAR_EAX);
+						if(uiRegOffset==4){
+							asmGen.Operator(eC_OR_RM32_R32,r,uiOffset,eAR_EAX);
+						}else{
+							asmGen.Operator(eC_OR_RM8_R8,r,uiOffset,eAR_EAX);
+						}
 											 }break;
 					case	enOT_MulEqual	:{
 						asmGen.Operator(eC_MOV_R32_RM32,eAR_EBX,r,uiOffset);
@@ -1241,7 +1258,7 @@ namespace	Air{
 				asmGen.AddR32Imm(eAR_ECX,uiOffset);
 			}
 			//Virtual Call
-			if(p->IsVartual()){
+			if(p->IsVirtual()){
 				asmGen.Mov_R32RM32(eAR_EAX,eAR_ECX,0);
 				asmGen.Mov_R32RM32(eAR_EAX,eAR_EAX,4*p->GetVirtualIndex());
 				asmGen.Call(eAR_EAX);

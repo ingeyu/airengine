@@ -17,6 +17,18 @@ struct Vector3{
 		Print("Vector3::Add");
 	};
 };
+
+struct Vector4	:	public	Vector3
+{
+	Vector4(){
+	};
+	~Vector4(){
+		Print("Vector4::~Vector4");
+	};
+	virtual	void	Add(){
+		Print("Vector4::Add");
+	};
+};
 /*
 struct Vector4	:	public	Vector3{
 	virtual	~Vector4(){
@@ -31,8 +43,8 @@ struct Vector4	:	public	Vector3{
 __declspec(dllexport)	int main(int iCount,int iStart){
 	//Vector3 v;
 	//v.Add();
-	Vector3* pV =	NULL;
-	pV	=	new Vector3();
+	Vector4* pV =	NULL;
+	pV	=	new Vector4();
 	pV->Add();
 	delete pV;
 	return 0;

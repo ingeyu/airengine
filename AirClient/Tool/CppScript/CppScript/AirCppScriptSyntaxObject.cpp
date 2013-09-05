@@ -190,14 +190,14 @@ namespace	Air{
 		{
 			if(p==NULL)
 				return;
-			if(!p->IsVartual())
+			if(!p->IsVirtual())
 				return;
 			m_vecVirtualFunction.push_back(p);
 
 			if(m_pInherit!=NULL){
 				Node* pNode = m_pInherit->FindNodeDown(p->GetName(),enNT_Function,false);
 				if(pNode!=NULL){
-					if(((FunctionNode*)pNode)->IsVartual()){
+					if(((FunctionNode*)pNode)->IsVirtual()){
 						p->m_uiVirtualIndex	=	((FunctionNode*)pNode)->GetVirtualIndex();
 						return;
 					}
@@ -210,7 +210,7 @@ namespace	Air{
 		Air::CppScript::enumSyntaxError ObjectNode::GenerateCode( Assemble& asmGen )
 		{
 			if(m_pInherit!=NULL){
-				m_uiObjSize	=	((ObjectNode*)m_bInherit)->GetObjectSize();
+				m_uiObjSize	=	((ObjectNode*)m_pInherit)->GetObjectSize();
 			}
 			if(GetVirtualFunctionCount()>0){
 				if(m_pInherit!=0&&((ObjectNode*)m_pInherit)->GetVirtualFunctionCount()==0){

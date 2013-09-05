@@ -172,7 +172,7 @@ namespace	Air{
 				if(pDisConstruct!=NULL&&pDisConstruct->IsDisConstructFunction()){
 					
 					asmGen.Mov_R32R32(eAR_ECX,eAR_EAX);
-					if(pDisConstruct->IsVartual()){
+					if(pDisConstruct->IsVirtual()){
 						asmGen.Mov_R32RM32(eAR_EAX,eAR_EAX,0);
 						asmGen.Mov_R32RM32(eAR_EAX,eAR_EAX,pDisConstruct->GetVirtualIndex()*4);
 						asmGen.Call(eAR_EAX);

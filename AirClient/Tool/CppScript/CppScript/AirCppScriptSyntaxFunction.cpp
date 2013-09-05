@@ -449,6 +449,22 @@ namespace	Air{
 					asmGen.MovEaxGlobalVarAddr(pObj->GetVFTOffset());
 					asmGen.Mov_RM32R32(eAR_ESI,0,eAR_EAX);
 				}
+			}else if(IsDisConstructFunction()){
+				ObjectNode* pObj		= (ObjectNode*)GetParent();
+				if(pObj->GetInherit()!=NULL){
+					ObjectNode* pInherit	=	pObj->GetInherit();
+					FunctionNode* pDisConstruct =	pInherit->GetDisConstructFunction();
+					if(pDisConstruct!=NULL){
+						asmGen.Mov_R32R32(eAR_ECX,eAR_ESI);
+						if(pDisConstruct->IsVirtual()){
+							asmGen.Mov_R32RM32(eAR_EAX,eAR_EAX,0);
+							asmGen.Mov_R32RM32(eAR_EAX,eAR_EAX,pDisConstruct->GetVirtualIndex()*4);
+							asmGen.Call(eAR_EAX);
+						}else{
+							asmGen.Call(pDisConstruct->GetEntry());
+						}
+					}
+				}
 			}
 			
 			asmGen.Mov_R32R32(eAR_ESP,eAR_EBP);
@@ -480,7 +496,7 @@ namespace	Air{
 
 		Air::U32 FunctionNode::GetVirtualIndex()
 		{
-			if(!IsVartual())
+			if(!IsVirtual())
 				return 0xffffffff;
 			return m_uiVirtualIndex;
 		}
@@ -514,7 +530,7 @@ namespace	Air{
 			if(e!=enSE_OK)
 				return e;
 
-			e	=	ParseVariableName(vecInfo,idx,m_strName);
+			e	=	ParseVariableName(vecInfo,idx,m_strName,false);
 			if(e!=enSE_OK)
 				return e;
 			return enSE_OK;

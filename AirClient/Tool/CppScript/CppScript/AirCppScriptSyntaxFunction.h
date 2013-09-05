@@ -45,7 +45,7 @@ namespace	Air{
 			virtual	enumSyntaxError		GenerateCode(Assemble& asmGen);
 
 			U1							IsParamNameExist(CAString& strName);
-			U1							IsVartual(){return m_bVirtual!=0;};
+			U1							IsVirtual(){return m_bVirtual!=0;};
 			U1							IsStatic(){return m_bIsStatic!=0;};
 			U1							IsMemberFunction();
 			U1							IsConstructFunction();

@@ -124,7 +124,7 @@ namespace	Air{
 			}
 			//VFT
 			m_pHeader->VFTArray_RA	+=	(U32)m_pImageBase;
-			for(U32 i=0;i<m_pHeader->EATCount;i++){
+			for(U32 i=0;i<m_pHeader->VFTCount;i++){
 				U8* pBase	=	(U8*)m_pImageBase	+	m_pHeader->VFTArray[i].uiOffset;
 				U32*	pVFT	=	(U32*)pBase;
 				for(U32 j=0;j<m_pHeader->VFTArray[i].uiCount;j++){
