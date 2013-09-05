@@ -117,8 +117,8 @@ namespace	Air{
 			m_mapWordType[":"]	=	MakeType(enWT_Operator,	enOT_Colon,				0,0);
 			m_mapWordType["?"]	=	MakeType(enWT_Operator,	enOT_Question,			0,0);
 			m_mapWordType["&&"]	=	MakeType(enWT_Operator,	enOT_LogicAnd,			0,0);
-			m_mapWordType["||"]	=	MakeType(enWT_Operator,	enOT_LogicNot,			0,0);
-			m_mapWordType["!"]	=	MakeType(enWT_Operator,	enOT_LogicOr,			0,0);
+			m_mapWordType["||"]	=	MakeType(enWT_Operator,	enOT_LogicOr,			0,0);
+			m_mapWordType["!"]	=	MakeType(enWT_Operator,	enOT_LogicNot,			0,0);
 			m_mapWordType["->"]	=	MakeType(enWT_Operator,	enOT_PointorMember,		0,0);
 
 			m_mapWordType[","]	=	MakeType(enWT_Delimiter,	enWDT_Comma,			0,0);//	,

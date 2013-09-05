@@ -29,6 +29,24 @@ struct Vector4	:	public	Vector3
 		Print("Vector4::Add");
 	};
 };
+
+struct MyClass{
+	Vector4* pVec4;
+	MyClass(){
+		pVec4	=	new Vector4();
+	};
+	~MyClass(){
+		if(pVec4!=NULL){
+			delete pVec4;
+			pVec4=NULL;
+		}
+	};
+
+	void	Call(){
+		pVec4->Add();
+	};
+	
+};
 /*
 struct Vector4	:	public	Vector3{
 	virtual	~Vector4(){
@@ -43,9 +61,9 @@ struct Vector4	:	public	Vector3{
 __declspec(dllexport)	int main(int iCount,int iStart){
 	//Vector3 v;
 	//v.Add();
-	Vector4* pV =	NULL;
-	pV	=	new Vector4();
-	pV->Add();
+	MyClass* pV =	NULL;
+	pV	=	new MyClass();
+	pV->Call();
 	delete pV;
 	return 0;
 }

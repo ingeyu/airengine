@@ -116,9 +116,11 @@ namespace	Air{
 				case enOT_LogicOr:{
 					return p[2]->GetJumpCondition();
 								  }break;
-				case enOT_Equal:
-				case enOT_NotEqual:{
+				case enOT_Equal:{
 					return eCEx_JZ_REL32;
+								}break;
+				case enOT_NotEqual:{
+					return eCEx_JNZ_REL32;
 								}break;
 				case enOT_Greater:				///<	>
 					{
@@ -1219,44 +1221,46 @@ namespace	Air{
 
 		Air::CppScript::enumSyntaxError ThisCallExpressionNode::GenerateCode( Assemble& asmGen )
 		{
-			VariableNode* pObj		=	NULL;
-			U32			uiOffset	=	0;
-			for(U32 i=0;i<m_vecObject.size();i++){
-				VariableNode* p = m_vecObject[i];
-				if(i==0){
-					if(p->GetType()==enNT_Variable&&p->GetParent()->GetType()!=enNT_Object){
-						pObj	=	m_vecObject[i];
-						continue;
-					}
-				}
-				if(p->pNodePtr!=NULL&&p->pNodePtr->GetType()==enNT_Object){
-					if(((ObjectNode*)p->pNodePtr)->GetVirtualFunctionCount()>0){
-						uiOffset+=4;
-					}
-				}
-				uiOffset	+=	p->m_uiOffset;
-				
-			}
+			//Push Parameter
 			U32 uiParamSize	=	pParameterArray.size();
 			for(U32 i=0;i<uiParamSize;i++){
 				U32 idx	=	uiParamSize-i-1;
 				pParameterArray[idx]->GenerateCode(asmGen);
 				asmGen.Code(eC_PUSH_EAX);
 			}
+			//Build This
+			VariableNode* pObj		=	NULL;
+			if(m_vecObject.empty()){
+				asmGen.Mov_R32R32(eAR_ECX,eAR_ESI);
+			}else{
+			
+				for(U32 i=0;i<m_vecObject.size();i++){
+					VariableNode* p = m_vecObject[i];
+					if(i==0){
+						if(p->IsMember()){
+							asmGen.Mov_R32R32(eAR_ECX,eAR_ESI);
+						}else{
+							ExpressionElementNode element;
+							element.pObj	=	p;
+							element.GenerateCode(asmGen);
+							asmGen.Mov_R32R32(eAR_ECX,eAR_EAX);
+							continue;
+						}
+					}
+					if(p->IsObject()){
+						asmGen.AddR32Imm(eAR_ECX,p->m_uiOffset);
+					}else if(p->IsPointor()){
+						asmGen.Mov_R32RM32(eAR_ECX,eAR_ECX,p->m_uiOffset);
+					}else if(p->IsArray()){
+						asmGen.AddR32Imm(eAR_ECX,p->m_uiOffset);
+					}else if(p->IsBaseObject()){
+						asmGen.Mov_R32RM32(eAR_ECX,eAR_ECX,p->m_uiOffset);
+					}	
+				}
+			}
 
 			FunctionNode* p	=	(FunctionNode*)pFunction;
 
-			if(pObj==NULL){
-				asmGen.Mov_R32R32(eAR_ECX,eAR_ESI);
-			}else{
-				ExpressionElementNode element;
-				element.pObj	=	pObj;
-				element.GenerateCode(asmGen);
-				asmGen.Mov_R32R32(eAR_ECX,eAR_EAX);
-			}
-			if(uiOffset!=0){
-				asmGen.AddR32Imm(eAR_ECX,uiOffset);
-			}
 			//Virtual Call
 			if(p->IsVirtual()){
 				asmGen.Mov_R32RM32(eAR_EAX,eAR_ECX,0);

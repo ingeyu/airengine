@@ -243,5 +243,27 @@ namespace	Air{
 			return VariableType.t==enBOT_Obj && !VariableType.bPointor;
 		}
 
+		Air::U1 VariableNode::HasVFT()
+		{
+			if(pNodePtr==NULL)
+				return false;
+			return ((ObjectNode*)pNodePtr)->GetVirtualFunctionCount()>0;
+		}
+
+		Air::U1 VariableNode::IsPointor()
+		{
+			return VariableType.bPointor;
+		}
+
+		Air::U1 VariableNode::IsArray()
+		{
+			return uiArrayCount>1;
+		}
+
+		Air::U1 VariableNode::IsBaseObject()
+		{
+			return pNodePtr==NULL;
+		}
+
 	}
 }
