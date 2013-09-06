@@ -425,6 +425,13 @@ namespace	Air{
 				}
 			}
 
+			//Save Return Value
+			if(	!IsConstructFunction()		&&
+				!IsDisConstructFunction()	&&
+				m_ReturnType.VariableType.t!=enBOT_Void)
+			{
+				asmGen.Push(eAR_EAX);
+			}
 			//Build Local Variable DisConstruct
 			NodeList::reverse_iterator	itr	=	m_lstChild.rbegin();
 			for(;itr!=m_lstChild.rend();itr++){
@@ -466,7 +473,12 @@ namespace	Air{
 					}
 				}
 			}
-			
+			if(	!IsConstructFunction()		&&
+				!IsDisConstructFunction()	&&
+				m_ReturnType.VariableType.t!=enBOT_Void)
+			{
+				asmGen.Pop(eAR_EAX);
+			}
 			asmGen.Mov_R32R32(eAR_ESP,eAR_EBP);
 			//if(IsMemberFunction()&&!IsStatic())
 			{

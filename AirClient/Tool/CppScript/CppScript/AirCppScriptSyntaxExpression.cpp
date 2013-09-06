@@ -917,44 +917,45 @@ namespace	Air{
 				if(uiRegOffset>1){
 					asmGen.IMulR32Imm(eAR_EAX,uiRegOffset);
 				}
-				asmGen.Mov_R32RM32(eAR_EBX,r,uiOffset);
-				asmGen.Operator(eC_ADD_R32_RM32,eAR_EBX,eAR_EAX);
+				//asmGen.Mov_R32R32(eAR_EBX,r);
+				asmGen.AddR32Imm(eAR_EAX,uiOffset);
+				asmGen.Operator(eC_ADD_R32_RM32,eAR_EAX,r);
 				switch(op){
 				case	enOT_Mov		:{
 					if(uiRegOffset==4){
-						asmGen.Operator(eC_MOV_RM32_R32,eAR_EBX,0,eAR_EDX);
+						asmGen.Operator(eC_MOV_RM32_R32,eAR_EAX,0,eAR_EDX);
 					}else if(uiRegOffset==2){
-						asmGen.Mov_RM16R16(eAR_EBX,0,eAR_EDX);
+						asmGen.Mov_RM16R16(eAR_EAX,0,eAR_EDX);
 					}else{
-						asmGen.Operator(eC_MOV_RM8_R8,eAR_EBX,0,eAR_EDX);
+						asmGen.Operator(eC_MOV_RM8_R8,eAR_EAX,0,eAR_EDX);
 					}
 										 }break;
 				case	enOT_AddEqual	:{
 					if(uiRegOffset==4){
-						asmGen.Operator(eC_ADD_RM32_R32,eAR_EBX,0,eAR_EDX);
+						asmGen.Operator(eC_ADD_RM32_R32,eAR_EAX,0,eAR_EDX);
 					}else{
-						asmGen.Operator(eC_ADD_RM8_R8,eAR_EBX,0,eAR_EDX);
+						asmGen.Operator(eC_ADD_RM8_R8,eAR_EAX,0,eAR_EDX);
 					}
 										 }break;
 				case	enOT_SubEqual	:{
 					if(uiRegOffset==4){
-						asmGen.Operator(eC_SUB_RM32_R32,eAR_EBX,0,eAR_EDX);
+						asmGen.Operator(eC_SUB_RM32_R32,eAR_EAX,0,eAR_EDX);
 					}else{
-						asmGen.Operator(eC_SUB_RM8_R8,eAR_EBX,0,eAR_EDX);
+						asmGen.Operator(eC_SUB_RM8_R8,eAR_EAX,0,eAR_EDX);
 					}
 										 }break;
 				case	enOT_AndEqual	:{
 					if(uiRegOffset==4){
-						asmGen.Operator(eC_AND_RM32_R32,eAR_EBX,0,eAR_EDX);
+						asmGen.Operator(eC_AND_RM32_R32,eAR_EAX,0,eAR_EDX);
 					}else{
-						asmGen.Operator(eC_AND_RM8_R8,eAR_EBX,0,eAR_EDX);
+						asmGen.Operator(eC_AND_RM8_R8,eAR_EAX,0,eAR_EDX);
 					}
 										 }break;
 				case	enOT_OrEqual	:{
 					if(uiRegOffset==4){
-						asmGen.Operator(eC_OR_RM32_R32,eAR_EBX,0,eAR_EDX);
+						asmGen.Operator(eC_OR_RM32_R32,eAR_EAX,0,eAR_EDX);
 					}else{
-						asmGen.Operator(eC_OR_RM8_R8,eAR_EBX,0,eAR_EDX);
+						asmGen.Operator(eC_OR_RM8_R8,eAR_EAX,0,eAR_EDX);
 					}
 										 }break;
 				case	enOT_MulEqual	:{

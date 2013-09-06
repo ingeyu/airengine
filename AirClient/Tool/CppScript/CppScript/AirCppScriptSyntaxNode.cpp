@@ -814,7 +814,7 @@ namespace	Air{
 						if(pVar->uiArrayCount!=0){
 							uiObjCount	=	pVar->uiArrayCount;
 						}
-						uiSize+=	(uiObjCount*uiObjSize+1)&0xfffffffc;
+						uiSize+=	(uiObjCount*uiObjSize+3)&0xfffffffc;
 						pVar->m_uiOffset	=	-(int)uiSize;
 						
 					}else{

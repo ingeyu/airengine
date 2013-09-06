@@ -90,7 +90,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			ScriptFunc	f	=	(ScriptFunc)module.FindFunction("main");
 			if(f!=NULL){
 				int ret=(*f)(0,0);
-				printf("main = (%08x,%d)\n",ret,ret);
+				printf("main return(%08x,%d)\n",ret,ret);
 			}else{
 				printf("cant find main function\n");
 			}
