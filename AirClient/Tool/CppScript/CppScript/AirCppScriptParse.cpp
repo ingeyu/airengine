@@ -311,6 +311,10 @@ namespace	Air{
 					*pPos	=	i;
 					break;
 				}
+				if(p[i]==0){
+					*pPos	=	i;
+					break;
+				}
 				str[iBegin]	=	p[i];
 				iBegin++;
 			}

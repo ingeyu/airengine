@@ -43,7 +43,6 @@ _declspec(naked)	void	__stdcall	__freea(void* p){
 
 typedef int (__stdcall *ScriptFunc)(int x,int y);
 
-
 int _tmain(int argc, _TCHAR* argv[])
 {
 	if(argc	<	2){

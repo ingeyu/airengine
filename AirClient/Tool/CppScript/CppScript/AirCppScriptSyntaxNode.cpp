@@ -1115,7 +1115,9 @@ namespace	Air{
 
 			pHeader->VFTCount	=	vecVFT.size();
 			pHeader->VFTArray_RA	=	asmGen.GetCurrentOffset();
-			asmGen.PushBuffer(&vecVFT[0],sizeof(VFT)*pHeader->VFTCount);
+			if(pHeader->VFTCount!=0){
+				asmGen.PushBuffer(&vecVFT[0],sizeof(VFT)*pHeader->VFTCount);
+			}
 
 			asmGen.Int3();
 			asmGen.Int3();
