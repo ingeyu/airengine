@@ -304,7 +304,7 @@ namespace	Air{
 		FunctionNode* ObjectNode::GetConstructFunction()
 		{
 			FunctionNode* p	=	(FunctionNode*)FindNode(GetName(),enNT_Function,false);
-			if(p->IsConstructFunction())
+			if(p!=NULL&&p->IsConstructFunction())
 			{
 				return p;
 			}
@@ -314,7 +314,7 @@ namespace	Air{
 		FunctionNode* ObjectNode::GetDisConstructFunction()
 		{
 			FunctionNode* p	=	(FunctionNode*)FindNode(AString("~")+GetName(),enNT_Function,false);
-			if(p->IsDisConstructFunction())
+			if(p!=NULL&&p->IsDisConstructFunction())
 			{
 				return p;
 			}

@@ -30,16 +30,9 @@ namespace	Air{
 }
 //×¢ÊÍ
 __declspec(dllexport)	int main(int count,int param){
-	CopyFileA("1.cpp","1.cpp.bak",0);
+	//CopyFileA("1.cpp","1.cpp.bak",0);
 	Print(str);
 	Air::ToLower(str);
 	Print(str);
-	return -1;
-}
-__declspec(dllexport)	int ToL(char* p){
-
-	Print(p);
-	Air::ToLower(p);
-	Print(p);
 	return -1;
 }

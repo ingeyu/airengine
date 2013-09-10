@@ -364,9 +364,10 @@ namespace	Air{
 		Air::CppScript::enumSyntaxError ExpressionNode::LogicAnd( ExpressionNode* p[3],Assemble& asmGen )
 		{
 			
-			asmGen.Code(eC_PUSH_EAX);
+			//asmGen.Code(eC_PUSH_EAX);
 			p[0]->GenerateCode(asmGen);
 			asmGen.Test(eAR_EAX);
+			//asmGen.Pop(eAR_EAX);
 			asmGen.JumpCondition(InserveJumpCondition((Code1Ex)p[0]->GetJumpCondition()));
 			m_lstJump.push_back(asmGen.GetCurrentOffset());
 			p[2]->GenerateCode(asmGen);
@@ -377,7 +378,7 @@ namespace	Air{
 		}
 		Air::CppScript::enumSyntaxError ExpressionNode::LogicOr( ExpressionNode* p[3],Assemble& asmGen )
 		{
-			asmGen.Code(eC_PUSH_EAX);
+			//asmGen.Code(eC_PUSH_EAX);
 			p[0]->GenerateCode(asmGen);
 			asmGen.Test(eAR_EAX);
 			asmGen.JumpCondition((Code1Ex)p[0]->GetJumpCondition());
@@ -659,7 +660,12 @@ namespace	Air{
 					}
 				}
 			}
-
+			if(pObj->GetType()!=enNT_Constant){
+				ObjectNode* pObject = (ObjectNode*)((VariableNode*)pObj)->pNodePtr;
+				if(pObject!=NULL){
+					ParseMember(vecInfo,idx);
+				}
+			}
 			CheckSelfOperator(vecInfo,idx,1);
 			return	enSE_OK;
 		}
@@ -708,6 +714,158 @@ namespace	Air{
 			}
 			return enSE_OK;
 		}
+		void	GetVarToRegOffset(VariableNode* pNode,Assemble& asmGen,AssembleRegister& r,U32& offset,AssembleRegister rThis = eAR_ESI){
+			r = eAR_EBP;
+			offset		=	pNode->m_uiOffset;
+			if(pNode->GetType()==enNT_Parameter){
+
+				offset	=	pNode->m_uiOffset+0x14;
+			}else{
+				if(!pNode->IsLocal()){
+					//代码实现 全局变量重定位问题
+					//Code Impl Global Variable Load Relocaltion
+					asmGen.Call(asmGen.GetCurrentOffset()+5);
+					offset	=	pNode->m_uiOffset	-	asmGen.GetCurrentOffset();
+					asmGen.Pop(eAR_EAX);
+					r	=	eAR_EAX;
+				}else if(pNode->IsMember()){
+					r	=	rThis;
+				}else{
+					r	=	eAR_EBP;
+				}
+			}
+		}
+		void	MovVar_MemToReg(VariableNode* pNode,Assemble& asmGen,AssembleRegister rDst,AssembleRegister rSrc,U32 offset){
+			if(pNode->IsObject()||pNode->IsArray()){
+				if(rDst!=rSrc){
+					asmGen.Mov_R32R32(rDst,rSrc);
+				}
+				asmGen.AddR32Imm(rDst,offset);
+			}else{
+				asmGen.Mov_R32RM32(rDst,rSrc,offset);
+			}
+		}
+		void	CalcIndexOffset(VariableNode* pNode, Node* pIndex,Assemble& asmGen,AssembleRegister& r,U32& offset){
+			if(pIndex){
+				pIndex->GenerateCode(asmGen);
+				U32 uiRegOffset	=	1;
+				ObjectNode* pObj = (ObjectNode*)pNode->pNodePtr;
+				if(pObj!=0){
+					uiRegOffset	=	pObj->GetObjectSize();
+				}else{
+					uiRegOffset	=	pNode->VariableType.iSize;
+				}
+				if(uiRegOffset>1){
+					asmGen.IMulR32Imm(eAR_EAX,uiRegOffset);
+				}
+				if(uiRegOffset>4){
+					asmGen.Operator(eC_ADD_R32_RM32,eAR_EAX,eAR_EDX);
+					return;
+				}
+				asmGen.Operator(eC_ADD_R32_RM32,eAR_EDX,eAR_EAX);
+
+				if(uiRegOffset==4){
+					asmGen.Mov_R32RM32(eAR_EAX,eAR_EDX,0);
+				}else if(uiRegOffset==2){
+					asmGen.Mov_R16RM16(eAR_EAX,eAR_EDX,0);
+				}else if(uiRegOffset==1){
+					asmGen.Operator(eC_MOV_R8_RM8,eAR_EAX,eAR_EDX,0);
+				}
+			}
+		}
+		void	SelfIncDec(enumCppKeyWordType* eSelfOperator,Assemble& asmGen,AssembleRegister r,U32 uiOffset){
+
+			if(eSelfOperator[1]==enOT_Increment){
+				asmGen.Mov_R32R32(eAR_EBX,eAR_EAX);
+				asmGen.Code(eC_INC_EBX);
+				asmGen.Mov_RM32R32(r,uiOffset,eAR_EBX);
+			}else if(eSelfOperator[1]==enOT_Decrement){
+				asmGen.Mov_R32R32(eAR_EBX,eAR_EAX);
+				asmGen.Code(eC_DEC_EBX);
+				asmGen.Mov_RM32R32(r,uiOffset,eAR_EBX);
+			}else if(eSelfOperator[0]==enOT_Decrement){;
+			asmGen.Code(eC_INC_EAX);
+			asmGen.Mov_RM32R32(r,uiOffset,eAR_EAX);
+			}else if(eSelfOperator[0]==enOT_Decrement){
+				asmGen.Code(eC_DEC_EAX);
+				asmGen.Mov_RM32R32(r,uiOffset,eAR_EAX);
+			}
+		}
+		void	ReadVarToReg(enumCppKeyWordType* eSelfOperator,VariableNode* pNode,Node* pIndex,Assemble& asmGen,AssembleRegister rThis = eAR_ESI){
+			AssembleRegister r	= eAR_EBP;
+			U32	uiOffset		=	pNode->m_uiOffset;
+			GetVarToRegOffset(pNode,asmGen,r,uiOffset,rThis);
+
+			AssembleRegister rTemp = eAR_EAX;
+			if(pIndex){
+				rTemp	=	eAR_EDX;
+			}
+			MovVar_MemToReg(pNode,asmGen,rTemp,r,uiOffset);
+			
+			CalcIndexOffset(pNode,pIndex,asmGen,rTemp,uiOffset);
+			
+			SelfIncDec(eSelfOperator,asmGen,r,uiOffset);
+		}
+		void	WriteRegToVar(VariableNode* pNode,VariableNode* pIndex,Assemble& asmGen,AssembleRegister rThis,AssembleRegister r){
+			U32	uiOffset		=	pNode->m_uiOffset;
+			GetVarToRegOffset(pNode,asmGen,r,uiOffset,rThis);
+
+		}
+		void	WriteRegToMem(enumCppKeyWordType op,U32 uiRegOffset,Assemble& asmGen,AssembleRegister r,U32 uiOffset,AssembleRegister rSrc){
+			
+			switch(op){
+			case	enOT_Mov		:{
+				if(uiRegOffset==4){
+					asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,rSrc);
+				}else if(uiRegOffset==2){
+					asmGen.Mov_RM16R16(r,uiOffset,rSrc);
+				}else{
+					asmGen.Operator(eC_MOV_RM8_R8,r,uiOffset,rSrc);
+				}
+									 }break;
+			case	enOT_AddEqual	:{
+				if(uiRegOffset==4){
+					asmGen.Operator(eC_ADD_RM32_R32,r,uiOffset,rSrc);
+				}else{
+					asmGen.Operator(eC_ADD_RM8_R8,r,uiOffset,rSrc);
+				}
+									 }break;
+			case	enOT_SubEqual	:{
+				if(uiRegOffset==4){
+					asmGen.Operator(eC_SUB_RM32_R32,r,uiOffset,rSrc);
+				}else{
+					asmGen.Operator(eC_SUB_RM8_R8,r,uiOffset,rSrc);
+				}
+									 }break;
+			case	enOT_AndEqual	:{
+				if(uiRegOffset==4){
+					asmGen.Operator(eC_AND_RM32_R32,r,uiOffset,rSrc);
+				}else{
+					asmGen.Operator(eC_AND_RM8_R8,r,uiOffset,rSrc);
+				}
+									 }break;
+			case	enOT_OrEqual	:{
+				if(uiRegOffset==4){
+					asmGen.Operator(eC_OR_RM32_R32,r,uiOffset,rSrc);
+				}else{
+					asmGen.Operator(eC_OR_RM8_R8,r,uiOffset,rSrc);
+				}
+									 }break;
+			case	enOT_MulEqual	:{
+				asmGen.Operator(eC_MOV_R32_RM32,eAR_EBX,r,uiOffset);
+				asmGen.IMulR32Imm(eAR_EBX,rSrc);
+				asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,eAR_EBX);
+									 }break;
+			case	enOT_DivEqual	:{
+				asmGen.Mov_R32R32(eAR_ECX,eAR_EAX);
+				asmGen.Operator(eC_MOV_R32_RM32,eAR_EAX,r,uiOffset);
+				asmGen.IDiv();
+				asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,eAR_EAX);
+									 }break;
+			}
+		}
+
+		
 
 		Air::CppScript::enumSyntaxError ExpressionElementNode::GenerateCode( Assemble& asmGen )
 		{
@@ -730,89 +888,14 @@ namespace	Air{
 				}
 				return enSE_OK;
 			}
-			VariableNode* pVar	=	(VariableNode*)(pObj);
-			
-			AssembleRegister r = eAR_EBP;
-			U32	uiOffset		=	pVar->m_uiOffset;
-			if(pVar->GetType()==enNT_Parameter){
-				
-				uiOffset	=	pVar->m_uiOffset+0x14;
+			if(m_pMember==NULL){
+				ReadVarToReg(eSelfOperator,(VariableNode*)pObj,(VariableNode*)m_pIndex,asmGen);
 			}else{
-				if(!pVar->IsLocal()){
-					//代码实现 全局变量重定位问题
-					//Code Impl Global Variable Load Relocaltion
-					asmGen.Call(asmGen.GetCurrentOffset()+5);
-					uiOffset	=	pVar->m_uiOffset	-	asmGen.GetCurrentOffset();
-					asmGen.Pop(eAR_EAX);
-					r	=	eAR_EAX;
-				}else if(pVar->IsMember()){
-					r	=	eAR_ESI;
-				}else{
-					r	=	eAR_EBP;
-				}
+				ReadVarToReg(eSelfOperator,(VariableNode*)pObj,(VariableNode*)m_pIndex,asmGen);
+				ReadVarToReg(eSelfOperator,(VariableNode*)m_pMember,NULL,asmGen,eAR_EAX);
 			}
 			
 
-			
-			
-			
-			if(m_pIndex!=NULL){
-				
-				if(pVar->IsObject()){
-					asmGen.Mov_R32R32(eAR_EDX,r);
-					asmGen.AddR32Imm(eAR_EDX,uiOffset);
-				}else{
-					asmGen.Mov_R32RM32(eAR_EDX,r,uiOffset);
-				}
-	
-				//asmGen.AddR32Imm(eAR_EDX,uiOffset);
-				m_pIndex->GenerateCode(asmGen);
-				U32 uiRegOffset	=	1;
-				if(pVar->pNodePtr!=0){
-					uiRegOffset	=	((ObjectNode*)pVar->pNodePtr)->GetObjectSize();
-				}else{
-					uiRegOffset	=	pVar->VariableType.iSize;
-				}
-				if(uiRegOffset>1){
-					asmGen.IMulR32Imm(eAR_EAX,uiRegOffset);
-				}
-				asmGen.Operator(eC_ADD_R32_RM32,eAR_EDX,eAR_EAX);
-
-				if(uiRegOffset==4){
-					asmGen.Mov_R32RM32(eAR_EAX,eAR_EDX,0);
-				}else if(uiRegOffset==2){
-					asmGen.Mov_R16RM16(eAR_EAX,eAR_EDX,0);
-				}else{
-					asmGen.Operator(eC_MOV_R8_RM8,eAR_EAX,eAR_EDX,0);
-				}
-
-				return enSE_OK;
-			}else{
-				if(pVar->IsObject()){
-					if(r!=eAR_EAX){
-						asmGen.Mov_R32R32(eAR_EAX,r);
-					}
-					asmGen.AddR32Imm(eAR_EAX,uiOffset);
-				}else{
-					asmGen.Operator(eC_MOV_R32_RM32,eAR_EAX,r,uiOffset);
-				}
-			}
-			
-			if(eSelfOperator[1]==enOT_Increment){
-				asmGen.Mov_R32R32(eAR_EBX,eAR_EAX);
-				asmGen.Code(eC_INC_EBX);
-				asmGen.Mov_RM32R32(r,uiOffset,eAR_EBX);
-			}else if(eSelfOperator[1]==enOT_Decrement){
-				asmGen.Mov_R32R32(eAR_EBX,eAR_EAX);
-				asmGen.Code(eC_DEC_EBX);
-				asmGen.Mov_RM32R32(r,uiOffset,eAR_EBX);
-			}else if(eSelfOperator[0]==enOT_Decrement){;
-				asmGen.Code(eC_INC_EAX);
-				asmGen.Mov_RM32R32(r,uiOffset,eAR_EAX);
-			}else if(eSelfOperator[0]==enOT_Decrement){
-				asmGen.Code(eC_DEC_EAX);
-				asmGen.Mov_RM32R32(r,uiOffset,eAR_EAX);
-			}
 			if(bNot){
 				asmGen.Not(eAR_EAX);
 			}else if(bLogicNot){
@@ -847,62 +930,15 @@ namespace	Air{
 					r	=	eAR_EBP;
 				}
 			}
+			
 
 			if(m_pIndex==NULL){
 				U32 uiRegOffset	=	pVar->GetSize();
-				switch(op){
-					case	enOT_Mov		:{
-						//asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,eAR_EAX);
-						
-						
-						if(uiRegOffset==4){
-							asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,eAR_EAX);
-						}else if(uiRegOffset==2){
-							asmGen.Mov_RM16R16(r,uiOffset,eAR_EAX);
-						}else{
-							asmGen.Operator(eC_MOV_RM8_R8,r,uiOffset,eAR_EAX);
-						}
-											 }break;
-					case	enOT_AddEqual	:{
-						if(uiRegOffset==4){
-							asmGen.Operator(eC_ADD_RM32_R32,r,uiOffset,eAR_EAX);
-						}else{
-							asmGen.Operator(eC_ADD_RM8_R8,r,uiOffset,eAR_EAX);
-						}
-											 }break;
-					case	enOT_SubEqual	:{
-						if(uiRegOffset==4){
-							asmGen.Operator(eC_SUB_RM32_R32,r,uiOffset,eAR_EAX);
-						}else{
-							 asmGen.Operator(eC_SUB_RM8_R8,r,uiOffset,eAR_EAX);
-						}
-											 }break;
-					case	enOT_AndEqual	:{
-						if(uiRegOffset==4){
-							asmGen.Operator(eC_AND_RM32_R32,r,uiOffset,eAR_EAX);
-						}else{
-							asmGen.Operator(eC_AND_RM8_R8,r,uiOffset,eAR_EAX);
-						}
-											 }break;
-					case	enOT_OrEqual	:{
-						if(uiRegOffset==4){
-							asmGen.Operator(eC_OR_RM32_R32,r,uiOffset,eAR_EAX);
-						}else{
-							asmGen.Operator(eC_OR_RM8_R8,r,uiOffset,eAR_EAX);
-						}
-											 }break;
-					case	enOT_MulEqual	:{
-						asmGen.Operator(eC_MOV_R32_RM32,eAR_EBX,r,uiOffset);
-						asmGen.IMulR32Imm(eAR_EBX,eAR_EAX);
-						asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,eAR_EBX);
-											 }break;
-					case	enOT_DivEqual	:{
-						asmGen.Mov_R32R32(eAR_ECX,eAR_EAX);
-						asmGen.Operator(eC_MOV_R32_RM32,eAR_EAX,r,uiOffset);
-						asmGen.IDiv();
-						asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,eAR_EAX);
-											 }break;
+				if(m_pMember!=NULL){
+					uiOffset		+=	((VariableNode*)m_pMember)->m_uiOffset;
+					uiRegOffset		=	((VariableNode*)m_pMember)->GetSize();
 				}
+				WriteRegToMem(op,uiRegOffset,asmGen,r,uiOffset,eAR_EAX);
 				
 			}else{
 				asmGen.Mov_R32R32(eAR_EDX,eAR_EAX);
@@ -917,64 +953,62 @@ namespace	Air{
 				if(uiRegOffset>1){
 					asmGen.IMulR32Imm(eAR_EAX,uiRegOffset);
 				}
-				//asmGen.Mov_R32R32(eAR_EBX,r);
-				asmGen.AddR32Imm(eAR_EAX,uiOffset);
-				asmGen.Operator(eC_ADD_R32_RM32,eAR_EAX,r);
-				switch(op){
-				case	enOT_Mov		:{
-					if(uiRegOffset==4){
-						asmGen.Operator(eC_MOV_RM32_R32,eAR_EAX,0,eAR_EDX);
-					}else if(uiRegOffset==2){
-						asmGen.Mov_RM16R16(eAR_EAX,0,eAR_EDX);
-					}else{
-						asmGen.Operator(eC_MOV_RM8_R8,eAR_EAX,0,eAR_EDX);
-					}
-										 }break;
-				case	enOT_AddEqual	:{
-					if(uiRegOffset==4){
-						asmGen.Operator(eC_ADD_RM32_R32,eAR_EAX,0,eAR_EDX);
-					}else{
-						asmGen.Operator(eC_ADD_RM8_R8,eAR_EAX,0,eAR_EDX);
-					}
-										 }break;
-				case	enOT_SubEqual	:{
-					if(uiRegOffset==4){
-						asmGen.Operator(eC_SUB_RM32_R32,eAR_EAX,0,eAR_EDX);
-					}else{
-						asmGen.Operator(eC_SUB_RM8_R8,eAR_EAX,0,eAR_EDX);
-					}
-										 }break;
-				case	enOT_AndEqual	:{
-					if(uiRegOffset==4){
-						asmGen.Operator(eC_AND_RM32_R32,eAR_EAX,0,eAR_EDX);
-					}else{
-						asmGen.Operator(eC_AND_RM8_R8,eAR_EAX,0,eAR_EDX);
-					}
-										 }break;
-				case	enOT_OrEqual	:{
-					if(uiRegOffset==4){
-						asmGen.Operator(eC_OR_RM32_R32,eAR_EAX,0,eAR_EDX);
-					}else{
-						asmGen.Operator(eC_OR_RM8_R8,eAR_EAX,0,eAR_EDX);
-					}
-										 }break;
-				case	enOT_MulEqual	:{
-					//asmGen.Operator(eC_MOV_R32_RM32,eAR_EBX,r,uiOffset);
-					//asmGen.IMulR32Imm(eAR_EBX,eAR_EAX);
-					//asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,eAR_EBX);
-										 }break;
-				case	enOT_DivEqual	:{
-					//asmGen.Mov_R32R32(eAR_ECX,eAR_EAX);
-					//asmGen.Operator(eC_MOV_R32_RM32,eAR_EAX,r,uiOffset);
-					//asmGen.IDiv();
-					//asmGen.Operator(eC_MOV_RM32_R32,r,uiOffset,eAR_EAX);
-										 }break;
+				
+				if(pVar->IsArray()){
+					asmGen.Operator(eC_ADD_R32_RM32,eAR_EAX,r);
+				}else if(pVar->IsPointor()){
+					asmGen.Mov_R32RM32(eAR_EBX,r,uiOffset);
+					asmGen.Operator(eC_ADD_R32_RM32,eAR_EAX,eAR_EBX);
+					uiOffset=0;
 				}
+				if(m_pMember!=NULL){
+					uiRegOffset		=	((VariableNode*)m_pMember)->GetSize();
+				}
+				WriteRegToMem(op,uiRegOffset,asmGen,eAR_EAX,uiOffset,eAR_EDX);
 				
 			}
 
 
 			
+		}
+
+		Air::CppScript::enumSyntaxError ExpressionElementNode::ParseMember( WordInfoVector& vecInfo,U32& idx )
+		{
+			U32 uiTemp = idx;
+			U32 uiSize	=	vecInfo.size();
+			if(uiTemp>=uiSize){
+				return enSE_OK;
+			}
+			if(vecInfo[uiTemp].eType.uiType	==	MakeType(enWT_Delimiter,enWDT_Period)){
+				uiTemp++;
+			}else if(vecInfo[uiTemp].eType.uiType	==	MakeType(enWT_Operator,enOT_Sub)){
+				if(uiTemp+1>=uiSize)
+					return enSE_OK;
+				if(vecInfo[uiTemp].eType.uiType	==	MakeType(enWT_Operator,enOT_Greater)){
+					uiTemp+=2;
+				}else{
+					return enSE_OK;
+				}
+			}else{
+				return enSE_OK;
+			}
+			if(uiTemp>=uiSize){
+				return enSE_OK;
+			}
+			if(vecInfo[uiTemp].eType.uiType!=enWT_Unknown){
+				return enSE_OK;
+			}
+			Node* pObject = ((VariableNode*)pObj)->pNodePtr;
+			if(pObject==NULL){
+				return enSE_OK;
+			}
+			m_pMember =	pObject->FindNode(vecInfo[uiTemp].str,enNT_Variable,false);
+			if(m_pMember==NULL){
+				return enSE_Object_Period_Need_A_Member_Or_Function;
+			}
+			uiTemp++;
+			idx=uiTemp;
+			return enSE_OK;
 		}
 
 

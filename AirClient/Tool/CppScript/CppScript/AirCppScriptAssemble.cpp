@@ -952,6 +952,11 @@ namespace	Air{
 			return uiRet;
 		}
 
+		void Assemble::SetCurrentOffset( U32 uiOffset )
+		{
+			m_uiOffset	=	uiOffset;
+		}
+
 		Air::CppScript::Code1Ex InserveJumpCondition( Code1Ex codeex )
 		{
 			switch(codeex){

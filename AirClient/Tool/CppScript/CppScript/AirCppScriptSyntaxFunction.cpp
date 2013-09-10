@@ -409,7 +409,9 @@ namespace	Air{
 							construct.m_vecObject.push_back((VariableNode*)pNode);
 							ObjectNode* pObj	=	(ObjectNode*)((VariableNode*)pNode)->pNodePtr;
 							construct.pFunction	=	pObj->GetConstructFunction();
-							construct.GenerateCode(asmGen);
+							if(construct.pFunction!=NULL){
+								construct.GenerateCode(asmGen);
+							}
 						}
 					}
 				}
@@ -425,6 +427,8 @@ namespace	Air{
 				}
 			}
 
+			U32 uiPushEaxOffset	=	asmGen.GetCurrentOffset();
+
 			//Save Return Value
 			if(	!IsConstructFunction()		&&
 				!IsDisConstructFunction()	&&
@@ -432,6 +436,7 @@ namespace	Air{
 			{
 				asmGen.Push(eAR_EAX);
 			}
+			U32 uiPushEaxOffset2	=	asmGen.GetCurrentOffset();
 			//Build Local Variable DisConstruct
 			NodeList::reverse_iterator	itr	=	m_lstChild.rbegin();
 			for(;itr!=m_lstChild.rend();itr++){
@@ -443,7 +448,9 @@ namespace	Air{
 							construct.m_vecObject.push_back((VariableNode*)pNode);
 							ObjectNode* pObj	=	(ObjectNode*)((VariableNode*)pNode)->pNodePtr;
 							construct.pFunction	=	pObj->GetDisConstructFunction();
-							construct.GenerateCode(asmGen);
+							if(construct.pFunction!=NULL){
+								construct.GenerateCode(asmGen);
+							}
 						}
 					}
 				}
@@ -473,12 +480,17 @@ namespace	Air{
 					}
 				}
 			}
-			if(	!IsConstructFunction()		&&
-				!IsDisConstructFunction()	&&
-				m_ReturnType.VariableType.t!=enBOT_Void)
-			{
-				asmGen.Pop(eAR_EAX);
+			if(asmGen.GetCurrentOffset()==uiPushEaxOffset2){
+				asmGen.SetCurrentOffset(uiPushEaxOffset);
+			}else{
+				if(	!IsConstructFunction()		&&
+					!IsDisConstructFunction()	&&
+					m_ReturnType.VariableType.t!=enBOT_Void)
+				{
+					asmGen.Pop(eAR_EAX);
+				}
 			}
+			
 			asmGen.Mov_R32R32(eAR_ESP,eAR_EBP);
 			//if(IsMemberFunction()&&!IsStatic())
 			{

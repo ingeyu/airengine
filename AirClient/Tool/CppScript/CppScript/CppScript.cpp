@@ -43,6 +43,25 @@ _declspec(naked)	void	__stdcall	__freea(void* p){
 
 typedef int (__stdcall *ScriptFunc)(int x,int y);
 
+
+void	ExecuteModule(const wchar_t* strName){
+	Air::CppScript::Module module;
+	Air::CppScript::enumLoadError	le=module.Load(strName);
+	if(le!=Air::CppScript::enLE_OK){
+		wprintf(L"Load Module (%s)(Code=%d) Failed!\n",strName,le);
+
+	}else{
+		ScriptFunc	f	=	(ScriptFunc)module.FindFunction("main");
+		if(f!=NULL){
+			int ret=(*f)(0,0);
+			printf("main return(%08x,%d)\n",ret,ret);
+		}else{
+			printf("cant find main function\n");
+		}
+		module.UnLoad();
+	}
+}
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	if(argc	<	2){
@@ -63,16 +82,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	Air::CppScript::SplitFilePath(argv[1],&strPath,&strName,&strExt);
 	
 	Air::CppScript::ToLower(&strExt[0]);
-	if(strExt==L"cpp"){
-		Air::CppScript::Compiler c;
-		c.Initialization();
-
-		if(c.Compile(argv[1])){
-			std::wstring	strOutputName	=	strPath+strName+L".module";
-			c.Link(strOutputName.c_str());
-		}
-		c.Release();
-	}else if (strExt==L"proj"){
+	if (strExt==L"proj"){
 		Air::CppScript::Compiler c;
 		c.Initialization();
 		c.BuildProj(argv[1]);
@@ -81,20 +91,21 @@ int _tmain(int argc, _TCHAR* argv[])
 		if(!strPath.empty()){
 			SetCurrentDirectory(strPath.c_str());
 		}
-		Air::CppScript::Module module;
-		Air::CppScript::enumLoadError	le=module.Load(argv[1]);
-		if(le!=Air::CppScript::enLE_OK){
-			wprintf(L"Load Module (%s)(Code=%d) Failed!\n",argv[1],le);
-			
-		}else{
-			ScriptFunc	f	=	(ScriptFunc)module.FindFunction("main");
-			if(f!=NULL){
-				int ret=(*f)(0,0);
-				printf("main return(%08x,%d)\n",ret,ret);
-			}else{
-				printf("cant find main function\n");
+		ExecuteModule(argv[1]);
+	}else{
+		{
+			Air::CppScript::Compiler c;
+			c.Initialization();
+
+			if(c.Compile(argv[1])){
+				std::wstring	strOutputName	=	strPath+strName+L".module";
+				c.Link(strOutputName.c_str());
+
+				ExecuteModule(strOutputName.c_str());
 			}
-			module.UnLoad();
+			c.Release();
+
+
 		}
 	}
 

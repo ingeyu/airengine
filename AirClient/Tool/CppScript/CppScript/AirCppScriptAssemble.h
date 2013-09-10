@@ -805,6 +805,7 @@ namespace	Air{
 		public:
 			U32		GetCurrentOffset();
 			U32		AddOffset(U32 uiOffset);
+			void	SetCurrentOffset(U32 uiOffset);
 			U8*		GetCurrentPtr();
 			void*	GetBuffer(U32 uiOffset=0);
 
