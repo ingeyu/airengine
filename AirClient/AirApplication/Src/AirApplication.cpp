@@ -155,7 +155,7 @@ extern "C" int WINAPI
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF|_CRTDBG_LEAK_CHECK_DF);
 	//
-	Air::Dump_Init();
+	Air::Dump_Init(Air::enDL_Tiny);
 	//AString str = "0Xffffffff";
 	//StringVector vec;
 	//U32 index = 0;

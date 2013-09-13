@@ -55,6 +55,7 @@ namespace	Air{
 			void	SetAngle(Real	fAngle);
 			void	SetAspect(Real	fAspect);
 			void	SetWidth(Real	fWidth);
+			Real	GetWidth()const;
 			void	SetHeight(Real	fHeight);
 			void	SetOrtho(U1		bOrtho);
 

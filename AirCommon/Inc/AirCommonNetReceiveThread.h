@@ -5,6 +5,8 @@
 #include "AirCommonThread.h"
 #include "AirCommonLock.h"
 
+#define DEFAULT_RECEIVE_SIZE	1024*1024
+
 namespace Air{
 	
 	
@@ -44,7 +46,7 @@ namespace Air{
 	
 			U32				m_Socket;					///<	SOCKET	ID
 			U32				m_ReceiveSize;				///<	接收到的数据大小
-			AChar			m_ReceiveBuffer[1024*1024*10];	///<	接收缓冲区
+			AChar			m_ReceiveBuffer[DEFAULT_RECEIVE_SIZE];	///<	接收缓冲区
 			NetListener*	m_pListener;				///<	监听器
 		};
 		

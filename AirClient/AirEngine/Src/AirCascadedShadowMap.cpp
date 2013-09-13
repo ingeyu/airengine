@@ -100,7 +100,7 @@ namespace	Air{
 		{
 			Float3 axis(1,0.001,0.005);
 			axis.Normalize();
-			float fSec = -122;//floor(GetTimer().GetTotalTime());
+			float fSec = floor(GetTimer().GetTotalTime());
 			Common::Quaternion q(axis,fSec*0.001);//m_vLightDirection
 			m_vLightDirection	=	q*Float3(-1,1,0.5).Normalize();//m_vLightDirection;
 			m_vLightDirection.Normalize();
@@ -171,6 +171,7 @@ namespace	Air{
 					pSVPInv->Inverse();
 					matArray[12]	=	Float4(1.0f/m_pShadowMask->GetWidth(),1.0f/m_pShadowMask->GetHeight(),1.0f/m_pShadowMask->GetWidth(),1.0f/m_pShadowMask->GetHeight());
 					matArray[13]	=	m_pMainCamera->GetPosition();
+					matArray[13].w	=	m_vecCSMCamera[i]->GetWidth()/(float)m_pShadowDepth->GetWidth();
 					m_pMaskMaterial->GetConstantBuffer()->UpdateData(matArray);
 					m_pMaskMaterial->RenderOneObject(m_pQuad);
 

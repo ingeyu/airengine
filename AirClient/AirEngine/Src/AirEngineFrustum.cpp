@@ -510,6 +510,11 @@ namespace	Air{
 			return	GetRealDirection().Cross(GetRealRightDirection());
 		};
 
+		Air::Real Frustum::GetWidth()const
+		{
+			return m_fWidth;
+		}
+
 
 	}
 }

@@ -169,11 +169,14 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 	float3	L	=	vCameraDir.xyz;//normalize(float3(-1,-1,-1));
 	float3  E	=	normalize(vViewPos.xyz-	vWorldPos.xyz);
 
+//+distance(vViewPos.xyz,vWorldPos.xyz)/512
+
+	float uvScale	=	(0.025*(2+distance(vViewPos.xyz,vWorldPos.xyz)/4))/(vViewPos.w);
 
 	float4	vShadowPos	=	mul(mShadowViewProj,vWorldPos);
 	vShadowPos/=vShadowPos.w;
 	float2 absXY	=	abs(vShadowPos.xy);
-	if(absXY.x > 1.0f||absXY.y>1.0f||vShadowPos.z < 0.0f){
+	if(absXY.x > 0.98f||absXY.y>0.98f||vShadowPos.z < 0.0f){
 		discard;
 	}
 	float2  oldShaodwUV	=	XY_UV(vShadowPos.xy);
@@ -186,7 +189,7 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 
 		
       //float2 off   =   offset[i].xy,float2(1,-1)*offset[i].yx,rot.x)*rot.y;
-	  float2 rotoff = GetOffset2(i,float2(0,2),rot.y)*1.5;//*100;
+	  float2 rotoff = GetOffset2(i,float2(0,uvScale),rot.y);
       float2 tempuv   =   shadowUV+rotoff*invShadowViewport;
       float2 xyoff   =   UV_XY(tempuv);
       float    Oldshadowz   =  ShadowDepthTex.SampleLevel(SS_BorderLine2,tempuv,0).x+0.00001f;
@@ -202,7 +205,8 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 
 	PS_OUTPUT	Out;
 	float shadowValue	=	(fRet/SHADOW_SAMPLE_NUMBER)*0.5+0.5;
-	Out.Color						= float4(fDot.xy*shadowValue,fDot.z,0);//vShadowPos.z > 0 &&	vShadowPos.z < oldZ + 0.0001f;
+	
+	Out.Color						= float4(fDot.xy*saturate(shadowValue*2),fDot.z,0);//vShadowPos.z > 0 &&	vShadowPos.z < oldZ + 0.0001f;//
 	return	Out;
    
 }
