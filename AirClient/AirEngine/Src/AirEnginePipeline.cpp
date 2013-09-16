@@ -255,7 +255,7 @@ namespace	Air{
 			m_pRT_EnvSAT->SetClearFlag(false,true,false);
 
 			//m_Tesellation.Init();
-			m_CSM.Init(m_pMainCamera,3);
+			m_CSM.Init(m_pMainCamera,4);
 			m_OIT.Initialize(m_pMainWindow);
 			m_VoxelGen.Initialize(m_pMainWindow);
 			m_DL.Initialization(this);

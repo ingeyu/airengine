@@ -138,7 +138,7 @@ float3	PBRDF(float3 N,float3	L,float3 E,float fShiness){
 float2 GetOffset2(int   i,float2 inituv,float fNoise){
    
    float fsin,fcos;
-   sincos((i*0.166666f+fNoise)*3.1415926f,fsin,fcos);
+   sincos((i*0.166666667f+fNoise)*3.1415926f,fsin,fcos);
    float2x2 rot   =   float2x2(fcos,-fsin,fsin,fcos);
    return mul(inituv,rot)*(i+1);
 };
@@ -171,7 +171,7 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 
 //+distance(vViewPos.xyz,vWorldPos.xyz)/512
 
-	float uvScale	=	(0.025*(2+distance(vViewPos.xyz,vWorldPos.xyz)/4))/(vViewPos.w);
+	float uvScale	=	1;//(0.02*(2+pow(distance(vViewPos.xyz,vWorldPos.xyz)/12,2)))/(vViewPos.w);
 
 	float4	vShadowPos	=	mul(mShadowViewProj,vWorldPos);
 	vShadowPos/=vShadowPos.w;
@@ -190,9 +190,9 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 		
       //float2 off   =   offset[i].xy,float2(1,-1)*offset[i].yx,rot.x)*rot.y;
 	  float2 rotoff = GetOffset2(i,float2(0,uvScale),rot.y);
-      float2 tempuv   =   shadowUV+rotoff*invShadowViewport;
+      float2 tempuv   =   shadowUV+(rotoff)*invShadowViewport;
       float2 xyoff   =   UV_XY(tempuv);
-      float    Oldshadowz   =  ShadowDepthTex.SampleLevel(SS_BorderLine2,tempuv,0).x+0.00001f;
+      float    Oldshadowz   =  ShadowDepthTex.SampleLevel(SS_BorderLine2,tempuv,0).x+0.0001f;
       float4 tempshadow   =   mul(mShadowViewProjInv,float4(xyoff,Oldshadowz,1));
       tempshadow/=tempshadow.w;
       float3 tDir   =   normalize(tempshadow.xyz-vWorldPos.xyz);
@@ -206,7 +206,7 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 	PS_OUTPUT	Out;
 	float shadowValue	=	(fRet/SHADOW_SAMPLE_NUMBER)*0.5+0.5;
 	
-	Out.Color						= float4(fDot.xy*saturate(shadowValue*2),fDot.z,0);//vShadowPos.z > 0 &&	vShadowPos.z < oldZ + 0.0001f;//
+	Out.Color						= shadowValue;//float4(fDot.xy*shadowValue,fDot.z,0);//vShadowPos.z > 0 &&	vShadowPos.z < oldZ + 0.0001f;//
 	return	Out;
    
 }
