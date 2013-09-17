@@ -170,8 +170,8 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 	float3  E	=	normalize(vViewPos.xyz-	vWorldPos.xyz);
 
 //+distance(vViewPos.xyz,vWorldPos.xyz)/512
-
-	float uvScale	=	1;//(0.02*(2+pow(distance(vViewPos.xyz,vWorldPos.xyz)/12,2)))/(vViewPos.w);
+//distance(vViewPos.xyz,vWorldPos.xyz)/12
+	float uvScale	=	(0.02*(0.5+distance(vViewPos.xyz,vWorldPos.xyz)/50))/(vViewPos.w);
 
 	float4	vShadowPos	=	mul(mShadowViewProj,vWorldPos);
 	vShadowPos/=vShadowPos.w;
@@ -206,7 +206,7 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 	PS_OUTPUT	Out;
 	float shadowValue	=	(fRet/SHADOW_SAMPLE_NUMBER)*0.5+0.5;
 	
-	Out.Color						= shadowValue;//float4(fDot.xy*shadowValue,fDot.z,0);//vShadowPos.z > 0 &&	vShadowPos.z < oldZ + 0.0001f;//
+	Out.Color						= float4(min(fDot.xy,shadowValue),fDot.z,0);//vShadowPos.z > 0 &&	vShadowPos.z < oldZ + 0.0001f;//
 	return	Out;
    
 }
