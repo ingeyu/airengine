@@ -171,6 +171,9 @@ namespace	Air{
 			if(uiOffset==0&&uiDepth!=0){
 				return 0;
 			}
+			if(uiOffset>=vecTree.size()){
+				return 0;
+			}
 			U32* pChild	=	&vecTree[uiOffset];
 			Color	c;c.uiValue=0;
 			Color	cTemp;
