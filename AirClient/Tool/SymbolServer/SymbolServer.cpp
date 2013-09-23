@@ -325,7 +325,7 @@ void	FileCallBack(const TCHAR*	strFileName,const TCHAR* strPath){
 		
 
 		TCHAR	strGUID[64];
-		wsprintf(strGUID,L"%08X%04X%04X%02X%02X%02X%02X%02X%02X%02X%02X%d",
+		wsprintf(strGUID,L"%08X%04X%04X%02X%02X%02X%02X%02X%02X%02X%02X%X",
 			pdbGUIDAge.PdbGuid.Data1,
 			pdbGUIDAge.PdbGuid.Data2,
 			pdbGUIDAge.PdbGuid.Data3,
