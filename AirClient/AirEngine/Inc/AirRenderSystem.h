@@ -77,6 +77,7 @@ namespace Air{
 				void				SetWorldMatrix(const	Float44&	matWorld);
 				void				SetBoneMatrix(Float44*	pBone,U32	uiBoneCount);
 				void				SetCBFrame(const CBFrame& cbFrame);
+				void				ReloadModifyShader();
 			protected:
 				U1						m_bDeviceLost;
 				DeviceVector			m_vecDevice;

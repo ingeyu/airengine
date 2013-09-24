@@ -9,8 +9,8 @@ SamplerState	ss_wrappoint	:	register(s0);
 SamplerState	ss_clampline2	:	register(s1);
 SamplerState	ss_clampline3	:	register(s2);
 
-#define SAMPLER_NUM 3
-#define STEP_NUM	5
+#define SAMPLER_NUM 1
+#define STEP_NUM	8
 cbuffer cbPerCamera		: register( b1 )
 {
     matrix  ViewProjection;
@@ -33,7 +33,7 @@ cbuffer	cbPerMaterial	:	register(b3)
 float2 GetOffset2(int   i,float rotoffset){
    float2 initxy   =   float2(0,1);
    float fsin,fcos;
-   sincos((i*0.25f/SAMPLER_NUM+rotoffset)*2.0f*3.1415926f,fsin,fcos);
+   sincos((i*0.25/SAMPLER_NUM+rotoffset)*2.0f*3.1415926f,fsin,fcos);
    float2x2 rot   =   float2x2(fcos,-fsin,fsin,fcos);
    return mul(initxy,rot)*float2(1,-1);
 };
@@ -63,10 +63,10 @@ float4 main( VS_OUTPUT Input ) : SV_Target
    
    float2   uv=   Input.UV;
    float2   xy=   uv*float2(2,-2)+float2(-1,1);
-   float4   noisep     =   Tex4x4.SampleLevel(ss_wrappoint,uv/invViewport/4,1);
+   float4   noisep     =   Tex4x4.SampleLevel(ss_wrappoint,uv/invViewport/4,0);
    //noisep.x+=0.1f;
    
-   float   rotoffset   =  Tex2x2.SampleLevel(ss_wrappoint,uv/invViewport/2,0).x;
+   //float   rotoffset   =  Tex2x2.SampleLevel(ss_wrappoint,uv/invViewport/2,0).x;
    //noisep   =   noisep.x*float4(1,2,4,8);
 
    float4   oldPos;
@@ -85,10 +85,10 @@ float4 main( VS_OUTPUT Input ) : SV_Target
    
    float4 lighting=0;
    float  occ=0;
-   float2 uvScale   =   invViewport*15*(noisep.w+0.5f);//*OccSize.y;
+   float2 uvScale   =   (invViewport*15);//*15*(noisep.w+0.5f);//*OccSize.y;
 
 
-   float offset   =   rotoffset+(noisep.x)*0.25f/SAMPLER_NUM;
+   float offset   =   noisep.x;
    //int i   =   0;
    //[loop]
    for(int i=0;i<SAMPLER_NUM;i++){
@@ -97,12 +97,12 @@ float4 main( VS_OUTPUT Input ) : SV_Target
       float ffinaldot   =   -1;
       [loop]
       for(int j=0;j<STEP_NUM;j++){
-         float2 UV     =   tempuv*(j+1)   +Input.UV;
+         float2 UV     =   tempuv*pow(j+1,1)   +Input.UV;
          float4 XY     =   GenPos(UV,j);
          XY.xyz   -=   oldPos.xyz;
          float fdot   =   dot(viewDir.xyz,normalize(XY.xyz));
          if(fdot   >   ffinaldot)
-            ffinaldot   =   fdot;
+            ffinaldot   =   fdot;//lerp(ffinaldot,fdot,0.75);
       }
      
       //float fmin   =   dot(fdot,0.25);//
@@ -111,15 +111,15 @@ float4 main( VS_OUTPUT Input ) : SV_Target
       
       float2 satuv         =   float2(x,y);
       float4 currentEnv    =   TexSAT.Sample(ss_clampline2,satuv);
-      float4 maxEnv        =   TexSAT.Sample(ss_clampline2,float2(1,y));
+      //float4 maxEnv        =   TexSAT.Sample(ss_clampline2,float2(1,y));
 	  //float4 middle1	   =	TexSAT.Sample(ss_clampline2,float2(lerp(x,1,0.4),y));
 	 // float4 middle2	   =	TexSAT.Sample(ss_clampline2,float2(lerp(x,1,0.6),y));
-      lighting += (maxEnv-currentEnv);
+      lighting += currentEnv;//currentEnv;//(maxEnv-currentEnv);
 	  occ+=1-x;
       //co+=length(tempDir);
    }
 
-   float4 fAO   =   ((lighting/SAMPLER_NUM));//*fWeight;
+   float4 fAO   =   (lighting/SAMPLER_NUM);//*fWeight;
 
    return fAO;
 }

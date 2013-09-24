@@ -40,7 +40,7 @@ SamplerState	SS_WrapPoint2	:	register(s2);
 float2 UV_XY(float2 uv){
 	return	uv*float2(2,-2)+float2(-1,1);
 };
-#define SHADOW_SAMPLE_NUMBER 6
+#define SHADOW_SAMPLE_NUMBER 9
 
 float2 XY_UV(float2 xy){
 	return	xy*float2(0.5,-0.5)+0.5;
@@ -140,7 +140,7 @@ float2 GetOffset2(int   i,float2 inituv,float fNoise){
    float fsin,fcos;
    sincos((i/(0.66666f-0.66666f/SHADOW_SAMPLE_NUMBER)+fNoise*2)*3.1415926f,fsin,fcos);
    float2x2 rot   =   float2x2(fcos,-fsin,fsin,fcos);
-   return mul(inituv,rot)*(i+1);
+   return mul(inituv,rot)*pow(i+1,1.1);
 };
 
 PS_OUTPUT main( VS_OUTPUT Input ){
@@ -210,9 +210,9 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 
 	PS_OUTPUT	Out;
 	float shadowValue	=	(fRet/SHADOW_SAMPLE_NUMBER)*0.5+0.5;
-	float retShadow		=	cos(shadowValue*3.1415926f)*0.5+0.5;
+	float retShadow		=	0.5-cos(shadowValue*3.1415926f)*0.5;
 	
-	Out.Color						= float4((fDot.xy*(1-retShadow)),fDot.z,0);//vShadowPos.z > 0 &&	vShadowPos.z < oldZ + 0.0001f;//
+	Out.Color						= float4((fDot.xy*(retShadow)),fDot.z,0);//vShadowPos.z > 0 &&	vShadowPos.z < oldZ + 0.0001f;//
 	return	Out;
    
 }

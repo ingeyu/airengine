@@ -59,6 +59,7 @@ namespace	Air{
 
 			void					BuildSVO();
 			void					ShowSVO(U1	bShow);
+			void					ReloadModifyShader();
 		protected:
 			Ray						BuildRay(S32 x,S32 y);
 			void					UpdateRayCastPoint(const Ray& ray);

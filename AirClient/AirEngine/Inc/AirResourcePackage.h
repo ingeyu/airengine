@@ -59,6 +59,7 @@ namespace	Air{
 				*
 				**/
 				virtual	U32			Find(CAString&	strName,Data&	data);
+				virtual	U1			GetFileModifyTime( CAString& strFileName,FILETIME* p );
 				U32					FindWithFullPath(CAString& filename,Data&	data);
 				/**	\brief	查找后缀名文件
 				*   

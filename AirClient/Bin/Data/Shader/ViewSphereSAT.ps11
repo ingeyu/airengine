@@ -10,9 +10,9 @@ float4 main( VS_OUTPUT Input ) : SV_Target
    float4   c   =  0;// tex2Dlod( Texture0, float4(texCoord ,0,2));
    
    int iMax	=	(int)(Input.UV.x*256.0f);
-   int i   =   0;//vpos.x;
+   int i   =   iMax;//vpos.x;
    [loop]
-   while(i<iMax){
+   while(i<256){
       float4 c1 = ViewSphereTex.SampleLevel(SS_WrapLine2,float2((i)/256.0f,Input.UV.y),2);
       c+=c1;
       i++;

@@ -57,6 +57,7 @@ namespace Air{
 				**/
 				virtual	U32		Find(CAString&	strFileName);
 				virtual	U32		Find(CAString&	strFileName,Data&	outData);
+				U1				GetFileModifyTime(CAString&	strFileName,FILETIME* p);
 				/**	\brief	子类需要重写的循环调用函数
 				*   
 				*	@remarks 	线程自身的执行函数

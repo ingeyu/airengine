@@ -80,7 +80,7 @@ namespace Air{
 				m_ShaderType		=	enVS;
 				m_ShaderVersion		=	enRSV_11;
 				m_pBinaryCode		=	NULL;
-
+				memset(&m_CompileTime,0,sizeof(m_CompileTime));
 			}
 
 			Air::U1 Shader11::Create()
@@ -164,7 +164,7 @@ namespace Air{
 					EngineLogError(m_strProductName.c_str(),"Create Failed!");
 					return	false;
 				}
-
+				GetSystemTime(&m_CompileTime);
 				return	true;
 			}
 
@@ -241,6 +241,22 @@ namespace Air{
 			enumShaderType Shader11::GetType()
 			{
 				return	m_ShaderType;
+			}
+
+			Air::U1 Shader11::IsFileUpdate()
+			{
+				FILETIME ft;
+				if(ResourceSystem::GetSingleton()->GetFileModifyTime(m_strProductName+ SHADER_VERSION_EXT,&ft)){
+					SYSTEMTIME st;
+					FileTimeToSystemTime(&ft,&st);
+					FILETIME cft;
+					SystemTimeToFileTime(&m_CompileTime,&cft);
+					if(CompareFileTime(&ft,&cft)>0){
+						Reload();
+						return true;
+					}
+				}
+				return false;
 			}
 
 		}

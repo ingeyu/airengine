@@ -87,6 +87,10 @@ CRibbonControlsApp theApp;
 // CRibbonControlsApp initialization
 void __stdcall TimerCallback(HWND hWindow,UINT,UINT_PTR,DWORD){
 	Air::GetTimer().AddFrame();
+	unsigned int i = (unsigned int)Air::GetTimer().GetTotalTime();
+	if(i&1){
+		Air::EditorSystem::GetSingleton()->ReloadModifyShader();
+	}
 	Air::EngineSystem::GetSingleton()->ExecuteOneFrame(Air::GetTimer().m_FrameTime);
 }
 BOOL CRibbonControlsApp::InitInstance()

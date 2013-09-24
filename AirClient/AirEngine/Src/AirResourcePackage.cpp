@@ -85,6 +85,23 @@ namespace	Air{
 				File::FolderTraversal(m_strRealPath,&cb);
 			}
 
+			Air::U1 Package::GetFileModifyTime( CAString& strFileName,FILETIME* p )
+			{
+				HANDLE h = (HANDLE)CreateFile((m_strRealPath	+	strFileName).c_str(),GENERIC_READ ,FILE_SHARE_READ |FILE_SHARE_WRITE,NULL,OPEN_EXISTING ,0,0 );
+				if(h==(HANDLE)0xffffffff){
+					return false;
+				}
+				FILETIME f[3];
+				GetFileTime(h,&f[0],&f[1],&f[2]);
+				SYSTEMTIME s[3];
+				for(int i=0;i<3;i++)
+					FileTimeToSystemTime(&f[i],&s[i]);
+
+				memcpy(p,&f[2],sizeof(FILETIME));
+				CloseHandle(h);
+				return true;
+			}
+
 		}
 	}
 }

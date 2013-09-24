@@ -40,7 +40,7 @@ namespace Air{
 				virtual	U1	Destroy();
 	
 
-
+				virtual	U1				IsFileUpdate();
 				virtual	void*			GetShader();
 				virtual	void			GetBinaryCode(void*&	pOut,U32&	uiSize);
 				virtual	enumShaderType	GetType();
@@ -51,6 +51,7 @@ namespace Air{
 				enumShaderType			m_ShaderType;
 				enumSystemVersion		m_ShaderVersion;
 				ID3DBlob*				m_pBinaryCode;
+				SYSTEMTIME				m_CompileTime;
 			};
 		}
 	

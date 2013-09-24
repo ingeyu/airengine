@@ -121,7 +121,7 @@ Material	AmbientLight	:	MT_AmbientLighting
 	Texture	Texture/2x2rotal.png
 	Texture	MRT2
 	Texture	MRT1
-	Texture Texture/noise4_.dds
+	Texture Texture/4x4.png
 	Texture EnvSAT
 }	
 Material	ScreenSpaceTessellation	:	MT_ScreenSpaceTessellation

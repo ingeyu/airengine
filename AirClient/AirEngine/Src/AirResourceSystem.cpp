@@ -207,6 +207,24 @@ namespace	Air{
 			Air::U32 System::GetMaxRecycleSize(){
 				return	m_uiMaxRecycle;
 			}
+
+			Air::U1 System::GetFileModifyTime( CAString& strFileName,FILETIME* p )
+			{
+				AString	str	=	strFileName;
+				Converter::ToLowerCase(str);
+
+				PackageList::iterator	i	=	m_lstPackage.begin();
+				for(;i!=m_lstPackage.end();i++){
+					Package*	pkg	=	(Package*)(*i);
+					if(pkg!=NULL){
+						U32	uiSize	=	pkg->GetFileModifyTime(str,p);
+						if(uiSize!=0)
+							return	uiSize;
+
+					}
+				}
+			}
+
 		}
 	}
 }

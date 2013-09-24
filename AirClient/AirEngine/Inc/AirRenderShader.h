@@ -10,6 +10,7 @@ namespace	Air{
 			public:
 				static AString ProductTypeName;
 				Shader(CAString&	strName):IProduct(strName){};
+				virtual	U1				IsFileUpdate(){return false;};
 				virtual	void*			GetShader()										=	NULL;
 				virtual	void			GetBinaryCode(void*&	pOut,U32&	uiSize)		=	NULL;
 				virtual	enumShaderType	GetType()										=	NULL;

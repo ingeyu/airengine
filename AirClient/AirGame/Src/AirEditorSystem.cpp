@@ -5,6 +5,7 @@
 #include "AirEngineCharacterAnimationModel.h"
 #include "AirCommonConverter.h"
 #include "AirEnginePipeline.h"
+#include "AirRenderSystem.h"
 namespace	Air{
 	namespace	Editor{
 
@@ -465,6 +466,11 @@ namespace	Air{
 		void System::ShowSVO( U1 bShow )
 		{
 			GameSystem::GetSingleton()->GetCurrentSection()->GetPipeline()->ShowSVO(bShow);
+		}
+
+		void System::ReloadModifyShader()
+		{
+			Engine::RenderSystem::GetSingleton()->ReloadModifyShader();
 		}
 
 	}

@@ -231,6 +231,21 @@ namespace Air{
 				}
 			}
 
+			void System::ReloadModifyShader()
+			{
+				IFactory* pFactory	=	GetFactory(Shader::ProductTypeName);
+				if(pFactory!=NULL){
+					const IFactory::ProductMap& products = pFactory->GetProductList();
+					IFactory::ProductMap::const_iterator	i	=	products.begin();
+					for(;i!=products.end();i++){
+						Shader* pShader = (Shader*)i->second;
+						if(pShader!=NULL){
+							pShader->IsFileUpdate();
+						}
+					}
+				}
+			}
+
 		}
 	}
 };
