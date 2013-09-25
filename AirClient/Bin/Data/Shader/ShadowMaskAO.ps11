@@ -40,7 +40,7 @@ SamplerState	SS_WrapPoint2	:	register(s2);
 float2 UV_XY(float2 uv){
 	return	uv*float2(2,-2)+float2(-1,1);
 };
-#define SHADOW_SAMPLE_NUMBER 9
+#define SHADOW_SAMPLE_NUMBER 12
 
 float2 XY_UV(float2 xy){
 	return	xy*float2(0.5,-0.5)+0.5;
@@ -140,7 +140,7 @@ float2 GetOffset2(int   i,float2 inituv,float fNoise){
    float fsin,fcos;
    sincos((i/(0.66666f-0.66666f/SHADOW_SAMPLE_NUMBER)+fNoise*2)*3.1415926f,fsin,fcos);
    float2x2 rot   =   float2x2(fcos,-fsin,fsin,fcos);
-   return mul(inituv,rot)*pow(i+1,1.1);
+   return mul(inituv,rot)*(pow(i+1,1.15));
 };
 
 PS_OUTPUT main( VS_OUTPUT Input ){
@@ -173,7 +173,7 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 
 //+distance(vViewPos.xyz,vWorldPos.xyz)/512
 //distance(vViewPos.xyz,vWorldPos.xyz)/12
-	float uvScale	=	(0.02*(0.5+distance(vViewPos.xyz,vWorldPos.xyz)/50))/(vViewPos.w);
+	float uvScale	=	(0.01*(0.5+distance(vViewPos.xyz,vWorldPos.xyz)/50))/(vViewPos.w);
 
 	float4	vShadowPos	=	mul(mShadowViewProj,vWorldPos);
 	vShadowPos/=vShadowPos.w;

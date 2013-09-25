@@ -49,6 +49,7 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 	Out.Diffuse			=	float4(diffuse_opacity.xyz*diff.xyz,ambient_alphatest.x);
 	Out.Specular		=	float4(specular_glossiness.xyz,pow(abs(specular_glossiness.w),1.0f/2.2f));
 	Out.SelfIllum		=	selfIllumColor_fresnel;	
+	Out.SelfIllum.xyz	*=	diffcolor;
 	return	Out;
    
 }
