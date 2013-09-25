@@ -53,7 +53,7 @@ namespace	Air{
 				return	true;
 			}
 
-			return	true;
+			return	false;
 		}
 
 		Air::U1 StaticMesh::LoadAME0()

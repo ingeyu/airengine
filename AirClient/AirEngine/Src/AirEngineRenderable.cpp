@@ -103,6 +103,8 @@ namespace	Air{
 
 		void Renderable::OnRender(Render::Device* pDevice )
 		{
+			if(m_DrawBuff.m_pVertexDeclare==NULL)
+				return;
 			pDevice->SetVD(m_DrawBuff.m_pVertexDeclare);
 			Buffer*	pVB=	NULL;
 			for(int i=0;i<4;i++){
