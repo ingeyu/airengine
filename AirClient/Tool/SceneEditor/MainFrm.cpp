@@ -931,6 +931,7 @@ void CMainFrame::OnUpdateScaleButton(CCmdUI* pCmdUI){
 }
 
 void CMainFrame::OnButtonCreate_Object(){
+	enumEditMode	last =	m_EditMode;
 	m_EditMode	=	eEM_CreateObject;
 	Air::EditorSystem::GetSingleton()->EnableInput(false);
 	CFileDialog dlg( 
@@ -958,6 +959,10 @@ void CMainFrame::OnButtonCreate_Object(){
 
 		OutputDebugStringA(dlg.GetPathName().GetString());
 		Air::EditorSystem::GetSingleton()->SetCreateName(Air::EditorSystem::AbsPath2Relatve(dlg.GetPathName().GetString()));
+	}else{
+		m_EditMode	=	last;
+		Air::EditorSystem::GetSingleton()->EnableInput(true);
+		return;
 	}
 	Air::EditorSystem::GetSingleton()->SetCreateType(Air::Editor::enCT_Object);
 	Air::EditorSystem::GetSingleton()->SetControlMode(Air::Editor::enCM_Create);
