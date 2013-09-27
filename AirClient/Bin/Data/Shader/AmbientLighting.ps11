@@ -33,7 +33,7 @@ cbuffer	cbPerMaterial	:	register(b3)
 float2 GetOffset2(int   i,float rotoffset){
    float2 initxy   =   float2(0,1);
    float fsin,fcos;
-   sincos((i*0.25/SAMPLER_NUM+rotoffset)*2.0f*3.1415926f,fsin,fcos);
+   sincos((i*0.125/SAMPLER_NUM+rotoffset)*2.0f*3.1415926f,fsin,fcos);
    float2x2 rot   =   float2x2(fcos,-fsin,fsin,fcos);
    return mul(initxy,rot)*float2(1,-1);
 };
@@ -85,22 +85,24 @@ float4 main( VS_OUTPUT Input ) : SV_Target
    
    float4 lighting=0;
    float  occ=0;
-   float2 uvScale   =   (invViewport*15);//*15*(noisep.w+0.5f);//*OccSize.y;
+   float2 uvScale   =   (invViewport*10);//*15*(noisep.w+0.5f);//*OccSize.y;
 
 
    float offset   =   noisep.x;
    //int i   =   0;
    //[loop]
    for(int i=0;i<SAMPLER_NUM;i++){
-      float2   tempuv   =   GetOffset2(i    ,offset)*uvScale;
       
+      float2   tempuv   =   GetOffset2(i    ,offset)*uvScale;
       float ffinaldot   =   -1;
       [loop]
       for(int j=0;j<STEP_NUM;j++){
-         float2 UV     =   tempuv*pow(j+1,1)   +Input.UV;
+	  	 
+         float2 UV     =   tempuv*pow(j+1,1.5)   +Input.UV;
          float4 XY     =   GenPos(UV,j);
          XY.xyz   -=   oldPos.xyz;
          float fdot   =   dot(viewDir.xyz,normalize(XY.xyz));
+		 fdot	=	lerp(fdot,-1,pow(length(XY.xyz)/2000,0.5));
          if(fdot   >   ffinaldot)
             ffinaldot   =   fdot;//lerp(ffinaldot,fdot,0.75);
       }
@@ -115,8 +117,7 @@ float4 main( VS_OUTPUT Input ) : SV_Target
 	  //float4 middle1	   =	TexSAT.Sample(ss_clampline2,float2(lerp(x,1,0.4),y));
 	 // float4 middle2	   =	TexSAT.Sample(ss_clampline2,float2(lerp(x,1,0.6),y));
       lighting += currentEnv;//currentEnv;//(maxEnv-currentEnv);
-	  occ+=1-x;
-      //co+=length(tempDir);
+
    }
 
    float4 fAO   =   (lighting/SAMPLER_NUM);//*fWeight;
