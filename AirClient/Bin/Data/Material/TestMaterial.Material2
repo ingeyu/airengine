@@ -97,7 +97,7 @@ Material	Combine		:	MT_Combine
 	Texture CascadedShadowMapMask
 	Texture SO
 	Texture MRT4
-	Texture DefferredLight
+	Texture TileBaseLighting
 }
 Material	Sky		:	MT_Sky
 {
@@ -197,6 +197,14 @@ Material	PointLight	:	MT_PointLight
 	Vector	0 0 0 1
 	Vector  1 1 1 1
 	Matrix	
+	Texture	MRT0
+	Texture	MRT1
+}
+
+
+Material	TileBaseLighting	:	MT_TileBaseLighting
+{
+	Vector	1024 768 0 0
 	Texture	MRT0
 	Texture	MRT1
 }

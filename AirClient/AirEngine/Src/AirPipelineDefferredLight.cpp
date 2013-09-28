@@ -3,6 +3,7 @@
 #include "AirMeshEntity.h"
 #include "AirEngineMaterial.h"
 #include "AirEnginePipeline.h"
+#include "AirQuadRenderable.h"
 namespace	Air{
 	namespace	Engine{
 
@@ -91,5 +92,54 @@ namespace	Air{
 			m_vecPointLight.push_back(point);
 		}
 
+
+		TileBaseLight::TileBaseLight()
+		{
+			m_pCSRenderable	=	NULL;
+		}
+
+		Air::U1 TileBaseLight::Initialization( Pipeline* pPipeline )
+		{
+			m_pCSRenderable		=	new	CSRenderable;
+			m_pPipeline			=	pPipeline;
+			RenderTarget::Info	info;
+			info.SetSingleTargetScreen(enTFMT_R32_FLOAT,1.0f,true,pPipeline->GetMainWindow());
+			info.vecTextureInfo[0].SetViewFlag(enVF_SRV|enVF_UAV);
+			m_pLightBuffer		=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget>("TileBaseLighting",&info);
+			m_pLightBuffer->AddPhaseFlag(enPI_DeferredLight);
+			m_pLightBuffer->AddCamera(pPipeline->GetMainCamera());
+			m_pLightBuffer->SetClearFlag(false,true,false);
+
+
+			m_pPointMaterial	=	EngineSystem::GetSingleton()->CreateProduct<Material>("TileBaseLighting");
+			m_pSphere			=	NULL;//EngineSystem::GetSingleton()->CreateProduct<MeshEntity>("PointLight",&meshInfo);
+			return true;
+		}
+
+		Air::U1 TileBaseLight::Release()
+		{
+			SAFE_DELETE(m_pCSRenderable);
+			return __super::Release();
+		}
+
+		void TileBaseLight::Update( const FrameTime& frameTime )
+		{
+			Render::Device* pDevice	=	RenderSystem::GetSingleton()->GetDevice();
+			void* p	=	m_pLightBuffer->GetUAV();
+			pDevice->SetUAV(1,(void**)&p);
+			pDevice->SetSRV(enCS,0,NULL);
+
+			Float4 v(m_pLightBuffer->GetWidth(),m_pLightBuffer->GetHeight(),0,0);
+			m_pPointMaterial->GetConstantBuffer()->Write(0,sizeof(Float4),&v);
+			int x	=	(m_pLightBuffer->GetWidth()+15)>>4;
+			int y	=	(m_pLightBuffer->GetHeight()+15)>>4;
+			m_pCSRenderable->m_Dispatch[0]	=	x;
+			m_pCSRenderable->m_Dispatch[1]	=	y;
+			m_pPointMaterial->RenderOneObject(m_pCSRenderable);
+
+			pDevice->SetShader(enCS,NULL);
+			p=NULL;
+			pDevice->SetUAV(1,(void**)&p);
+		}
 	}
 }

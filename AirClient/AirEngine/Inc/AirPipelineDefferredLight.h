@@ -5,6 +5,7 @@
 
 namespace	Air{
 	namespace	Engine{
+		class	CSRenderable;
 		class	Pipeline;
 		class	MeshEntity;
 		class	Material;
@@ -29,6 +30,15 @@ namespace	Air{
 			RenderTarget*		m_pLightBuffer;
 			PointLightVector	m_vecPointLight;
 			Pipeline*			m_pPipeline;
+		};
+
+		class	TileBaseLight	:	public	DefferredLight{
+		public:
+			TileBaseLight();
+			virtual	U1		Initialization( Pipeline* pPipeline);
+			virtual	U1		Release();
+			virtual	void	Update(const FrameTime& frameTime);
+			CSRenderable*	m_pCSRenderable;
 		};
 	}
 }

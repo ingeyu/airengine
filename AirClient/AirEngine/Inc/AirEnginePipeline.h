@@ -116,6 +116,7 @@ namespace	Air{
 			OIT						m_OIT;
 			VoxelGenerator			m_VoxelGen;
 			DefferredLight			m_DL;
+			TileBaseLight			m_TBL;
 			Render::CBFrame		m_cbFrame;
 		};
 	}

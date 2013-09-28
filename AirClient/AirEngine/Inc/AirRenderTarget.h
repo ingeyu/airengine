@@ -463,6 +463,7 @@ namespace Air{
 
 				virtual		void*	GetRTV(U32	uiIdx	=	0);
 				virtual		void*	GetSRV(U32	uiIdx	=	0);
+				virtual		void*	GetUAV(U32	uiIdx	=	0);
 				virtual		void*	GetDepthRTV()				=	NULL;
 				virtual		void*	GetDepthSRV()				=	NULL;
 				virtual		void*	GetBackBuffer(U32	uiIdx	=	0);

@@ -40,6 +40,20 @@ namespace	Air{
 			SAFE_RELEASE_REF(m_DrawBuff.m_pVertexDeclare);
 		}
 
+
+		void CSRenderable::OnRender( Render::Device* pDevice )
+		{
+			pDevice->Dispatch(m_Dispatch[0],m_Dispatch[1],m_Dispatch[2]);
+		}
+
+		CSRenderable::CSRenderable()
+		{
+			m_Dispatch[0]	=	1;
+			m_Dispatch[1]	=	1;
+			m_Dispatch[2]	=	1;
+			SetNeedWorldMatrix(false);
+		}
+
 	}
 
 }

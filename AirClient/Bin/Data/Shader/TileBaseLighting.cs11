@@ -1,0 +1,64 @@
+#define	NUMBER_BLOCK_WIDTH	16
+#define	NUMBER_THREAD		NUMBER_BLOCK_WIDTH*NUMBER_BLOCK_WIDTH
+#define	HALF_NUMBER_THREAD	NUMBER_THREAD/2
+
+cbuffer cbPerCamera : register( b1 )
+{
+    matrix  ViewProjection;
+	float4	vCameraDir;
+	float4	vCameraPosition;
+	float4	vCameraUp;
+	float4	vVP_NearFar;
+   
+};
+cbuffer	cbPerMaterial	: register( b3 )
+{
+	float4	RTWidthHeight;
+}
+
+Texture2D						DepthTex		:	register(t0);
+Texture2D						NormalTex		:	register(t1);
+StructuredBuffer<float4>		LightBuffer		:	register(t2);
+RWTexture2D<float>				OutLightTex		:	register(u0);
+
+groupshared float4	tempLightBuffer[NUMBER_THREAD*2];
+groupshared float	tempDepth[NUMBER_THREAD];
+
+[numthreads(NUMBER_BLOCK_WIDTH, NUMBER_BLOCK_WIDTH, 1)]
+void	main(
+	uint3	GTid	:	SV_GroupThreadID,
+	uint3	DTid	:	SV_DispatchThreadID)
+{
+	//Calc Min Max Depth
+	uint	GIndex		=	GTid.y*NUMBER_BLOCK_WIDTH+GTid.x;
+	tempDepth[GIndex]	=	DepthTex.Load(DTid.xyz);
+	GroupMemoryBarrierWithGroupSync();        
+	for(uint i=NUMBER_THREAD/2;i>0;i/=2)
+	{
+		if(GIndex<i){
+			float	left	=	tempDepth[GIndex];
+			float	right	=	tempDepth[GIndex	+	i];	
+			if(right	<	left){
+				tempDepth[GIndex]							=	right;
+				tempDepth[GIndex	+	HALF_NUMBER_THREAD]	=	left;
+			}
+		}
+		/******
+		else	if(i!=NUMBER_THREAD/2 && GIndex >= NUMBER_THREAD-i){
+			int	newGIndex	=	NUMBER_THREAD-GIndex-1;
+			float	left	=	tempDepth[newGIndex];
+			float	right	=	tempDepth[GIndex	-	i];	
+			if(right	<	left){
+				tempDepth[GIndex]							=	right;
+				tempDepth[GIndex	-	HALF_NUMBER_THREAD]	=	left;
+			}
+		}
+		**/
+		GroupMemoryBarrierWithGroupSync();
+	}
+	float	fNear	=	tempDepth[0];
+	float	fFar	=	tempDepth[NUMBER_THREAD-1];//tempDepth[NUMBER_THREAD-1];
+	float fLast;
+	//uint	DIndex	=	DTid.y*RTWidthHeight.x+DTid.x;
+	InterlockedExchange(OutLightTex[DTid.xy],fFar-fNear,fLast);
+}

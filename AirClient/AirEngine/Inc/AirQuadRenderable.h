@@ -11,6 +11,14 @@ namespace	Air{
 
 			virtual	~QuadRenderable();
 		};
+
+		class	ENGINE_EXPORT	CSRenderable	:	public	Renderable{
+		public:
+			CSRenderable();
+			virtual	void	OnRender(Render::Device* pDevice);
+			
+			U32	m_Dispatch[3];
+		};
 	}
 }
 #endif // AirQuadRenderable_h__

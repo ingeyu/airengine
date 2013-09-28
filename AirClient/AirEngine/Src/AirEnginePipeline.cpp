@@ -259,7 +259,7 @@ namespace	Air{
 			m_OIT.Initialize(m_pMainWindow);
 			m_VoxelGen.Initialize(m_pMainWindow);
 			m_DL.Initialization(this);
-
+			m_TBL.Initialization(this);
 			
 			m_pQuadCopy		=	EngineSystem::GetSingleton()->CreateProduct<Material>("QuadCopy");
 			m_pSSAO			=	EngineSystem::GetSingleton()->CreateProduct<Material>("SSAO");
@@ -280,6 +280,7 @@ namespace	Air{
 			m_CSM.Release();
 			m_VoxelGen.Release();
 			m_DL.Release();
+			m_TBL.Release();
 			//m_Tesellation.Release();
 
 			SAFE_RELEASE_REF(pMesh);
@@ -379,7 +380,7 @@ namespace	Air{
 			*/
 			//DefferredLighting
 			m_DL.Update(frameTime);
-			
+			m_TBL.Update(frameTime);
 
 			//SSAO
 			m_pMainWindow->SetClearFlag(false,true,false);

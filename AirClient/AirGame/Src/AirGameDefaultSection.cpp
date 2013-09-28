@@ -323,6 +323,12 @@ namespace	Air{
 		{
 			 __super::Create();
 
+
+			 Actor::Info ainfo ;
+			 ainfo.strModelName	=	"法师";
+			 ainfo.pSection		=	this;
+			 pActor=	GameSystem::GetSingleton()->CreateProduct<Actor>("法师1",&ainfo);
+			 pActor->GetNode()->SetScale(0.01f);
 			 return	true;
 		}
 

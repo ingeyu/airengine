@@ -333,6 +333,11 @@ namespace	Air{
 				}
 			}
 
+			void* Target::GetUAV( U32 uiIdx /*= 0*/ )
+			{
+				return m_vecTexture[uiIdx]->GetUAV();
+			}
+
 		}
 	}
 }
