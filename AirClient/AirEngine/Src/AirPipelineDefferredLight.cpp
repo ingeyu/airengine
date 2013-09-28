@@ -173,6 +173,16 @@ namespace	Air{
 			pProjInvMat->Inverse();
 			Matrix* pViewMat	=	(Matrix*)&v[5];
 			m_pPipeline->GetMainCamera()->GetViewMatrix(*pViewMat);
+
+
+			//Float4 v1[4]={Float4(-1,1,1,1),Float4(1,1,1,1),Float4(-1,1,0,1),Float4(1,1,0,1)};
+			//Float4 v2[4];
+			//for(int i=0;i<4;i++){
+			//	v2[i]	=	XMVector4Transform(v1[i].ToXM(),pProjInvMat->ToXM());
+			//}
+			//Common::Plane p0(Float3(0,0,0),v2[0],v2[1]);
+			//Common::Plane p1(Float3(0,0,0),v2[2],v2[3]);
+
 			
 			v[9]	=	Float4(
 				Engine::GetGlobalSetting().m_pInputSystem->m_iX,

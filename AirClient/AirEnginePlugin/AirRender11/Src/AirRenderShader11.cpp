@@ -118,12 +118,12 @@ namespace Air{
 					fileInc.strPath		=	strPath;
 					HRESULT	hr	=	D3DCompile(data.buff,data.size,m_strProductName.c_str(),NULL,&fileInc,"main",strProfile.c_str(),0,0,&m_pBinaryCode,&pError);
 					if(FAILED(hr)){
-						char strOutputString[512];
+						char strOutputString[4096];
 						if(pError!=NULL){
-							sprintf_s(strOutputString,512,"File[%s]Compile Failed!%s!\n",m_strProductName.c_str(),(char*)pError->GetBufferPointer());
+							sprintf_s(strOutputString,4096,"File[%s]Compile Failed!%s!\n",m_strProductName.c_str(),(char*)pError->GetBufferPointer());
 							SAFE_RELEASE(pError);
 						}else
-							sprintf_s(strOutputString,512,"File[%s]Compile Failed!No Error Infomation!\n",m_strProductName.c_str());
+							sprintf_s(strOutputString,4096,"File[%s]Compile Failed!No Error Infomation!\n",m_strProductName.c_str());
 						OutputDebugStringA(strOutputString);
 						return false;
 					}
