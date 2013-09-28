@@ -4,6 +4,7 @@
 #include "AirEngineMaterial.h"
 #include "AirEnginePipeline.h"
 #include "AirQuadRenderable.h"
+#include "AirGlobalSetting.h"
 namespace	Air{
 	namespace	Engine{
 
@@ -33,6 +34,20 @@ namespace	Air{
 			meshInfo.strMaterial	=	"NoMaterial";
 			m_pSphere			=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity>("PointLight",&meshInfo);
 
+
+			for(U32 i=0;i<256;i++){
+				Float3 vPos(
+					Common::Number::RandomF(),
+					Common::Number::RandomF(),
+					Common::Number::RandomF()
+					);
+				Float3 vColor(
+					Common::Number::RandomF(),
+					Common::Number::RandomF(),
+					Common::Number::RandomF()
+					);
+				AddPointLight(vPos*100,20,vColor);
+			}
 			return true;
 		}
 
@@ -79,7 +94,7 @@ namespace	Air{
 
 				m_pLightBuffer->AfterUpdate();
 			}
-			m_vecPointLight.clear();
+			//m_vecPointLight.clear();
 			
 		}
 
@@ -96,6 +111,8 @@ namespace	Air{
 		TileBaseLight::TileBaseLight()
 		{
 			m_pCSRenderable	=	NULL;
+			m_pLightPosColor=NULL;
+			m_vecPointLight.reserve(1024);
 		}
 
 		Air::U1 TileBaseLight::Initialization( Pipeline* pPipeline )
@@ -110,9 +127,27 @@ namespace	Air{
 			m_pLightBuffer->AddCamera(pPipeline->GetMainCamera());
 			m_pLightBuffer->SetClearFlag(false,true,false);
 
+			Buffer::Info binfo;
+			binfo.SetStructureBuffer(1024,sizeof(PointLightInfo));
+			binfo.SetViewFlag(enVF_SRV);
+			m_pLightPosColor		=	RenderSystem::GetSingleton()->CreateProduct<Buffer>("TBL_PosColor",&binfo);
 
 			m_pPointMaterial	=	EngineSystem::GetSingleton()->CreateProduct<Material>("TileBaseLighting");
 			m_pSphere			=	NULL;//EngineSystem::GetSingleton()->CreateProduct<MeshEntity>("PointLight",&meshInfo);
+
+			//for(U32 i=0;i<256;i++){
+			//	Float3 vPos(
+			//		Common::Number::RandomF(),
+			//		Common::Number::RandomF(),
+			//		Common::Number::RandomF()
+			//		);
+			//	Float3 vColor(
+			//		Common::Number::RandomF(),
+			//		Common::Number::RandomF(),
+			//		Common::Number::RandomF()
+			//		);
+			//	AddPointLight(vPos*100,4,vColor);
+			//}
 			return true;
 		}
 
@@ -127,10 +162,27 @@ namespace	Air{
 			Render::Device* pDevice	=	RenderSystem::GetSingleton()->GetDevice();
 			void* p	=	m_pLightBuffer->GetUAV();
 			pDevice->SetUAV(1,(void**)&p);
-			pDevice->SetSRV(enCS,0,NULL);
+			
+			m_pLightPosColor->UpdateData(&m_vecPointLight[0]);
+			pDevice->SetSRV(enCS,2,m_pLightPosColor->GetSRV());
 
-			Float4 v(m_pLightBuffer->GetWidth(),m_pLightBuffer->GetHeight(),0,0);
-			m_pPointMaterial->GetConstantBuffer()->Write(0,sizeof(Float4),&v);
+			Float4 v[10];
+			v[0]=Float4(m_pLightBuffer->GetWidth(),m_pLightBuffer->GetHeight(),m_vecPointLight.size(),0);
+			Matrix* pProjInvMat	=	(Matrix*)&v[1];
+			m_pPipeline->GetMainCamera()->GetProjMatrix(*pProjInvMat);
+			pProjInvMat->Inverse();
+			Matrix* pViewMat	=	(Matrix*)&v[5];
+			m_pPipeline->GetMainCamera()->GetViewMatrix(*pViewMat);
+			
+			v[9]	=	Float4(
+				Engine::GetGlobalSetting().m_pInputSystem->m_iX,
+				Engine::GetGlobalSetting().m_pInputSystem->m_iY,
+				0,
+				0
+				);
+
+
+			m_pPointMaterial->GetConstantBuffer()->UpdateData(v);
 			int x	=	(m_pLightBuffer->GetWidth()+15)>>4;
 			int y	=	(m_pLightBuffer->GetHeight()+15)>>4;
 			m_pCSRenderable->m_Dispatch[0]	=	x;

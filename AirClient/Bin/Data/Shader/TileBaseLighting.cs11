@@ -14,24 +14,69 @@ cbuffer cbPerCamera : register( b1 )
 cbuffer	cbPerMaterial	: register( b3 )
 {
 	float4	RTWidthHeight;
+	float4x4 matViewProjInv;
+	float4x4 matView;
+	float4	mouse;
 }
 
-Texture2D						DepthTex		:	register(t0);
-Texture2D						NormalTex		:	register(t1);
-StructuredBuffer<float4>		LightBuffer		:	register(t2);
-RWTexture2D<float>				OutLightTex		:	register(u0);
+struct PointLightInfo{
+	float4 Pos_Size;
+	float4 Color;
+};
 
-groupshared float4	tempLightBuffer[NUMBER_THREAD*2];
+Texture2D							DepthTex		:	register(t0);
+Texture2D							NormalTex		:	register(t1);
+StructuredBuffer<PointLightInfo>	LightBuffer		:	register(t2);
+RWTexture2D<float>					OutLightTex		:	register(u0);
+
+groupshared PointLightInfo	tempLightBuffer[NUMBER_THREAD];
+groupshared	int				tempLightCount;
 groupshared float	tempDepth[NUMBER_THREAD];
+groupshared float4	tempPos[4];
+
+
+float4 Vertex3_Plane(float3 v1,float3 v2,float3 v3){
+	float3	aux1 = v1 - v2;
+	float3	aux2 = v1 - v3;
+	float4 plane;
+	plane.xyz = (cross((aux1),(aux2)));
+
+	normalize(plane.xyz);
+
+	plane.w = dot((plane.xyz),v1);
+	return plane;
+}
+
+bool IsOutSide(float4 plane,float4 sphere){
+	return (sphere.w < dot(plane.xyz,sphere.xyz));
+}
 
 [numthreads(NUMBER_BLOCK_WIDTH, NUMBER_BLOCK_WIDTH, 1)]
 void	main(
+	uint3	Gid		:	SV_GroupID,
 	uint3	GTid	:	SV_GroupThreadID,
 	uint3	DTid	:	SV_DispatchThreadID)
 {
 	//Calc Min Max Depth
 	uint	GIndex		=	GTid.y*NUMBER_BLOCK_WIDTH+GTid.x;
-	tempDepth[GIndex]	=	DepthTex.Load(DTid.xyz);
+	float	fDepth		=	DepthTex.Load(DTid.xyz);
+	
+	float3	N			=	NormalTex.Load(DTid.xyz);
+	N=N*2-1;
+	N					=	mul((float3x3)matView,N);
+
+	float2	uv			=	((float2)DTid.xy)/RTWidthHeight.xy;
+
+	float2 mousepos		=	mouse/RTWidthHeight.xy;
+	mousepos.y	=	1-mousepos.y;
+
+
+	uv.y	=	1-uv.y;
+	float4	projpos		=	float4(uv*2-1,fDepth,1); 
+	projpos				=	mul(matViewProjInv,projpos);
+	projpos/=projpos.w;
+
+	tempDepth[GIndex]	=	projpos.z;
 	GroupMemoryBarrierWithGroupSync();        
 	for(uint i=NUMBER_THREAD/2;i>0;i/=2)
 	{
@@ -39,26 +84,118 @@ void	main(
 			float	left	=	tempDepth[GIndex];
 			float	right	=	tempDepth[GIndex	+	i];	
 			if(right	<	left){
-				tempDepth[GIndex]							=	right;
-				tempDepth[GIndex	+	HALF_NUMBER_THREAD]	=	left;
+				tempDepth[GIndex]			=	right;
+				tempDepth[GIndex	+	i]	=	left;
 			}
 		}
-		/******
+		
 		else	if(i!=NUMBER_THREAD/2 && GIndex >= NUMBER_THREAD-i){
 			int	newGIndex	=	NUMBER_THREAD-GIndex-1;
-			float	left	=	tempDepth[newGIndex];
-			float	right	=	tempDepth[GIndex	-	i];	
+			float	left	=	tempDepth[newGIndex	-	i];
+			float	right	=	tempDepth[newGIndex];	
 			if(right	<	left){
-				tempDepth[GIndex]							=	right;
-				tempDepth[GIndex	-	HALF_NUMBER_THREAD]	=	left;
+				tempDepth[newGIndex	-	i]	=	right;
+				tempDepth[newGIndex]		=	left;
 			}
 		}
-		**/
+		
 		GroupMemoryBarrierWithGroupSync();
 	}
 	float	fNear	=	tempDepth[0];
 	float	fFar	=	tempDepth[NUMBER_THREAD-1];//tempDepth[NUMBER_THREAD-1];
 	float fLast;
 	//uint	DIndex	=	DTid.y*RTWidthHeight.x+DTid.x;
-	InterlockedExchange(OutLightTex[DTid.xy],fFar-fNear,fLast);
+	//InterlockedExchange(OutLightTex[DTid.xy],(fFar-fNear)*0.1,fLast);
+	//Calc Quad Vertex Pos
+	float4 vQuadProjPos[4]={
+		float4(Gid.xy,1,1),
+		float4(Gid.xy+float2(0.9375,0),1,1),
+		float4(Gid.xy+float2(0.9375,0.9375),1,1),
+		float4(Gid.xy+float2(0,0.9375),1,1)
+		};
+	if(GIndex<4){
+		float4 temp		=	vQuadProjPos[GIndex]*float4(NUMBER_BLOCK_WIDTH,NUMBER_BLOCK_WIDTH,0,1);
+		temp.xy			=	(temp.xy+0.5)/	RTWidthHeight.xy;
+		temp.y			=	1-temp.y;
+		temp.xy			=	temp.xy*2-1;
+		float4 vTemp	=	mul(matViewProjInv,temp);
+		vTemp/=vTemp.w;
+		tempPos[GIndex]	=	vTemp;
+	}
+	GroupMemoryBarrierWithGroupSync();
+	//Calc Plane Normal Distance
+	if(GIndex<4){
+		uint nextIndex	=	(GIndex+1)&3;
+		tempPos[GIndex]	=	Vertex3_Plane(float3(0,0,0),tempPos[GIndex].xyz,tempPos[nextIndex].xyz);
+	}
+	tempLightCount=0;
+	//tempLightBuffer[GIndex]	=	LightBuffer[GIndex];
+	GroupMemoryBarrierWithGroupSync();
+#if 1
+	float4 v = LightBuffer[GIndex].Pos_Size;
+	float4	mouseposprojpos		=	float4(mousepos*2-1,1,1);
+	mouseposprojpos				=	mul(matViewProjInv,mouseposprojpos);
+	mouseposprojpos/=mouseposprojpos.w;
+	mouseposprojpos.w	=	3;
+
+	bool  iIntersectCount=true;
+	for(int i=0;i<4;i++){
+		if(IsOutSide(tempPos[i],mouseposprojpos)){
+			iIntersectCount=false;
+			break;
+		}
+	}
+	float fColor = 0;
+	if(iIntersectCount)
+		fColor	=	1.0f;
+	InterlockedExchange(OutLightTex[DTid.xy],fColor,fLast);
+	
+#else
+	
+	//Intersect Light With Quad Frustum
+
+	uint iIntersectCount	=	0;
+	PointLightInfo linfo	=	LightBuffer[GIndex];
+	float4 viewpos	=	linfo.Pos_Size;
+	float4 tempvp = mul(matView,float4(viewpos.xyz,1));
+	viewpos.xyz	=tempvp.xyz/tempvp.w;	
+	//viewpos.w	=	1;	
+	for(int i=0;i<4;i++){
+		
+		if(!IsOutSide(tempPos[i],viewpos)){
+			iIntersectCount++;
+		}
+	}
+	if(iIntersectCount>=4){
+		
+		if(viewpos.z+viewpos.w > fNear&& viewpos.z-viewpos.w < fFar){
+			float oldValue;
+			InterlockedAdd(tempLightCount,1,oldValue);
+			//tempLightBuffer[oldValue]	=	linfo;
+		}
+		
+		//float oldValue;
+		//InterlockedAdd(tempLightCount,1,oldValue);
+	//	iCount++;
+	}
+//	}
+	GroupMemoryBarrierWithGroupSync();
+	float f = tempLightCount;
+	InterlockedExchange(OutLightTex[DTid.xy],f*0.1,fLast);
+	//if(iCount>0){
+	//	InterlockedExchange(OutLightTex[DTid.xy],1,fLast);
+//	}
+#endif
+	/*
+	float Color=0;
+	//Shading The Pixel
+	for(int i=0;i<tempLightCount;i++){
+		PointLightInfo lightinfo	=	tempLightBuffer[i];
+		float3 LDir	=	lightinfo.Pos_Size.xyz-projpos.xyz;
+		float3 L	=	normalize(LDir);
+		Color	+=	saturate(dot(L,N))*saturate(1-length(LDir)/lightinfo.Pos_Size.w);
+	}
+
+	InterlockedExchange(OutLightTex[DTid.xy],Color,fLast);
+	*/
 }

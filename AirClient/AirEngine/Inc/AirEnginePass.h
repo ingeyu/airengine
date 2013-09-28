@@ -94,6 +94,7 @@ namespace	Air{
 			inline	PassHash		GetHash(){
 				return	m_Hash;
 			};
+			U32						GetCBMask();
 		protected:
 			PassInfo*					m_pInfo;				///<	pass信息
 			ShaderProgram*				m_pShaderArray[6];		///<	着色语言

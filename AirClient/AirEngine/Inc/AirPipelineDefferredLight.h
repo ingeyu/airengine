@@ -24,7 +24,7 @@ namespace	Air{
 			virtual	U1		Release();
 			virtual	void	Update(const FrameTime& frameTime);
 			virtual	void	AddPointLight(const Float3& pos,float fSize,const Float3& vColor);
-		protected:
+		//protected:
 			Material*			m_pPointMaterial;
 			MeshEntity*			m_pSphere;
 			RenderTarget*		m_pLightBuffer;
@@ -39,6 +39,7 @@ namespace	Air{
 			virtual	U1		Release();
 			virtual	void	Update(const FrameTime& frameTime);
 			CSRenderable*	m_pCSRenderable;
+			Buffer*			m_pLightPosColor;
 		};
 	}
 }

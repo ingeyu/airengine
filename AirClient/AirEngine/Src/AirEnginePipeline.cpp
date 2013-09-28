@@ -380,6 +380,7 @@ namespace	Air{
 			*/
 			//DefferredLighting
 			m_DL.Update(frameTime);
+			m_TBL.m_vecPointLight	=	m_DL.m_vecPointLight;
 			m_TBL.Update(frameTime);
 
 			//SSAO

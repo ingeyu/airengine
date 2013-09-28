@@ -182,5 +182,16 @@ namespace	Air{
 			}
 		}
 
+		Air::U32 Pass::GetCBMask()
+		{
+			U32 uiMask=0;
+			for(U32 i=0;i<6;i++){
+				if(m_pShaderArray[i]!=NULL){
+					uiMask|=1<<i;
+				}
+			}
+			return uiMask;
+		}
+
 	}
 }

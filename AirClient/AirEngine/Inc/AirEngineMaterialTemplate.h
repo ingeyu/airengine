@@ -48,6 +48,7 @@ namespace	Air{
 			enumPhaseIndex			GetPhaseIndex()const;
 			void					ClearRenderObject();
 			U64						GetHash(){return	m_Hash;};
+			U32						GetCBMask();
 		protected:
 			U64						m_Hash;
 			PassVector				m_vecPass;

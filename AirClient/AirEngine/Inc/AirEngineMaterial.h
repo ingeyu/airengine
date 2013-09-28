@@ -91,6 +91,7 @@ namespace Air{
 			Info						m_Info;
 			CriticalSection				m_ObjectCS;
 			U64							m_Hash;
+			U32							m_CBMask;
 		};
 
 		typedef	std::map<U32,Material*>	MaterialMap;

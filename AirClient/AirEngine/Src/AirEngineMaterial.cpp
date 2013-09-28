@@ -23,6 +23,8 @@ namespace Air{
 
 			m_pConstantBuffer	=	NULL;
 			m_pTemplate			=	NULL;
+
+			m_CBMask			=	1<<enVS|1<<enPS|1<<enGS;
 		}
 
 		Air::U1 Material::Create(){
@@ -83,7 +85,7 @@ namespace Air{
 			m_Hash			=	uiHighHash<<32|uiLowHash;
 
 			m_pTemplate->AddMaterial(this);
-
+			m_CBMask	=	m_pTemplate->GetCBMask();
 			return	true;
 		}
 
@@ -135,9 +137,11 @@ namespace Air{
 				UpdateAutoParam();
 			
 				//SetConstantBuffer
-				pSys->GetDevice()->SetCB(enVS,3,m_pConstantBuffer);
-				pSys->GetDevice()->SetCB(enGS,3,m_pConstantBuffer);
-				pSys->GetDevice()->SetCB(enPS,3,m_pConstantBuffer);
+				for(U32 i=0;i<6;i++){
+					if(m_CBMask&(1<<i)){
+						pSys->GetDevice()->SetCB((enumShaderType)i,3,m_pConstantBuffer);
+					}
+				}
 			}
 
 			Renderable*	pObj	=	NULL;
@@ -177,7 +181,12 @@ namespace Air{
 				//更新自动参数
 				UpdateAutoParam();
 				//设置材质的shader参数
-				pSys->GetDevice()->SetCB(3,m_pConstantBuffer);
+				for(U32 i=0;i<6;i++){
+					if(m_CBMask&(1<<i)){
+						pSys->GetDevice()->SetCB((enumShaderType)i,3,m_pConstantBuffer);
+					}
+				}
+				
 			}
 
 			pObj->BeforeRender(this);

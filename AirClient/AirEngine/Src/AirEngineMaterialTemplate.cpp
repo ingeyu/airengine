@@ -179,5 +179,14 @@ namespace	Air{
 			}
 		}
 
+		Air::U32 MaterialTemplate::GetCBMask()
+		{
+			U32 uiMask	=	0;
+			for(U32 i=0;i<m_vecPass.size();i++){
+				uiMask|=m_vecPass[i]->GetCBMask();
+			}
+			return uiMask;
+		}
+
 	}
 }
