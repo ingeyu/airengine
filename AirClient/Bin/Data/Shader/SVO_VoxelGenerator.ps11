@@ -54,7 +54,7 @@ PS_OUTPUT main( VS_OUTPUT input )
     uint3 VoxelIndex = (input.WPos.xyz*fScale+VOXEL_BOUND_SIZE);//-float3(-64,-64,-64);
 	//uint mask	=	0x80;
 	int	offset	=	0;
-	[loop]
+	[loop][allow_uav_condition]
 	for(int i=0;i<MAX_DEPTH;i++){
 		uint3	maskValue	=	VoxelIndex>>(MAX_DEPTH-1-i);//mask;
 		maskValue	=	maskValue&1;
@@ -74,6 +74,7 @@ PS_OUTPUT main( VS_OUTPUT input )
 
 		BrickBuffer.InterlockedCompareExchange(address,0,INVALID_OFFSET,oldChildOffset);
 		if(oldChildOffset	==	INVALID_OFFSET){
+		/*
 			oldChildOffset	=	BrickBuffer.Load(address);	
 			if(oldChildOffset==INVALID_OFFSET){
 				BrickBuffer.InterlockedCompareExchange(address,0,INVALID_OFFSET,oldChildOffset);
@@ -89,6 +90,16 @@ PS_OUTPUT main( VS_OUTPUT input )
 						}
 					}	
 				}	
+			}
+			*/
+			int iCount	=	100;
+			[allow_uav_condition]
+			while(oldChildOffset	==	INVALID_OFFSET&&iCount>0){
+				iCount--;
+				BrickBuffer.InterlockedCompareExchange(address,0,INVALID_OFFSET,oldChildOffset);
+			}
+			if(iCount<=0){
+				return Output;
 			}
 		}else if(oldChildOffset	==	0){
 				uint uVoxelCount = SVOBuffer.IncrementCounter()+1;
