@@ -35,19 +35,6 @@ namespace	Air{
 			m_pSphere			=	EngineSystem::GetSingleton()->CreateProduct<MeshEntity>("PointLight",&meshInfo);
 
 
-			for(U32 i=0;i<256;i++){
-				Float3 vPos(
-					Common::Number::RandomF(),
-					Common::Number::RandomF(),
-					Common::Number::RandomF()
-					);
-				Float3 vColor(
-					Common::Number::RandomF(),
-					Common::Number::RandomF(),
-					Common::Number::RandomF()
-					);
-				AddPointLight(vPos*100,20,vColor);
-			}
 			return true;
 		}
 
@@ -120,7 +107,7 @@ namespace	Air{
 			m_pCSRenderable		=	new	CSRenderable;
 			m_pPipeline			=	pPipeline;
 			RenderTarget::Info	info;
-			info.SetSingleTargetScreen(enTFMT_R32_FLOAT,1.0f,true,pPipeline->GetMainWindow());
+			info.SetSingleTargetScreen(enTFMT_R16G16B16A16_FLOAT,1.0f,true,pPipeline->GetMainWindow());
 			info.vecTextureInfo[0].SetViewFlag(enVF_SRV|enVF_UAV);
 			m_pLightBuffer		=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget>("TileBaseLighting",&info);
 			m_pLightBuffer->AddPhaseFlag(enPI_DeferredLight);
@@ -135,19 +122,11 @@ namespace	Air{
 			m_pPointMaterial	=	EngineSystem::GetSingleton()->CreateProduct<Material>("TileBaseLighting");
 			m_pSphere			=	NULL;//EngineSystem::GetSingleton()->CreateProduct<MeshEntity>("PointLight",&meshInfo);
 
-			//for(U32 i=0;i<256;i++){
-			//	Float3 vPos(
-			//		Common::Number::RandomF(),
-			//		Common::Number::RandomF(),
-			//		Common::Number::RandomF()
-			//		);
-			//	Float3 vColor(
-			//		Common::Number::RandomF(),
-			//		Common::Number::RandomF(),
-			//		Common::Number::RandomF()
-			//		);
-			//	AddPointLight(vPos*100,4,vColor);
-			//}
+			
+			AddPointLight(Float3(40,10,0),20,Float3(1,0,0));
+			AddPointLight(Float3(40,10,40),20,Float3(0,1,0));
+			AddPointLight(Float3(0,10,40),20,Float3(0,0,1));
+			AddPointLight(Float3(0,10,0),20,Float3(1,1,1));
 			return true;
 		}
 
@@ -175,7 +154,10 @@ namespace	Air{
 			m_pPipeline->GetMainCamera()->GetViewMatrix(*pViewMat);
 
 
-			//Float4 v1[4]={Float4(-1,1,1,1),Float4(1,1,1,1),Float4(-1,1,0,1),Float4(1,1,0,1)};
+			Float3 v1=(*pProjInvMat)*Float3(1,1,0);
+			
+			v[0].z=	v1.x;
+			v[0].w=v1.y;
 			//Float4 v2[4];
 			//for(int i=0;i<4;i++){
 			//	v2[i]	=	XMVector4Transform(v1[i].ToXM(),pProjInvMat->ToXM());

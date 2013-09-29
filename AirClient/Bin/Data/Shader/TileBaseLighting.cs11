@@ -21,13 +21,13 @@ cbuffer	cbPerMaterial	: register( b3 )
 
 struct PointLightInfo{
 	float4 Pos_Size;
-	float4 Color;
+	float3 Color;
 };
 
 Texture2D							DepthTex		:	register(t0);
 Texture2D							NormalTex		:	register(t1);
 StructuredBuffer<PointLightInfo>	LightBuffer		:	register(t2);
-RWTexture2D<float>					OutLightTex		:	register(u0);
+RWTexture2D<float4>					OutLightTex		:	register(u0);
 
 groupshared PointLightInfo	tempLightBuffer[NUMBER_THREAD];
 groupshared	int				tempLightCount;
@@ -69,7 +69,7 @@ void	main(
 	N=N*2-1;
 	N					=	mul((float3x3)matView,N);
 
-	float2	uv			=	((float2)DTid.xy)/RTWidthHeight.xy;
+	float2	uv			=	((float2)DTid.xy+0.5)/RTWidthHeight.xy;
 
 	float2 mousepos		=	mouse/RTWidthHeight.xy;
 	mousepos.y	=	1-mousepos.y;
@@ -119,13 +119,14 @@ void	main(
 		float4(Gid.xy+float2(0,1),1,1)
 		};
 	if(GIndex<5){
-		float4 temp		=	vQuadProjPos[GIndex]*float4(NUMBER_BLOCK_WIDTH,NUMBER_BLOCK_WIDTH,0,1);
+		float4 temp		=	vQuadProjPos[GIndex]*float4(NUMBER_BLOCK_WIDTH,NUMBER_BLOCK_WIDTH,1,1);
 		temp.xy			=	(temp.xy)/	RTWidthHeight.xy;
-
-		float4 vTemp	=	mul(matViewProjInv,float4(UV_XY(temp.xy),temp.zw));
-		vTemp/=vTemp.w;
+		temp.xy			=	UV_XY(temp.xy);
+		temp.xy			*=	RTWidthHeight.zw;
+//		float4 vTemp	=	mul(matViewProjInv,float4(UV_XY(temp.xy),temp.zw));
+//		vTemp/=vTemp.w;
 		//normalize(vTemp.xyz);
-		tempPos[GIndex]	=	vTemp;
+		tempPos[GIndex]	=	temp;
 	}
 	tempAngle = 0;
 	GroupMemoryBarrierWithGroupSync();
@@ -165,41 +166,57 @@ void	main(
 #else
 	
 	//Intersect Light With Quad Frustum
-
+	if(GIndex < 4){
 	uint iIntersectCount	=	0;
 	PointLightInfo linfo	=	LightBuffer[GIndex];
 
 	float4 tempvp = mul(matView,float4(linfo.Pos_Size.xyz,1));
-	linfo.Pos_Size.xyz	=tempvp.xyz/tempvp.w;	
+	linfo.Pos_Size.xyz	=tempvp.xyz/tempvp.w;
+	//linfo.Pos_Size.w	=	8;	
 
 	float zDepth	=	linfo.Pos_Size.z;
 	float	fSize	=	linfo.Pos_Size.w;
-	
-	float SphereAngle = atan(fSize/length(linfo.Pos_Size.xyz));
+	float fLightLength	=	length(linfo.Pos_Size.xyz);
+	float SphereAngle = asin(fSize/fLightLength);
 
-	
-	if(SphereAngle+tempAngle >	acos(dot(normalize(linfo.Pos_Size.xyz),vCenter))){
-		//fColor	=	1.0f;
-		if(zDepth+fSize > fNear&& zDepth-fSize < fFar){
+	if(fSize>fLightLength){
+		float3 vNear	=	(vCenter/vCenter.z)*fNear;
+		if(distance(vNear,linfo.Pos_Size.xyz)<fSize){
 			float oldValue;
 			InterlockedAdd(tempLightCount,1,oldValue);
 			tempLightBuffer[oldValue]	=	linfo;
 		}
-	}	
+	}else{
+	
+		if(SphereAngle+tempAngle >	acos(dot(normalize(linfo.Pos_Size.xyz),vCenter))){
+			//fColor	=	1.0f;
+			float3 vNewDir	=	(vCenter/vCenter.z);
+			float3 vFustrumCenter = vNewDir*(fFar+fNear)*0.5;
+			float fFustrumSize		=	length(vNewDir)*(fFar-fNear)*0.5;
+			if(distance(vFustrumCenter,linfo.Pos_Size.xyz)<fFustrumSize+fSize){
+			//if(zDepth+fSize > fNear&& zDepth-fSize < fFar){
+				float oldValue;
+				InterlockedAdd(tempLightCount,1,oldValue);
+				tempLightBuffer[oldValue]	=	linfo;
+			}
+		}	
+	}
+	}
 	GroupMemoryBarrierWithGroupSync();
 	//float fColor = tempLightCount;
 	//InterlockedExchange(OutLightTex[DTid.xy],fColor*0.01	,fLast);
 #endif
 	
-	float Color=0;
+	float4 Color=0;
+	uint uiCount	=	tempLightCount;
 	//Shading The Pixel
-	for(int i=0;i<tempLightCount;i++){
+	for(int i=0;i<uiCount;i++){
 		PointLightInfo lightinfo	=	tempLightBuffer[i];
 		float3 LDir	=	lightinfo.Pos_Size.xyz-projpos.xyz;
 		float3 L	=	normalize(LDir);
-		Color	+=	saturate(dot(L,N))*saturate(1-length(LDir)/lightinfo.Pos_Size.w);
+		Color	+=	pow((1-length(LDir)/lightinfo.Pos_Size.w),2);//*saturate(dot(L,normalize(N)));//*saturate(1-length(LDir)/lightinfo.Pos_Size.w);
 	}
 
-	InterlockedExchange(OutLightTex[DTid.xy],Color*0.1,fLast);
+	OutLightTex[DTid.xy]=(float)tempLightCount*0.25f;
 	
 }
