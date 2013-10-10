@@ -34,6 +34,8 @@ groupshared	int				tempLightCount;
 groupshared float	tempDepth[NUMBER_THREAD];
 groupshared float4	tempPos[5];
 groupshared float	tempAngle;
+groupshared uint	minDepth;
+groupshared uint	maxDepth;
 
 float4 Vertex3_Plane(float3 v1,float3 v2,float3 v3){
 	float3	aux1 = v1 - v2;
@@ -77,11 +79,17 @@ void	main(
 
 	uv.y	=	1-uv.y;
 	float4	projpos		=	float4(uv*2-1,fDepth,1); 
-	projpos				=	mul(matViewProjInv,projpos);
-	projpos/=projpos.w;
+	float4  wpos				=	mul(matViewProjInv,projpos);
+	wpos/=wpos.w;
 
-	tempDepth[GIndex]	=	projpos.z;
-	GroupMemoryBarrierWithGroupSync();        
+	minDepth	=	0xffffffff;
+	maxDepth	=	0;
+	GroupMemoryBarrierWithGroupSync(); 
+	uint uiCurrentDepth	=	asuint(wpos.z*1000);
+	InterlockedMin(minDepth,uiCurrentDepth);
+	InterlockedMax(maxDepth,uiCurrentDepth);
+	GroupMemoryBarrierWithGroupSync(); 
+	/*       
 	for(uint i=NUMBER_THREAD/2;i>0;i/=2)
 	{
 		if(GIndex<i){
@@ -105,8 +113,10 @@ void	main(
 		
 		GroupMemoryBarrierWithGroupSync();
 	}
-	float	fNear	=	tempDepth[0];
-	float	fFar	=	tempDepth[NUMBER_THREAD-1];//tempDepth[NUMBER_THREAD-1];
+	*/
+	
+	float	fNear	=	asfloat(minDepth)*0.001;
+	float	fFar	=	asfloat(maxDepth)*0.001;//tempDepth[NUMBER_THREAD-1];
 	float fLast;
 	//uint	DIndex	=	DTid.y*RTWidthHeight.x+DTid.x;
 	//InterlockedExchange(OutLightTex[DTid.xy],(fFar-fNear)*0.1,fLast);
@@ -126,20 +136,20 @@ void	main(
 //		float4 vTemp	=	mul(matViewProjInv,float4(UV_XY(temp.xy),temp.zw));
 //		vTemp/=vTemp.w;
 		//normalize(vTemp.xyz);
-		tempPos[GIndex]	=	temp;
+		tempPos[GIndex]	=	float4(normalize(temp.xyz),1);
 	}
 	tempAngle = 0;
 	GroupMemoryBarrierWithGroupSync();
 	//Calc Plane Normal Distance
-	float3 vCenter = normalize(tempPos[0].xyz);
+	float3 vCenter = tempPos[0];
 	if(GIndex==0){
 		
 		float4 angle;
-		angle.x	=	acos(dot(normalize(tempPos[1].xyz),vCenter));//	=	Vertex3_Plane(float3(0,0,0),tempPos[GIndex].xyz,tempPos[nextIndex].xyz);
-		angle.y	=	acos(dot(normalize(tempPos[2].xyz),vCenter));
-		angle.z	=	acos(dot(normalize(tempPos[3].xyz),vCenter));
-		angle.w	=	acos(dot(normalize(tempPos[4].xyz),vCenter));	
-		tempAngle	=	max(max(angle.x,angle.y),max(angle.z,angle.w));
+		angle.x	=	(dot((tempPos[1].xyz),vCenter));//	=	Vertex3_Plane(float3(0,0,0),tempPos[GIndex].xyz,tempPos[nextIndex].xyz);
+		angle.y	=	(dot((tempPos[2].xyz),vCenter));
+		angle.z	=	(dot((tempPos[3].xyz),vCenter));
+		angle.w	=	(dot((tempPos[4].xyz),vCenter));	
+		tempAngle	=	acos(min(min(angle.x,angle.y),min(angle.z,angle.w)));
 	}
 
 	tempLightCount=0;
@@ -166,12 +176,14 @@ void	main(
 #else
 	
 	//Intersect Light With Quad Frustum
-	if(GIndex < 4){
+	if(GIndex < 256){
 	uint iIntersectCount	=	0;
 	PointLightInfo linfo	=	LightBuffer[GIndex];
 
 	float4 tempvp = mul(matView,float4(linfo.Pos_Size.xyz,1));
 	linfo.Pos_Size.xyz	=tempvp.xyz/tempvp.w;
+
+	tempLightBuffer[GIndex]	=	linfo;
 	//linfo.Pos_Size.w	=	8;	
 
 	float zDepth	=	linfo.Pos_Size.z;
@@ -184,20 +196,20 @@ void	main(
 		if(distance(vNear,linfo.Pos_Size.xyz)<fSize){
 			float oldValue;
 			InterlockedAdd(tempLightCount,1,oldValue);
-			tempLightBuffer[oldValue]	=	linfo;
+			tempDepth[oldValue]	=	GIndex;
 		}
 	}else{
 	
 		if(SphereAngle+tempAngle >	acos(dot(normalize(linfo.Pos_Size.xyz),vCenter))){
 			//fColor	=	1.0f;
-			float3 vNewDir	=	(vCenter/vCenter.z);
-			float3 vFustrumCenter = vNewDir*(fFar+fNear)*0.5;
-			float fFustrumSize		=	length(vNewDir)*(fFar-fNear)*0.5;
-			if(distance(vFustrumCenter,linfo.Pos_Size.xyz)<fFustrumSize+fSize){
-			//if(zDepth+fSize > fNear&& zDepth-fSize < fFar){
+		//	float3 vNewDir	=	(vCenter/vCenter.z);
+		//	float3 vFustrumCenter = vNewDir*(fFar+fNear)*0.5;
+		//	float fFustrumSize		=	length(vNewDir)*(fFar-fNear)*0.5;
+			//if(distance(vFustrumCenter,linfo.Pos_Size.xyz)<fFustrumSize+fSize){
+			if(zDepth+fSize > fNear&& zDepth-fSize < fFar){
 				float oldValue;
 				InterlockedAdd(tempLightCount,1,oldValue);
-				tempLightBuffer[oldValue]	=	linfo;
+				tempDepth[oldValue]	=	GIndex;
 			}
 		}	
 	}
@@ -210,13 +222,13 @@ void	main(
 	float4 Color=0;
 	uint uiCount	=	tempLightCount;
 	//Shading The Pixel
-	for(int i=0;i<uiCount;i++){
-		PointLightInfo lightinfo	=	tempLightBuffer[i];
-		float3 LDir	=	lightinfo.Pos_Size.xyz-projpos.xyz;
+	for(uint i=0;i<tempLightCount;i++){
+		PointLightInfo lightinfo	=	tempLightBuffer[tempDepth[i]];
+		float3 LDir	=	lightinfo.Pos_Size.xyz-wpos.xyz;
 		float3 L	=	normalize(LDir);
-		Color	+=	pow((1-length(LDir)/lightinfo.Pos_Size.w),2);//*saturate(dot(L,normalize(N)));//*saturate(1-length(LDir)/lightinfo.Pos_Size.w);
+		Color	+=	float4(lightinfo.Color,0)*pow(saturate(1-length(LDir)/lightinfo.Pos_Size.w),2)*saturate(dot(L,normalize(N)));//*saturate(1-length(LDir)/lightinfo.Pos_Size.w);
 	}
 
-	OutLightTex[DTid.xy]=(float)tempLightCount*0.25f;
-	
+	OutLightTex[DTid.xy]=Color;//(float)tempLightCount*0.25f;
+
 }

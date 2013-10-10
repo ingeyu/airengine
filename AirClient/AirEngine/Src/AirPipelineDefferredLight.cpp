@@ -123,10 +123,19 @@ namespace	Air{
 			m_pSphere			=	NULL;//EngineSystem::GetSingleton()->CreateProduct<MeshEntity>("PointLight",&meshInfo);
 
 			
-			AddPointLight(Float3(40,10,0),20,Float3(1,0,0));
-			AddPointLight(Float3(40,10,40),20,Float3(0,1,0));
-			AddPointLight(Float3(0,10,40),20,Float3(0,0,1));
-			AddPointLight(Float3(0,10,0),20,Float3(1,1,1));
+			for(U32 i=0;i<256;i++){
+				Float3 vPos(
+					Common::Number::RandomF(),
+					0.05,
+					Common::Number::RandomF()
+					);
+				Float3 vColor(
+					Common::Number::RandomF(),
+					Common::Number::RandomF(),
+					Common::Number::RandomF()
+					);
+				AddPointLight(vPos*100,10,vColor);
+			}
 			return true;
 		}
 

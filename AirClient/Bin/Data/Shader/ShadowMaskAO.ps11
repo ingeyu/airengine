@@ -209,7 +209,7 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 	
 
 	PS_OUTPUT	Out;
-	float shadowValue	=	(fRet/SHADOW_SAMPLE_NUMBER)*0.5+0.5;
+	float shadowValue	=	saturate((fRet/SHADOW_SAMPLE_NUMBER)+1);
 	float retShadow		=	0.5-cos(shadowValue*3.1415926f)*0.5;
 	
 	Out.Color						= float4((fDot.xy*(retShadow)),fDot.z,0);//vShadowPos.z > 0 &&	vShadowPos.z < oldZ + 0.0001f;//

@@ -217,12 +217,13 @@ namespace	Air{
 				for(;i!=m_lstPackage.end();i++){
 					Package*	pkg	=	(Package*)(*i);
 					if(pkg!=NULL){
-						U32	uiSize	=	pkg->GetFileModifyTime(str,p);
-						if(uiSize!=0)
-							return	uiSize;
+						U1	bOK	=	pkg->GetFileModifyTime(str,p);
+						if(bOK)
+							return bOK;
 
 					}
 				}
+				return false;
 			}
 
 		}
