@@ -1,6 +1,6 @@
 #define	NUMBER_BLOCK_WIDTH	16
-#define	NUMBER_THREAD		NUMBER_BLOCK_WIDTH*NUMBER_BLOCK_WIDTH
-#define	HALF_NUMBER_THREAD	NUMBER_THREAD/2
+#define	NUMBER_THREAD		(NUMBER_BLOCK_WIDTH*NUMBER_BLOCK_WIDTH)
+#define	HALF_NUMBER_THREAD	(NUMBER_THREAD/2)
 
 cbuffer cbPerCamera : register( b1 )
 {
@@ -57,6 +57,51 @@ float2 UV_XY(float2 uv){
 	return uv*float2(2,-2)+float2(-1,1);
 }
 
+bool	IntersectTile(float4 light,float fNear,float fFar,float3 vCenter){
+
+	float	zDepth			=	light.z;
+	float	fSize			=	light.w;
+	float	fLightLength	=	length(light.xyz);
+	float	SphereAngle		=	asin(fSize/fLightLength);
+
+	if(fSize>fLightLength){
+		float3 vNear	=	(vCenter/vCenter.z)*fNear;
+		if(distance(vNear,light.xyz)<fSize){
+			return true;
+		}
+	}else{
+		if(SphereAngle+tempAngle >	acos(dot(normalize(light.xyz),vCenter))){
+			if(zDepth+fSize > fNear&& zDepth-fSize < fFar){
+				return true;
+			}
+		}	
+	}
+	return false;
+}
+
+float3	PBRDF(float3 N,float3	L,float3 E,float fShiness){
+   float fn         =   fShiness;//*tex2D(baseMap_1,Input.Texcoord).x;
+   
+   float3 H         = normalize( E+L);
+   float   NL       =   dot(N,L) ;
+   float   NH       =   dot(N,H) ;
+   float   EH       =   dot(E,H);
+   float   NE       =   dot(N,E);
+   
+   float f0   =   pow((1-fn)/(1+fn),2);
+   
+   float	Fambient	=	f0+(1-f0)*pow(1-abs(NE),5);
+   float   Fdiff   =   f0+(1-f0)*pow(1-NL,5);
+   float   Fspec   =   f0+(1-f0)*pow(1-EH,5);
+   
+   float   diff   =   NL*saturate(1-Fdiff);//*pow(c,2.2);
+   float   n      =   fn;
+   float   spec   =   (0.0397436*n+0.0856832)*Fspec*pow(saturate(NH),n)/max(NL,NE);
+    
+
+   return float3(max(diff,0),max(spec,0),saturate(1-Fambient));
+};
+
 [numthreads(NUMBER_BLOCK_WIDTH, NUMBER_BLOCK_WIDTH, 1)]
 void	main(
 	uint3	Gid		:	SV_GroupID,
@@ -67,8 +112,8 @@ void	main(
 	uint	GIndex		=	GTid.y*NUMBER_BLOCK_WIDTH+GTid.x;
 	float	fDepth		=	DepthTex.Load(DTid.xyz);
 	
-	float3	N			=	NormalTex.Load(DTid.xyz);
-	N=N*2-1;
+	float4	Nor			=	NormalTex.Load(DTid.xyz);
+	float3 N=Nor.xyz*2-1;
 	N					=	mul((float3x3)matView,N);
 
 	float2	uv			=	((float2)DTid.xy+0.5)/RTWidthHeight.xy;
@@ -89,31 +134,7 @@ void	main(
 	InterlockedMin(minDepth,uiCurrentDepth);
 	InterlockedMax(maxDepth,uiCurrentDepth);
 	GroupMemoryBarrierWithGroupSync(); 
-	/*       
-	for(uint i=NUMBER_THREAD/2;i>0;i/=2)
-	{
-		if(GIndex<i){
-			float	left	=	tempDepth[GIndex];
-			float	right	=	tempDepth[GIndex	+	i];	
-			if(right	<	left){
-				tempDepth[GIndex]			=	right;
-				tempDepth[GIndex	+	i]	=	left;
-			}
-		}
-		
-		else	if(i!=NUMBER_THREAD/2 && GIndex >= NUMBER_THREAD-i){
-			int	newGIndex	=	NUMBER_THREAD-GIndex-1;
-			float	left	=	tempDepth[newGIndex	-	i];
-			float	right	=	tempDepth[newGIndex];	
-			if(right	<	left){
-				tempDepth[newGIndex	-	i]	=	right;
-				tempDepth[newGIndex]		=	left;
-			}
-		}
-		
-		GroupMemoryBarrierWithGroupSync();
-	}
-	*/
+
 	
 	float	fNear	=	asfloat(minDepth)*0.001;
 	float	fFar	=	asfloat(maxDepth)*0.001;//tempDepth[NUMBER_THREAD-1];
@@ -151,83 +172,36 @@ void	main(
 		angle.w	=	(dot((tempPos[4].xyz),vCenter));	
 		tempAngle	=	acos(min(min(angle.x,angle.y),min(angle.z,angle.w)));
 	}
-
-	tempLightCount=0;
-	//tempLightBuffer[GIndex]	=	LightBuffer[GIndex];
 	GroupMemoryBarrierWithGroupSync();
-#if 0
 
-	
-	float4	mousepos2		=	float4(mousepos.xy*2-1,0,1);
-	float4 mouseposprojpos				=	mul(matViewProjInv,mousepos2);
-	mouseposprojpos/=mouseposprojpos.w;
-	mouseposprojpos.w = 0.1;
+	float4 Color=0;
+	uint	uiLightCount	=	mouse.z;
+	uint	uiPassCount		=	(uiLightCount+255)>>8;
+	for(uint iBase=0;iBase<uiPassCount;iBase++){
+		tempLightCount=0;
+		GroupMemoryBarrierWithGroupSync();
+		uint iLightIndex	=	iBase*NUMBER_THREAD+GIndex;
+		if(iLightIndex	<	uiLightCount){
+			PointLightInfo linfo	=	LightBuffer[iLightIndex];
+		
 
-	float SphereAngle = atan(mouseposprojpos.w/length(mouseposprojpos.xyz));
-
-	float fColor = 0;
-	if(SphereAngle+tempAngle >	acos(dot(normalize(mouseposprojpos.xyz),vCenter))){
-		fColor	=	1.0f;
-	}	
-
-	InterlockedExchange(OutLightTex[DTid.xy],fColor,fLast);
-
-	
-#else
-	
-	//Intersect Light With Quad Frustum
-	if(GIndex < 256){
-	uint iIntersectCount	=	0;
-	PointLightInfo linfo	=	LightBuffer[GIndex];
-
-	float4 tempvp = mul(matView,float4(linfo.Pos_Size.xyz,1));
-	linfo.Pos_Size.xyz	=tempvp.xyz/tempvp.w;
-
-	tempLightBuffer[GIndex]	=	linfo;
-	//linfo.Pos_Size.w	=	8;	
-
-	float zDepth	=	linfo.Pos_Size.z;
-	float	fSize	=	linfo.Pos_Size.w;
-	float fLightLength	=	length(linfo.Pos_Size.xyz);
-	float SphereAngle = asin(fSize/fLightLength);
-
-	if(fSize>fLightLength){
-		float3 vNear	=	(vCenter/vCenter.z)*fNear;
-		if(distance(vNear,linfo.Pos_Size.xyz)<fSize){
-			float oldValue;
-			InterlockedAdd(tempLightCount,1,oldValue);
-			tempDepth[oldValue]	=	GIndex;
-		}
-	}else{
-	
-		if(SphereAngle+tempAngle >	acos(dot(normalize(linfo.Pos_Size.xyz),vCenter))){
-			//fColor	=	1.0f;
-		//	float3 vNewDir	=	(vCenter/vCenter.z);
-		//	float3 vFustrumCenter = vNewDir*(fFar+fNear)*0.5;
-		//	float fFustrumSize		=	length(vNewDir)*(fFar-fNear)*0.5;
-			//if(distance(vFustrumCenter,linfo.Pos_Size.xyz)<fFustrumSize+fSize){
-			if(zDepth+fSize > fNear&& zDepth-fSize < fFar){
+			if(IntersectTile(linfo.Pos_Size,fNear,fFar,vCenter)){
 				float oldValue;
 				InterlockedAdd(tempLightCount,1,oldValue);
-				tempDepth[oldValue]	=	GIndex;
+				tempDepth[oldValue]	=	iLightIndex;
 			}
-		}	
-	}
-	}
-	GroupMemoryBarrierWithGroupSync();
-	//float fColor = tempLightCount;
-	//InterlockedExchange(OutLightTex[DTid.xy],fColor*0.01	,fLast);
-#endif
-	
-	float4 Color=0;
-	uint uiCount	=	tempLightCount;
-	//Shading The Pixel
-	for(uint i=0;i<tempLightCount;i++){
-		PointLightInfo lightinfo	=	tempLightBuffer[tempDepth[i]];
-		float3 LDir	=	lightinfo.Pos_Size.xyz-wpos.xyz;
-		float3 L	=	normalize(LDir);
-		Color	+=	float4(lightinfo.Color,0)*pow(saturate(1-length(LDir)/lightinfo.Pos_Size.w),2)*saturate(dot(L,normalize(N)));//*saturate(1-length(LDir)/lightinfo.Pos_Size.w);
-	}
+		}
+		GroupMemoryBarrierWithGroupSync();
+		for(uint i=0;i<tempLightCount;i++){
+			PointLightInfo lightinfo	=	LightBuffer[tempDepth[i]];
+
+			float3 LDir	=	lightinfo.Pos_Size.xyz-wpos.xyz;
+			float3 L	=	normalize(LDir);
+			float3 Shading	=	PBRDF(normalize(N),L,-normalize(wpos.xyz),Nor*127+1);
+			Color.xyz	+=	lightinfo.Color*((Shading.y+Shading.x)*pow(saturate(1-length(LDir)/lightinfo.Pos_Size.w),2));//*saturate(1-length(LDir)/lightinfo.Pos_Size.w);
+		}
+		GroupMemoryBarrierWithGroupSync();
+	}	
 
 	OutLightTex[DTid.xy]=Color;//(float)tempLightCount*0.25f;
 

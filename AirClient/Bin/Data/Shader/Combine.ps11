@@ -81,8 +81,8 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 	float4	dlight		=	DefferredLight.Sample(SS_WrapLine2,Input.UV);
 	float4	tlbColor	=	TBL.Sample(SS_WrapLine2,Input.UV);
 	//emissive.xyz+ao.xyz*diff.w+
-	float4 finalcolor	=	float4(emissive.xyz+(dlight.xyz*(ao.xyz)+ao.xyz+(shadow.xxx+shadow.yyy)*float3(1.0,0.8,0.7))*diff,1);
-	Out.Color			=	tlbColor;//dlight*0.5;//+tlbColor.x*diff;//ToneMapping(finalcolor,4);
+	float4 finalcolor	=	float4(emissive.xyz+(tlbColor.xyz+ao.xyz+(shadow.xxx+shadow.yyy)*float3(1.0,0.8,0.7))*diff,1);
+	Out.Color			=	ToneMapping(finalcolor,3);
 	return	Out;
    
 }

@@ -509,7 +509,7 @@ namespace	Air{
 
 		void DefaultPipeline::AddPointLight( const Float3& pos,float fSize,const Float3& vColor )
 		{
-			m_DL.AddPointLight(pos,fSize,vColor);
+			m_TBL.AddPointLight(pos,fSize,vColor);
 		}
 
 

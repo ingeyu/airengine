@@ -123,7 +123,7 @@ namespace	Air{
 			m_pSphere			=	NULL;//EngineSystem::GetSingleton()->CreateProduct<MeshEntity>("PointLight",&meshInfo);
 
 			
-			for(U32 i=0;i<256;i++){
+			for(U32 i=0;i<1024;i++){
 				Float3 vPos(
 					Common::Number::RandomF(),
 					0.05,
@@ -134,7 +134,7 @@ namespace	Air{
 					Common::Number::RandomF(),
 					Common::Number::RandomF()
 					);
-				AddPointLight(vPos*100,10,vColor);
+				AddPointLight(vPos*10,1,vColor);
 			}
 			return true;
 		}
@@ -147,15 +147,24 @@ namespace	Air{
 
 		void TileBaseLight::Update( const FrameTime& frameTime )
 		{
+			if(m_vecPointLight.empty()){
+				return;
+			}
 			Render::Device* pDevice	=	RenderSystem::GetSingleton()->GetDevice();
 			void* p	=	m_pLightBuffer->GetUAV();
 			pDevice->SetUAV(1,(void**)&p);
+
+			PointLightVector vecLight = m_vecPointLight;
+			const Matrix& mView	=	m_pPipeline->GetMainCamera()->GetViewMatrix();
+			for(U32 i=0;i<vecLight.size();i++){
+				vecLight[i].vPos	=	mView*vecLight[i].vPos;
+			}
 			
-			m_pLightPosColor->UpdateData(&m_vecPointLight[0]);
+			m_pLightPosColor->UpdateData(&vecLight[0]);
 			pDevice->SetSRV(enCS,2,m_pLightPosColor->GetSRV());
 
 			Float4 v[10];
-			v[0]=Float4(m_pLightBuffer->GetWidth(),m_pLightBuffer->GetHeight(),m_vecPointLight.size(),0);
+			v[0]=Float4(m_pLightBuffer->GetWidth(),m_pLightBuffer->GetHeight(),0,0);
 			Matrix* pProjInvMat	=	(Matrix*)&v[1];
 			m_pPipeline->GetMainCamera()->GetProjMatrix(*pProjInvMat);
 			pProjInvMat->Inverse();
@@ -178,7 +187,7 @@ namespace	Air{
 			v[9]	=	Float4(
 				Engine::GetGlobalSetting().m_pInputSystem->m_iX,
 				Engine::GetGlobalSetting().m_pInputSystem->m_iY,
-				0,
+				m_vecPointLight.size(),
 				0
 				);
 
@@ -193,6 +202,16 @@ namespace	Air{
 			pDevice->SetShader(enCS,NULL);
 			p=NULL;
 			pDevice->SetUAV(1,(void**)&p);
+			//m_vecPointLight.clear();
+		}
+		void TileBaseLight::AddPointLight( const Float3& pos,float fSize,const Float3& vColor )
+		{
+			
+			PointLightInfo	point;
+			point.vPos		=	pos;
+			point.fSize		=	fSize;
+			point.vColor	=	vColor;
+			m_vecPointLight.push_back(point);
 		}
 	}
 }

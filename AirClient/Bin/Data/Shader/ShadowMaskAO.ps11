@@ -40,7 +40,7 @@ SamplerState	SS_WrapPoint2	:	register(s2);
 float2 UV_XY(float2 uv){
 	return	uv*float2(2,-2)+float2(-1,1);
 };
-#define SHADOW_SAMPLE_NUMBER 12
+#define SHADOW_SAMPLE_NUMBER 8
 
 float2 XY_UV(float2 xy){
 	return	xy*float2(0.5,-0.5)+0.5;
@@ -138,9 +138,9 @@ float3	PBRDF(float3 N,float3	L,float3 E,float fShiness){
 float2 GetOffset2(int   i,float2 inituv,float fNoise){
    
    float fsin,fcos;
-   sincos((i/(0.66666f-0.66666f/SHADOW_SAMPLE_NUMBER)+fNoise*2)*3.1415926f,fsin,fcos);
+   sincos((i/(0.5f-0.5f/SHADOW_SAMPLE_NUMBER)+fNoise*2)*3.1415926f,fsin,fcos);
    float2x2 rot   =   float2x2(fcos,-fsin,fsin,fcos);
-   return mul(inituv,rot)*(pow(i+1,1.15));
+   return mul(inituv,rot)*(pow(i+1.1,1.2));
 };
 
 PS_OUTPUT main( VS_OUTPUT Input ){
