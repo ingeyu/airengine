@@ -115,7 +115,7 @@ namespace	Air{
 			m_pLightBuffer->SetClearFlag(false,true,false);
 
 			Buffer::Info binfo;
-			binfo.SetStructureBuffer(1024,sizeof(PointLightInfo));
+			binfo.SetStructureBuffer(32768,sizeof(PointLightInfo));
 			binfo.SetViewFlag(enVF_SRV);
 			m_pLightPosColor		=	RenderSystem::GetSingleton()->CreateProduct<Buffer>("TBL_PosColor",&binfo);
 
@@ -123,18 +123,20 @@ namespace	Air{
 			m_pSphere			=	NULL;//EngineSystem::GetSingleton()->CreateProduct<MeshEntity>("PointLight",&meshInfo);
 
 			
-			for(U32 i=0;i<1024;i++){
+			for(U32 i=0;i<32768;i++){
 				Float3 vPos(
 					Common::Number::RandomF(),
-					Common::Number::RandomF(),
+					0,
 					Common::Number::RandomF()
 					);
+				vPos	=	vPos*2-Float3(1,1,1);
+				vPos.y=0.003;
 				Float3 vColor(
 					Common::Number::RandomF(),
 					Common::Number::RandomF(),
 					Common::Number::RandomF()
 					);
-				AddPointLight(vPos*100,1,vColor);
+				AddPointLight(vPos*100,2,vColor);
 			}
 			return true;
 		}

@@ -197,7 +197,7 @@ void	main(
 
 			float3 LDir	=	lightinfo.Pos_Size.xyz-wpos.xyz;
 			float3 L	=	normalize(LDir);
-			float3 Shading	=	PBRDF(normalize(N),L,-normalize(wpos.xyz),Nor*127+1);
+			float3 Shading	=	PBRDF(	(N),L,-normalize(wpos.xyz),Nor*127+1);
 			Color.xyz	+=	lightinfo.Color*((Shading.y+Shading.x)*pow(saturate(1-length(LDir)/lightinfo.Pos_Size.w),2));//*saturate(1-length(LDir)/lightinfo.Pos_Size.w);
 		}
 		GroupMemoryBarrierWithGroupSync();
