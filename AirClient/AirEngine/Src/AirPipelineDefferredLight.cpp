@@ -126,7 +126,7 @@ namespace	Air{
 			for(U32 i=0;i<1024;i++){
 				Float3 vPos(
 					Common::Number::RandomF(),
-					0.05,
+					Common::Number::RandomF(),
 					Common::Number::RandomF()
 					);
 				Float3 vColor(
@@ -134,7 +134,7 @@ namespace	Air{
 					Common::Number::RandomF(),
 					Common::Number::RandomF()
 					);
-				AddPointLight(vPos*10,1,vColor);
+				AddPointLight(vPos*100,1,vColor);
 			}
 			return true;
 		}
@@ -150,6 +150,9 @@ namespace	Air{
 			if(m_vecPointLight.empty()){
 				return;
 			}
+
+			//BuildSO();
+
 			Render::Device* pDevice	=	RenderSystem::GetSingleton()->GetDevice();
 			void* p	=	m_pLightBuffer->GetUAV();
 			pDevice->SetUAV(1,(void**)&p);
@@ -213,5 +216,109 @@ namespace	Air{
 			point.vColor	=	vColor;
 			m_vecPointLight.push_back(point);
 		}
+
+		U32	XYZPlaneIntersectSphere(const Float3& xyz,const Float3& center,float fRadius){
+			Float3 v =	xyz	- center;
+			if(	abs(v.x)<fRadius	||	
+				abs(v.y)<fRadius	||
+				abs(v.z)<fRadius)
+			{
+				return 0xffffffff;
+			}
+
+			U32 X	=	v.x	<=	fRadius;
+			U32	Y	=	v.y	<=	fRadius;
+			U32	Z	=	v.z	<=	fRadius;
+
+			return X<<2|Y<<1|Z;
+		}
+
+		class LightNode{
+		public:
+			LightNode(U32 depth=0){
+				for(U32 i=0;i<8;i++){
+					pChild[i]=NULL;
+				}
+				uiDepth	=	depth;
+			};
+			LightNode*	InjectLight(const Float3& pos,float fRadius){
+				
+				U32 uiChildIndex	=	XYZPlaneIntersectSphere(bound.GetCenter(),pos,fRadius);
+				if(uiChildIndex==0xffffffff){
+					vecLight.push_back(Float4(pos.x,pos.y,pos.z,fRadius));
+					return this;
+				}
+				if(pChild[uiChildIndex]==NULL){
+					pChild[uiChildIndex]	=	new LightNode(uiDepth+1);
+					Float3 vHalfSize		=	bound.GetHalfSize();
+					Float3 vChildMin		=	vHalfSize*Float3(uiChildIndex>>2,(uiChildIndex>>1)&1,uiChildIndex&1);
+					BoundingBox& B			=	pChild[uiChildIndex]->bound;
+					B.vMin					=	bound.vMin+vChildMin;
+					B.vMax					=	B.vMin+vHalfSize;
+				}
+				return pChild[uiChildIndex]->InjectLight(pos,fRadius);
+			}
+			void	DebugPrint(){
+				char str[]="--------------------------------------";
+				sprintf(&str[uiDepth+1],"%d\n",vecLight.size());
+				OutputDebugStringA(str);
+				for(U32 i=0;i<8;i++){
+					if(pChild[i]!=NULL){
+						pChild[i]->DebugPrint();
+					}
+				}
+
+			}
+			U32					uiDepth;
+			LightNode*			pChild[8];
+			BoundingBox			bound;
+			STD_VECTOR<Float4>	vecLight;
+			
+		};
+
+		void TileBaseLight::BuildSO()
+		{
+			if(m_vecPointLight.empty())
+				return;
+			const Matrix& mView	=	m_pPipeline->GetMainCamera()->GetViewMatrix();
+			//calc boundingbox
+			LightNode lightNode;
+			BoundingBox& box	=	lightNode.bound;
+			for(U32 i=0;i<m_vecPointLight.size();i++){
+				Float3& vPos	=	m_vecPointLight[i].vPos;
+				//vPos			=	mView*vPos;
+				float	fSize	=	m_vecPointLight[i].fSize;
+				if(i==0){
+					box.vMin	=	vPos-fSize;
+					box.vMax	=	vPos+fSize;
+				}else{
+					box.Add(vPos-fSize);
+					box.Add(vPos+fSize);
+				}
+			}
+			//translate cuboid to cube
+			Float3 vSize		=	box.vMax-box.vMin;
+			float fMaxSize		=	max(vSize.x,max(vSize.y,vSize.z));
+			vSize				=	Float3(fMaxSize,fMaxSize,fMaxSize);
+			box.vMax			=	box.vMin+vSize;
+
+			struct LightStruct{
+				U16	child[8];
+			};
+			STD_VECTOR<LightStruct>	LightNodeOctree;
+			LightNodeOctree.reserve(8192);
+
+			
+
+			U32 uiMaxDepth	=	10;
+			for(U32 i=0;i<m_vecPointLight.size();i++){
+				Float3	vLightPos	=	m_vecPointLight[i].vPos;
+				float	fLightSize	=	m_vecPointLight[i].fSize;
+				lightNode.InjectLight(vLightPos,fLightSize);
+			}
+
+			lightNode.DebugPrint();
+		}
+
 	}
 }

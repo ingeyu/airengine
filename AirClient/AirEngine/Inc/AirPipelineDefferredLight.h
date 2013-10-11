@@ -39,6 +39,7 @@ namespace	Air{
 			virtual	U1		Release();
 			virtual	void	Update(const FrameTime& frameTime);
 			virtual	void	AddPointLight(const Float3& pos,float fSize,const Float3& vColor);
+			void			BuildSO();
 			CSRenderable*	m_pCSRenderable;
 			Buffer*			m_pLightPosColor;
 		};
