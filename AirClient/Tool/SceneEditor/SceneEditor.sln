@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SceneEditor", "RibbonControls_vc100.vcxproj", "{87018640-8F8E-A67E-FE25-48241B11A6DA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SceneEditor", "RibbonControls_vc100.vcxproj", "{CB21D9EB-1490-659A-5DE6-4BEBC35D933A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,22 +14,22 @@ Global
 		Unicode Release|x64 = Unicode Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{87018640-8F8E-A67E-FE25-48241B11A6DA}.Debug|Win32.ActiveCfg = Debug|Win32
-		{87018640-8F8E-A67E-FE25-48241B11A6DA}.Debug|Win32.Build.0 = Debug|Win32
-		{87018640-8F8E-A67E-FE25-48241B11A6DA}.Debug|x64.ActiveCfg = Debug|x64
-		{87018640-8F8E-A67E-FE25-48241B11A6DA}.Debug|x64.Build.0 = Debug|x64
-		{87018640-8F8E-A67E-FE25-48241B11A6DA}.Release|Win32.ActiveCfg = Release|Win32
-		{87018640-8F8E-A67E-FE25-48241B11A6DA}.Release|Win32.Build.0 = Release|Win32
-		{87018640-8F8E-A67E-FE25-48241B11A6DA}.Release|x64.ActiveCfg = Release|x64
-		{87018640-8F8E-A67E-FE25-48241B11A6DA}.Release|x64.Build.0 = Release|x64
-		{87018640-8F8E-A67E-FE25-48241B11A6DA}.Unicode Debug|Win32.ActiveCfg = Unicode Debug|Win32
-		{87018640-8F8E-A67E-FE25-48241B11A6DA}.Unicode Debug|Win32.Build.0 = Unicode Debug|Win32
-		{87018640-8F8E-A67E-FE25-48241B11A6DA}.Unicode Debug|x64.ActiveCfg = Unicode Debug|x64
-		{87018640-8F8E-A67E-FE25-48241B11A6DA}.Unicode Debug|x64.Build.0 = Unicode Debug|x64
-		{87018640-8F8E-A67E-FE25-48241B11A6DA}.Unicode Release|Win32.ActiveCfg = Unicode Release|Win32
-		{87018640-8F8E-A67E-FE25-48241B11A6DA}.Unicode Release|Win32.Build.0 = Unicode Release|Win32
-		{87018640-8F8E-A67E-FE25-48241B11A6DA}.Unicode Release|x64.ActiveCfg = Unicode Release|x64
-		{87018640-8F8E-A67E-FE25-48241B11A6DA}.Unicode Release|x64.Build.0 = Unicode Release|x64
+		{CB21D9EB-1490-659A-5DE6-4BEBC35D933A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CB21D9EB-1490-659A-5DE6-4BEBC35D933A}.Debug|Win32.Build.0 = Debug|Win32
+		{CB21D9EB-1490-659A-5DE6-4BEBC35D933A}.Debug|x64.ActiveCfg = Debug|x64
+		{CB21D9EB-1490-659A-5DE6-4BEBC35D933A}.Debug|x64.Build.0 = Debug|x64
+		{CB21D9EB-1490-659A-5DE6-4BEBC35D933A}.Release|Win32.ActiveCfg = Release|Win32
+		{CB21D9EB-1490-659A-5DE6-4BEBC35D933A}.Release|Win32.Build.0 = Release|Win32
+		{CB21D9EB-1490-659A-5DE6-4BEBC35D933A}.Release|x64.ActiveCfg = Release|x64
+		{CB21D9EB-1490-659A-5DE6-4BEBC35D933A}.Release|x64.Build.0 = Release|x64
+		{CB21D9EB-1490-659A-5DE6-4BEBC35D933A}.Unicode Debug|Win32.ActiveCfg = Unicode Debug|Win32
+		{CB21D9EB-1490-659A-5DE6-4BEBC35D933A}.Unicode Debug|Win32.Build.0 = Unicode Debug|Win32
+		{CB21D9EB-1490-659A-5DE6-4BEBC35D933A}.Unicode Debug|x64.ActiveCfg = Unicode Debug|x64
+		{CB21D9EB-1490-659A-5DE6-4BEBC35D933A}.Unicode Debug|x64.Build.0 = Unicode Debug|x64
+		{CB21D9EB-1490-659A-5DE6-4BEBC35D933A}.Unicode Release|Win32.ActiveCfg = Unicode Release|Win32
+		{CB21D9EB-1490-659A-5DE6-4BEBC35D933A}.Unicode Release|Win32.Build.0 = Unicode Release|Win32
+		{CB21D9EB-1490-659A-5DE6-4BEBC35D933A}.Unicode Release|x64.ActiveCfg = Unicode Release|x64
+		{CB21D9EB-1490-659A-5DE6-4BEBC35D933A}.Unicode Release|x64.Build.0 = Unicode Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,7 @@
 #define	NUMBER_BLOCK_WIDTH	16
 #define	NUMBER_THREAD		(NUMBER_BLOCK_WIDTH*NUMBER_BLOCK_WIDTH)
 #define	HALF_NUMBER_THREAD	(NUMBER_THREAD/2)
+#define	LAYERED
 
 cbuffer cbPerCamera : register( b1 )
 {
@@ -36,6 +37,18 @@ groupshared float4	tempPos[5];
 groupshared float	tempAngle;
 groupshared uint	minDepth;
 groupshared uint	maxDepth;
+
+#ifdef LAYERED
+struct LayerInfo{
+	float	fNear;
+	float	fFar;
+	uint	uiOffset;
+	uint	uiSize;
+};
+StructuredBuffer<LayerInfo>	LayerBuffer		:	register(t3);
+groupshared	uint			layerArray[NUMBER_THREAD];
+groupshared uint			uiLayerCount;
+#endif
 
 float4 Vertex3_Plane(float3 v1,float3 v2,float3 v3){
 	float3	aux1 = v1 - v2;
@@ -172,37 +185,75 @@ void	main(
 		angle.w	=	(dot((tempPos[4].xyz),vCenter));	
 		tempAngle	=	acos(min(min(angle.x,angle.y),min(angle.z,angle.w)));
 	}
+#ifdef LAYERED
+	uiLayerCount	=	0;
+#endif
 	GroupMemoryBarrierWithGroupSync();
 
+#ifdef LAYERED
+	LayerInfo	layer	=	LayerBuffer[GIndex];
+	if(	fNear	<	layer.fFar	&&
+		fFar	>	layer.fNear	&&
+		layer.uiSize	>	0)
+	{	
+		float oldValue;
+		InterlockedAdd(uiLayerCount,1,oldValue);
+		layerArray[oldValue]	=	GIndex;
+
+	}
+	GroupMemoryBarrierWithGroupSync();
+#endif
+	//OutLightTex[DTid.xy]	=	0.01*(float)uiLayerCount;
+	//return;
 	float4 Color=0;
-	uint	uiLightCount	=	mouse.z;
-	uint	uiPassCount		=	(uiLightCount+255)>>8;
-	for(uint iBase=0;iBase<uiPassCount;iBase++){
-		tempLightCount=0;
-		GroupMemoryBarrierWithGroupSync();
-		uint iLightIndex	=	iBase*NUMBER_THREAD+GIndex;
-		if(iLightIndex	<	uiLightCount){
-			PointLightInfo linfo	=	LightBuffer[iLightIndex];
-		
+#ifdef LAYERED
+	[loop]
+	for(uint iLayer=0;iLayer<uiLayerCount;iLayer++){
+		LayerInfo	templayer	=	LayerBuffer[layerArray[iLayer]];
+		uint	uiLightCount	=	templayer.uiSize;
+		uint	uiOffset		=	templayer.uiOffset;
+#else
+		uint	uiLightCount	=	mouse.z;
+		uint	uiOffset		=	0;
+#endif
 
-			if(IntersectTile(linfo.Pos_Size,fNear,fFar,vCenter)){
-				float oldValue;
-				InterlockedAdd(tempLightCount,1,oldValue);
-				tempDepth[oldValue]	=	iLightIndex;
+		uint	uiPassCount		=	(uiLightCount+255)>>8;
+		[loop]
+		for(uint iBase=0;iBase<uiPassCount;iBase++){
+			tempLightCount=0;
+			GroupMemoryBarrierWithGroupSync();
+			uint iLightBase		=	iBase*NUMBER_THREAD+GIndex;
+			uint iLightIndex	=	uiOffset+iLightBase;
+			if(iLightBase	<	uiLightCount){
+				PointLightInfo linfo	=	LightBuffer[iLightIndex];
+			
+	
+				if(IntersectTile(linfo.Pos_Size,fNear,fFar,vCenter)){
+					float oldValue;
+					InterlockedAdd(tempLightCount,1,oldValue);
+					tempDepth[oldValue]	=	iLightIndex;
+				}
 			}
-		}
-		GroupMemoryBarrierWithGroupSync();
-		for(uint i=0;i<tempLightCount;i++){
-			PointLightInfo lightinfo	=	LightBuffer[tempDepth[i]];
+			GroupMemoryBarrierWithGroupSync();
+			[loop]
+			for(uint i=0;i<tempLightCount;i++){
+				PointLightInfo lightinfo	=	LightBuffer[tempDepth[i]];
+	
+				float3 LDir	=	lightinfo.Pos_Size.xyz-wpos.xyz;
+				float3 L	=	normalize(LDir);
+				float3 Shading	=	PBRDF(normalize(N),L,-normalize(wpos.xyz),Nor*127+1);
+				Color.xyz	+=	lightinfo.Color*((Shading.y+Shading.x)*pow(saturate(1-length(LDir)/lightinfo.Pos_Size.w),2));//*saturate(1-length(LDir)/lightinfo.Pos_Size.w);
+			
+			}
+			
+			GroupMemoryBarrierWithGroupSync();
+		}	
 
-			float3 LDir	=	lightinfo.Pos_Size.xyz-wpos.xyz;
-			float3 L	=	normalize(LDir);
-			float3 Shading	=	PBRDF(	(N),L,-normalize(wpos.xyz),Nor*127+1);
-			Color.xyz	+=	lightinfo.Color*((Shading.y+Shading.x)*pow(saturate(1-length(LDir)/lightinfo.Pos_Size.w),2));//*saturate(1-length(LDir)/lightinfo.Pos_Size.w);
-		}
+	
+#ifdef LAYERED
 		GroupMemoryBarrierWithGroupSync();
-	}	
-
+	}
+#endif
 	OutLightTex[DTid.xy]=Color;//(float)tempLightCount*0.25f;
 
 }

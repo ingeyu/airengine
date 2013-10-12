@@ -42,6 +42,7 @@ namespace	Air{
 			void			BuildSO();
 			CSRenderable*	m_pCSRenderable;
 			Buffer*			m_pLightPosColor;
+			Buffer*			m_pLayerBuffer;
 		};
 	}
 }

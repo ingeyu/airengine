@@ -143,7 +143,11 @@ namespace Air{
 						uiElementCount	=	uiCount;
 						pCB				=	pCallback;
 						type			=	enBT_SB;
-					}
+					};
+					template<typename T>
+					void	SetStructureBuffer(U32	uiCount){
+						SetStructureBuffer(uiCount,sizeof(T));
+					};
 					void	SetByteAddressBuffer(U32	uiCount,U32	uiSize,BufferCallback*	pCallback	=	NULL){
 						uiElementSize	=	uiSize;
 						uiElementCount	=	uiCount;

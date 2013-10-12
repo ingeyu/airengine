@@ -98,10 +98,16 @@ namespace	Air{
 		TileBaseLight::TileBaseLight()
 		{
 			m_pCSRenderable	=	NULL;
-			m_pLightPosColor=NULL;
+			m_pLightPosColor=	NULL;
+			m_pLayerBuffer	=	NULL;
 			m_vecPointLight.reserve(1024);
 		}
-
+		struct LayerInfo{
+			float	fNear;
+			float	fFar;
+			U32		uiOffset;
+			U32		uiSize;
+		};
 		Air::U1 TileBaseLight::Initialization( Pipeline* pPipeline )
 		{
 			m_pCSRenderable		=	new	CSRenderable;
@@ -118,6 +124,8 @@ namespace	Air{
 			binfo.SetStructureBuffer(32768,sizeof(PointLightInfo));
 			binfo.SetViewFlag(enVF_SRV);
 			m_pLightPosColor		=	RenderSystem::GetSingleton()->CreateProduct<Buffer>("TBL_PosColor",&binfo);
+			binfo.SetStructureBuffer<LayerInfo>(256);
+			m_pLayerBuffer			=	RenderSystem::GetSingleton()->CreateProduct<Buffer>("TBL_Layer",&binfo);
 
 			m_pPointMaterial	=	EngineSystem::GetSingleton()->CreateProduct<Material>("TileBaseLighting");
 			m_pSphere			=	NULL;//EngineSystem::GetSingleton()->CreateProduct<MeshEntity>("PointLight",&meshInfo);
@@ -144,8 +152,18 @@ namespace	Air{
 		Air::U1 TileBaseLight::Release()
 		{
 			SAFE_DELETE(m_pCSRenderable);
+			SAFE_RELEASE_REF(m_pLayerBuffer);
 			return __super::Release();
 		}
+		class LayerSort{
+		public:
+			bool operator () (const  PointLightInfo& a,const  PointLightInfo& b) const
+			{
+				return (a.vPos.z-a.fSize)	<	(b.vPos.z-b.fSize);
+			};
+		};
+
+
 
 		void TileBaseLight::Update( const FrameTime& frameTime )
 		{
@@ -159,14 +177,68 @@ namespace	Air{
 			void* p	=	m_pLightBuffer->GetUAV();
 			pDevice->SetUAV(1,(void**)&p);
 
+			//translate light position from world to view
 			PointLightVector vecLight = m_vecPointLight;
 			const Matrix& mView	=	m_pPipeline->GetMainCamera()->GetViewMatrix();
+			float	MinNear	=	10000000.0f;
+			float	MaxFar	=	-1000000.0f;
 			for(U32 i=0;i<vecLight.size();i++){
 				vecLight[i].vPos	=	mView*vecLight[i].vPos;
+				float fLightNear	=	vecLight[i].vPos.z-vecLight[i].fSize;
+				float fLightFar		=	vecLight[i].vPos.z+vecLight[i].fSize;
+				if(fLightNear	<	MinNear)	MinNear	=	fLightNear;
+				if(fLightFar	>	MaxFar)		MaxFar	=	fLightFar;
+			}
+			//sort light with view Z
+			//std::sort(vecLight.begin(),vecLight.end(),LayerSort());
+
+			//splite layer
+
+			float	f	=	(MaxFar	-	MinNear)/256.0f;
+			LayerInfo layer[256];
+			memset(layer,0,sizeof(LayerInfo)*256);
+			STD_VECTOR<U32>		lightIndex;
+			lightIndex.resize(vecLight.size()*2);
+			for(U32 i=0;i<vecLight.size();i++){
+				float z	=	vecLight[i].vPos.z - vecLight[i].fSize;
+				z		=	(z-MinNear)/f;
+				if(z<0)z=0;
+				lightIndex[i*2]=(U32)z;	
+				lightIndex[i*2+1]=layer[(U32)z].uiSize++;
+				
+			}
+			for(U32 i=1;i<256;i++){
+				layer[i].uiOffset	=	layer[i-1].uiOffset+layer[i-1].uiSize;
+			}
+			PointLightVector vecLightLayered=vecLight;
+			for(U32 i=0;i<vecLight.size();i++){
+				U32 uiLayerIndex	=	lightIndex[i*2];
+				U32 uiIndex			=	lightIndex[i*2+1];
+				vecLightLayered[layer[uiLayerIndex].uiOffset+uiIndex]=vecLight[i];
+			}
+			for(U32 i=0;i<256;i++){
+				if(layer[i].uiSize!=0){
+					U32 uiStart	=	layer[i].uiOffset;
+					U32	uiEnd	=	layer[i].uiSize;
+					for(U32 j=0;j<uiEnd;j++){
+						U32	uiIndex	=	j+uiStart;
+						float fLightNear	=	vecLightLayered[uiIndex].vPos.z-vecLightLayered[uiIndex].fSize;
+						float fLightFar		=	vecLightLayered[uiIndex].vPos.z+vecLightLayered[uiIndex].fSize;
+						if(j==0){
+							layer[i].fNear	=	fLightNear;
+							layer[i].fFar	=	fLightFar;
+						}else{
+							if(fLightNear	<	layer[i].fNear)	layer[i].fNear	=	fLightNear;
+							if(fLightFar	>	layer[i].fFar)	layer[i].fFar	=	fLightFar;
+						}
+					}
+				}
 			}
 			
-			m_pLightPosColor->UpdateData(&vecLight[0]);
+			m_pLightPosColor->UpdateData(&vecLightLayered[0]);
 			pDevice->SetSRV(enCS,2,m_pLightPosColor->GetSRV());
+			m_pLayerBuffer->UpdateData(layer);
+			pDevice->SetSRV(enCS,3,m_pLayerBuffer->GetSRV());
 
 			Float4 v[10];
 			v[0]=Float4(m_pLightBuffer->GetWidth(),m_pLightBuffer->GetHeight(),0,0);
