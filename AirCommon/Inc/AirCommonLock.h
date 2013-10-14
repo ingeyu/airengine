@@ -97,8 +97,13 @@ namespace Air{
 		***/
 		class	Event{
 		public:
-			Event(AString&	strName){
-				m_hEvent	=	CreateEventA(NULL,FALSE,FALSE,strName.c_str());
+			Event(const AChar*	strName=NULL){
+				if(strName==NULL){
+					m_hEvent	=	CreateEventA(NULL,FALSE,FALSE,"");
+				}else{
+					m_hEvent	=	CreateEventA(NULL,FALSE,FALSE,strName);
+				}
+				
 			};
 			~Event(){
 				CloseHandle(m_hEvent);

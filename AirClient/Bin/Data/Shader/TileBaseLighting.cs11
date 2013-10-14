@@ -251,7 +251,7 @@ void	main(
 
 	
 #ifdef LAYERED
-		GroupMemoryBarrierWithGroupSync();
+		//GroupMemoryBarrierWithGroupSync();
 	}
 #endif
 	OutLightTex[DTid.xy]=Color;//(float)tempLightCount*0.25f;

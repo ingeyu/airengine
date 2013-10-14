@@ -8,7 +8,7 @@ namespace Air{
 	namespace	Common{
 	
 	
-		NetSendThread::NetSendThread():m_SendEvent(Number::Increase(AString("Event"))){
+		NetSendThread::NetSendThread(){
 			m_pListener	=	NULL;
 			m_bWaiting	=	false;
 		}

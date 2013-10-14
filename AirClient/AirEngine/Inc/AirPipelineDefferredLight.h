@@ -31,8 +31,13 @@ namespace	Air{
 			PointLightVector	m_vecPointLight;
 			Pipeline*			m_pPipeline;
 		};
-
-		class	TileBaseLight	:	public	DefferredLight{
+		struct LayerInfo{
+			float	fNear;
+			float	fFar;
+			U32		uiOffset;
+			U32		uiSize;
+		};
+		class	TileBaseLight	:	public	DefferredLight,public	Common::Thread{
 		public:
 			TileBaseLight();
 			virtual	U1		Initialization( Pipeline* pPipeline);
@@ -40,9 +45,20 @@ namespace	Air{
 			virtual	void	Update(const FrameTime& frameTime);
 			virtual	void	AddPointLight(const Float3& pos,float fSize,const Float3& vColor);
 			void			BuildSO();
+			virtual bool	RepetitionRun();
+			void			StartBackProcess();
+		private:
+			void			SpliteLayer();
+		private:
 			CSRenderable*	m_pCSRenderable;
 			Buffer*			m_pLightPosColor;
 			Buffer*			m_pLayerBuffer;
+			PointLightVector	m_vecTempLight;
+			PointLightVector	m_vecLayeredLight;
+			STD_VECTOR<U32>		m_vecLightIndex;
+			Common::Event		m_MainWaitBackEvent;
+			Common::Event		m_BackWaitMainEvent;
+			LayerInfo			m_LayerInfo[256];
 		};
 	}
 }

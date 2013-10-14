@@ -111,6 +111,7 @@
       </PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>
       </PrecompiledHeaderOutputFile>
+      <OpenMPSupport>false</OpenMPSupport>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AirCommon.lib;AirCharacter.lib;freetype240.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>

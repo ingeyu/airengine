@@ -494,6 +494,8 @@ namespace	Air{
 			}
 
 			setCamera.clear();
+
+			m_TBL.StartBackProcess();
 		}
 
 		void DefaultPipeline::BuildSVO()
