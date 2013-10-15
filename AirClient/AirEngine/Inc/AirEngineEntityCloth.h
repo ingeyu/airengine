@@ -16,10 +16,10 @@ namespace Air{
 		*
 		***/
 		class	EntityCloth	:
-			public	TProduct<EntityCloth>,
 			public	MovableObject
-			{
+		{
 		public:
+			static	AString ProductTypeName;
 			/**	\brief	创建信息
 			*
 			*	创建信息

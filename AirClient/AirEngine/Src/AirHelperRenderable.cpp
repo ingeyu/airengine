@@ -186,7 +186,7 @@ namespace	Air{
 		}
 
 
-		ObjectController::ObjectController()
+		ObjectController::ObjectController():MovableObject("")
 		{
 
 			m_pMove		=	new MoveRenderable(this);

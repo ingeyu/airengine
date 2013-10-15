@@ -230,7 +230,7 @@ namespace Air{
 					}
 	
 				AString Model::ProductTypeName="CharacterModel";
-				Model::Model( CAString& strName,Info* pInfo ):Common::IProduct(strName){
+				Model::Model( CAString& strName,Info* pInfo ):MovableObject(strName){
 
 					m_Info					=	*pInfo;
 					//m_strResourceName		=	*strResourceName;

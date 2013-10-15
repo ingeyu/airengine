@@ -100,9 +100,8 @@ namespace Air{
 			*
 			***/
 			class	ENGINE_EXPORT		Sound	:
-				public	IProduct,
-				public	IProperty,
-				public	MovableObject
+				public	MovableObject,
+				public	IProperty
 				{
 			public:
 				/**	\brief	…˘“Ù¿‡–Õ

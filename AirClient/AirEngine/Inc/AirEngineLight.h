@@ -104,6 +104,8 @@ namespace Air{
 			void				SetAttenuation(Real	fAttenuation);
 	
 			void				SetSpecular(Real	fSpec);
+
+			virtual	void		ProcessRenderObject(U32	uiPhaseFlag);
 		protected:
 			Info				m_Info;
 			Real				m_fAttenuation;			///<	Ë¥¼õ		

@@ -21,8 +21,7 @@ namespace Air{
 				class	ENGINE_EXPORT	IControl	:
 					public	State,
 					public	::OIS::MouseListener,
-					public	::OIS::KeyListener,
-					public	Common::IProduct{
+					public	::OIS::KeyListener{
 				public:
 					typedef		std::list<IControl*>			WindowList;
 					typedef		WindowList::iterator			WindowListItr;

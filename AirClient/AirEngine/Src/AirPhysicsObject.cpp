@@ -4,7 +4,7 @@ namespace	Air{
 	namespace	Physics{
 
 		AString	Object::ProductTypeName	=	"PhysicsObject";
-		Object::Object( CAString& strName,Info* pInfo ):Common::IProduct(strName)
+		Object::Object( CAString& strName,Info* pInfo ):MovableObject(strName)
 		{
 			if(pInfo!=NULL){
 				m_Info	=	*pInfo;

@@ -212,7 +212,6 @@ namespace Air{
 				*
 				***/
 				class	ENGINE_EXPORT	Model	:
-					public	Common::IProduct,
 					public	MovableObject
 				{
 				public:

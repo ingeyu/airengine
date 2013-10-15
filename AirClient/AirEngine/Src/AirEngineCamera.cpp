@@ -37,8 +37,8 @@ namespace Air{
 				return	low	==	k;
 			}
 		};
-
-		Camera::Camera(CAString&	strName):TProduct(strName){
+		AString Camera::ProductTypeName="Camera";
+		Camera::Camera(CAString&	strName):Frustum(strName){
 			m_bReflect			=	false;
 			m_PhaseFlag			=	0;
 			m_pConstantBuffer	=	NULL;

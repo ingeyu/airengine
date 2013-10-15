@@ -8,7 +8,7 @@ namespace Air{
 	
 	namespace Engine{
 	
-		MovableObject::MovableObject(){
+		MovableObject::MovableObject(const AString& strName):IProduct(strName){
 			m_pParentNode	=	NULL;
 			m_uiVisiableFrame	=	0;;
 			m_bDirty		=	true;
@@ -119,6 +119,16 @@ namespace Air{
 			if(bVisable)
 				m_uiVisiableFrame	=	GetTimer().m_FrameTime.uiFrameIndex;
 			return bVisable;
+		}
+
+		Air::U1 MovableObject::Create()
+		{
+			return true;
+		}
+
+		Air::U1 MovableObject::Destroy()
+		{
+			return true;
 		}
 
 // 		Buffer* MovableObject::GetObjectConstantBuffer(){

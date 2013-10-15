@@ -24,10 +24,10 @@ namespace Air{
 		*
 		***/
 		class	ENGINE_EXPORT	Camera	:
-			public	TProduct<Camera>,
 			public	Frustum
 		{
 		public:
+			static AString ProductTypeName;
 			Camera(CAString&	strName);
 	
 			/**	\brief	´´½¨

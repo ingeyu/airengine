@@ -48,11 +48,13 @@ namespace Air{
 		*
 		***/
 		class ENGINE_EXPORT MovableObject :
-			public	MemoryObject,
+			public	Common::IProduct,
 			public	Flag<enumMovableObjectFlag>{
 		public:
-			MovableObject();
+			MovableObject(const AString& strName);
 			virtual ~MovableObject();
+			virtual	U1			Create();
+			virtual	U1			Destroy();
 			U1					IsAttached();
 			void				SetParent(SceneNode*	pParentNode);
 			/**	\brief	返回场景父节点

@@ -33,7 +33,6 @@ namespace	Air{
 
 		};
 		class ENGINE_EXPORT	Particle	:	
-			public	IProduct,
 			public	MovableObject,
 			public	Renderable{
 		public:

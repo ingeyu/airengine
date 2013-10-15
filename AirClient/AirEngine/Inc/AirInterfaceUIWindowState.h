@@ -44,12 +44,13 @@ namespace Air{
 				*
 				***/
 				class	ENGINE_EXPORT	State	:
-					public	Event::Sender,
-					public	MovableObject{
+					public	MovableObject,
+					public	Event::Sender
+					{
 				public:
 	
 				public:
-					State(StateArray*	pArray,Info*	pInfo);
+					State(CAString& strName,StateArray*	pArray,Info*	pInfo);
 					/**	\brief	设置是否可见
 					*   
 					*	@remarks 	设置是否可见

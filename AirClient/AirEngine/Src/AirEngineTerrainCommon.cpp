@@ -28,7 +28,7 @@ namespace Air{
 					return index;
 				}
 				AString IPage::ProductTypeName="IPage";
-				IPage::IPage(AString strName,Info*	pInfo):Common::IProduct(strName){
+				IPage::IPage(AString strName,Info*	pInfo):MovableObject(strName){
 					m_Info	=	*pInfo;
 					//AChar	strPageName[MAX_NAME];
 					//sprintf(strPageName,"%s\\Page_%d_%d\\",m_Info.strMapPath.c_str(),m_Info.uiID.height,m_Info.uiID.width);

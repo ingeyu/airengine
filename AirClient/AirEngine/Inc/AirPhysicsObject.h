@@ -7,7 +7,6 @@
 namespace	Air{
 	namespace	Physics{
 		class	ENGINE_EXPORT	Object	:	
-			public	Common::IProduct,
 			public	Engine::MovableObject{
 		public:
 			struct Info{

@@ -10,7 +10,7 @@ namespace Air{
 	
 	
 		AString ScreenEntity::ProductTypeName="ScreenEntity";
-		ScreenEntity::ScreenEntity( CAString& strName,Info*	pInfo):Common::IProduct(strName){
+		ScreenEntity::ScreenEntity( CAString& strName,Info*	pInfo):MovableObject(strName){
 
 			if(pInfo!=NULL)
 				m_Info	=	*pInfo;

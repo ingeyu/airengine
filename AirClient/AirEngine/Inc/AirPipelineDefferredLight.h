@@ -44,11 +44,12 @@ namespace	Air{
 			virtual	U1		Release();
 			virtual	void	Update(const FrameTime& frameTime);
 			virtual	void	AddPointLight(const Float3& pos,float fSize,const Float3& vColor);
-			void			BuildSO();
+			
 			virtual bool	RepetitionRun();
 			void			StartBackProcess();
 		private:
 			void			SpliteLayer();
+			void			BuildSLO();
 		private:
 			CSRenderable*	m_pCSRenderable;
 			Buffer*			m_pLightPosColor;

@@ -152,7 +152,7 @@ namespace Air{
 			AddFactory(new	ParamFactory<MeshEntity>());
 			AddFactory(new	ParamFactory<ManualMeshEntity>());
 			AddFactory(new	NoParamFactory<Camera>());
-			AddFactory(new	ParamFactory<Light>());
+			AddFactory(new	OptionParamFactory<Light>());
 
 			AddFactory(new NoParamFactory<DefaultPipeline>());
 

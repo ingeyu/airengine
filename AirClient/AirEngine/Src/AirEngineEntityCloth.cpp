@@ -8,8 +8,8 @@ namespace Air{
 	
 	namespace	Engine{
 	
-	
-		EntityCloth::EntityCloth( CAString& strName,Info* pInfo ):TProduct(strName){
+		AString	EntityCloth::ProductTypeName="EntityCloth";
+		EntityCloth::EntityCloth( CAString& strName,Info* pInfo ):MovableObject(strName){
 			if(pInfo!=NULL)
 				m_Info	=	*pInfo;
 			//m_pCloth	=	NULL;

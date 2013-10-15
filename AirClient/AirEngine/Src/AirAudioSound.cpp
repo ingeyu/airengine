@@ -5,7 +5,7 @@ namespace	Air{
 		namespace	Audio{
 
 			AString	Sound::ProductTypeName	=	"Sound";
-			Sound::Sound( CAString& strName,Info* pInfo ):IProduct(strName)
+			Sound::Sound( CAString& strName,Info* pInfo ):MovableObject(strName)
 			{
 				if(pInfo!=NULL){
 					m_Info	=	*pInfo;

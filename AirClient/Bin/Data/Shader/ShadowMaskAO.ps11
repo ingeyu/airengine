@@ -205,7 +205,7 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 
    }
 
-	float3 fDot	=	PBRDF(N,-L,E,pow(abs(vNormal.w),2.2f)*127+1);
+	float3 fDot	=	PBRDF(N,-L,E,vNormal*127+1);
 	
 
 	PS_OUTPUT	Out;

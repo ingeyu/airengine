@@ -14,7 +14,6 @@ namespace Air{
 		*
 		***/
 		class	ENGINE_EXPORT	ScreenEntity	:
-			public	Common::IProduct,
 			public	MovableObject
 		{
 		public:

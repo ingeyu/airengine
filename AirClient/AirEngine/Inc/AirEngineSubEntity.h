@@ -13,7 +13,6 @@ namespace Air{
 		}
 	
 		class	ENGINE_EXPORT	SubEntity	:
-			public	Common::IProduct,
 			public	MovableObject
 		{
 		public:

@@ -11,7 +11,7 @@
 namespace	Air{
 	namespace	Engine{
 		AString Particle::ProductTypeName="Particle";
-		Particle::Particle( CAString& str,Info* pInfo ):IProduct(str)
+		Particle::Particle( CAString& str,Info* pInfo ):MovableObject(str)
 		{
 			m_pTemplate	=	NULL;
 			m_pInfo=pInfo;
@@ -90,7 +90,7 @@ namespace	Air{
 				const Float4& vColor	=	m_pTemplate->GetLightColor();
 				for(;i!=m_lstElement.end();i++){
 					ParticleElement* e = (*i);
-					EngineSystem::GetSingleton()->GetCurrentPipeline()->AddPointLight(e->vPos,vColor.w,vColor);
+					//EngineSystem::GetSingleton()->GetCurrentPipeline()->AddPointLight(e->vPos,vColor.w,vColor);
 				}
 			}
 		}

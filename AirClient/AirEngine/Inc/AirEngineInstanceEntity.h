@@ -14,8 +14,7 @@ namespace Air{
 		*
 		***/
 		class	ENGINE_EXPORT	InstanceEntity	:
-			public	MovableObject,
-			public	Common::IProduct{
+			public	MovableObject{
 		public:
 			InstanceEntity(CAString&	strName,UInt	uiMaxInstance);
 			

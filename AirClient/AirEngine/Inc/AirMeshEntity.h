@@ -5,9 +5,8 @@
 namespace	Air{
 	namespace	Engine{
 		class	MeshEntity	:	
-			public	IProduct,
-			public	Renderable,
-			public	MovableObject{
+			public	MovableObject,
+			public	Renderable{
 		public:
 			static AString	ProductTypeName;
 			struct Info{

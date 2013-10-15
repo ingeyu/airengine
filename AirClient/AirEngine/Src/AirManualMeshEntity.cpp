@@ -6,7 +6,7 @@ namespace	Air{
 	namespace	Engine{
 
 		AString	ManualMeshEntity::ProductTypeName	=	"ManualMeshEntity";
-		ManualMeshEntity::ManualMeshEntity( CAString& strName,Info* pInfo ):IProduct(strName)
+		ManualMeshEntity::ManualMeshEntity( CAString& strName,Info* pInfo ):MovableObject(strName)
 		{
 			if(pInfo!=NULL){
 				m_Info	=	*pInfo;

@@ -6,7 +6,7 @@ namespace Air{
 	namespace	Engine{
 	
 	
-		InstanceEntity::InstanceEntity(CAString&	strName,UInt	uiMaxInstance):Common::IProduct(strName){
+		InstanceEntity::InstanceEntity(CAString&	strName,UInt	uiMaxInstance):MovableObject(strName){
 
 			m_uiInstanceCount		=	uiMaxInstance;
 			m_pModelVertexBuff		=	NULL;

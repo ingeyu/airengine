@@ -247,8 +247,12 @@ namespace	Air{
 								}
 								m_pObjController->SetSelectObjectBoundingBox( m_pRayCastMesh->GetWorldBoundingBox());
 							}else {
-								m_pObjController->SetPosition(Float3(0,0,0));
-								m_pObjController->SetSelectObjectBoundingBox(BoundingBox(-1,-1,-1,1,1,1));
+								Engine::SceneNode* pNode = pObj->GetParentSceneNode();
+								if(pNode!=NULL){
+									m_lstSelectObj.push_back(m_pRayCastMesh);
+									m_pObjController->SetPosition(pNode->GetGlobalPosition());
+									m_pObjController->SetSelectObjectBoundingBox(pObj->GetWorldBoundingBox());
+								}
 							}
 						}
 						

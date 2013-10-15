@@ -11,7 +11,7 @@ namespace Air{
 	
 	
 		AString	SubEntity::ProductTypeName="SubEntity";
-		SubEntity::SubEntity( CAString& strName,Info*	pInfo ):Common::IProduct(strName){
+		SubEntity::SubEntity( CAString& strName,Info*	pInfo ):MovableObject(strName){
 			if(pInfo!=NULL)
 				m_Info	=	*pInfo;
 		}

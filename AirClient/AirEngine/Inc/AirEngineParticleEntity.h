@@ -14,10 +14,10 @@ namespace Air{
 		*
 		***/
 		class	ENGINE_EXPORT	ParticleEntity	:
-			public	TProduct<ParticleEntity>,
 			public	MovableObject
 		{
 		public:
+			static	AString ProductTypeName;
 			struct	Info{
 				Info(AString	strName	=	""){strParticleName	=	strName;};
 				AString	strParticleName;

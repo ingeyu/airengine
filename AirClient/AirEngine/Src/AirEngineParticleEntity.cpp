@@ -7,8 +7,8 @@ namespace Air{
 	
 	namespace	Engine{
 	
-	
-		ParticleEntity::ParticleEntity( CAString& strName,Info* pInfo ):TProduct(strName){
+		AString	ParticleEntity::ProductTypeName="ParticleEntity";
+		ParticleEntity::ParticleEntity( CAString& strName,Info* pInfo ):MovableObject(strName){
 			m_strProductName	=	strName;
 			m_Info	=	*pInfo;
 		}

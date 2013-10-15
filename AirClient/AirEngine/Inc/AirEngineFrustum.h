@@ -35,7 +35,7 @@ namespace	Air{
 		class	ENGINE_EXPORT	Frustum	:	
 			public	MovableObject{
 		public:
-			Frustum();
+			Frustum(CAString& strName);
 
 			void	SetPosition(const	Float3&	position);
 			void	SetPosition(Real	x,Real	y,Real	z);

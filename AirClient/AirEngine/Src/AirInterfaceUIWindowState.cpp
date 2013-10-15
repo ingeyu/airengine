@@ -15,7 +15,7 @@ namespace Air{
 					"ButtonUp"
 				};
 	
-				State::State(StateArray*	pArray,Info*	pInfo){
+				State::State(CAString& strName,StateArray*	pArray,Info*	pInfo):MovableObject(strName){
 					m_Type			=	enNormal;
 					m_LastType		=	m_Type;
 					//m_StateArray.resize(enMax);

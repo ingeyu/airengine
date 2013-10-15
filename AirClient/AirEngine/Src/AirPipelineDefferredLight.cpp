@@ -132,21 +132,21 @@ namespace	Air{
 			m_pSphere			=	NULL;//EngineSystem::GetSingleton()->CreateProduct<MeshEntity>("PointLight",&meshInfo);
 
 			
-			//for(U32 i=0;i<32768;i++){
-			//	Float3 vPos(
-			//		Common::Number::RandomF(),
-			//		0,
-			//		Common::Number::RandomF()
-			//		);
-			//	vPos	=	vPos*2-Float3(1,1,1);
-			//	vPos.y=0.003;
-			//	Float3 vColor(
-			//		Common::Number::RandomF(),
-			//		Common::Number::RandomF(),
-			//		Common::Number::RandomF()
-			//		);
-			//	AddPointLight(vPos*100,2,vColor);
-			//}
+			for(U32 i=0;i<32768;i++){
+				Float3 vPos(
+					Common::Number::RandomF(),
+					0,
+					Common::Number::RandomF()
+					);
+				vPos	=	vPos*2-Float3(1,1,1);
+				vPos.y=0.003;
+				Float3 vColor(
+					Common::Number::RandomF(),
+					Common::Number::RandomF(),
+					Common::Number::RandomF()
+					);
+				AddPointLight(vPos*100,2,vColor*10);
+			}
 			StartThread();
 			return true;
 		}
@@ -227,7 +227,7 @@ namespace	Air{
 			p=NULL;
 			pDevice->SetUAV(1,(void**)&p);
 
-			m_vecPointLight.clear();
+			//m_vecPointLight.clear();
 		}
 		void TileBaseLight::AddPointLight( const Float3& pos,float fSize,const Float3& vColor )
 		{
@@ -298,24 +298,22 @@ namespace	Air{
 			
 		};
 
-		void TileBaseLight::BuildSO()
+		void TileBaseLight::BuildSLO()
 		{
-			if(m_vecPointLight.empty())
+			U32	uiLightCount	=	m_vecTempLight.size();
+			if(uiLightCount==0)
 				return;
 			const Matrix& mView	=	m_pPipeline->GetMainCamera()->GetViewMatrix();
 			//calc boundingbox
 			LightNode lightNode;
 			BoundingBox& box	=	lightNode.bound;
-			for(U32 i=0;i<m_vecPointLight.size();i++){
-				Float3& vPos	=	m_vecPointLight[i].vPos;
-				//vPos			=	mView*vPos;
-				float	fSize	=	m_vecPointLight[i].fSize;
+			for(U32 i=0;i<m_vecTempLight.size();i++){
+				Float3& vPos	=	m_vecTempLight[i].vPos;
 				if(i==0){
-					box.vMin	=	vPos-fSize;
-					box.vMax	=	vPos+fSize;
+					box.vMin	=	vPos;
+					box.vMax	=	vPos;
 				}else{
-					box.Add(vPos-fSize);
-					box.Add(vPos+fSize);
+					box.Add(vPos);
 				}
 			}
 			//translate cuboid to cube
@@ -324,22 +322,64 @@ namespace	Air{
 			vSize				=	Float3(fMaxSize,fMaxSize,fMaxSize);
 			box.vMax			=	box.vMin+vSize;
 
-			struct LightStruct{
-				U16	child[8];
-			};
-			STD_VECTOR<LightStruct>	LightNodeOctree;
-			LightNodeOctree.reserve(8192);
+
+
+			STD_VECTOR<U16>	LightNodeOctree;
+			LightNodeOctree.resize(32760);
+			U32	uiCount	=	8;
+
+			STD_VECTOR<U32>&		lightIndex	=	m_vecLightIndex;
+			lightIndex.resize(uiLightCount);
+
+			U32 iDepth	=	6;
+
+			float fInv	=	pow(2,(float)iDepth)/fMaxSize;
+			for(U32 i=0;i<m_vecTempLight.size();i++){
+				Float3 v	= m_vecTempLight[i].vPos	-	box.vMin;
+				v*=fInv;
+				S32 X	=	v.x;
+				S32 Y	=	v.y;
+				S32 Z	=	v.z;
+				U32 uiNode	=	0;
+				for(int j=iDepth;j>=0;j--){
+					U32 idx =	((X>>j)&1)<<2 | 
+								((Y>>j)&1)<<1 |
+								((Z>>j)&1);
+					idx+=uiNode;
+					if(j==0){
+						LightNodeOctree[idx]	=	0xffff;
+						lightIndex[i]=idx;
+						break;
+					}else{	
+						U16& child	=	LightNodeOctree[idx];
+						if(child==0){
+							
+							child	=	uiCount;
+							uiCount	+=	8;
+							uiNode=	child;
+						}else	if(child==0xffff){
+							lightIndex[i]=idx;
+							break;
+						}else{
+							uiNode=	child;
+						}
+					}
+				}
+			}
+
+			
+			
 
 			
 
-			U32 uiMaxDepth	=	10;
-			for(U32 i=0;i<m_vecPointLight.size();i++){
-				Float3	vLightPos	=	m_vecPointLight[i].vPos;
-				float	fLightSize	=	m_vecPointLight[i].fSize;
-				lightNode.InjectLight(vLightPos,fLightSize);
-			}
+			//U32 uiMaxDepth	=	10;
+			//for(U32 i=0;i<m_vecPointLight.size();i++){
+			//	Float3	vLightPos	=	m_vecPointLight[i].vPos;
+			//	float	fLightSize	=	m_vecPointLight[i].fSize;
+			//	lightNode.InjectLight(vLightPos,fLightSize);
+			//}
 
-			lightNode.DebugPrint();
+			//lightNode.DebugPrint();
 		}
 
 		bool TileBaseLight::RepetitionRun()
@@ -348,6 +388,8 @@ namespace	Air{
 
 			
 			SpliteLayer();
+
+			//BuildSLO();
 			
 			m_MainWaitBackEvent.Reset();
 			return true;
@@ -368,7 +410,7 @@ namespace	Air{
 			float	MinNear	=	10000000.0f;
 			float	MaxFar	=	-1000000.0f;
 			//
-			for(S32 i=0;i<uiLightCount;i++){
+			for(U32 i=0;i<uiLightCount;i++){
 				vecLight[i].vPos	=	mView*vecLight[i].vPos;
 				float fLightNear	=	vecLight[i].vPos.z-vecLight[i].fSize;
 				float fLightFar		=	vecLight[i].vPos.z+vecLight[i].fSize;
@@ -383,7 +425,7 @@ namespace	Air{
 			STD_VECTOR<U32>&		lightIndex	=	m_vecLightIndex;
 			lightIndex.resize(uiLightCount*2);
 
-			for(S32 i=0;i<uiLightCount;i++){
+			for(U32 i=0;i<uiLightCount;i++){
 				float z	=	vecLight[i].vPos.z - vecLight[i].fSize;
 				z		=	(z-MinNear)*fInv;
 				if(z<0)z=0;
@@ -398,13 +440,13 @@ namespace	Air{
 			PointLightVector& vecLightLayered	=	m_vecLayeredLight;//=vecLight;
 			vecLightLayered.resize(uiLightCount);
 
-			for(S32 i=0;i<uiLightCount;i++){
+			for(U32 i=0;i<uiLightCount;i++){
 				U32 uiLayerIndex	=	lightIndex[i*2];
 				U32 uiIndex			=	lightIndex[i*2+1];
 				U32 dstIndex		=	m_LayerInfo[uiLayerIndex].uiOffset+uiIndex;
 				memcpy(&vecLightLayered[dstIndex],&vecLight[i],sizeof(PointLightInfo));
 			}
-			for(S32 i=0;i<256;i++){
+			for(U32 i=0;i<256;i++){
 				LayerInfo& layer	=	m_LayerInfo[i];
 				if(layer.uiSize!=0){
 					U32 uiStart	=	layer.uiOffset;

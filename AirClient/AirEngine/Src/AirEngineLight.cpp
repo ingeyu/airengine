@@ -4,13 +4,17 @@
 #include "AirRenderTarget.h"
 #include "AirGlobalSetting.h"
 #include "AirEngineCamera.h"
+#include "AirEngineSystem.h"
+#include "AirEnginePipeline.h"
 namespace Air{
 	
 	namespace	Engine{
 	
 		AString	Light::ProductTypeName	=	"Light";
 		Light::Light( CAString& strName ,Info*	pInfo):Camera(strName){
-			m_Info			=	*pInfo;
+			if(pInfo!=NULL){
+				m_Info			=	*pInfo;
+			}
 			SetPosition(Float3(m_Info.vPosition.x,m_Info.vPosition.y,m_Info.vPosition.z));
 	
 			//m_bCastShadow	=	m_Info.bCastShadow;
@@ -54,5 +58,15 @@ namespace Air{
 		void	Light::SetSpecular( Real fSpec ){
 			m_Info.vDiff.w	=	fSpec;
 		}
+
+		void Light::ProcessRenderObject( U32 uiPhaseFlag )
+		{
+			if(uiPhaseFlag&1<<enPI_DeferredLight){
+				if(m_Info.type	==	enPoint){
+					EngineSystem::GetSingleton()->GetCurrentPipeline()->AddPointLight(GetRealPosition(),m_Info.vPosition.w,m_Info.vDiff);
+				}
+			}
+		}
+
 	}
 };

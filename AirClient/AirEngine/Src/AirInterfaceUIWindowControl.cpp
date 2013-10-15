@@ -35,8 +35,7 @@ namespace Air{
 				inline	AString	GetUIMaterialString(AString		str);
 	
 				IControl::IControl(CAString&	strName,StateArray*	pArray,Info*	pInfo)	:
-					State(pArray,pInfo),
-					Common::IProduct(strName){
+					State(strName,pArray,pInfo){
 					m_strProductName	=	strName;
 					//m_bChanged				=	true;
 					m_vAbsolutelyPosition	=	Float4(0,0,0,0);

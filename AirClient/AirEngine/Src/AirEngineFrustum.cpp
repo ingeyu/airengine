@@ -6,7 +6,8 @@ namespace	Air{
 	namespace	Engine{
 #define ANG2RAD 3.14159265358979323846/180.0
 
-		Frustum::Frustum(){
+
+		Frustum::Frustum(CAString& strName):MovableObject(strName){
 			m_vPosition		=	Float3(0,0,0);
 			m_vUp			=	Float3(0,1,0);
 			m_vDirection	=	Float3(0,0,-1);

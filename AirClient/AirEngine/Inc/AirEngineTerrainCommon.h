@@ -166,8 +166,7 @@ namespace Air{
 				*
 				***/
 				class ENGINE_EXPORT	IPage	:
-					public	MovableObject,
-					public	Common::IProduct{
+					public	MovableObject{
 				public:
 					static AString ProductTypeName;
 					struct	Info{
