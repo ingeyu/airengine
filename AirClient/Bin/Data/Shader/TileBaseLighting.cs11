@@ -28,7 +28,8 @@ struct PointLightInfo{
 Texture2D							DepthTex		:	register(t0);
 Texture2D							NormalTex		:	register(t1);
 StructuredBuffer<PointLightInfo>	LightBuffer		:	register(t2);
-RWTexture2D<float4>					OutLightTex		:	register(u0);
+RWTexture2D<float4>					DiffLightTex	:	register(u0);
+RWTexture2D<float4>					SpecLightTex	:	register(u1);
 
 groupshared PointLightInfo	tempLightBuffer[NUMBER_THREAD];
 groupshared	int				tempLightCount;
@@ -205,7 +206,8 @@ void	main(
 #endif
 	//OutLightTex[DTid.xy]	=	0.01*(float)uiLayerCount;
 	//return;
-	float4 Color=0;
+	float4 vDiff=0;
+	float4 vSpec=0;
 #ifdef LAYERED
 	[loop]
 	for(uint iLayer=0;iLayer<uiLayerCount;iLayer++){
@@ -242,8 +244,11 @@ void	main(
 				float3 LDir	=	lightinfo.Pos_Size.xyz-wpos.xyz;
 				float3 L	=	normalize(LDir);
 				float3 Shading	=	PBRDF(normalize(N),L,-normalize(wpos.xyz),Nor.w*127+1);
-				Color.xyz	+=	lightinfo.Color*((Shading.y+Shading.x)*pow(saturate(1-length(LDir)/lightinfo.Pos_Size.w),2));//*saturate(1-length(LDir)/lightinfo.Pos_Size.w);
-			
+
+				float3 vColor	=	lightinfo.Color*(pow(saturate(1-length(LDir)/lightinfo.Pos_Size.w),2));
+
+				vDiff.xyz	+=	vColor*Shading.x;//*saturate(1-length(LDir)/lightinfo.Pos_Size.w);
+				vSpec.xyz	+=	vColor*Shading.y;
 			}
 			
 			GroupMemoryBarrierWithGroupSync();
@@ -254,6 +259,6 @@ void	main(
 		//GroupMemoryBarrierWithGroupSync();
 	}
 #endif
-	OutLightTex[DTid.xy]=Color;//(float)tempLightCount*0.25f;
-
+	DiffLightTex[DTid.xy]=vDiff;//(float)tempLightCount*0.25f;
+	SpecLightTex[DTid.xy]=vSpec;
 }

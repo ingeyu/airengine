@@ -16,14 +16,13 @@ namespace	Air{
 			U1		Init(Camera* pMainCamera,U32	uiSplite	=	4);
 			U1		Release();
 			U1		UpdateCamera(Camera* pMainCamera);
-			U1		UpdateTarget();
+			U1		UpdateTarget(RenderTarget* pLighting);
 		protected:
 			void	BlurRenderTarget(RenderTarget* pDst,RenderTarget* pSrc);
 		protected:
 			Camera*						m_pMainCamera;
 			RenderTarget*				m_pShadowDepth;
 			RenderTarget*				m_pShadowDepthTemp;
-			RenderTarget*				m_pShadowMask;
 
 			Material*					m_pMaskMaterial;
 			Material*					m_pBlurX;

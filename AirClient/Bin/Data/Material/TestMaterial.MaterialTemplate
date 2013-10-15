@@ -184,6 +184,7 @@ MaterialTemplate	MT_ShadowMask
 	Phase	Manual
 	Pass
 	{
+		BlendState BS_AddBlending
 		DepthStencilState DS_CSM
 		VertexShader		"Shader/Quad"
 		{
@@ -267,8 +268,6 @@ MaterialTemplate	MT_Combine
 			Texture		2	2		SS_WarpLine2
 			Texture		3	3		SS_WarpLine2
 			Texture		4	4		SS_WarpLine2
-			Texture		5	5		SS_WarpLine2
-			Texture		6	6		SS_WarpLine2
 		}
 	}
 

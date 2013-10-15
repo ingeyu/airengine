@@ -22,7 +22,7 @@ namespace	Air{
 
 			virtual	U1		Initialization( Pipeline* pPipeline);
 			virtual	U1		Release();
-			virtual	void	Update(const FrameTime& frameTime);
+			virtual	void	Update(const FrameTime& frameTime,RenderTarget* pLighting);
 			virtual	void	AddPointLight(const Float3& pos,float fSize,const Float3& vColor);
 		//protected:
 			Material*			m_pPointMaterial;
@@ -42,7 +42,7 @@ namespace	Air{
 			TileBaseLight();
 			virtual	U1		Initialization( Pipeline* pPipeline);
 			virtual	U1		Release();
-			virtual	void	Update(const FrameTime& frameTime);
+			virtual	void	Update(const FrameTime& frameTime,RenderTarget* pLighting);
 			virtual	void	AddPointLight(const Float3& pos,float fSize,const Float3& vColor);
 			
 			virtual bool	RepetitionRun();

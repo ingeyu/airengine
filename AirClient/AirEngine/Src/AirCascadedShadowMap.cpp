@@ -12,7 +12,6 @@ namespace	Air{
 			m_pMainCamera	=	NULL;
 			m_pShadowDepth	=	NULL;
 			m_pShadowDepthTemp	=	NULL;
-			m_pShadowMask	=	NULL;
 			m_pMaskMaterial	=	NULL;
 			m_pQuad			=	NULL;
 			m_pBlurX		=	NULL;
@@ -41,18 +40,8 @@ namespace	Air{
 			m_pShadowDepth->SetClearFlag(true,true,true);
 			m_pShadowDepth->AddPhaseFlag(enPI_Shadow);
 			m_pShadowDepth->SetBKColor(Float4(1,1,1,1));
-			//rtinfo.SetSingleTarget(512,512,enTFMT_R32G32_FLOAT);
-			//m_pShadowDepthTemp	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget*>("CascadedShadowMapDepthTemp","Target",&rtinfo);
-			//m_pShadowDepthTemp->SetClearFlag(true,true,true);
-			//m_pShadowDepthTemp->AddPhaseFlag(enPI_Shadow);
-			//m_pShadowDepthTemp->SetBKColor(Float4(1,1,1,1));
-
 
 			
-			rtinfo.SetSingleTargetScreen(enTFMT_R8G8B8A8_UNORM,1.0f,true,RenderSystem::GetSingleton()->GetMainWindow());
-			m_pShadowMask	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget>("CascadedShadowMapMask",&rtinfo);
-			m_pShadowMask->SetClearFlag(false,true,false);
-			m_pShadowMask->SetBKColor(Float4(1,1,1,1));
 
 			Material::Info	blurinfo;
 			blurinfo.strTemplate	=	"MT_BlurX";
@@ -84,7 +73,6 @@ namespace	Air{
 		{
 			SAFE_RELEASE_REF(m_pShadowDepth);
 			SAFE_RELEASE_REF(m_pShadowDepthTemp);
-			SAFE_RELEASE_REF(m_pShadowMask);
 			SAFE_RELEASE_REF(m_pMaskMaterial);
 			SAFE_DELETE(m_pQuad);
 			SAFE_RELEASE_REF(m_pBlurX);
@@ -151,7 +139,7 @@ namespace	Air{
 			return true;
 		}
 
-		Air::U1 CascadedShadowMap::UpdateTarget()
+		Air::U1 CascadedShadowMap::UpdateTarget(RenderTarget* pLighting)
 		{
 			Air::Engine::PhaseOption opt;
 			opt.AddIndex(enPI_Shadow);
@@ -168,13 +156,11 @@ namespace	Air{
 				//BlurRenderTarget(m_pShadowDepthTemp,m_pShadowDepth);
 
 				//Shadow Mask
-				if(i==0){
-					m_pShadowMask->SetClearFlag(false,true,false);
-				}else{
-					m_pShadowMask->SetClearFlag(false,false,false);
-				}
-				if(m_pShadowMask->BeforeUpdate()){
-					Float4	matArray[14];
+				
+				pLighting->SetClearFlag(false,false,false);
+				
+				if(pLighting->BeforeUpdate()){
+					Float4	matArray[15];
 					Float44*	pMVPInv	=	(Float44*)&matArray[0];
 					Float44*	pSVP	=	(Float44*)&matArray[4];
 					Float44*	pSVPInv	=	(Float44*)&matArray[8];
@@ -186,13 +172,14 @@ namespace	Air{
 					*pSVP	=	m_vecCSMCamera[i]->GetViewProjMatrix();
 					*pSVPInv	=	*pSVP;
 					pSVPInv->Inverse();
-					matArray[12]	=	Float4(1.0f/m_pShadowMask->GetWidth(),1.0f/m_pShadowMask->GetHeight(),1.0f/m_pShadowMask->GetWidth(),1.0f/m_pShadowMask->GetHeight());
+					matArray[12]	=	Float4(1.0f/pLighting->GetWidth(),1.0f/pLighting->GetHeight(),1.0f/pLighting->GetWidth(),1.0f/pLighting->GetHeight());
 					matArray[13]	=	m_pMainCamera->GetPosition();
 					matArray[13].w	=	m_vecCSMCamera[i]->GetWidth()/(float)m_pShadowDepth->GetWidth();
+					matArray[14]	=	Float4(1,1,1,1);
 					m_pMaskMaterial->GetConstantBuffer()->UpdateData(matArray);
 					m_pMaskMaterial->RenderOneObject(m_pQuad);
 
-					m_pShadowMask->AfterUpdate();
+					pLighting->AfterUpdate();
 				}
 			}
 			return true;

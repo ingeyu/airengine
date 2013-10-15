@@ -15,6 +15,7 @@ cbuffer cbPerMaterial		: register( b3 )
 	matrix  mShadowViewProjInv;
    float4	vRTSize;
    float4   vViewPos;
+   float4	vLightColor;
 };
 
 struct VS_OUTPUT
@@ -24,7 +25,8 @@ struct VS_OUTPUT
 };
 
 struct	PS_OUTPUT{
-	float4	Color				:	SV_Target0;
+	float4	Diff				:	SV_Target0;
+	float4	Spec				:	SV_Target1;
 };
 
 Texture2D	ShadowDepthTex		:	register(t0);
@@ -205,14 +207,15 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 
    }
 
-	float3 fDot	=	PBRDF(N,-L,E,vNormal*127+1);
+	float3 vShading	=	PBRDF(N,-L,E,vNormal*127+1);
 	
 
 	PS_OUTPUT	Out;
 	float shadowValue	=	saturate((fRet/SHADOW_SAMPLE_NUMBER)+1);
-	float retShadow		=	0.5-cos(shadowValue*3.1415926f)*0.5;
+	float4 retColor		=	vLightColor*(0.5-cos(shadowValue*3.1415926f)*0.5);
 	
-	Out.Color						= float4((fDot.xy*(retShadow)),fDot.z,0);//vShadowPos.z > 0 &&	vShadowPos.z < oldZ + 0.0001f;//
+	Out.Diff						= vShading.x*(retColor);
+	Out.Spec						= vShading.y*(retColor);
 	return	Out;
    
 }

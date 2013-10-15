@@ -110,7 +110,7 @@ namespace	Air{
 			m_pSSAO			=	NULL;
 			m_pRT_AO		=	NULL;
 			m_pSSSO			=	NULL;
-			m_pRT_SO		=	NULL;
+			m_pRT_Lighting		=	NULL;
 
 			m_pRT_EnvSphere	=	NULL;
 			m_pRT_EnvSAT	=	NULL;
@@ -242,10 +242,14 @@ namespace	Air{
 
 
 
-
-			rtinfo.SetSingleTargetScreen(enTFMT_R8G8B8A8_UNORM,1.0f,false);
-			m_pRT_SO	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget>("SO",&rtinfo);
-			m_pRT_SO->SetClearFlag(false,true,false);
+			enumTextureFormat tarray[]={enTFMT_R16G16B16A16_FLOAT,enTFMT_R16G16B16A16_FLOAT};
+			rtinfo.SetMutilTargetScreen(2,tarray,1.0f,true,m_pMainWindow);
+			rtinfo.vecTextureInfo[0].SetViewFlag(enVF_SRV|enVF_RTV|enVF_UAV);
+			rtinfo.vecTextureInfo[1].SetViewFlag(enVF_SRV|enVF_RTV|enVF_UAV);
+			m_pRT_Lighting	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget>("Lighting",&rtinfo);
+			m_pRT_Lighting->SetClearFlag(false,true,false);
+			m_pRT_Lighting->AddCamera(m_pMainCamera);
+			m_pRT_Lighting->AddPhaseFlag(enPI_DeferredLight);
 
 			rtinfo.SetSingleTarget(1024,64,enTFMT_R8G8B8A8_UNORM);
 			m_pRT_EnvSphere	=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget>("EnvSphere",&rtinfo);
@@ -298,7 +302,7 @@ namespace	Air{
 			SAFE_RELEASE_REF(m_pAmbientLight);
 
 			SAFE_RELEASE_REF(m_pSSSO);
-			SAFE_RELEASE_REF(m_pRT_SO);
+			SAFE_RELEASE_REF(m_pRT_Lighting);
 			SAFE_RELEASE_REF(m_pRT_EnvSphere);
 			SAFE_RELEASE_REF(m_pRT_EnvSAT);
 
@@ -330,7 +334,7 @@ namespace	Air{
 			//m_Tesellation.UpdateTarget(pMainCamera);
 			//m_VoxelGen.Update(NULL);
 
-			m_CSM.UpdateTarget();
+			
 			
 
 
@@ -379,9 +383,9 @@ namespace	Air{
 			}
 			*/
 			//DefferredLighting
-			m_DL.Update(frameTime);
-			m_TBL.Update(frameTime);
-
+			//m_DL.Update(frameTime,m_pRT_Lighting);
+			m_TBL.Update(frameTime,m_pRT_Lighting);
+			m_CSM.UpdateTarget(m_pRT_Lighting);
 			//SSAO
 			m_pMainWindow->SetClearFlag(false,true,false);
 			if(m_pMainWindow->BeforeUpdate()){

@@ -51,7 +51,7 @@ namespace	Air{
 			return true;
 		}
 
-		void DefferredLight::Update(const FrameTime& frameTime)
+		void DefferredLight::Update(const FrameTime& frameTime,RenderTarget* pLighting)
 		{
 			
 			if(m_pLightBuffer->BeforeUpdate()){
@@ -106,20 +106,20 @@ namespace	Air{
 			m_pLayerBuffer	=	NULL;
 			m_vecPointLight.reserve(1024);
 			memset(m_LayerInfo,0,sizeof(LayerInfo)*256);
-			m_MainWaitBackEvent.Reset();
+			//m_MainWaitBackEvent.Reset();
 		}
 		
 		Air::U1 TileBaseLight::Initialization( Pipeline* pPipeline )
 		{
 			m_pCSRenderable		=	new	CSRenderable;
 			m_pPipeline			=	pPipeline;
-			RenderTarget::Info	info;
-			info.SetSingleTargetScreen(enTFMT_R16G16B16A16_FLOAT,1.0f,true,pPipeline->GetMainWindow());
-			info.vecTextureInfo[0].SetViewFlag(enVF_SRV|enVF_UAV);
-			m_pLightBuffer		=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget>("TileBaseLighting",&info);
-			m_pLightBuffer->AddPhaseFlag(enPI_DeferredLight);
-			m_pLightBuffer->AddCamera(pPipeline->GetMainCamera());
-			m_pLightBuffer->SetClearFlag(false,true,false);
+			//RenderTarget::Info	info;
+			//info.SetSingleTargetScreen(enTFMT_R16G16B16A16_FLOAT,1.0f,true,pPipeline->GetMainWindow());
+			//info.vecTextureInfo[0].SetViewFlag(enVF_SRV|enVF_UAV);
+			//m_pLightBuffer		=	RenderSystem::GetSingleton()->CreateProduct<RenderTarget>("TileBaseLighting",&info);
+			//m_pLightBuffer->AddPhaseFlag(enPI_DeferredLight);
+			//m_pLightBuffer->AddCamera(pPipeline->GetMainCamera());
+			//m_pLightBuffer->SetClearFlag(false,true,false);
 
 			Buffer::Info binfo;
 			binfo.SetStructureBuffer(32768,sizeof(PointLightInfo));
@@ -132,21 +132,21 @@ namespace	Air{
 			m_pSphere			=	NULL;//EngineSystem::GetSingleton()->CreateProduct<MeshEntity>("PointLight",&meshInfo);
 
 			
-			for(U32 i=0;i<32768;i++){
-				Float3 vPos(
-					Common::Number::RandomF(),
-					0,
-					Common::Number::RandomF()
-					);
-				vPos	=	vPos*2-Float3(1,1,1);
-				vPos.y=0.003;
-				Float3 vColor(
-					Common::Number::RandomF(),
-					Common::Number::RandomF(),
-					Common::Number::RandomF()
-					);
-				AddPointLight(vPos*100,2,vColor*10);
-			}
+			//for(U32 i=0;i<32768;i++){
+			//	Float3 vPos(
+			//		Common::Number::RandomF(),
+			//		0,
+			//		Common::Number::RandomF()
+			//		);
+			//	vPos	=	vPos*2-Float3(1,1,1);
+			//	vPos.y=0.003;
+			//	Float3 vColor(
+			//		Common::Number::RandomF(),
+			//		Common::Number::RandomF(),
+			//		Common::Number::RandomF()
+			//		);
+			//	AddPointLight(vPos*100,2,vColor);
+			//}
 			StartThread();
 			return true;
 		}
@@ -161,7 +161,7 @@ namespace	Air{
 			return __super::Release();
 		}
 
-		void TileBaseLight::Update( const FrameTime& frameTime )
+		void TileBaseLight::Update( const FrameTime& frameTime,RenderTarget* pLighting )
 		{
 			if(m_vecPointLight.empty()){
 				m_vecLayeredLight.resize(32768);
@@ -178,8 +178,8 @@ namespace	Air{
 			//BuildSO();
 
 			Render::Device* pDevice	=	RenderSystem::GetSingleton()->GetDevice();
-			void* p	=	m_pLightBuffer->GetUAV();
-			pDevice->SetUAV(1,(void**)&p);
+			void* pLightingUAV[]	=	{pLighting->GetUAV(0),pLighting->GetUAV(1)};
+			pDevice->SetUAV(2,(void**)pLightingUAV);
 
 			
 
@@ -195,7 +195,7 @@ namespace	Air{
 			pDevice->SetSRV(enCS,3,m_pLayerBuffer->GetSRV());
 
 			Float4 v[10];
-			v[0]=Float4(m_pLightBuffer->GetWidth(),m_pLightBuffer->GetHeight(),0,0);
+			v[0]=Float4(pLighting->GetWidth(),pLighting->GetHeight(),0,0);
 			Matrix* pProjInvMat	=	(Matrix*)&v[1];
 			m_pPipeline->GetMainCamera()->GetProjMatrix(*pProjInvMat);
 			pProjInvMat->Inverse();
@@ -217,15 +217,16 @@ namespace	Air{
 
 
 			m_pPointMaterial->GetConstantBuffer()->UpdateData(v);
-			int x	=	(m_pLightBuffer->GetWidth()+15)>>4;
-			int y	=	(m_pLightBuffer->GetHeight()+15)>>4;
+			int x	=	(pLighting->GetWidth()+15)>>4;
+			int y	=	(pLighting->GetHeight()+15)>>4;
 			m_pCSRenderable->m_Dispatch[0]	=	x;
 			m_pCSRenderable->m_Dispatch[1]	=	y;
 			m_pPointMaterial->RenderOneObject(m_pCSRenderable);
 
 			pDevice->SetShader(enCS,NULL);
-			p=NULL;
-			pDevice->SetUAV(1,(void**)&p);
+			pLightingUAV[0]=NULL;
+			pLightingUAV[1]=NULL;
+			pDevice->SetUAV(2,(void**)pLightingUAV);
 
 			//m_vecPointLight.clear();
 		}

@@ -85,6 +85,7 @@ Material	ShadowMask	:	MT_ShadowMask
 	Matrix
 	Vector	1 1 1 1
 	Vector	1 1 1 1
+	Vector	1 1 1 1
 	Texture CascadedShadowMapDepth
 	Texture MRT0
 	Texture Texture/4x4.png
@@ -94,11 +95,9 @@ Material	Combine		:	MT_Combine
 {
 	Texture MRT2
 	Texture AO
-	Texture CascadedShadowMapMask
-	Texture SO
 	Texture MRT4
-	Texture DefferredLight
-	Texture TileBaseLighting
+	Texture Lighting0
+	Texture Lighting1
 }
 Material	Sky		:	MT_Sky
 {

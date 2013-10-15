@@ -87,7 +87,7 @@ namespace	Air{
 			RenderTarget*	m_pMRT;
 
 			RenderTarget*	m_pRT_AO;
-			RenderTarget*	m_pRT_SO;
+			RenderTarget*	m_pRT_Lighting;
 
 			RenderTarget*	m_pRT_EnvSphere;
 			RenderTarget*	m_pRT_EnvSAT;
