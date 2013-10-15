@@ -75,11 +75,11 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 	ao*=0.25f;
 
 	float4  emissive	=	EmissiveTex.Sample(SS_WrapLine2,Input.UV);
-	float4	dlight		=	DiffLightTex.Sample(SS_WrapLine2,uv);
+	float4	dlight		=	DiffLightTex.Sample(SS_WrapLine2,Input.UV);
 	float4	slight		=	SpecLightTex.Sample(SS_WrapLine2,Input.UV);
 	//emissive.xyz+ao.xyz*diff.w+
-	float4 finalcolor	=	float4(emissive.xyz+(dlight.xyz+ao.xyz+slight)*diff,1);
-	Out.Color			=	ToneMapping(finalcolor,2);
+	float4 finalcolor	=	(emissive+(dlight+ao+slight)*diff);
+	Out.Color			=	ToneMapping(finalcolor,1);
 	return	Out;
    
 }

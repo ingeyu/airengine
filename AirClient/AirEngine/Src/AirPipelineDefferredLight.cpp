@@ -228,7 +228,7 @@ namespace	Air{
 			pLightingUAV[1]=NULL;
 			pDevice->SetUAV(2,(void**)pLightingUAV);
 
-			//m_vecPointLight.clear();
+			m_vecPointLight.clear();
 		}
 		void TileBaseLight::AddPointLight( const Float3& pos,float fSize,const Float3& vColor )
 		{
