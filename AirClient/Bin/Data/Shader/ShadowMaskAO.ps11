@@ -140,7 +140,7 @@ float3	PBRDF(float3 N,float3	L,float3 E,float fShiness){
 float2 GetOffset2(int   i,float2 inituv,float fNoise){
    
    float fsin,fcos;
-   sincos((i/(0.5f-0.5f/SHADOW_SAMPLE_NUMBER)+fNoise*2)*3.1415926f,fsin,fcos);
+   sincos((i/(0.6f-0.6f/SHADOW_SAMPLE_NUMBER)+fNoise*2)*3.1415926f,fsin,fcos);
    float2x2 rot   =   float2x2(fcos,-fsin,fsin,fcos);
    return mul(inituv,rot)*(pow(i+1.1,1.2));
 };
@@ -207,7 +207,7 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 
    }
 
-	float3 vShading	=	PBRDF(N,-L,E,vNormal*127+1);
+	float3 vShading	=	PBRDF(N,-L,E,vNormal.w*127+1);
 	
 
 	PS_OUTPUT	Out;

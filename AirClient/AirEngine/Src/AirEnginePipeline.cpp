@@ -389,7 +389,7 @@ namespace	Air{
 			//SSAO
 			m_pMainWindow->SetClearFlag(false,true,false);
 			if(m_pMainWindow->BeforeUpdate()){
-
+				m_pMainCamera->Render2D(m_pMainWindow->GetWidth(),m_pMainWindow->GetHeight());
 				//m_pSSAO->RenderOneObject(m_pQuad);
 				//m_pQuadCopy->RenderOneObject(m_pQuad);
 				m_pCombine->RenderOneObject(m_pQuad);

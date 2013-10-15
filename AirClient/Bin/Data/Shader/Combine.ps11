@@ -65,12 +65,13 @@ PS_OUTPUT main( VS_OUTPUT Input ){
 
 	PS_OUTPUT	Out;
 	float4	diff		=	DiffuseTex.Sample(SS_WrapLine2,Input.UV);
+	float4	ao1			=	AOTex.Sample(SS_WrapLine2,uv);
 	float4	ao			=	0;//AOTex.Sample(SS_WrapLine2,Input.UV);
 	
-	ao+=AOTex.Sample(SS_WrapLine2,uv+float2(1,1)*vVP_NearFar.xy);
-	ao+=AOTex.Sample(SS_WrapLine2,uv+float2(-1,-1)*vVP_NearFar.xy);
-	ao+=AOTex.Sample(SS_WrapLine2,uv+float2(1,-1)*vVP_NearFar.xy);
-	ao+=AOTex.Sample(SS_WrapLine2,uv+float2(-1,1)*vVP_NearFar.xy);
+	ao+=AOTex.SampleLevel(SS_WrapLine2,uv+float2(1,1)*vVP_NearFar.xy,0);
+	ao+=AOTex.SampleLevel(SS_WrapLine2,uv+float2(-1,-1)*vVP_NearFar.xy,0);
+	ao+=AOTex.SampleLevel(SS_WrapLine2,uv+float2(1,-1)*vVP_NearFar.xy,0);
+	ao+=AOTex.SampleLevel(SS_WrapLine2,uv+float2(-1,1)*vVP_NearFar.xy,0);
 	ao*=0.25f;
 
 	float4  emissive	=	EmissiveTex.Sample(SS_WrapLine2,Input.UV);

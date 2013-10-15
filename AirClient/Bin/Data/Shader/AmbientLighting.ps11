@@ -9,8 +9,8 @@ SamplerState	ss_wrappoint	:	register(s0);
 SamplerState	ss_clampline2	:	register(s1);
 SamplerState	ss_clampline3	:	register(s2);
 
-#define SAMPLER_NUM 1
-#define STEP_NUM	8
+#define SAMPLER_NUM 3
+#define STEP_NUM	5
 cbuffer cbPerCamera		: register( b1 )
 {
     matrix  ViewProjection;
@@ -98,7 +98,7 @@ float4 main( VS_OUTPUT Input ) : SV_Target
       [loop]
       for(int j=0;j<STEP_NUM;j++){
 	  	 
-         float2 UV     =   tempuv*pow(j+1,1.5)   +Input.UV;
+         float2 UV     =   tempuv*pow(j+1,1.75)   +Input.UV;
          float4 XY     =   GenPos(UV,j);
          XY.xyz   -=   oldPos.xyz;
          float fdot   =   dot(viewDir.xyz,normalize(XY.xyz));
