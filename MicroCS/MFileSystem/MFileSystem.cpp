@@ -83,3 +83,10 @@ void MFileSystem::DisConnectClient( U32 uiSocket )
 	if(m_pServer!=NULL)
 		m_pServer->OnClose(uiSocket);
 }
+
+void MFileSystem::Update(float fTimeDelta)
+{
+	MDownloadSystem::GetSingleton()->Update(fTimeDelta);
+
+	MIOSystem::GetSingleton()->Update(fTimeDelta);
+}

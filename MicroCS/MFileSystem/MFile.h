@@ -26,9 +26,9 @@ public:
 	U64		GetFileID(){
 		return m_id;
 	};
-	U32		GetFileSize();
+	U32		GetDataSize();
 	void	AddNotify(const NotifyInfo& info);
-	void	GetData(void*	pOut,U32 uiSize=0xffffffff);
+	void*	GetData();
 protected:
 	U64				m_id;
 	U32				m_uiSize;

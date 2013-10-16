@@ -89,13 +89,16 @@ void MFile::AddNotify( const NotifyInfo& info )
 	m_NotifyCS.Leave();
 }
 
-void MFile::GetData( void*	pOut,U32 uiSize )
+void* MFile::GetData()
 {
-	U32 uiMinSize	=	min(uiSize,m_Data.size());
-	memcpy(pOut,&m_Data[0],uiMinSize);
+	if(m_Data.empty())
+		return NULL;
+	return &m_Data[0];
+	//U32 uiMinSize	=	min(uiSize,m_Data.size());
+	//memcpy(pOut,&m_Data[0],uiMinSize);
 }
 
-U32 MFile::GetFileSize()
+U32 MFile::GetDataSize()
 {
 	return m_Data.size();
 }

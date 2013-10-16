@@ -1,4 +1,5 @@
 #include "MIOSystem.h"
+#include "MFile.h"
 
 MIOSystem::MIOSystem()
 {
@@ -17,6 +18,7 @@ U1 MIOSystem::Initialization()
 
 U1 MIOSystem::Release()
 {
+	Update(0);
 	return true;
 }
 
@@ -48,7 +50,7 @@ U1 MIOSystem::LoadFile( U64	fileID,STD_VECTOR<U8>& data )
 	return true;
 }
 
-U1 MIOSystem::SaveFile( U64	fileID,const	STD_VECTOR<U8>& data )
+U1 MIOSystem::SaveFile( U64	fileID,const void* pData,U32 uiSize )
 {
 	TCHAR* strName[MAX_PATH];
 	swprintf((TCHAR*)strName,
@@ -59,13 +61,29 @@ U1 MIOSystem::SaveFile( U64	fileID,const	STD_VECTOR<U8>& data )
 	FILE* p	=	_wfopen((const TCHAR*)strName,_T("wb"));
 	if(p==NULL)
 		return false;
-	fwrite(&data[0],data.size(),1,p);
+	fwrite(pData,uiSize,1,p);
 
 	fclose(p);
 	return TRUE;
 }
 
+void MIOSystem::SaveFile( U64 fileID,const STD_VECTOR<U8>& data )
+{
+	SaveFile(fileID,&data[0],data.size());
+}
+
 U1 MIOSystem::SaveFileBackground( MFile* pFile )
 {
+	m_lstFile.push_back(pFile);
 	return true;
+}
+
+void MIOSystem::Update( float fTimeDelta )
+{
+	STD_LIST<MFile*>::iterator	i	=	m_lstFile.begin();
+	for(;i!=m_lstFile.end();i++){
+		SaveFile((*i)->GetFileID(),(*i)->GetData(),(*i)->GetDataSize());
+		(*i)->ReleaseRef();
+	}
+	m_lstFile.clear();
 }

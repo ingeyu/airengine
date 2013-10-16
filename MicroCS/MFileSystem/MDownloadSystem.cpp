@@ -142,9 +142,7 @@ void MDownloadSystem::Update( const float fTimeDelta )
 				pDownload=NULL;
 			}
 		}
-		char strName[MAX_PATH];
-		sprintf_s(strName,"%016llx",pDownload->fileID);
-		m_pBackDownloadFile	=	MFileSystem::GetSingleton()->CreateProduct<MFile>(strName,&pDownload->fileID);
+		m_pBackDownloadFile	=	MFileSystem::GetSingleton()->CreateFile(pDownload->fileID);
 		m_pDownloadingFile	=	m_pBackDownloadFile;
 	}
 	//if has task,send request
@@ -171,6 +169,8 @@ void MDownloadSystem::OnDownloadComplated( MFile* pFile,U1 bOK )
 	if(bOK){
 		pFile->OnDownloadComplated(true);
 		MIOSystem::GetSingleton()->SaveFileBackground(pFile);
+	}else{
+		SAFE_RELEASE_REF(pFile);
 	}
-	SAFE_RELEASE_REF(pFile);
+	
 }

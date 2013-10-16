@@ -21,18 +21,20 @@ MClient::MClient( CAString& strName,Info* pInfo ):Air::Common::IProduct(strName)
 
 U1 MClient::Create()
 {
+	StartThread();
 	return	true;
 }
 
 U1 MClient::Destroy()
 {
-
+	StopThreadWaitForExit();
 	SAFE_RELEASE_REF(m_pFile);
 	return true;
 }
 
 U1 MClient::OnConnected( U32 socket,CAString& strIP,CAString& strPort )
 {
+	
 	return true;
 }
 
@@ -82,7 +84,7 @@ void MClient::OnFileLoadComplated( U32 uiOffset,MFile* pFile )
 
 	U8*	pBuffer			=	(U8*)(++pInfo);
 	
-	pFile->GetData(pBuffer,0xffffffff);
+	memcpy(pBuffer,pFile->GetData(),pFile->GetDataSize());//pBuffer,0xffffffff);
 	pInfo->ret		=	1;
 	pInfo->mark		=	0xFFFFFFFF;
 }
@@ -96,7 +98,7 @@ void MClient::OnFileLoadFailed( U32 uiOffset,MFile* pFile )
 
 void MClient::Update( float fTimeDelta )
 {
-	m_FSWaitClient.Wait();
+	m_FSWaitClient.Wait(100);
 	CSInfo*	pInfo		=	(CSInfo*)m_pFile->GetLockedBuffer();
 	if(pInfo->mark==1){
 		LoadFile(pInfo->FileID);
@@ -105,9 +107,7 @@ void MClient::Update( float fTimeDelta )
 
 void MClient::LoadFile( U64 fileID )
 {
-	char strName[MAX_PATH];
-	sprintf_s(strName,"%016llx",fileID);
-	MFile*	pFile	=	MFileSystem::GetSingleton()->CreateProduct<MFile>(strName,&fileID);
+	MFile*	pFile	=	MFileSystem::GetSingleton()->CreateFile(fileID);
 	if(pFile!=NULL){
 		NotifyInfo info;
 		info.pClient	=	this;
@@ -115,4 +115,10 @@ void MClient::LoadFile( U64 fileID )
 		pFile->AddNotify(info);
 		pFile->ReleaseRef();
 	}
+}
+
+bool MClient::RepetitionRun()
+{
+	Update(0);
+	return true;
 }

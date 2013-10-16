@@ -5,6 +5,7 @@
 class MFile;
 class MClient	:	
 	public	Air::Common::IProduct,
+	public	Air::Common::Thread,
 	public	Air::Common::NetListener
 {
 public:
@@ -21,6 +22,8 @@ public:
 	virtual	U1	OnReceive(U32	uiSocket,AChar*	pData,U32	uiSize);
 	void		OnFileLoadComplated(U32 uiOffset,MFile* pFile);
 	void		OnFileLoadFailed(U32 uiOffset,MFile* pFile);
+
+	virtual bool RepetitionRun();
 protected:
 	void		LoadFile(U64 fileID);
 protected:

@@ -16,6 +16,7 @@ public:
 
 	U1		Initialization();
 	U1		Release();
+	void	Update(float fTimeDelta);
 
 	virtual	U1	OnConnected(U32	socket,CAString&	strIP,CAString&	strPort);
 	virtual	U1	OnClose(U32	uiSocket);
