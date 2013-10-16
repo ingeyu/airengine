@@ -10,34 +10,22 @@
 
 
 void	Compress(unsigned char* p,unsigned int iSize,const _TCHAR* strName){
-	unsigned char buffer[262144];
+
 	unsigned long destSize=0;
 	unsigned char* workmem = (unsigned char*)malloc(1048576);
 
 	std::wstring strCompress	=	std::wstring(strName)+L".lzo";
 	FILE* pFile	=	_wfopen(strCompress.c_str(),L"wb");
 
-
+	unsigned char* pDST=(unsigned char*)malloc(iSize+4096);
+	lzo1x_1_compress(p,iSize,pDST,&destSize,workmem);
 
 	unsigned int iBlock	=	(iSize+65535)>>16;
 	fwrite(&iSize,4,1,pFile);
-	fwrite(&iBlock,4,1,pFile);
-	for(int i=0;i<iBlock;i++){
-		int iRealSize	=	65536;
-		if(i==iBlock-1){
-			iRealSize	=	iSize&0xffff;
-			if(iRealSize==0){
-				iRealSize=65536;
-			}
-		}
-		lzo1x_1_compress(&p[65536*i],iRealSize,buffer,&destSize,workmem);
-		if(pFile!=NULL){
-			fwrite(&destSize,4,1,pFile);
-			fwrite(buffer,destSize,1,pFile);
-		}
-	}
+	fwrite(&destSize,4,1,pFile);
+	fwrite(pDST,destSize,1,pFile);
 	free(workmem);
-
+	free(pDST);
 
 
 	if(pFile!=NULL){
@@ -46,7 +34,7 @@ void	Compress(unsigned char* p,unsigned int iSize,const _TCHAR* strName){
 }
 
 void	DeCompress(unsigned char* p,unsigned int iSize,const _TCHAR* strName){
-	unsigned char buffer[262144];
+
 	unsigned long destSize=0;
 	unsigned char* workmem = (unsigned char*)malloc(1048576);
 
@@ -62,23 +50,12 @@ void	DeCompress(unsigned char* p,unsigned int iSize,const _TCHAR* strName){
 	_wfopen_s(&pFile,strDeCompress.c_str(),L"wb");
 	unsigned char* pStart	=	p;
 	unsigned int iOldSize	=	*(unsigned int*)p;p+=4;
-	unsigned int iBlock		=	*(unsigned int*)p;p+=4;
+	unsigned int iCompressSize		=	*(unsigned int*)p;p+=4;
 	
-	for(int i=0;i<iBlock;i++){
-		int iRealSize	=	65536;
-		if(i==iBlock-1){
-			iRealSize	=	iOldSize&0xffff;
-			if(iRealSize==0){
-				iRealSize=65536;
-			}
-		}
-		unsigned int iBlockSize	=	*(unsigned int*)p;p+=4;
-		lzo1x_decompress(p,iBlockSize,buffer,&destSize,workmem);
-		p+=iBlockSize;
-		if(pFile!=NULL){
-			fwrite(buffer,iRealSize,1,pFile);
-		}
-	}
+	unsigned char* pDST	=	(unsigned char*)malloc(iOldSize);
+
+	lzo1x_decompress((unsigned char*)p,iCompressSize,pDST,(unsigned long*)&iOldSize,workmem);
+	fwrite(pDST,iOldSize,1,pFile);
 
 	free(workmem);
 
@@ -109,7 +86,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	unsigned char* p	=	NULL;
 
-	HANDLE h = (HANDLE)CreateFile(argv[1],GENERIC_READ ,FILE_SHARE_READ |FILE_SHARE_WRITE,NULL,OPEN_EXISTING ,0,0 );
+	HANDLE h = (HANDLE)CreateFile(argv[1],GENERIC_READ ,FILE_SHARE_READ,NULL,OPEN_EXISTING ,0,0 );
 	if(h==(HANDLE)0xffffffff){
 		return -3;
 	}
