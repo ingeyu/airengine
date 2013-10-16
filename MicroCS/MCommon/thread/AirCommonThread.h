@@ -1,0 +1,171 @@
+
+#ifndef COMMONTHREAD_HEAD_FILE
+#define COMMONTHREAD_HEAD_FILE
+
+#include "MCommon.h"
+
+namespace Air{
+	
+	
+	namespace	Common{
+		/**	\brief	线程类
+		*
+		*	单独开一条线程 请使用这个类
+		*
+		***/
+		class MCOMMON_EXPORT Thread	:	public	MemoryObject{
+	
+		public:
+			Thread();
+			virtual ~Thread();
+			/**	\brief	开始执行
+			*   
+			*	@remarks 	开始执行
+			*	@see		Thread
+			*	@return   	bool
+			*	@note		不论线程当前的状态是 挂起 暂停 停止，调用此函数都会激活线程
+			*
+			**/
+			virtual bool StartThread();
+			/**	\brief	停止线程
+			*   
+			*	@remarks 	停止线程
+			*	@see		Thread
+			*	@return   	bool
+			*	@note
+			*
+			**/
+			virtual bool StopThread();
+	
+			/**	\brief	停止线程
+			*   
+			*	@remarks 	并且等到到线程退出
+			*	@see		Thread
+			*	@return   	bool
+			*	@note
+			*
+			**/
+			virtual	bool StopThreadWaitForExit();
+	
+			/**	\brief	停止线程
+			*   
+			*	@remarks 	等到超时	超时就强行终结
+			*	@see		Thread
+			*	@return   	bool
+			*	@param		int iTime
+			*	@note
+			*
+			**/
+			virtual	bool StopThreadWaitTimeOut(int iTime);
+	
+			/**	\brief	挂起
+			*   
+			*	@remarks 	挂起
+			*	@see		Thread
+			*	@return   	bool
+			*	@note
+			*
+			**/
+			virtual bool Suspend();
+			/**	\brief	恢复
+			*   
+			*	@remarks 	恢复
+			*	@see		Thread
+			*	@return   	bool
+			*	@note
+			*
+			**/
+			virtual bool Resume();
+			/**	\brief	设置暂停时的休眠间隔
+			*   
+			*	@remarks 	仅在休眠时有效
+			*	@see		Thread
+			*	@return   	void
+			*	@param		unsigned int dwMilliseconds
+			*	@note		
+			*
+			**/
+			virtual void SetSleepTime(unsigned int dwMilliseconds = 10);
+			/**	\brief	判断线程是否处于激活状态
+			*   
+			*	@remarks 	当暂停 停止 挂起 都会返回false
+			*	@see		Thread
+			*	@return   	bool
+			*	@note
+			*
+			**/
+			virtual bool IsRunning();
+			/**	\brief	暂停线程
+			*   
+			*	@remarks 	暂停线程
+			*	@see		Thread
+			*	@return   	bool
+			*	@param		bool pause
+			*	@note
+			*
+			**/
+			virtual bool PauseThread(bool pause = true);
+	
+			/**	\brief	同步暂停线程
+			*   
+			*	@remarks 	保证该线程已经执行完 一个循环 处于空闲状态
+			*	@see		Thread
+			*	@return   	U1
+			*	@note
+			*
+			**/
+			virtual	U1		PauseThreadSync();
+			/**	\brief	挂起
+			*   
+			*	@remarks 	挂起
+			*	@see		Thread
+			*	@return   	bool
+			*	@note
+			*
+			**/
+			virtual U1		SuspendSync();
+			/**	\brief	子类需要重写的循环调用函数
+			*   
+			*	@remarks 	线程自身的执行函数
+			*	@see		Thread
+			*	@return   	bool
+			*	@note
+			*
+			**/
+			virtual bool RepetitionRun()=0;
+	
+			/**	\brief	获取线程句柄
+			*   
+			*	@remarks 	获取线程句柄
+			*	@see		Thread
+			*	@return   	HANDLE
+			*	@note
+			*
+			**/
+			HANDLE	GetHandle(){
+				return	(HANDLE)m_hHandle;
+			};
+			/**	\brief	线程自身的执行函数
+			*   
+			*	@remarks 	线程自身的执行函数
+			*	@see		Thread
+			*	@return   	unsigned int __stdcall
+			*	@param		void * pThread
+			*	@note
+			*
+			**/
+			static	unsigned int __stdcall Run(void* pThread);
+		protected:	
+			
+			U1		m_bPause;				///<	暂停
+			U1		m_bExit;				///<	退出
+			U1		m_bSuspend;				///<	挂起
+			HANDLE	m_hHandle;				///<	线程句柄
+			U32		m_iThreadID;			///<	线程ID
+			U32		m_pSleepTime;			///<	休眠间隔时间
+	
+			U1		m_bHasPause;			///<	是否已经暂停
+		};
+	}
+};
+#endif
