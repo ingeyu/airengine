@@ -4,28 +4,31 @@
 
 
 class MFile;
+class MClient;
 
 class MFileSystem	:	
 	public	Air::Common::IFactoryManager,
-	public	Singleton<MFileSystem>,
-	public	Air::Common::NetListener
+	public	Singleton<MFileSystem>
 {
 public:
 	MFileSystem();
 	virtual	~MFileSystem();
 
-	U1		Initialization();
-	U1		Release();
-	void	Update(float fTimeDelta);
+	U1				Initialization();
+	U1				Release();
+	void			Update(float fTimeDelta);
 
-	virtual	U1	OnConnected(U32	socket,CAString&	strIP,CAString&	strPort);
-	virtual	U1	OnClose(U32	uiSocket);
-	virtual	U1	OnReceive(U32	uiSocket,AChar*	pData,U32	uiSize);
 
-	MFile*		CreateFile(U64	id);
-	void		SendToClient(U32 uiSocket,const void* p,U32 uiSize);
-	void		DisConnectClient(U32 uiSocket);
+	MFile*			CreateMFile(U64	id);
 
-	Air::Common::NetServer*	m_pServer;
+	void			ScanProcess(const TCHAR* strName);
+	const FileInfo& GetFileInfo(U32 idx);
+protected:
+	void			LoadFileIndex();
+protected:
+	STD_MAP<U32,MClient*>	m_mapClient;
+	Air::FileMapping*		m_pShareFileInfo;
+	FileInfoMap				m_mapFileInfo;
+	HANDLE					m_hFileSystemInit;
 };
 #endif // MFileSystem_h__

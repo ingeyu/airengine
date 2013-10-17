@@ -18,12 +18,15 @@ public:
 	U1			SaveFileBackground(MFile* pFile);
 	void		Update(float fTimeDelta);
 
-	U1			LoadFile(U64	fileID,STD_VECTOR<U8>& data);
-	U1			SaveFile(U64	fileID,const void* pData,U32 uiSize);//const	STD_VECTOR<U8>& data);
-	void		SaveFile(U64	fileID,const	STD_VECTOR<U8>& data);
+	U1			LoadFile(FileInfo& info,STD_VECTOR<U8>& data);
+	U1			SaveFile(FileInfo& info,const void* pData,U32 uiSize);//const	STD_VECTOR<U8>& data);
+	void		SaveFile(FileInfo& info,const	STD_VECTOR<U8>& data);
+	HANDLE		GetFileHandle(U32 uiSize,U32* pIndex=NULL);
+	HANDLE		GetFileHandleByIndex(U32	idx);
 protected:
 
-	STD_VECTOR<U32>		m_vecFileMask;
+	HANDLE		m_FileData[FILEDATA_COUNT];
+	U32			m_uiOffset[FILEDATA_COUNT];
 	STD_LIST<MFile*>	m_lstFile;
 };
 #endif // MIOSystem_h__

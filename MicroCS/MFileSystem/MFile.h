@@ -11,7 +11,7 @@ struct NotifyInfo{
 class MFile	:	public	Air::Common::IProduct{
 public:
 	static AString	ProductTypeName;
-	typedef U64	Info;
+	typedef FileInfo	Info;
 
 public:
 	MFile(CAString& strName,Info* pInfo);
@@ -21,18 +21,17 @@ public:
 	U1			IsDownloading(){
 		return m_bDownloading;
 	}
-	void	OnDownloading(U32 uiOffset,const void* p,U32 uiSize);
-	void	OnDownloadComplated(U1	bOK);
-	U64		GetFileID(){
-		return m_id;
+	void		OnDownloading(U32 uiOffset,const void* p,U32 uiSize);
+	void		OnDownloadComplated(U1	bOK);
+	U64			GetFileID(){
+		return m_pInfo->fileid;
 	};
-	U32		GetDataSize();
-	void	AddNotify(const NotifyInfo& info);
-	void*	GetData();
+	U32			GetDataSize();
+	FileInfo&	GetFileInfo();
+	void		AddNotify(const NotifyInfo& info);
+	void*		GetData();
 protected:
-	U64				m_id;
-	U32				m_uiSize;
-	U32				m_uiCompressSize;
+	Info*			m_pInfo;
 	STD_VECTOR<U8>	m_Data;
 	U1				m_bDownloading;
 

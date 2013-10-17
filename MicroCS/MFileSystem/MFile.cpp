@@ -6,18 +6,14 @@
 AString	MFile::ProductTypeName	=	"MFile";
 MFile::MFile( CAString& strName,Info* pInfo ):Air::Common::IProduct(strName)
 {
-	if(pInfo!=NULL)
-		m_id	=	*pInfo;
-	else
-		m_id	=	0;
-	m_uiSize	=	0;
-	m_uiCompressSize	=	0;
+	m_pInfo	=	pInfo;
 	m_bDownloading	=	false;
 }
 
 U1 MFile::Create()
 {
-	if(MIOSystem::GetSingleton()->LoadFile(m_id,m_Data)){
+	if(m_pInfo->offset)
+	if(MIOSystem::GetSingleton()->LoadFile(*m_pInfo,m_Data)){
 		return true;
 	}
 	m_bDownloading	=	true;
@@ -101,4 +97,9 @@ void* MFile::GetData()
 U32 MFile::GetDataSize()
 {
 	return m_Data.size();
+}
+
+FileInfo& MFile::GetFileInfo()
+{
+	return *m_pInfo;
 }

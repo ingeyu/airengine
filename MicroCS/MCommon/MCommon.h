@@ -54,14 +54,15 @@ typedef wchar_t				WChar;
 #define		STD_LIST						std::list
 #define		STD_VECTOR						std::vector
 #define		STD_MAP							std::map
+#define		STD_SET							std::set
 #define		STD_HASHMAP						stdext::hash_map
 #define		STD_QUEUE						std::queue
 
 
 extern "C"	MCOMMON_EXPORT	void*	__Alloc(unsigned int	uiSize);
 extern "C"	MCOMMON_EXPORT	void	__Free(void*	p);
-extern "C"	MCOMMON_EXPORT	S32		MCompress(const void* pSrc,U32 iSize,void*& pDest,U32& uiDestSize);
-extern "C"	MCOMMON_EXPORT	S32		MDescompress(const void* pSrc,U32 iSize,void*& pDest,U32& uiDestSize);
+extern "C"	MCOMMON_EXPORT	S32		MCompress(const void* pSrc,U32 iSize,void* pDest,U32& uiDestSize);
+extern "C"	MCOMMON_EXPORT	S32		MDescompress(const void* pSrc,U32 iSize,void* pDest,U32& uiDestSize);
 extern "C"	MCOMMON_EXPORT	S64		StringHash(const S8*	pName);
 class MCOMMON_EXPORT	MemoryObject{
 public:
@@ -75,6 +76,16 @@ public:
 	static	void	operator delete(void* ,void*){};
 	static	void	operator delete[](void* ,void*){};
 };
-
-
+struct FileInfo{
+	U64		fileid;
+	U32		offset;
+	U32		size;
+	U32		idx;
+	U32		compressize;
+	
+};
+typedef STD_VECTOR<FileInfo>		FileInfoVector;
+typedef STD_HASHMAP<U64,FileInfo*>	FileInfoMap;
+#define FILEDATA_COUNT	16
+#define MAX_DATA_SIZE	3500*1048576
 #endif // MCommon_h__

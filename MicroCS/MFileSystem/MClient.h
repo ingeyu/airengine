@@ -5,8 +5,7 @@
 class MFile;
 class MClient	:	
 	public	Air::Common::IProduct,
-	public	Air::Common::Thread,
-	public	Air::Common::NetListener
+	public	Air::Common::Thread
 {
 public:
 	static	AString	ProductTypeName;
@@ -17,18 +16,19 @@ public:
 
 	void		Update(float fTimeDelta);
 
-	virtual	U1	OnConnected(U32	socket,CAString&	strIP,CAString&	strPort);
-	virtual	U1	OnClose(U32	uiSocket);
-	virtual	U1	OnReceive(U32	uiSocket,AChar*	pData,U32	uiSize);
 	void		OnFileLoadComplated(U32 uiOffset,MFile* pFile);
 	void		OnFileLoadFailed(U32 uiOffset,MFile* pFile);
 
 	virtual bool RepetitionRun();
+
+	void		SetProcessExistFrame(U32 iFrame);
+	U1			IsProcessExist(U32 iFrame);
 protected:
 	void		LoadFile(U64 fileID);
 protected:
-	U32					m_pSocket;
+	U32					m_ProcessID;
 	Air::FileMapping*	m_pFile;
 	Air::Common::Event	m_FSWaitClient;
+	U32					m_bProcessExist;
 };
 #endif // MClient_h__

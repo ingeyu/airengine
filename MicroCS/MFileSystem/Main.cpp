@@ -18,17 +18,20 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 	Air::Common::Event evt;
 
 	
-	HANDLE	hClientMutex	=	OpenMutex(MUTEX_ALL_ACCESS,TRUE,_T("wzclient"));
+	
 	while(1){
-
-		if(hClientMutex==NULL){
-			break;
+		evt.Wait(10);
+		HANDLE	hClientMutex	=	OpenMutex(MUTEX_ALL_ACCESS,TRUE,_T("wzclient"));
+		if(hClientMutex!=NULL){
+			CloseHandle(hClientMutex);
+		}else{
+			//break;
 		}
-		CloseHandle(hClientMutex);
+		
 
 		MFileSystem::GetSingleton()->Update(0);
 
-		evt.Wait(10);
+		
 	}
 
 

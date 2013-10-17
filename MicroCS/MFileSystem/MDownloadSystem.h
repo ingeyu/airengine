@@ -9,7 +9,8 @@ struct DownloadFile
 	U64	fileID;
 	U32	state;
 };
-class MDownloadSystem	:	
+class MDownloadSystem	:
+	public	MemoryObject,
 	public	Singleton<MDownloadSystem>,
 	public	Air::Common::NetListener
 {

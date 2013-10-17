@@ -142,7 +142,7 @@ void MDownloadSystem::Update( const float fTimeDelta )
 				pDownload=NULL;
 			}
 		}
-		m_pBackDownloadFile	=	MFileSystem::GetSingleton()->CreateFile(pDownload->fileID);
+		m_pBackDownloadFile	=	MFileSystem::GetSingleton()->CreateMFile(pDownload->fileID);
 		m_pDownloadingFile	=	m_pBackDownloadFile;
 	}
 	//if has task,send request
