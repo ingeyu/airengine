@@ -210,6 +210,7 @@
     <ClCompile Include="..\..\AirCommon\Src\AirFileMapping.cpp" />
     <ClCompile Include="..\..\AirCommon\Src\AirFileMonitor.cpp" />
     <ClCompile Include="..\..\AirCommon\Src\AirFileService.cpp" />
+    <ClCompile Include="..\..\AirCommon\Src\AirHash.cpp" />
     <ClCompile Include="..\..\AirCommon\Src\AirInterfaceNode.cpp" />
     <ClCompile Include="..\..\AirCommon\Src\AirNavMesh.cpp" />
     <ClCompile Include="..\..\AirCommon\Src\AirOctree.cpp" />
@@ -293,6 +294,7 @@
     <ClInclude Include="..\..\AirCommon\Inc\AirFileMapping.h" />
     <ClInclude Include="..\..\AirCommon\Inc\AirFileMonitor.h" />
     <ClInclude Include="..\..\AirCommon\Inc\AirFileService.h" />
+    <ClInclude Include="..\..\AirCommon\Inc\AirHash.h" />
     <ClInclude Include="..\..\AirCommon\Inc\AirInterfaceNode.h" />
     <ClInclude Include="..\..\AirCommon\Inc\AirInterfaceObject.h" />
     <ClInclude Include="..\..\AirCommon\Inc\AirNavMesh.h" />

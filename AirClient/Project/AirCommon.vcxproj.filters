@@ -219,6 +219,9 @@
     <ClCompile Include="..\..\AirCommon\Src\AirCSV.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\AirCommon\Src\AirHash.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\AirCommon\Inc\Airarg_parser.h">
@@ -474,6 +477,9 @@
       <Filter>Inc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\AirCommon\Inc\AirCSV.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AirCommon\Inc\AirHash.h">
       <Filter>Inc</Filter>
     </ClInclude>
   </ItemGroup>
