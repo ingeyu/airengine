@@ -12,9 +12,9 @@ MFile::MFile( CAString& strName,Info* pInfo ):Air::Common::IProduct(strName)
 
 U1 MFile::Create()
 {
-	if(m_pInfo->offset)
-	if(MIOSystem::GetSingleton()->LoadFile(*m_pInfo,m_Data)){
-		return true;
+	if(m_pInfo->offset!=0xffffffff)
+		if(MIOSystem::GetSingleton()->LoadFile(*m_pInfo,m_Data)){
+			return true;
 	}
 	m_bDownloading	=	true;
 	MDownloadSystem::GetSingleton()->AddFile(this);

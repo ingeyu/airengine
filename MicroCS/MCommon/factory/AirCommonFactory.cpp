@@ -127,6 +127,7 @@ namespace Air{
 		{
 			IProduct*	pProduct	=	NULL;
 			m_CS.Enter();
+			U1	bNew	=	false;
 			ProductMap::const_iterator itr = m_mapProduct.find(strName);
 			if(itr!=m_mapProduct.end()){
 				pProduct	= itr->second;
@@ -135,11 +136,20 @@ namespace Air{
 				if(pProduct!=NULL){
 					pProduct->SetFactory(this);
 					pProduct->SetFactoryManager(m_pFactoryMgr);
-					m_mapProduct[strName]	=	pProduct;
+					//
+				}
+				bNew	=	true;
+			}
+			if(pProduct!=NULL){
+				if(pProduct->AddRef()){
+					if(bNew){
+						m_mapProduct[strName]	=	pProduct;
+					}
+				}else{
+					pProduct->ReleaseRef();
+					pProduct=NULL;
 				}
 			}
-			if(pProduct!=NULL)
-				pProduct->AddRef();
 			m_CS.Leave();
 			return pProduct;
 

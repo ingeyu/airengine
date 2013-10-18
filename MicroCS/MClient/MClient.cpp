@@ -1,13 +1,6 @@
 #include "MClient.h"
 
-struct CSInfo 
-{
-	U32	FileSystemPID;
-	U32	mark;
-	U32	ret;
-	U64	FileID;
-	U32	uiSize;
-};
+
 
 U32 MClient::LoadFile( const char* strName,void* pBuffer)
 {
@@ -22,9 +15,9 @@ U32 MClient::LoadFile( const char* strName,void* pBuffer)
 		return 0;
 	if(pBuffer==NULL)
 		return itr->second->size;
-	if(itr->second->offset!=0xffffffff){
-		return ReadFromHD(pBuffer,itr->second);
-	}
+	//if(itr->second->offset!=0xffffffff){
+	//	return ReadFromHD(pBuffer,itr->second);
+	//}
 
 
 	CSInfo* pInfo	=	(CSInfo*)m_pFile->GetLockedBuffer();
@@ -62,6 +55,34 @@ MClient::MClient()
 	m_pFileInfo	=	NULL;
 }
 
+void	StartProcess(const TCHAR* strExe){
+
+		TCHAR	strTempName[MAX_PATH];
+		wcscpy_s(strTempName,strExe);
+	    STARTUPINFO si = { sizeof(si) };     
+		PROCESS_INFORMATION pi;     
+		si.dwFlags = STARTF_USESHOWWINDOW; // 指定wShowWindow成员有效     
+		si.wShowWindow = TRUE; // 此成员设为TRUE的话则显示新建进程的主窗口     
+		BOOL bRet = CreateProcess (     NULL,// 不在此指定可执行文件的文件名     
+			strTempName,//命令行参数     
+			NULL,// 默认进程安全性     
+			NULL,// 默认进程安全性     
+			FALSE,// 指定当前进程内句柄不可以被子进程继承     
+			0,// 为新进程创建一个新的控制台窗口     
+			NULL,// 使用本进程的环境变量     
+			NULL,// 使用本进程的驱动器和目录     
+			&si,     
+			&pi) ;     
+		if(bRet)     
+		{         
+			// 不使用的句柄最好关掉         
+			CloseHandle(pi.hThread);         
+			CloseHandle(pi.hProcess);         
+			printf("新进程的ID号：%d\n",pi.dwProcessId);         
+			printf("新进程的主线程ID号：%d\n",pi.dwThreadId);     
+		} 
+}
+
 U1 MClient::Initialization()
 {
 
@@ -69,21 +90,22 @@ U1 MClient::Initialization()
 
 	//Create Client->FileSystem ShareMemory
 	char strName[MAX_PATH];
-	sprintf_s(strName,"%d",GetProcessId(GetCurrentProcess()));
+	sprintf_s(strName,"%dFileMapping",GetProcessId(GetCurrentProcess()));
 
 	Air::FileMapping::Info info;
 	info.type		=	Air::FileMapping::enFMT_Create;
 	info.uiFileSize	=	16*1048576;
 	m_pFile	=	CreateProduct<Air::FileMapping>(strName,&info);
+	printf("Create FileMapping %s \n",strName);
 
-	//Create File Data Handle
-
+	//Create MFileSystem Process
+	StartProcess(_T("MFileSystem.exe"));
 
 	//Wait FileSystem Init
 	HANDLE hMutex	=	NULL;
 	while(hMutex==NULL){
 		
-		hMutex	=	OpenMutex(MUTEX_ALL_ACCESS,false,L"MFileSystem");
+		hMutex	=	OpenMutex(MUTEX_ALL_ACCESS,false,L"MFileSystemInit");
 		if(hMutex!=NULL){
 			CloseHandle(hMutex);
 			break;
@@ -111,7 +133,7 @@ U1 MClient::Initialization()
 	if(uiSize!=0){
 		info.uiFileSize	=	uiSize;
 	}
-	m_pFileInfo	=	CreateProduct<Air::FileMapping>(strName,&info);
+	m_pFileInfo	=	CreateProduct<Air::FileMapping>("MFileSystemShareMemory",&info);
 
 	U32	uiCount	=	uiSize/sizeof(FileInfo);
 	FileInfo* pInfo	=(FileInfo*)m_pFileInfo->GetLockedBuffer();
@@ -143,7 +165,7 @@ U32 MClient::ReadFromHD( void* pBuffer,FileInfo* pInfo )
 	void* pTemp	=	malloc(pInfo->compressize);
 
 	HANDLE	hFile	=	GetFileHandle(pInfo->idx);
-
+	SetFilePointer(hFile,pInfo->offset,0,FILE_BEGIN);
 	DWORD	dwRead=0;
 	ReadFile(hFile,
 			pTemp,

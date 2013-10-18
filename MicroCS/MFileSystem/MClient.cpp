@@ -2,16 +2,8 @@
 #include "MFileSystem.h"
 #include "MFile.h"
 
-struct CSInfo 
-{
-	U32	mark;
-	U32	ret;
-	U64	FileID;
-	U32	uiSize;
-};
-
 AString	MClient::ProductTypeName="MClient";
-MClient::MClient( CAString& strName,Info* pInfo ):Air::Common::IProduct(strName)
+MClient::MClient( CAString& strName,Info* pInfo ):Air::Common::IProduct(strName),m_FSWaitClient(strName.c_str())
 {
 	if(pInfo!=NULL)
 		m_ProcessID	=	*pInfo;
@@ -24,7 +16,7 @@ U1 MClient::Create()
 	Air::FileMapping::Info	info;
 	info.type	=	Air::FileMapping::enFMT_Open;
 	info.uiFileSize	=	16*1048576;
-	m_pFile	=	MFileSystem::GetSingleton()->CreateProduct<Air::FileMapping>(m_strProductName,&info);
+	m_pFile	=	MFileSystem::GetSingleton()->CreateProduct<Air::FileMapping>(m_strProductName+"FileMapping",&info);
 	StartThread();
 	return	true;
 }
@@ -41,7 +33,8 @@ void MClient::OnFileLoadComplated( U32 uiOffset,MFile* pFile )
 {
 	CSInfo*	pInfo		=	(CSInfo*)m_pFile->GetLockedBuffer();
 
-	U8*	pBuffer			=	(U8*)(++pInfo);
+	U8* pBuffer = (U8*)pInfo;//+1;
+	pBuffer+=sizeof(CSInfo);
 	
 	memcpy(pBuffer,pFile->GetData(),pFile->GetDataSize());//pBuffer,0xffffffff);
 	pInfo->ret		=	1;

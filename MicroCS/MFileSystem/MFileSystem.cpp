@@ -21,6 +21,9 @@ U1 MFileSystem::Initialization()
 	AddFactory(new Air::ParamFactory<Air::FileMapping>());
 	AddFactory(new Air::ParamFactory<Air::Common::NetServer>());
 	AddFactory(new Air::ParamFactory<Air::Common::NetClient>());
+	AddFactory(new Air::ParamFactory<MFile>());
+	AddFactory(new Air::ParamFactory<MClient>());
+
 
 	LoadFileIndex();
 
@@ -94,7 +97,7 @@ void MFileSystem::ScanProcess( const TCHAR* strName )
 			}
 			
 		}
-		bState	=	Process32First(hSnapshot,&processinfo);
+		bState	=	Process32Next(hSnapshot,&processinfo);
 	}
 	CloseHandle(hSnapshot);
 
@@ -115,6 +118,9 @@ void MFileSystem::ScanProcess( const TCHAR* strName )
 		U32	id	=	*i;
 		sprintf_s(strName,"%d",id);
 		MClient* pClient	=	CreateProduct<MClient>(strName,&id);
+		if(pClient==NULL){
+			__asm int 3;
+		}
 		m_mapClient[*i]		=	pClient;
 	}
 }
@@ -130,7 +136,7 @@ void MFileSystem::LoadFileIndex()
 	HANDLE h = CreateFile(
 		L"Index",
 		GENERIC_READ ,
-		FILE_SHARE_READ|FILE_SHARE_WRITE|FILE_SHARE_DELETE,
+		FILE_SHARE_READ|FILE_SHARE_WRITE,
 		NULL,
 		OPEN_EXISTING ,
 		0,
@@ -140,7 +146,7 @@ void MFileSystem::LoadFileIndex()
 		Air::FileMapping::Info fmInfo;
 		fmInfo.type			=	Air::FileMapping::enFMT_Create;
 		fmInfo.uiFileSize	=	uiSize;
-		m_pShareFileInfo	=	CreateProduct<Air::FileMapping>("MFileSystem",&fmInfo);
+		m_pShareFileInfo	=	CreateProduct<Air::FileMapping>("MFileSystemShareMemory",&fmInfo);
 		U32	uiCount	=	uiSize/sizeof(FileInfo);
 		
 		DWORD	dwRead=0;
@@ -154,5 +160,5 @@ void MFileSystem::LoadFileIndex()
 			m_mapFileInfo[info.fileid]	=	&info;
 		}
 	}
-	m_hFileSystemInit	=	CreateMutex(NULL,FALSE,_T("MFileSystem"));
+	m_hFileSystemInit	=	CreateMutex(NULL,FALSE,_T("MFileSystemInit"));
 }

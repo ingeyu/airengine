@@ -39,7 +39,7 @@ U1 MIOSystem::LoadFile( FileInfo& info,STD_VECTOR<U8>& data )
 	}
 
 	data.resize(info.compressize);
-
+	SetFilePointer(h,info.offset,0,FILE_BEGIN);
 	DWORD dwRead=0;
 	ReadFile(h,&data[0],info.compressize,&dwRead,NULL);
 

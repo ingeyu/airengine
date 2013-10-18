@@ -14,6 +14,7 @@
     <ProjectGuid>{E7A7BE33-E848-4A86-B14B-2BCCB00E05E2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>MTestClient</RootNamespace>
+    <ProjectName>GameClient</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

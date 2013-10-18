@@ -84,6 +84,22 @@ struct FileInfo{
 	U32		compressize;
 	
 };
+struct CSInfo 
+{
+	U32	FileSystemPID;
+	U32	mark;
+	U32	ret;
+	U64	FileID;
+	U32	uiSize;
+};
+
+struct	FileDataInfo{
+	U64	fileID;
+	U32	uiOffset;
+	U32	uiSize;
+	U64	uiSocket;
+};
+
 typedef STD_VECTOR<FileInfo>		FileInfoVector;
 typedef STD_HASHMAP<U64,FileInfo*>	FileInfoMap;
 #define FILEDATA_COUNT	16
