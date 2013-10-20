@@ -30,6 +30,7 @@ public:
 	FileInfo&	GetFileInfo();
 	void		AddNotify(const NotifyInfo& info);
 	void*		GetData();
+	U32			GetFileIndexRA();
 protected:
 	Info*			m_pInfo;
 	STD_VECTOR<U8>	m_Data;

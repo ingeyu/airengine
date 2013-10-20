@@ -2,6 +2,7 @@
 #include "MIOSystem.h"
 #include "MDownloadSystem.h";
 #include "MClient.h"
+#include "MFileSystem.h"
 
 AString	MFile::ProductTypeName	=	"MFile";
 MFile::MFile( CAString& strName,Info* pInfo ):Air::Common::IProduct(strName)
@@ -102,4 +103,10 @@ U32 MFile::GetDataSize()
 FileInfo& MFile::GetFileInfo()
 {
 	return *m_pInfo;
+}
+
+U32 MFile::GetFileIndexRA()
+{
+	U32	base	=	(U32)&MFileSystem::GetSingleton()->GetFileInfo(0);
+	return ((U32)&m_pInfo->idx	-	base);
 }

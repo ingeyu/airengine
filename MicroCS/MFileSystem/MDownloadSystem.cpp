@@ -180,6 +180,7 @@ void MDownloadSystem::OnDownloadComplated( MFile* pFile,U1 bOK )
 	if(bOK){
 		pFile->OnDownloadComplated(true);
 		MIOSystem::GetSingleton()->SaveFileBackground(pFile);
+		
 	}else{
 		SAFE_RELEASE_REF(pFile);
 	}
