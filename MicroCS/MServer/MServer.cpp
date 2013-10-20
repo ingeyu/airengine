@@ -61,15 +61,25 @@ public:
 		U32	uiOffset	=	info.uiOffset;
 		U32	idx			=	info.idx;
 		if(m_DataArray[idx]!=NULL){
-			U8*	pData	=	m_DataArray[idx];
-			NtPack<NT_FS_FileData>	ntData(enNT_SF_FileData);
-			ntData.data.idx			=	idx;
-			ntData.data.uiOffset	=	uiOffset;
-			ntData.data.uiSize		=	info.uiSize;
-			ntData.data.uiComplated	=	0;
-			memcpy(ntData.data.data,&pData[uiOffset],info.uiSize);
 
-			send(info.uiSocket,(const char*)&ntData,ntData.uiSize,0);
+			U32	uiSendCount	=	(info.uiSize+4095)/4096;
+			U32	uiSendByte	=	0;
+			for(U32	i=0;i<uiSendCount;i++){
+				U8*	pData	=	m_DataArray[idx];
+				NtPack<NT_FS_FileData>	ntData(enNT_SF_FileData);
+				ntData.data.idx			=	idx;
+				ntData.data.uiOffset	=	4096*i;
+				ntData.data.uiSize		=	4096;
+				ntData.data.uiComplated	=	0;
+				U32	uiSendSize	=	4096;
+				if(i==uiSendCount-1){
+					ntData.data.uiComplated	=	1;
+					ntData.data.uiSize		=	info.uiSize%4096;
+				}
+				memcpy(ntData.data.data,&pData[uiOffset],info.uiSize);
+
+				uiSendByte	+=	send(info.uiSocket,(const char*)&ntData,ntData.uiSize,0);
+			}
 		}
 
 		
