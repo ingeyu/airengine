@@ -125,7 +125,7 @@ void MFileSystem::ScanProcess( const TCHAR* strName )
 	}
 }
 
-const FileInfo& MFileSystem::GetFileInfo( U32 idx )
+FileInfo& MFileSystem::GetFileInfo( U32 idx )
 {
 	FileInfo* pInfo	=	(FileInfo*)m_pShareFileInfo->GetLockedBuffer();
 	return pInfo[idx];
@@ -161,4 +161,9 @@ void MFileSystem::LoadFileIndex()
 		}
 	}
 	m_hFileSystemInit	=	CreateMutex(NULL,FALSE,_T("MFileSystemInit"));
+}
+
+U32 MFileSystem::GetFileCount()
+{
+	return m_mapFileInfo.size();
 }

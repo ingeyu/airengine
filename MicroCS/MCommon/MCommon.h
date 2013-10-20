@@ -94,7 +94,7 @@ struct CSInfo
 };
 
 struct	FileDataInfo{
-	U64	fileID;
+	U32	idx;
 	U32	uiOffset;
 	U32	uiSize;
 	U64	uiSocket;

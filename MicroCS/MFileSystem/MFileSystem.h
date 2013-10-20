@@ -22,7 +22,8 @@ public:
 	MFile*			CreateMFile(U64	id);
 
 	void			ScanProcess(const TCHAR* strName);
-	const FileInfo& GetFileInfo(U32 idx);
+	FileInfo&		GetFileInfo(U32 idx);
+	U32				GetFileCount();
 protected:
 	void			LoadFileIndex();
 protected:

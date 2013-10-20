@@ -35,7 +35,6 @@ protected:
 	STD_LIST<MFile*>	m_lstFile;
 	Air::Common::NetClient*			m_pClient;
 	Air::Common::CriticalSection	m_CS;
-	STD_VECTOR<DownloadFile>		m_vecDownload;
 	U32								m_uiCurrent;
 };
 #endif // MDownloadSystem_h__

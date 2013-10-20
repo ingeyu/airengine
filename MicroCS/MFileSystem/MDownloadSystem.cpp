@@ -89,13 +89,19 @@ U1 MDownloadSystem::OnReturn( NT_Return* pRet )
 {
 	switch(pRet->lastType){
 		case enNT_FS_Hello:{
-			if(pRet->ret!=NET_VERSION){
+			NT_ReturnT<NT_SF_Hello>* pRetT	=	(NT_ReturnT<NT_SF_Hello>*)pRet;
+			if(pRetT->retValue!=1){
 				OutputDebugString(_T("Server/Client Version Isn't Matched! Disconnected!\n"));
 				m_pClient->DisConnect();	
+			}else{
+				TCHAR strName[MAX_PATH];
+				swprintf_s(strName,_T("%d %d\n"),pRetT->data.uiClient,pRetT->data.uiTaskCount);
+				OutputDebugString(strName);
+
 			}
 					 }break;
 		case enNT_FS_LoadFile:{
-			if(pRet->ret==0){
+			if(pRet->retValue==0){
 				OutputDebugString(_T("File isn't exist!\n"));
 				OnDownloadComplated(m_pDownloadingFile,false);
 			
@@ -132,25 +138,29 @@ void MDownloadSystem::Update( const float fTimeDelta )
 	m_CS.Leave();
 	//check bakcground low prority list
 	if(m_pDownloadingFile==NULL){
-		DownloadFile* pDownload	=	NULL;
-		for(;m_uiCurrent<m_vecDownload.size();m_uiCurrent++){
-			pDownload	=	&(m_vecDownload[m_uiCurrent]);
-			if(pDownload->state==0){
+		U32	uiCount	=	MFileSystem::GetSingleton()->GetFileCount();
+		FileInfo* pDownload	=	NULL;
+		for(;m_uiCurrent<uiCount;m_uiCurrent++){
+			pDownload	=	&MFileSystem::GetSingleton()->GetFileInfo(m_uiCurrent);;
+			if(pDownload->idx&0xffff0000==0){
 				//m_uiCurrent++;
 				break;
 			}else{
 				pDownload=NULL;
 			}
 		}
-		m_pBackDownloadFile	=	MFileSystem::GetSingleton()->CreateMFile(pDownload->fileID);
-		m_pDownloadingFile	=	m_pBackDownloadFile;
+		if(pDownload!=NULL){
+			m_pBackDownloadFile	=	MFileSystem::GetSingleton()->CreateMFile(pDownload->fileid);
+			m_pDownloadingFile	=	m_pBackDownloadFile;
+		}
 	}
 	//if has task,send request
 	if(m_pDownloadingFile!=NULL){
-		NT_FS_LoadFile data;
+		NT_Data<FileDataInfo> data(enNT_FS_LoadFile);
 		data.t		=	enNT_FS_LoadFile;
-		data.id		=	m_pDownloadingFile->GetFileID();
-		data.val	=	0;
+		data.data.idx		=	m_pDownloadingFile->GetFileID();
+		data.data.uiOffset	=	0;
+		data.data.uiSize	=	m_pDownloadingFile->GetFileInfo().compressize;
 		m_pClient->Send(&data,sizeof(data));
 	}
 }
@@ -162,7 +172,8 @@ void MDownloadSystem::OnDownloadComplated( MFile* pFile,U1 bOK )
 		U32 ret	=	1;
 		if(!bOK)
 			ret = 0xffffffff;
-		m_vecDownload[m_uiCurrent].state	=	ret;
+		FileInfo& info = MFileSystem::GetSingleton()->GetFileInfo(m_uiCurrent);;
+		info.idx	|=	ret<<16;
 		m_pBackDownloadFile	=	NULL;
 		m_uiCurrent++;
 	}

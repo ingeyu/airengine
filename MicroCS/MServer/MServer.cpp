@@ -5,22 +5,27 @@
 #include "IOCPModel.h"
 #include "MCommon.h"
 #include "AirCommonLock.h"
-
+#include "MNetData.h"
 
 
 
 
 class FileServer	:	public	IOCPListener{
 public:
-	FileServer();
+	FileServer(){
+		m_uiTaskCount	=	0;
+		m_uiClientCount	=	0;
+		for(U32 i=0;i<FILEDATA_COUNT;i++)
+			m_DataArray[i]=NULL;
+	};
 
 	void		Initialization(){
 
-		LoadFileIndex();
+		
 		LoadFileData();
 
 		iocp.LoadSocketLib();
-
+		iocp.SetPort(54322);
 		iocp.Start();
 	};
 	void		Release(){
@@ -28,9 +33,6 @@ public:
 		iocp.Stop();
 
 		iocp.UnloadSocketLib();
-
-		m_vecFileInfo.clear();
-		m_mapFileInfo.clear();
 
 		m_lstFileDataInfo.clear();
 
@@ -47,22 +49,27 @@ public:
 		if(!m_lstFileDataInfo.empty()){
 			info	=	*m_lstFileDataInfo.begin();
 			m_lstFileDataInfo.pop_front();
+			m_uiTaskCount--;
 		}else{
 			m_CS.Leave();
 			return;
 		}
 		m_CS.Leave();
 
-		FileInfoMap::iterator	i	=	m_mapFileInfo.find(info.fileID);
-		if(i==m_mapFileInfo.end()){
-			return;
-		}
 
-		U32	uiOffset	=	i->second->offset+info.uiOffset;
-		U32	idx			=	i->second->idx;
+
+		U32	uiOffset	=	info.uiOffset;
+		U32	idx			=	info.idx;
 		if(m_DataArray[idx]!=NULL){
 			U8*	pData	=	m_DataArray[idx];
-			send(info.uiSocket,(const char*)pData[uiOffset],info.uiSize,0);
+			NtPack<NT_FS_FileData>	ntData(enNT_SF_FileData);
+			ntData.data.idx			=	idx;
+			ntData.data.uiOffset	=	uiOffset;
+			ntData.data.uiSize		=	info.uiSize;
+			ntData.data.uiComplated	=	0;
+			memcpy(ntData.data.data,&pData[uiOffset],info.uiSize);
+
+			send(info.uiSocket,(const char*)&ntData,ntData.uiSize,0);
 		}
 
 		
@@ -72,12 +79,25 @@ public:
 		InterlockedIncrement(&m_uiClientCount);
 	};
 	virtual	void	OnRecv(unsigned __int64 uiSocket,const void* pData,unsigned int uiSize){
-		m_CS.Enter();
-		FileDataInfo* pInfo	=	(FileDataInfo*)pData;
-		pInfo->uiSocket		=	uiSocket;
-		m_lstFileDataInfo.push_back(*pInfo);
-		m_Event.Reset();
-		m_CS.Leave();
+		NtBase* pBase	=	(NtBase*)pData;
+		switch(pBase->t){
+			case enNT_FS_Hello:{
+				NtReturnPackT<NT_SF_Hello>	ntData(enNT_FS_Hello);
+				ntData.data.uiClient	=	m_uiClientCount;
+				ntData.data.uiTaskCount	=	m_uiTaskCount;
+				send(uiSocket,(const char*)&ntData,ntData.uiSize,0);
+							   }break;
+			case enNT_FS_LoadFile:{
+				NtPack<FileDataInfo>* p	=	(NtPack<FileDataInfo>*)pData;
+				
+				m_CS.Enter();
+				m_lstFileDataInfo.push_back(p->data);
+				m_uiTaskCount++;
+				m_Event.Reset();
+				m_CS.Leave();
+							  }break;
+		}
+
 	};
 
 	virtual	void	OnClose(unsigned __int64 uiSocket){
@@ -85,33 +105,6 @@ public:
 	};
 
 
-	void LoadFileIndex()
-	{
-		HANDLE h = CreateFile(
-			"Index",
-			GENERIC_READ ,
-			FILE_SHARE_READ|FILE_SHARE_WRITE,
-			NULL,
-			OPEN_EXISTING ,
-			0,
-			0 );
-		if(h!=INVALID_HANDLE_VALUE){
-			U32 uiSize	=	GetFileSize(h,0);
-			
-			U32	uiCount	=	uiSize/sizeof(FileInfo);
-			m_vecFileInfo.resize(uiCount);
-			DWORD	dwRead=0;
-			ReadFile(h,&m_vecFileInfo[0],uiCount*sizeof(FileInfo),&dwRead,NULL);
-			CloseHandle(h);
-
-			FileInfo* pInfo	=	&m_vecFileInfo[0];
-
-			for(U32 i=0;i<uiCount;i++){
-				FileInfo& info = pInfo[i];
-				m_mapFileInfo[info.fileid]	=	&info;
-			}
-		}
-	}
 	void	LoadFileData(){
 
 		for(U32 i=0;i<FILEDATA_COUNT;i++){
@@ -139,11 +132,10 @@ public:
 
 protected:
 	U32								m_uiClientCount;
+	U32								m_uiTaskCount;
 	Air::Common::CriticalSection	m_CS;
 	Air::Common::Event				m_Event;
 	STD_LIST<FileDataInfo>			m_lstFileDataInfo;
-	FileInfoMap						m_mapFileInfo;
-	FileInfoVector					m_vecFileInfo;
 	U8*								m_DataArray[FILEDATA_COUNT];
 	CIOCPModel						iocp;
 };

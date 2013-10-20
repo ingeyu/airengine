@@ -9,48 +9,94 @@ enum enNetType{
 	enNT_Unknown,
 	enNT_Return,
 
-	enNT_CF_Hello,
-	enNT_CF_LoadFile,
-	enNT_CF_UnloadFile,
-
-
 	enNT_FS_Hello,
 	enNT_FS_LoadFile,
 	enNT_SF_FileData,
 
 };
+
+struct NtBase
+{
+	U32			uiSize;
+	enNetType	t;	
+};
+template<typename T>
+struct NtPack	:	public	NtBase
+{
+	NtPack(enNetType	nType){
+		t		=	nType;
+		uiSize	=	sizeof(NtPack<T>);
+	};
+	T	data;
+};
+
+struct NtReturnPack	:	public	NtBase{
+	NtReturnPack(enNetType nLast,U32	val	=	1)
+	{
+		uiSize		=	sizeof(*this);
+		t			=	enNT_Return;
+		lastType	=	nLast;
+		retValue	=	val;
+	};
+	U32			retValue;
+	enNetType	lastType;
+};
+
+template<typename T>
+struct NtReturnPackT	:	public	NtReturnPack{
+	NtReturnPackT(enNetType nLast,U32	val	=	1):NtReturnPack(nLast,val)
+	{
+		uiSize		=	sizeof(*this);
+	}
+	T	data;
+};
+
 struct	NetHeader{
 	enNetType	t;	
 };
 
-struct	NT_Return		:	public	NetHeader{
-	U32			ret;
+template<typename T>
+struct	NT_Data	:	public	NetHeader{
+	NT_Data(enNetType	nType){
+		t		=	nType;
+	};
+	T	data;
+};
+
+struct	NT_Return	:public	NetHeader{
+	NT_Return(enNetType nLast,U32	val	=	1)
+	{
+		t			=	enNT_Return;
+		lastType	=	nLast;
+		retValue	=	val;
+	};
+	U32			retValue;
 	enNetType	lastType;		
 };
 
 template<typename T>
-struct	NT_ReturnT		:	public	NT_Return{
-	T	last;
-};
-struct	NT_CF_Hello		:	public	NetHeader{
-	U32	PID;
-	U32	BufferSize;
-	U32	Version;
+struct	NT_ReturnT	:public	NT_Return{
+	NT_ReturnT(enNetType nLast,U32	val	=	1):NT_Return(nLast,val)
+	{
+	};
+	T	data;	
 };
 
-struct	NT_CF_LoadFile	:	public	NetHeader{
-	U64	id;
-	U32	val;
+struct NT_SF_Hello{
+	U32	uiClient;
+	U32	uiTaskCount;
 };
-typedef NT_CF_LoadFile	NT_CF_UnLoadFile;
-
-typedef NetHeader		NT_FS_Hello;
-typedef	NT_CF_LoadFile	NT_FS_LoadFile;
-struct NT_FS_FileData	:public	NetHeader{
+struct NT_FS_LoadFile
+{
+	U64	fileid;
+	
+};
+struct NT_FS_FileData{
+	U32	idx;
 	U32	uiOffset;
 	U32	uiSize;
 	U32	uiComplated;
-	U8	data[512];
+	U8	data[4096];
 
 };
 
