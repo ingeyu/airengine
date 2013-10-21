@@ -1,7 +1,7 @@
 #include "MCommon.h"
 #include "lzo/minilzo.h"
 
-void* g_pWorkMem	=	NULL;
+
 BOOL APIENTRY DllMain( HMODULE hModule,
 	DWORD  ul_reason_for_call,
 	LPVOID lpReserved
@@ -10,17 +10,14 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 	switch (ul_reason_for_call){
 	case DLL_PROCESS_ATTACH:{
 		lzo_init();
-		if(g_pWorkMem==NULL)
-			g_pWorkMem	=	HeapAlloc(GetProcessHeap(),0,1048576);
+
 							}break;
 	case DLL_THREAD_ATTACH:
 	case DLL_THREAD_DETACH:
 
 		break;
 	case DLL_PROCESS_DETACH:
-		if(g_pWorkMem!=NULL){
-			HeapFree(GetProcessHeap(),0,g_pWorkMem);
-		}
+
 		break;
 	}
 	return TRUE;
@@ -50,12 +47,14 @@ void	MemoryObject::operator delete[](void* p){
 
 S32 MCompress( const void* pSrc,U32 iSize,void* pDest,U32& uiDestSize )
 {
-	return lzo1x_1_compress((U8*)pSrc,iSize,(U8*)pDest,(unsigned long*)&uiDestSize,g_pWorkMem);
+	U8 workmem[LZO1X_1_MEM_COMPRESS];
+	return lzo1x_1_compress((U8*)pSrc,iSize,(U8*)pDest,(unsigned long*)&uiDestSize,workmem);
 }
 
 S32 MDescompress( const void* pSrc,U32 iSize,void* pDest,U32& uiDestSize )
 {
-	return lzo1x_decompress((U8*)pSrc,iSize,(U8*)pDest,(unsigned long*)&uiDestSize,g_pWorkMem);
+	U8 workmem[LZO1X_1_MEM_COMPRESS];
+	return lzo1x_decompress((U8*)pSrc,iSize,(U8*)pDest,(unsigned long*)&uiDestSize,workmem);
 }
 U32	HashStringID( const S8* pName ,U32 type){
 	U32	seed1	=	0x7FED7FED;
