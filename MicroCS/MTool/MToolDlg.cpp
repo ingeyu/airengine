@@ -374,11 +374,5 @@ void CMToolDlg::Build(ITaskbarList3 *p){
 	fwrite(&vecFileInfo[0],vecFileInfo.size()*sizeof(FileInfo),1,pFileIndex);
 	fclose(pFileIndex);
 
-	for(U32 i=0;i<vecFileInfo.size();i++){
-		vecFileInfo[i].idx		=	0xffffffff;
-		vecFileInfo[i].offset	=	0xffffffff;
-	}
-	pFileIndex	=	_wfopen(L"CIndex",L"wb");
-	fwrite(&vecFileInfo[0],vecFileInfo.size()*sizeof(FileInfo),1,pFileIndex);
-	fclose(pFileIndex);
+	AfxMessageBox(_T("Finished!"));
 }

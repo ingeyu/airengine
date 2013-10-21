@@ -180,7 +180,7 @@ typedef struct _PER_SOCKET_CONTEXT
 class IOCPListener
 {
 public:
-	virtual	void	OnConnect(unsigned __int64 uiSocket,unsigned int ip,unsigned int uiPort)=NULL;
+	virtual	void	OnConnect(unsigned __int64 uiSocket,const IN_ADDR& ip,unsigned int uiPort)=NULL;
 	virtual	void	OnRecv(unsigned __int64 uiSocket,const void* pData,unsigned int uiSize)=NULL;
 	virtual	void	OnClose(unsigned __int64 uiSocket)=NULL;
 };

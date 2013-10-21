@@ -61,7 +61,7 @@ namespace Air{
 						if(m_pListener!=NULL)
 							m_pListener->OnClose(p->uiSocket);
 					}else{
-						OutputDebugStringA("发送成功\n");
+						//OutputDebugStringA("发送成功\n");
 					}
 				}
 				//删除数据

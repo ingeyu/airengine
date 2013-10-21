@@ -24,6 +24,8 @@ public:
 	void			ScanProcess(const TCHAR* strName);
 	FileInfo&		GetFileInfo(U32 idx);
 	U32				GetFileCount();
+
+	void			OnDownloadComplate();
 protected:
 	void			LoadFileIndex();
 protected:
@@ -31,5 +33,6 @@ protected:
 	Air::FileMapping*		m_pShareFileInfo;
 	FileInfoMap				m_mapFileInfo;
 	HANDLE					m_hFileSystemInit;
+	Air::Common::Event		m_WaitDownload;
 };
 #endif // MFileSystem_h__

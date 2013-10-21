@@ -14,7 +14,8 @@ enum enNetType{
 	enNT_SF_FileData,
 
 };
-
+#pragma pack(push)
+#pragma pack(4)
 struct NtBase
 {
 	U32			uiSize;
@@ -25,7 +26,7 @@ struct NtPack	:	public	NtBase
 {
 	NtPack(enNetType	nType){
 		t		=	nType;
-		uiSize	=	sizeof(NtPack<T>);
+		uiSize	=	sizeof(NtPack<T>)-4;
 	};
 	T	data;
 };
@@ -33,7 +34,7 @@ struct NtPack	:	public	NtBase
 struct NtReturnPack	:	public	NtBase{
 	NtReturnPack(enNetType nLast,U32	val	=	1)
 	{
-		uiSize		=	sizeof(*this);
+		uiSize		=	sizeof(*this)-4;
 		t			=	enNT_Return;
 		lastType	=	nLast;
 		retValue	=	val;
@@ -46,7 +47,7 @@ template<typename T>
 struct NtReturnPackT	:	public	NtReturnPack{
 	NtReturnPackT(enNetType nLast,U32	val	=	1):NtReturnPack(nLast,val)
 	{
-		uiSize		=	sizeof(*this);
+		uiSize		=	sizeof(*this)-4;
 	}
 	T	data;
 };
@@ -99,6 +100,6 @@ struct NT_FS_FileData{
 	U8	data[4096];
 
 };
-
+#pragma pack(pop)
 
 #endif // MNetData_h__

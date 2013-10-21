@@ -98,6 +98,7 @@ void MIOSystem::Update( float fTimeDelta )
 		SaveFile(pFile->GetFileInfo(),pFile->GetData(),pFile->GetDataSize());
 		U32	uiRA	=	pFile->GetFileIndexRA();
 		DWORD dWrite=0;
+		SetFilePointer(m_FileIndex,uiRA,0,FILE_BEGIN);
 		WriteFile(m_FileIndex,&pFile->GetFileInfo().idx,sizeof(U32),&dWrite,NULL);
 		pFile->ReleaseRef();
 	}

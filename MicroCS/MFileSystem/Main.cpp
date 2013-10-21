@@ -4,6 +4,8 @@
 
 int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow) 
 {
+	U32 uiSize	=	sizeof(NT_Data<FileDataInfo>);
+
 	HANDLE	hMutex	=	CreateMutex(NULL,TRUE,_T("MFileSystemMutex"));
 	if (GetLastError() == ERROR_ALREADY_EXISTS)
 	{
@@ -15,18 +17,18 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 
 	MFileSystem::GetSingleton()->Initialization();
 
-	Air::Common::Event evt;
+	
 
 	
 	
 	while(1){
-		evt.Wait(100);
-		HANDLE	hClientMutex	=	OpenMutex(MUTEX_ALL_ACCESS,TRUE,_T("wzclient"));
-		if(hClientMutex!=NULL){
-			CloseHandle(hClientMutex);
-		}else{
-			break;
-		}
+
+		//HANDLE	hClientMutex	=	OpenMutex(MUTEX_ALL_ACCESS,TRUE,_T("wzclient"));
+		//if(hClientMutex!=NULL){
+		//	CloseHandle(hClientMutex);
+		//}else{
+		//	break;
+		//}
 		
 
 		MFileSystem::GetSingleton()->Update(0);

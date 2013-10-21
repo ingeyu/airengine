@@ -92,13 +92,15 @@ struct CSInfo
 	U64	FileID;
 	U32	uiSize;
 };
-
+#pragma pack(push)
+#pragma pack(4)
 struct	FileDataInfo{
 	U32	idx;
 	U32	uiOffset;
 	U32	uiSize;
 	U64	uiSocket;
 };
+#pragma pack(pop)
 
 typedef STD_VECTOR<FileInfo>		FileInfoVector;
 typedef STD_HASHMAP<U64,FileInfo*>	FileInfoMap;

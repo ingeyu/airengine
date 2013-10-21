@@ -65,6 +65,7 @@ MFile* MFileSystem::CreateMFile( U64 id )
 
 void MFileSystem::Update(float fTimeDelta)
 {
+	m_WaitDownload.Wait(10);
 	MDownloadSystem::GetSingleton()->Update(fTimeDelta);
 
 	MIOSystem::GetSingleton()->Update(fTimeDelta);
@@ -166,4 +167,9 @@ void MFileSystem::LoadFileIndex()
 U32 MFileSystem::GetFileCount()
 {
 	return m_mapFileInfo.size();
+}
+
+void MFileSystem::OnDownloadComplate()
+{
+	m_WaitDownload.Reset();
 }

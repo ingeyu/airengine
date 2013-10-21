@@ -10,6 +10,7 @@ MDownloadSystem::MDownloadSystem()
 	m_pClient	=	NULL;
 	m_pBackDownloadFile	=	NULL;
 	m_pDownloadingFile	=	NULL;
+	m_uiCurrent			=	0;
 }
 
 MDownloadSystem::~MDownloadSystem()
@@ -66,9 +67,10 @@ U1 MDownloadSystem::OnReceive( U32 uiSocket,AChar* pData,U32 uiSize )
 			return OnReturn((NT_Return*)pHeader);
 					 }break;
 		case enNT_SF_FileData:{
-			NT_FS_FileData* pFileData	=	(NT_FS_FileData*)pHeader;
-			m_pDownloadingFile->OnDownloading(pFileData->uiOffset,pFileData->data,pFileData->uiSize);
-			if(pFileData->uiComplated){
+			NT_Data<NT_FS_FileData>* pFileData	=	(NT_Data<NT_FS_FileData>*)pHeader;
+			NT_FS_FileData& data = pFileData->data;
+			m_pDownloadingFile->OnDownloading(data.uiOffset,data.data,data.uiSize);
+			if(data.uiComplated){
 				OnDownloadComplated(m_pDownloadingFile,true);
 			}
 							  }break;
@@ -112,11 +114,13 @@ U1 MDownloadSystem::OnReturn( NT_Return* pRet )
 	return false;
 }
 
+
+
 void MDownloadSystem::Update( const float fTimeDelta )
 {
 	if(!m_pClient->IsConnected()){
 		Air::Common::NetClient::Info info;
-		info.strIP		=	"127.0.0.1";
+		Air::Common::GetLocalIP(info.strIP);
 		info.usPort		=	54322;
 		info.pListener	=	this;
 		if(!m_pClient->Connect(info)){
@@ -125,15 +129,33 @@ void MDownloadSystem::Update( const float fTimeDelta )
 	}
 
 	if(m_pDownloadingFile!=NULL){
+
+		if(0){
+			NT_Data<FileDataInfo> data(enNT_FS_LoadFile);
+			data.t		=	enNT_FS_LoadFile;
+			FileInfo& finfo		=	m_pDownloadingFile->GetFileInfo();
+			data.data.idx		=	finfo.idx;
+			data.data.uiOffset	=	finfo.offset;
+			data.data.uiSize	=	finfo.compressize;
+			m_pClient->Send(&data,sizeof(data));
+		}
 		return;
 	}
 
 	//check high prority list
 	m_CS.Enter();
 	STD_LIST<MFile*>::iterator	i	=	m_lstFile.begin();
-	if(i!=m_lstFile.end()){
-		m_pDownloadingFile	=	*i;
-		m_lstFile.erase(i);
+	for(;i!=m_lstFile.end();){
+		//file is already download!
+		if(!(*i)->IsDownloading()){
+			(*i)->ReleaseRef();
+			i	=	m_lstFile.erase(i);
+			continue;
+		}else{
+			m_pDownloadingFile	=	*i;
+			m_lstFile.erase(i);
+			break;
+		}
 	}
 	m_CS.Leave();
 	//check bakcground low prority list
@@ -142,7 +164,7 @@ void MDownloadSystem::Update( const float fTimeDelta )
 		FileInfo* pDownload	=	NULL;
 		for(;m_uiCurrent<uiCount;m_uiCurrent++){
 			pDownload	=	&MFileSystem::GetSingleton()->GetFileInfo(m_uiCurrent);;
-			if(pDownload->idx&0xffff0000==0){
+			if((pDownload->idx&0xffff0000)==0){
 				//m_uiCurrent++;
 				break;
 			}else{
@@ -156,11 +178,17 @@ void MDownloadSystem::Update( const float fTimeDelta )
 	}
 	//if has task,send request
 	if(m_pDownloadingFile!=NULL){
+
+		//wchar_t str[256];
+		//swprintf_s(str,_T("%lld Download Start!\n"),m_pDownloadingFile->GetFileInfo().fileid);
+		//OutputDebugString(str);
+
 		NT_Data<FileDataInfo> data(enNT_FS_LoadFile);
 		data.t		=	enNT_FS_LoadFile;
-		data.data.idx		=	m_pDownloadingFile->GetFileID();
-		data.data.uiOffset	=	0;
-		data.data.uiSize	=	m_pDownloadingFile->GetFileInfo().compressize;
+		FileInfo& finfo		=	m_pDownloadingFile->GetFileInfo();
+		data.data.idx		=	finfo.idx;
+		data.data.uiOffset	=	finfo.offset;
+		data.data.uiSize	=	finfo.compressize;
 		m_pClient->Send(&data,sizeof(data));
 	}
 }
@@ -178,11 +206,15 @@ void MDownloadSystem::OnDownloadComplated( MFile* pFile,U1 bOK )
 		m_uiCurrent++;
 	}
 	if(bOK){
-		pFile->OnDownloadComplated(true);
+		//wchar_t str[256];
+		//swprintf_s(str,_T("%lld DownloadComplated!\n"),pFile->GetFileInfo().fileid);
+		//OutputDebugString(str);
 		MIOSystem::GetSingleton()->SaveFileBackground(pFile);
 		
 	}else{
 		SAFE_RELEASE_REF(pFile);
 	}
-	
+	m_pDownloadingFile=NULL;
+
+	MFileSystem::GetSingleton()->OnDownloadComplate();
 }

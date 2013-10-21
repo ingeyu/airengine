@@ -34,7 +34,7 @@ namespace Air{
 		**/
 		MCOMMON_EXPORT	U1		ReleaseNet();
 	
-	
+		MCOMMON_EXPORT	void	GetLocalIP(AString& strIP);
 		//发送数据包
 		struct	NetPack{
 			NetPack(){

@@ -23,7 +23,7 @@ public:
 
 		
 		LoadFileData();
-
+		iocp.SetListener(this);
 		iocp.LoadSocketLib();
 		iocp.SetPort(54322);
 		iocp.Start();
@@ -49,7 +49,7 @@ public:
 		if(!m_lstFileDataInfo.empty()){
 			info	=	*m_lstFileDataInfo.begin();
 			m_lstFileDataInfo.pop_front();
-			m_uiTaskCount--;
+			//m_uiTaskCount--;
 		}else{
 			m_CS.Leave();
 			return;
@@ -57,9 +57,10 @@ public:
 		m_CS.Leave();
 
 
-
+		
 		U32	uiOffset	=	info.uiOffset;
 		U32	idx			=	info.idx;
+		//printf(_T("File idx=%d offset=%d size=%d \n"),idx,uiOffset,info.uiSize);
 		if(m_DataArray[idx]!=NULL){
 
 			U32	uiSendCount	=	(info.uiSize+4095)/4096;
@@ -74,19 +75,24 @@ public:
 				U32	uiSendSize	=	4096;
 				if(i==uiSendCount-1){
 					ntData.data.uiComplated	=	1;
-					ntData.data.uiSize		=	info.uiSize%4096;
+					uiSendSize	=	info.uiSize%4096;
+					if(uiSendSize==0)
+						uiSendSize	=	4096;
+					ntData.data.uiSize		=	uiSendSize;
+					ntData.uiSize			+=	(uiSendSize-4096);
 				}
-				memcpy(ntData.data.data,&pData[uiOffset],info.uiSize);
+				memcpy(ntData.data.data,&pData[uiOffset+ntData.data.uiOffset],uiSendSize);
 
-				uiSendByte	+=	send(info.uiSocket,(const char*)&ntData,ntData.uiSize,0);
+				uiSendByte	+=	send(info.uiSocket,(const char*)&ntData,ntData.uiSize+4,0);
 			}
 		}
 
 		
 	}
 
-	virtual	void	OnConnect(unsigned __int64 uiSocket,unsigned int ip,unsigned int uiPort){
+	virtual	void	OnConnect(unsigned __int64 uiSocket,const IN_ADDR& ip,unsigned int uiPort){
 		InterlockedIncrement(&m_uiClientCount);
+		printf(_T("Client %lld %s:%d Connected!\n"),uiSocket,inet_ntoa(ip),uiPort);
 	};
 	virtual	void	OnRecv(unsigned __int64 uiSocket,const void* pData,unsigned int uiSize){
 		NtBase* pBase	=	(NtBase*)pData;
@@ -101,10 +107,14 @@ public:
 				NtPack<FileDataInfo>* p	=	(NtPack<FileDataInfo>*)pData;
 				
 				m_CS.Enter();
+				p->data.uiSocket	=	uiSocket;
 				m_lstFileDataInfo.push_back(p->data);
 				m_uiTaskCount++;
-				m_Event.Reset();
 				m_CS.Leave();
+				m_Event.Reset();
+				if((m_uiTaskCount&0xff)==0){
+					printf("%d\n",m_uiTaskCount);
+				}
 							  }break;
 		}
 
@@ -112,6 +122,7 @@ public:
 
 	virtual	void	OnClose(unsigned __int64 uiSocket){
 		InterlockedDecrement(&m_uiClientCount);
+		printf(_T("Client %lld Disconnected!"),uiSocket);
 	};
 
 
@@ -152,19 +163,29 @@ protected:
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	CIOCPModel iocp;
 
-	iocp.LoadSocketLib();
+	FileServer server;
+	server.Initialization();
 
-	while(!iocp.Start()){
-		TRACE(_T("Server Start Failed!\n"));
-		getchar();
+	while(1){
+		server.Update();
 	}
-	TRACE(_T("Server Start OK!\n"));
 
-	getchar();
+	server.Release();
 
-	iocp.Stop();
+	//CIOCPModel iocp;
+
+	//iocp.LoadSocketLib();
+
+	//while(!iocp.Start()){
+	//	TRACE(_T("Server Start Failed!\n"));
+	//	getchar();
+	//}
+	//TRACE(_T("Server Start OK!\n"));
+
+	//getchar();
+
+	//iocp.Stop();
 	return 0;
 }
 

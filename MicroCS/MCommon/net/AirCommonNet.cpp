@@ -57,5 +57,26 @@ namespace Air{
 			sscanf_s(strIP.c_str(),"%d.%d.%d.%d",&i0,&i1,&i2,&i3);
 			return	i0<<24 | i1<<16 | i2<<8 | i3;
 		}
+
+		MCOMMON_EXPORT	void GetLocalIP( AString& strIP )
+		{
+				// 获得本机主机名
+				char hostname[MAX_PATH] = {0};
+				gethostname(hostname,MAX_PATH);                
+				struct hostent FAR* lpHostEnt = gethostbyname(hostname);
+				if(lpHostEnt == NULL)
+				{
+					strIP	=	"127.0.0.1";
+				}
+
+				// 取得IP地址列表中的第一个为返回的IP(因为一台主机可能会绑定多个IP)
+				LPSTR lpAddr = lpHostEnt->h_addr_list[0];      
+
+				// 将IP地址转化成字符串形式
+				struct in_addr inAddr;
+				memmove(&inAddr,lpAddr,4);
+				strIP = std::string( inet_ntoa(inAddr) );
+		}
+
 	}
 };

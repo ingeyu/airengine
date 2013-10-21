@@ -45,7 +45,7 @@ namespace Air{
 			virtual	U1	RepetitionRun();
 	
 			U32				m_Socket;					///<	SOCKET	ID
-			U32				m_ReceiveSize;				///<	接收到的数据大小
+			S32				m_ReceiveSize;				///<	接收到的数据大小
 			AChar			m_ReceiveBuffer[DEFAULT_RECEIVE_SIZE];	///<	接收缓冲区
 			NetListener*	m_pListener;				///<	监听器
 		};

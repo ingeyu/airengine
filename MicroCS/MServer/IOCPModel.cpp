@@ -503,11 +503,11 @@ bool CIOCPModel::_DoAccpet( PER_SOCKET_CONTEXT* pSocketContext, PER_IO_CONTEXT* 
 	this->m_lpfnGetAcceptExSockAddrs(pIoContext->m_wsaBuf.buf, pIoContext->m_wsaBuf.len - ((sizeof(SOCKADDR_IN)+16)*2),  
 		sizeof(SOCKADDR_IN)+16, sizeof(SOCKADDR_IN)+16, (LPSOCKADDR*)&LocalAddr, &localLen, (LPSOCKADDR*)&ClientAddr, &remoteLen);  
 
-	TRACE( _T("客户端 %s:%d 连入."), inet_ntoa(ClientAddr->sin_addr), ntohs(ClientAddr->sin_port) );
-	TRACE( _T("客户额 %s:%d 信息：%s."),inet_ntoa(ClientAddr->sin_addr), ntohs(ClientAddr->sin_port),pIoContext->m_wsaBuf.buf );
+	//TRACE( _T("客户端 %s:%d 连入.\n"), inet_ntoa(ClientAddr->sin_addr), ntohs(ClientAddr->sin_port) );
+	//TRACE( _T("客户额 %s:%d 信息：%s.\n"),inet_ntoa(ClientAddr->sin_addr), ntohs(ClientAddr->sin_port),pIoContext->m_wsaBuf.buf );
 
 	if(m_pListener!=NULL){
-		m_pListener->OnConnect(pIoContext->m_sockAccept,ClientAddr->sin_addr.S_un.S_addr,ntohs(ClientAddr->sin_port));
+		m_pListener->OnConnect(pIoContext->m_sockAccept,ClientAddr->sin_addr,ntohs(ClientAddr->sin_port));
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 2. 这里需要注意，这里传入的这个是ListenSocket上的Context，这个Context我们还需要用于监听下一个连接
@@ -531,10 +531,10 @@ bool CIOCPModel::_DoAccpet( PER_SOCKET_CONTEXT* pSocketContext, PER_IO_CONTEXT* 
 	pNewIoContext->m_OpType       = RECV_POSTED;
 	pNewIoContext->m_sockAccept   = pNewSocketContext->m_Socket;
 	// 如果Buffer需要保留，就自己拷贝一份出来
-	//memcpy( pNewIoContext->m_szBuffer,pIoContext->m_szBuffer,MAX_BUFFER_LEN );
+	memcpy( pNewIoContext->m_szBuffer,pIoContext->m_szBuffer,MAX_BUFFER_LEN );
 
 	// 绑定完毕之后，就可以开始在这个Socket上投递完成请求了
-	if( false==this->_PostRecv( pNewIoContext) )
+	if( false==this->_DoRecv( pNewSocketContext,pNewIoContext) )
 	{
 		pNewSocketContext->RemoveContext( pNewIoContext );
 		return false;
@@ -581,7 +581,7 @@ bool CIOCPModel::_DoRecv( PER_SOCKET_CONTEXT* pSocketContext, PER_IO_CONTEXT* pI
 {
 	// 先把上一次的数据显示出现，然后就重置状态，发出下一个Recv请求
 	SOCKADDR_IN* ClientAddr = &pSocketContext->m_ClientAddr;
-	TRACE( _T("收到  %s:%d 信息：%s"),inet_ntoa(ClientAddr->sin_addr), ntohs(ClientAddr->sin_port),pIoContext->m_wsaBuf.buf );
+	//TRACE( _T("收到  %s:%d 信息：%s\n"),inet_ntoa(ClientAddr->sin_addr), ntohs(ClientAddr->sin_port),pIoContext->m_wsaBuf.buf );
 	if(m_pListener!=NULL){
 		m_pListener->OnRecv(pSocketContext->m_Socket,pIoContext->m_wsaBuf.buf,0);
 	}
