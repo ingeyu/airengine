@@ -104,3 +104,8 @@ S64 StringHash( const S8* pName )
 	U32	h2	=	APHash(pName);
 	return (h1<<32)|(h2);
 }
+
+U32 CRC32( void* p,U32 uiSize )
+{
+	return lzo_adler32(0x1234,(const U8*)p,uiSize);
+}

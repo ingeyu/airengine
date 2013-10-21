@@ -63,6 +63,7 @@ extern "C"	MCOMMON_EXPORT	void*	__Alloc(unsigned int	uiSize);
 extern "C"	MCOMMON_EXPORT	void	__Free(void*	p);
 extern "C"	MCOMMON_EXPORT	S32		MCompress(const void* pSrc,U32 iSize,void* pDest,U32& uiDestSize);
 extern "C"	MCOMMON_EXPORT	S32		MDescompress(const void* pSrc,U32 iSize,void* pDest,U32& uiDestSize);
+extern "C"	MCOMMON_EXPORT	U32		CRC32(void* p,U32 uiSize);
 extern "C"	MCOMMON_EXPORT	S64		StringHash(const S8*	pName);
 class MCOMMON_EXPORT	MemoryObject{
 public:
@@ -82,7 +83,7 @@ struct FileInfo{
 	U32		size;
 	U32		idx;
 	U32		compressize;
-	
+	U32		crc32;
 };
 struct CSInfo 
 {

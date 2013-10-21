@@ -348,6 +348,7 @@ void CMToolDlg::Build(ITaskbarList3 *p){
 			fwrite(&vecCompressData[0],info.compressize,1,hFile);
 			info.idx	=	uiCurrentData;
 			info.offset	=	iOffset;
+			info.crc32	=	CRC32(&vecCompressData[0],info.compressize);
 			iOffset+=info.compressize;
 
 			std::string s1	=	WideByte2Acsi(s);
