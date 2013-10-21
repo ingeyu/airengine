@@ -52,7 +52,7 @@ namespace Air{
 					if(m_ReceiveSize	<	uiNextPackageOffset){
 						S32	uiLeftSize	=	m_ReceiveSize	-	uiOffset;
 						if(uiLeftSize>0){
-							memcpy(m_ReceiveBuffer,&m_ReceiveBuffer[uiOffset+4],uiLeftSize);
+							memcpy(m_ReceiveBuffer,&m_ReceiveBuffer[uiOffset],uiLeftSize);
 							m_ReceiveSize	=	uiLeftSize;
 						}else{
 							m_ReceiveSize	=	0;

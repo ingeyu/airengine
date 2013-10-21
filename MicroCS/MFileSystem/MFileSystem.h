@@ -9,6 +9,8 @@ class MClient;
 class MFileSystem	:	
 	public	Air::Common::IFactoryManager,
 	public	Singleton<MFileSystem>
+	
+	
 {
 public:
 	MFileSystem();

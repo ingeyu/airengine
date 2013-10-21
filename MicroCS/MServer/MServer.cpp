@@ -7,7 +7,7 @@
 #include "AirCommonLock.h"
 #include "MNetData.h"
 
-
+U32 uiTotalByte=0;
 
 
 class FileServer	:	public	IOCPListener{
@@ -61,6 +61,12 @@ public:
 		U32	uiOffset	=	info.uiOffset;
 		U32	idx			=	info.idx;
 		//printf(_T("File idx=%d offset=%d size=%d \n"),idx,uiOffset,info.uiSize);
+
+		uiTotalByte+=info.uiSize;
+		if((m_uiTaskCount&0xff)==0){
+			printf("Total Data Byte(KB) %d\n",uiTotalByte>>10);
+		}
+
 		if(m_DataArray[idx]!=NULL){
 
 			U32	uiSendCount	=	(info.uiSize+4095)/4096;
@@ -112,9 +118,7 @@ public:
 				m_uiTaskCount++;
 				m_CS.Leave();
 				m_Event.Reset();
-				if((m_uiTaskCount&0xff)==0){
-					printf("%d\n",m_uiTaskCount);
-				}
+
 							  }break;
 		}
 

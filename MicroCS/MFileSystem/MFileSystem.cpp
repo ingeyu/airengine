@@ -70,7 +70,7 @@ void MFileSystem::Update(float fTimeDelta)
 
 	MIOSystem::GetSingleton()->Update(fTimeDelta);
 
-	ScanProcess(_T("GameClient.exe"));
+	//ScanProcess(_T("GameClient.exe"));
 }
 
 void MFileSystem::ScanProcess( const TCHAR* strName )

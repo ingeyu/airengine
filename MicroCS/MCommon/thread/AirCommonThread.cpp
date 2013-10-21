@@ -83,7 +83,7 @@ namespace Air{
 			return true;
 		}
 		unsigned int __stdcall Thread::Run(void* pThread){
-			OutputDebugStringA("--线程启动--\n");
+			OutputDebugStringA("--线程启动--11\n");
 			Thread* p = (Thread*)pThread;
 			while(!p->m_bExit){
 				while(!p->m_bPause){

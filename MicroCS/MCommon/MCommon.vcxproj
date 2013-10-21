@@ -82,6 +82,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <ImportLibrary>../Lib/$(Configuration)/$(ProjectName).lib</ImportLibrary>
+      <OutputFile>../Bin/$(Configuration)/$(ProjectName).dll</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

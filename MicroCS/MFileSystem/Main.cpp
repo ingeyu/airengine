@@ -4,6 +4,8 @@
 
 int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow) 
 {
+	
+
 	U32 uiSize	=	sizeof(NT_Data<FileDataInfo>);
 
 	HANDLE	hMutex	=	CreateMutex(NULL,TRUE,_T("MFileSystemMutex"));
