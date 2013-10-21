@@ -16,7 +16,7 @@ public:
 	U1			Initialization();
 	U1			Release();
 	U1			SaveFileBackground(MFile* pFile);
-	void		Update(float fTimeDelta);
+	void		Update(U32 uiTickTime);
 
 	U1			LoadFile(FileInfo& info,STD_VECTOR<U8>& data);
 	U1			SaveFile(FileInfo& info,const void* pData,U32 uiSize);//const	STD_VECTOR<U8>& data);

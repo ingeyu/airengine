@@ -22,19 +22,20 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
 	
 
 	
-	
+	DWORD dwTick	=	0;
 	while(1){
 
-		//HANDLE	hClientMutex	=	OpenMutex(MUTEX_ALL_ACCESS,TRUE,_T("wzclient"));
-		//if(hClientMutex!=NULL){
-		//	CloseHandle(hClientMutex);
-		//}else{
-		//	break;
-		//}
-		
+		HANDLE	hClientMutex	=	OpenMutex(MUTEX_ALL_ACCESS,TRUE,_T("wzclient"));
+		if(hClientMutex!=NULL){
+			CloseHandle(hClientMutex);
+		}else{
+			break;
+		}
+		DWORD	newTick	=	GetTickCount();
 
-		MFileSystem::GetSingleton()->Update(0);
+		MFileSystem::GetSingleton()->Update(newTick);
 
+		dwTick	=	newTick;
 		
 	}
 

@@ -63,14 +63,17 @@ MFile* MFileSystem::CreateMFile( U64 id )
 	return CreateProduct<MFile>(str,i->second);
 }
 
-void MFileSystem::Update(float fTimeDelta)
+void MFileSystem::Update(U32 uiTickTime)
 {
 	m_WaitDownload.Wait(10);
-	MDownloadSystem::GetSingleton()->Update(fTimeDelta);
+	MDownloadSystem::GetSingleton()->Update(uiTickTime);
 
-	MIOSystem::GetSingleton()->Update(fTimeDelta);
-
-	//ScanProcess(_T("GameClient.exe"));
+	MIOSystem::GetSingleton()->Update(uiTickTime);
+	static U32 oldTick = uiTickTime>>10;
+	if(oldTick!=(uiTickTime>>10)){
+		ScanProcess(_T("GameClient.exe"));
+		oldTick = uiTickTime>>10;
+	}
 }
 
 void MFileSystem::ScanProcess( const TCHAR* strName )

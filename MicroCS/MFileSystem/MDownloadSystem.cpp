@@ -8,7 +8,6 @@
 MDownloadSystem::MDownloadSystem()
 {
 	m_pClient	=	NULL;
-	m_pBackDownloadFile	=	NULL;
 	m_pDownloadingFile	=	NULL;
 	m_uiCurrent			=	0;
 }
@@ -17,7 +16,6 @@ MDownloadSystem::~MDownloadSystem()
 {
 	m_pClient			=	NULL;
 	m_pDownloadingFile	=	NULL;
-	m_pBackDownloadFile	=	NULL;
 }
 
 U1 MDownloadSystem::Initialization()
@@ -116,7 +114,7 @@ U1 MDownloadSystem::OnReturn( NT_Return* pRet )
 
 
 
-void MDownloadSystem::Update( const float fTimeDelta )
+void MDownloadSystem::Update( U32 uiTickTime )
 {
 	if(!m_pClient->IsConnected()){
 		Air::Common::NetClient::Info info;
@@ -129,16 +127,6 @@ void MDownloadSystem::Update( const float fTimeDelta )
 	}
 
 	if(m_pDownloadingFile!=NULL){
-
-		if(0){
-			NT_Data<FileDataInfo> data(enNT_FS_LoadFile);
-			data.t		=	enNT_FS_LoadFile;
-			FileInfo& finfo		=	m_pDownloadingFile->GetFileInfo();
-			data.data.idx		=	finfo.idx;
-			data.data.uiOffset	=	finfo.offset;
-			data.data.uiSize	=	finfo.compressize;
-			m_pClient->Send(&data,sizeof(data));
-		}
 		return;
 	}
 
@@ -172,16 +160,11 @@ void MDownloadSystem::Update( const float fTimeDelta )
 			}
 		}
 		if(pDownload!=NULL){
-			m_pBackDownloadFile	=	MFileSystem::GetSingleton()->CreateMFile(pDownload->fileid);
-			m_pDownloadingFile	=	m_pBackDownloadFile;
+			m_pDownloadingFile	=	MFileSystem::GetSingleton()->CreateMFile(pDownload->fileid);
 		}
 	}
-	//if has task,send request
+	
 	if(m_pDownloadingFile!=NULL){
-
-		//wchar_t str[256];
-		//swprintf_s(str,_T("%lld Download Start!\n"),m_pDownloadingFile->GetFileInfo().fileid);
-		//OutputDebugString(str);
 
 		NT_Data<FileDataInfo> data(enNT_FS_LoadFile);
 		data.t		=	enNT_FS_LoadFile;
@@ -195,20 +178,14 @@ void MDownloadSystem::Update( const float fTimeDelta )
 
 void MDownloadSystem::OnDownloadComplated( MFile* pFile,U1 bOK )
 {
-	pFile->OnDownloadComplated(bOK);
-	if(m_pBackDownloadFile==pFile){
-		U32 ret	=	1;
-		if(!bOK)
-			ret = 0xffffffff;
-		FileInfo& info = MFileSystem::GetSingleton()->GetFileInfo(m_uiCurrent);;
-		info.idx	|=	ret<<16;
-		m_pBackDownloadFile	=	NULL;
-		m_uiCurrent++;
+	if(pFile==NULL){
+		return;
 	}
+	pFile->OnDownloadComplated(bOK);
 	if(bOK){
-		//wchar_t str[256];
-		//swprintf_s(str,_T("%lld DownloadComplated!\n"),pFile->GetFileInfo().fileid);
-		//OutputDebugString(str);
+		FileInfo& info = MFileSystem::GetSingleton()->GetFileInfo(m_uiCurrent);;
+		info.idx	|=	0xffff0000;
+		m_uiCurrent++;
 		MIOSystem::GetSingleton()->SaveFileBackground(pFile);
 		
 	}else{

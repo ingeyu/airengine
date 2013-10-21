@@ -84,7 +84,7 @@ U1 MIOSystem::SaveFileBackground( MFile* pFile )
 	return true;
 }
 
-void MIOSystem::Update( float fTimeDelta )
+void MIOSystem::Update( U32 uiTickTime )
 {
 	
 	m_CS.Enter();

@@ -18,7 +18,7 @@ public:
 
 	U1				Initialization();
 	U1				Release();
-	void			Update(float fTimeDelta);
+	void			Update(U32 uiTickTime);
 
 
 	MFile*			CreateMFile(U64	id);

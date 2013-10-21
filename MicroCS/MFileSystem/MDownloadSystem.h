@@ -22,7 +22,7 @@ public:
 	U1		Release();
 
 	U1		AddFile(MFile* pFile);
-	void	Update(const float fTimeDelta);
+	void	Update(U32 uiTickTime);
 
 	virtual	U1	OnConnected(U32	socket,CAString&	strIP,CAString&	strPort);
 	virtual	U1	OnClose(U32	uiSocket);
@@ -30,9 +30,8 @@ public:
 	virtual	U1	OnReturn(NT_Return* pRet);
 	void		OnDownloadComplated(MFile* pFile,U1	bOK);
 protected:
-	MFile*				m_pDownloadingFile;
-	MFile*				m_pBackDownloadFile;
-	STD_LIST<MFile*>	m_lstFile;
+	MFile*							m_pDownloadingFile;
+	STD_LIST<MFile*>				m_lstFile;
 	Air::Common::NetClient*			m_pClient;
 	Air::Common::CriticalSection	m_CS;
 	U32								m_uiCurrent;
