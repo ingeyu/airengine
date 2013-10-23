@@ -1,5 +1,12 @@
 #include "MCommon.h"
+#define ZIP_COMPRESS
+
+#ifdef ZIP_COMPRESS
+#include "lzo/zlib.h"
+
+#else
 #include "lzo/minilzo.h"
+#endif
 
 
 BOOL APIENTRY DllMain( HMODULE hModule,
@@ -9,7 +16,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 {
 	switch (ul_reason_for_call){
 	case DLL_PROCESS_ATTACH:{
-		lzo_init();
+		//lzo_init();
 
 							}break;
 	case DLL_THREAD_ATTACH:
@@ -47,14 +54,25 @@ void	MemoryObject::operator delete[](void* p){
 
 S32 MCompress( const void* pSrc,U32 iSize,void* pDest,U32& uiDestSize )
 {
+	//U8 workmem[LZO1X_1_MEM_COMPRESS];
+	//return lzo1x_1_compress((U8*)pSrc,iSize,(U8*)pDest,(unsigned long*)&uiDestSize,workmem);
+#ifdef ZIP_COMPRESS
+	return compress2((Bytef*)pDest,(uLongf*)&uiDestSize,(const Bytef*)pSrc,iSize,Z_BEST_COMPRESSION);
+#else
 	U8 workmem[LZO1X_1_MEM_COMPRESS];
 	return lzo1x_1_compress((U8*)pSrc,iSize,(U8*)pDest,(unsigned long*)&uiDestSize,workmem);
+#endif
 }
 
 S32 MDescompress( const void* pSrc,U32 iSize,void* pDest,U32& uiDestSize )
 {
-	U8 workmem[LZO1X_1_MEM_COMPRESS];
-	return lzo1x_decompress((U8*)pSrc,iSize,(U8*)pDest,(unsigned long*)&uiDestSize,workmem);
+	//U8 workmem[LZO1X_1_MEM_COMPRESS];
+	//return lzo1x_decompress((U8*)pSrc,iSize,(U8*)pDest,(unsigned long*)&uiDestSize,workmem);
+#ifdef ZIP_COMPRESS
+	return uncompress((Bytef*)pDest,(uLongf*)&uiDestSize,(const Bytef*)pSrc,(uLongf)iSize);
+#else
+	return lzo1x_decompress((U8*)pSrc,iSize,(U8*)pDest,(unsigned long*)&uiDestSize,0);
+#endif
 }
 U32	HashStringID( const S8* pName ,U32 type){
 	U32	seed1	=	0x7FED7FED;
@@ -106,5 +124,9 @@ S64 StringHash( const S8* pName )
 
 U32 CRC32( void* p,U32 uiSize )
 {
-	return lzo_adler32(0x1234,(const U8*)p,uiSize);
+#ifdef ZIP_COMPRESS
+	return crc32(0x12345678,(const U8*)p,uiSize);//lzo_adler32(0x1234,(const U8*)p,uiSize);
+#else
+	return lzo_adler32(0x12345678,(const U8*)p,uiSize);
+#endif
 }

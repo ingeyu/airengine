@@ -69,6 +69,39 @@
     <ClCompile Include="factory\AirFileMapping.cpp">
       <Filter>factory</Filter>
     </ClCompile>
+    <ClCompile Include="lzo\adler32.c">
+      <Filter>lzo</Filter>
+    </ClCompile>
+    <ClCompile Include="lzo\compress.c">
+      <Filter>lzo</Filter>
+    </ClCompile>
+    <ClCompile Include="lzo\crc32.c">
+      <Filter>lzo</Filter>
+    </ClCompile>
+    <ClCompile Include="lzo\deflate.c">
+      <Filter>lzo</Filter>
+    </ClCompile>
+    <ClCompile Include="lzo\infback.c">
+      <Filter>lzo</Filter>
+    </ClCompile>
+    <ClCompile Include="lzo\inffast.c">
+      <Filter>lzo</Filter>
+    </ClCompile>
+    <ClCompile Include="lzo\inflate.c">
+      <Filter>lzo</Filter>
+    </ClCompile>
+    <ClCompile Include="lzo\inftrees.c">
+      <Filter>lzo</Filter>
+    </ClCompile>
+    <ClCompile Include="lzo\trees.c">
+      <Filter>lzo</Filter>
+    </ClCompile>
+    <ClCompile Include="lzo\uncompr.c">
+      <Filter>lzo</Filter>
+    </ClCompile>
+    <ClCompile Include="lzo\zutil.c">
+      <Filter>lzo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MCommon.h">
@@ -124,6 +157,36 @@
     </ClInclude>
     <ClInclude Include="factory\AirFileMapping.h">
       <Filter>factory</Filter>
+    </ClInclude>
+    <ClInclude Include="lzo\crc32.h">
+      <Filter>lzo</Filter>
+    </ClInclude>
+    <ClInclude Include="lzo\deflate.h">
+      <Filter>lzo</Filter>
+    </ClInclude>
+    <ClInclude Include="lzo\inffast.h">
+      <Filter>lzo</Filter>
+    </ClInclude>
+    <ClInclude Include="lzo\inffixed.h">
+      <Filter>lzo</Filter>
+    </ClInclude>
+    <ClInclude Include="lzo\inflate.h">
+      <Filter>lzo</Filter>
+    </ClInclude>
+    <ClInclude Include="lzo\inftrees.h">
+      <Filter>lzo</Filter>
+    </ClInclude>
+    <ClInclude Include="lzo\trees.h">
+      <Filter>lzo</Filter>
+    </ClInclude>
+    <ClInclude Include="lzo\zconf.h">
+      <Filter>lzo</Filter>
+    </ClInclude>
+    <ClInclude Include="lzo\zlib.h">
+      <Filter>lzo</Filter>
+    </ClInclude>
+    <ClInclude Include="lzo\zutil.h">
+      <Filter>lzo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
