@@ -165,7 +165,10 @@ U32 MClient::ReadFromHD( void* pBuffer,FileInfo* pInfo )
 	void* pTemp	=	malloc(pInfo->compressize);
 
 	HANDLE	hFile	=	GetFileHandle(pInfo->idx);
-	SetFilePointer(hFile,pInfo->offset,0,FILE_BEGIN);
+	LARGE_INTEGER fpos;
+	fpos.QuadPart	=	pInfo->offset;
+	LARGE_INTEGER oldpos;
+	SetFilePointerEx(hFile,fpos,&oldpos,FILE_BEGIN);
 	DWORD	dwRead=0;
 	ReadFile(hFile,
 			pTemp,

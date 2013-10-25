@@ -51,7 +51,10 @@ U1 MIOSystem::LoadFile( FileInfo& info,STD_VECTOR<U8>& data )
 	}
 
 	data.resize(info.compressize);
-	SetFilePointer(h,info.offset,0,FILE_BEGIN);
+	LARGE_INTEGER fpos;
+	fpos.QuadPart	=	info.offset;
+	LARGE_INTEGER oldpos;
+	SetFilePointerEx(h,fpos,&oldpos,FILE_BEGIN);
 	DWORD dwRead=0;
 	ReadFile(h,&data[0],info.compressize,&dwRead,NULL);
 
@@ -62,7 +65,10 @@ U1 MIOSystem::SaveFile( FileInfo& info,const void* pData,U32 uiSize )
 {
 	U32	Index	=	0;
 	HANDLE h = GetFileHandleByIndex(info.idx&0xffff);
-	SetFilePointer(h,info.offset,0,FILE_BEGIN);
+	LARGE_INTEGER fpos;
+	fpos.QuadPart	=	info.offset;
+	LARGE_INTEGER oldpos;
+	SetFilePointerEx(h,fpos,&oldpos,FILE_BEGIN);
 	DWORD dwWrite=0;
 	WriteFile(h,pData,uiSize,&dwWrite,NULL);
 	info.idx		|=0xffff0000;
@@ -98,7 +104,10 @@ void MIOSystem::Update( U32 uiTickTime )
 		SaveFile(pFile->GetFileInfo(),pFile->GetData(),pFile->GetDataSize());
 		U32	uiRA	=	pFile->GetFileIndexRA();
 		DWORD dWrite=0;
-		SetFilePointer(m_FileIndex,uiRA,0,FILE_BEGIN);
+		LARGE_INTEGER fpos;
+		fpos.QuadPart	=	uiRA;
+		LARGE_INTEGER oldpos;
+		SetFilePointerEx(m_FileIndex,fpos,&oldpos,FILE_BEGIN);
 		WriteFile(m_FileIndex,&pFile->GetFileInfo().idx,sizeof(U32),&dWrite,NULL);
 		pFile->ReleaseRef();
 	}

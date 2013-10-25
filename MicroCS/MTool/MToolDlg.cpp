@@ -314,7 +314,7 @@ void CMToolDlg::Build(ITaskbarList3 *p){
 		wchar_t str[MAX_PATH];
 		swprintf_s(str,L"%d/%d",f,lstFile.size());
 		pTest->SetWindowTextW(str);
-		pList->InsertString(0,(*i).c_str());
+		//pList->InsertString(0,(*i).c_str());
 		//if(f&0xf==0){
 		//	pTest->RedrawWindow();
 		//	pProgress->RedrawWindow();
@@ -332,9 +332,19 @@ void CMToolDlg::Build(ITaskbarList3 *p){
 			vecCompressData.resize(info.size+4096);
 			DWORD	dwRead=0;
 			ReadFile(h,&vecTempData[0],info.size,&dwRead,NULL);
-			info.compressize	=	vecCompressData.size();
-			MCompress(&vecTempData[0],info.size,&vecCompressData[0],info.compressize);
 			CloseHandle(h);
+			info.compressize	=	vecCompressData.size();
+
+			S32	err = MCompress(&vecTempData[0],info.size,&vecCompressData[0],info.compressize);//info.compressize);
+			if(err!=0){
+				wchar_t str[256];
+				swprintf_s(str,L"err = %d",err);
+				pList->InsertString(0,str);
+				info.compressize	=	info.size;
+				//AfxMessageBox(s.c_str());
+				continue;
+			}
+			
 			if(iOffset+info.compressize	>	uiBlockSize){
 				uiCurrentData++;
 				iOffset=0;
@@ -349,7 +359,7 @@ void CMToolDlg::Build(ITaskbarList3 *p){
 			fwrite(&vecCompressData[0],info.compressize,1,hFile);
 			info.idx	=	uiCurrentData;
 			info.offset	=	iOffset;
-			info.crc32	=	CRC32(&vecCompressData[0],info.compressize);
+			info.crc32	=	CRC32(&vecTempData[0],info.size);
 			iOffset+=info.compressize;
 
 			std::string s1	=	WideByte2Acsi(s);
@@ -387,17 +397,18 @@ void CMToolDlg::Build(ITaskbarList3 *p){
 		FILE* pFile = pFileData[info.idx];
 		vecCompressData.resize(info.compressize);
 		vecTempData.resize(info.size);
-		fseek(pFile,info.offset,SEEK_SET);
+		_fseeki64(pFile,info.offset,SEEK_SET);
 		fread(&vecCompressData[0],info.compressize,1,pFile);
-		U32	crc=CRC32(&vecCompressData[0],info.compressize);
+		
+		U32	dwDest=info.size;
+		MDescompress(&vecCompressData[0],info.compressize,&vecTempData[0],dwDest);
+		U32	crc=CRC32(&vecTempData[0],info.size);
 		if(crc!=info.crc32){
 			wchar_t str[MAX_PATH];
 			swprintf_s(str,L"%s c=%d size=%d offset=%d crc32=%d",vecString[i].c_str(),i,info.compressize,info.size,info.offset,info.crc32);
 			pList->InsertString(0,str);
 			continue;
 		};
-		U32	dwDest=0;
-		MDescompress(&vecCompressData[0],info.compressize,&vecTempData[0],dwDest);
 	}
 
 	AfxMessageBox(_T("Finished!"));
