@@ -1,13 +1,20 @@
 #include "MIOSystem.h"
 #include "MFile.h"
+#include "process.h"
+
+void	IOThreadUpdate(void* p){
+	MIOSystem::GetSingleton()->Update(0);
+
+}
 
 MIOSystem::MIOSystem()
 {
 	for(U32 i=0;i<FILEDATA_COUNT;i++){
-		m_FileData[i]=NULL;
+		m_FileWrite[i]=NULL;
 	}
 	m_lstFile.reserve(16);
 	m_FileIndex		=	NULL;
+	m_bExit			=	false;
 }
 
 MIOSystem::~MIOSystem()
@@ -25,15 +32,18 @@ U1 MIOSystem::Initialization()
 		OPEN_ALWAYS,
 		0,
 		0 );
+	_beginthread(IOThreadUpdate,1048576,this);
 	return true;
 }
 
 U1 MIOSystem::Release()
 {
-	Update(0);
+	m_bExit	=	true;
+	m_WaitExit.Reset();
+	
 	for(U32 i=0;i<FILEDATA_COUNT;i++){
-		CloseHandle(m_FileData[i]);
-		m_FileData[i]=NULL;
+		CloseHandle(m_FileWrite[i]);
+		m_FileWrite[i]=NULL;
 	}
 	if(m_FileIndex!=NULL){
 		CloseHandle(m_FileIndex);
@@ -45,26 +55,29 @@ U1 MIOSystem::Release()
 U1 MIOSystem::LoadFile( FileInfo& info,STD_VECTOR<U8>& data )
 {
 
-	HANDLE h = GetFileHandleByIndex(info.idx);
-	if(h==NULL){
-		return false;
-	}
+	
 
 	data.resize(info.compressize);
 	LARGE_INTEGER fpos;
 	fpos.QuadPart	=	info.offset;
 	LARGE_INTEGER oldpos;
+	m_CSRead.Enter();
+	HANDLE h = GetFileReadHandle(info.idx&0xffff);
+	if(h==NULL){
+		m_CSRead.Leave();
+		return false;
+	}
 	SetFilePointerEx(h,fpos,&oldpos,FILE_BEGIN);
 	DWORD dwRead=0;
 	ReadFile(h,&data[0],info.compressize,&dwRead,NULL);
-
+	m_CSRead.Leave();
 	return true;
 }
 
 U1 MIOSystem::SaveFile( FileInfo& info,const void* pData,U32 uiSize )
 {
 	U32	Index	=	0;
-	HANDLE h = GetFileHandleByIndex(info.idx&0xffff);
+	HANDLE h = GetFileWriteHandle(info.idx&0xffff);
 	LARGE_INTEGER fpos;
 	fpos.QuadPart	=	info.offset;
 	LARGE_INTEGER oldpos;
@@ -87,40 +100,46 @@ U1 MIOSystem::SaveFileBackground( MFile* pFile )
 	m_CS.Enter();
 	m_lstFile.push_back(pFile);
 	m_CS.Leave();
+	m_WaitExit.Reset();
 	return true;
 }
 
 void MIOSystem::Update( U32 uiTickTime )
 {
-	
-	m_CS.Enter();
-	STD_VECTOR<MFile*>	lst	=	m_lstFile;
-	m_lstFile.clear();
-	m_CS.Leave();
+	while(true){
+		m_CS.Enter();
+		STD_VECTOR<MFile*>	lst	=	m_lstFile;
+		m_lstFile.clear();
+		m_CS.Leave();
 
-	STD_VECTOR<MFile*>::iterator	i	=	lst.begin();
-	for(;i!=lst.end();i++){
-		MFile* pFile = (*i);
-		SaveFile(pFile->GetFileInfo(),pFile->GetData(),pFile->GetDataSize());
-		U32	uiRA	=	pFile->GetFileIndexRA();
-		DWORD dWrite=0;
-		LARGE_INTEGER fpos;
-		fpos.QuadPart	=	uiRA;
-		LARGE_INTEGER oldpos;
-		SetFilePointerEx(m_FileIndex,fpos,&oldpos,FILE_BEGIN);
-		WriteFile(m_FileIndex,&pFile->GetFileInfo().idx,sizeof(U32),&dWrite,NULL);
-		pFile->ReleaseRef();
+		STD_VECTOR<MFile*>::iterator	i	=	lst.begin();
+		for(;i!=lst.end();i++){
+			MFile* pFile = (*i);
+			SaveFile(pFile->GetFileInfo(),pFile->GetData(),pFile->GetDataSize());
+			U32	uiRA	=	pFile->GetFileIndexRA();
+			DWORD dWrite=0;
+			LARGE_INTEGER fpos;
+			fpos.QuadPart	=	uiRA;
+			LARGE_INTEGER oldpos;
+			SetFilePointerEx(m_FileIndex,fpos,&oldpos,FILE_BEGIN);
+			WriteFile(m_FileIndex,&pFile->GetFileInfo().idx,sizeof(U32),&dWrite,NULL);
+			pFile->ReleaseRef();
+		}
+		m_WaitExit.Wait(1000);
+		if(m_bExit){
+			break;
+		}
 	}
 	
 }
 
 
-HANDLE MIOSystem::GetFileHandleByIndex( U32 idx )
+HANDLE MIOSystem::GetFileWriteHandle( U32 idx )
 {
-	if(m_FileData[idx]==NULL){
+	if(m_FileWrite[idx]==NULL){
 		TCHAR strName[MAX_PATH];
 		swprintf_s(strName,_T("Data%d"),idx);
-		m_FileData[idx]	=CreateFile(
+		m_FileWrite[idx]	=CreateFile(
 			strName,
 			GENERIC_READ|GENERIC_WRITE ,
 			FILE_SHARE_READ|FILE_SHARE_WRITE,
@@ -128,9 +147,30 @@ HANDLE MIOSystem::GetFileHandleByIndex( U32 idx )
 			OPEN_ALWAYS,
 			0,
 			0 );
-		if(m_FileData[idx]==INVALID_HANDLE_VALUE){
-			m_FileData[idx]=NULL;
+		if(m_FileWrite[idx]==INVALID_HANDLE_VALUE){
+			m_FileWrite[idx]=NULL;
 		}
 	}
-	return m_FileData[idx];
+	return m_FileWrite[idx];
+}
+
+
+HANDLE MIOSystem::GetFileReadHandle( U32 idx )
+{
+	if(m_FileRead[idx]==NULL){
+		TCHAR strName[MAX_PATH];
+		swprintf_s(strName,_T("Data%d"),idx);
+		m_FileRead[idx]	=CreateFile(
+			strName,
+			GENERIC_READ|GENERIC_WRITE ,
+			FILE_SHARE_READ|FILE_SHARE_WRITE,
+			NULL,
+			OPEN_ALWAYS,
+			0,
+			0 );
+		if(m_FileRead[idx]==INVALID_HANDLE_VALUE){
+			m_FileRead[idx]=NULL;
+		}
+	}
+	return m_FileRead[idx];
 }

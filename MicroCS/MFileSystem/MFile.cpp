@@ -38,39 +38,26 @@ void MFile::OnDownloading( U32 uiOffset,const void* p,U32 uiSize )
 
 void MFile::OnDownloadComplated(U1	bOK)
 {
+
+	m_NotifyCS.Enter();
 	m_bDownloading	=	false;
-	if(!bOK){
-		m_Data	=	STD_VECTOR<U8>();
-		m_NotifyCS.Enter();
-		STD_LIST<NotifyInfo>::iterator	i	=	m_lstNotify.begin();
-		for(;i!=m_lstNotify.end();i++){
+	STD_LIST<NotifyInfo>::iterator	i	=	m_lstNotify.begin();
+	for(;i!=m_lstNotify.end();i++){
+		if(!bOK){
 			i->pClient->OnFileLoadFailed(i->uiOffset,this);
-			i->pClient->ReleaseRef();
-		}
-		m_lstNotify.clear();
-		m_NotifyCS.Leave();
-	}else{
-		m_NotifyCS.Enter();
-		STD_LIST<NotifyInfo>::iterator	i	=	m_lstNotify.begin();
-		for(;i!=m_lstNotify.end();i++){
+		}else{
 			i->pClient->OnFileLoadComplated(i->uiOffset,this);
-			i->pClient->ReleaseRef();
 		}
-		m_lstNotify.clear();
-		m_NotifyCS.Leave();
+		i->pClient->ReleaseRef();
 	}
+	m_lstNotify.clear();
+	m_NotifyCS.Leave();
+	
 }
 
 void MFile::AddNotify( const NotifyInfo& info )
 {
-	if(!m_bDownloading){
-		if(m_Data.empty()){
-			info.pClient->OnFileLoadFailed(info.uiOffset,this);
-		}else{
-			info.pClient->OnFileLoadComplated(info.uiOffset,this);
-		}
-		return;
-	}
+
 	m_NotifyCS.Enter();
 	if(!m_bDownloading){
 		if(m_Data.empty()){

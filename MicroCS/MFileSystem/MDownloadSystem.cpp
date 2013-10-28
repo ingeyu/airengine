@@ -129,14 +129,14 @@ void MDownloadSystem::Update( U32 uiTickTime )
 	if(m_pDownloadingFile!=NULL){
 		return;
 	}
-
+	STD_LIST<MFile*> releaseFile;
 	//check high prority list
 	m_CS.Enter();
 	STD_LIST<MFile*>::iterator	i	=	m_lstFile.begin();
 	for(;i!=m_lstFile.end();){
 		//file is already download!
 		if(!(*i)->IsDownloading()){
-			(*i)->ReleaseRef();
+			releaseFile.push_back(*i);//->ReleaseRef();
 			i	=	m_lstFile.erase(i);
 			continue;
 		}else{
@@ -146,6 +146,13 @@ void MDownloadSystem::Update( U32 uiTickTime )
 		}
 	}
 	m_CS.Leave();
+	//Release File
+	i	=	releaseFile.begin();
+	for(;i!=releaseFile.end();i++){
+		(*i)->ReleaseRef();
+	}
+	releaseFile.clear();
+
 	//check bakcground low prority list
 	if(m_pDownloadingFile==NULL){
 		U32	uiCount	=	MFileSystem::GetSingleton()->GetFileCount();
@@ -183,9 +190,12 @@ void MDownloadSystem::OnDownloadComplated( MFile* pFile,U1 bOK )
 	}
 	pFile->OnDownloadComplated(bOK);
 	if(bOK){
-		FileInfo& info = MFileSystem::GetSingleton()->GetFileInfo(m_uiCurrent);;
-		info.idx	|=	0xffff0000;
-		m_uiCurrent++;
+		FileInfo* pBKInfo	=	&MFileSystem::GetSingleton()->GetFileInfo(m_uiCurrent);
+		FileInfo* pInfo		=	&pFile->GetFileInfo();
+		
+		if(pInfo==pBKInfo){
+			m_uiCurrent++;
+		}
 		MIOSystem::GetSingleton()->SaveFileBackground(pFile);
 		
 	}else{

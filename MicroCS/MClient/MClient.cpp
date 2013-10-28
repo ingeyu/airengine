@@ -1,6 +1,35 @@
-#include "MClient.h"
+#include	"MClient.h"
+#include	"MClientFile.h"
 
-
+ThreadHandle::ThreadHandle(){
+	memset(m_FileHandle,0,sizeof(HANDLE)*FILEDATA_COUNT);
+	m_uiThreadID	=	0;
+}
+ThreadHandle::~ThreadHandle(){
+	for(U32 i=0;i<FILEDATA_COUNT;i++){
+		if(m_FileHandle[i]!=NULL){
+			CloseHandle(m_FileHandle[i]);
+			m_FileHandle[i]=0;
+		}
+	}
+	m_uiThreadID=0;
+}
+HANDLE	ThreadHandle::GetFileHandle(U32	idx){
+	if(m_FileHandle[idx]!=NULL)
+		return m_FileHandle[idx];
+	TCHAR str[MAX_PATH];
+	swprintf_s(str,_T("Data%d"),idx);
+	 m_FileHandle[idx]	=	CreateFile(
+		 str,
+		 GENERIC_READ,
+		 FILE_SHARE_READ|FILE_SHARE_WRITE,
+		 NULL,
+		 OPEN_EXISTING,
+		 NULL,
+		 NULL
+		 );
+	 return  m_FileHandle[idx];
+}
 
 U32 MClient::LoadFile( const char* strName,void* pBuffer)
 {
@@ -13,11 +42,26 @@ U32 MClient::LoadFile( const char* strName,void* pBuffer)
 	STD_HASHMAP<U64,FileInfo*>::iterator	itr	=	m_mapFileInfo.find(fileID);
 	if(itr==m_mapFileInfo.end())
 		return 0;
-	if(pBuffer==NULL)
-		return itr->second->size;
-	//if(itr->second->offset!=0xffffffff){
-	//	return ReadFromHD(pBuffer,itr->second);
-	//}
+
+	U1	bDownloadOnly		=	false;
+	U32	uiUnCompressSize	=	itr->second->size;
+	U32	uiCompressSize		=	itr->second->compressize;
+	U32	bReady				=	itr->second->idx&0xffff0000;
+
+
+	if(pBuffer==MFILE_EXIST){
+		return uiUnCompressSize;
+	}else if(pBuffer==MFILE_READY){
+		return	bReady!=0;
+	}else if(pBuffer==MFILE_DOWNLOAD){
+		bDownloadOnly	=	true;
+	}
+	if(bReady){
+		if(bDownloadOnly){
+			return uiUnCompressSize;
+		}
+		return ReadFromHD(pBuffer,itr->second);
+	}
 
 
 	CSInfo* pInfo	=	(CSInfo*)m_pFile->GetLockedBuffer();
@@ -27,7 +71,22 @@ U32 MClient::LoadFile( const char* strName,void* pBuffer)
 	}
 	pInfo->FileID	=	fileID;
 	pInfo->uiSize	=	0;
+	if(bDownloadOnly){
+		pInfo->ret	=	0;
+	}else{
+		pInfo->ret	=	1;
+	}
 	InterlockedExchange(&pInfo->mark,1);
+
+	if(m_pWaitClient!=NULL){
+		m_pWaitClient->Reset();
+	}
+
+	if(bDownloadOnly){
+		return uiUnCompressSize;
+	}
+	
+
 	//Wait IO Process(MFileSystem)
 	while(InterlockedCompareExchange(&pInfo->mark,0xeeeeeeee,0xffffffff)!=0xffffffff){
 
@@ -36,9 +95,25 @@ U32 MClient::LoadFile( const char* strName,void* pBuffer)
 	U8* p = (U8*)pInfo;//+1;
 	p+=sizeof(CSInfo);
 	if(bRet){
-		U32	destSize	=	itr->second->size;
-		MDescompress(p,itr->second->compressize,pBuffer,destSize);
-		bRet	=	destSize;
+		if(uiUnCompressSize==uiCompressSize){
+			memcpy(pBuffer,p,uiUnCompressSize);
+		}else{
+			U32	destSize	=	uiUnCompressSize;
+			MDescompress(p,uiCompressSize,pBuffer,destSize);
+		}
+		U32	crc32	=	CRC32(pBuffer,uiUnCompressSize);
+		if(crc32!=itr->second->crc32){
+			char str[MAX_PATH];
+			sprintf_s(str,"%016llx CM CRC32 Failed!\n",itr->second->fileid);
+			OutputDebugStringA(str);
+			InterlockedExchange(&pInfo->mark,0);
+
+			if(itr->second->idx&0xffff0000){
+				return ReadFromHD(pBuffer,itr->second);
+			}
+			return 0;
+		}
+		bRet	=	uiUnCompressSize;
 	}
 	//Release Mark
 	InterlockedExchange(&pInfo->mark,0);
@@ -52,7 +127,8 @@ MClient::MClient()
 	for(U32 i=0;i<FILEDATA_COUNT;i++){
 		m_FileData[i]	=	NULL;
 	}
-	m_pFileInfo	=	NULL;
+	m_pFileInfo		=	NULL;
+	m_pWaitClient	=	NULL;
 }
 
 void	StartProcess(const TCHAR* strExe){
@@ -141,12 +217,18 @@ U1 MClient::Initialization()
 		FileInfo& finfo = pInfo[i];
 		m_mapFileInfo[finfo.fileid]	=	&finfo;
 	}
-
+	char strEventName[MAX_PATH];
+	sprintf_s(strEventName,"%d",GetProcessId(GetCurrentProcess()));
+	m_pWaitClient	=	new	Air::Common::Event(strEventName);
 	return true;
 }
 
 U1 MClient::Release()
 {
+	if(m_pWaitClient!=NULL){
+		delete m_pWaitClient;
+		m_pWaitClient=NULL;
+	}
 
 	SAFE_RELEASE_REF(m_pFile);
 	SAFE_RELEASE_REF(m_pFileInfo);
@@ -160,24 +242,50 @@ U1 MClient::Release()
 
 U32 MClient::ReadFromHD( void* pBuffer,FileInfo* pInfo )
 {
-	if(pInfo->idx>=FILEDATA_COUNT)
-		return 0;
-	void* pTemp	=	malloc(pInfo->compressize);
+	U32	DataIdx	=	pInfo->idx&0xffff;
 
-	HANDLE	hFile	=	GetFileHandle(pInfo->idx);
+	if(DataIdx>=FILEDATA_COUNT)
+		return 0;
+
+	U32	threadid	=	GetCurrentThreadId();
+	U32	count		=	m_uiThreadCount;
+	HANDLE	pFile	=	NULL;
+	for(U32	i=0;i<count;i++){
+		ThreadHandle& th	=	m_ThreadHandle[i];
+		if(th.m_uiThreadID==threadid){
+			pFile	=	th.GetFileHandle(DataIdx);
+		}
+	}
+	if(pFile==NULL){
+		U32	ti	=	InterlockedIncrement(&m_uiThreadCount);
+		ThreadHandle& th	=	m_ThreadHandle[ti];
+		if(th.m_uiThreadID==threadid){
+			pFile	=	th.GetFileHandle(DataIdx);
+		}
+	}
+
 	LARGE_INTEGER fpos;
 	fpos.QuadPart	=	pInfo->offset;
 	LARGE_INTEGER oldpos;
-	SetFilePointerEx(hFile,fpos,&oldpos,FILE_BEGIN);
+	SetFilePointerEx(pFile,fpos,&oldpos,FILE_BEGIN);
 	DWORD	dwRead=0;
-	ReadFile(hFile,
-			pTemp,
+	ReadFile(pFile,
+			pBuffer,
 			pInfo->compressize,
 			&dwRead,
 			NULL);
-	U32 uiDest=0;
-	MDescompress(pTemp,pInfo->compressize,pBuffer,uiDest);
-	free(pTemp);
+	U32 uiDest=pInfo->size;
+	if(uiDest!=pInfo->compressize){
+		CSInfo* pCSInfo	=	(CSInfo*)m_pFile->GetLockedBuffer();
+		//Wait Other Thread 
+		while(InterlockedCompareExchange(&pCSInfo->mark,0xffffffff,0)!=0){
+
+		}
+		MDescompress(pTemp,pInfo->compressize,pBuffer,uiDest);
+
+		InterlockedExchange(&pCSInfo->mark,0);
+	}
+	
 	return uiDest;
 }
 

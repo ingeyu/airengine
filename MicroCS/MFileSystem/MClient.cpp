@@ -35,9 +35,12 @@ void MClient::OnFileLoadComplated( U32 uiOffset,MFile* pFile )
 
 	U8* pBuffer = (U8*)pInfo;//+1;
 	pBuffer+=sizeof(CSInfo);
-	
-	memcpy(pBuffer,pFile->GetData(),pFile->GetDataSize());//pBuffer,0xffffffff);
-	pInfo->ret		=	1;
+	if(pInfo->ret==1){
+		memcpy(pBuffer,pFile->GetData(),pFile->GetDataSize());//pBuffer,0xffffffff);
+		pInfo->ret		=	1;
+	}else{
+		pInfo->ret		=	1;
+	}
 	pInfo->uiSize	=	pFile->GetDataSize();
 	pInfo->mark		=	0xFFFFFFFF;
 }
