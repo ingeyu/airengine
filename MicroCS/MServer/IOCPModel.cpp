@@ -115,7 +115,7 @@ DWORD WINAPI CIOCPModel::_WorkerThread(LPVOID lpParam)
 					 // Accept  
 				case ACCEPT_POSTED:
 					{ 
-
+						pIoContext->m_uiTotalSize	=	dwBytesTransfered;
 						// 为了增加代码可读性，这里用专门的_DoAccept函数进行处理连入请求
 						pIOCPModel->_DoAccpet( pSocketContext, pIoContext );						
 						
@@ -126,6 +126,7 @@ DWORD WINAPI CIOCPModel::_WorkerThread(LPVOID lpParam)
 					// RECV
 				case RECV_POSTED:
 					{
+						pIoContext->m_uiTotalSize	=	dwBytesTransfered;
 						// 为了增加代码可读性，这里用专门的_DoRecv函数进行处理接收请求
 						pIOCPModel->_DoRecv( pSocketContext,pIoContext );
 					}
@@ -135,7 +136,8 @@ DWORD WINAPI CIOCPModel::_WorkerThread(LPVOID lpParam)
 					// 这里略过不写了，要不代码太多了，不容易理解，Send操作相对来讲简单一些
 				case SEND_POSTED:
 					{
-
+						pIoContext->m_uiSend += dwBytesTransfered;
+						pIOCPModel->_DoSend(pSocketContext,pIoContext);
 					}
 					break;
 				default:
@@ -505,10 +507,6 @@ bool CIOCPModel::_DoAccpet( PER_SOCKET_CONTEXT* pSocketContext, PER_IO_CONTEXT* 
 
 	//TRACE( _T("客户端 %s:%d 连入.\n"), inet_ntoa(ClientAddr->sin_addr), ntohs(ClientAddr->sin_port) );
 	//TRACE( _T("客户额 %s:%d 信息：%s.\n"),inet_ntoa(ClientAddr->sin_addr), ntohs(ClientAddr->sin_port),pIoContext->m_wsaBuf.buf );
-
-	if(m_pListener!=NULL){
-		m_pListener->OnConnect(pIoContext->m_sockAccept,ClientAddr->sin_addr,ntohs(ClientAddr->sin_port));
-	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	// 2. 这里需要注意，这里传入的这个是ListenSocket上的Context，这个Context我们还需要用于监听下一个连接
 	// 所以我还得要将ListenSocket上的Context复制出来一份为新连入的Socket新建一个SocketContext
@@ -516,6 +514,10 @@ bool CIOCPModel::_DoAccpet( PER_SOCKET_CONTEXT* pSocketContext, PER_IO_CONTEXT* 
 	PER_SOCKET_CONTEXT* pNewSocketContext = new PER_SOCKET_CONTEXT;
 	pNewSocketContext->m_Socket           = pIoContext->m_sockAccept;
 	memcpy(&(pNewSocketContext->m_ClientAddr), ClientAddr, sizeof(SOCKADDR_IN));
+
+	if(m_pListener!=NULL){
+		m_pListener->OnConnected(pNewSocketContext);
+	}
 
 	// 参数设置完毕，将这个Socket和完成端口绑定(这也是一个关键步骤)
 	if( false==this->_AssociateWithIOCP( pNewSocketContext ) )
@@ -531,7 +533,7 @@ bool CIOCPModel::_DoAccpet( PER_SOCKET_CONTEXT* pSocketContext, PER_IO_CONTEXT* 
 	pNewIoContext->m_OpType       = RECV_POSTED;
 	pNewIoContext->m_sockAccept   = pNewSocketContext->m_Socket;
 	// 如果Buffer需要保留，就自己拷贝一份出来
-	memcpy( pNewIoContext->m_szBuffer,pIoContext->m_szBuffer,MAX_BUFFER_LEN );
+	memcpy( pNewIoContext->m_szBuffer,pIoContext->m_szBuffer,pIoContext->m_uiTotalSize );
 
 	// 绑定完毕之后，就可以开始在这个Socket上投递完成请求了
 	if( false==this->_DoRecv( pNewSocketContext,pNewIoContext) )
@@ -539,6 +541,9 @@ bool CIOCPModel::_DoAccpet( PER_SOCKET_CONTEXT* pSocketContext, PER_IO_CONTEXT* 
 		pNewSocketContext->RemoveContext( pNewIoContext );
 		return false;
 	}
+
+	// 3.5建立发送的IOContext
+	pNewSocketContext->CreateSendIoContext();
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 	// 4. 如果投递成功，那么就把这个有效的客户端信息，加入到ContextList中去(需要统一管理，方便释放资源)
@@ -575,6 +580,28 @@ bool CIOCPModel::_PostRecv( PER_IO_CONTEXT* pIoContext )
 	return true;
 }
 
+bool CIOCPModel::_PostSend( PER_IO_CONTEXT* pIoContext ){
+		// 初始化变量
+	DWORD dwFlags = 0;
+	DWORD dwSendNumBytes = 0;
+	WSABUF *p_wbuf   = &pIoContext->m_wsaBuf;
+	OVERLAPPED *p_ol = &pIoContext->m_Overlapped;
+
+	pIoContext->m_OpType = SEND_POSTED;
+
+	//投递WSASend请求 -- 需要修改
+	int nRet = WSASend(pIoContext->m_sockAccept, &pIoContext->m_wsaBuf, 1, &dwSendNumBytes, dwFlags,
+		&pIoContext->m_Overlapped, NULL);
+
+	// 如果返回值错误，并且错误的代码并非是Pending的话，那就说明这个重叠请求失败了
+	if ((SOCKET_ERROR == nRet) && (WSA_IO_PENDING != WSAGetLastError()))
+	{
+		TRACE(_T("投递WSASend失败\n"));
+		return false;
+	}
+	return true;
+}
+
 /////////////////////////////////////////////////////////////////
 // 在有接收的数据到达的时候，进行处理
 bool CIOCPModel::_DoRecv( PER_SOCKET_CONTEXT* pSocketContext, PER_IO_CONTEXT* pIoContext )
@@ -583,13 +610,32 @@ bool CIOCPModel::_DoRecv( PER_SOCKET_CONTEXT* pSocketContext, PER_IO_CONTEXT* pI
 	SOCKADDR_IN* ClientAddr = &pSocketContext->m_ClientAddr;
 	//TRACE( _T("收到  %s:%d 信息：%s\n"),inet_ntoa(ClientAddr->sin_addr), ntohs(ClientAddr->sin_port),pIoContext->m_wsaBuf.buf );
 	if(m_pListener!=NULL){
-		m_pListener->OnRecv(pSocketContext->m_Socket,pIoContext->m_wsaBuf.buf,0);
+		m_pListener->OnRecvComplated(pSocketContext,pIoContext);
 	}
 	// 然后开始投递下一个WSARecv请求
 	return _PostRecv( pIoContext );
 }
 
-
+bool CIOCPModel::_DoSend( PER_SOCKET_CONTEXT* pSocketContext, PER_IO_CONTEXT* pIoContext )
+{
+	if (pIoContext->m_uiSend < pIoContext->m_uiTotalSize)
+	{
+		//数据未能发送完，继续发送数据
+		pIoContext->m_wsaBuf.buf = pIoContext->m_szBuffer + pIoContext->m_uiSend;
+		pIoContext->m_wsaBuf.len = pIoContext->m_uiTotalSize - pIoContext->m_uiSend;
+		return _PostSend(pIoContext);
+	}
+	else
+	{
+		//pIOCPModel->PostRecv(pIoContext);					
+		pIoContext->m_uiSend		=	0;
+		pIoContext->m_uiTotalSize	=	0;
+		if(m_pListener!=NULL){
+			m_pListener->OnSendComplated(pSocketContext,pIoContext);
+		}
+	}
+	return true;
+}
 
 /////////////////////////////////////////////////////
 // 将句柄(Socket)绑定到完成端口中
@@ -649,7 +695,7 @@ void CIOCPModel::_RemoveContext( PER_SOCKET_CONTEXT *pSocketContext )
 	LeaveCriticalSection(&m_csContextList);
 
 	if(m_pListener!=NULL){
-		m_pListener->OnClose(uiSocket);
+		m_pListener->OnClosed(pSocketContext);
 	}
 }
 

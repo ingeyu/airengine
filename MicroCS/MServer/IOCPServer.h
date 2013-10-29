@@ -1,0 +1,59 @@
+#pragma once
+#include <windows.h>
+#include "IOCPListener.h"
+
+#define	TEMP_BUFFER_SIZE 8192
+
+struct	_PER_IO_CONTEXT;
+struct	_PER_SOCKET_CONTEXT;
+class	IOCPServer;
+
+enum IOCPState{
+	enIS_OK,
+	enIS_Busy,
+};
+
+class	IOCPClient{
+public:
+	IOCPClient(IOCPServer* pServer,_PER_SOCKET_CONTEXT* pContext);
+	virtual	~IOCPClient();
+	virtual	bool	Send(const void* pData,int uiSize);
+	virtual	void	OnRecvComplated(const void* p,int iSize);
+	virtual	void	OnSendComplated(_PER_IO_CONTEXT* pIO);
+	virtual	void	CreateTempBuffer();
+	virtual	void	DestroyTempBuffer();
+protected:
+	virtual	bool	push_back(const void* p,int uiSize);
+	virtual	int		pop_front(void* p);
+protected:
+	CRITICAL_SECTION		m_CriticalSection;
+	_PER_SOCKET_CONTEXT*	m_pContext;
+	IOCPServer*				m_pServer;
+	unsigned char*			m_TempBuffer;
+	unsigned int			m_TempSize;
+
+};
+
+
+class	CIOCPModel;
+class	IOCPServer	:	public	IOCPListener{
+public:
+	IOCPServer();
+	virtual	~IOCPServer();
+
+	virtual	bool	Initialization();
+	virtual	void	Release();
+	virtual	void	Update();
+
+	virtual	void	OnConnected(PER_SOCKET_CONTEXT* pSocketContext);
+	virtual	void	OnRecvComplated(PER_SOCKET_CONTEXT* pSocketContext,_PER_IO_CONTEXT* pIOContext);
+	virtual	void	OnSendComplated(PER_SOCKET_CONTEXT* pSocketContext,_PER_IO_CONTEXT* pIOContext);
+	virtual	void	OnClosed(PER_SOCKET_CONTEXT* pSocketContext);
+
+	virtual	IOCPClient*	NewIOCPClient(_PER_SOCKET_CONTEXT* pContext);
+	virtual	void		DeleteIOCPClient(IOCPClient* pClient);
+public:
+	CRITICAL_SECTION		m_ClientCS;
+	CIOCPModel*				m_pIOCP;
+
+};

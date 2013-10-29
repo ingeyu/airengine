@@ -39,6 +39,7 @@ Date:
 #include <list>
 #include <vector>
 #include <string>
+#include "IOCPListener.h"
 #ifdef UNICODE
 typedef std::wstring	TString;
 #define	TRACE			wprintf
@@ -82,6 +83,8 @@ typedef struct _PER_IO_CONTEXT
 	char           m_szBuffer[MAX_BUFFER_LEN];                 // 这个是WSABUF里具体存字符的缓冲区
 	OPERATION_TYPE m_OpType;                                   // 标识网络操作的类型(对应上面的枚举)
 
+	unsigned int	m_uiTotalSize;
+	unsigned int	m_uiSend;
 	// 初始化
 	_PER_IO_CONTEXT()
 	{
@@ -91,6 +94,8 @@ typedef struct _PER_IO_CONTEXT
 		m_wsaBuf.buf = m_szBuffer;
 		m_wsaBuf.len = MAX_BUFFER_LEN;
 		m_OpType     = NULL_POSTED;
+		m_uiTotalSize	=	0;
+		m_uiSend		=	0;
 	}
 	// 释放掉Socket
 	~_PER_IO_CONTEXT()
@@ -115,19 +120,22 @@ typedef struct _PER_IO_CONTEXT
 //				单句柄数据结构体定义(用于每一个完成端口，也就是每一个Socket的参数)
 //
 //====================================================================================
-
+class IOCPClient;
 typedef struct _PER_SOCKET_CONTEXT
 {  
 	SOCKET      m_Socket;                                  // 每一个客户端连接的Socket
 	SOCKADDR_IN m_ClientAddr;                              // 客户端的地址
 	std::list<_PER_IO_CONTEXT*> m_arrayIoContext;             // 客户端网络操作的上下文数据，
 	                                                       // 也就是说对于每一个客户端Socket，是可以在上面同时投递多个IO请求的
-
+	_PER_IO_CONTEXT*			m_pIOContext;
+	IOCPClient*					m_pClient;
 	// 初始化
 	_PER_SOCKET_CONTEXT()
 	{
 		m_Socket = INVALID_SOCKET;
 		memset(&m_ClientAddr, 0, sizeof(m_ClientAddr)); 
+		m_pIOContext	=	NULL;
+		m_pClient		=	NULL;
 	}
 
 	// 释放资源
@@ -138,6 +146,7 @@ typedef struct _PER_SOCKET_CONTEXT
 			closesocket( m_Socket );
 		    m_Socket = INVALID_SOCKET;
 		}
+		m_pIOContext=NULL;
 		// 释放掉所有的IO上下文数据
 		std::list<_PER_IO_CONTEXT*>::iterator	i	=m_arrayIoContext.begin();
 		for( ;i!=m_arrayIoContext.end();i++ )
@@ -156,6 +165,11 @@ typedef struct _PER_SOCKET_CONTEXT
 
 		return p;
 	}
+	void	CreateSendIoContext(){
+		m_pIOContext	=	GetNewIoContext();
+		m_pIOContext->m_OpType		=	SEND_POSTED;
+		m_pIOContext->m_sockAccept	=	m_Socket;
+	};
 
 	// 从数组中移除一个指定的IoContext
 	void RemoveContext( _PER_IO_CONTEXT* pContext )
@@ -177,13 +191,7 @@ typedef struct _PER_SOCKET_CONTEXT
 
 } PER_SOCKET_CONTEXT, *PPER_SOCKET_CONTEXT;
 
-class IOCPListener
-{
-public:
-	virtual	void	OnConnect(unsigned __int64 uiSocket,const IN_ADDR& ip,unsigned int uiPort)=NULL;
-	virtual	void	OnRecv(unsigned __int64 uiSocket,const void* pData,unsigned int uiSize)=NULL;
-	virtual	void	OnClose(unsigned __int64 uiSocket)=NULL;
-};
+
 
 
 
@@ -253,12 +261,18 @@ protected:
 
 	// 投递接收数据请求
 	bool _PostRecv( PER_IO_CONTEXT* pIoContext );
-
+public:
+	// 投递接收数据请求
+	bool _PostSend( PER_IO_CONTEXT* pIoContext );
+protected:
 	// 在有客户端连入的时候，进行处理
 	bool _DoAccpet( PER_SOCKET_CONTEXT* pSocketContext, PER_IO_CONTEXT* pIoContext );
 
 	// 在有接收的数据到达的时候，进行处理
 	bool _DoRecv( PER_SOCKET_CONTEXT* pSocketContext, PER_IO_CONTEXT* pIoContext );
+
+	// 在有发送事件的数据到达的时候，进行处理
+	bool _DoSend( PER_SOCKET_CONTEXT* pSocketContext, PER_IO_CONTEXT* pIoContext );
 
 	// 将客户端的相关信息存储到数组中
 	void _AddToContextList( PER_SOCKET_CONTEXT *pSocketContext );

@@ -27,15 +27,27 @@
     <ClInclude Include="IOCPModel.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="IOCPListener.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="IOCPServer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Server.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="MServer.cpp">
+    <ClCompile Include="IOCPModel.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="IOCPModel.cpp">
+    <ClCompile Include="IOCPServer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Server.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
