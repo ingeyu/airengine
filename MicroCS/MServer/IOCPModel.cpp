@@ -530,9 +530,10 @@ bool CIOCPModel::_DoAccpet( PER_SOCKET_CONTEXT* pSocketContext, PER_IO_CONTEXT* 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 	// 3. 继续，建立其下的IoContext，用于在这个Socket上投递第一个Recv数据请求
-	PER_IO_CONTEXT* pNewIoContext = pNewSocketContext->GetNewIoContext();
-	pNewIoContext->m_OpType       = RECV_POSTED;
-	pNewIoContext->m_sockAccept   = pNewSocketContext->m_Socket;
+	PER_IO_CONTEXT* pNewIoContext	=	pNewSocketContext->GetNewIoContext();
+	pNewIoContext->m_OpType			=	RECV_POSTED;
+	pNewIoContext->m_sockAccept		=	pNewSocketContext->m_Socket;
+	pNewIoContext->m_uiTotalSize	=	pIoContext->m_uiTotalSize;
 	// 如果Buffer需要保留，就自己拷贝一份出来
 	memcpy( pNewIoContext->m_szBuffer,pIoContext->m_szBuffer,pIoContext->m_uiTotalSize );
 
