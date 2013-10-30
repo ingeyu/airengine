@@ -4,8 +4,7 @@
 
 #define	TEMP_BUFFER_SIZE 8192
 
-struct	_PER_IO_CONTEXT;
-struct	_PER_SOCKET_CONTEXT;
+
 class	IOCPServer;
 
 enum IOCPState{
@@ -45,10 +44,10 @@ public:
 	virtual	void	Release();
 	virtual	void	Update();
 
-	virtual	void	OnConnected(PER_SOCKET_CONTEXT* pSocketContext);
-	virtual	void	OnRecvComplated(PER_SOCKET_CONTEXT* pSocketContext,_PER_IO_CONTEXT* pIOContext);
-	virtual	void	OnSendComplated(PER_SOCKET_CONTEXT* pSocketContext,_PER_IO_CONTEXT* pIOContext);
-	virtual	void	OnClosed(PER_SOCKET_CONTEXT* pSocketContext);
+	virtual	void	OnConnected(_PER_SOCKET_CONTEXT* pSocketContext);
+	virtual	void	OnRecvComplated(_PER_SOCKET_CONTEXT* pSocketContext,_PER_IO_CONTEXT* pIOContext);
+	virtual	void	OnSendComplated(_PER_SOCKET_CONTEXT* pSocketContext,_PER_IO_CONTEXT* pIOContext);
+	virtual	void	OnClosed(_PER_SOCKET_CONTEXT* pSocketContext);
 
 	virtual	IOCPClient*	NewIOCPClient(_PER_SOCKET_CONTEXT* pContext);
 	virtual	void		DeleteIOCPClient(IOCPClient* pClient);

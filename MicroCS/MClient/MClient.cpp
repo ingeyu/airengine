@@ -281,6 +281,8 @@ U32 MClient::ReadFromHD( void* pBuffer,FileInfo* pInfo )
 		while(InterlockedCompareExchange(&pCSInfo->mark,0xffffffff,0)!=0){
 
 		}
+		unsigned char* pTemp = (unsigned char*)pCSInfo;
+		pTemp+=sizeof(CSInfo);
 		MDescompress(pTemp,pInfo->compressize,pBuffer,uiDest);
 
 		InterlockedExchange(&pCSInfo->mark,0);

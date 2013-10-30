@@ -1,7 +1,7 @@
 // MServer.cpp : 定义控制台应用程序的入口点。
 //
 
-#include "stdafx.h"
+
 #include "IOCPModel.h"
 #include "MCommon.h"
 #include "IOCPServer.h"
@@ -46,6 +46,9 @@ bool	IOCPClient::push_back(const void* p,int uiSize){
 		//_PostSend
 		m_pServer->m_pIOCP->_PostSend(pIO);
 	}else{
+		if(m_TempBuffer==NULL){
+			return false;
+		}
 		//Push Temp Buffer
 		if(uiSize+m_TempSize<TEMP_BUFFER_SIZE){
 			memcpy(m_TempBuffer,p,uiSize);
@@ -179,14 +182,14 @@ void		IOCPServer::Update(){
 		
 }
 
-void	IOCPServer::OnConnected(PER_SOCKET_CONTEXT* pSocketContext){
+void	IOCPServer::OnConnected(_PER_SOCKET_CONTEXT* pSocketContext){
 
 	pSocketContext->m_pClient	=	NewIOCPClient(pSocketContext);
 
 	//InterlockedIncrement((LONG*)&m_uiClientCount);
 	//printf(_T("Client %lld %s:%d Connected!\n"),pSocketContext->m_Socket,inet_ntoa(pSocketContext->m_ClientAddr.sin_addr),ntohs(pSocketContext->m_ClientAddr.sin_port));
 };
-void	IOCPServer::OnRecvComplated(PER_SOCKET_CONTEXT* pSocketContext,_PER_IO_CONTEXT* pIOContext){
+void	IOCPServer::OnRecvComplated(_PER_SOCKET_CONTEXT* pSocketContext,_PER_IO_CONTEXT* pIOContext){
 	U64	uiSocket	=	pSocketContext->m_Socket;
 	void*	pData	=	pIOContext->m_szBuffer;
 	int		iSize	=	pIOContext->m_uiTotalSize;
@@ -194,35 +197,16 @@ void	IOCPServer::OnRecvComplated(PER_SOCKET_CONTEXT* pSocketContext,_PER_IO_CONT
 	if(pClient!=NULL){
 		pClient->OnRecvComplated(pData,iSize);
 	}
-/*	NtBase* pBase	=	(NtBase*)pData;
-	switch(pBase->t){
-		case enNT_FS_Hello:{
-			NtReturnPackT<NT_SF_Hello>	ntData(enNT_FS_Hello);
-			ntData.data.uiClient	=	m_uiClientCount;
-			ntData.data.uiTaskCount	=	m_uiTaskCount;
-			send(uiSocket,(const char*)&ntData,ntData.uiSize,0);
-							}break;
-		case enNT_FS_LoadFile:{
-			NtPack<FileDataInfo>* p	=	(NtPack<FileDataInfo>*)pData;
-				
-			m_CS.Enter();
-			p->data.uiSocket	=	uiSocket;
-			m_lstFileDataInfo.push_back(p->data);
-			m_uiTaskCount++;
-			m_CS.Leave();
-			m_Event.Reset();
 
-							}break;
-	}*/
 
 };
-void	IOCPServer::OnSendComplated(PER_SOCKET_CONTEXT* pSocketContext,_PER_IO_CONTEXT* pIOContext){
+void	IOCPServer::OnSendComplated(_PER_SOCKET_CONTEXT* pSocketContext,_PER_IO_CONTEXT* pIOContext){
 	IOCPClient*	pClient	=	pSocketContext->m_pClient;
 	if(pClient!=NULL){
 		pClient->OnSendComplated(pIOContext);
 	}
 };
-void	IOCPServer::OnClosed(PER_SOCKET_CONTEXT* pSocketContext){
+void	IOCPServer::OnClosed(_PER_SOCKET_CONTEXT* pSocketContext){
 	DeleteIOCPClient(pSocketContext->m_pClient);
 	pSocketContext->m_pClient=NULL;
 	
@@ -283,31 +267,4 @@ void			Send(PER_SOCKET_CONTEXT* pSocketContext,const void* pData,U32 uiSize){
 //	CIOCPModel						iocp;
 //};
 
-int _tmain(int argc, _TCHAR* argv[])
-{
-
-	IOCPServer server;
-	server.Initialization();
-
-	while(1){
-		server.Update();
-	}
-
-	server.Release();
-
-	//CIOCPModel iocp;
-
-	//iocp.LoadSocketLib();
-
-	//while(!iocp.Start()){
-	//	TRACE(_T("Server Start Failed!\n"));
-	//	getchar();
-	//}
-	//TRACE(_T("Server Start OK!\n"));
-
-	//getchar();
-
-	//iocp.Stop();
-	return 0;
-}
 

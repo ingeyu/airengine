@@ -168,6 +168,7 @@
   <ItemGroup>
     <ClCompile Include="IOCPModel.cpp" />
     <ClCompile Include="IOCPServer.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

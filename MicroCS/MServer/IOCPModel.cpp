@@ -525,7 +525,8 @@ bool CIOCPModel::_DoAccpet( PER_SOCKET_CONTEXT* pSocketContext, PER_IO_CONTEXT* 
 		RELEASE( pNewSocketContext );
 		return false;
 	}  
-
+	// 2.5建立发送的IOContext 在接下来的_DoRecv 有可能会发送网络数据  所以要先建立Send
+	pNewSocketContext->CreateSendIoContext();
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 	// 3. 继续，建立其下的IoContext，用于在这个Socket上投递第一个Recv数据请求
@@ -542,8 +543,7 @@ bool CIOCPModel::_DoAccpet( PER_SOCKET_CONTEXT* pSocketContext, PER_IO_CONTEXT* 
 		return false;
 	}
 
-	// 3.5建立发送的IOContext
-	pNewSocketContext->CreateSendIoContext();
+
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 	// 4. 如果投递成功，那么就把这个有效的客户端信息，加入到ContextList中去(需要统一管理，方便释放资源)
