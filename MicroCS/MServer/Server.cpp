@@ -72,6 +72,8 @@ int		DownloadSClient::pop_front(void* p)
 		m_Task.iSize	=	0;
 		m_Task.idx		=	0;
 		m_Task.offset	=	0;
+	}else{
+		m_Task.iSend	+=	4096;
 	}
 
 	memcpy(pSendData->data.data,&pData[m_Task.offset+pSendData->data.uiOffset],pSendData->data.uiSize);

@@ -102,7 +102,7 @@ DWORD WINAPI CIOCPModel::_WorkerThread(LPVOID lpParam)
 			// 判断是否有客户端断开了
 			if((0 == dwBytesTransfered) && ( RECV_POSTED==pIoContext->m_OpType || SEND_POSTED==pIoContext->m_OpType))  
 			{  
-				TRACE( _T("客户端 %s:%d 断开连接."),inet_ntoa(pSocketContext->m_ClientAddr.sin_addr), ntohs(pSocketContext->m_ClientAddr.sin_port) );
+				//TRACE( _T("客户端 %s:%d 断开连接."),inet_ntoa(pSocketContext->m_ClientAddr.sin_addr), ntohs(pSocketContext->m_ClientAddr.sin_port) );
 				// 释放掉对应的资源
 				pIOCPModel->_RemoveContext( pSocketContext );
 
@@ -678,6 +678,9 @@ void CIOCPModel::_AddToContextList( PER_SOCKET_CONTEXT *pHandleData )
 //	移除某个特定的Context
 void CIOCPModel::_RemoveContext( PER_SOCKET_CONTEXT *pSocketContext )
 {
+	if(m_pListener!=NULL){
+		m_pListener->OnClosed(pSocketContext);
+	}
 	SOCKET	uiSocket	=	pSocketContext->m_Socket;
 	EnterCriticalSection(&m_csContextList);
 
@@ -694,9 +697,7 @@ void CIOCPModel::_RemoveContext( PER_SOCKET_CONTEXT *pSocketContext )
 
 	LeaveCriticalSection(&m_csContextList);
 
-	if(m_pListener!=NULL){
-		m_pListener->OnClosed(pSocketContext);
-	}
+
 }
 
 ////////////////////////////////////////////////////////////////
@@ -819,7 +820,7 @@ bool CIOCPModel::HandleError( PER_SOCKET_CONTEXT *pContext,const DWORD& dwErr )
 	// 可能是客户端异常退出了
 	else if( ERROR_NETNAME_DELETED==dwErr )
 	{
-		TRACE( _T("检测到客户端异常退出！") );
+		//TRACE( _T("检测到客户端异常退出！") );
 		this->_RemoveContext( pContext );
 		return true;
 	}

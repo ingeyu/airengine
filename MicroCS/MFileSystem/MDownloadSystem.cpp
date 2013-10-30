@@ -172,6 +172,9 @@ void MDownloadSystem::Update( U32 uiTickTime )
 	}
 	
 	if(m_pDownloadingFile!=NULL){
+		char str[256];
+		sprintf_s(str,"%d Download Start\n",m_uiCurrent);
+		OutputDebugStringA(str);
 
 		NT_Data<FileDataInfo> data(enNT_FS_LoadFile);
 		data.t		=	enNT_FS_LoadFile;
@@ -180,6 +183,7 @@ void MDownloadSystem::Update( U32 uiTickTime )
 		data.data.uiOffset	=	finfo.offset;
 		data.data.uiSize	=	finfo.compressize;
 		m_pClient->Send(&data,sizeof(data));
+
 	}
 }
 
@@ -192,12 +196,15 @@ void MDownloadSystem::OnDownloadComplated( MFile* pFile,U1 bOK )
 	if(bOK){
 		FileInfo* pBKInfo	=	&MFileSystem::GetSingleton()->GetFileInfo(m_uiCurrent);
 		FileInfo* pInfo		=	&pFile->GetFileInfo();
-		
+		char str[256];
+		sprintf_s(str,"%d Download Complated!\n",m_uiCurrent);
+		OutputDebugStringA(str);
+
 		if(pInfo==pBKInfo){
 			m_uiCurrent++;
 		}
 		MIOSystem::GetSingleton()->SaveFileBackground(pFile);
-		
+
 	}else{
 		SAFE_RELEASE_REF(pFile);
 	}
