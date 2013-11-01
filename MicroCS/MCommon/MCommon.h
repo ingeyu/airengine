@@ -84,6 +84,7 @@ struct FileInfo{
 	U32		idx;
 	U32		compressize;
 	U32		crc32;
+	U32		crc32_comp;
 };
 struct CSInfo 
 {

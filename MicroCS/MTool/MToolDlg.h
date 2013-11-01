@@ -37,4 +37,5 @@ public:
 	CListBox*			pList;		
 	CStatic*			pTest;		
 	CEdit*				pMaxBlock;
+	afx_msg void OnBnClickedButton1();
 };

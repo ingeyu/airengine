@@ -1,9 +1,16 @@
 #include "MCommon.h"
-#define ZIP_COMPRESS
 
-#ifdef ZIP_COMPRESS
+#define	LZO_COMPRESS	0
+#define ZIP_COMPRESS	1
+#define	LZMA_COMPRESS	2
+
+#define	COMPRESS_TYPE	LZMA_COMPRESS
+
+#if (COMPRESS_TYPE	==	ZIP_COMPRESS)
 #include "lzo/zlib.h"
-
+#elif (COMPRESS_TYPE	==	LZMA_COMPRESS)
+#include "lzo/zlib.h"
+#include "lzma/LzmaLib.h"
 #else
 #include "lzo/minilzo.h"
 #endif
@@ -56,8 +63,22 @@ S32 MCompress( const void* pSrc,U32 iSize,void* pDest,U32& uiDestSize )
 {
 	//U8 workmem[LZO1X_1_MEM_COMPRESS];
 	//return lzo1x_1_compress((U8*)pSrc,iSize,(U8*)pDest,(unsigned long*)&uiDestSize,workmem);
-#ifdef ZIP_COMPRESS
+#if COMPRESS_TYPE	==	ZIP_COMPRESS
 	return compress2((Bytef*)pDest,(uLongf*)&uiDestSize,(const Bytef*)pSrc,iSize,Z_BEST_COMPRESSION);
+#elif COMPRESS_TYPE	==	LZMA_COMPRESS
+	unsigned char prop[5]={0};
+	size_t sizeProp = 5;
+	unsigned char* pDest1	=	(unsigned char*)pDest;
+	
+	int ret	= LzmaCompress(pDest1,&uiDestSize,(const unsigned char*)pSrc,iSize,prop,&sizeProp,9,1<<24,3,0,2,32,2);
+	if(ret==7){
+		uiDestSize	=	iSize+1;
+		OutputDebugString(L"No Compress\n");
+		return 0;
+	}
+
+	uiDestSize+=5;
+	return ret;
 #else
 	U8 workmem[LZO1X_1_MEM_COMPRESS];
 	return lzo1x_1_compress((U8*)pSrc,iSize,(U8*)pDest,(unsigned long*)&uiDestSize,workmem);
@@ -68,8 +89,12 @@ S32 MDescompress( const void* pSrc,U32 iSize,void* pDest,U32& uiDestSize )
 {
 	//U8 workmem[LZO1X_1_MEM_COMPRESS];
 	//return lzo1x_decompress((U8*)pSrc,iSize,(U8*)pDest,(unsigned long*)&uiDestSize,workmem);
-#ifdef ZIP_COMPRESS
+#if COMPRESS_TYPE	==	ZIP_COMPRESS
 	return uncompress((Bytef*)pDest,(uLongf*)&uiDestSize,(const Bytef*)pSrc,(uLongf)iSize);
+#elif COMPRESS_TYPE	==	LZMA_COMPRESS
+	unsigned char prop[5]	=	{0x5d,0,0,0,1};
+	size_t sizeProp = 5;
+	return LzmaUncompress((unsigned char*)pDest,&uiDestSize,(unsigned char*)pSrc,&iSize,prop,sizeProp);
 #else
 	return lzo1x_decompress((U8*)pSrc,iSize,(U8*)pDest,(unsigned long*)&uiDestSize,0);
 #endif

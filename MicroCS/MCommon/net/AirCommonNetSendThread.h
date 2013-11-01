@@ -9,7 +9,11 @@ namespace Air{
 	
 	
 	namespace Common{
-	
+		struct SendBuffer{
+			U8	Buffer[8192];
+			U32	uiSize;
+			U32	uiSend;
+		};
 		
 		typedef	std::queue<NetPack*>	SendPackList;
 		/**	\brief	发送队列
@@ -32,7 +36,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			virtual	U1	Start(NetListener*	pListener);
+			virtual	U1	Start(U32 uiSocket,NetListener*	pListener);
 	
 			/**	\brief	放入队列中
 			*   
@@ -43,7 +47,7 @@ namespace Air{
 			*	@note
 			*
 			**/
-			virtual	U1	Push(NetPack*	pack);
+			virtual	U1	Send(const void*	pData,U32	uiSize);
 	
 			/**	\brief	发送循环
 			*   
@@ -54,13 +58,16 @@ namespace Air{
 			*
 			**/
 			virtual	U1	RepetitionRun();
-	
+		protected:
+			virtual	U32	GetSendData(void* p);
 		protected:
 			CriticalSection	m_CS;
 			Event			m_SendEvent;
-			bool			m_bWaiting;
-			SendPackList	m_lstSendPack;
+			U32				m_uiSocket;
 			NetListener*	m_pListener;
+			SendBuffer		m_SendBuffer[2];
+			U32				m_SendIndex;
+			OVERLAPPED		m_Overlapped;
 		};
 		
 	

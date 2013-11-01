@@ -41,25 +41,31 @@ void	IOCPClient::OnSendComplated(_PER_IO_CONTEXT* pIO){
 }
 bool	IOCPClient::push_back(const void* p,int uiSize){
 	_PER_IO_CONTEXT* pIO	=	m_pContext->m_pIOContext;
+	
+	if(m_TempBuffer==NULL){
+		return false;
+	}
+	U1	bCopy	=	false;
+	//Push Temp Buffer
+	if(uiSize+m_TempSize<TEMP_BUFFER_SIZE){
+		memcpy(&m_TempBuffer[m_TempSize],p,uiSize);
+		m_TempSize+=uiSize;
+		bCopy	=	true;
+	}
+
 	if(pIO->m_uiTotalSize==0){
-		memcpy(pIO->m_szBuffer,p,uiSize);
-		pIO->m_uiTotalSize	=	uiSize;
-		pIO->m_wsaBuf.len	=	uiSize;
-		//_PostSend
-		m_pServer->m_pIOCP->_PostSend(pIO);
-	}else{
-		if(m_TempBuffer==NULL){
-			return false;
-		}
-		//Push Temp Buffer
+		OnSendComplated(pIO);
+	}
+
+	if(!bCopy){
 		if(uiSize+m_TempSize<TEMP_BUFFER_SIZE){
-			memcpy(m_TempBuffer,p,uiSize);
+			memcpy(&m_TempBuffer[m_TempSize],p,uiSize);
 			m_TempSize+=uiSize;
-		}else{
-			return false;
+			bCopy	=	true;
 		}
 	}
-	return true;
+	
+	return bCopy;
 }
 int		IOCPClient::pop_front(void* p){
 	int iSize	=	m_TempSize;
@@ -108,7 +114,7 @@ bool		IOCPServer::Initialization(){
 		m_pIOCP->SetListener(this);
 		m_pIOCP->LoadSocketLib();
 		m_pIOCP->SetPort(54322);
-		m_pIOCP->Start();
+		return m_pIOCP->Start();
 	}
 
 	return true;
@@ -194,14 +200,46 @@ void	IOCPServer::OnConnected(_PER_SOCKET_CONTEXT* pSocketContext){
 };
 void	IOCPServer::OnRecvComplated(_PER_SOCKET_CONTEXT* pSocketContext,_PER_IO_CONTEXT* pIOContext){
 	U64	uiSocket	=	pSocketContext->m_Socket;
-	void*	pData	=	pIOContext->m_szBuffer;
-	int		iSize	=	pIOContext->m_uiTotalSize;
-	IOCPClient*	pClient	=	(IOCPClient*)pSocketContext->m_pClient;
-	if(pClient!=NULL){
-		pClient->OnRecvComplated(pData,iSize);
+	U8*	pData		=	(U8*)pIOContext->m_szBuffer;
+	U32	iSize		=	pIOContext->m_uiTotalSize;
+	
+	if(iSize	<	4){
+		return;
 	}
 
+	U32	uiIndex		=	0;
+	U32	uiUsed		=	0;
+	U32	uiPackSize	=	*(U32*)&pData[uiIndex];
+	
+	
+	while(true){
+		//数据包 长度小于 包头（4字节）
+		if(uiIndex	+	4	>	iSize){
+			break;
+		}
+		//读取下一个数据包的包尺寸
+		uiPackSize	=	*(U32*)&pData[uiIndex];
+		//数据包不完整 包头 + 包大小 < 数据总长度
+		if(uiPackSize	+	uiIndex	+	4	>	iSize){
+			break;
+		}
+		//回调
+		IOCPClient*	pClient	=	(IOCPClient*)pSocketContext->m_pClient;
+		if(pClient!=NULL){
 
+			pClient->OnRecvComplated(&pData[uiIndex+4],uiPackSize);
+		}
+		//跳到下一个数据包
+		uiIndex	+=	uiPackSize+4;
+	}
+
+	if(uiIndex	<	iSize){
+		U32	uiLeftPackSize	=	iSize	-	uiIndex;
+		memcpy(pData,&pData[uiIndex],uiLeftPackSize);
+		pIOContext->m_uiTotalSize	=	uiLeftPackSize;
+	}else{
+		pIOContext->m_uiTotalSize	=	0;
+	}
 };
 void	IOCPServer::OnSendComplated(_PER_SOCKET_CONTEXT* pSocketContext,_PER_IO_CONTEXT* pIOContext){
 	IOCPClient*	pClient	=	pSocketContext->m_pClient;

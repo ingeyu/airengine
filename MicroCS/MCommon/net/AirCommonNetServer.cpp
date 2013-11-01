@@ -45,7 +45,7 @@ namespace Air{
 			//启动监听线程
 			m_ThreadListen.Start(m_Socket,this);
 			//启动发送线程
-			m_ThreadSend.Start(this);
+			m_ThreadSend.Start(m_Socket,this);
 	
 	
 	
@@ -185,7 +185,7 @@ namespace Air{
 			ReceiveThreadMap::iterator	i	=	m_mapReceiveThread.begin();
 			for(;i!=m_mapReceiveThread.end();i++){
 				NetPack*	p	=	new	NetPack(i->first,uiSize,(AChar*)pData);
-				m_ThreadSend.Push(p);
+				//m_ThreadSend.Push(p);
 				
 			}
 			return	true;
@@ -195,7 +195,7 @@ namespace Air{
 			ReceiveThreadMap::iterator	i	=	m_mapReceiveThread.find(uiSocket);
 			if(i!=m_mapReceiveThread.end()){
 				NetPack*	p	=	new	NetPack(uiSocket,uiSize,(AChar*)pData);
-				m_ThreadSend.Push(p);
+				//m_ThreadSend.Push(p);
 			}
 			return	true;
 		}

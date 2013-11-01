@@ -23,13 +23,25 @@ namespace Air{
 				DisConnect();
 			return	true;
 		}
+		U1 NetClient::Send( const void* pData,U32 uiSize ){
+			if(	pData	==	NULL	||
+				uiSize	==	0)
+			{
+				return	false;
+			}
 	
+			//NetPack*	p	=	new	NetPack(m_Socket,uiSize,(AChar*)pData);
+			//放入发送列表
+			//m_ThreadSend.Send(pData,uiSize);
+			send(m_Socket,(const char*)pData,uiSize,0);
+			return	true;
+		}
 		U1 NetClient::OnConnected( U32 socket,CAString& strIP,CAString& strPort ){
 			if(socket	==	NULL){
 				return	false;
 			}
 			//启动发送线程
-			m_ThreadSend.Start(this);
+			m_ThreadSend.Start(socket,this);
 			//启动接收线程
 			m_ThreadReceive.Start(socket,this);
 	

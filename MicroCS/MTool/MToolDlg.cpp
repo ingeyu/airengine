@@ -74,6 +74,7 @@ BEGIN_MESSAGE_MAP(CMToolDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDOK, &CMToolDlg::OnBnClickedOk)
+	ON_BN_CLICKED(IDC_BUTTON1, &CMToolDlg::OnBnClickedButton1)
 END_MESSAGE_MAP()
 
 
@@ -344,6 +345,12 @@ void CMToolDlg::Build(ITaskbarList3 *p){
 				//AfxMessageBox(s.c_str());
 				continue;
 			}
+			bool bCompress	=	false;
+			if(info.compressize<info.size){
+				bCompress	=	true;
+			}else{
+				info.compressize	=	info.size;
+			}
 			
 			if(iOffset+info.compressize	>	uiBlockSize){
 				uiCurrentData++;
@@ -355,11 +362,19 @@ void CMToolDlg::Build(ITaskbarList3 *p){
 				swprintf_s(strTemp,_T("Data%d"),uiCurrentData);
 				hFile	=	_wfopen(strTemp,L"wb");
 			}
+			if(bCompress)
+				fwrite(&vecCompressData[0],info.compressize,1,hFile);
+			else
+				fwrite(&vecTempData[0],info.compressize,1,hFile);
 
-			fwrite(&vecCompressData[0],info.compressize,1,hFile);
 			info.idx	=	uiCurrentData;
 			info.offset	=	iOffset;
-			info.crc32	=	CRC32(&vecTempData[0],info.size);
+			info.crc32		=	CRC32(&vecTempData[0],info.size);
+			if(bCompress){
+				info.crc32_comp	=	CRC32(&vecCompressData[0],info.compressize);
+			}else{
+				info.crc32_comp	=	info.crc32;
+			}
 			iOffset+=info.compressize;
 
 			std::string s1	=	WideByte2Acsi(s);
@@ -389,7 +404,7 @@ void CMToolDlg::Build(ITaskbarList3 *p){
 
 	for(U32	i=0;i<FILEDATA_COUNT;i++){
 		TCHAR strTemp[MAX_PATH];
-		swprintf_s(strTemp,_T("Data%d"),uiCurrentData);
+		swprintf_s(strTemp,_T("Data%d"),i);
 		pFileData[i]	=	_wfopen(strTemp,L"rb");
 	}
 	for(U32	i=0;i<vecFileInfo.size();i++){
@@ -399,9 +414,21 @@ void CMToolDlg::Build(ITaskbarList3 *p){
 		vecTempData.resize(info.size);
 		_fseeki64(pFile,info.offset,SEEK_SET);
 		fread(&vecCompressData[0],info.compressize,1,pFile);
+
+		U32	crc_comp=CRC32(&vecCompressData[0],info.compressize);
+		if(crc_comp!=info.crc32_comp){
+			wchar_t str[MAX_PATH];
+			swprintf_s(str,L"%d crc32_comp error",i);
+			pList->InsertString(0,str);
+			continue;
+		}
 		
 		U32	dwDest=info.size;
-		MDescompress(&vecCompressData[0],info.compressize,&vecTempData[0],dwDest);
+		if(info.size!=info.compressize){
+			MDescompress(&vecCompressData[0],info.compressize,&vecTempData[0],dwDest);
+		}else{
+			memcpy(&vecTempData[0],&vecCompressData[0],info.compressize);
+		}
 		U32	crc=CRC32(&vecTempData[0],info.size);
 		if(crc!=info.crc32){
 			wchar_t str[MAX_PATH];
@@ -412,4 +439,72 @@ void CMToolDlg::Build(ITaskbarList3 *p){
 	}
 
 	AfxMessageBox(_T("Finished!"));
+}
+
+
+void CMToolDlg::OnBnClickedButton1()
+{
+	FileInfoVector	vecFileInfo;
+	FILE* pFileIndex	=	fopen("Index","rb");
+	if(pFileIndex==NULL){
+		return;
+	}
+	_fseeki64(pFileIndex,0,SEEK_END);
+	U32 iSize	=	_ftelli64(pFileIndex);
+	_fseeki64(pFileIndex,0,SEEK_SET);
+
+	U32 uiCount	=	iSize/sizeof(FileInfo);
+	vecFileInfo.resize(uiCount);
+
+	fread(&vecFileInfo[0],vecFileInfo.size()*sizeof(FileInfo),1,pFileIndex);
+	fclose(pFileIndex);
+
+
+	FILE* pFileData[FILEDATA_COUNT];
+	// TODO: 在此添加控件通知处理程序代码
+	for(U32	i=0;i<FILEDATA_COUNT;i++){
+		TCHAR strTemp[MAX_PATH];
+		swprintf_s(strTemp,_T("Data%d"),i);
+		pFileData[i]	=	_wfopen(strTemp,L"rb");
+	}
+
+	std::vector<unsigned char>	vecTempData,vecCompressData;
+
+	for(U32	i=0;i<vecFileInfo.size();i++){
+		FileInfo& info = vecFileInfo[i];
+		FILE* pFile = pFileData[info.idx];
+		vecCompressData.resize(info.compressize);
+		vecTempData.resize(info.size);
+		U64	off	=	info.offset;
+		_fseeki64(pFile,off,SEEK_SET);
+		fread(&vecCompressData[0],info.compressize,1,pFile);
+		
+		U32	dwDest=info.size;
+		if(info.size!=info.compressize){
+			if(0!=MDescompress(&vecCompressData[0],info.compressize,&vecTempData[0],dwDest)){
+				OutputDebugStringA("uncompress failed!\n");
+				wchar_t str[MAX_PATH];
+				swprintf_s(str,L"%d uncompress failed!",i);
+				pList->InsertString(0,str);
+				continue;
+			}
+		}else{
+			memcpy(&vecTempData[0],&vecCompressData[0],info.compressize);
+		}
+		U32	crc=CRC32(&vecTempData[0],info.size);
+		if(crc!=info.crc32){
+			wchar_t str[MAX_PATH];
+			swprintf_s(str,L"idx=%d csize=%d size=%d,offset=%d crc32=%d",i,info.compressize,info.size,info.offset,info.crc32);
+			pList->InsertString(0,str);
+			continue;
+		};
+	}
+	for(U32	i=0;i<FILEDATA_COUNT;i++){
+		if(pFileData[i]){
+			fclose(pFileData[i]);
+			pFileData[i]=NULL;
+		}
+	}
+
+	AfxMessageBox(_T("Check Finished!"));
 }

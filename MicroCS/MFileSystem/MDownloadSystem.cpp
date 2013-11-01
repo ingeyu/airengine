@@ -176,13 +176,13 @@ void MDownloadSystem::Update( U32 uiTickTime )
 		sprintf_s(str,"%d Download Start\n",m_uiCurrent);
 		OutputDebugStringA(str);
 
-		NT_Data<FileDataInfo> data(enNT_FS_LoadFile);
+		NtPack<FileDataInfo> data(enNT_FS_LoadFile);
 		data.t		=	enNT_FS_LoadFile;
 		FileInfo& finfo		=	m_pDownloadingFile->GetFileInfo();
 		data.data.idx		=	finfo.idx;
 		data.data.uiOffset	=	finfo.offset;
 		data.data.uiSize	=	finfo.compressize;
-		m_pClient->Send(&data,sizeof(data));
+		m_pClient->Send(&data,data.uiSize+4);
 
 	}
 }

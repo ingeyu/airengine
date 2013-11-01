@@ -20,26 +20,12 @@ namespace Air{
 				DeleteCriticalSection(&m_CriticalSection);
 			};
 	
-			/**	\brief	进入临界区
-			*   
-			*	@remarks 	进入临界区
-			*	@see		CriticalSection
-			*	@return   	void
-			*	@note
-			*
-			**/
+			inline	U32		TryEnter(){
+				return TryEnterCriticalSection(&m_CriticalSection); 
+			};
 			inline	void	Enter(){
 				EnterCriticalSection(&m_CriticalSection); 
 			};
-	
-			/**	\brief	离开临界区
-			*   
-			*	@remarks 	离开临界区
-			*	@see		Lock
-			*	@return   	void
-			*	@note
-			*
-			**/
 			inline	void	Leave(){
 				LeaveCriticalSection(&m_CriticalSection); 
 			};

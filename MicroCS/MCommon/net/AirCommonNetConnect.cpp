@@ -24,7 +24,7 @@ namespace Air{
 	
 			NetPack*	p	=	new	NetPack(m_Socket,uiSize,(AChar*)pData);
 			//放入发送列表
-			m_ThreadSend.Push(p);
+			//m_ThreadSend.Push(p);
 	
 			return	true;
 		}

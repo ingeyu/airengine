@@ -46,6 +46,17 @@ namespace Air{
 			*
 			**/
 			virtual	U1	Destroy();
+			/**	\brief	发送数据
+			*   
+			*	@remarks 	发送数据
+			*	@see		NetConnect
+			*	@return   	U1
+			*	@param		const void * pData
+			*	@param		U32 uiSize
+			*	@note
+			*
+			**/
+			virtual	U1	Send(const void*	pData,U32	uiSize);
 			/**	\brief	连接完成
 			*   
 			*	@remarks 	连接完成（客户端这里是连接服务器成功 如果是服务端 表明有客户端连入）

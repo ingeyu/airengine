@@ -126,7 +126,7 @@ DWORD WINAPI CIOCPModel::_WorkerThread(LPVOID lpParam)
 					// RECV
 				case RECV_POSTED:
 					{
-						pIoContext->m_uiTotalSize	=	dwBytesTransfered;
+						pIoContext->m_uiTotalSize	+=	dwBytesTransfered;
 						// 为了增加代码可读性，这里用专门的_DoRecv函数进行处理接收请求
 						pIOCPModel->_DoRecv( pSocketContext,pIoContext );
 					}
@@ -563,6 +563,9 @@ bool CIOCPModel::_PostRecv( PER_IO_CONTEXT* pIoContext )
 	// 初始化变量
 	DWORD dwFlags = 0;
 	DWORD dwBytes = 0;
+	pIoContext->m_wsaBuf.buf	=	&pIoContext->m_szBuffer[pIoContext->m_uiTotalSize];
+	pIoContext->m_wsaBuf.len	=	MAX_BUFFER_LEN - pIoContext->m_uiTotalSize;
+
 	WSABUF *p_wbuf   = &pIoContext->m_wsaBuf;
 	OVERLAPPED *p_ol = &pIoContext->m_Overlapped;
 
@@ -585,6 +588,9 @@ bool CIOCPModel::_PostSend( PER_IO_CONTEXT* pIoContext ){
 		// 初始化变量
 	DWORD dwFlags = 0;
 	DWORD dwSendNumBytes = 0;
+	pIoContext->m_wsaBuf.buf	=	&pIoContext->m_szBuffer[pIoContext->m_uiSend];
+	pIoContext->m_wsaBuf.len	=	pIoContext->m_uiTotalSize - pIoContext->m_uiSend;
+
 	WSABUF *p_wbuf   = &pIoContext->m_wsaBuf;
 	OVERLAPPED *p_ol = &pIoContext->m_Overlapped;
 
@@ -622,15 +628,11 @@ bool CIOCPModel::_DoSend( PER_SOCKET_CONTEXT* pSocketContext, PER_IO_CONTEXT* pI
 	if (pIoContext->m_uiSend < pIoContext->m_uiTotalSize)
 	{
 		//数据未能发送完，继续发送数据
-		pIoContext->m_wsaBuf.buf = pIoContext->m_szBuffer + pIoContext->m_uiSend;
-		pIoContext->m_wsaBuf.len = pIoContext->m_uiTotalSize - pIoContext->m_uiSend;
 		return _PostSend(pIoContext);
 	}
 	else
-	{
-		//pIOCPModel->PostRecv(pIoContext);					
+	{				
 		pIoContext->m_uiSend		=	0;
-		pIoContext->m_uiTotalSize	=	0;
 		if(m_pListener!=NULL){
 			m_pListener->OnSendComplated(pSocketContext,pIoContext);
 		}

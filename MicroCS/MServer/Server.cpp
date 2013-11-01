@@ -12,16 +12,16 @@ DownloadSClient::DownloadSClient(IOCPServer* pServer,_PER_SOCKET_CONTEXT* pConte
 }
 void	DownloadSClient::OnRecvComplated(const void* p,int iSize)
 {
-	NtBase* pBase	=	(NtBase*)p;
+	NetHeader* pBase	=	(NetHeader*)p;
 	switch(pBase->t){
 		case enNT_FS_Hello:{
 			NtReturnPackT<NT_SF_Hello>	ntData(enNT_FS_Hello);
 			ntData.data.uiClient	=	0;
 			ntData.data.uiTaskCount	=	0;
-			Send((const char*)&ntData,ntData.uiSize);
+			Send((const char*)&ntData,ntData.uiSize+4);
 							}break;
 		case enNT_FS_LoadFile:{
-			NtPack<FileDataInfo>* pInfo	=	(NtPack<FileDataInfo>*)p;
+			NT_Data<FileDataInfo>* pInfo	=	(NT_Data<FileDataInfo>*)p;
 				
 			if(pInfo->data.uiSize > 0){
 
@@ -33,7 +33,6 @@ void	DownloadSClient::OnRecvComplated(const void* p,int iSize)
 				//Send Data
 				OnSendComplated(m_pContext->m_pIOContext);
 			}
-
 
 							}break;
 	}

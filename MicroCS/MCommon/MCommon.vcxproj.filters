@@ -25,6 +25,9 @@
     <Filter Include="thread">
       <UniqueIdentifier>{12bec550-54d3-4023-8d38-d533c1105c37}</UniqueIdentifier>
     </Filter>
+    <Filter Include="lzma">
+      <UniqueIdentifier>{1034eb54-a490-4bab-8f99-0f5c58918145}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MCommon.cpp">
@@ -101,6 +104,27 @@
     </ClCompile>
     <ClCompile Include="lzo\zutil.c">
       <Filter>lzo</Filter>
+    </ClCompile>
+    <ClCompile Include="lzma\Alloc.c">
+      <Filter>lzma</Filter>
+    </ClCompile>
+    <ClCompile Include="lzma\LzFind.c">
+      <Filter>lzma</Filter>
+    </ClCompile>
+    <ClCompile Include="lzma\LzFindMt.c">
+      <Filter>lzma</Filter>
+    </ClCompile>
+    <ClCompile Include="lzma\LzmaDec.c">
+      <Filter>lzma</Filter>
+    </ClCompile>
+    <ClCompile Include="lzma\LzmaEnc.c">
+      <Filter>lzma</Filter>
+    </ClCompile>
+    <ClCompile Include="lzma\LzmaLib.c">
+      <Filter>lzma</Filter>
+    </ClCompile>
+    <ClCompile Include="lzma\Threads.c">
+      <Filter>lzma</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -187,6 +211,33 @@
     </ClInclude>
     <ClInclude Include="lzo\zutil.h">
       <Filter>lzo</Filter>
+    </ClInclude>
+    <ClInclude Include="lzma\Alloc.h">
+      <Filter>lzma</Filter>
+    </ClInclude>
+    <ClInclude Include="lzma\LzFind.h">
+      <Filter>lzma</Filter>
+    </ClInclude>
+    <ClInclude Include="lzma\LzFindMt.h">
+      <Filter>lzma</Filter>
+    </ClInclude>
+    <ClInclude Include="lzma\LzHash.h">
+      <Filter>lzma</Filter>
+    </ClInclude>
+    <ClInclude Include="lzma\LzmaDec.h">
+      <Filter>lzma</Filter>
+    </ClInclude>
+    <ClInclude Include="lzma\LzmaEnc.h">
+      <Filter>lzma</Filter>
+    </ClInclude>
+    <ClInclude Include="lzma\LzmaLib.h">
+      <Filter>lzma</Filter>
+    </ClInclude>
+    <ClInclude Include="lzma\Threads.h">
+      <Filter>lzma</Filter>
+    </ClInclude>
+    <ClInclude Include="lzma\Types.h">
+      <Filter>lzma</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
