@@ -32,11 +32,11 @@ namespace Air{
 	
 			//NetPack*	p	=	new	NetPack(m_Socket,uiSize,(AChar*)pData);
 			//放入发送列表
-			//m_ThreadSend.Send(pData,uiSize);
-			send(m_Socket,(const char*)pData,uiSize,0);
+			m_ThreadSend.Send(pData,uiSize);
+			//send(m_Socket,(const char*)pData,uiSize,0);
 			return	true;
 		}
-		U1 NetClient::OnConnected( U32 socket,CAString& strIP,CAString& strPort ){
+		U1 NetClient::OnConnected( U32 socket,CAString& s 65trIP,CAString& strPort ){
 			if(socket	==	NULL){
 				return	false;
 			}

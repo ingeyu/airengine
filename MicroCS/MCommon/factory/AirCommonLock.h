@@ -115,8 +115,8 @@ namespace Air{
 			*	@note
 			*
 			**/
-			void	Wait(U32	uiTime	=	INFINITE){
-				WaitForSingleObject(m_hEvent,uiTime);
+			U32	Wait(U32	uiTime	=	INFINITE){
+				return WaitForSingleObject(m_hEvent,uiTime);
 			}
 			HANDLE	m_hEvent;
 		};

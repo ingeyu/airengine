@@ -7,11 +7,6 @@
 
 class	IOCPServer;
 
-enum IOCPState{
-	enIS_OK,
-	enIS_Busy,
-};
-
 class	IOCPClient{
 public:
 	IOCPClient(IOCPServer* pServer,_PER_SOCKET_CONTEXT* pContext);
@@ -32,7 +27,7 @@ protected:
 	unsigned int			m_TempSize;
 
 };
-
+typedef void	(__stdcall *MessageProc)(IOCPClient*,const void* ,int );
 
 class	CIOCPModel;
 class	IOCPServer	:	public	IOCPListener{
@@ -51,8 +46,15 @@ public:
 
 	virtual	IOCPClient*	NewIOCPClient(_PER_SOCKET_CONTEXT* pContext);
 	virtual	void		DeleteIOCPClient(IOCPClient* pClient);
+	bool			RegisterMessageProc(unsigned short	id,MessageProc proc);
+	template<typename T>
+	bool			Register(unsigned short id,void(T::*proc)(const void*,int)){
+		return RegisterMessageProc(id,(MessageProc)proc);
+	};
+protected:
+	void		DefaultMessageProc(_PER_SOCKET_CONTEXT* pSocketContext,const void* pData,int iSize);
 public:
 	CRITICAL_SECTION		m_ClientCS;
 	CIOCPModel*				m_pIOCP;
-
+	MessageProc				m_Proc[65536];
 };

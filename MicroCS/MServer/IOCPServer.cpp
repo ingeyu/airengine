@@ -100,6 +100,7 @@ IOCPServer::IOCPServer(){
 	//for(int i=0;i<FILEDATA_COUNT;i++)
 	//	m_DataArray[i]=NULL;
 	m_pIOCP	=	NULL;
+	memset(m_Proc,0,sizeof(m_Proc));
 };
 IOCPServer::~IOCPServer()
 {
@@ -107,7 +108,7 @@ IOCPServer::~IOCPServer()
 }
 bool		IOCPServer::Initialization(){
 
-		
+	
 	//LoadFileData();
 	if(m_pIOCP==NULL){
 		m_pIOCP	=	new CIOCPModel();
@@ -224,11 +225,8 @@ void	IOCPServer::OnRecvComplated(_PER_SOCKET_CONTEXT* pSocketContext,_PER_IO_CON
 			break;
 		}
 		//回调
-		IOCPClient*	pClient	=	(IOCPClient*)pSocketContext->m_pClient;
-		if(pClient!=NULL){
-
-			pClient->OnRecvComplated(&pData[uiIndex+4],uiPackSize);
-		}
+		DefaultMessageProc(pSocketContext,&pData[uiIndex+4],uiPackSize);
+		
 		//跳到下一个数据包
 		uiIndex	+=	uiPackSize+4;
 	}
@@ -267,6 +265,30 @@ IOCPClient*	IOCPServer::NewIOCPClient(_PER_SOCKET_CONTEXT* pContext)
 void		IOCPServer::DeleteIOCPClient(IOCPClient* pClient){
 	if(pClient!=NULL){
 		delete pClient;
+	}
+}
+bool		IOCPServer::RegisterMessageProc(unsigned short	id,MessageProc proc)
+{
+	bool	bRet	=	(m_Proc[id]==NULL);
+	m_Proc[id]=proc;
+	return bRet;
+}
+void		IOCPServer::DefaultMessageProc(_PER_SOCKET_CONTEXT* pSocketContext,const void* pData,int iSize){
+	//缺少 消息ID
+	if(iSize	<	4){
+		return;
+	}
+
+	U8*	p	=	(U8*)pData;
+
+	U32	id	=	*(U32*)p;
+	IOCPClient*	pClient	=	(IOCPClient*)pSocketContext->m_pClient;
+	if(pClient!=NULL && id < 65536){
+		if(m_Proc[id]!=NULL){
+			(*m_Proc[id])(pClient,&p[4],iSize-4);
+		}else{
+			pClient->OnRecvComplated(pData,iSize);
+		}
 	}
 }
 

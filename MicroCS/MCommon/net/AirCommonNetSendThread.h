@@ -65,8 +65,7 @@ namespace Air{
 			Event			m_SendEvent;
 			U32				m_uiSocket;
 			NetListener*	m_pListener;
-			SendBuffer		m_SendBuffer[2];
-			U32				m_SendIndex;
+			SendBuffer		m_SendBuffer;
 			OVERLAPPED		m_Overlapped;
 		};
 		
