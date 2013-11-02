@@ -36,7 +36,7 @@ namespace Air{
 			//send(m_Socket,(const char*)pData,uiSize,0);
 			return	true;
 		}
-		U1 NetClient::OnConnected( U32 socket,CAString& s 65trIP,CAString& strPort ){
+		U1 NetClient::OnConnected( U32 socket,CAString& strIP,CAString& strPort ){
 			if(socket	==	NULL){
 				return	false;
 			}

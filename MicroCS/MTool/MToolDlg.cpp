@@ -282,7 +282,7 @@ void CMToolDlg::Build(ITaskbarList3 *p){
 	FileList lstFile;
 	ScanFolder(strPath,lstFile);
 
-
+	int iPathLen	=	wcslen(strPath);
 
 	FileInfoVector	vecFileInfo;
 	vecFileInfo.reserve(lstFile.size());
@@ -377,7 +377,7 @@ void CMToolDlg::Build(ITaskbarList3 *p){
 			}
 			iOffset+=info.compressize;
 
-			std::string s1	=	WideByte2Acsi(s);
+			std::string s1	=	WideByte2Acsi(&s[iPathLen]);
 			for(int i=0;i<s1.size();i++){
 				s1[i]	=	toupper(s1[i]);
 			}

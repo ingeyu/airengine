@@ -101,6 +101,7 @@ IOCPServer::IOCPServer(){
 	//	m_DataArray[i]=NULL;
 	m_pIOCP	=	NULL;
 	memset(m_Proc,0,sizeof(m_Proc));
+	memset(m_Param,0,sizeof(m_Param));
 };
 IOCPServer::~IOCPServer()
 {
@@ -108,7 +109,7 @@ IOCPServer::~IOCPServer()
 }
 bool		IOCPServer::Initialization(){
 
-	
+	//Register(0,&IOCPClient::OnRecvComplated);
 	//LoadFileData();
 	if(m_pIOCP==NULL){
 		m_pIOCP	=	new CIOCPModel();
@@ -267,11 +268,17 @@ void		IOCPServer::DeleteIOCPClient(IOCPClient* pClient){
 		delete pClient;
 	}
 }
-bool		IOCPServer::RegisterMessageProc(unsigned short	id,MessageProc proc)
+bool		IOCPServer::RegisterMessageProc(unsigned short	id,MessageProc proc,void* pParam)
 {
 	bool	bRet	=	(m_Proc[id]==NULL);
-	m_Proc[id]=proc;
+	m_Proc[id]	=	proc;
+	m_Param[id]	=	pParam;
 	return bRet;
+}
+void		IOCPServer::UnRegister(unsigned short id)
+{
+	m_Proc[id]	=	NULL;
+	m_Param[id]	=	NULL;
 }
 void		IOCPServer::DefaultMessageProc(_PER_SOCKET_CONTEXT* pSocketContext,const void* pData,int iSize){
 	//È±ÉÙ ÏûÏ¢ID
@@ -285,12 +292,13 @@ void		IOCPServer::DefaultMessageProc(_PER_SOCKET_CONTEXT* pSocketContext,const v
 	IOCPClient*	pClient	=	(IOCPClient*)pSocketContext->m_pClient;
 	if(pClient!=NULL && id < 65536){
 		if(m_Proc[id]!=NULL){
-			(*m_Proc[id])(pClient,&p[4],iSize-4);
+			(*m_Proc[id])(m_Param[id],pClient,&p[4],iSize-4);
 		}else{
 			pClient->OnRecvComplated(pData,iSize);
 		}
 	}
 }
+
 
 void			Send(PER_SOCKET_CONTEXT* pSocketContext,const void* pData,U32 uiSize){
 	
