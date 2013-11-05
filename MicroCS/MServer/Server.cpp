@@ -18,6 +18,9 @@ void	DownloadSClient::OnRecvComplated(const void* p,int iSize)
 			NtReturnPackT<NT_SF_Hello>	ntData(enNT_FS_Hello);
 			ntData.data.uiClient	=	0;
 			ntData.data.uiTaskCount	=	0;
+			for(U32 i=0;i<FILEDATA_COUNT;i++){
+				ntData.data.pkgSize[i]	=	((DownloadServer*)m_pServer)->GetFileDataSize(i);
+			}
 			Send((const char*)&ntData,ntData.uiSize+4);
 							}break;
 		case enNT_FS_LoadFile:{
@@ -30,6 +33,7 @@ void	DownloadSClient::OnRecvComplated(const void* p,int iSize)
 				m_Task.offset	=	pInfo->data.uiOffset;
 				m_Task.iSize	=	pInfo->data.uiSize;
 				m_Task.iSend	=	0;
+				m_Task.t		=	enNT_FS_LoadFile;
 				//Send Data
 				OnSendComplated(m_pContext->m_pIOContext);
 			}
@@ -53,6 +57,7 @@ int		DownloadSClient::pop_front(void* p)
 	if(pData==NULL){
 		return 0;
 	}
+	Sleep(10);
 
 	NtPack<NT_FS_FileData>*	pSendData	=		new(p) NtPack<NT_FS_FileData>(enNT_SF_FileData);
 	pSendData->data.idx			=	m_Task.idx;
@@ -71,6 +76,7 @@ int		DownloadSClient::pop_front(void* p)
 		m_Task.iSize	=	0;
 		m_Task.idx		=	0;
 		m_Task.offset	=	0;
+		m_Task.t		=	enNT_Unknown;
 	}else{
 		m_Task.iSend	+=	4096;
 	}
@@ -84,6 +90,7 @@ DownloadServer::DownloadServer()
 {
 	for(int i=0;i<FILEDATA_COUNT;i++){
 		m_pFileData[i]=0;
+		m_PkgSize[i]=0;
 	}
 }
 DownloadServer::~DownloadServer()
@@ -113,7 +120,10 @@ void	DownloadServer::Update(){
 }
 
 IOCPClient*	DownloadServer::NewIOCPClient(_PER_SOCKET_CONTEXT* pContext){
-	return new DownloadSClient(this,pContext);
+	IOCPClient* pClient	= new DownloadSClient(this,pContext);
+	if(pClient)
+		pClient->CreateTempBuffer();
+	return pClient;
 }
 void		DownloadServer::DeleteIOCPClient(IOCPClient* pClient){
 	if(pClient!=NULL){
@@ -141,13 +151,18 @@ void	DownloadServer::LoadFileData(){
 			0,
 			0 );
 		if(h!=INVALID_HANDLE_VALUE){
-			U32 uiSize	=	GetFileSize(h,0);
-			m_pFileData[i]	=	(U8*)malloc(uiSize);
+			m_PkgSize[i]	=	GetFileSize(h,0);
+			m_pFileData[i]	=	(U8*)malloc(m_PkgSize[i]);
 			DWORD	dwRead=0;
-			ReadFile(h,m_pFileData[i],uiSize,&dwRead,NULL);
+			ReadFile(h,m_pFileData[i],m_PkgSize[i],&dwRead,NULL);
 			CloseHandle(h);
 		}else{
 			m_pFileData[i]=NULL;
 		}
 	}
+}
+
+unsigned int DownloadServer::GetFileDataSize( unsigned int idx )
+{
+	return m_PkgSize[idx];
 }

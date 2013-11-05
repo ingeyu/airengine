@@ -2,8 +2,8 @@
 #include <windows.h>
 #include "IOCPListener.h"
 
-#define	TEMP_BUFFER_SIZE 8192
-
+#define	TEMP_BUFFER_SIZE	8192
+#define	MAX_MESSAGE			1024
 
 class	IOCPServer;
 
@@ -57,6 +57,6 @@ protected:
 public:
 	CRITICAL_SECTION		m_ClientCS;
 	CIOCPModel*				m_pIOCP;
-	MessageProc				m_Proc[65536];
-	void*					m_Param[65536];
+	MessageProc				m_Proc[MAX_MESSAGE];
+	void*					m_Param[MAX_MESSAGE];
 };

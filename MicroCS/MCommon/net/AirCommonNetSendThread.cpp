@@ -78,6 +78,9 @@ namespace Air{
 				tempSize	=	GetSendData(tempSendBuffer);
 				if(tempSize==0){
 					m_SendEvent.Wait(1000);
+					if(m_bExit){
+						return false;
+					}
 					continue;
 				}
 

@@ -76,8 +76,6 @@ S32 MCompress( const void* pSrc,U32 iSize,void* pDest,U32& uiDestSize )
 		OutputDebugString(L"No Compress\n");
 		return 0;
 	}
-
-	uiDestSize+=5;
 	return ret;
 #else
 	U8 workmem[LZO1X_1_MEM_COMPRESS];

@@ -11,6 +11,7 @@ struct DownloadTask{
 	unsigned int	offset;
 	unsigned int	iSize;
 	unsigned int	iSend;
+	unsigned int	t;
 };
 
 class	DownloadSClient	:	public	IOCPClient{
@@ -35,9 +36,10 @@ public:
 	virtual	void		DeleteIOCPClient(IOCPClient* pClient);
 
 	unsigned char*	GetFileData(unsigned int idx);
+	unsigned int	GetFileDataSize(unsigned int idx);
 protected:
 	void			LoadFileData();
 protected:
 	unsigned char*	m_pFileData[FILEDATA_COUNT];
-
+	unsigned int	m_PkgSize[FILEDATA_COUNT];
 };

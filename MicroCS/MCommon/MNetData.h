@@ -12,7 +12,8 @@ enum enNetType{
 	enNT_FS_Hello,
 	enNT_FS_LoadFile,
 	enNT_SF_FileData,
-
+	enNT_DS_NakedClient,
+	enNT_DS_FirstPackage,
 };
 #pragma pack(push)
 #pragma pack(4)
@@ -86,6 +87,9 @@ struct	NT_ReturnT	:public	NT_Return{
 struct NT_SF_Hello{
 	U32	uiClient;
 	U32	uiTaskCount;
+	U32	CPU;
+	U32	uiTime;
+	U32	pkgSize[16];
 };
 struct NT_FS_LoadFile
 {
