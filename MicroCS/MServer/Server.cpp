@@ -57,7 +57,7 @@ int		DownloadSClient::pop_front(void* p)
 	if(pData==NULL){
 		return 0;
 	}
-	Sleep(10);
+
 
 	NtPack<NT_FS_FileData>*	pSendData	=		new(p) NtPack<NT_FS_FileData>(enNT_SF_FileData);
 	pSendData->data.idx			=	m_Task.idx;
@@ -75,7 +75,7 @@ int		DownloadSClient::pop_front(void* p)
 		m_Task.iSend	=	0;
 		m_Task.iSize	=	0;
 		m_Task.idx		=	0;
-		m_Task.offset	=	0;
+		//m_Task.offset	=	0;
 		m_Task.t		=	enNT_Unknown;
 	}else{
 		m_Task.iSend	+=	4096;

@@ -31,10 +31,14 @@ void	IOCPClient::OnRecvComplated(const void* p,int iSize){
 }
 void	IOCPClient::OnSendComplated(_PER_IO_CONTEXT* pIO){
 	EnterCriticalSection(&m_CriticalSection);
+	if(pIO->m_uiSend<pIO->m_uiTotalSize){
+		LeaveCriticalSection(&m_CriticalSection);
+		return;
+	}
 	pIO->m_uiTotalSize	=	pop_front(pIO->m_szBuffer);
 	if(pIO->m_uiTotalSize!=0){
 		//_PostSend
-		pIO->m_wsaBuf.len	=	pIO->m_uiTotalSize;
+		pIO->m_uiSend=0;
 		m_pServer->m_pIOCP->_PostSend(pIO);
 	}
 	LeaveCriticalSection(&m_CriticalSection);
@@ -198,7 +202,7 @@ void	IOCPServer::OnConnected(_PER_SOCKET_CONTEXT* pSocketContext){
 
 	//InterlockedIncrement((LONG*)&m_uiClientCount);
 	unsigned __int64 s = pSocketContext->m_Socket;
-	printf(_T("Client %lld %s:%d Connected!\n"),s,inet_ntoa(pSocketContext->m_ClientAddr.sin_addr),ntohs(pSocketContext->m_ClientAddr.sin_port));
+	printf(("Client %lld %s:%d Connected!\n"),s,inet_ntoa(pSocketContext->m_ClientAddr.sin_addr),ntohs(pSocketContext->m_ClientAddr.sin_port));
 };
 void	IOCPServer::OnRecvComplated(_PER_SOCKET_CONTEXT* pSocketContext,_PER_IO_CONTEXT* pIOContext){
 	U64	uiSocket	=	pSocketContext->m_Socket;
@@ -253,7 +257,7 @@ void	IOCPServer::OnClosed(_PER_SOCKET_CONTEXT* pSocketContext){
 
 	//InterlockedDecrement((LONG*)&m_uiClientCount);
 	unsigned __int64 s = pSocketContext->m_Socket;
-	printf(_T("Client %lld %s:%d DisConnected!\n"),s,inet_ntoa(pSocketContext->m_ClientAddr.sin_addr),ntohs(pSocketContext->m_ClientAddr.sin_port));
+	printf(("Client %lld %s:%d DisConnected!\n"),s,inet_ntoa(pSocketContext->m_ClientAddr.sin_addr),ntohs(pSocketContext->m_ClientAddr.sin_port));
 };
 
 IOCPClient*	IOCPServer::NewIOCPClient(_PER_SOCKET_CONTEXT* pContext)

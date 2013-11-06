@@ -632,7 +632,7 @@ bool CIOCPModel::_DoSend( PER_SOCKET_CONTEXT* pSocketContext, PER_IO_CONTEXT* pI
 	}
 	else
 	{				
-		pIoContext->m_uiSend		=	0;
+		
 		if(m_pListener!=NULL){
 			m_pListener->OnSendComplated(pSocketContext,pIoContext);
 		}
