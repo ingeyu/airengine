@@ -101,7 +101,7 @@ DownloadServer::~DownloadServer()
 }
 
 bool	DownloadServer::Initialization(){
-	LoadFileData();
+	LoadFileData();	
 	return __super::Initialization();
 }
 void	DownloadServer::Release(){

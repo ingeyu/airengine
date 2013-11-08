@@ -809,13 +809,13 @@ bool CIOCPModel::HandleError( PER_SOCKET_CONTEXT *pContext,const DWORD& dwErr )
 		// 确认客户端是否还活着...
 		if( !_IsSocketAlive( pContext->m_Socket) )
 		{
-			TRACE( _T("检测到客户端异常退出！") );
+			TRACE( _T("检测到客户端异常退出！\n") );
 			this->_RemoveContext( pContext );
 			return true;
 		}
 		else
 		{
-			TRACE( _T("网络操作超时！重试中...") );
+			TRACE( _T("网络操作超时！重试中...\n") );
 			return true;
 		}
 	}  
@@ -830,8 +830,8 @@ bool CIOCPModel::HandleError( PER_SOCKET_CONTEXT *pContext,const DWORD& dwErr )
 
 	else
 	{
-		TRACE( _T("完成端口操作出现错误，线程退出。错误代码：%d"),dwErr );
-		return false;
+		TRACE( _T("完成端口操作出现错误。错误代码：%d\n"),dwErr );
+		return true;
 	}
 }
 

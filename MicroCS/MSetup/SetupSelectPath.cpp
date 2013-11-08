@@ -95,7 +95,7 @@ void CSetupSelectPath::OnBnClickedOk()
 		{
 			_ULARGE_INTEGER lpFreeBytesAvailableToCaller, lpTotalNumberOfBytes, lpTotalNumberOfFreeBytes;
 			GetDiskFreeSpaceEx(strFixPath, &lpFreeBytesAvailableToCaller, &lpTotalNumberOfBytes, &lpTotalNumberOfFreeBytes);
-			float fFree	= lpTotalNumberOfFreeBytes.QuadPart / (1024 *1024);
+			float fFree	= (double)(lpTotalNumberOfFreeBytes.QuadPart) / (1024 *1024);
 			fFree/=1024.0f;
 			if(fFree<15){
 				wchar_t strError[1024];
@@ -212,6 +212,7 @@ BOOL CSetupSelectPath::OnInitDialog()
 		}
 	}
 
+	GetDlgItem(IDC_IPADDRESS1)->SetWindowText(L"10.240.38.103");
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 异常: OCX 属性页应返回 FALSE
 }

@@ -120,6 +120,7 @@ bool		IOCPServer::Initialization(){
 		m_pIOCP->SetListener(this);
 		m_pIOCP->LoadSocketLib();
 		m_pIOCP->SetPort(54322);
+
 		return m_pIOCP->Start();
 	}
 
