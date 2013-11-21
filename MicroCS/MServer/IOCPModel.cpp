@@ -681,12 +681,10 @@ void CIOCPModel::_AddToContextList( PER_SOCKET_CONTEXT *pHandleData )
 //	移除某个特定的Context
 void CIOCPModel::_RemoveContext( PER_SOCKET_CONTEXT *pSocketContext )
 {
+	EnterCriticalSection(&m_csContextList);
 	if(m_pListener!=NULL){
 		m_pListener->OnClosed(pSocketContext);
 	}
-	SOCKET	uiSocket	=	pSocketContext->m_Socket;
-	EnterCriticalSection(&m_csContextList);
-
 	std::list<PER_SOCKET_CONTEXT*>::iterator	i	=	m_arrayClientContext.begin();
 	for( ;i!=m_arrayClientContext.end();i++ )
 	{
