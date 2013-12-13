@@ -1,0 +1,35 @@
+1 
+4
+16
+64
+256
+1024
+float WeightArray[65536];
+
+struct	Visiable{
+3 	FaceIdx
+3	Level
+10	Idx
+};
+
+Visiable visiableoctree[10000];
+Env	->|
+AreaLight |->LightEnv-------------------------->|
+DLight	->|					|
+						|->Diff
+						|
+Pixel->Voxel->Visiable	->diff(normal)--------->|
+						|
+			->spec(normal+view)---->|->Spec
+
+1 计算直接光源，远距离面光源/点光源 环境贴图直接混合生成（环境八叉树）
+
+2 从屏幕像素出发，找出所有可见的体素
+
+3 根据体素的可见性八叉树表，遍历所有可见性窗口。
+
+4 从可见性窗口查找环境（八叉树）里面的灯光节点，如果有则遍历，(光强*窗口球面面积*窗口方向与法线的DOT值），这部分属于Diffuse分量，
+要计算Specular需要带入体素的粗糙度，视线方向的值进行高光运算。
+
+5 延迟光源需要进行八叉分割，在体素进行查找时，对延迟光源进行遍历（Layer_Tile_Base_Lighting）
+
